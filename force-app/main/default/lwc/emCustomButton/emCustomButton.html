@@ -1,0 +1,5 @@
+<template>
+    <lightning-button if:false={isMenu} class={buttonClass} icon-name={iconName} title={title} label={meta.label} onclick={handleClick} variant={variant} disabled={disableButton}></lightning-button>
+    <lightning-menu-item if:true={isMenu} label={meta.label} onclick={handleClick}></lightning-menu-item>
+    <c-veeva-spinner if:true={showSpinner} spinner-style="spinner-fixed"></c-veeva-spinner>
+</template>

@@ -1,0 +1,202 @@
+<template>
+  <div class="bgstyle">
+  <header>
+    <div class="logo">
+      <div class="pbanner">
+        <!-- class [logo-pb] added for mobile responsive -->
+        <img src={logo5} class="logo-pb">
+        <div class="ptext">
+          <div class="container">
+             <tempalte if:false={isAccountLocked}>
+               <a href={navigatedashboard} class="p1" onclick={handlenavigatedashboard}>Dashboard</a>
+             </tempalte>
+              <tempalte if:true={isAccountLocked}>
+               <a class="p1" >Dashboard</a>
+             </tempalte>           
+            
+            <!-- <span class="p1"> Dashboard</span> -->
+            <span class="p2"> / </span>
+            <span class="p3"> Contact </span>
+            <p class="t1"> Contact your Merck account team</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container bcatalog">
+    <!-- class [mob-main-div] added for mobile responsive -->
+    <div class="slds-grid mob-main-div">
+      <!-- class [mob-full-width] added for mobile responsive -->
+      <div class="slds-col slds-size_8-of-12 slds-p-right_medium mob-full-width">
+        <!-- My contacts at Merck  -->
+        <div class="card">
+          <div class="card-body">
+            <div class="cbox">
+              <div class="cboxl">
+                <h2 class="primaryheading"> Primary contact</h2>
+              </div>
+            </div>
+            <div class="flex_div slds-p-vertical_medium">
+              <!-- <div key={con} class="amtrow"> -->
+              <div key={con} class="slds-grid slds-gutters">
+                <!-- class [mob-prof-pic] added for mobile responsive -->
+                <div key={con} class="slds-col slds-size_1-of-8 mob-prof-pic deskpad">
+                  <div key={con} class="amtrowl">
+                    <!-- class [mob-act-icn] added for mobile responsive -->
+                    <!-- <img src={profilePicture} class="mob-act-icn" width={width_ProPic} height="84px"> -->
+                    <template if:false={isGuestUser}>  
+                      <img src={profilePicture} class="mob-act-icn" width={width_ProPic} height="84px">
+                    </template>
+                    <template if:true={isGuestUser}>
+                      <img src={accounticon} class="mob-act-icn" width={width_ProPic} height="84px">
+                    </template> 
+                  </div>
+                </div>
+                <div class="slds-col slds-size_5-of-6 mob-card deskpad1">
+                  <div class="amtrowr">
+                    <template if:false={isGuestUser} for:each={primaryExecutive} for:item="executive"
+                      for:index="indexx">
+                      <h2 key={executive.Id} class="primaryname" style="overflow-wrap:anywhere;">{executive.FirstName}
+                        {executive.LastName}</h2>
+                      <p key={executive.Id} class="primarydesignation">{executive.Title}</p>
+                      <div key={executive.Id} class="atmbnts slds-p-top_medium" style="display:flex;">
+                        <!-- class [mob-mphone-btn and mob-mphone-icn] added for mobile responsive -->
+                        <div class="mob-mphone-btn primaryinfophone " data-name="phone" onclick={handleClick}> 
+                          <img src={phoneicon} class="mob-mphone-icn phimg">
+                          <!-- &nbsp;&nbsp;  -->
+                               <template if:true={executive.isPhoneAvailable}>
+                  <a class="hyplink" href={executive.formatNumber} >{executive.Phone}</a>
+              </template>
+              <template if:false={executive.isPhoneAvailable}>
+                {executive.Phone}
+              </template>
+                          <!-- 
+                            old code Mukesh
+                            <span class="pmsz">
+                            {executive.Phone}
+                            </span>  -->
+                            </div>
+                        <!-- <button  class="" style="padding:0px;max-width:340px;overflow-wrap:break-word;"> <img src={messageicon}> {executive.Email}</button>-->
+
+                        <!-- class [mob-email-icn and mob-memail-btn] added for mobile responsive -->
+                        <div class="mob-memail-btn primaryinfoemail " data-name="email" onclick={handleClick}> <img src={messageicon} class="mob-email-icn emimg">
+                              <!-- &nbsp;&nbsp;  -->
+                          <template if:true={executive.isEmailAvailable}>
+                  <a class="hyplink" href={executive.formatEmail}>{primaryemail}</a>
+              </template>
+              <template if:false={executive.isEmailAvailable}>
+                {primaryemail}
+              </template>
+                          
+                          <!-- 
+                            old code Mukesh
+                            <span class="phsz">{primaryemail}</span> -->
+                            </div>
+
+                        
+                      
+
+                      </div>    
+
+                      <!--<div key={executive.Id}  style="display:flex;" class="flex_div slds-p-top_medium primarycontact cursorcls">
+                  <button class="primaryinfo cursorcls"> <img src={phoneicon} style="width:17px;" > {executive.Phone} </button>
+                  <button class="primaryinfo cursorcls" > <img src={messageicon} style="width:30px;padding:0px;" > {executive.Email} </button>
+                </div> -->
+                    </template>
+                    <template if:true={isGuestUser}>
+                      <h2 class="primaryname"> {mTitle}</h2>
+                      <p class="primarydesignation">{mSubTitle}</p>
+                      <div class="atmbnts slds-p-top_medium"  style="display:flex;">
+                        <!--  class [mob-mphone] added for mobile responsive -->
+                        <div class="mob-mphone-btn primaryinfophone"> <img src={phoneicon} class="mob-mphone-icn phimg"> {mPhone}</div>
+
+                        <div class="mob-memail-btn primaryinfoemail">
+                          <img src={messageicon} class="mob-email-icn emimg"> {mEmail} </div>
+                      </div>
+                      <!--<div key={executive.Id} style="display:flex;" class="flex_div slds-p-top_medium primarycontact cursorcls">
+                      <button class="primaryinfo cursorcls" > <img src={phoneicon} style="width:17px;" > {executive.Phone} </button>
+                      <button class="primaryinfo cursorcls" > <img src={messageicon} style="width:30px;padding:0px;" > {executive.Email} </button>
+                    </div> -->
+                    </template>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <!--</div> -->
+            </div>
+          </div>
+        </div>
+        <!-- My contacts at Merck End -->
+      </div>
+      <!-- class [mob-full-width] added for mobile responsive -->
+      <div class="slds-col slds-size_4-of-12 slds-p-left_medium mob-full-width">
+        <div class="card">
+          <div class="card-body">
+            <div class="supportTitle">
+              <h4 class="contactheader"> Contact tech support </h4>
+            </div>
+            <div class="conBody">
+              <h6 class="contactdesc">For account access issues, you can contact</h6>
+              <h6 class="contactdesc">the Merck Formulary Resources support</h6>
+              <h6 class="contactdesc">team.</h6>
+              <div class="conNumber"> <img style="width:24px;height:24px;" src={phoneiconblack}> <span class="contactdesc"
+                  style="padding-left:5px;height:24px;"> (800) 489-5119</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="slds-col slds-size_8-of-12 slds-p-right_medium slds-p-top_medium">
+        <!-- My contacts at Merck  -->
+        <!--<div class="card">
+      <div class="card-body">
+        <div class="cbox">
+          <div class="cboxl">
+            <h2 class="primaryheading"> Other Contact </h2>
+          </div>
+        </div>
+        <div class="flex_div slds-p-vertical_medium">
+          <div key={con} class="amtrow">
+            <div key={con} class="amtrowl">
+              <img src={accounticon}>
+            </div>
+            <div class="amtrowr">
+              <h2 class="primaryname">Alan Santos</h2>
+              <p class="primarydesignation">Vaccines Key Customer Lead</p>
+              <div class="atmbnts slds-p-top_medium">
+                <button class="primaryinfo"> <img src={phoneicon}> (800) 588-2300 </button>
+                <button class="primaryinfo"> <img src={messageicon}> alan.santos@merck.com </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex_div slds-p-vertical_medium">
+          <div key={con} class="amtrow">
+            <div key={con} class="amtrowl">
+              <img src={accounticon}>
+            </div>
+            <div class="amtrowr">
+              <h2 class="primaryname">Chomkwan Wattana</h2>
+              <p class="primarydesignation">Oncology Key Account Manager</p>
+              <div class="atmbnts slds-p-top_medium">
+                <button class="primaryinfo"> <img src={phoneicon}> (800) 588-2300 </button>
+                <button class="primaryinfo"> <img src={messageicon}> chomkwan.Wattana@merck.com </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+        <!-- My contacts at Merck End -->
+      </div>
+    </div>
+  </div>
+  <div class="container">
+
+
+  </div>
+</div>
+</template>

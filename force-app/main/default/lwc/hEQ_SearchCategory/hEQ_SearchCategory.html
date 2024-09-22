@@ -1,0 +1,48 @@
+<template>
+    <lightning-card>
+        <div if:true={searchCategory}>
+            <template for:each={searchCategory} for:item="category">
+                <div key={category.id}>
+                    <div class="folder-item">
+                        <div class="iconToggle" data-id={category.id} onclick={toggleSection}>
+                            <lightning-icon icon-name={category.iconName} alternative-text="Toggle" size="x-small"></lightning-icon>
+                        </div>
+                        <lightning-input class="checkboxcls" type="checkbox" checked={category.isChecked} data-id={category.id} onchange={handleCheck}></lightning-input>
+                        {category.name}
+                    </div>
+                    <template if:true={category.isOpen}>
+                        <div class="slds-var-m-left_large">
+                            <template for:each={category.childCategories} for:item="childCategory">
+                                <div key={childCategory.id}>
+                                    <div class="folder-item slds-m-left_medium">
+                                        <div class="iconToggle" data-id={childCategory.id} onclick={toggleSection} if:true={childCategory.isIconVisible}>
+                                            <lightning-icon icon-name={childCategory.iconName} alternative-text="Toggle" size="x-small"></lightning-icon>
+                                        </div>
+                                        <lightning-input class="checkboxcls" type="checkbox" checked={childCategory.isChecked} data-id={childCategory.id} onchange={handleCheck}></lightning-input>
+                                        {childCategory.name}
+                                    </div>
+                                    <template if:true={childCategory.isOpen}>
+                                        <div class="slds-m-left_xx-large">
+                                            <template for:each={childCategory.childCategories} for:item="grandChildCategory">
+                                                <div key={grandChildCategory.id} class="folder-item">
+                                                    <button class="slds-button slds-button_icon" data-id={grandChildCategory.id} onclick={toggleSection}>
+                                                    </button>
+                                                    <lightning-input class="checkboxcls" type="checkbox" checked={grandChildCategory.isChecked} data-id={grandChildCategory.id} onchange={handleCheck}></lightning-input>
+                                                    {grandChildCategory.name}
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <div class="slds-clearfix slds-var-p-around_medium">
+                <lightning-button class="slds-float_right slds-var-p-left_medium" variant="brand" label="Submit" onclick={handleSubmit}></lightning-button>
+                <lightning-button class="slds-float_right" variant="brand" label="Clear All" onclick={handleClear}></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

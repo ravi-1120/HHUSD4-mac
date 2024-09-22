@@ -1,0 +1,12 @@
+.stakeholder-nav-disable-scroll {
+  overflow-y: hidden !important;
+  height: 100%;
+}
+
+.iframe-full-height {
+  height: calc(100% - 50px) !important;
+}
+
+.iframe-full-width {
+  width: 100%;
+}

@@ -1,0 +1,1404 @@
+.learn-more-mfr-collapsed-desktop,
+.learn-more-mfr-collapsed-desktop * {
+  box-sizing: border-box;
+  font-family: 'Invention';
+}
+.learn-more-mfr-collapsed-desktop {
+  background: #ffffff;
+  height: auto;
+  overflow-y: hidden;
+  margin: auto;
+  overflow-x: hidden;
+  font-family: 'Invention';
+}
+.container {
+	width: 1128px;
+	margin: 0 auto;
+  font-family: 'Invention';
+}
+.footer {
+  padding: 80px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /*position: absolute;*/
+  right: 0px;
+  left: 0px;
+  bottom: 0.98px;
+  font-family: 'Invention';
+}
+.rectangle-copy-52 {
+  background: #c4c4c4;
+  flex-shrink: 0;
+  width: 1440px;
+  height: 1px;
+  position: relative;
+  font-family: 'Invention';
+}
+.footer-top-border {
+  background: var(--neutral-white, #ffffff);
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 1440px;
+  position: relative;
+  font-family: 'Invention';
+}
+.top-border {
+  background: #00857c;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 4px;
+  position: relative;
+  font-family: 'Invention';
+}
+.footer2 {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  font-family: 'Invention';
+}
+.merck-formulary-resources {
+  color: #000000;
+  text-align: left;
+  font-family: var(
+    --header-7-header-1-bold-36pt-45pt-font-family,
+    "Invention-Bold",
+    sans-serif
+  );
+  font-size: var(--header-7-header-1-bold-36pt-45pt-font-size, 36px);
+  line-height: var(--header-7-header-1-bold-36pt-45pt-line-height, 45px);
+  font-weight: var(--header-7-header-1-bold-36pt-45pt-font-weight, 700);
+  position: relative;
+  font-family: 'Invention';
+}
+.navigation {
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  font-family: 'Invention';
+}
+.frame-104 {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+  font-family: 'Invention';
+}
+.links {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  font-family: 'Invention';
+}
+.privacy-policy-copy-4 {
+  color: var(--primary-green, #00857c);
+  text-align: left;
+  font-family: 'Invention';;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  text-decoration: underline;
+  position: relative;
+  font-family: 'Invention';
+}
+.rectangle-18 {
+  background: var(--neutral-dark-text, #333333);
+  flex-shrink: 0;
+  width: 1px;
+  height: 20px;
+  position: relative;
+  font-family: 'Invention';
+}
+.privacy-policy-copy-3 {
+  color: var(--primary-green, #00857c);
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  text-decoration: underline;
+  position: relative;
+  font-family: 'Invention';
+}
+.rectangle-19 {
+  background: var(--neutral-dark-text, #333333);
+  flex-shrink: 0;
+  width: 1px;
+  height: 20px;
+  position: relative;
+  font-family: 'Invention';
+}
+.privacy-policy-copy-6 {
+  color: var(--primary-green, #00857c);
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  text-decoration: underline;
+  position: relative;
+  font-family: 'Invention';
+}
+.rectangle-17 {
+  background: var(--neutral-dark-text, #333333);
+  flex-shrink: 0;
+  width: 1px;
+  height: 20px;
+  position: relative;
+  font-family: 'Invention';
+}
+.privacy-policy-copy-5 {
+  color: var(--primary-green, #00857c);
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  text-decoration: underline;
+  position: relative;
+  font-family: 'Invention';
+}
+.rectangle-20 {
+  background: var(--neutral-dark-text, #333333);
+  flex-shrink: 0;
+  width: 1px;
+  height: 20px;
+  position: relative;
+}
+.privacy-policy-copy-7 {
+  color: var(--primary-green, #00857c);
+  text-align: left;
+  font-family: 'Invention';;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  text-decoration: underline;
+  position: relative;
+}
+.logos {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.logo {
+  flex-shrink: 0;
+  width: 190px;
+  height: 58.02px;
+  position: relative;
+}
+.merck-connect-logo {
+  height: auto;
+  /*position: absolute;*/
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.frame-101 {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.merck-accessibility {
+  flex-shrink: 0;
+  width: 107px;
+  height: 40px;
+  position: relative;
+  overflow: visible;
+}
+.frame-105 {
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.contact-us {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.additional-merck-sit-copy-5 {
+  color: #000000;
+  text-align: left;
+  font-family: var(
+    --body-4-large-body-bold-18pt-27pt-font-family,
+    "Invention-Bold",
+    sans-serif
+  );
+  font-size: var(--body-4-large-body-bold-18pt-27pt-font-size, 18px);
+  line-height: var(--body-4-large-body-bold-18pt-27pt-line-height, 27px);
+  font-weight: var(--body-4-large-body-bold-18pt-27pt-font-weight, 700);
+  position: relative;
+}
+.frame-102 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.phone-877-xyz-merck {
+  color: #000000;
+  text-align: left;
+  font-family: var(
+    --body-2-small-body-14pt-21pt-font-family,
+    "Invention-Regular",
+    sans-serif
+  );
+  font-size: var(--body-2-small-body-14pt-21pt-font-size, 14px);
+  line-height: var(--body-2-small-body-14pt-21pt-line-height, 21px);
+  font-weight: var(--body-2-small-body-14pt-21pt-font-weight, 400);
+  position: relative;
+}
+.my-merck-accounts-copy-4 {
+  color: var(--primary-green, #00857c);
+  text-align: left;
+  font-family: 'Invention';;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  text-decoration: underline;
+  position: relative;
+}
+.rectangle-202 {
+  background: var(--tertiary-gray, #d8d8d8);
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 1px;
+  position: relative;
+}
+.copyright {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.copyright2 {
+  color: #333333;
+  text-align: left;
+  font-family: var(
+    --body-1-extra-small-12pt-18pt-font-family,
+    "Invention-Regular",
+    sans-serif
+  );
+  font-size: var(--body-1-extra-small-12pt-18pt-font-size, 12px);
+  line-height: var(--body-1-extra-small-12pt-18pt-line-height, 18px);
+  font-weight: var(--body-1-extra-small-12pt-18pt-font-weight, 400);
+  position: relative;
+}
+.this-site-is-intended {
+  color: #333333;
+  text-align: left;
+  font-family: var(
+    --body-1-extra-small-12pt-18pt-font-family,
+    "Invention-Regular",
+    sans-serif
+  );
+  font-size: var(--body-1-extra-small-12pt-18pt-font-size, 12px);
+  line-height: var(--body-1-extra-small-12pt-18pt-line-height, 18px);
+  font-weight: var(--body-1-extra-small-12pt-18pt-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.row-5 {
+  /*position: absolute;*/
+  inset: 0;
+}
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1128px;
+  height: 58px;
+  margin-bottom: 80px;
+}
+.text-box {
+  background: #f1f9f9;
+  border-radius: 4px;
+  border-style: solid;
+  border-color: var(--neutral-black, #ffffff);
+  border-width: 1px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.text-box img {
+	cursor: pointer;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  height: 21px;
+  position: relative;
+}
+.entered-text {
+  color: var(--brand-primary-dark, #005c56);
+  text-align: left;
+  font-family: var(--body-small-bold-font-family, "Invention-Bold", sans-serif);
+  font-size: var(--body-small-bold-font-size, 14px);
+  line-height: var(--body-small-bold-line-height, 21px);
+  font-weight: var(--body-small-bold-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+  flex: 1;
+}
+.entered-text a {
+	color: #00857C;
+  text-decoration: underline;
+}
+.plus {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+.dropdown2 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1128px;
+}
+.plus2 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+.dropdown3 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1128px;
+}
+.plus3 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+.dropdown4 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1128px;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.label {
+  color: var(--neutral-dark-text, #333333);
+  text-align: left;
+  font-family: var(--heading-h4-bold-font-family, "Invention-Bold", sans-serif);
+  font-size: var(--heading-h4-bold-font-size, 18px);
+  line-height: var(--heading-h4-bold-line-height, 27px);
+  font-weight: var(--heading-h4-bold-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.spacers {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 8px;
+  position: relative;
+}
+.plus4 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+.row-4 {
+  /*position: absolute;*/
+  inset: 0;
+}
+.rectangle-58 {
+	background: #f1f9f9;
+	height: 206px;
+	display: flex;
+	gap: 40px;
+	padding: 48px 0;
+	margin-bottom: 50px;
+}
+.content {
+	width: 390px;
+	height: 110px;
+	position: static;
+	margin: 0 auto;
+}
+.primary-button {
+	background: var(--brand-primary-green, #00857c);
+	border-radius: 5px;
+	padding: 16px;
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	align-items: center;
+	justify-content: center;
+	width: 390px;
+	height: 50px;
+	margin-top: 20px;
+  cursor: pointer;
+}
+.button-text {
+  color: var(--gray-scale-white, #ffffff);
+  text-align: center;
+  font-family: "Invention-Bold", sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button-text a { 
+	color: var(--gray-scale-white, #ffffff);
+}
+.get-started {
+  color: var(--gray-scale-black, #000000);
+  text-align: center;
+  font-family: var(--heading-h2-bold-font-family, "Invention-Bold", sans-serif);
+  font-size: var(--heading-h2-bold-font-size, 24px);
+  line-height: var(--heading-h2-bold-line-height, 36px);
+  font-weight: var(--heading-h2-bold-font-weight, 700);
+  /*position: absolute;*/
+  left: 525.98px;
+  top: 1746px;
+  width: 389.02px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.row-3 {
+  /*position: absolute;*/
+  inset: 0;
+}
+.event-card {
+  background: #f1f9f9;
+  border-radius: 10px;
+  padding: 16px 24px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 705px;
+  height: 508px;
+}
+.content2 {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.events {
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.level-2 {
+  padding: 8px 8px 8px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.timeline {
+  align-self: stretch;
+  flex-shrink: 0;
+  width: 16px;
+  position: relative;
+}
+.line {
+  background: var(--tertiary-gray, #d8d8d8);
+  width: 4px;
+  position: absolute;
+  left: 6px;
+  bottom: -8px;
+  top: 18px;
+}
+.dot {
+  background: var(--brand-primary-green, #00857c);
+  border-radius: 50%;
+  border-style: solid;
+  border-color: var(--brand-primary-green, #00857c);
+  border-width: 2px;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 0px;
+  top: 10px;
+}
+.frame-217 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+.event-2 {
+  color: var(--neutral-dark-text, #333333);
+  text-align: left;
+  font-family: var(--heading-h3-bold-font-family, "Invention-Bold", sans-serif);
+  font-size: var(--heading-h3-bold-font-size, 20px);
+  line-height: var(--heading-h3-bold-line-height, 30px);
+  font-weight: var(--heading-h3-bold-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+}
+.wednesday-october-5th-2022-at-7-30-pm {
+  color: var(--gray-scale-text-dark, #333333);
+  text-align: left;
+  font-family: 'Invention';;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+.line2 {
+  background: var(--tertiary-gray, #d8d8d8);
+  width: 4px;
+  position: absolute;
+  left: 6px;
+  bottom: -8px;
+  top: -8px;
+}
+.level-3 {
+  padding: 8px 8px 8px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.level-4 {
+  padding: 8px 8px 8px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.line3 {
+  background: var(--tertiary-gray, #d8d8d8);
+  width: 4px;
+  height: 26px;
+  position: absolute;
+  left: 6px;
+  top: -8px;
+}
+.hero-relentless-white-hi-300-dpi-3 {
+  border-radius: 10px;
+  width: 391px;
+  height: 508px;
+  /*position: absolute;*/
+  left: 156px;
+  top: 1118px;
+  object-fit: cover;
+}
+.once-you-ve-been-verified-as-a-health-care-decision-maker-you-ll-be-able-to-view-our-product-catalog-and-the-resources-we-offer-to-support-formulary-decisions-you-ll-also-be-able-to-schedule-appointments-and-connect-will-your-merck-account-team {
+  color: var(--gray-scale-text-dark, #333333);
+  text-align: left;
+  font-family: var(
+    --body-3-medium-body-16pt-24pt-font-family,
+    "Invention-Regular",
+    sans-serif
+  );
+  font-size: var(--body-3-medium-body-16pt-24pt-font-size, 16px);
+  line-height: var(--body-3-medium-body-16pt-24pt-line-height, 24px);
+  font-weight: var(--body-3-medium-body-16pt-24pt-font-weight, 400);
+  /*position: absolute;*/
+  left: 156px;
+  top: 1030px;
+  width: 956px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 40px;
+}
+.how-it-works {
+  color: var(--gray-scale-text-dark, #333333);
+  text-align: left;
+  font-family: var(--heading-h2-bold-font-family, "Invention-Bold", sans-serif);
+  font-size: var(--heading-h2-bold-font-size, 24px);
+  line-height: var(--heading-h2-bold-line-height, 36px);
+  font-weight: var(--heading-h2-bold-font-weight, 700);
+  /*position: absolute;*/
+  left: 156px;
+  top: 986px;
+  width: 937px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+}
+.eventscontainer {
+	display: flex;
+	gap: 30px;
+	margin-bottom: 50px;
+}
+.row-2 {
+  /*position: absolute;*/
+  inset: 0;
+}
+.rectangle-54 {
+	background: #f1f9f9;
+	height: 264px;
+	display: flex;
+    gap: 40px;
+    padding: 48px 0;
+	margin-bottom: 50px;
+}
+.rectangle-54 .container {
+	display: flex;
+    gap: 40px;
+}
+.dashboard-callout {
+  background: #ffffff;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #dbdbdb;
+  border-width: 1px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 355px;
+  min-height: 168px;
+  /*position: absolute;*/
+  left: 929px;
+  top: 706px;
+}
+.frame-24 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.frame-23 {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._2-controls-buttons-1-primary-3-icon-3-small-1-default {
+	flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    position: relative;
+    overflow: hidden;
+    background: #00857C;
+    border-radius: 135px;
+}
+.background {
+  	border-radius: 0px;
+  	width: 20px;
+	height: 20px;
+	overflow: visible;
+	margin: 6px;
+}
+.icon {
+  width: 19.6px;
+  height: 19.6px;
+  /*position: absolute;*/
+  left: calc(50% - 10.3px);
+  top: calc(50% - 10.3px);
+  transform: translate(0px, 0px);
+  overflow: visible;
+}
+.complete-your-eligib {
+  color: #555;
+  text-align: left;
+  font-family: var(--heading-h4-bold-font-family, "Invention-Bold", sans-serif);
+  font-size: var(--heading-h4-bold-font-size, 18px);
+  line-height: var(--heading-h4-bold-line-height, 27px);
+  font-weight: var(--heading-h4-bold-font-weight, 700);
+  position: relative;
+  flex: 1;
+}
+.in-order-to-give-you {
+  color: var(--neutral-dark-text, #333333);
+  text-align: left;
+  font-family: var(
+    --body-medium-regular-font-family,
+    "Invention-Regular",
+    sans-serif
+  );
+  font-size: var(--body-medium-regular-font-size, 16px);
+  line-height: var(--body-medium-regular-line-height, 24px);
+  font-weight: var(--body-medium-regular-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.dashboard-callout2 {
+  background: #ffffff;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #dbdbdb;
+  border-width: 1px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 354px;
+  min-height: 168px;
+  /*position: absolute;*/
+  left: 543px;
+  top: 706px;
+}
+.background2 {
+	border-radius: 0px;
+	width: 20px;
+	height: 20px;
+	overflow: visible;
+	margin: 6px;
+}
+.icon2 {
+  width: 19.6px;
+  height: 19.6px;
+  /*position: absolute;*/
+  left: calc(50% - 10.3px);
+  top: calc(50% - 10.3px);
+  transform: translate(0px, 0px);
+  overflow: visible;
+}
+.dashboard-callout3 {
+  background: #ffffff;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #dbdbdb;
+  border-width: 1px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 355px;
+  min-height: 168px;
+  /*position: absolute;*/
+  left: 156px;
+  top: 706px;
+}
+.background3 {
+  	border-radius: 0px;
+  	width: 20px;
+	height: 20px;
+	overflow: visible;
+	margin: 6px;
+}
+.icon3 {
+  width: 19.6px;
+  height: 19.6px;
+  /*position: absolute;*/
+  left: calc(50% - 10.3px);
+  top: calc(50% - 10.3px);
+  transform: translate(0px, 0px);
+  overflow: visible;
+}
+.complete-your-eligib2 {
+  color: #555;
+  text-align: left;
+  font-family: var(
+    --body-4-large-body-bold-18pt-27pt-font-family,
+    "Invention-Bold",
+    sans-serif
+  );
+  font-size: var(--body-4-large-body-bold-18pt-27pt-font-size, 18px);
+  line-height: var(--body-4-large-body-bold-18pt-27pt-line-height, 27px);
+  font-weight: var(--body-4-large-body-bold-18pt-27pt-font-weight, 700);
+  position: relative;
+  flex: 1;
+}
+.row-1 {
+  /*position: absolute;*/
+  inset: 0;
+}
+.content3 {
+	display: flex;
+    gap: 40px;
+	margin-bottom: 50px;
+}
+.primary-button2 {
+  background: var(--primary-green, #00857c);
+  border-radius: 5px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 390px;
+  height: 55.3px;
+  /*position: absolute;*/
+  left: 894px;
+  top: 463.7px;
+  cursor: pointer;
+}
+.button-text2 {
+  color: var(--neutral-white, #ffffff);
+  text-align: center;
+  font-family: "Invention-Bold", sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button-text2 a { 
+	color: var(--gray-scale-white, #ffffff);
+}
+.the-merck-formulary-resources-mfr-portal-offers-data-and-resources-to-help-support-formulary-decisions-use-the-portal-to-connect-with-your-merck-account-team-request-information-and-save-resources-in-a-personalized-library {
+  color: var(--neutral-dark-text, #333333);
+  text-align: left;
+  font-family: var(
+    --body-3-medium-body-16pt-24pt-font-family,
+    "Invention-Regular",
+    sans-serif
+  );
+  font-size: var(--body-3-medium-body-16pt-24pt-font-size, 16px);
+  line-height: var(--body-3-medium-body-16pt-24pt-line-height, 24px);
+  font-weight: var(--body-3-medium-body-16pt-24pt-font-weight, 400);
+  /*position: absolute;*/
+  left: 894.98px;
+  top: 258px;
+  width: 389.02px;
+  height: 179.16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.hero-employees-working-remotely-hi-300-dpi-1 {
+  border-radius: 10px;
+  width: 698px;
+  height: 336px;
+  /*position: absolute;*/
+  left: 156px;
+  top: 258px;
+  object-fit: cover;
+}
+.learn-more-about-the-mfr-portal {
+  color: var(--gray-scale-text-dark, #333333);
+  text-align: left;
+  font-family: "Invention-Bold", sans-serif;
+  font-size: 32px;
+  line-height: 45px;
+  font-weight: 700;
+  width: 937px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 40px;
+}
+.breadcrumbs-component {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 622px;
+  /*position: absolute;*/
+  margin: 40px 0;
+}
+.breadcrumb {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.breadcrumb2 {
+  color: var(--brand-primary-green, #00857c);
+  text-align: left;
+  font-family: 'Invention';;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  text-decoration: underline;
+  position: relative;
+}
+.breadcrumb2 a {
+	color: var(--brand-primary-green, #00857c);
+}
+.div {
+  flex-shrink: 0;
+  width: 6px;
+  height: 12px;
+  position: relative;
+  overflow: visible;
+}
+.end-breadcrumb {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.breadcrumb3 {
+  color: var(--brand-primary-green, #00857c);
+  text-align: left;
+  font-family: 'Invention';;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  position: relative;
+  cursor: pointer;
+}
+.breadcrumb3 a {
+	color: var(--brand-primary-green, #00857c);
+}
+.nav-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1440px;
+  /*position: absolute;*/
+  left: 0px;
+  top: 0px;
+}
+.navigation-closed {
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 1440px;
+  position: relative;
+}
+.logo2 {
+  background: var(--neutral-white, #ffffff);
+  padding: 12px 16px 12px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.logo3 {
+  flex-shrink: 0;
+  width: 131px;
+  height: 40px;
+  position: relative;
+}
+.merck-connect-logo2 {
+  height: auto;
+  /*position: absolute;*/
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.menu-additional-resources {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.menu {
+  background: var(--primary-green, #00857c);
+  padding: 16px 28px 16px 28px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.secondary-button {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.buttton-master {
+  border-radius: 5px;
+  border-style: solid;
+  border-color: var(--neutral-white, #ffffff);
+  border-width: 2px;
+  padding: 7px 16px 7px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.button-text3 {
+  color: var(--neutral-white, #ffffff);
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif);
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.menu-icon2 {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.menu2 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+.menu3 {
+  color: var(--neutral-white, #ffffff);
+  text-align: left;
+  font-family: var(
+    --body-4-large-body-bold-18pt-27pt-font-family,
+    "Invention-Bold",
+    sans-serif
+  );
+  font-size: var(--body-4-large-body-bold-18pt-27pt-font-size, 18px);
+  line-height: var(--body-4-large-body-bold-18pt-27pt-line-height, 27px);
+  font-weight: var(--body-4-large-body-bold-18pt-27pt-font-weight, 700);
+  position: relative;
+  width: 48px;
+  height: 23px;
+}
+.rule {
+  background: var(--primary-green, #00857c);
+  border-radius: 5px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 2px;
+  position: relative;
+}
+.dropdown-item-1,
+.dropdown-item-1 * {
+  box-sizing: border-box;
+}
+.dropdown-item-1 {
+  background: var(--neutral-white, #ffffff);
+  padding: 9.5px 12px 9.5px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.entered-text {
+    text-align: left;
+    font-size: var(--body-small-regular-font-size, 14px);
+    line-height: var(--body-small-regular-line-height, 21px);
+    font-weight: var(--body-small-regular-font-weight, 400);
+    position: relative;
+    align-self: stretch;
+    color: #005C56;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 700;
+    line-height: 25px;
+    word-wrap: break-word;
+}
+.p {
+    color: #333333 !important;
+    font-weight: normal !important;
+    font-size: 14px !important;
+}
+.ul {
+    list-style: disc;
+    margin-left: 25px;
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+    .container{
+        top: 0;
+        width: auto;
+        height: auto !important;
+        text-align: start;
+        justify-content: start;
+        margin: 16px;
+        gap: 12px;
+        display: block;
+    }
+    
+    .pbanner_img{
+        height: 140px !important;
+        object-fit: cover;
+    }
+
+    .web {
+        display: none !important;
+    }
+    
+    .mobile {
+        display: block;
+    }
+
+    .img-container, .img-container img {
+        width: auto;
+        border-radius: 10px 10px 0 0;
+        height: auto;
+    }
+
+    .left-panel {
+        border-radius: 10px 10px 0 0;
+        width: auto;
+        height: auto !important;
+        min-height: auto;
+    }
+
+    .right-panel {
+        width: auto;
+        height: auto;
+        min-height: auto;
+        padding: 40px 20px;
+    }
+    .role-consultant {
+        width: 321px !important;
+    }
+    .role-consultant-text {
+        width: 318px !important;
+    }
+    .data-privacy-container {
+        display: none;
+    }
+
+    .data-privacy-container-mobile {
+        display: block;
+    }
+
+    .sign-up-btn {
+        width: 100%;
+    }
+
+    .input-select {
+        height: 56px;
+    }
+
+    .learn-more-about-the-mfr-portal, .how-it-works, .once-you-ve-been-verified-as-a-health-care-decision-maker-you-ll-be-able-to-view-our-product-catalog-and-the-resources-we-offer-to-support-formulary-decisions-you-ll-also-be-able-to-schedule-appointments-and-connect-will-your-merck-account-team {
+        width: auto;
+    }
+
+    .eventscontainer {
+        display: block;
+    }
+
+    .content3 {
+        display: grid;
+        gap: 20px;
+    }
+
+    .rectangle-54 {
+        background: #f1f9f9;
+        height: auto;
+        display: block;
+        gap: 40px;
+        padding: 5px 0;
+        margin-bottom: 50px;
+    }
+
+    .rectangle-54 .container {
+        display: block;
+    }
+
+    .dashboard-callout3, .hero-relentless-white-hi-300-dpi-3, .dashboard-callout2, .dashboard-callout {
+        width: 100%;
+        margin-bottom: 18px;
+    }
+
+    .event-card, .dropdown4, .dropdown3, .dropdown2, .dropdown, .primary-button2, .primary-button {
+        width: 100%;
+    }
+
+    .event-card {
+        height: auto;
+    }
+
+    .text {
+        height: auto;
+    }
+
+    .hero-employees-working-remotely-hi-300-dpi-1 {
+        border-radius: 10px;
+        width: auto;
+        height: auto;
+    }
+
+    .dropdown {
+        height: auto;
+    }
+
+    .primary-button2 {
+        margin-top: 20px;
+    }
+
+    .get-started, .the-merck-formulary-resources-mfr-portal-offers-data-and-resources-to-help-support-formulary-decisions-use-the-portal-to-connect-with-your-merck-account-team-request-information-and-save-resources-in-a-personalized-library {
+        width: auto;
+    }
+
+    .primary-button[c-mSD_CORE_Learn_More_mSD_CORE_Learn_More] {
+        width: calc(100% - 32px);
+    }
+    .primary-button {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+}

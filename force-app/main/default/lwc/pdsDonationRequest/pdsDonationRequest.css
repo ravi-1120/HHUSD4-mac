@@ -1,0 +1,325 @@
+.dr-form_container{
+	background: #F5F5F5;
+}
+.floating-button{
+	position: fixed;
+    font-family: 'InventionRg';
+    font-size: 14px;
+    height: 56px;
+	min-width: 180px;
+    right: 30px;
+    background-color: #00857C;
+    line-height: 22px;
+    z-index: 1000;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 16px 24px !important;
+    color: white;
+    border-radius: 100px;
+    cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+.floating-button:hover, .floating-button:active{
+	background: rgb(0, 92, 86);
+}
+.floating-button.bottom {
+    bottom: 60px;
+}
+
+.floating-button.bottom-expanded {
+    bottom: 180px;
+}
+.date_input-icon{
+	--slds-c-icon-color-foreground-default: #ffffff;
+	margin-right: 8px;
+}
+.success-container{
+	background: #F5F5F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 104px 0px;
+}
+.success-header{
+	font-family: 'InventionBd';
+	color: #000000E0;
+	font-size: 30px;
+	line-height: 38px;
+	margin: 40px 0px 16px 0px !important;
+}
+.success-content{
+	font-family: 'InventionRg';
+	color: #000000A6;
+	font-size: 20px;
+	line-height: 28px;
+	margin-bottom: 32px;
+}
+.dr-form_section{
+	display: flex;
+	gap: 32px;
+	width:100%;
+	max-width:960px;
+	height: 100%;
+	margin: auto;
+	flex-direction: column;
+	justify-content: center;
+	padding: 72px 0px;
+}
+.dr-form_back{
+	max-width:100px;
+	display: flex;
+	flex-direction: row;
+	font-size: 14px;
+	align-items: center;
+	color: #000000A6 !important;
+	font-family: InventionBd;
+	gap:8px;
+	line-height: 22px;
+	text-decoration: none !important;
+}
+.dr-form_back:hover{
+	color: #000000A6 !important;
+	text-decoration: none !important;
+}
+.dr-form_heading{
+	font-size: 30px;
+	color: #000000E0;
+	font-family: InventionBd;
+	line-height: 38px;
+}
+.dr-form{
+	background: #fff;
+	padding: 32px;
+	width: 100%;
+	height: auto;
+}
+.dr-form_btnGroup{
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+	justify-content: flex-start;
+	align-items: left;
+}
+.upload-icon{
+	--slds-c-icon-color-foreground-default: #00857C;
+}
+.date-icon{
+	--slds-c-icon-color-foreground: #0000004D;
+}
+.downloadBtn{
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-right:-8px;
+}
+.download-link, .download-link:hover{
+	color: #00857C;
+	text-decoration: 1px underline #00857C;
+}
+.contact-section{
+	background: #F4FAF8;
+	width:100%;
+	height: auto;
+	padding: 24px 24px 16px 24px;
+	margin-top: 24px;
+}
+.contact-heading{
+	color: #000000E0;
+	font-family: 'InventionBd';
+	font-size: 16px;
+	line-height: 24px;
+	margin-bottom: 24px;
+}
+.slds-file-selector__body{
+	display: flex;
+	flex-direction: column;
+}
+.success-screen{
+	background: #fff;
+	padding: 56px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.file-invalid{
+	font-family: 'InventionRg';
+	display: none;
+	font-size: 12px;
+	color: #9A151C;
+	margin-top:3px;
+}
+.edit-cls{
+    display: flex;
+    justify-content: space-between;
+    width: 856px;
+}
+.href-cls{
+    display: flex;
+    text-decoration: none;
+	cursor: pointer;
+}
+.edit-btn{
+	margin-left: 8px;
+    font-family: 'InventionRg';
+    color: black;
+    font-size: 14px;
+    line-height: 22px;
+	cursor: pointer;
+}
+.file_sub{
+	font-size: 14px;
+	font-family: 'InventionRg';
+}
+.cancel-popup{
+    padding: 32px 32px 24px 32px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.comm-content{
+	font-family: 'InventionRg';
+	font-size: 14px;
+	line-height: 22px;
+	max-width: 336px;
+	color: rgba(0, 0, 0, 0.65);
+	margin-bottom: 16px;
+}
+.pop-btns{
+	display: flex;
+    gap: 8px;
+	justify-content:end;
+}
+.cancel-btn{
+	font-family: 'InventionBd';
+    background: #fff;
+	height: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 0px 16px;
+}
+.cancelReq-btn{
+    background: rgba(219, 30, 40, 1);
+	line-height: 32px;
+    color: #fff;
+    border: 1px solid rgba(219, 30, 40, 1);
+    font-family: 'InventionBd';
+    padding: 0px 16px;
+}
+.cancelReq-btn:hover{
+	background: rgb(181 22 30);
+}
+.cancel-title-cls{
+	font-family: 'InventionBd';
+	font-size: 16px;
+	line-height: 24px;
+	color: rgba(0, 0, 0, 0.88);
+}
+.success_btns{
+	display: flex;
+	flex-direction: row;
+	gap: 12px;
+}
+.back-icon{
+	position: relative;
+	bottom: 2px;
+}
+
+@media only screen and (max-width: 600px) {
+	.dr-form_section{
+		padding: 32px 16px;
+		gap: 16px;
+	}
+	.dr-form{
+		padding: 24px;
+		padding-bottom:0px;
+	}
+	.inputField-mb, .inputField-L-mb{
+		padding-right:0px;
+	}
+	.inputField-L-mb{
+		width: 48%;
+	}
+	.contact-section{
+		margin: 8px 0px 16px 0px
+	}
+	.dr-form_btnGroup{
+		margin-top: 16px;
+	}
+	.inputField-L_margin{
+		margin-right: 8px;
+	}
+	.success-screen{
+		text-align: center;
+		padding: 24px;
+	}
+	.success-container{
+		padding: 80px 16px;
+	}
+	.success-header{
+		font-size: 24px;
+		line-height: 32px;
+		margin: 24px 0px 8px 0px !important;
+	}
+	.success-content{
+		font-size: 14px;
+		margin-bottom: 24px;
+	}
+	.success-button{
+		height: 40px;
+    	min-width: 295px;
+	}
+	.floating-button.bottom {
+    	bottom: 60px;
+	}
+	.floating-button.bottom-expanded {
+		bottom: 225px;
+	}
+	.floating-button{
+		bottom: 20px;
+		left: 50%;
+		transform: translateX(-47%);
+	}
+	.success_btns{
+		flex-direction: column;
+	}
+	.modalcss{
+		padding: 16px;
+	}
+
+}
+@media only screen and (max-width: 400px) {
+	.date-icon{
+		display: flex;
+		/* min-width: 100%; */
+		flex-direction: column;
+	}
+	input[type="date"] {
+		display: flex;
+		-webkit-appearance: textfield;
+		-moz-appearance: textfield;
+		min-height: 1.2em; 
+		min-width:90%; 
+		flex-direction: column;
+	}
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait){
+	.dr-form_section{
+		padding: 32px 24px;
+		gap: 16px;
+	}
+	.dr-form{
+		padding: 24px;
+		padding-bottom:0px;
+	}
+	.inputField-mb{
+		padding-right:16px;
+	}
+	.contact-section{
+		margin: 8px 0px 16px 0px
+	}
+	.dr-form_btnGroup{
+		margin-top: 16px;
+	}
+}

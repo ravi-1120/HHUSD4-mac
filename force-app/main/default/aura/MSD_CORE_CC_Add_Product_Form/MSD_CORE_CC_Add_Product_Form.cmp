@@ -1,0 +1,310 @@
+<aura:component controller="MSD_CORE_CC_Product_Form_Controller" extends="c:ComponentUtils" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable"  access="global" description="used to display product creation form">
+    <!-- Component attributes -->
+    <aura:attribute name="parentId" type="String" />
+    <aura:attribute name="parentIdForEdit" type="String" />
+    
+    <aura:attribute name="parentRT" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="mode" type="String" default="NEW" />
+    <aura:attribute name="disabled" type="Boolean" default="false" /> 
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    <aura:attribute name="userProfileName" type="String" default="MSD_CORE Contact Center - Read Only User"/>
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'AE', 'value': 'AE'},
+                                                        {'label': 'PQC', 'value': 'PQC'}
+                                                        ]"/>
+    
+    <aura:attribute name="aeChecked" type="Boolean" default="false" />
+    <aura:attribute name="pqcChecked" type="Boolean" default="false" />
+    <aura:attribute name="lockedParent" type="Boolean" default="false" />
+    <aura:attribute name="disableSave" type="Boolean" default="false" /> 
+    <aura:attribute name="disableReturnDate" type="Boolean" default="false" /> 
+    
+    <aura:attribute name="checkboxVal" type="List"/>
+    <aura:attribute name="relatedToVal" type="String" default="PQC"/>
+    <aura:attribute name="profileName" type="String"/>
+    <aura:attribute name="checkBoxesDisabled" type="Boolean" />
+    <aura:attribute name="primary" type="Boolean" default="true"/>
+    <aura:attribute name="reloadForm" type="Boolean" default="true"/>
+    <aura:attribute name="buttonClicked" type="String" default=""/>
+    <aura:attribute name="createdById" type="String" />
+    <aura:attribute name="createdByName" type="String" />
+    
+    <lightning:workspaceAPI aura:id="workspace1"/>
+    
+    <!-- Event registers -->    
+    <aura:registerEvent name="refreshRecordTypeMVNEvent" type="c:refreshRecordTypeMVNEvent"/> 
+    <aura:registerEvent name="MSD_CORE_CC_CloseModalEvt" type="c:MSD_CORE_CC_CloseModalEvt"/>
+    
+    <!-- Component markup -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+    <aura:if isTrue="{!v.reloadForm}">
+        <aura:if isTrue="{!and(v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+            <aura:if isTrue="{!v.mode!='VIEW'}">
+                
+                <lightning:recordEditForm aura:id="prodForm"
+                                          onsubmit="{!c.handleSubmit}"
+                                          onsuccess="{!c.handleSuccess}"
+                                          onerror = "{!c.handleError}"
+                                          recordId = "{!v.recordId}"
+                                          onload = "{!c.handleLoad}"
+                                          objectApiName="MSD_CORE_AE_Product__c">
+                    
+                    <lightning:card>
+                        <div onkeyup="{!c.handleKeyPress}">
+                            <lightning:messages /> 
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem padding="horizontal-small" size="6">
+                                    <legend class="slds-form-element__label">Product Lookup</legend>
+                                    <lightning:inputField aura:id="field1" autocomplete="false" fieldName="MSD_CORE_Product_Lookup__c" variant="label-hidden" disabled="{!v.lockedParent}"/>
+                                    
+                                    <aura:if isTrue="{!and(v.parentRT !='Request', v.parentRT != 'Request - Closed')}">    
+                                        <lightning:inputField aura:id="field1" fieldName="MSD_CORE_Other_Company_Product__c" disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="required" autocomplete="false" required="true" fieldName="MSD_CORE_Dose_Frequency__c" fieldLabel="Dose Frequency" class="fieldrequired" disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="required" required="true" fieldName="MSD_CORE_Lot_Number__c" fieldLabel="Lot Number" class="fieldrequired" disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="required" required="true" fieldName="MSD_CORE_Expiration_Date__c" fieldLabel="Expiration Date" class="fieldrequired" disabled="{!v.lockedParent}"/>
+                                        <aura:if isTrue="{!!v.lockedParent}">
+                                            <lightning:checkboxGroup aura:id="field1" class="customCheckBoxClass" name="Related To"
+                                                                     label="Related To"
+                                                                     options="{!v.options}"
+                                                                     value="{!v.checkboxVal}"
+                                                                     onchange="{!c.handleChange}"/>
+                                            <aura:set attribute="else">
+                                                <legend class="slds-form-element__label">Related To</legend>
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-checkbox">
+                                                        <lightning:input type="checkbox" label="AE" checked="{!v.aeChecked}" disabled="true"/>
+                                                    </div>
+                                                    <div class="slds-checkbox">
+                                                        <lightning:input type="checkbox" label="PQC" checked="{!v.pqcChecked}" disabled="true"/>
+                                                    </div>
+                                                </div>
+                                            </aura:set>
+                                        </aura:if>
+                                        <!--<lightning:inputField aura:id="field1" fieldName="MSD_CORE_Related_to__c" class="slds-ide"/>-->
+                                        <span class="slds-form-element__label">Primary Product?</span>
+                                        <lightning:inputField aura:id="field1" fieldName="MSD_CORE_Primary_Product__c" value="{!v.primary}" variant="label-hidden" disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="field1" fieldName="MSD_CORE_Product_Qty__c" disabled="{!v.lockedParent}"/> 
+                                        <lightning:inputField 
+                                         aura:id="required" required="true" fieldName="MSD_CORE_Product_Circular__c" 
+                                                              fieldLabel="Product Circular #" class="fieldrequired"
+                                                              disabled="{!v.lockedParent}"/>
+                                    </aura:if>
+                                </lightning:layoutItem>
+                                
+                                <lightning:layoutItem padding="horizontal-small" size="6">
+                                    <aura:if isTrue="{!and(v.parentRT !='Request',v.parentRT != 'Request - Closed')}">  
+                                         <lightning:inputField 
+                                         aura:id="required" required="true" fieldName="MSD_Core_Product_Operator_of_Device__c" 
+                                                              fieldLabel="Product Circular #" class="fieldrequired"
+                                                              disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="required" required="true" fieldName="MSD_CORE_Unique_Identifier__c" fieldLabel="Unique Identifier" class="fieldrequired" disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="required" required="true" fieldName="MSD_CORE_Model_Number__c" fieldLabel="Model Number" class="fieldrequired" disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="required" required="true" fieldName="MSD_CORE_Catalog_Number__c" fieldLabel="Catalog Number" class="fieldrequired" disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="required" required="true" fieldName="MSD_CORE_Serial_Number__c" fieldLabel="Serial Number" class="fieldrequired" disabled="{!v.lockedParent}"/>
+                                        <span class="slds-form-element__label">Hazardous Product?</span>
+                                        <lightning:inputField aura:id="MSD_CORE_Hazardous_Product__c" fieldName="MSD_CORE_Hazardous_Product__c" variant="label-hidden" disabled="{!v.lockedParent}"/>
+                                        <span class="slds-form-element__label">Obtain</span>
+                                        <lightning:inputField aura:id="MSD_CORE_Obtain__c" fieldName="MSD_CORE_Obtain__c" variant="label-hidden" disabled="{!v.lockedParent}"/>
+                                        <lightning:inputField aura:id="MSD_CORE_Product_Return_Date__c" fieldName="MSD_CORE_Product_Return_Date__c" onchange="{!c.enableSave}"  disabled="{!v.disableReturnDate}"/>
+                                    </aura:if>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            <lightning:accordion activeSectionName="SI" >
+                                <lightning:accordionSection name="SI" label="System Information">
+                                    
+                                    <lightning:layout multipleRows="true" >  
+                                        <lightning:layoutItem padding="horizontal-medium" size="6"> 
+                                            <legend class="slds-form-element__label slds-size-1-of-2">Created By </legend > 
+                                            <a onclick="{!c.handleUserNav}">{!v.createdByName}</a>     
+                                            
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="horizontal-medium" size="6"> 
+                                            
+                                            <span class="slds-form-element__label  slds-size-2-of-2 ">Case Number</span> 
+                                            <lightning:inputField class="formfieldborder" fieldName="MSD_CORE_Adverse_Event__c" variant="label-hidden" value="{!v.parentId}" /> 
+                                        </lightning:layoutItem>
+                                    </lightning:layout> 
+                                    
+                                </lightning:accordionSection>
+                            </lightning:accordion>
+                            
+                            <br/>
+                            <div class="slds-align_absolute-center">
+                                <lightning:button 
+                                                  variant="neutral"
+                                                  name="cancel" 
+                                                  label="Cancel" onclick="{!c.closeFocusedTab}" />
+                                <lightning:button 
+                                                  variant="neutral" 
+                                                  type="submit"
+                                                  name="saveAndNew" 
+                                                  label="Save &amp; New" 
+                                                  onclick="{!c.handleSave}"/>
+                                <lightning:button 
+                                                  variant="brand" 
+                                                  type="submit"
+                                                  name="save" 
+                                                  label="Save" 
+                                                  disabled="{!v.disableSave}"
+                                                  onclick="{!c.handleSave}"/>
+                            </div>
+                            <br/>
+                        </div>
+                    </lightning:card>
+                </lightning:recordEditForm>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.mode=='VIEW'}">
+                <lightning:recordViewForm recordId = "{!v.recordId}"
+                                          objectApiName="MSD_CORE_AE_Product__c">
+                    <lightning:card>
+                        <lightning:messages /> 
+                        <lightning:layout multipleRows="true">
+                            <aura:if isTrue="{!or(v.parentRT =='Request', v.parentRT == 'Request - Closed')}">   
+                                <lightning:layoutItem padding="horizontal-small" size="6">   
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Lookup__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem padding="horizontal-small" size="6">   
+                                    <lightning:outputField class="formfieldborder" fieldName="Name" />
+                                </lightning:layoutItem>
+                                
+                            </aura:if>
+                            <lightning:layoutItem padding="horizontal-small" size="6">      
+                                <aura:if isTrue="{!and(v.parentRT !='Request', v.parentRT != 'Request - Closed')}">
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Lookup__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Other_Company_Product__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Dose_Frequency__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Lot_Number__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Expiration_Date__c" />
+                                    
+                                    <legend class="slds-form-element__label">Related To</legend>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-checkbox">
+                                            <lightning:input type="checkbox" label="AE" checked="{!v.aeChecked}" disabled="true"/>
+                                        </div>
+                                        <div class="slds-checkbox">
+                                            <lightning:input type="checkbox" label="PQC" checked="{!v.pqcChecked}" disabled="true"/>
+                                        </div>
+                                    </div>
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Primary_Product__c"/>
+                                  
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Circular__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Qty__c" />  
+                                </aura:if>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                                <aura:if isTrue="{!and(v.parentRT !='Request',v.parentRT != 'Request - Closed')}">
+                                     <lightning:outputField class="formfieldborder" fieldName="MSD_Core_Product_Operator_of_Device__c" /> 
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Unique_Identifier__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Model_Number__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Catalog_Number__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Serial_Number__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Hazardous_Product__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Obtain__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Return_Date__c" />
+                                    
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <lightning:accordion activeSectionName="SI" >
+                            <lightning:accordionSection name="SI" label="System Information">
+                                
+                                <lightning:layout multipleRows="true" >  
+                                    <lightning:layoutItem padding="horizontal-medium" size="6"> 
+                                        <legend class="slds-form-element__label slds-size-1-of-2">Created By </legend > 
+                                        <a onclick="{!c.handleUserNav}">{!v.createdByName}</a>     
+                                        
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem padding="horizontal-medium" size="6"> 
+                                        
+                                        <span class="slds-form-element__label  slds-size-2-of-2 ">Case Number</span> 
+                                        <lightning:inputField class="formfieldborder" fieldName="MSD_CORE_Adverse_Event__c" variant="label-hidden" value="{!v.parentId}" /> 
+                                    </lightning:layoutItem>
+                                </lightning:layout> 
+                                
+                            </lightning:accordionSection>
+                        </lightning:accordion>
+                        
+                        <br/>
+                    </lightning:card>
+                </lightning:recordViewForm>
+            </aura:if>
+        </aura:if>
+        
+        <aura:if isTrue="{!or(v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+            <lightning:recordViewForm recordId="{!v.recordId}" 
+                                      objectApiName="MSD_CORE_AE_Product__c">
+                
+                <lightning:card>
+                    <div onkeyup="{!c.handleKeyPress}">
+                        <!-- the messages component is for error messages -->
+                        <lightning:messages /> 
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                                <lightning:outputField class="formfieldborder" fieldName="Name" />
+                                <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Lookup__c" />
+                                <aura:if isTrue="{!and(v.parentRT !='Request',v.parentRT != 'Request - Closed')}">
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Other_Company_Product__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Dose_Frequency__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Lot_Number__c" />
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Expiration_Date__c" />
+                                    
+                                    <legend class="slds-form-element__label">Related To</legend>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-checkbox">
+                                            <lightning:input type="checkbox" label="AE" checked="{!v.aeChecked}" disabled="true"/>
+                                        </div>
+                                        <div class="slds-checkbox">
+                                            <lightning:input type="checkbox" label="PQC" checked="{!v.pqcChecked}" disabled="true"/>
+                                        </div>
+                                    </div>
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Primary_Product__c"/>
+                                    <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Qty__c" />  
+                                </aura:if>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                                <aura:if isTrue="{!v.parentRT !='Request'}">
+                                    <aura:if isTrue="{!v.parentRT !='Request - Closed'}">
+                                        <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Circular__c" />
+                                        <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Unique_Identifier__c" />
+                                        <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Model_Number__c" />
+                                        <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Catalog_Number__c" />
+                                        <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Serial_Number__c" />
+                                        <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Hazardous_Product__c" />
+                                        <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Obtain__c" />
+                                        <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Return_Date__c" />
+                                    </aura:if> 
+                                </aura:if>
+                                <!-- <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Adverse_Event__c" value="{!v.parentId}"/> -->
+                            </lightning:layoutItem>
+                            
+                        </lightning:layout><br/>
+                    </div>
+                    <aura:if isTrue="{!v.mode =='VIEW'}">
+                        <lightning:accordion activeSectionName="SI" >
+                            <lightning:accordionSection name="SI" label="System Information">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="horizontal-small" size="6" > 
+                                        <span class="slds-form-element__label slds-size_1-of-2">Created By</span>
+                                        <lightning:outputField class = "formfieldborder" fieldName="CreatedById" variant="label-hidden"/> 
+                                        
+                                    </lightning:layoutItem>  
+                                </lightning:layout> 
+                            </lightning:accordionSection> 
+                        </lightning:accordion> 
+                    </aura:if>
+                </lightning:card>
+            </lightning:recordViewForm>
+        </aura:if>
+        
+        <aura:set attribute="else">
+            Please wait...
+        </aura:set>
+    </aura:if>
+</aura:component>

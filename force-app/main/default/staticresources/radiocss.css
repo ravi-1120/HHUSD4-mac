@@ -1,0 +1,216 @@
+
+.radiobtncls .slds-radio_faux::after {
+    background-color: rgb(0, 133, 124) !important;
+}
+.slds-radio [type=radio]+.slds-radio__label .slds-radio_faux{
+	margin-right: 12.75px;
+}
+span.slds-radio_faux{
+	margin-right: 12.75px;
+}
+.schedulepg .radiobtncls .slds-form-element__legend {
+    font-weight: 700;           /*RT 1221*/
+    font-family: 'Invention';
+    font-style: normal;
+    font-size: 16px;
+    line-height: 24px;
+    padding-bottom: 18px;
+}
+.radiobtncls{
+ margin:0px;
+}
+.attendeetxt{
+	padding-top:33px;
+}
+.slds-truncate {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333333;
+    margin-top: 2px;
+    font-family: Invention;
+    font-size: 14px;
+}
+.slds-form-element__legend{
+	margin-bottom:-2.25px;
+    padding-bottom: 18px;
+    font-size: 16px !important;
+}
+.slds-input::placeholder {
+    color: #333333 !important;
+}
+.slds-radio{
+    padding-top: 0px !important;
+	padding-bottom: 19px !important;
+}
+.time_cls .slds-form-element__label {
+    display: none !important;
+}
+
+.slds-combobox__input.slds-input_faux {
+    height: 40px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #333333 !important;
+    border-radius: 4px !important;
+    padding-top: 4px;
+    margin-top: 2px;
+}
+
+.datecls .slds-input, .time_cls .slds-input {
+    min-height: 2.6rem;
+}
+
+.datecls .slds-input-has-icon .slds-input__icon {
+    top: 35%;
+    /* width: 0;
+    height: 0;
+    margin-top: -3px;
+    border-style: solid;
+    border-width: 7px 6px 0 6px;
+    /* border-color: grey transparent transparent transparent; */ 
+}
+.datecls label {
+    font-weight: 700;
+}
+.slds-input[disabled]{
+    background-color: white;
+    cursor: pointer;
+    height: 40px;
+    border: 1px solid black;
+}
+.slds-input__icon-group_right{
+    padding-right:10px ;
+}
+
+.slds-input[readonly]{
+    border: 1px solid black;
+    cursor: pointer;
+    padding-left: 12px;
+    height: 40px;
+    margin-top: 3px;
+    font-family: Invention;
+    font-size: 14px;
+}
+.slds-input placeholder{
+    color: #333333;
+}
+.box_width_cls .Time label {
+    font-weight: bold;
+ }
+ .schedulepg[c-scheduled_scheduled] .slds-input__icon-group[c-scheduled_scheduled] {
+    right: 0px;
+    margin-top: -8px;
+}
+.slds-input__icon-group_right {
+    padding-right: 0px;
+}
+
+/*Rusheel*/
+.slds-modal__header {
+    padding-bottom: 19px; 
+}
+.slds-modal__footer .slds-button+.slds-button {
+    margin-left: 21px;
+}
+.slds-p-right--medium, .slds-p-right_medium {
+    padding-top: 0px;
+}
+/*Rusheel*/ 
+
+
+@media all and (max-width: 767px) {       
+    .datetimecls .cls_date .datedivmob .slds-input {
+        height: 40px;
+        width: 87vw !important;
+        margin-right: 0 !important;
+        text-align: left !important;
+        align-items: center !important;
+        vertical-align: middle !important;
+        display: flex !important;
+        /* padding-right: 69% !important; */
+    } 
+    .slds-truncate{
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #333333;
+        margin-top: 2px;
+    }  
+    
+}
+
+
+@media only screen and (max-width: 391px){
+.pop[c-schedule_schedule] {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* width: 155px; */
+    width: 290px;
+    padding: 8px 16px;
+    margin-top: 8px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    right: 5px;
+}
+.pop1[c-schedule_schedule] {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* width: 155px; */
+    width: 290px;
+    padding: 8px 16px;
+    margin-top: 8px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    right: 5px;
+}
+}
+@media only screen and (max-width: 394px){
+    .pop[c-schedule_schedule] {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 290px;
+        padding: 8px 16px;
+        margin-top: 8px;
+        line-height: 18px;
+        letter-spacing: 0.861539px;
+        right: 5px;
+    }
+    .pop1[c-schedule_schedule] {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        /* width: 155px; */
+        width: 290px;
+        padding: 8px 16px;
+        margin-top: 8px;
+        line-height: 18px;
+        letter-spacing: 0.861539px;
+        right: 5px;
+     
+    }
+    /* Rusheel-1017 */
+    .slds-combobox__input.slds-input_faux {
+        max-width: 343px;
+    }
+    .slds-input[readonly]{
+        background: #FFFFFF !important;
+        max-width: 343px;
+        max-height: 40px;
+    }
+    .slds-p-top_xxx-small{
+        margin-left: 0px;
+    }
+}
+
+/* .datecls .slds-input-has-icon .slds-input__icon button {
+    display: none;
+} */

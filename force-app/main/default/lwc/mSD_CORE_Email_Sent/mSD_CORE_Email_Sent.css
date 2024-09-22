@@ -1,0 +1,277 @@
+.dummy{
+	color : black;
+}
+.pbanner {
+    position: relative;
+}
+.pbanner_img{
+    height: 309x !important;
+    object-fit: cover;
+}
+.container {
+    top: -20px;
+    width: 1128px;
+    height: 650px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    margin-top: -100px !important;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: auto;
+    background: #FFFFFF;
+    display: flex;
+}
+.right-panel {
+    width: 564px; 
+    height: 650px; 
+    border-radius: 0 10px 10px 0;
+    padding-top: 240px;
+    padding-right: 88px;
+    padding-left: 88px;
+}
+.left-panel {
+    width: 566px; 
+    height: 650px; 
+    background: #F1F9F9; 
+    border-radius: 10px 0 0 10px;
+}
+.img-container {
+    width: 564px;
+    height: 652px;
+    border-radius: 10px 0 0 10px;
+}
+.imgcls{
+	border-radius: 10px 0 0 10px;
+}
+.learnmore{
+	width: 566px;
+    height: 205px;
+    border-radius: 8px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 40px;
+}
+.learnmarg{
+	margin: 40px;
+	color: black;
+}
+.learnhead{
+	font-family: Invention;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 27px; 
+    color: #333;
+}
+.learnmatr{
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: #333;
+}
+.learnmatr a {
+    color:#00857C
+}
+.welcls{
+    color: var(--Gray-Scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+	text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 8px;
+}   
+.welclsmatr{
+    color: var(--Gray-Scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+	text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 24px;
+    width:388px;  
+}
+.welclslinkp{
+    color: #00857C !important;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    text-decoration-line: none;
+} 
+.welclslink{
+    color: #00857C !important;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    text-decoration-line: underline !important;
+} 
+.homebtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    color: #FFFFFF;
+    background: #00857C;
+    border-radius: 5px !important;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px !important;
+    width: 387.005px;
+    height: 50px !important;
+    letter-spacing: 0.861539px;
+    border-color: #00857C;
+    border: none !important;
+    margin-bottom: 24px;
+}
+.signnbtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: #00857C;
+    background: #FFFFFF;
+    border-radius: 5px !important;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px !important;
+    width: 386px ;
+    height: 50px !important;
+    letter-spacing: 0.861539px;
+    border-color: #00857C;
+    border: 1px solid var(--Brand-primary-green, #00857C); 
+    margin-bottom: 24px;     
+}
+.logo1{
+    display: none !important;
+}
+.logo{
+    display: block !important;
+}
+
+@media only screen and (max-width: 767px) {
+	.pbanner_img{
+        height: 140px !important;
+        object-fit: cover;
+    }
+	.right-panel {
+        width: auto;
+        height: auto;
+        padding: 40px 16px 24px 16px;
+        
+    }
+	.left-panel {
+		 border-radius: 10px 10px 0 0;
+		 width: auto;
+		 height: auto;
+	}
+	.img-container, .img-container img {
+        width: auto;
+        border-radius: 5px 5px 0 0;
+        height: auto;
+    }
+    .container {
+        top: -20px;
+        width: auto;
+        height: 483px;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        margin-top: -100px !important;
+        box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        background: #FFFFFF;
+        display: block;
+        margin: 16px;
+    }
+    .learnmore{
+        width: auto;
+        height: auto;
+        border-radius: 8px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 40px 24px 24px 24px;
+        background: #F1F9F9;
+        margin-bottom: 40px;
+    }
+    .homebtn{
+        width: 100% !important;
+        margin-bottom: 16px;
+    }
+    .signnbtn{
+        width: 100% !important;
+    }
+    .learnmob{
+        display: none !important;
+    }
+    .logo1{
+        display: block !important;
+        width: auto;
+    } 
+	.imgcls{
+        width: 100% !important;
+    }
+	.logo{
+        display: none !important;
+	}
+    .welcls{
+        text-align: left;
+        font-size: 24px;
+        font-family: Invention;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 30px;
+    }
+    .welclsmatr{
+        text-align: left;
+        font-family: Invention;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        width: 310px;
+    }
+    .welclslinkp{
+        color: #00857C !important;
+        text-align: center;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 21px; /* 150% */
+        text-decoration-line: none;
+    }
+    .welclslink{
+        color: #00857C !important;
+        text-align: center;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 21px; /* 150% */
+        text-decoration-line: underline !important;
+    }
+}

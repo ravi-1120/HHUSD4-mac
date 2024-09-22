@@ -1,0 +1,25 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-form-element__control .slds-checkbox{
+    display : inline-block !important;
+}
+
+.THIS .slds-form-element__legend{
+    font-weight: 400;
+}
+
+.THIS .fieldrequired label:before { 
+   /* content:"* ";
+    color:red;*/
+}
+
+.THIS .formfieldborder {
+    /*margin-right: 5%!important;
+    width: 45%!important; */
+    border-bottom: 1px solid rgb(221, 219, 218);    
+}
+
+.THIS .slds-form-element_horizontal .slds-form-element__control{
+    padding-left:0.5% !important;
+}

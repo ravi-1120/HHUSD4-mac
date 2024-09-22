@@ -1,0 +1,226 @@
+<template>
+  <div>
+    <div>
+      <div>
+        <div class="bannercls">
+          <img src={bannerimg}>
+        </div>
+      </div>
+      <div class="container position_cls">
+        <div class="boxshadow_cls slds-grid slds-wrap slds-p-around_large">
+          <!-- Added mobDiv class for mobile -->
+          <div class="slds-size_12-of-12 mobDiv">
+            <div class="scrolldiv">
+              <div class="breadcrumbs slds-m-bottom_large">
+                <div class="container">
+                  <!-- Added navigationlink class for mobile screens -->
+                  <p style="margin-bottom: 10px;" class="navigationlink">
+                    <a href={siteNames.Dashboard} onclick={handlenavigatedashboard} class="dashboard-underline"><span
+                        class="dashboard-underline">Dashboard</span></a>
+                    <span class="cursorcls" style="color: #00857C;"> /</span>
+                    <a class="slds-p-left_xx-small"><span class="dashboard-after">Pipeline information</span></a>
+                  </p>
+                  <h1 class="header-title">Pipeline information</h1>
+
+                  <p class="slds-col slds-size_12-of-12 header-desc">
+                    <!-- Added mobbr class for mobile screen -->
+                    Updated February 23, 2024. Our pipeline provides an overview of our late-stage clinical<br
+                      class="mobbr" /> development programs and is updated quarterly.
+                  </p>
+
+                  <div class="lnbtns">
+                    <button class="medi_btn" onclick={showModal}> <span class="forward-looking"> Forward-looking
+                        statement</span>
+                    </button>
+
+                  </div>
+                  <br />
+                  <div class="pipeline-grayout">
+                    <!-- Added class pipeline-grayout-mobdiv for mobile screen -->
+                    <div class="slds-grid slds-wrap pipeline-grayout-mobdiv">
+                      <!-- Added class pipeline-mob-div for mobile screen -->
+                      <div
+                        class="slds-col slds-size_8-of-12 slds-large-size_8-of-12 slds-text-align_left pipeline-mob-div">
+                        <span><img class="hint-src" src={hint}></span> <span
+                          class="hint-pipeline">&nbsp;&nbsp;Pipeline</span>
+                      </div>
+                      <!-- Added class dashimg for mobile screen -->
+                      <div class="slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-text-align_right dashimg">
+                        <!-- Added onclick in span tag -->
+                        <span if:true={isMinVisible} onclick={hideList}><img class="img-hover" src={minize}
+                            onclick={hideList}></span> <span class="img-hover" if:true={isMaxVisible}
+                          onclick={showList}><img class="img-hover" src={max}></span>
+                      </div>
+                    </div>
+
+                    <!-- Added class pipedesc-mob for mobile screen -->
+                    <div if:true={isVisibaleGrayList} class="slds-grid slds-wrap pipedesc-mob">
+                      <ul class="slds-list_dotted">
+                        <li>The following chart reflects the Merck research pipeline as of February 23, 2024 and has been excerpted from the Merck & Co, Inc., forms 10K and 10Q filed with the SEC on February 26, 2024 and November 3, 2023 respectively, and should be viewed along with disclosures in that and other filings. </li>
+                        <li>This deck excludes oncology products/indications, as well as products not under development for the US Market.</li>
+                        <li>Trials in this deck are those reported at <a href="https://clinicaltrials.gov/" target="_blank">https://clinicaltrials.gov/</a> with a status of ‘Not yet recruiting’, ‘Recruiting’, or ‘Active, not yet recruiting’, regardless of whether results have been reported.</li>
+                        <li>Candidates shown in Phase III include specific products. Candidates shown in Phase II include the most advanced compound with a specific mechanism in a given therapeutic area.</li>
+                      </ul>
+                    </div>
+
+                  </div>
+                  <br />
+                  <!--Added for Mobile Screen Start-->
+                  <div class="tabset-pickList">
+                    <div class="picklist-label">Jump to</div>
+                    <lightning-combobox name="jumpTO" value={value} placeholder={mobTabvalue} options={tabsetOptions}
+                      onchange={handlePickListChange} variant="label-hidden" class="jump-to-pickList">
+                    </lightning-combobox>
+                  </div>
+                  <div class="pick-comp" if:true={mobilescreen}>
+                    <template if:true={isPhase2Bool}>
+                      <div>
+                        <!-- <div class="phase-header">Phase 2</div> -->
+                        <div>
+                          <c-m-s-d_-c-o-r-e_-phase phase-type="Phase2" phase-type-label="Phase 2"
+                            total-count={phase2Count}></c-m-s-d_-c-o-r-e_-phase>
+                        </div>
+                      </div>
+                    </template>
+                    <template if:true={isPhase3Bool}>
+
+                      <div>
+                        <!-- <div class="phase-header">Phase 3</div> -->
+                        <div>
+                          <c-m-s-d_-c-o-r-e_-phase phase-type="Phase3" phase-type-label="Phase 3"
+                            total-count={phase3Count}></c-m-s-d_-c-o-r-e_-phase>
+                        </div>
+                      </div>
+
+                    </template>
+                    <template if:true={isInreviewBool}>
+                      <div>
+                        <!-- <div class="phase-header">In Review</div>    -->
+                        <div>
+                          <c-m-s-d_-c-o-r-e_-phase phase-type="In Review" phase-type-label="In Review"
+                            total-count={inReviewCount}></c-m-s-d_-c-o-r-e_-phase>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+
+                  <!--Added for Mobile Screen End-->
+                  <div class="newTabset" if:false={mobilescreen}>
+                    <div>
+                      <ul class="slds-tabs_default__nav" role="tablist">
+                        <li class={phase2lstcls} onclick={handleTabClick} data-id="phase2" data-count={phase2Count}
+                          style="list-style-type: none;" title="Activity" role="presentation" id="tab-default-1__item">
+                          <span class="slds-tabs_default__link " role="tab" tabindex="0" aria-selected="true"
+                            aria-controls="tab-default-1">Phase 2 <span class="badge"><span
+                                class="badge-content">{phase2Count}</span> </span></span>
+                        </li>
+                        <li class={phase3lstcls} data-id="phase3" onclick={handleTabClick} data-count={phase3Count}
+                          style="list-style-type: none;" title="Saved" role="presentation" id="tab-default-2__item">
+                          <a class="slds-tabs_default__link" role="tab" tabindex="-1" aria-selected="true"
+                            aria-controls="tab-default-2">Phase 3 <span class="badge"><span
+                                class="badge-content">{phase3Count}</span> </span></a>
+                        </li>
+                        <li class={inReviewlstcls} data-id="inreview" onclick={handleTabClick}
+                          style="list-style-type: none;" title="Appointments" role="presentation" data-count={inReviewCount}
+                          id="tab-default-3__item">
+                          <span class="slds-tabs_default__link" role="tab" tabindex="-1" aria-selected="true"
+                            aria-controls="tab-default-3">In Review <span class="badge"><span
+                                class="badge-content">{inReviewCount}</span></span></span>
+                        </li>
+
+                      </ul>
+                      <template if:true={tab1Bool}>
+                        <div>
+                          <!-- <div class="phase-header">Phase 2</div> -->
+                          <div>
+                            <c-m-s-d_-c-o-r-e_-phase phase-type="Phase2" phase-type-label="Phase 2"
+                              total-count={phase2Count}></c-m-s-d_-c-o-r-e_-phase>
+                          </div>
+                        </div>
+                      </template>
+                      <template if:true={tab2Bool}>
+
+                        <div>
+                          <!-- <div class="phase-header">Phase 3</div> -->
+                          <div>
+                            <c-m-s-d_-c-o-r-e_-phase phase-type="Phase3" phase-type-label="Phase 3"
+                              total-count={phase3Count}></c-m-s-d_-c-o-r-e_-phase>
+                          </div>
+                        </div>
+
+                      </template>
+                      <template if:true={tab3Bool}>
+                        <div>
+                          <!-- <div class="phase-header">In Review</div>    -->
+                          <div>
+                            <c-m-s-d_-c-o-r-e_-phase phase-type="In Review" phase-type-label="In Review"
+                              total-count={inReviewCount}></c-m-s-d_-c-o-r-e_-phase>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <br />
+      <div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- modal start -->
+  <template if:true={isShowModal}>
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large popupmod" onclick={closeModal}>
+      <div class="slds-modal__container" onclick={closeModal}>
+        <!-- modal header start -->
+        <header class="slds-modal__header" onclick={showModal}>
+          <div class="slds-grid slds-wrap ">
+            <div class="slds-col slds-size_8-of-12 slds-large-size_8-of-12 slds-text-align_left">
+              <span class="header-modl-title header webkithyphensnone">Merck Forward-looking statement</span>
+            </div>
+            <!-- Added class closediv for mobile screen -->
+            <div class="slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-text-align_right closediv">
+              <!-- <span ><img class="img-hover" src={closemodal} onclick={closeModal}></span> -->
+              <span class="img-hoverspan" data-label='back to screen_X' onclick={closeModal}><img class="img-hover"
+                  src={cross} ></span> <!--RT GA bug-->
+            </div>
+          </div>
+        </header>
+
+        <!-- modal body start -->
+        <div class="slds-modal__content slds-p-horizontal_large slds-p-vertical_small" id="modal-content-id-1" onclick={showModal}>
+
+          <p class="modal-para">This presentation includes “forward-looking statements” within the meaning of the safe harbor provisions of the United States Private Securities Litigation Reform Act of 1995. These statements are based upon the current beliefs and expectations of Merck’s management and are subject to significant risks and uncertainties. There can be no guarantees with respect to pipeline products that the products will receive the necessary regulatory approvals or that they will prove to be commercially successful. If underlying assumptions prove inaccurate or risks or uncertainties materialize, actual results may differ materially from those set forth in the forward-looking statements.<br /><br />
+            Risks and uncertainties include but are not limited to, general industry conditions and competition; general economic factors, including interest rate and currency exchange rate fluctuations; the impact of the global outbreak of novel coronavirus disease (COVID-19); the impact of pharmaceutical industry regulation and health care legislation in the United States and internationally; global trends toward health care cost containment; technological advances, new products and patents attained by competitors; challenges inherent in new product development, including obtaining regulatory approval; Merck’s ability to accurately predict future market conditions; manufacturing difficulties or delays; financial instability of international economies and sovereign risk; dependence on the effectiveness of Merck’s patents and other protections for innovative products; and the exposure to litigation, including patent litigation, and/or regulatory actions. <br /><br />
+            Merck undertakes no obligation to publicly update any forward-looking statement, whether as a result of new information, future events or otherwise. Additional factors that could cause results to differ materially from those described in the forward-looking statements can be found in the company’s Annual Report on Form 10-K for the year ended December 31, 2023 and the company’s other filings with the Securities and Exchange Commission (SEC) available at the SEC’s Internet site (www.sec.gov). </p>
+          <br />
+          <!-- <p class="modal-para-bold">No Duty to Update</p><br />
+          <p class="modal-para">The information contained in this website was current as of the date presented. The
+            company assumes no duty to update the information to reflect subsequent developments. Consequently, the
+            company will not update the information contained in the website and investors should not rely upon the
+            information as current or accurate after the presentation date.</p> -->
+        </div>
+
+        <!-- modal footer start-->
+        <footer class="slds-modal__footer footermodel" onclick={showModal}>
+          <button class="medi-btn-modal" data-label='back to screen_button' onclick={closeModal}> <span
+              class="continue-text"> Continue</span>
+          </button>
+        </footer>
+
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" onclick={closeModal}></div>
+  </template>
+  <!-- modal end -->
+</template>

@@ -1,0 +1,174 @@
+/* Style the buttons that are used to open and close the accordion panel */
+ 
+.accordion {
+    background-color: white;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+   /* width: 100%; */
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s; 
+  }
+.community_layout-section_section.section-content{ padding: 0 !important;}
+ .section-content.community_layout-section_section { padding: 0 !important;}
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active, .accordion:hover {
+   /*background-color: rgb(102, 93, 93);*/
+     background-color: white;
+  }
+  
+  /* Style the accordion panel. Note: hidden by default */
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+  } 
+  
+  .body { 
+      height: 100%; 
+      margin: 0;  
+  } 
+  .bg { 
+  /* The image used */
+  background-image: url("https://focal4-dev-ed--c.visualforce.com/resource/1652853355000/Banner");
+  /* url("https://focal4-dev-ed--c.visualforce.com/"+{spring20Logo});*/
+  /* background-image: url("https://focal4-dev-ed--c.visualforce.com/"+{spring20Logo}); */
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-size: cover; padding:30px 0 !important; 
+  font-family: 'Invention';
+  }
+  
+  .proddetails{
+    color: white;
+    align-items: center;
+   font-family: 'Invention';
+     font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+  }
+  .resourceHead{
+    color: black !important;;
+    font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 36px;
+    font-family: 'Invention';margin: 0 0 20px;
+  }
+  .child {
+    /* width: 80%; */
+    padding-top: 10%;
+    /* margin: .5em auto; */
+  }
+  .container{ margin: 0 auto; width: 1170px;}
+   
+  
+  .listpagination .slds-button+.slds-button {
+      margin-left: 0;
+  }
+  .listpagination .slds-button{
+      border-radius: 0;
+  }
+  .lst-avan-paginationWrap .slds-button{color: #007696 !important;}
+  .lst-avan-paginationWrap .slds-button:hover{background-color: #007696 !important;color: #ffffff !important;}
+  .firstchildbutton button {
+      border-radius: .25rem 0 0 .25rem!important;
+  } 
+  .lastchildbutton button{
+      border-radius: 0 .25rem .25rem 0!important;
+  }
+  
+  .footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+  /*  width: 100%; */
+   background-color: red;
+   color: white;
+   text-align: center;
+}
+ 
+.ptextone{font-family: 'Invention';
+font-style: normal; color: #fff;
+font-weight: 400;
+font-size: 14px; padding: 0 0 10px;
+line-height: 21px;}
+.ptexttwo{font-family: 'Invention';
+font-style: normal; color: #fff;
+font-size: 36px;font-weight: 700;
+line-height: 45px;}
+.ptexthree{font-family: 'Invention';
+font-style: normal;color: #fff; 
+font-size: 24px;font-weight: 700;width: 65%;
+line-height: 36px;}
+.lnbtns{ display: flex; align-items: center; padding: 10px 0 0 !important;}
+.bt1{ padding: 0px 15px;
+    border: 2px solid #FFFFFF;
+    border-radius: 5px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px; 
+    color: #fff !important;
+    text-decoration: none !important;
+    letter-spacing: 0.861539px; 
+    line-height: 34px;} 
+    
+    .bt2{ padding: 0px 15px;
+    border: 0px solid #FFFFFF;
+    border-radius: 0px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px; 
+    color: #fff !important;
+    text-decoration: none !important;
+    letter-spacing: 0.861539px; 
+    line-height: 34px;}
+.ptextone span{ padding: 0 8px;}
+.c-container{ padding: 50px 0 !important;}
+.slds-p-around_large{ padding: 0 !important;}
+
+
+
+.resourceHead1{font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 27px;}
+.slds-size_1-of-9{ width: 70%;}
+.slds-size_1-of-3{ width: 30%;}
+.slds-size_1-of-3 .slds-grid{justify-content: end;}
+.catlog .slds-p-left_large{ padding-left: 0 !important;}
+.catlog lightning-card{ padding:0 !important;}
+.catlog .slds-card {
+    padding: 40px !important;
+    background: #eee !important;
+}
+
+/* add below css  */
+.slds-grid{
+  padding: 0px;
+}
+
+.ftr{ background-color: #fff !important; padding:40px !important; border-top: 4px solid #00857C;}
+.ftr h3{font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 36px; margin: 0 0 30px;
+line-height: 45px;}
+.ftrow{ display: flex;}
+.ftcolhalf{ width: 50%;}
+.ftcolhalf ul{ display: block;}
+.ftcolhalf ul li{ padding: 0 20px;}
+.ftcolhalf ul li a{font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;  
+
+text-decoration-line: underline;}

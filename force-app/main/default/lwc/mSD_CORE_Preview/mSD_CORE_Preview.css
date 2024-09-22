@@ -1,0 +1,33 @@
+.headertext {
+    font-family: 'Invention';
+    font-size: 16px;
+    font-weight: 700;
+}
+.fileheading {
+    font-family: 'Invention';
+    font-size: 14px;
+    font-weight: 700;
+    padding-right: 16px;
+    width: 30%;
+}
+.filecontent {
+    font-family: 'Invention';
+    font-size: 14px;
+    word-wrap: break-word;
+    width: 70%;
+}
+.bodycontainer {
+    height: 100vh;
+}
+.imgcontainer {
+    height: 100%;
+}
+.errormsg {
+    height: 50vh;
+    text-align: center;
+    font-family: 'Invention';
+    color: red;
+    font-size: 16px;
+    font-weight: 700;
+    padding-top: 25%;
+}

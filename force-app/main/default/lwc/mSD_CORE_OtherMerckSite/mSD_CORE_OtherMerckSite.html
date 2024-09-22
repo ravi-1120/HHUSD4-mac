@@ -1,0 +1,70 @@
+<template>
+
+    <div>
+        <div>
+            <div class="bannercls">
+                <img src={bannerimg}>
+                <div class="header_cls">
+                    <!-- Class header-container added for mobile screen -->
+                    <div class="container header-container">
+                        <h1>Other Merck sites</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="slds-p-top_x-small slds-p-bottom_xx-large">
+            <!-- Class container-mob added for mobile screen -->
+            <div class="container position_cls slds-p-bottom_xx-large container-mob">
+                <div class="boxshadow_cls slds-m-bottom_xx-large">
+                    <div class="slds-p-around_medium">
+                        <template if:true={OtherMercksites}>
+                            <template for:each={OtherMercksites} for:item="site" for:index="index">
+                                <div key={site}>
+                                    <div class="box_cls">
+                                        <div class="slds-grid slds-gutters slds-wrap slds-p-horizontal_medium">
+                                            <div class="slds-col slds-size_11-of-12">
+                                                <span class="header">{site.MSD_CORE_Header1__c}</span><span
+                                                    class="header-green">{site.MSD_CORE_Header1_Index1__c}</span><span
+                                                    class="header">{site.MSD_CORE_Header1_Index2__c}</span>
+
+                                            </div>
+                                            <div class="slds-col slds-size_11-of-12 slds-p-top_medium">
+                                                <h3 class="header2">{site.MSD_CORE_Header2__c}</h3>
+                                            </div>
+                                            <div class="slds-col slds-size_12-of-12">
+                                                <p class="desccls">{site.MSD_CORE_Description__c }</p>
+                                            </div>
+                                            <!-- <div class="button_cls slds-p-bottom_medium" data-id={site.Id}
+                                                onclick={handleVisitSite}>
+                                                <div class="res_btn" variant="brand-outline" title="VISIT SITE"
+                                                    label="VISIT SITE" style="margin-left:10px ;margin-top: 6px;">
+                                                    <span class="visitsite"> VISIT SITE </span>
+                                                    <img src={box}>
+                                                </div>
+                                            </div> -->
+                                            <a href={site.MSD_CORE_Site__c} class="button_cls slds-p-bottom_medium"
+                                                target="_blank">
+                                                <div class="res_btn" variant="brand-outline" title="VISIT SITE"
+                                                    label="VISIT SITE" style="margin-left:10px ;margin-top: 6px;" onclick={visitsite} data-sitename={site.MSD_CORE_Header2__c}>
+                                                    <span class="visitsite"> VISIT SITE </span>
+                                                    <img src={box}>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+
+                </div>
+
+                <template if:true={error}>
+                    {error}
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

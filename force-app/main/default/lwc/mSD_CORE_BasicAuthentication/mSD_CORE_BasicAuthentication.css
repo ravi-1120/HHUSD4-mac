@@ -1,0 +1,12 @@
+.maindiv {
+    display: flex;
+    justify-content: center;
+}
+.bsmodal {
+    width: 30%;
+    background: white;
+    padding: 12px;
+    position: absolute;
+    border-radius: 3px;
+    border: 1px solid black;
+}

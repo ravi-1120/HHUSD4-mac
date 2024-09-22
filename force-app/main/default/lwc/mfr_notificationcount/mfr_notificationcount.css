@@ -1,0 +1,76 @@
+.tab_cls {
+
+    box-sizing: border-box;
+    cursor: pointer;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 8px;
+    gap: 4px;
+
+    width: 101px;
+    height: 29px;
+
+    /* Neutral/White */
+
+    background: #FFFFFF;
+    /* Tertiary/Gray */
+
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.b3 {
+    width: 34px;
+    height: 18px;
+
+    /* Body/1. Extra Small Bold - 12pt, 18pt */
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    /* Neutral/Dark Text */
+
+    color: #333333;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.b6 {
+    width: 11px;
+    height: 27px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #00857C;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}

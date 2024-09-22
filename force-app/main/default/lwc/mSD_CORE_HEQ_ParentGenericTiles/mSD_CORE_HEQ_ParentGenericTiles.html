@@ -1,0 +1,285 @@
+<template>
+    <!-- <template if:true={profileName}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-add-more profile-name={profileName} onselectedcategories={SelectedCategories}>
+        </c-m-s-d_-c-o-r-e_-h-e-q_-add-more>
+    </template>
+    <template if:false={profileName}>
+        <p>Loading...</p>
+    </template> -->
+
+    <!-- <div class="custom-layout">
+        <div class="header">
+            <div class="newMaterials">New materials</div>
+            <a href="#" class="viewCls" onclick={handleViewAll}>View all</a>
+        </div>
+        <div class="grid-container">
+            <template for:each={gridItems} for:item="item">
+                <div key={item.id} class="grid-item">
+                    <div class={item.headerClass}>
+                        <div class="headingCls">{item.heading}</div>
+                        <div class="dropdown">
+                            <lightning-button-icon icon-name="utility:threedots" class="threeDotsCls"
+    variant="bare-inverse" alternative-text="Show menu" onclick={handleShowMenu}
+    data-id={item.id} data-grid-type="grid1">
+</lightning-button-icon>
+                            <div if:true={item.showMenu} class="menu-content" onclick={handleMenuClick}>
+                                <template for:each={menuOptions} for:item="option">
+                                    <div key={option.action} class="menu-item" data-action={option.action}
+                                        data-id={item.id}>
+                                        {option.label}
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="imageCls">
+                        <div class="imageMidCls">
+                            <img src={item.imageUrl} alt={item.heading} class="grid-image">
+                        </div>
+                    </div>
+                    <div class="gridBottomCls">
+                        <div class="tooltip-container">
+                            <p class="bold-text">{item.boldText}</p>
+                            <span class="tooltip-text">{item.boldText}</span>
+                        </div>
+                        <p class="normalText">{item.normalText}</p>
+                        <p class="normalText1">{item.normalText1}</p>
+                        <p class="codeCls">{item.code}</p>
+                        <p class="expiry-text">Expires: {item.expiryDays} days</p>
+                        <div class="grid-footer">
+                            <a href="#" class="previewCls" onclick={handlePreview} data-id={item.id}>Preview</a>
+                            <div class="select-item">
+                                <label for={item.id} class="itemCls">Select Item</label>
+                                <lightning-input class="checkBoxCls" type="checkbox" id={item.id}
+                                    onchange={handleSelect} data-id={item.id}></lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div> -->
+
+    <template if:true={isAccountExeProfile}>
+        <div class="iconsCls">
+            <div class="containerCls">
+                <div class="custom-layout">
+                    <div class="header">
+                        <div class="BoldText">{label.New}</div>
+                        <a href="#" class="viewCls" data-title="New materials" data-type="Browse All" onclick={handleViewAll}
+                            style="text-decoration: underline;">{label.ViewAll}</a>
+                    </div>
+                    <div class="grid-container">
+                        <template for:each={gridItems} for:item="item">
+                            <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item} grid-type="grid1"
+                                menu-options={menuOptions} category="New Materials" onshowmenu={handleShowMenu}
+                                onmenuclick={handleMenuClick}>
+                            </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="navigation">
+                <lightning-icon icon-name="utility:back" variant="base" alternative-text="Previous" class="ArrowCls"
+                    onclick={handleBackward}></lightning-icon>
+                <lightning-icon icon-name="utility:forward" variant="base" alternative-text="Next" class="ArrowCls"
+                    onclick={handleForward}></lightning-icon>
+            </div>
+        </div>
+    
+    
+        <!-- Expiring Soon Section -->
+        <div class="iconsCls">
+            <div class="containerCls">
+                <div class="custom-layout">
+                    <div class="header">
+                        <div class="BoldText">{label.ExpiringSoon}</div>
+                        <a href="#" class="viewCls" data-title="Expiring Soon" data-type="Expiring Soon" onclick={handleViewAll}
+                            style="text-decoration: underline;">{label.ViewAll}</a>
+                    </div>
+                    <div class="grid-containers">
+                        <template for:each={soonToExpireItems} for:item="item">
+                            <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item} grid-type="grid2"
+                                menu-options={menuOptions} category="Expiring Soon" onshowmenu={handleShowMenu}
+                                onmenuclick={handleMenuClick}>
+                            </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="navigation">
+                <lightning-icon icon-name="utility:back" variant="base" alternative-text="Previous" class="ArrowCls"
+                    onclick={handleBackwardClick}></lightning-icon>
+                <lightning-icon icon-name="utility:forward" variant="base" alternative-text="Next" class="ArrowCls"
+                    onclick={handleForwardClick}></lightning-icon>
+            </div>
+        </div>
+        <div class="iconsCls">
+            <div class="containerCls">
+                <div class="custom-layout">
+                    <div class="header">
+                        <div class="BoldText">Business review summary</div>
+                        <a href="#" class="viewCls" data-title="Expiring Soon" data-type="Expiring Soon" onclick={handleViewAll}
+                            style="text-decoration: underline;">{label.ViewAll}</a>
+                    </div>
+                    <div class="grid-containers" data-id="businessContainer">
+                        <template for:each={soonToExpireItems} for:item="item">
+                            <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item} grid-type="grid2"
+                                menu-options={menuOptions} category="Expiring Soon" onshowmenu={handleShowMenu}
+                                onmenuclick={handleMenuClick}>
+                            </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="navigation">
+                <lightning-icon icon-name="utility:back" variant="base" alternative-text="Previous" class="ArrowCls"
+                    onclick={handleBusinessBackwardClick}></lightning-icon>
+                <lightning-icon icon-name="utility:forward" variant="base" alternative-text="Next" class="ArrowCls"
+                    onclick={handleBusinessForwardClick}></lightning-icon>
+            </div>
+        </div>
+    
+    </template>
+
+    <template if:false={isAccountExeProfile}>
+         <div class="containerCls">
+            <div class="custom-layout">
+                <div class="header">
+                    <div class="BoldText">Collections</div>
+                    <a href="javascript:void(0)" class="viewCls" data-title="Collections" data-type="Collections"
+                        onclick={handleCollectionViewAll} style="text-decoration: underline;">{label.ViewAll}</a>
+                </div>
+                <div class="grid-containers" data-id="scroll-grid">
+                    <template for:each={collectionItems} for:item="item">
+                        <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item} grid-type="grid3"
+                            menu-options={collectionOptions} category="Collections" onshowmenu={handleShowMenu}
+                            onmenuclick={handleMenuClick}>
+                        </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <lightning-icon icon-name="utility:back" variant="base" alternative-text="Previous" class="ArrowCls"
+                onclick={handleBackSelection}></lightning-icon>
+            <lightning-icon icon-name="utility:forward" variant="base" alternative-text="Next" class="ArrowCls"
+                onclick={handleForwardSelection}></lightning-icon>
+        </div>
+    </template>
+
+    <!--<template if:true={isAccountExeProfile}>
+        <lightning-layout class="TlayoutCls">
+            <lightning-layout-item size="6" class="therapeuticCls">
+                <div class="combobox-label">Therapeutic Area</div>
+                <lightning-combobox name="therapeuticArea" value={selectedTherapeuticArea}
+                    placeholder="Select a Therapeutic Area" options={therapeuticAreaOptions}
+                    onchange={handleTherapeuticAreaChange} class="lightning-combobox-custom">
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="6" class="topicsCls">
+                <div class="combobox-label">Topics</div>
+                <lightning-combobox name="topic" value={selectedTopic} placeholder="Select a Topic"
+                    options={topicOptions} onchange={handleTopicChange} class="lightning-combobox-custom">
+                </lightning-combobox>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        
+        <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles therapeutic-area={selectedTherapeuticArea} topic={selectedTopic}>
+        </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+    </template> -->
+
+
+
+    <!-- <div class="custom-layouts">
+        <div class="header">
+            <div class="newMaterials">Expiring Soon</div>
+            <a href="#" class="viewCls" onclick={handleViewAll}>View all</a>
+        </div>
+        <div class="grid-containers">
+            <template for:each={gridItems1} for:item="item">
+                <div key={item.id} class="grid-item">
+                    <div class={item.headerClass}>
+                        <div class="headingCls">{item.heading}</div>
+                        <div class="dropdown">
+                            <lightning-button-icon icon-name="utility:threedots" class="threeDotsCls"
+    variant="bare-inverse" alternative-text="Show menu" onclick={handleShowMenu}
+    data-id={item.id} data-grid-type="grid2">
+</lightning-button-icon>
+                            <div if:true={item.showMenu} class="menu-content" onclick={handleMenuClicks}>
+                                <template for:each={menuOptions} for:item="option">
+                                    <div key={option.action} class="menu-item" data-action={option.action}
+                                        data-id={item.id}>
+                                        {option.label}
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="imageCls">
+                        <div class="imageMidCls">
+                            <img src={item.imageUrl} alt={item.heading} class="grid-image">
+                        </div>
+                    </div>
+                    <div class="gridBottomCls">
+                        <div class="tooltip-container">
+                            <p class="bold-text">{item.boldText}</p>
+                            <span class="tooltip-text">{item.boldText}</span>
+                        </div>
+                        <p class="normalText">{item.normalText}</p>
+                        <p class="normalText1">{item.normalText1}</p>
+                        <p class="codeCls">{item.code}</p>
+                        <p class="expiry-text">Expires: {item.expiryDays} days</p>
+                        <div class="grid-footer">
+                            <a href="#" class="previewCls" onclick={handlePreview} data-id={item.id}>Preview</a>
+                            <div class="select-item">
+                                <label for={item.id} class="itemCls">Select Item</label>
+                                <lightning-input class="checkBoxCls" type="checkbox" id={item.id}
+                                    onchange={handleSelect} data-id={item.id}></lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div> -->
+    <!-- <div class="navigation">
+        <lightning-icon icon-name="utility:back" variant="base" alternative-text="Previous" class="ArrowCls"
+             onclick={handleBackwardClick}></lightning-icon>
+        <lightning-icon icon-name="utility:forward" variant="base" alternative-text="Next" class="ArrowCls"
+             onclick={handleForwardClick}></lightning-icon>
+    </div>  -->
+
+    <!-- <div class="custom-layout">
+    <template for:each={sections} for:item="section">
+        <div key={section.title} class="section-container">
+            <div class="header">
+                <div class="BoldText">{section.title}</div>
+                <a href="#" class="viewCls" data-title={section.title} onclick={handleViewAll}>View All</a>
+            </div>
+
+            <div class="content">
+                
+                    
+                    <template for:each={section.topics} for:item="topic">
+                        <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={topic.id} onhandlebookmark={handleBookmark}
+                            onhandleunbookmark={handleUnBookmark} sections={sections} id={topic.id}
+                            bookmarked={topic.isBookmarked} title={topic.title} description={topic.description} fulfillment={topic.fulfillment} jobcode={topic.jobCode}
+                            subtitle={topic.subtitle}></c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                    </template>
+                
+            </div>
+        </div>
+    </template>
+</div> -->
+
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
+</template>

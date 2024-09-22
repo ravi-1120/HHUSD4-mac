@@ -1,0 +1,437 @@
+@font-face {
+    font-family: 'Invention';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Rg.woff') format('woff');
+}
+
+.tab-header-name {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height, or 150% */
+
+    text-align: center;
+
+    /* Primary/Green */
+
+    color: #00857C;
+}
+
+.dashboard-underline {
+    width: 69px;
+    height: 21px;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height, or 150% */
+
+    text-decoration-line: underline;
+
+    color: #00857C;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.front-slash {
+    width: 6px;
+    height: 12px;
+    color: #000000;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    padding-left: 8px;
+}
+
+.request-appointment-header {
+    width: 439px;
+    height: 45px;
+
+    /* Header/6. Header 1 Bold - 36pt, 45pt
+    
+    Use only one heading-style 1 element per page or view. The heading-style one will be used as the h1 element  and should be used to communicate the high-level purpose of the page or view. Do not use the h1 element for a heading that does not change between pages or views.
+    */
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    /* identical to box height, or 125% */
+
+
+    /* Secondary/Neutral/Black */
+
+    color: #000000;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.bannercls {
+    position: relative;
+}
+
+.bannercls img {
+    width: 100vw;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+}
+
+.position_cls {
+    position: relative;
+    z-index: 1;
+    margin-top: -110px;
+}
+
+.boxshadow_cls {
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09), 0px 3px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 40px;
+    min-height: 537px;                      /*Added Min-height of main box*/
+    margin-bottom: 81px;
+    padding-bottom: 0px;
+}
+
+.dashboard-after {
+    width: 167px;
+    height: 21px;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    padding-left: 8px;
+    /* identical to box height, or 150% */
+
+
+    color: #00857C;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.header-title {
+
+    height: 45px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    color: #000000;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.newTabset {
+    display: block !important;
+    padding-top: 43px;
+}
+
+.badge {
+    padding: 0px 6px 1px;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 21px;
+    width: 23px;
+    height: 19px;
+    margin-left: 8px;
+    /* Tertiary/Light Green 2 */
+
+    background: #F1F9F9;
+    border-radius: 4px;
+
+
+}
+
+.badge-content {
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+    width: 11px;
+    height: 18px;
+    color: #000000;
+    letter-spacing: 0.74px;
+}
+
+ul.slds-tabs_default__nav {
+    border-bottom-color: #A4A4A4;
+    margin-bottom: 24px;
+    width: 1070px;
+}
+
+.slds-tabs_default__nav {
+    border-bottom-color: #A4A4A4;
+    margin-bottom: 24px;
+}
+
+a.slds-tabs_default__link {
+    color: #00857C !important;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-top: 3px;
+    padding-right: 8px;
+}
+
+.slds-tabs_default__link {
+    color: #00857C !important;
+    text-decoration: none !important;
+    font-size: 14px;
+}
+
+li.slds-tabs_default__item.slds-is-active {
+    font-weight: normal;
+   /* padding-left: 0px;
+    padding-right: 0px; */
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+
+}
+
+li.slds-tabs_default__item.slds-is-active::after,
+li.slds-tabs_default__item:hover:after {
+    background-color: #289891;
+}
+
+li.slds-tabs_default__item:hover:after {
+    background-color: #289891;
+}
+
+.tabset-pickList {
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    /*
+    .bannercls img {
+        height: 200px;
+    }
+
+    .position_cls {
+        width: 90% !important;
+        top: -60px !important;
+    }
+
+    .mobDiv {
+        width: auto !important;
+    }
+
+    .tabset-pickList {
+        display: block;
+        margin-bottom: 2%;
+    }
+
+    .librarytab_cls {
+        display: none;
+    }
+
+    .tabset-pickList .picklist-label {
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 21px;
+        color: #333333;
+        margin-bottom: 2%;
+    }
+
+    .newTabset {
+        display: none !important;
+    } */
+}
+
+/* ===================== Mobile Screen ===================== */
+
+.tabset-pickList {
+    display: none;
+}
+
+.pick-comp {
+    display: none;
+}
+
+.imgcls {
+    height: 16px;
+}
+
+.slds-scope.slds-input_faux {
+    background-color: white !important;
+    background: white !important;
+}
+
+.slds-scope .slds-input_faux {
+    background-color: white !important;
+    background: white !important;
+}
+
+.slds-scope .slds-input_faux:not(.slds-combobox__input-value) {
+    background-color: white !important;
+    background: white !important;
+}
+
+/* Start Mobile Screen */
+
+/* Mobile Screen */
+@media screen and  (max-width: 750px) {
+    
+    .component-wrapper-spacer{
+        width: 100%;
+    }
+    .search-input {
+        width: 100%;
+    }
+
+    .mobcontainer {
+        width: 100%;
+    }
+
+    .boxshadow_cls{
+        width: 100%; 
+        padding: 16px;
+        padding-bottom: 0px;
+    }
+    .reqcard{
+        width: 100%; 
+    }  
+
+    .container{
+        width: 100%;
+    } 
+.bannercls img {
+        height: 150px;
+        width: 100%;
+    }
+
+    .position_cls {
+       /* width: 90% !important;
+        top: -60px !important; */
+       width: 100%;
+       padding-left: 16px;
+       padding-right: 16px;
+    }
+
+    
+
+    .tabset-pickList {
+        display: block;
+        margin-bottom: 2%;
+    }
+
+    .librarytab_cls {
+        display: none;
+    }
+
+    .tabset-pickList .picklist-label {
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 21px;
+        color: #333333;
+        margin-bottom: 2%;
+    }
+
+    .newTabset {
+        display: none !important;
+    } 
+
+    .bannercls{
+        width: 100%;
+    }
+    .maincls{
+        width: 100%;
+    }
+    .request-appointment-header{
+        width: 100%;
+       /* font-size: 24px; */
+        font-size:100%;
+    }
+    .mobDiv{
+        width: 100%;
+    }
+
+    .search-card{
+        width: 100%;
+    }
+    .dashboard-after {
+    width: 100%;
+    height: 21px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    padding-left: 8px;
+    /* identical to box height, or 150% */
+
+
+    color: #00857C;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.request-appointment-header {
+    width: 100%;
+
+    /* Header/6. Header 1 Bold - 36pt, 45pt
+    
+    Use only one heading-style 1 element per page or view. The heading-style one will be used as the h1 element  and should be used to communicate the high-level purpose of the page or view. Do not use the h1 element for a heading that does not change between pages or views.
+    */
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    /*font-size: 24px;*/
+    font-size: 100%;
+    height:100%;
+    line-height: 45px;
+    /* identical to box height, or 125% */
+
+
+    /* Secondary/Neutral/Black */
+
+    color: #000000;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+}
+
+/* End Mobile Screen */

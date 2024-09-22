@@ -1,0 +1,14 @@
+<apex:page standardController="Event" renderAs="pdf">
+    <head>
+        <style>
+            @page{
+                margin-top:1cm;
+                margin-bottom:0cm;
+            }
+        </style>
+    </head>
+
+    <h1>Chat Interaction</h1>
+    <br />
+    <apex:outputText escape="false" value="{!event.Description}"></apex:outputText>
+</apex:page>

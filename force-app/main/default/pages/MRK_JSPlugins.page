@@ -1,0 +1,5 @@
+<apex:page showHeader="false" sidebar="false" contentType="application/javascript" applyHtmlTag="false" applyBodyTag="false" controller="MRK_JSPluginsController">
+
+<apex:outputText value="{!jsCode}" escape="false"/>	
+
+</apex:page>

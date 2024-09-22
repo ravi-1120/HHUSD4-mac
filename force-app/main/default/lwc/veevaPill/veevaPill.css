@@ -1,0 +1,8 @@
+.rounded {
+    padding: 0.25rem;
+    border-radius: 1rem;
+}
+
+.pill-icon {
+    --sds-c-icon-color-background: var(--veeva-pill-icon-color-background);
+}

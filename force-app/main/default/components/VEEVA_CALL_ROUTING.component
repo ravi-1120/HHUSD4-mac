@@ -1,0 +1,59 @@
+<apex:component controller="VeevaCallRoutingController">
+<style>
+    body .bDetailBlock.bPageBlock .pbBody .pbSubheader {
+        background-color: #6aafa2;
+        border-color: #6aafa2;
+    }
+</style>
+    <apex:attribute name="veevaModule" type="string" assignTo="{!veevaModuleName}" required="true"
+                    description="Name of the Veeva Module" />
+    <apex:attribute name="veevaPage" type="string" assignTo="{!veevaPageName}" required="true"
+                    description="Name of the page in the Veeva Module" />    
+    <apex:attribute name="objectType" type="string" assignTo="{!veevaObjectType}" required="true"
+          description="Type of object to be used" />
+    <apex:attribute name="queryParams" type="string" assignTo="{!veevaParams}" required="true"
+                    description="query parameters" />
+    <apex:attribute name="callParams" type="string" required="true"
+                    description="query parameters" />
+
+    <apex:pageBlock rendered="{!notDesktopCallMode}" mode="maindetail">
+        <c:VOD_EMBED veevaModule="{!veevaModuleName}" veevaPage="{!veevaPageName}" objectType="{!veevaObjectType}" queryParams="{!veevaParams}"/>
+        <script>
+            (function () {
+                var pageBlock = document.getElementsByClassName("apexp");
+                if (pageBlock.length) {
+                    pageBlock[0].className = "";
+                }
+            })();
+        </script> 
+    </apex:pageBlock>  
+    <apex:pageBlock rendered="{!isDesktopCallMode}">
+        <apex:includeScript value="/support/console/59.0/integration.js"/>
+        <script>
+            window.open('{!engageUrl}?{!callParams}&uid={!$User.Id}');
+
+            if (sforce?.console?.isInConsole()) {
+                sforce.console.getEnclosingTabId(function (enclosingTab) {
+                    if (enclosingTab.success) {
+                        sforce.console.closeTab(enclosingTab.id);                        
+                        sforce.console.getPrimaryTabIds(function (primaryTabs) {
+                            if (primaryTabs.success) {                                
+                                // Only opening a new tab if we closed a primary tab
+                                if (primaryTabs.ids.includes(enclosingTab.id)) {
+                                    const pageName = '{!veevaPageName}';
+                                    const params = '{!veevaParams}';
+                                    const retURL = (new URLSearchParams(window.location.search)).get('retURL');
+                                    if ((pageName === 'new-call' || pageName === 'edit-call') && params && retURL) {
+                                        sforce.console.openPrimaryTab(null, retURL, true);
+                                    }                
+                                }
+                            }
+                        });
+                    }
+                });
+            } else {
+                history.go(-1);
+            }
+        </script>
+    </apex:pageBlock>
+</apex:component>

@@ -1,0 +1,26 @@
+<template>
+  <div class={userFiltersPanelCss}>
+    <div class="slds-panel__header">
+      <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title="Filter">{filtersLabel}</h2>
+      <div class="slds-panel__header-actions">
+        <lightning-icon if:false={isSelectionValid} class="slds-media__figure" icon-name="utility:warning" size="small" variant="warning"></lightning-icon>
+        <lightning-button class="slds-p-right_small" label={clearFilterLabel} onclick={clearFilters}></lightning-button>
+        <lightning-button class="slds-p-right_small" variant="brand" label={applyLabel} onclick={applyFilters}></lightning-button>
+      </div>
+    </div>
+    <div class="slds-panel__body">
+      <div class="slds-filters">
+        <template for:each={filters} for:item="filter">
+          <c-gas-filter-field
+            key={filter.key}
+            data-key={filter.key}
+            object-name={filter.objectName}
+            field-name={filter.fieldName}
+            init-values={filter.initValues}
+            page-ctrl={filter.pageCtrl} data-validity>
+          </c-gas-filter-field>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>

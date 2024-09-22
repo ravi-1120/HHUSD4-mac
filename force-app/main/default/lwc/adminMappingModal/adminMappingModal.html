@@ -1,0 +1,32 @@
+<template>
+    <c-veeva-modal size="smaller" composed=true onclose={closeDialog}>
+        <div slot="header">
+            <div class="slds-text-heading--small">
+                {modalTitle}
+            </div>
+        </div>
+        <div slot="content">
+            <div class="slds-p-vertical_xx-large">
+                <lightning-layout>
+                    <lightning-layout-item size="6" padding="around-medium">
+                        <label  class="slds-form-element__label slds-no-flex"><abbr class="slds-required" title="required">*</abbr>{crmFieldLabel}</label>
+                        <c-veeva-lookup ctrl={ctrl.crmLookupCtrl} suggestion={crmLookupFieldPlaceholder}  onclearlookup={handleClearCrmValue} onlookupselection={handleCrmSearchSelection}></c-veeva-lookup>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" padding="around-medium">
+                        <label  class="slds-form-element__label slds-no-flex"><abbr class="slds-required" title="required">*</abbr>{connectionFieldLabel}</label>
+                        <lightning-input if:true={ctrl.connectionLookupCtrl.showTextField} type="text" required autocomplete="none" onchange={handleTextOnChange} disabled={disableTextField} data-id="connectionTextField" variant="label-hidden"></lightning-input>
+                        <c-veeva-lookup if:false={ctrl.connectionLookupCtrl.showTextField} ctrl={ctrl.connectionLookupCtrl} suggestion={modalMessageMap.connectionLookupFieldPlaceholder} onclearlookup={handleClearVaultValue} onlookupselection={handleVaultSearchSelection}></c-veeva-lookup>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </div>
+        <div slot="footer">
+            <div class="slds-align_absolute-center slds-button-group-row">
+                <c-veeva-error-popover-container field-errors={fieldErrors} record-errors={recordErrors} class="slds-m-right_small"></c-veeva-error-popover-container>
+                <lightning-button class="slds-button-group-item" variant="neutral" label={modalMessageMap.cancelButtonLabel} onclick={closeDialog}></lightning-button>
+                <lightning-button class="slds-button-group-item" variant="neutral" label={modalMessageMap.saveNewButtonLabel} onclick={saveAndNew}></lightning-button>
+                <lightning-button class="slds-button-group-item" variant="brand" label={modalMessageMap.saveButtonLabel} onclick={save}></lightning-button>
+            </div>
+        </div>
+    </c-veeva-modal>
+</template>

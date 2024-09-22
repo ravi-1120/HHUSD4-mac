@@ -1,0 +1,41 @@
+<template>
+  <lightning-modal-header label={labels.addToListLabel}></lightning-modal-header>
+  <div class="slds-modal__content slds-var-p-around_xx-large modal-body">
+    <lightning-layout class="slds-var-p-around_small" vertical-align="center">
+
+      <lightning-layout-item size="4">
+        <abbr class="slds-required">*</abbr>
+        <lightning-formatted-text value={listNameLabel}></lightning-formatted-text>
+      </lightning-layout-item>
+
+      <lightning-layout-item class="flex-row" size="8">
+        <lightning-button-menu class="selector-label" label={selectedList.label} title={selectedList.label}
+          onselect={updateListName}>
+          <template for:each={options} for:item="option">
+            <div class="flex-row" key={option.value}>
+              <lightning-menu-item class="slds-grow slds-truncate" checked={option.checked} title={option.label}
+                label={option.label} value={option.value}>
+              </lightning-menu-item>
+              <lightning-icon class="slds-shrink list-icon" alternative-text={option.label} icon-name="utility:record"
+                size="small" style={option.style}></lightning-icon>
+            </div>
+          </template>
+        </lightning-button-menu>
+        <lightning-icon if:true={selectedList.style} class="slds-shrink list-icon" icon-name="utility:record"
+          size="small" style={selectedList.style}>
+        </lightning-icon>
+      </lightning-layout-item>
+
+    </lightning-layout>
+  </div>
+  <lightning-modal-footer>
+    <lightning-button class="slds-var-p-horizontal_xxx-small" title={labels.cancelLabel} label={labels.cancelLabel}
+      onclick={handleCancel}>
+    </lightning-button>
+    <lightning-button class="slds-var-p-horizontal_xxx-small" variant="brand" title={labels.okayLabel}
+      label={labels.okayLabel} disabled={areFieldsNotPopulated} onclick={handleOkay}>
+    </lightning-button>
+  </lightning-modal-footer>
+  <c-veeva-spinner if:true={loading} is-blocking=true></c-veeva-spinner>
+  <c-my-accounts-modal-dispatch></c-my-accounts-modal-dispatch>
+</template>

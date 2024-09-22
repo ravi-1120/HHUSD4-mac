@@ -1,0 +1,43 @@
+<template>
+    <template if:true={item.actionView}>
+        <div class={border}>
+            <c-veeva-field-text ctrl={textCtrl} if:true={textCtrl}></c-veeva-field-text>
+        </div>
+    </template>
+    <template if:false={item.actionView}>
+        <div class="slds-form-element slds-grow">
+            <c-veeva-undo show-undo={hasSelectedBeenUpdated} onundoclick={handleSelectedUndoClick}>
+                <div slot="undoElement" class="veeva-field-generic">
+                    <div class="slds-form-element__label slds-no-flex">
+                        <abbr class="slds-required" if:true={required}>*</abbr>
+                        <span>{method.label}</span>
+                    </div>
+                    <div class="slds-form-element__control slds-grow">
+                        <lightning-combobox if:false={readOnly} variant='label-hidden' value={selected.value}
+                            options={options} onchange={handleSelectedChange} required={required}></lightning-combobox>
+                        <lightning-combobox if:true={readOnly} variant='label-hidden' value={selected.value}
+                            options={options} disabled></lightning-combobox>
+                    </div>
+                </div>
+            </c-veeva-undo>
+        </div>
+        <template if:true={newOption}>
+            <div class='slds-m-top_xx-small'></div>
+            <div class='veeva-checkbox-flex-container'>
+                <c-veeva-undo show-undo={hasCheckboxBeenUpdated} onundoclick={handleCheckboxUndoClick}>
+                    <div slot="undoElement">
+                        <c-veeva-field-checkbox ctrl={method.checkbox} value={checked} onchange={handleCheckboxChange}>
+                        </c-veeva-field-checkbox>
+                    </div>
+                </c-veeva-undo>
+            </div>
+            <template iterator:it={method.fields} if:true={checked}>
+                <div class='slds-m-top_xx-small' key={it.value.meta.field}>
+                    <c-veeva-item data-veeva-item-id={it.value.meta.field} item-key={it.value.meta.field}
+                        item={it.value.meta} page-ctrl={item.pageCtrl} record={item.data}
+                        record-update-flag={recordUpdateFlag} data-validity></c-veeva-item>
+                </div>
+            </template>
+        </template>
+    </template>
+</template>

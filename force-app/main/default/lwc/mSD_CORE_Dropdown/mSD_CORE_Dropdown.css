@@ -1,0 +1,133 @@
+.checkbox_cls {
+    border-color: black;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    border-bottom-width: 1;
+    margin-right: 0px;
+    border-right-width: 1px;
+    border-top-width: 0.9094;
+}
+/*RT-Reg_Bug_02*/
+.slds-listbox_inline{
+    margin-left: 0px !important;
+}
+.slds-is-selected .checkbox_cls {
+    background: #000000;
+}
+.pillcls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #333333;
+    background: #D8D8D8;
+    border-radius: 4px;
+    padding: 8px;
+    margin-right: 8px;
+    margin-top: 16px;
+    margin-left: 0px; /*RT-Reg_Bug_02*/
+}
+.bold-font {
+    font-weight: 700;
+    font-size: 16px;
+    color: #333333;
+}
+.bold-font2{
+    font-weight: 400;
+    font-size: 16px;
+    color: #333333;
+}
+.selcls, .clrcls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    text-decoration: underline;
+    color: #00857C;
+    cursor: pointer;
+    /* border-top: 1px solid #D8D8D8; */
+}
+.selcls {
+    border-right: 1px solid #D8D8D8;
+    padding: 1rem;
+}
+.clrcls {
+    padding: 1rem;
+}
+.slds-combobox__input {
+    border: 1px solid #333333;
+    border-radius: 4px;
+}
+.iconcls svg {
+    fill: #000000;
+}
+.select_cls{
+    padding-top: 15px;
+    border-top: 1px solid #D8D8D8;
+}
+
+.input-cls{
+    height: 40px;
+    max-width: 343px;
+    padding-bottom: 10px;
+    padding-right: 12px;
+    padding-left: 12px;
+    padding-top: 9px;
+
+}
+
+.iconcls {
+    fill: #000000 !important;
+    --sds-c-icon-color-foreground: black !important;
+}
+
+.iconcls .slds-icon {
+    fill: #000000 !important;
+}
+.iconcls svg {
+    fill: #000000 !important;
+}
+
+.input-border input{
+    border: 1px solid #333333;
+    font-size:16px !important;
+    color: #333333 !important;
+}
+
+/* Added to remove inline css Start */
+.dropdowndiv{
+    /*width: 30%; */
+    width: 343px;
+}
+/* Added to remove inline css End */
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+
+    .dropdowndiv{
+        /*width: auto !important; */
+        width: 343px;
+    }
+    .pillcls{
+        width: fit-content;
+        text-align: left;
+    }
+    .selectedmob{
+        display: contents;
+    }
+    .labelstyle{
+        margin-bottom: 8px;
+    }
+    .input-cls{
+        height: 40px;
+        max-width: 343px;
+    }
+}

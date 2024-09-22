@@ -1,0 +1,60 @@
+<aura:component extends="c:ComponentUtils" implements="flexipage:availableForRecordHome,force:hasSObjectName,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+	<section aria-labelledby="panel-heading-id" class="slds-popover slds-popover_panel slds-nubbin_left-top" role="dialog">
+    
+    <div class="slds-popover__header">
+    <header class="slds-media slds-media_center slds-m-bottom_small">
+    <span class="slds-icon_container slds-icon-standard-account slds-media__figure">
+    
+    </span>
+    <div class="slds-media__body">
+    <h2 class="slds-text-heading_medium slds-hyphenate" id="panel-heading-id">
+    <a href="javascript:void(0);">Article Preview</a>
+    </h2>
+    </div>
+    </header>
+    <footer class="slds-grid slds-wrap slds-grid_pull-padded">
+    <div class="slds-p-horizontal_small slds-size_1-of-2 slds-p-bottom_x-small">
+    <dl>
+    <dt>
+    <p class="slds-popover_panel__label slds-truncate" title="Billing Address">Billing Address</p>
+    </dt>
+    <dd>
+    <p class="slds-truncate" title="3500 Deer Creek Rd.">3500 Deer Creek Rd.</p>
+    <p class="slds-truncate" title="Palo Alto, CA 94304">Palo Alto, CA 94304</p>
+    </dd>
+    </dl>
+    </div>
+    <div class="slds-p-horizontal_small slds-size_1-of-2 slds-p-bottom_x-small">
+    <dl>
+    <dt>
+    <p class="slds-popover_panel__label slds-truncate" title="Phone">Phone</p>
+    </dt>
+    <dd>
+    <a href="javascript:void(0);">212-345-3485</a>
+    </dd>
+    </dl>
+    </div>
+    <div class="slds-p-horizontal_small slds-size_1-of-2 slds-p-bottom_x-small">
+    <dl>
+    <dt>
+    <p class="slds-popover_panel__label slds-truncate" title="Website">Website</p>
+    </dt>
+    <dd>
+    <a href="javascript:void(0);">Article Preview.com</a>
+    </dd>
+    </dl>
+    </div>
+    <div class="slds-p-horizontal_small slds-size_1-of-2 slds-p-bottom_x-small">
+    <dl>
+    <dt>
+    <p class="slds-popover_panel__label slds-truncate" title="Account Owner">Account Owner</p>
+    </dt>
+    <dd>
+    <a href="javascript:void(0);">Jeff Maguire</a>
+    </dd>
+    </dl>
+    </div>
+    </footer>
+    </div>
+    </section>
+</aura:component>

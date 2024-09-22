@@ -1,0 +1,27 @@
+.selector-label {
+  display: block;
+  font-size: var(--my-accounts-selector-size, 1.125rem);
+  font-weight: var(--lwc-fontWeightBold, 700);
+  line-height: var(--lwc-lineHeightHeading, 1.25);
+  --my-accounts-selector-size: 1.125rem;
+  --sds-c-button-text-color: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+  --sds-c-button-text-color-active: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+  --sds-c-button-text-color-hover: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+  --sds-c-button-sizing-border: 0px;
+  /* This overrides the definition of a size medium with a size large so the menu items take up a size large width */
+  /* By default the lightning-button-menu only allows up to a lwc-sizeMedium width so we will override this for our button menu */
+  --lwc-sizeMedium: var(--lwc-sizeLarge);
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.center-icon {
+  align-self: center;
+}
+
+.account-list-option:hover {
+  background-color: var(--lwc-colorBackgroundRowHover,rgb(243, 243, 243))
+}

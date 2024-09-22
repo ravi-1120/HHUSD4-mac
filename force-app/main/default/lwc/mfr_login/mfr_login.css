@@ -1,0 +1,246 @@
+.container1 {
+    gap: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    background: #FFFFFF !important;
+    height: 330px;
+    width: 524px;
+    border-radius: 0px;
+    position: relative;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+
+
+
+}
+
+.ckpref {
+
+    font-size: 14px;
+    font-family: 'Invention';
+}
+
+.ckpref1 {
+    color: #333333 !important;
+    /*text-decoration: underline;*/
+}
+
+/*.ckpref1:hover{
+    text-decoration: none;
+}*/
+.job {
+    text-align: end;
+    font-size: 14px;
+    font-family: 'Invention';
+    padding-right: 24px;
+    padding-bottom: 24px;
+}
+
+.c-container {
+    background: #F8F5F2;
+}
+
+.para1 {
+    color: #DB281A;
+    font-style: normal;
+    font-weight: 500;
+    font-family: 'Invention';
+    font-size: 12px;
+    vertical-align: top;
+    margin-top: 0px;
+}
+
+lightning-card {
+    --sds-c-card-color-background: #FFFFFF;
+    --sds-c-card-color-border: #FFFFFF;
+    --slds-c-card-footer-color-border: #FFFFFF;
+    --slds-c-card-text-color: #FFFFFF;
+    --slds-c-card-shadow: var(--sds-c-card-shadow, 0 0px 0px 0 rgba(0, 0, 0, .1))
+}
+
+/* lightning-button {
+    height: 22px;
+    width: 180px;
+    left: 0px;
+    top: -1px;
+    border-radius: nullpx;
+} */
+
+.cta {
+    position: absolute;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    height: 41px;
+    width: 180px;
+    border: 0;
+    border-radius: 4px;
+    color: #FFFFFF;
+    background-color: #00857C !important;
+}
+
+.ctacancel {
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 550;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    height: 41px;
+    width: 140;
+    color: #FFFFFF;
+    background-color: #00857C !important;
+}
+
+.login {
+    width: 117px;
+    height: 24px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #333333;
+}
+
+.mfrp {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    color: #000000;
+}
+
+.mfrp-bottom {
+    width: 554px;
+    height: 48px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.mfrp-havingtrouble {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #333333;
+}
+
+.mfrp-normal {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #333333;
+}
+
+.forgotpasslink {
+    text-align: center;
+    font-size: 0.875rem;
+    font-family: Invention;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.3125rem;
+    text-decoration-line: underline;    
+}
+
+.forgotpasslink a{
+    color: #00857C;
+}
+
+.paddcls {
+    padding-top: 16px;
+}
+
+.contactmerck {
+    color:  #00857C !important;
+    text-align: center;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px; /* 150% */
+    text-decoration-line: underline !important;
+}
+
+/* ============ Mobile Screen start ============ */
+
+@media only screen and (max-width: 767px) {
+    .container1 {
+        width: auto;
+        margin: 0 16px;
+    }
+
+    .mfrp {
+        text-align: center;
+        font-family: 'Invention';
+    }
+
+    .mfrp-bottom {
+        text-align: center;
+        /* margin: 0 30px; */
+        margin: 0 20.5px;
+        width: auto !important;
+    }
+
+    .mob-top-mr {
+        margin-top: 10px;
+        width: auto;
+    }
+
+    .mob-wrp {
+        flex-wrap: wrap;
+        margin-top: 10px;
+        width: auto;
+    }
+
+    .mob-dn {
+        display: none;
+    }
+
+    /* .mfrp-havingtrouble {
+        margin-top: 33px;
+    } */
+    .mob-mfr-hvng-trbl {
+        padding-top: 33px;
+    }
+
+    .mob-fotter-log {
+        margin-top: 40px;
+        margin-bottom: 152px;
+    }
+
+    .login {
+        margin-top: 22px;
+    }
+
+    .mob-log-main-div {
+        margin-top: 40px;
+    }
+
+    .loginfooter {
+        min-width: 375px !important;
+    }
+
+    .custom-box {
+        text-align: center;
+    }
+}
+
+/* ============ Mobile Screen start ============ */

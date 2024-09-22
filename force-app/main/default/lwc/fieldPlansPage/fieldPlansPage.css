@@ -1,0 +1,22 @@
+:host {
+    --sds-c-button-shadow-focus: none;
+}
+
+.card-label {
+    width: 20%;
+}
+
+.card-container {
+    width: 30em;
+}
+
+.spinner-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.card-body {
+    padding-left: var(--lwc-spacingSmall, 0.75rem);
+}

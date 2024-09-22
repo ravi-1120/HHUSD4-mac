@@ -1,0 +1,3 @@
+<apex:page standardController="Account" showHeader="false" sidebar="false">
+    <b><center><font size="4" color="#0071A0"><apex:outputField value="{!Account.Class_of_Trade_MRK__c}"/></font></center></b>
+</apex:page>

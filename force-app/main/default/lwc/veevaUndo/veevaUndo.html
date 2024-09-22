@@ -1,0 +1,8 @@
+<template>
+    <div class={classUndo}>
+                   <div class="spacer" if:true={showUndo}></div>
+                   <lightning-icon class="inline-edit-undo" icon-name="utility:undo" alternative-text="Undo" title="Undo" size="xx-small" onclick={handleOnClick} if:true={showUndo}></lightning-icon>
+        <slot name="undoElement">
+        </slot>
+    </div>
+</template>

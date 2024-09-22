@@ -1,0 +1,31 @@
+<template>
+    <div id="waiting" if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+    </div>
+    <template if:false={showSpinner}>
+        <lightning-card title="Step 6 - Business Hours" icon-name="standard:settings">
+            <template if:true={templatesMapping}>
+                <template for:each={templatesMapping} for:item="item">
+                    <lightning-card title={item.groupName} icon-name="standard:groups" key={item.groupId}>
+                        <p class="slds-p-left_xx-large">Business Hours - {item.businessHours}</p>
+                        <p class="slds-p-left_xx-large">Operating Hours - {item.operatingHours}</p><br />
+                        <lightning-button style="padding-left: 40px;" key={item.groupId} data-group-id={item.groupId}
+                            variant="brand" label="Add/View Holidays" onclick={handleHolidays}
+                            class="slds-m-left_x-small"></lightning-button>
+                    </lightning-card>
+                </template>
+            </template>
+            <template if:true={showHolidayModal}>
+                <c-scheduler-add-holidays group-id={groupId} holidays-list={holidaysList} record-id={recordId}
+                    onrefreshholidayslist={handleRefresh} onclose={handleClose}></c-scheduler-add-holidays>
+            </template>
+            <div slot="footer">
+                <lightning-button variant="brand" label="Previous" onclick={handlePrevious} class="slds-m-left_x-small">
+                </lightning-button>
+                <lightning-button variant="brand" label="Next" class="slds-m-left_x-small" onclick={handleNext}>
+                </lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+</template>

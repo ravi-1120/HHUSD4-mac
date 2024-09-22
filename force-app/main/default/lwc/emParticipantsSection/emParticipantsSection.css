@@ -1,0 +1,29 @@
+.content {
+  min-height: 4rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.add-participants {
+  margin-left: auto;
+}
+
+.no-participants {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.table-container {
+  display: flex;
+}
+
+.table {
+  max-height: 15rem;
+  width: 100%;
+}

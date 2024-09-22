@@ -1,0 +1,35 @@
+<template>
+    <lightning-layout vertical-align="center" class="slds-form-element">
+        <lightning-layout-item class="counter-container slds-form-element__control slds-box">
+            <lightning-layout vertical-align="center">
+                <lightning-layout-item>
+                    <lightning-button-icon
+                        disabled={disableDecrement}
+                        icon-name="utility:ban"
+                        variant="container"
+                        size="medium"
+                        onclick={handleDecrement}>
+                    </lightning-button-icon>
+                </lightning-layout-item>
+        
+                <lightning-layout-item>
+                    <input type={counterDatatype} readonly value={inputDisplayValue} class="counter-input slds-input slds-input_counter slds-text-heading_medium"/>
+                </lightning-layout-item>
+
+                <lightning-layout-item>
+                    <lightning-button-icon
+                        disabled={disableIncrement}
+                        icon-name="utility:new"
+                        variant="container"
+                        size="medium"
+                        onclick={handleIncrement}>
+                    </lightning-button-icon>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+
+        <lightning-layout-item>
+            <slot name="label"></slot>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

@@ -1,0 +1,439 @@
+<template>
+    <!-- <div class="q-container"> -->
+        <!-- <span class="information">* Required Field</span> -->
+        <!-- <div class="scrollable"> -->
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+                  small-device-size="8" medium-device-size="8" large-device-size="8">
+                  <div class="typeinfo">
+            <lightning-combobox
+                name="typeOfInformation"
+                label={label.TypeOfInformation}
+                value={inputValues.typeOfInformation}
+                placeholder="Select an option"
+                dropdown-alignment="auto" 
+                role="option"
+                options={options}
+                required = "true"
+                class="requiredField"
+                onchange={handleInput}
+            ></lightning-combobox>
+        </div>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <!-- Accordion section -->
+    <lightning-accordion allow-multiple-sections-open active-section-name="TypeOfInformation">
+            <!-- Display accordion section only if an option is selected -->
+            <template if:true={inputValues.typeOfInformation}>
+                <lightning-accordion-section name="TypeOfInformation" label={accordionLabel}>
+                    <!-- Display additional questions for "Verbal" option -->
+                    <template if:true={fieldVisibility.isVerbal}>
+                        <lightning-layout multiple-rows="true" vertical-align="end">
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="8" large-device-size="8">
+                                <div class="typeinfo">
+                        <lightning-input
+                            type="text"
+                            label={label.InfoTiming}
+                            name="InfoTiming"
+                            value={inputValues.InfoTiming}
+                            onchange={handleInput}
+                            required
+                        ></lightning-input>
+                    </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="8" medium-device-size="8" large-device-size="8">
+                        <div class="typeinfo">
+                        <lightning-input
+                            type="text"
+                            label={label.MainMessage}
+                            name="MainMessage"
+                            value={inputValues.MainMessage}
+                            onchange={handleInput}
+                            field-level-help="It is critical that all info reported about competitive pricing and policies be reported accurately"
+                            required
+                        ></lightning-input>
+                    </div>
+                        </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={fieldVisibility.isDetailPiece}>
+                        <lightning-layout multiple-rows="true" vertical-align="end">
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-input
+                                        type="text"
+                                        label={label.ItemTiming}
+                                        name="ItemTiming"
+                                        value={inputValues.ItemTiming}
+                                        onchange={handleInput}
+                                        required="true"
+                                        class="requiredField"
+                                    ></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-combobox
+                                        name="PermissionGranted"
+                                        label={label.PermissionGranted}
+                                        value={inputValues.PermissionGranted}
+                                        dropdown-alignment="auto" 
+                                        role="option"
+                                        options={yesNoOptions}
+                                        onchange={handleInput}
+                                        required = "true"
+                                        class="requiredField"
+                                    ></lightning-combobox>
+                                </div>
+                            </lightning-layout-item>
+
+                            <!-- Conditional fields if "Yes" is selected -->
+                            <template if:true={fieldVisibility.showPermissionFields}>
+                                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                    small-device-size="8" medium-device-size="6" large-device-size="6">
+                                    <div class="typeinfo">
+                                        <lightning-input
+                                            type="text"
+                                            label={label.WhoGavePermission}
+                                            name="WhoGavePermission"
+                                            value={inputValues.WhoGavePermission}
+                                            onchange={handleInput}
+                                            required = "true"
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                    small-device-size="8" medium-device-size="6" large-device-size="6">
+                                    <div class="typeinfo">
+                                        <lightning-input
+                                            type="text"
+                                            label={label.RoleOfPermissionGiver}
+                                            name="RoleOfPermissionGiver"
+                                            value={inputValues.RoleOfPermissionGiver}
+                                            onchange={handleInput}
+                                            required = "true"
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                    small-device-size="8" medium-device-size="6" large-device-size="6">
+                                    <div class="typeinfo">
+                                        <lightning-input
+                                            type="text"
+                                            label={label.titleOfItem}
+                                            name="titleOfItem"
+                                            value={inputValues.titleOfItem}
+                                            onchange={handleInput}
+                                            required = "true"
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-combobox
+                                        label={label.uploadFile}
+                                        name="uploadFile" 
+                                        class="requiredField"
+                                        dropdown-alignment="auto" 
+                                        role="option"
+                                        required="true"
+                                        options={uploadFileOptions} 
+                                        value={inputValues.uploadFile} 
+                                        onchange={handleInput}
+                                    ></lightning-combobox>
+                                </div>
+                            </lightning-layout-item>
+                            <template if:true={FileOther}>
+                              <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                  small-device-size="8" medium-device-size="6" large-device-size="6">
+                                  <div class="typeinfo">
+                                      <lightning-input
+                                          type="text"
+                                          label={label.reasonForNoFile}
+                                          name="reasonForNoFile"
+                                          value={inputValues.reasonForNoFile}
+                                          onchange={handleInput}
+                                          required = "true"
+                                      ></lightning-input>
+                                  </div>
+                              </lightning-layout-item>
+                              </template>
+                            </template>
+                            <div lwc:if={showFileUpload} class="success slds-p-left_medium">
+                                <lightning-layout horizontal-align="space-between">
+                                    <lightning-layout-item padding="around-small" size="auto">
+                                        <lightning-input id="fileUploader" class="success" name="files" type="file" multiple
+                                                         onchange={handleUploadFinished} variant="label-hidden"></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small" size="auto">
+                                        <p class="fileCls">{label.ALLFILES}</p>
+                                        <p class="fileCls">{label.MAXFILES}</p>
+                                    </lightning-layout-item>
+                                </lightning-layout>   
+                          
+                                <div lwc:if={uploadedFileNames} class="success">
+                                  <!-- {label.FILESUPLOAD}{uploadedFileNames} -->
+                                  <lightning-layout>
+                                    <lightning-layout-item padding="around-small" size="auto">
+                                   <template if:true={uploadedFilesList}>
+                                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover"
+                                      style="font-size: 12px;">
+                                      <thead>
+                                        <tr class="slds-line-height_reset">
+                                          <th class="" scope="col" style="width: 55%;">
+                                            <div class="slds-truncate tableTitle" title="File Name">{label.FILENAME}</div>
+                                          </th>
+                                          <th class="" scope="col" style="width: 15%;">
+                                            <div class="slds-truncate tableTitle" title="File Size">{label.FILESIZE}</div>
+                                          </th>
+                                          <th class="" scope="col" style="width: 15%;">
+                                            <div class="slds-truncate tableTitle" title="Download">{label.DOWNLOAD}</div>
+                                          </th>
+                                          <th class="" scope="col" style="width: 15%;">
+                                            <div class="slds-truncate tableTitle" title="Delete">{label.DELETE}</div>
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <template for:each={uploadedFilesList} for:item="file">
+                                          <tr key={file.id} class="slds-hint-parent">
+                                            <td data-label="File Name">
+                                              <div class="slds-truncate tableTitle">{file.filename}</div>
+                                            </td>
+                                            <td data-label="File Size">
+                                              <div class="slds-truncate tableTitle">{file.size} MB</div>
+                                            </td>
+                                            <td data-label="Download">
+                                              <button data-id={file.id} data-file-name={file.filename} onclick={handleFileDownload}
+                                                title="Download" class="slds-button slds-button_icon">
+                                                <lightning-icon icon-name="utility:download" size="x-small"
+                                                  title="Download this file"></lightning-icon>
+                                              </button>
+                                            </td>
+                                            <td data-label="Delete">
+                                              <button data-file-id={file.id} data-file-name={file.filename} onclick={handleFileDeletion}
+                                                title="Delete this file" class="slds-button slds-button_icon">
+                                                <lightning-icon icon-name="utility:delete" size="x-small"
+                                                  title="Delete this file"></lightning-icon>
+                                              </button>
+                                            </td>
+                                          </tr>
+                                        </template>
+                                      </tbody>
+                                    </table>
+                                  </template>
+                                </lightning-layout-item>
+                                </lightning-layout>
+                                </div>
+                                <lightning-layout>
+                                     <lightning-layout-item flexibility="auto">
+                  <lightning-card class="custom-card" lwc:if={showFileUpload}>
+                    <p class="policy-text">{label.attachmentinfo}</p>
+                    </lightning-card> 
+                            </lightning-layout-item>
+                            </lightning-layout>
+
+                            
+                              </div>
+                              </lightning-layout>
+
+                            <!-- Message if "No" is selected -->
+                            <template if:true={fieldVisibility.showPopupMessage}>
+                                <div class="background">
+                                      <span class="exclamation-icon">⚠️</span>
+                                      <span class="warning-text">{label.warning}&nbsp;</span>
+                                      <br><br>
+                                      <p>{label.WarningMsg3} &nbsp;
+                                        <a href={phoneHref} class="green-text" title="This is a phone number">{label.Phone}</a>&nbsp;
+                                        {label.WarningMsg2}&nbsp;
+                                      </p>
+                                  </div>
+                            </template>
+                    </template>
+                    <template if:true={fieldVisibility.isEducational}>
+                      <lightning-layout multiple-rows="true" vertical-align="end">
+                      <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                    small-device-size="8" medium-device-size="6" large-device-size="6">
+                                    <div class="typeinfo">
+                                        <lightning-input
+                                            type="text"
+                                            label={label.ProgramTopic}
+                                            name="ProgramTopic"
+                                            value={inputValues.ProgramTopic}
+                                            onchange={handleInput}
+                                            required = "true"
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                    small-device-size="8" medium-device-size="6" large-device-size="6">
+                                    <div class="typeinfo">
+                                        <lightning-input
+                                            type="text"
+                                            label={label.ProgramTiming}
+                                            name="ProgramTiming"
+                                            value={inputValues.ProgramTiming}
+                                            onchange={handleInput}
+                                            required = "true"
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                    small-device-size="8" medium-device-size="6" large-device-size="6">
+                                    <div class="typeinfo">
+                                        <lightning-input
+                                            type="text"
+                                            label={label.ProgramSponsor}
+                                            name="ProgramSponsor"
+                                            value={inputValues.ProgramSponsor}
+                                            onchange={handleInput}
+                                            required = "true"
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                    small-device-size="8" medium-device-size="6" large-device-size="6">
+                                    <div class="typeinfo">
+                                        <lightning-input
+                                            type="text"
+                                            label={label.CompanyName}
+                                            name="CompanyName"
+                                            value={inputValues.CompanyName}
+                                            onchange={handleInput}
+                                            required = "true"
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                    small-device-size="8" medium-device-size="6" large-device-size="6">
+                                    <div class="typeinfo">
+                                        <lightning-input
+                                            type="text"
+                                            label={label.ProgramAttendees}
+                                            name="ProgramAttendees"
+                                            value={inputValues.ProgramAttendees}
+                                            onchange={handleInput}
+                                            required = "true"
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                              </lightning-layout>
+                    </template>
+                    <template if:true={fieldVisibility.isSalesforce}>
+                        <lightning-layout multiple-rows="true" vertical-align="end">
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-input
+                                        type="text"
+                                        label={label.EmployeeCount}
+                                        name="EmployeeCount"
+                                        value={inputValues.EmployeeCount}
+                                        onchange={handleInput}
+                                        required = "true"
+                                    ></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-input
+                                        type="text"
+                                        label={label.Region}
+                                        name="Region"
+                                        value={inputValues.Region}
+                                        onchange={handleInput}
+                                        required = "true"
+                                    ></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={fieldVisibility.isOther}>
+                        <lightning-layout multiple-rows="true" vertical-align="end">
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-input
+                                        type="text"
+                                        label={label.OtherInfo}
+                                        name="OtherInfo"
+                                        value={inputValues.OtherInfo}
+                                        onchange={handleInput}
+                                        required = "true"
+                                    ></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={fieldVisibility.isVaccines}>
+                        <lightning-layout multiple-rows="true" vertical-align="end">
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-input
+                                        type="text"
+                                        label={label.VaccineInfo}
+                                        name="VaccineInfo"
+                                        value={inputValues.VaccineInfo}
+                                        onchange={handleInput}
+                                        required = "true"
+                                    ></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-input
+                                        type="text"
+                                        label={label.VaccineCompetitor}
+                                        name="VaccineCompetitor"
+                                        value={inputValues.VaccineCompetitor}
+                                        onchange={handleInput}
+                                        required = "true"
+                                    ></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="8" medium-device-size="6" large-device-size="6">
+                                <div class="typeinfo">
+                                    <lightning-input
+                                        type="text"
+                                        label={label.VaccineCustomer}
+                                        name="VaccineCustomer"
+                                        value={inputValues.VaccineCustomer}
+                                        onchange={handleInput}
+                                        required = "true"
+                                    ></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </lightning-accordion-section>
+            </template>    
+        </lightning-accordion>
+    <!-- </div> -->
+
+        <!-- Navigation buttons -->
+         
+        <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+            <div class={buttonContainerClass}>  
+                <lightning-layout-item alignment-bump="left">
+                    <button class="slds-button slds-button_outline-brand btnCancelHover nextPrevBtn slds-m-right_small"
+                      onclick={handlePrevNext} name="Previous">{label.Previous}</button>
+                </lightning-layout-item>   
+                  <template if:true={fieldVisibility.showNavigationButtons}>
+                    <lightning-layout-item alignment-bump="right">  
+                        <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext} name="Next">{label.Next}</button>
+                    </lightning-layout-item>
+                  </template>
+            </div>
+        </lightning-layout>
+    <!-- </div> -->
+</template>

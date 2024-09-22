@@ -1,0 +1,278 @@
+.accordian_cls {
+    text-decoration: none;
+}
+
+.accordian_1 .accordioncls .slds-button__icon {
+    transition: transform 0.3s ease;
+    transform: rotate(-90deg); /* Default state: Arrow points upwards (top) */
+}
+
+.accordian_1 .accordioncls .slds-accordion__section.slds-is-open .slds-button__icon {
+    transform: rotate(360deg); /* Open state: Arrow points downwards */
+}
+
+.scrolling_cls {
+    /* max-height: 55vh; */
+    /* max-height: 66vh; */
+    /* height: auto;
+    padding: 14px;
+    overflow-y: scroll; 
+    max-height: 55vh;*/
+    height: auto;
+    /* padding: 14px; */
+    padding:8px 16px;
+    overflow-y: scroll;
+}
+
+.scrolling_cls2 {
+    /* max-height: 55vh; */
+    /*max-height: calc(100vh - 135px);*/
+    height: auto;
+    padding: 14px;
+    overflow-y: scroll;
+}
+
+.am2{
+    margin-top: 0px;
+}
+
+.acc {
+    /* max-height: 697px; */
+    transition: height .5s;
+    overflow: hidden;
+    text-decoration: none;
+    -webkit-box-shadow: 0 -1px 4px 1px rgb(0 0 0 / 50%);
+    border-radius: 6px 6px 0 0;
+    border-top-style: none;
+   /* margin-top: 0px;
+
+    margin-bottom: -16px; */
+
+    
+    text-decoration: none;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px; 
+
+}
+
+.acc_margintopsample {
+    /* margin-top: 17px; */
+}
+
+.acc:active {
+    text-decoration: none;
+}
+
+.acc:visited {
+    text-decoration: none;
+}
+
+.acc:hover {
+    text-decoration: none;
+}
+
+
+.acc:link {
+    text-decoration: none;
+}
+
+.mfr_indicationtxt {
+    font-family: 'Invention' !important;
+}
+
+.accordian_cls .slds-button {
+    border-radius: 6px 6px 0 0;
+}
+
+.scroll_b_1,
+.scroll_b_2,
+.scroll_b_3 {
+    height: auto;
+    padding: 8px 16px;/*Rusheel*/
+    -webkit-box-shadow: 0 -1px 4px rgb(0 0 0 / 50%);
+    overflow: hidden;
+    background-color: #FFFFFF;
+    border-radius: 4px;/*Rusheel*/
+    box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.25);/*Rusheel*/
+    
+}
+
+.scroll_b_1 {
+    display: none;
+}
+
+.block_cls {
+    display: none;
+}
+/*
+.accordian_1 .slds-accordion__summary-action-icon {
+    -webkit-transform: rotate(-180deg) !important;
+    transform: rotate(-180deg) !important;
+}
+*/
+/* .accordian_1 .accordioncls .slds-accordion__summary .slds-button__icon {
+    fill: #fff !important;
+}
+.accordian_1 .slds-accordion__summary-action-icon {
+    transition: transform 0.3s ease; 
+
+.accordian_1 .slds-is-open .slds-accordion__summary-action-icon {
+    transform: rotate(180deg); 
+}
+
+.accordian_1 .slds-accordion__summary-action-icon {
+    transform: rotate(-900deg); 
+}*/
+
+.scrollBlock {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .6) !important;
+    z-index: 510;
+}
+
+.zindex_cls {
+    z-index: 510;
+}
+
+.isiScrollBlocker {
+    display: none;
+}
+
+.hide {
+    display: none;
+}
+
+.sample-bg {
+    display: none;
+}
+
+.sample-active {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;/*AMS - E2ESE-1531*/
+    overflow: hidden;
+    /*Rusheel Bug_Web_016 --background-color: rgba(0, 0, 0, .6) !important; */
+    z-index: 510;
+}
+.readmore {
+    color: #00857C !important;
+    font-family: 'Invention' !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: #00857C !important;
+  }
+.smpl-a {
+    color: #00857C;
+    font-family: 'Invention';
+    text-decoration: none !important;
+
+}
+
+.zindex {
+    z-index: 510;
+}
+
+.acc .slds-accordion__section {
+    padding: 0 !important;
+}
+
+.overflowcls {
+    overflow-y: hidden;
+    /* overflow-y:scroll; */
+}
+
+.acc2,
+.scroll_b_3 {
+    display: none;
+    margin-bottom: -8px;
+}
+
+.db {
+    display: block !important;
+}
+
+a:hover {
+    color: #00857C !important;
+    text-decoration: none !important;
+}
+
+.readmore2, .readmore1 {
+    color: #00857C !important;
+    font-family: 'Invention' !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: #00857C !important;
+}
+
+@media only screen and (max-width: 767px) {
+    .scrolling_cls {
+        max-height: calc(100vh - 188px) !important;
+    }
+
+    .scrolling_cls2 {
+        max-height: calc(100vh - 129px) !important;
+        padding: 8px 16px;
+    }
+
+    .scroll_b_2 {
+        /*height: 114px;*/
+    }
+
+    .fontsize12 {
+        font-size: 12px;
+    }
+
+    .readmore2, .readmore1 {
+        font-size: 12px !important;
+        color: #00857C !important;
+        font-family: 'Invention' !important;
+        font-style: normal !important;
+        font-weight: 600 !important;
+        cursor: pointer;
+        text-decoration: underline;
+        text-decoration-color: #00857C !important;
+    }
+
+    .accordian_cls .slds-button {
+        font-size: 14px !important;
+    }
+
+    .mfr_indicationtxt {
+        font-size: 12px;
+    }
+
+    .scroll_b_1,
+    .scroll_b_2,
+    .scroll_b_3 {
+        padding: 8px 12px;
+    }
+}
+
+@media only screen and (max-height: 667px) {
+    .scrolling_cls {
+        max-height: calc(100vh - 188px) !important;
+    }
+
+    .scrolling_cls2 {
+        max-height: calc(100vh - 129px) !important;
+        padding: 8px 16px;
+    }
+}

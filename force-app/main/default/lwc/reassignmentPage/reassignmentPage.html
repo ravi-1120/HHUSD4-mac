@@ -1,0 +1,33 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <c-veeva-spinner if:true={waiting} class="slds-spinner_container"></c-veeva-spinner>
+        <lightning-layout-item if:true={pageStatus} size="12">
+            <c-reassignment-page-header page-status={pageStatus} 
+            page-data-svc={dataSvc}
+            onchanged={pageStatusChangedHandler}>
+            </c-reassignment-page-header>
+        </lightning-layout-item>
+        <lightning-layout-item if:true={inSummary} size="12">
+            <c-reassignment-process-history-table table-data-svc={dataSvc}></c-reassignment-process-history-table>
+            <div class="slds-m-top_xx-large">
+                <c-reassignment-comparison-history-table
+                 table-data-svc={dataSvc}
+                 onactionclicked={actionHandler}>
+                </c-reassignment-comparison-history-table>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item if:true={inDetail} size="12" class="bPageBlock">
+            <c-reassignment-comparison-detail 
+            detail-data-svc={dataSvc}
+            detail-process-id={detailProcessId}
+            onchanged={pageStatusChangedHandler}>
+            </c-reassignment-comparison-detail>
+        </lightning-layout-item>
+        <lightning-layout-item if:true={inUploading} size="12" class="bPageBlock">
+            <c-reassignment-upload-file 
+            upload-data-svc={dataSvc}
+            onchanged={pageStatusChangedHandler}
+            ></c-reassignment-upload-file>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

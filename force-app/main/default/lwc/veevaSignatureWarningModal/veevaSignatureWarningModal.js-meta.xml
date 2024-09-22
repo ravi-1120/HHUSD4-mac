@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>SignatureWarning</masterLabel>
+    <description>This is the signature warning component.</description>
+  <targets>
+      <target>lightning__FlowScreen</target>
+  </targets>
+  <targetConfigs>
+    <targetConfig targets="lightning__FlowScreen">
+        <property name="warningType" type="String"/>
+        <property name="goBackValue" type="Boolean"/>
+        <property name="cancelReviewValue" type="Boolean"/>
+        <property name="goAnywayValue" type="Boolean"/>
+        <property name="cancelRequestAgainValue" type="Boolean"/>
+        <property name="requestAgainErrorValue" type="Boolean"/>
+        <property name="signInIdValue" type="String"/>
+        <property name="channelIdValue" type="String"/>
+        <property name="recordIdValue" type="String"/>
+        <property name="linkValue" type="String"/>
+    </targetConfig>
+  </targetConfigs>
+</LightningComponentBundle>

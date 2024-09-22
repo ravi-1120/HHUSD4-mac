@@ -1,0 +1,66 @@
+<template>
+	<div class="container">
+		<div class="container1" if:true={showMainContain}>
+			<div style="display: flex; align-items: center; justify-content: center;">
+				<div class="maincontainer">
+					<div class="slds-modal__content slds-p-around_medium bodymaincls" id="modal-content-id-1">
+						<!-- Body Section -->
+						<div if:true={isLinkValid}>
+							<div class="eligibility" if:true={eligibilityPopup}>
+
+								<!-- OTP Section -->
+								<div class="reg_password" if:true={showOTP}>
+									<c-m-s-d_-c-o-r-e_-o-t-p-model personemail={accEmail} otpid={otpvalue}
+										onshownextpage={showNextPage} onresendemail={resendotp}
+										mobilescreen={mobilescreen></c-m-s-d_-c-o-r-e_-o-t-p-model>
+								</div>
+								<!-- End OTP Section -->
+
+								<!-- Eligibility section -->
+								 <div class="reg_password" if:true={showEligilibility}>
+                                <c-m-s-d_-c-o-r-e_-eligilibility registrationwrap={registrationwrap}
+                                    accountid={accrecordId} onhideeligibilitypage={showPersonalPage}
+                                    onshowpasswordpage={hideEligibilityPage} mobilescreen={mobilescreen}></c-m-s-d_-c-o-r-e_-eligilibility>
+                            </div> 
+								<!-- End Eligibility Section -->
+
+								<!-- Personal section -->
+								<div class="reg_password" if:true={showPersonal}>
+									<c-m-s-d_-c-o-r-e_-reg-personal registrationwrap={registrationwrap}
+										accountid={accrecordId} onhidesuccesspage={showSuccessPage}
+										onshoweligibilitypage={hidePersonalPage} mobilescreen={mobilescreen}>
+									</c-m-s-d_-c-o-r-e_-reg-personal>
+
+								</div>
+								<!-- End Personal Section -->
+
+								<!-- Success section -->
+								 <div class="reg_password" if:true={showSuccess}>
+                                <c-m-s-d_-c-o-r-e_-success mobilescreen={mobilescreen}></c-m-s-d_-c-o-r-e_-success>
+                            </div>
+								<!-- End Success Section -->
+							</div>
+
+							<div class="reg_body" if:false={eligibilityPopup}>
+								<c-m-s-d_-c-o-r-e_-generic-popup-model popup={popupData}>
+								</c-m-s-d_-c-o-r-e_-generic-popup-model>
+							</div>
+						</div>
+						<div class="reg_body" if:false={isLinkValid}>
+							<c-m-s-d_-c-o-r-e_-generic-popup-model popup={popupData}>
+							</c-m-s-d_-c-o-r-e_-generic-popup-model>
+						</div>
+						<!-- End Body Section -->
+						<div class="blankContainer" if:false={showMainContain}>
+							<div class="bodyBlankContainer">
+								<img src={merckimage}/>
+								<p>Logging in to the Merck Formulary Resources portal...</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p class="job">{label.jobcode}</p>
+</template>

@@ -1,0 +1,93 @@
+<template>
+    <div>
+        <div>
+            <div>
+                <div class="bannercls">
+                    <img src={bannerimg}>
+                    <div class="header_cls">
+                        <div class="container">
+                            <div class="slds-grid slds-wrap">
+                                <a href="/mhee/" class="breadcrumbs slds-p-right_small"> Dashboard </a><span>/</span>
+                                <a href="" class="breadcrumbs slds-p-left_small slds-p-right_small"> Pipeline
+                                    Information</a><span>/</span>
+                                <a href="" class="breadcrumbs slds-p-left_small slds-p-right_small"> Phase
+                                    2</a><span>/</span>
+                                <a href="" class="breadcrumbs slds-p-left_small slds-p-right_small"> Schizophrenia
+                                    MK-8189 </a><span>/</span>
+                                <a href="" class="breadcrumbs slds-p-left_small slds-p-right_small"
+                                    style="text-decoration: none !important;"> Schedule appointment </a>
+                            </div>
+                            <h1 class=""> Investigational Products/Uses Overview</h1>
+                            <h1 class="">for Payors</h1>
+                            <p class="slds-p-top_small">This information concerns an investigational product. The safety
+                                and effectiveness of <br />this investigational product has not been established.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container slds-p-top_large slds-p-bottom_xx-large">
+                <div class="boxshadow_cls slds-grid slds-wrap slds-p-around_large">
+                    <div class="maincls">
+                        <div class="slds-p-vertical_x-small">
+                            <button class="buttoncls" onclick={navigateback}><img src={leftarrow} class="slds-p-right_medium">Back</button>
+                        </div>
+                        <div class="cntheader_cls slds-p-vertical_x-small">
+                            <h1>Schedule appointment</h1>
+                            <p>Schedule appointment to review and discuss selected clinical trails.</p>
+                        </div>
+                        <div class="slds-p-vertical_x-small combobox_cls">
+                            <!-- <lightning-combobox name="Topics Discussion" label="Select topic you would like to discuss"
+                                value={value} placeholder="Select" options={options} onchange={handleChange}>
+                            </lightning-combobox> -->
+                            <c-m-s-d_-c-o-r-e_-dropdown1></c-m-s-d_-c-o-r-e_-dropdown1>
+                        </div>
+                        <div class="appoitment_cls slds-p-vertical_small">
+                            <h1>Appointment preferences</h1>
+                            <div class="slds-p-top_x-large">
+                                <h2 class="slds-p-bottom_medium">Appointment times</h2>
+                                <div>
+                                    <div class="cls_date slds-grid slds-wrap">
+                                        <!-- DATE TIME PICKER -->
+                                        <div class='slds-p-right_small box_width_cls'>
+                                            <lightning-input type="date" class="datecls" placeholder="Select"
+                                                name="Date" label="Date" >
+                                            </lightning-input>
+                                        </div>
+                                        <div class=''>
+                                            <div class="box_width_cls">
+                                                <label>Time (Optional)</label>
+                                                <lightning-combobox class="time_cls"
+                                                    placeholder="Select" name="Time"
+                                                    options={timeoption}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                        <lightning-icon data-value={index} class="close_cls"
+                                            icon-name="utility:close" alternative-text="Close" title="Image"
+                                            onclick={removedate}></lightning-icon>
+                                        <!-- END DATE TIME PICKER -->
+                                    </div>
+                                </div>
+                                <div class="slds-p-top_medium">
+                                    <button class="buttoncls">Add another date<img src={plusicon} class="slds-p-left_medium"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-p-top_large">
+                            <div>
+                                <lightning-radio-group name="radioGroup" class="radiobtncls" label="Meeting preference"
+                                options={meetingoption} value={meetingPreference} type="radio"></lightning-radio-group>
+                            </div>
+                            <div class="slds-p-top_large">
+                                <p>If you would like to have additional attendees invited to this meeting, please contact your medical affairs director.</p>
+                            </div>
+                        </div>
+                        <div class="slds-p-top_large">
+                            <button class="submitbtn_cls">Submit request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

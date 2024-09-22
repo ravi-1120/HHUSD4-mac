@@ -1,0 +1,630 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_Notifications.page
+* @description - Displays user notifications
+* @createdate - July 8th, 2013
+-->
+<apex:page showHeader="false" sidebar="false" lightningStylesheets="true" controller="MRK_NotificationsController">
+    
+    <style>
+        .placeholder { color: #aaa; }
+        .unread {
+        font-weight: bold;
+        }
+        
+        span.muted {
+        color: #777;
+        }
+        
+        span.itemTitle {
+        /* color: #015ba7; */
+        color: #4A4A56;
+        }
+        
+        .itemList th.sortable {
+        cursor: pointer;
+        }
+        
+        tr.odd {
+        background-color: #f9f9f9;
+        }
+        
+        .itemRow:hover {
+        background-color: rgb(227, 243, 255);
+        }
+        
+        td.itemCell {
+        cursor: pointer;
+        }
+        
+        td.itemCell span {
+        color: #4A4A56;
+        }
+        
+        .mrkPageBlock {
+        border-top: 4px solid #1797C0;
+        }
+        
+        .mrkAlertInfo {
+        display: block;
+        font-size: 110%;
+        font-weight: bold;
+        padding: 25px 5px 25px 5px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        color: #3a87ad;       
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+        text-align: center;   
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;    
+        }
+        
+        .alert {
+        font-size: 110%;
+        padding: 8px 35px 8px 14px;
+        margin-bottom: 5px;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        background-color: #fcf8e3;
+        border: 1px solid #fbeed5;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        }
+        
+        .alert-info {
+        color: #3a87ad;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+        }   
+        
+        #error-message {
+        color: red;
+        margin-left: 160px;
+        }
+        
+    </style>
+    
+    <!-- display user message if functionality not enabled -->  
+    <apex:outputPanel id="functionality-not-available-container" layout="block" rendered="{!NOT(functionalityEnabled)}">
+        <apex:pageBlock tabStyle="Links__tab">
+            <apex:pageBlockSection columns="1">
+                <apex:outputText styleClass="mrkAlertInfo" value="{!settings['notifications not available message']}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:outputPanel>
+    
+    <apex:outputPanel id="notifications-container" layout="block" rendered="{!functionalityEnabled}">
+        
+        <div class="ng-app:items" id="ng-app">
+            <div ng-controller="ItemsCntrl">
+                
+                <div class="mrkPageBlock bPageBlock brandSecondaryBrd apexDefaultPageBlock secondaryPalette">
+                    <div class="pbBody">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h2 style="font-size: 1.3em">
+                                            <!-- Notifications -->
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        
+                                        
+                                        
+                                        <span style="color: #015BA7; text-decoration: none; font-size: 11px; margin-right: 5px; Float: Left">View:
+                                            <select size="1"  ng-model="itemFilter" ng-change="filterChanged()" ng-options="v for v in itemListViews">
+                                            </select> &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="button" ng-disabled="!itemSelected()" ng-click="markAsRead()" value="Mark as read"></input>
+                                        <input type="button" ng-disabled="!itemSelected()" ng-click="markAsUnread()" value="Mark as unread"></input> 
+                                <!--    <input type="button" ng-disabled="!itemSelected()" ng-click="toggleFavorite()" value="Favorites"></input>   -->
+                                <input type="button" ng-disabled="!itemSelected()" ng-click="markAsFavorite()" value="Mark as favorites"></input>
+                        <input type="button" ng-disabled="!itemSelected()" ng-click="removeAsFavorite()" value="Remove as favorites"></input> 
+                </span>
+                <span style="">
+                    <input ng-model="search" type="text" placeholder="search"></input>
+                <input type="button" ng-click="search = ''" value="clear"></input>
+        </span>
+        <div>
+            <span>
+                Filter by date Between: <input ng-model="startDate" type="date" placeholder="Start Date" max="9999-12-31" pattern="\d{2}-\d{2}-\d{4}"></input> and
+            <input ng-model="endDate" type="date" placeholder="End Date" max="9999-12-31" pattern="\d{2}-\d{2}-\d{4}"></input>
+        <input type="button" ng-click="filterByDateRange()" value="Filter"></input>
+    <input type="button" ng-click="ClearDateRange()" value="clear"></input>
+</span>
+<div id="error-message"></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="list itemList" border="0" cellpadding="0" cellspacing="0">
+    <colgroup span="4"></colgroup>
+    <thead class="rich-table-thead">
+        <tr class="headerRow">
+            <th class="headerRow" scope="col" colspan="1"><input type="checkbox" ng-change="toggleSelectAll()" ng-model="allSelected"></input></th>
+    <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'date'; reverse=!reverse">
+        <div>
+            <a href="#">Date</a>
+            <apex:image url="{!$Resource.Up_arrow}" alt="Up Arrow"  style="width: 12px; height: 12px;" />
+            <apex:image url="{!$Resource.Down_arrow}" alt="Down Arrow"  style="width: 12px; height: 13px;" />
+            
+        </div>
+    </th>
+    
+    <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'title'; reverse=!reverse">
+        <div>
+            <a href="#">Title</a>
+            <apex:image url="{!$Resource.Up_arrow}" alt="Up Arrow"  style="width: 12px; height: 12px;" />
+            <apex:image url="{!$Resource.Down_arrow}" alt="Down Arrow"  style="width: 12px; height: 13px;" />
+            
+        </div>
+    </th>
+    <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'source'; reverse=!reverse">
+        <div>
+            <a href="#">Source</a>
+            <apex:image url="{!$Resource.Up_arrow}" alt="Up Arrow"  style="width: 12px; height: 12px;" />
+            <apex:image url="{!$Resource.Down_arrow}" alt="Down Arrow"  style="width: 12px; height: 13px;" />              
+        </div>
+    </th>
+    <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'markAsFavorite'; reverse=!reverse">
+        <div>
+            <a href="#">Favorites</a>
+            <!--   <apex:image url="{!$Resource.Up_arrow}" alt="Up Arrow"  style="width: 12px; height: 12px;" />
+<apex:image url="{!$Resource.Down_arrow}" alt="Down Arrow"  style="width: 12px; height: 13px;" />     -->
+        </div> 
+    </th>
+</tr>
+</thead>
+<tbody>
+    <tr ng-repeat="item in items | filter:viewFilters[itemFilter] | filter:search | orderBy:predicate:reverse" ng-class="{
+                                                                                                                         'unread': item.read != 'read' && item.read !='read favorite',
+                                                                                                                         'dataRow': true,
+                                                                                                                         'itemRow': true,
+                                                                                                                         'odd': ($index%2 == 1),
+                                                                                                                         'even': ($index%2 == 0),
+                                                                                                                         'first': $first,
+                                                                                                                         'last': $last,
+                                                                                                                         'favorite': e.favorite
+                                                                                                                         }">
+        <td class="dataCell" colspan="1" width="1">
+            <input type="checkbox" ng-model="item.selected"></input>
+</td>
+<td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+    <span>{{item.date1}}</span>
+</td>           
+<td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+    <span class="itemTitle">{{item.title}}</span>
+</td>
+<td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+    <span>{{item.source}}</span>
+</td>
+<div id="error-message"></div>
+<td class="dataCell itemCell" colspan="1">
+    <div ng-show="item.read == 'unread favorite' || item.read == 'read favorite'">
+        <div style="display: flex; justify-content: middle;">
+            <apex:image url="{!$Resource.MSD_CORE_Favorite}" alt="Favorite" style="width: 16px; height: 16px;" />
+        </div>
+    </div>
+</td>
+
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!--
+<div class="pbFooter secondaryPalette">
+<div class="bg"></div>
+</div>
+-->
+</div>   
+
+</div>
+</div>
+
+<script>
+// setup environment
+window.mrk = window.mrk || {};
+window.mrk.cfg = {
+    sfdcSessionId: '{!$Api.Session_ID}',
+    userid: '{!$User.ID}',
+    view: 'notifications',
+    viewList: ['All','Read', 'Unread', 'Favorite'],
+    defaultView: 'Unread',          
+    apexrestItemsSourceURLPrefix: '/mrk/notification/',
+    baseResourceURL: '{!baseResourceURL}'
+};
+/*
+        window.mrk.__sessionId = '{!$Api.Session_ID}';
+        window.mrk.__userId = '{!$User.ID}';
+        window.mrk.__apexrestItemsSourceURLPrefix = "/mrk/notification/";
+        */
+
+// satisfy IE   
+window.console = window.console || {
+    log: function() {}
+}
+
+</script>
+
+<script src="{!URLFOR($Resource.mrk_comms, '/lib/libs.js')}"></script>
+
+
+<script>
+    (function() {
+        
+        
+        var app = angular.module('items', ['ngSanitize']);
+        app.controller('ItemsCntrl', function($scope, $timeout, $window) {
+            
+            jQuery('input').placeholder();
+            
+            var client = new forcetk.Client();
+            client.setSessionToken(mrk.cfg.sfdcSessionId);
+            $scope.items = [];
+            console.log('Contents of $scope.items:', $scope.items);
+            $scope.predicate = 'date';
+            $scope.reverse = true;
+            
+            /*
+            sortTransparent: '//static-01.s3.amazonaws.com/force.com-communications/images/sort_transparent_arrow.gif',
+            sortAsc: '//static-01.s3.amazonaws.com/force.com-communications/images/sort_asc_arrow.gif',
+            sortDesc: '//static-01.s3.amazonaws.com/force.com-communications/images/sort_desc_arrow.gif'
+            */
+            
+            
+            $scope.images = {
+                sortTransparent: '//static-01.s3.amazonaws.com/force.com-communications/images/sort-transparent-arrow.png',
+                sortAsc: '//static-01.s3.amazonaws.com/force.com-communications/images/sort-asc-arrow.png',
+                sortDesc: '//static-01.s3.amazonaws.com/force.com-communications/images/sort-desc-arrow.png'
+            };
+            
+            function openLink(url) {
+                //jQuery('#link-launcher').attr('href', url).click();
+                window.open(url, "_blank");
+            }
+            
+            function selectedItems() {
+                var items = [];
+                angular.forEach($scope.items, function(e, idx) {
+                    if (e.selected) {
+                        items.push(e);
+                    }
+                });
+                return items;
+            }
+            
+            function saveActivity(activities) {
+                
+                client.apexrest("/mrk/communication/" + mrk.cfg.userid, function(data) {
+                }, function(err) {
+                },
+                                'PUT',
+                                angular.toJson({
+                                    "data": {
+                                        "activities": angular.toJson(activities)
+                                    }
+                                }));
+                
+            }
+            
+            function deselectAll() {
+                angular.forEach($scope.items, function(e, idx) {
+                    if (e) {
+                        e.selected = false;
+                    }
+                });
+            }
+            
+            $scope.markAsRead = function() {
+                var activities = [];
+                angular.forEach($scope.items, function(e, idx) {
+                    if (e.selected && e.read !== 'read' && e.read !== 'read favorite') {
+                        if (e.read === 'unread favorite') {
+                            e.read = 'read favorite';
+                        } else {
+                            e.read = 'read';
+                        }
+                        activities.push({
+                            type: e.type,
+                            id: e.id,
+                            read: e.read
+                        });
+                    }
+                });
+                
+                $timeout(function() {
+                    deselectAll();
+                }, 500);
+                
+                saveActivity(activities);
+                $scope.filterChanged();
+            };
+            
+            $scope.markAsUnread = function() {
+                
+                var activities = [];
+                angular.forEach($scope.items, function(e, idx) {
+                    if (e.selected && e.read !== 'unread' && e.read !== 'unread favorite') {
+                        if(e.read === 'read favorite'){
+                            e.read = 'unread favorite';
+                        } else {
+                            e.read = 'unread';
+                        }
+                        activities.push({
+                            type: e.type,
+                            id: e.id,
+                            read: e.read
+                        });
+                    }
+                });
+                
+                $timeout(function() {
+                    deselectAll();
+                }, 500);
+                
+                
+                saveActivity(activities);
+                $scope.filterChanged();
+            };
+            
+            $scope.markAsFavorite = function() {
+                var activities = [];
+                angular.forEach($scope.items, function(e, idx) {
+                    if (e.selected && e.read !== 'unread favorite' && e.read !== 'read favorite'){ 
+                        e.favorite = true;
+                        if(e.read == 'read'){
+                            e.read = 'read favorite';
+                        }else{
+                            e.read = 'unread favorite';
+                        }
+                        activities.push({
+                            type: e.type,
+                            id: e.id,
+                            favorite: e.favorite,
+                            read: e.read
+                        });
+                    }
+                    
+                });
+                
+                $timeout(function() {
+                    deselectAll();
+                }, 500);
+                
+                saveActivity(activities);
+                console.log(activities);
+                console.log('TEST JSON'+JSON.stringify(activities));
+                $scope.filterChanged();
+                // return activities;
+            };
+            
+            $scope.removeAsFavorite = function() {
+                var activities = [];
+                angular.forEach($scope.items, function(e, idx) {
+                    console.log(typeof(e.read));
+                    if (e.selected && (e.read === 'unread favorite' || e.read === 'read favorite')) {
+                        console.log('e.read'+ e.read);
+                        e.favorite = false;
+                        if (e.read === 'read favorite') {
+                            e.read = 'read';
+                        } else {
+                            e.read = 'unread';
+                        }
+                        activities.push({
+                            type: e.type,
+                            id: e.id,
+                            favorite: e.favorite,
+                            read: e.read
+                        });
+                    }
+                });
+                
+                $timeout(function() {
+                    deselectAll();
+                }, 500);
+                
+                saveActivity(activities);
+                $scope.filterChanged();
+            };
+            $scope.filterByDateRange = function() {
+                $scope.filterChanged();
+                
+                var startDate = new Date($scope.startDate);
+                var endDate = new Date($scope.endDate);
+                var errorMessageElement1 = document.getElementById('error-message');
+                if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                    //alert("Invalid date format or values.");
+                    errorMessageElement1.textContent = "Invalid date format or values*";
+                    errorMessageElement1.style.color = 'red';
+                    return;
+                }
+                
+                startDate.setHours(0, 0, 0, 0);
+                endDate.setHours(0, 0, 0, 0); 
+                
+                var errorMessageElement = document.getElementById('error-message');
+                
+                if (startDate > endDate) {
+                    errorMessageElement.textContent = "Start Date cannot be greater than End date*";
+                    errorMessageElement.style.color = 'red';
+                    return;
+                }
+                
+                errorMessageElement.textContent = ""; 
+                
+                if ($scope.items.length == 0){
+                    errorMessageElement.textContent = "No Records Available";
+                    errorMessageElement.style.color = 'red';
+                    console.log("Error: No Records Available");
+                    return;
+                    
+                }
+                
+                $scope.items = $scope.items.filter(function(item) {
+                    var itemDate = new Date(item.date);
+                    console.log('itemDate' + itemDate);
+                    itemDate.setHours(0, 0, 0, 0);
+                    console.log('items log'+item);
+                    var resultDate = itemDate >= startDate && itemDate <= endDate;
+                    console.log('items log'+item);
+                    console.log(resultDate);
+                    return resultDate;
+                });
+                if($scope.items.length === 0){
+                    errorMessageElement.textContent = "No Records Available";
+                    errorMessageElement.style.color = 'red';
+                    return;
+                }
+            }
+            
+            $scope.ClearDateRange = function() {
+                $scope.startDate = null;
+                $scope.endDate = null;
+                $scope.filterChanged();
+                var errorMessageElement = document.getElementById('error-message');
+                if (errorMessageElement) {
+                    errorMessageElement.textContent = "";
+                }
+                //$scope.filterByDateRange();
+            };
+            
+            $scope.toggleSelectAll = function() {
+                
+                angular.forEach($scope.items, function(e, idx) {
+                    e.selected = $scope.allSelected
+                });
+            };
+            
+            $scope.itemSelected = function() {
+                var result = false;
+                angular.forEach($scope.items, function(e, idx) {
+                    console.log('Element:',JSON.stringify(e));
+                    if (e && e.selected !== undefined) {
+                        console.log('Selected:', e.selected);
+                        result = result || e.selected;
+                    } else{
+                        console.log('Element else'+JSON.stringify(e));
+                    }
+                });
+                return result;
+            };
+            
+            $scope.itemListViews = mrk.cfg.viewList;
+            
+            var viewFilters = {
+                'All': function(e) {
+                    return true;
+                },
+                
+                'Unread': function(e) {
+                    if (e && e.read) {
+                        return e.read !== 'read' && e.read !== 'read favorite';
+                    } else {
+                        return false; 
+                    }
+                },
+                
+                'Read': function(e) {
+                    if (e && e.read) {
+                        return e.read !== 'unread' && e.read !== 'unread favorite';
+                    } else {
+                        return false; 
+                    }
+                },
+                
+                'Favorite': function(e) {
+                    if (e && e.read) {
+                        return e.read !== 'read' && e.read !== 'unread';
+                    } else {
+                        return false;
+                    }
+                },
+                
+                'All Action': function(e) {
+                    return (e.audience.toLowerCase() === 'action');
+                },
+                
+                'Unread Action': function(e) {
+                    return (e.read.toLowerCase() !== 'read') && (e.audience.toLowerCase() === 'action');
+                },
+                
+                'All Background': function(e) {
+                    return (e.audience.toLowerCase() === 'background');
+                },
+                
+                'Unread Background': function(e) {
+                    return (e.read.toLowerCase() !== 'read') && (e.audience.toLowerCase() === 'background');
+                }
+                
+            };
+            
+            
+            $scope.filterChanged = function() {
+                // clear search
+                $scope.search = '';
+                
+                $scope.items.length = 0;
+                angular.forEach($scope.allItems, function(e, idx) {
+                    if (viewFilters[$scope.itemFilter](e)) {
+                        $scope.items.push(e);
+                    }
+                });
+                deselectAll();
+                
+                var errorMessageElement = document.getElementById('error-message');
+                if (errorMessageElement) {
+                    errorMessageElement.textContent = "";
+                }
+                
+            };
+            $scope.itemClicked = function(e) {
+                openLink(e.url);
+                if (e.read !== 'read' && e.read !== 'read favorite') {
+                    if (e.read === 'unread favorite') {
+                        e.read = 'read favorite';
+                    } else {
+                        e.read = 'read';
+                    }
+                    saveActivity([{
+                        type: e.type,
+                        id: e.id,
+                        read: e.read,
+                        favorite: e.favorite
+                    }]);
+                }
+                //console.log($scope.items[idx].title);
+            }
+            
+            client.apexrest(mrk.cfg.apexrestItemsSourceURLPrefix + mrk.cfg.userid, function(data) {
+                
+                $scope.settings = JSON.parse(data.settings);
+                $scope.allItems = JSON.parse(data.items);
+                
+                angular.forEach($scope.allItems, function(e, idx) {
+                    $scope.items.push(e);
+                });
+                
+                $scope.$apply();
+                
+                $scope.itemFilter = mrk.cfg.defaultView;
+                $scope.filterChanged();
+                $scope.$apply();            
+                
+            });
+            
+            
+        });
+        
+        
+    })();
+</script>
+
+</apex:outputPanel>
+
+</apex:page>

@@ -1,0 +1,13 @@
+<template>
+    <div class={methodClassUndo}>
+        <c-med-inq-delivery-method data-veeva-delivery-method-id="primary" item={ctrl} method={methods.primaryMethod} new-option={methods.primaryMethod.newOption}
+            if:true={methods.primaryMethod} is-last={methods.primaryMethod.primaryOnly} record-update-flag={recordUpdateFlag} is-primary-method=true onundonewfields={undoValues}>
+        </c-med-inq-delivery-method>
+        <template iterator:it={methods.optionalMethods} if:true={methods.optionalMethods}>
+            <div class='slds-m-top_x-small' key={it.value.signal} if:true={it.value.render}>
+                <c-med-inq-delivery-method data-veeva-delivery-method-id={it.value.signal} item={ctrl} method={it.value} is-last={it.last} record-update-flag={recordUpdateFlag}>
+                </c-med-inq-delivery-method>
+            </div>
+        </template>
+    </div>
+</template>

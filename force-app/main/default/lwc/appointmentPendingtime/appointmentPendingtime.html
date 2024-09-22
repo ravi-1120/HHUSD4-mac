@@ -1,0 +1,20 @@
+<template>
+	<template if:true={displaytime}>
+		<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 top-margin">
+			<div class="button2">
+				<!-- <div class="b5"><lightning-formatted-date-time value={month} month="long"></lightning-formatted-date-time></div> -->
+				<!-- <div class="b4"><lightning-formatted-date-time value={date} day="2-digit"></lightning-formatted-date-time></div> -->
+				<div class="b5">{month}</div>
+				<div class="b4">{date}</div>
+				<div class="b5">{time}</div> 
+			</div>
+		</div>
+	</template>
+	<template if:false={displaytime}>
+		<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 top-margin">
+			<div class="button3">
+				<p class="calText">{calText}</p>
+			</div>
+		</div>
+	</template>
+</template>

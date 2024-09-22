@@ -1,0 +1,13 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .customWidth{
+    min-width:61%;
+}
+
+.THIS .customIcon .slds-icon-text-default
+{
+    fill:#1E1E1E !important;
+    width:24px;
+    height:24px;
+}

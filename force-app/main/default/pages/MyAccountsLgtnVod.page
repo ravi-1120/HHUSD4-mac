@@ -1,0 +1,26 @@
+<apex:page standardController="Account" tabStyle="MyAccounts__tab">
+    <apex:composition template="{!$Page.RedirectLgtnVod}"/>
+    <apex:includeScript value="/support/console/55.0/integration.js"/>
+    <script>
+    var userTheme = "{! $User.UIThemeDisplayed }";
+    var myqueryparms = "&nau=";
+    if (userTheme.includes("Theme4")) {
+        // The user is using the lighting theme
+        myqueryparms += encodeURIComponent("/lightning/o/Account/new?useRecordTypeCheck=1");
+    } else {
+        myqueryparms += encodeURIComponent("/setup/ui/recordtypeselect.jsp?ent=Account&save_new_url=/001/e") + "&taburl=" + encodeURIComponent("{!$CurrentPage.URL}");
+    }
+    var vwid = "{!$CurrentPage.parameters.vwid}";
+    if (vwid != '') {
+        myqueryparms += "&vwid=" + vwid;
+    }
+
+    var terrid = "{!$CurrentPage.parameters.terrid}";
+    if (terrid != '') {
+        myqueryparms += "&terrid=" + terrid;
+    }
+    myqueryparms += "&lgtvf=true";
+    myqueryparms += "&minframeheight=90vh";
+    com.vod309.redirect.redirect("myaccounts", myqueryparms);
+    </script>
+</apex:page>

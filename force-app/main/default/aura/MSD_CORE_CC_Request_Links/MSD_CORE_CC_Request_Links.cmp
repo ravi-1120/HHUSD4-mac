@@ -1,0 +1,76 @@
+<aura:component controller="CaseControllerMVN" extends="c:ComponentUtils" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader,lightning:availableForFlowScreens" access="global">
+    <aura:attribute name="mode" type="String" default="NEW" />
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    
+    <aura:attribute name="parentRT" type="String" />
+    <aura:attribute name="userProf" type="String" />
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="simpleRecord" type="Object" />    
+    <aura:attribute name="record" type="Object" />
+    <force:recordData aura:id="recordLoader"
+            recordId="{!v.recordId}"
+            fields="RecordTypeId, RecordType.Name"
+            layoutType="FULL"
+            targetRecord ="{!v.record}"
+            targetFields ="{!v.simpleRecord}"
+            mode="EDIT"
+            />
+    <aura:registerEvent name="MSD_CORE_CC_CloseModalEvt" type="c:MSD_CORE_CC_CloseModalEvt"/>
+    
+    <aura:attribute name="primary" type="Boolean"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+    <aura:if isTrue="{!v.parentRT =='Request'}">
+    <article class="slds-card">
+        <div class="slds-card__body">
+            <label class="slds-text-heading_small">Custom Links</label>
+               <aura:if isTrue="{!or(v.userProf =='MSD_CORE Contact Center - MVCC Agent',v.userProf =='MSD_CORE Contact Center - MVCC Agent Non-SSO')}">
+            <div class="slds-grid slds-gutters">    
+                <div class="slds-col slds-size_1-of-2"> <a onclick="{!c.handleSAPClick}">SAP</a></div>
+                <div class="slds-col slds-size_1-of-2"> <a onclick="{!c.handleTeamspaceClick}">Teamspace</a></div>
+            </div>
+                <aura:set attribute="else">
+                    <div class="slds-grid slds-gutters">
+                        <aura:if isTrue="{!or(v.userProf =='MSD_CORE Contact Center - PCC Agent',v.userProf =='MSD_CORE Contact Center - PCC Agent Non-SSO')}">
+            
+                <div class="slds-col slds-size_1-of-2"> <a onclick="{!c.openModal}">Select Package</a></div>
+            </aura:if>
+                </div>
+                 
+                        <div class="slds-grid slds-gutters">    
+
+                <div class="slds-col slds-size_1-of-2"> <a onclick="{!c.handleROMEClick}">CORAL</a></div>
+                    
+                <div class="slds-col slds-size_1-of-2"> <a onclick="{!c.handleSampleCenterClick}">Sample Center</a></div>
+                            
+                    </div>
+                            <div class="slds-grid slds-gutters">
+                                				<aura:if isTrue="{!and(notequals(v.userProf, 'MSD_CORE Contact Center - PCC Agent'),notequals(v.userProf, 'MSD_CORE Contact Center - PCC Agent Non-SSO'))}">
+            
+               <div class="slds-col slds-size_1-of-2"> <a onclick="{!c.handleIRMSClick}">CSN</a></div>
+                            </aura:if>
+            </div>
+                   </aura:set>        
+            </aura:if>
+            <!--<aura:if isTrue="{!v.isOpen}">
+            <div style="height: 640px;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header slds-modal__header_empty">
+                            <lightning:buttonIcon iconName="utility:close" class="slds-modal__close" onclick="{!c.closeFlowModal}"/>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <lightning:flow aura:id="flow" onstatuschange="{!c.closeModalOnFinish}" />
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div> 
+        </aura:if>-->
+        </div>
+    </article>
+    </aura:if>
+</aura:component>

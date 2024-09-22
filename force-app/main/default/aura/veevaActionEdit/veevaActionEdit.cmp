@@ -1,0 +1,25 @@
+<aura:component implements="force:hasRecordId,lightning:actionOverride,lightning:hasPageReference,lightning:availableForFlowScreens">
+
+    <aura:attribute name="objectApiName" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="flowContext" type="String"/>
+    <aura:attribute name="isFlowScreen" type="Boolean"/>
+    <aura:attribute name="saveAndNew" type="Boolean"/>
+    <aura:attribute name="pageCtrlFactoryLoaded" type="Boolean" />
+    
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.refreshView}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:if isTrue="{!v.objectApiName}">
+        <c:veevaPageControllerFactoryLoader objectApiName="{!v.objectApiName}" pageCtrlFactoryLoadedEvent="{!c.handlePageCtrlFactoryLoaded}">
+        </c:veevaPageControllerFactoryLoader>
+    </aura:if>
+    <aura:if isTrue="{!and(v.objectApiName, v.pageCtrlFactoryLoaded)}">
+        <c:veevaOverrideEdit recordId="{!v.recordId}" objectApiName="{!v.objectApiName}" 
+            pageReference="{!v.pageReference}" isFlowScreen="{!v.isFlowScreen}" onclose="{!c.handleClose}">   
+        </c:veevaOverrideEdit>
+    </aura:if>
+    <c:veevaLgtnFlowLauncher noDefaultFlow="true"></c:veevaLgtnFlowLauncher>
+</aura:component>

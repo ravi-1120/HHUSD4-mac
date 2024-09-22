@@ -1,0 +1,100 @@
+.button2 {
+    /* edit below css  */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    width: 88px;
+    height: 84px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    flex: none;
+    flex-grow: 0;
+    /* margin: 0 15px 0 0;Rusheel */
+    font-family: 'Invention';
+    order: 0;
+    text-align: center;
+}
+
+.button3 {
+    /* edit below css  */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 8px;
+    width: 88px;
+    height: 84px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    flex: none;
+    flex-grow: 0;
+    margin: 0 15px 0 0;
+    font-family: 'Invention';
+    order: 0;
+    text-align: center;
+}
+
+.top-margin {
+    margin-top: 8px;
+    padding: 0px;
+}
+
+.b4 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+     /* font-size change to 18px to 24px */
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: black;
+    flex: none;
+    flex-grow: 0;
+    line-height: 36px;
+}
+
+.b5 {
+    font-family: 'Invention';
+    font-style: normal;
+    /* font-size change to 10px to 12px */
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: black;
+    flex: none;
+    flex-grow: 0;
+    line-height: 18px;
+    font-weight: 400;
+}
+.mdate{
+    padding-top: 8px;
+}
+
+.calText{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    Line-height: 18px;
+    text-align: center;
+}
+
+/* ===================== Mobile Screen ===================== */
+
+.top-margin {
+    padding: 0px !important;
+}
+/* Start Mobile Screen */
+
+/* Mobile Screen */
+@media screen and (max-width: 767px) {
+    .top-margin {
+        padding: 0px !important;
+    }
+}

@@ -1,0 +1,199 @@
+<apex:page showHeader="false" extensions="MSD_CORE_SubmitForApprovalController" standardStylesheets="false" standardController="Knowledge__kav" recordSetVar="articles" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en" >
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Submit for Approval</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <!-- Import the Design System style sheet -->
+            <apex:slds />
+            
+            <style>
+                body{
+                //background: #fff;
+                //border-radius: 5px;
+                margin: 0;
+                }
+                .slds-scope .slds-select {
+                height: 200px !important;
+                }
+                .slds-scope .slds-media__figure {
+                flex-shrink: 0;
+                margin-right: 0;
+                }
+            </style>
+            <script> 
+            function goBack(){
+                var url = "/lightning/o/Knowledge__kav/list";
+                window.top.location.href = url;
+              }
+            </script>
+            
+        </head>
+        <body>
+            <!-- REQUIRED SLDS WRAPPER -->
+            <div class="slds-scope">
+                <!-- PRIMARY CONTENT WRAPPER -->
+                <div class="myapp">
+                    <!-- SECTION - BADGE COMPONENTS -->
+                    
+                    <apex:outputPanel rendered="{!$CurrentPage.parameters.singleArticle != 'yes'}">
+                        <div class="slds-page-header">
+                            <div class="slds-page-header__row">
+                                <div class="slds-page-header__col-title">
+                                    <div class="slds-media">
+                                        <div class="slds-media__body">
+                                            <div class="slds-page-header__name">
+                                                <div class="slds-page-header__name-title">
+                                                    <h1>
+                                                        <span class="slds-page-header__title slds-truncate" title="Submit for approval">
+                                                            Submit for approval
+                                                        </span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        
+                    </apex:outputPanel>
+                    
+                    <section aria-labelledby="badges">
+                        
+                        <apex:outputPanel rendered="{!IF(AppStatus == 'Submitted for Approval', true, false)}">  
+                            <div class="slds-card__header slds-grid  slds-align_absolute-center" style="background-color:white;" >                           
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate slds-align_absolute-center"  > 
+                                    <div class="slds-media__figure">
+                                    <h2 class="slds-card__header-title">
+                                        <span style="color:red; font-size: medium; text-align:center;">Submitted articles can't be send for approval.</span>
+                                    </h2>
+                                    </div>
+                                </header>
+                            </div>
+                            <footer class="slds-card__footer">
+                                <button class="slds-button slds-button_neutral" onclick="goBack(); return false;">Cancel</button>
+                            </footer>                            
+                        </apex:outputPanel>
+                        
+                        <apex:outputPanel rendered="{!IF(ProfileName == 'Knowledge Community User', true, false)}">  
+                            <div class="slds-card__header slds-grid  slds-align_absolute-center" style="background-color:white;" >                           
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate slds-align_absolute-center"  > 
+                                    <div class="slds-media__figure">
+                                    <h2 class="slds-card__header-title">
+                                        <span style="color:red; font-size: medium; text-align:center;">Approvers are not authorised to Submit Articles for Approval.</span>
+                                    </h2>
+                                    </div>
+                                </header>
+                            </div>
+                            <footer class="slds-card__footer">
+                                <button class="slds-button slds-button_neutral" onclick="goBack(); return false;">Cancel</button>
+                            </footer>                            
+                        </apex:outputPanel>
+                        
+                        <apex:outputPanel rendered="{!IF(Errormsg == 'Yes', true, false)}">  
+                            <div class="slds-card__header slds-grid  slds-align_absolute-center" style="background-color:white;" >                           
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate slds-align_absolute-center"  > 
+                                    <div class="slds-media__figure">
+                                    <h2 class="slds-card__header-title">
+                                        <span style="color:red; font-size: medium; text-align:center;">Published Articles can't be send for Approval.</span>
+                                    </h2>
+                                    </div>
+                                </header>
+                            </div>
+                            <footer class="slds-card__footer">
+                                <button class="slds-button slds-button_neutral" onclick="goBack(); return false;">Cancel</button>
+                            </footer>                            
+                        </apex:outputPanel>  
+                        
+                        <apex:outputPanel rendered="{!AND(Errormsg != 'Yes' , ProfileName != 'Knowledge Community User', AppStatus != 'Submitted for Approval')}"> 
+                            <apex:outputPanel rendered="{!$CurrentPage.parameters.singleArticle != 'yes'}">
+                                <article class="{!IF($CurrentPage.parameters.singleArticle != 'yes','slds-card','')}">
+                                    <div class="slds-card__header slds-grid">
+                                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                            <div class="slds-media__figure">
+                                                <span class="slds-icon_container slds-icon-standard-account" title="account">
+                                                    <span class="slds-assistive-text">Selected Articles</span>
+                                                </span>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <h2 class="slds-card__header-title">
+                                                    <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                                        <span>Selected Articles</span>
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                        </header>
+                                    </div>
+                                    
+                                    <div class="slds-card__body slds-card__body_inner">
+                                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Title">Title</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Article Number">Article Number</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Version Number">Version Number</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Record Type">Record Type</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <apex:repeat value="{!knowledgeList}" var="a">
+                                                    <tr class="slds-hint-parent">
+                                                        <th scope="row">
+                                                            <div class="slds-truncate" title="{!a.Title}">
+                                                                <a href="javascript:void(0);" tabindex="-1">{!a.Title}</a>
+                                                            </div>
+                                                        </th>
+                                                        <td>
+                                                            <div class="slds-truncate" title="{!a.ArticleNumber}">{!a.ArticleNumber}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="slds-truncate" title="{!a.VersionNumber}">{!a.VersionNumber}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="slds-truncate" title="{!a.Title}">{!a.RecordType.Name}</div>
+                                                        </td>
+                                                    </tr>
+                                                </apex:repeat>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <footer class="slds-card__footer">
+                                        <a class="slds-card__footer-action" href="javascript:void(0);">
+                                        </a>
+                                    </footer>
+                                </article>
+                                <br/>
+                                
+                            </apex:outputPanel>
+                            
+                            <c:MultiselectPicklist leftLabel="Available Approvers"
+                                                   rightLabel="Selected Approvers"
+                                                   size="8"
+                                                   kList="{!memIds}"
+                                                   width="150px"/>
+                            
+                        </apex:outputPanel>
+                    </section>
+                    <!-- / SECTION - BADGE COMPONENTS -->
+                </div>
+                <!-- / PRIMARY CONTENT WRAPPER -->
+            </div>
+            <!-- / REQUIRED SLDS WRAPPER -->
+            
+        </body>
+        
+    </html>
+    <!-- / REQUIRED SLDS WRAPPER -->
+    <!-- / REQUIRED SLDS WRAPPER -->
+</apex:page>

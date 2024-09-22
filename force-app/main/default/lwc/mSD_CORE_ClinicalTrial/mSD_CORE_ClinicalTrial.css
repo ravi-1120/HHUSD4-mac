@@ -1,0 +1,23 @@
+.clinical h1{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #000000;
+}
+.clinicalmaincls a {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-decoration-line: underline;
+    color: #005C56;
+    padding: 8px 0 0 0;
+}
+.clinicalmaincls img {
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+}

@@ -1,0 +1,52 @@
+.dummy{
+	color : black;
+}
+
+.b4 {
+    width: 11px;
+    height: 27px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: rgb(2, 3, 3);
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.b5 {
+    width: 79px;
+    height: 18px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.button2 {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding: 8px;
+    gap: 1px;
+    width: 95px;
+    height: 62px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    flex: none; 
+    flex-grow: 0; margin: 0 15px 0 0;
+}

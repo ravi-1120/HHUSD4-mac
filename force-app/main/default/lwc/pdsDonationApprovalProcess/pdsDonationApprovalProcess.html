@@ -1,0 +1,11 @@
+<template>
+	<div class="success-container">
+		<div class="success-screen">
+			<template if:true={approved}> <lightning-icon size="large" icon-name="utility:success" class="upload-icon">
+				</lightning-icon></template>
+			<template if:true={rejected}> <lightning-icon size="medium" icon-name="action:reject" class="reject-icon">
+				</lightning-icon></template>
+			<h2 class="success-header">{message}</h2>
+		</div>
+	</div>
+</template>

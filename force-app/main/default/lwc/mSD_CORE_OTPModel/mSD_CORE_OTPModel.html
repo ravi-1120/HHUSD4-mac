@@ -1,0 +1,32 @@
+<template>
+    <div class="container">
+        <div class="pass_container">
+            <div class="pass_headersec">
+                <h2>Enter your one-time password.</h2>
+                <p>Enter the one-time password we sent to <b>{personemail}</b>.</p>
+                <p>If you have any questions, please <a href={contactpageurl} target="_self" onclick={handlega}> contact your Merck account team</a>.</p>
+                <!-- <p>If you have any questions, please <a href={siteName.MyContacts} > contact your Merck account team</a>.</p> -->
+            </div>
+            <div class="pass_bodysec">
+                <div>
+                    <lightning-input type="password" class="otpinput" label="One-time password" 
+                        placeholder="One-time password" value={otp} data-name="otp" onchange={handlechange} onclick={oninputclickga}>
+                    </lightning-input>
+                    <!-- <lightning-input type="text" class="otpinput" label="One-time password" 
+                        placeholder="One-time password" value={otp} data-name="otp" onchange={handlechange} >
+                    </lightning-input> -->
+
+                    <div if:true={errormsg} class="errormsgcls">
+                        {errormsgtext}
+                    </div>
+                </div>
+                <div class="otpnotreceived">
+                    <p>Didn’t receive a one-time password? <span onclick={requestnewotp}> Request a new password</span>.</p>
+                </div>
+                <div class="btnmaincls">
+                    <button class={nextbtnclass} disabled={nextbtndisable} onclick={submitotp}>Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

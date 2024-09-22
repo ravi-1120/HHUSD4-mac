@@ -1,0 +1,94 @@
+<template>
+    <c-veeva-spinner if:false={ready}></c-veeva-spinner>
+    <div if:true={ready}>
+        <div class="slds-modal__header">
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{labels.convertToCall}</h1>
+        </div>
+        <div class="slds-modal__content slds-p-around_medium cnc-body" id="modal-content-id-1">
+            <div class="create-new-call-container">
+                <!-- Account Search -->
+                <div class="s4l-account-search" >
+                    <!-- search bar -->
+                    <div class={accountSearchBoxClass}>
+                        <c-veeva-account-search onclick={focusAccountSearch} if:true={showAccountSelector} ctrl={accountSearchCtrl}
+                            onaccountselected={handleSelectAccount} onsearchcleared={handleClearAccount}>
+                        </c-veeva-account-search>
+                    </div>
+                    <p class="required-error" if:true={accountRequiredError}>{labels.thisFieldIsRequired}</p>
+                    <!-- alert modal if the selected account validate the product/ segementation restriction -->
+                    <c-veeva-alert-modal if:true={showAccountAlertModal} show={showAccountAlertModal}
+                        title={accountAlertModalData.title} messages={accountAlertModalData.messages}
+                        okay-label={labels.close} button-style="neutral" onclose={closeAccountAlertModal} >
+                    </c-veeva-alert-modal>
+                </div>
+
+                <!-- Call Record Type Selector -->
+                <div class="s4l-record-type-selector" if:true={validAccountSelected}>
+                    <c-s4l-record-type-selector labels={labels} account={selectedAccountId} show-error={recordTypeRequiredError}
+                        onselect={handleRecordTypeChange} onfailure={handleNoRecordTypeFailure}>
+                    </c-s4l-record-type-selector>
+                </div>
+                <!-- alert modal if call functionality is disabled for the selected account -->
+                <c-veeva-alert-modal if:true={showRecordTypeAlertModal} show={showRecordTypeAlertModal}
+                    title={recordTypeAlertModalData.title} messages={recordTypeAlertModalData.messages}
+                    okay-label={labels.close} button-style="neutral" onclose={closeAccountAlertModal} >
+                </c-veeva-alert-modal>
+                <!-- enable location selector component when child account is enabled and selected account is a Person Account -->
+                <div class="s4l-location-selector" if:true={showLocationSelectorSection}>
+                    <c-s4l-location-selector labels={labels} account={selectedAccountId} show-error={locationRequiredError}
+                                             onselect={handleSelectLocation} onnolocation={setLocationNotRequired}>
+                    </c-s4l-location-selector>
+                </div>
+            </div>
+            <!-- enable attendee section when the selected account is NOT a person account
+                and the unique activity zvod field presents on the selected record type page layout -->
+            <div class="s4l-attendee-container" if:true={showAttendeeSection}>
+                <div class="s4l-attendee-title">{labels.attendees}</div>
+                <div class="s4l-attendee-button-container">
+                    <button class="slds-button slds-button_neutral" onclick={launchAttendeeModal}>{labels.addAttendees}</button>
+                </div>
+                <div class="s4l-selected-attendee-list-container">
+                    <div class="s4l-selected-attendee-list">
+                        <template for:each={selectedAttendees} for:item="selectedAttendee">
+                            <div key={selectedAttendee.id}>
+                                <div>
+                                    <p class="attendee-name">{selectedAttendee.formattedName}</p>
+                                    <p class="attendee-supplemental-info">{selectedAttendee.supplementalInfo}</p>
+                                </div>
+                                <div><!---->
+                                    <lightning-button-icon icon-name="utility:delete" variant="bare"
+                                        size="medium"
+                                        value={selectedAttendee.id}
+                                        alternative-text="Delete"
+                                        icon-class="slds-m-around_medium"
+                                        onclick={handleDeleteAttendee}>
+                                    </lightning-button-icon>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <c-veeva-alert-modal if:true={showAttendeeMaxAlert} show={showAttendeeMaxAlert}
+                    title={labels.attendeeLimitReached} messages={attendeeMaxAlertMessage}
+                    okay-label={labels.close} button-style="neutral" onclose={closeAttendeeMaxAlert} >
+                </c-veeva-alert-modal>
+                <c-s4l-attendee-search if:true={showAddAttendeeModal}
+                    account={selectedAccountId} mca-id={mcaId}
+                    labels={labels}
+                    is-child-account-enabled={isChildAccountEnabled}
+                    already-selected-attendees-id={selectedAttendeeIds}
+                    onadd={handleAddAttendees}
+                    onclose={handleCloseAddAttendeeModal}>
+                </c-s4l-attendee-search>
+            </div>
+            <c-veeva-alert-modal if:true={showReconciliationError} show={showReconciliationError}
+                title={reconErrorModalData.title} messages={reconErrorModalData.messages}
+                okay-label={labels.close} button-style="neutral" onclose={closeReconErrorModal} >
+            </c-veeva-alert-modal>
+        </div>
+        <div class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" aria-label="Cancel" onclick={handleCancel}>{labels.cancel}</button>
+            <button class="slds-button slds-button_brand" onclick={handleSave} disabled={disableSaveButton}>{labels.save}</button>
+        </div>
+    </div>
+</template>

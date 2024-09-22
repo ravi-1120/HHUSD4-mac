@@ -1,0 +1,191 @@
+<apex:component controller="VODRedirectController">
+    <c:AttachmentsHandlerVod />
+    <apex:includeScript value="/support/console/44.0/integration.js"/>
+    <script type="text/javascript">
+    var com = com || {};
+    com.vod309 = com.vod309 || {};
+    com.vod309.resize = {};
+    com.vod309.resize.iframe = undefined;
+
+    var sforceConsoleEnabled = typeof sforce !== 'undefined' && sforce.console;
+    var isConsoleNavigation = sforceConsoleEnabled && sforce.console.isInConsole();
+
+    com.vod309.resize.init = function(iframe) {
+        com.vod309.resize.iframe = iframe;
+        if(window.addEventListener) {
+            window.addEventListener("message", com.vod309.resize.receiveMessage, false);
+        } else if (window.attachEvent) {
+            window.attachEvent("onmessage", com.vod309.resize.receiveMessage);
+        }
+    };
+
+    com.vod309.resize.getDomain = function(url) {
+        var matches = url.match(/^https?\:\/\/([^\/:?#@]+)(?:[\/:?#]|$)/i);
+        // domain will be null if no match is found
+        return matches && matches[1];
+    };
+
+    com.vod309.resize.isValidDomain = function(domain) {
+        var isValidDomain = false;
+        var validDomains = [".vod309.com", ".veevacrmdev.com", ".veevacrmqa.com", ".veevacrmstage.com", ".veevacrm.com", ".veevacrmdemo.com", ".veevacrmdi.com"];
+        for(var i = 0; i < validDomains.length; i++) {
+            if(domain.indexOf(validDomains[i]) >= 0) {
+                isValidDomain = true;
+                break;
+            }
+        }
+        return isValidDomain;
+    }
+
+    com.vod309.resize.receiveMessage = function(event) {
+        var domain = com.vod309.resize.getDomain(event.origin);
+        var isValidDomain = com.vod309.resize.isValidDomain(domain);
+        if(domain && (isValidDomain || domain === "localhost")) {
+            var data = JSON.parse(event.data);
+            if (data) {
+                if(data.height && com.vod309.resize.iframe) {
+                    if (data.height.search && data.height.search(/(vh)|%$/)) {
+                        // if height is specified using vh or %, set the height using css
+                        delete com.vod309.resize.iframe.height;
+                        com.vod309.resize.iframe.style.height = data.height;
+                    } else {
+                        com.vod309.resize.iframe.height = parseInt(data.height);
+                    }
+                }
+
+                var attachmentRLElem = document.getElementById('veevaAttachmentRL');
+                if (attachmentRLElem) {
+                    if (data.attachmentRL && com.vod309.attachments) {
+                        com.vod309.attachments.handleAttachmentRL(attachmentRLElem, data);
+                        com.vod309.attachments.addAttachRLListener(attachmentRLElem, data);
+                    }
+                    if (data.hideAttachmentRL) {
+                        attachmentRLElem.style.display = 'none';
+                    }
+                }
+
+                if (data.url) {
+                    if (typeof sforce !== 'undefined' && sforce.one) {
+                        if (data.url.split('?')[0].indexOf("/record-actions") !== -1 && (data.url.indexOf("actionName=edit") !== -1 || data.url.indexOf("actionName=new") !== -1)) {
+                            sforce.one.back(true);
+                        } else {
+                            if (data.url === '/') {
+                                data.url = '/lightning/page/home';
+                            }
+
+                            if(isConsoleNavigation) {
+                                com.vod309.resize._handleConsoleNavigation(data);
+                            } else {
+                                sforce.one.navigateToURL(data.url);
+                            }
+                        }
+                    }
+                    else {
+                        top.location = data.url;
+                    }
+                }
+            }
+        }
+    }
+
+    com.vod309.resize._handleConsoleNavigation = async function(data) {
+        const primaryTabIdResult = await com.vod309.resize._getFocusedPrimaryTabIdResult();
+        const primaryTabId = primaryTabIdResult?.id;
+        if (data.shouldOpenNavigationItem) {
+            await com.vod309.resize._navigateToNavItemMatchingDataUrl(data, primaryTabIdResult, primaryTabId);
+        } else {
+            com.vod309.resize._navigateToUrlInConsoleMode(data, primaryTabIdResult, primaryTabId);
+        }
+    }
+
+    com.vod309.resize._navigateToUrlInConsoleMode = function(data, primaryTabIdResult, primaryTabId) {
+        //Always redirect in SF Console App
+        var redirect = true;
+
+        //Check if redirect property exists and use the value to redirect.
+        if (typeof data.redirect !== 'undefined') {
+            redirect = data.redirect;
+        }
+        if (data.closeTab && primaryTabId) {
+            sforce.console.openPrimaryTab(null, data.url, true, undefined, (openStatus) => {
+                if (openStatus.success) {
+                    sforce.console.closeTab(primaryTabId);
+                }
+            });
+        } else {
+            sforce.one.navigateToURL(data.url, redirect);
+            if (typeof data.refreshCurrentTab !== 'undefined' && data.refreshCurrentTab && primaryTabIdResult.success) {
+                if (primaryTabId === null) {
+                    //Assuming navigation tab as the request for console TabId was successful and the id is null.
+                    sforce.console.refreshNavigationTab();
+                } else {
+                    sforce.console.refreshPrimaryTabById(primaryTabId, false);
+                }
+            }
+        }
+    }
+
+    com.vod309.resize._navigateToNavItemMatchingDataUrl = async function (data, primaryTabIdResult, primaryTabId) {
+        const url = com.vod309.resize._getDataUrl(data);
+        const navItemMatchingURL = await com.vod309.resize._getMatchingNavigationTab(url);
+        if (navItemMatchingURL) {
+            const selectedNavigationResult = await com.vod309.resize._setSelectedNavigationTab(navItemMatchingURL.navigationTabId, null);
+            const focusNavigationResult = await com.vod309.resize._focusNavigationTab();
+            if (selectedNavigationResult.success && focusNavigationResult.success) {
+                if (data.closeTab) {
+                    sforce.console.closeTab(primaryTabId);
+                }
+            } else {
+                com.vod309.resize._navigateToUrlInConsoleMode(data, primaryTabIdResult, primaryTabId);
+            }
+        } else {
+            com.vod309.resize._navigateToUrlInConsoleMode(data, primaryTabIdResult, primaryTabId);
+        }
+    }
+
+    com.vod309.resize._getFocusedPrimaryTabIdResult = async function () {
+        return new Promise(resolve => {
+            sforce.console.getFocusedPrimaryTabId(function (result) {
+                resolve(result);
+            });
+        });
+    }
+
+    com.vod309.resize._focusNavigationTab = async function () {
+        return new Promise(resolve => {
+            sforce.console.focusNavigationTab(function (result) {
+                resolve(result);
+            });
+        });
+    }
+
+    com.vod309.resize._getMatchingNavigationTab = async function (url) {
+        return new Promise(resolve => {
+            sforce.console.getNavigationTabs(function (result) {
+                const items = result.success && result.items ? JSON.parse(result.items) : [];
+                const navItemMatchingURL = items.find(item => url.pathname === item.listViewUrl);
+                resolve(navItemMatchingURL);
+            });
+        });
+    }
+
+    com.vod309.resize._setSelectedNavigationTab = async function (navigationTabId, url) {
+        return new Promise(resolve => {
+            sforce.console.setSelectedNavigationTab(function (result) {
+                resolve(result);
+            }, navigationTabId, url);
+        });
+    }
+
+    com.vod309.resize._getDataUrl = function (data) {
+        let url;
+        try {
+            url = new URL(data.url);
+        } catch (e) {
+            url = new URL(data.url, window.location.origin);
+        }
+        return url;
+    }
+
+    </script>
+</apex:component>

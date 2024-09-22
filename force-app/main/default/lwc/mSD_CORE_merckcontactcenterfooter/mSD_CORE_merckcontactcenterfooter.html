@@ -1,0 +1,35 @@
+<template>
+    <c-custom-toast auto-close-time="3000"></c-custom-toast>
+    <footer class="hcp-footer">
+       <!-- <div class="page-footer page-section"> -->
+          <div class="slds-grid slds-wrap footerCls">
+             <div class="slds-col slds-size_1-of-1 borderCls">
+                <div class="slds-grid slds-wrap">
+                   <div class="slds-col slds-size--1-of-1 slds-medium-size--9-of-12 slds-m-top_medium">
+                      <ul>
+                         <li>
+                            <ul class="slds-list_horizontal footerfont slds-has-dividers_right">
+                               <li class="slds-item footerLinkCls" onclick={redirectPrivacy}>{label.PRIVACYPOLICY}
+                               </li>
+                               <li class="slds-item footerLinkCls" onclick={redirectTermsofUse}>{label.TERMSOFUSE}
+                               </li>
+                               <li class="slds-item footerLinkCls"> <a href="javascript:Optanon.ToggleInfoDisplay()"
+                               style="text-decoration:none; color:black">
+                                  Cookie Preferences</a>
+                               </li>
+                            </ul>
+                         </li>
+                      </ul>
+                   </div>
+                   <div class="slds-col slds-size--1-of-1 slds-medium-size--8-of-12 slds-m-top_xx-small"
+                      style="text-align: left;">
+                      <div class="informationCls">
+                         <p>Copyright © {yyyy} {label.FOOTERMESSAGE}</p>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       <!-- </div> -->
+    </footer>
+ </template>

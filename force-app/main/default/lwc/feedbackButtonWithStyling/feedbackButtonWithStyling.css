@@ -1,0 +1,15 @@
+:host {
+    --sds-c-button-shadow-focus: none;
+}
+
+.truncate-text {
+    display: inline;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+button:disabled, button[disabled] {
+    color: var(--lwc-colorTextDefault,rgb(24, 24, 24));
+}

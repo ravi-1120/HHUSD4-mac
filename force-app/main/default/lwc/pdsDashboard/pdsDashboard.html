@@ -1,0 +1,117 @@
+<template>
+	<div class="dashboard-container">
+		<div class="request-card">
+			<div class="card-header">
+				<p class="title-cls">{labels.makerequestheader}</p>
+				<template if:true={isMDP}>
+					<img src={mdpmakerequest} class="img-cls"></img>
+				</template>
+				<template if:true={isMMOP}>
+					<img src={makerequest} class="img-cls"></img>
+				</template>
+			</div>
+			<div class="slds-card__footer">
+				<div class="footer-container">
+					<div class="icon-container">
+						<lightning-icon size="medium" icon-name="utility:send" class="icon-cls"></lightning-icon>
+					</div>
+					<div class="text-cls">
+						{labels.makerequestfooter}
+					</div>
+				</div>
+				<div>
+					<button class="get-button" onclick={handleClick} disabled={isDisabled}>{labels.makerequestbutton}</button>
+				</div>
+			</div>
+		</div>
+		<div class="request-card">
+			<div class="card-header">
+				<p class="title-cls">{labels.vrequestheader}</p>
+				<template if:true={isMDP}>
+					<img src={mdpviewrequest} class="img-cls"></img>
+				</template>
+				<template if:true={isMMOP}>
+					<img src={viewrequest} class="img-cls"></img>
+				</template>
+			</div>
+			<div class="slds-card__footer">
+				<div class="footer-container">
+					<div class="icon-container">
+						<lightning-icon size="medium" icon-name="utility:hourglass" class="icon-cls"></lightning-icon>
+					</div>
+					<div class="view-text-cls">
+						{labels.vrequestfooter}
+					</div>
+				</div>
+				<div>
+					<button class="req-button" onclick={requestDetail}>{labels.vrequestbutton}</button>
+				</div>
+			</div>
+		</div>
+		<div if:true={intaketype}>
+			<section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open sectioncls">
+				<div class="slds-modal__container modal-container-cls">
+					<div class="slds-modal__content content-cls">
+						<div class="slds-modal__header">
+							<p class="modal-p-text">{labels.requestTypeHeader} </p>
+							<button class="btn-cls"><lightning-icon size="small" class="crossicon" icon-name="utility:close"
+								onclick={closeResponse}>
+							</lightning-icon></button>
+						</div>
+						<div>
+							<div class="radio-container">
+								<!-- <template for:each={donationTypes} for:item="donationType">
+									<div key={donationType.id} class="radio-card-one" onclick={handleCardClick}>
+										<div class="radio-card" onclick={handleCardClick}>
+											<input type="radio" name="donationType" value={donationType} class="radio-btn-cls" onchange={handleChange}>
+											<label style="border:none;" onchange={handleChange} value={donationType} class="dtype-name">MMOP -{donationType}</label>
+										</div>
+									</div>
+								</template> -->
+								<!-- <template if:true={donationTypes}>
+							<div class="radio-card" onclick={handleCardClick}>
+								<lightning-radio-group name="donationType" options={donationTypes} value={donationType} onchange={handleChange}></lightning-radio-group>
+							</div>
+						</template> -->
+								<!-- <div if:true={donationTypes}>
+									<template for:each={donationTypes} for:item="type">
+										<div key={type.value} class="radio-card-one" onclick={handleCardClick} data-name={type.value} data-id={type.label}>
+										<div key={type.value} class="radio-card" onclick={handleCardClick} data-name={type.value} data-id={type.label}>
+											<lightning-radio-group name={type.value} options={type.options}
+												value={selectedValue} onchange={handleChange} class="radio-cls" style="border:none;font-family:'InventionBd';"></lightning-radio-group>
+										</div>
+										</div>
+									</template>
+								</div> -->
+								<div if:true={donationTypes} class={scrollableClass}>
+									<template for:each={donationTypes} for:item="type">
+										<div key={type.uniqueName} class="radio-card-one" onclick={handleCardClick}
+											data-name={type.value} data-id={type.label}>
+											<div key={type.uniqueName} class="radio-card" onclick={handleCardClick}
+												data-name={type.value} data-id={type.label}>
+												<lightning-radio-group data-name={type.uniqueName}
+													options={type.options} value={selectedValue} onchange={handleChange}
+													class="radio-cls" style="border:none;font-family:'InventionBd';">
+												</lightning-radio-group>
+											</div>
+										</div>
+									</template>
+								</div>
+
+							</div>
+							<div class="slds-modal__footer">
+								<button onclick={closeResponse} class="cancel-btn" label="Cancel">{labels.cancelBtn}</button>
+								<lightning-button class="lt-button" onclick={handleContinue} label={labels.continueBtn}>
+								</lightning-button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<div if:true={showSpinner}>
+		<c-pds-spinner></c-pds-spinner>
+	</div>
+</template>

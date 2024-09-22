@@ -1,0 +1,31 @@
+<template>
+    <template if:true={profileName}>
+        <c-h-e-q_-add-more profile-name={profileName} onselectedcategories={SelectedCategories}></c-h-e-q_-add-more>
+    </template>
+    <template if:false={profileName}>
+        <p>Loading...</p>
+    </template>
+    <br>
+    <div class="slds-grid slds-wrap slds-gutters">
+        <!-- Section Template -->
+        <template for:each={sections} for:item="section">
+            <div key={section.title} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-2 slds-p-around_x-small">
+                <div class="slds-box slds-m-around_medium">
+                    <div class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small">
+                        <div class="cardtitle slds-text-heading_small">{section.title}</div>
+                        <div class="action-buttons">
+                            <a class="cardsubtitle slds-text-link" data-title={section.title} onclick={handleViewAll}>View All</a>
+                            <a class="cardsubtitle slds-text-link" onclick={MoreOptions}>...</a>
+                        </div>
+                    </div>
+                    <template for:each={section.topics} for:item="topic">
+                        <c-h-e-q_-generic-tiles key={topic.id} onhandlebookmark={handleBookmark} onhandleunbookmark={handleUnBookmark} sections={sections} id={topic.id} bookmarked={topic.isBookmarked} title={topic.title} subtitle={topic.subtitle}></c-h-e-q_-generic-tiles>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+    <div if:true={showSpinner}>
+        <c-h-e-q-spinner></c-h-e-q-spinner>
+    </div>
+</template>

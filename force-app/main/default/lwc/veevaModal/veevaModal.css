@@ -1,0 +1,132 @@
+/* Allows nesting modals within modals */
+.slds-modal__container {
+    transform: none;
+}
+
+.max-height-content {
+    height: inherit;
+}
+
+/* Allows dropdowns to be visible past modal's bottom border */
+/* Used in non-standard record pages i.e pop-up dialogs */
+.override-overflow {
+    overflow: initial;
+}
+
+/* Will add horizontal/vertical scrollbars if content overflows in the container */
+.display-overflow {
+    overflow: auto;
+}
+
+.veeva-modal {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.veeva-modal__container {
+  /* width: 100%; */
+}
+
+.small-vertical-padding {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.min-width-container {
+  width: fit-content;
+  min-width: 15rem;
+}
+
+.veeva-modal_veeva-narrow .veeva-modal__container {
+  /* 1000px is the max width for a single column lighting-datatable */
+  max-width: calc(1000px + 2rem);
+  min-width: 40rem;
+}
+
+.veeva-modal_veeva-narrow .veeva-modal__container {
+  /* 1000px is the max width for a single column lighting-datatable */
+  max-width: calc(1000px + 2rem);
+  min-width: 40rem;
+}
+
+.veeva-modal_veeva-extra-large .veeva-modal__container {
+    width: 95%;
+    max-width: 100rem;
+    min-width: 35rem
+}
+
+.veeva-modal_veeva-small .veeva-modal__container {
+    width: 35rem;
+    max-width: 35rem;
+}
+
+.veeva-modal_veeva-smaller .veeva-modal__container {
+    width: 25rem;
+    max-width: 25rem;
+    max-height: 35rem;
+}
+
+.veeva-modal_veeva-tiny .veeva-modal__container {
+    width: 20rem;
+    max-width: 20rem;
+    max-height: 20rem;
+}
+
+.veeva-modal_veeva-long .veeva-modal__container {
+    width: 30rem;
+    min-width: 10rem;
+    max-width: 30rem;
+    max-height: 35rem;
+}
+
+.failed-response-header {
+    background: repeating-linear-gradient(
+      45deg,
+      #b3443b,
+      #b3443b 10px,
+      #ad4139 10px,
+      #ad4139 20px
+    );
+    background-origin: border-box;
+    color: #ffffff;    
+}
+
+.success-response-header {
+    background: repeating-linear-gradient(
+      45deg,
+      #3a8150,
+      #3a8150 10px,
+      #387e4d 10px,
+      #387e4d 20px
+    );
+    background-origin: border-box;
+    color: #ffffff;
+}
+
+.signing-requesting-header {
+    background: repeating-linear-gradient(
+      45deg,
+      #706e6b,
+      #706e6b 10px,
+      #6a6c68 10px,
+      #6a6c68 20px
+    );
+    background-origin: border-box;
+    color: #ffffff;
+}
+
+.hide-footer-bar {
+    border-top-style: none;
+    background-color: #ffffff;
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+button.slds-button:hover{
+   background-color: transparent;
+}

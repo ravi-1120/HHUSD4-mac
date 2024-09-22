@@ -1,0 +1,55 @@
+.labelstyle {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 21px;
+	color: #333333;
+	padding-bottom: 8px;
+	margin-bottom: 0px !important;
+}
+.slds-combobox{
+	border-color: #333333;
+}
+.dropcls{
+    width: 55%!important;
+	margin-left: -22.4% !important;
+	z-index: 1;
+}
+.dropdwncls{
+	width: 55% !important;
+	height: 40px !important;
+}
+.botmarg{
+	margin-bottom: 24px !important;
+}
+.inptstl{
+	font-size: 14px !important;
+	padding: 9px 12px 10px 12px !important;
+	border-color: #333333 !important;
+	color:#333333 !important;
+}
+.iconstyl{
+	width: 16px;
+	height: 16px;
+	--sds-c-icon-color-foreground-default:#333333 !important;
+}
+.aligncenter{
+  /* Center vertically - Added by Sabari */
+  display: flex;
+  align-items: center;
+}
+@media all and (min-width:360px) and (max-width: 600px) {
+
+	.dropdwncls{
+		width: 100% !important;
+		height: 40px !important;
+	}
+	.dropcls{
+		width: 100% !important;
+		/* margin-left: -20% !important; */
+		margin-left: 0px !important;
+	
+	}
+
+}

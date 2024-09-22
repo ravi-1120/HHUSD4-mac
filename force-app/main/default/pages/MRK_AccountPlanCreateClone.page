@@ -1,0 +1,4 @@
+<apex:page standardController="Account_Plan_vod__c" extensions="MRK_AccountPlanCreateClone"
+           action="{!autoClone}" showHeader="false">
+<apex:messages />
+</apex:page>

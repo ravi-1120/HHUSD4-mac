@@ -1,0 +1,25 @@
+<apex:page standardcontroller="Call2_vod__c" extensions="VeevaCommonMessageExtension" title="{!TranslatedEdit} {!Call2_vod__c.Name}">
+
+        <apex:pageBlock rendered="{!IF(Call2_vod__c.Status_vod__c == 'Submitted_vod', true, false)}" mode="maindetail">
+            <c:VOD_EMBED veevaModule="call" veevaPage="edit-call" objectType="Call2_vod__c"
+                queryParams="{!$CurrentPage.parameters.queryParams}&Status={!Call2_vod__c.Status_vod__c}&Call={!Call2_vod__c.Id}&lgtvf=true"/>
+        </apex:pageBlock>
+        <apex:pageBlock rendered="{!IF(Call2_vod__c.Status_vod__c != 'Submitted_vod' && $CurrentPage.parameters.from == 'remoteMeeting', true, false)}" mode="maindetail">
+            <c:VEEVA_CALL_ROUTING veevaModule="call" veevaPage="edit-call" objectType="Call2_vod__c"
+                queryParams="{!$CurrentPage.parameters.queryParams}&Status={!Call2_vod__c.Status_vod__c}&Call={!Call2_vod__c.Id}&lgtvf=true"
+                callParams="objectType=Call2_vod__c&Action=Edit&CallId={!Call2_vod__c.Id}&callStartupAction={!$CurrentPage.parameters.callStartupAction}" />
+        </apex:pageBlock>
+        <apex:pageBlock rendered="{!IF(Call2_vod__c.Status_vod__c != 'Submitted_vod' && $CurrentPage.parameters.from == null, true, false)}" mode="maindetail">
+            <c:VEEVA_CALL_ROUTING veevaModule="call" veevaPage="edit-call" objectType="Call2_vod__c"
+                queryParams="{!$CurrentPage.parameters.queryParams}&Status={!Call2_vod__c.Status_vod__c}&Call={!Call2_vod__c.Id}&lgtvf=true"
+                callParams="objectType=Call2_vod__c&Action=Edit&CallId={!Call2_vod__c.Id}" />
+        </apex:pageBlock>
+        <script>
+            (function () {
+                var pageBlock = document.getElementsByClassName("apexp");
+                if (pageBlock.length) {
+                    pageBlock[0].className = "";
+                }
+            })();
+        </script>
+</apex:page>

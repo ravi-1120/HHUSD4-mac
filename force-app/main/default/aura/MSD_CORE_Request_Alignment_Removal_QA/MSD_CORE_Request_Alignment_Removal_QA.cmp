@@ -1,0 +1,53 @@
+<aura:component controller="MSD_CORE_Request_Alignment_Removal_QA" implements="force:hasRecordId,force:lightningQuickActionWithoutHeader" >
+<aura:attribute name="recordId" type="String"/>
+<aura:attribute name="removalReason" type="String"/>
+
+
+   <div class="slds-page-header" style="background: none;
+                                         border: none;
+                                         box-shadow: none;
+                                         text-align: center;
+                                         margin-top: -25px;
+                                         width: calc(100% + 4rem);
+                                         margin-left: -2rem;
+                                         padding-bottom: 0px;">
+
+      <aura:if isTrue="{!v.showSpinner}">
+         <lightning:spinner />
+      </aura:if>
+
+      <div class="modal-header slds-modal__header" data-aura-rendered-by="5602:0">
+         <h2 class="title slds-text-heading--medium slds-hyphenate" id="title_5585:0" data-aura-rendered-by="5605:0">Alignment Removal Request</h2>
+      </div>
+   </div>
+    
+    
+   <hr style="clear:both;margin: 0;
+               width: calc(100% + 4rem);
+               margin: 0 0 15px 0;
+               margin-left: -2rem;"></hr>
+
+
+      <label style="width: calc(100% + 2rem);
+                  margin-left: -1rem;
+                  margin-bottom: 10px;
+                  float:left;"> 
+         <span>You have requested to remove this customer from your call deck. If you have a reason please note it here and click OK</span>
+      </label>
+    
+      <lightning:input maxlength="1000" required="false" label="Reason:" name="removalReason" value="{!v.removalReason}" messageWhenValueMissing="" messageWhenTooShort=" " />
+      
+      <div style="float:left;
+                text-align: right;
+                margin-top: 10px;
+                width: calc(100% + 4rem);
+                margin-left: -2rem;
+                background: #f3f3f3;
+                padding: 10px;
+                border-top: 1px solid #ccc;
+                margin-bottom: -17px;">
+        <lightning:button variant="neutral" label="Cancel" title="Cancel" onclick="{!c.close}"/>
+        <lightning:button variant="brand" label="Ok" title="Ok" onclick="{!c.processRemoval}"/>
+      </div>
+  
+</aura:component>

@@ -1,0 +1,28 @@
+.section-title {
+    color: #000;
+    border-bottom: 1px solid #fff;
+}
+
+div.lightning-datatable-container {
+    position: relative;
+    zoom: 87.4%;
+}
+
+.outer .lightning-datatable-container td {
+    vertical-align: middle;
+}
+
+.footer {
+    color: #666;
+}
+
+.btns div{
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.btns div.disabled {
+    color: #ccc;
+    cursor: text;
+}

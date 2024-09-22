@@ -1,0 +1,10 @@
+.slds-is-close .slds-section__content{
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+}
+
+.veeva-overflow {
+    overflow-wrap: anywhere;
+}

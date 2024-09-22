@@ -1,0 +1,149 @@
+<template>
+	<template if:true={blockEle}>
+		<div style="min-height: calc(100vh - 182px); background:rgba(0, 0, 0, 0.06)"></div>
+	</template>
+	<template if:false={blockEle}>
+		<div class="myreq-conatiner">
+			<lightning-layout class="my-req dr-form">
+				<div class="back-form" onclick={navigateToDashboard}>
+					<div>
+						<lightning-icon icon-name="utility:back" size="x-small" alternative-text="Back" title="Back" class="back-icon">
+						</lightning-icon>
+					</div>
+					<div>
+						<a href="javascript:void(0);" onclick={navigateToDashboard} class="dr-form_back">
+							<p>{label.back}</p>
+						</a>
+					</div>
+				</div>
+
+				<h1 class="page-title">{label.myReq}</h1>
+				<lightning-layout-item class="inputs-conatiner">
+					<div class="search-cls slds-input-has-icon slds-input-has-icon_right">
+						<lightning-button-icon icon-name="utility:search" size="x-small" alternative-text="Search"
+							class="search-icon slds-input__icon" style="top: 23.8px;right: 20px;">
+						</lightning-button-icon>
+						<lightning-input placeholder={searchPlaceholder} class="input-cls SearchCls"
+							onchange={handleSearch} data-id="search" disabled={hasNoData}>
+						</lightning-input>
+					</div>
+					<template if:true={isMMOP}>
+						<div class="combobox-cls">
+							<lightning-combobox placeholder={label.alldonationTypes} options={donationTypes}
+								onchange={handleTypeChange} disabled={hasNoData} class="dtype-cls">
+							</lightning-combobox>
+						</div>
+					</template>
+					<div class="combobox-cls">
+						<lightning-combobox placeholder={label.allStatuses} options={statusOptions}
+							onchange={handleStatusChange} disabled={hasNoData} class="status-box">
+						</lightning-combobox>
+					</div>
+				</lightning-layout-item>
+				<template if:true={hasData}>
+					<template for:each={paginationRequests} for:item="myreq">
+						<template if:true={myreq.isMDPrecType}>
+							<lightning-layout class="request-container" key={myreq.id}>
+								<div class="div-conatiner">
+									<lightning-layout-item size="3" class="layout-cls">
+										<h4 class="h-four">{myreq.country}</h4>
+										<p class="num-cls">{myreq.Name}</p>
+									</lightning-layout-item>
+									<lightning-layout-item size="2" class="layout-cls">
+										<h6 class="h-six">{label.donationDate}</h6>
+										<p class="d-cls">{myreq.date}</p>
+									</lightning-layout-item>
+									<lightning-layout-item size="4" class="layout-cls">
+										<h3 class="h-three">{label.ngo}</h3>
+										<template if:true={myreq.PDS_Donee__r}>
+											<p class="p-name">{myreq.PDS_Donee__r.Name}</p>
+										</template>
+										<template if:false={myreq.PDS_Donee__r}>
+											<p class="p-name"></p>
+										</template>
+									</lightning-layout-item>
+								</div>
+								<div class="div-two">
+									<lightning-layout-item size="3" class="layout-cls">
+										<div class={myreq.divlabelStatus}>
+											<lightning-icon icon-name={myreq.iconName} size="xx-small"
+												class={myreq.iconlabelStatus}>
+											</lightning-icon>{myreq.PDS_Donation_Request_Status__c}
+										</div>
+									</lightning-layout-item>
+
+
+									<lightning-layout-item size="2" style="width:auto;" class="layout-cls">
+										<button class="v-request" onclick={navigateToviewRequest} data-id={myreq.Id}>{label.vReq}</button>
+									</lightning-layout-item>
+								</div>
+							</lightning-layout>
+						</template>
+						<template if:true={myreq.isMMOPrecType}>
+							<lightning-layout class="request-container" key={myreq.id}>
+								<div class="div-conatiner">
+									<lightning-layout-item size="9" class="layout-cls">
+										<h4 class="h-four">{label.mmop} - {myreq.PDS_Donation_Type__c}</h4>
+										<p class="num-cls">{myreq.Name}</p>
+									</lightning-layout-item>
+									<lightning-layout-item size="3" class="layout-cls">
+										<h6 class="h-six">{label.donationDate}</h6>
+										<p class="d-cls">{myreq.date}</p>
+									</lightning-layout-item>
+								</div>
+								<div class="div-three">
+									<lightning-layout-item size="3" class="layout-cls" style="width:auto;">
+										<div class={myreq.divlabelStatus}>
+											<lightning-icon icon-name={myreq.iconName} size="xx-small"
+												class={myreq.iconlabelStatus}>
+											</lightning-icon>{myreq.PDS_Donation_Request_Status__c}
+										</div>
+									</lightning-layout-item>
+									<lightning-layout-item size="2" style="width:auto;" class="layout-cls">
+										<button class="v-request" onclick={navigateToviewRequest} data-id={myreq.Id}>{label.vReq}</button>
+									</lightning-layout-item>
+								</div>
+							</lightning-layout>
+						</template>
+					</template>
+				</template>
+				<template if:false={hasData}>
+					<template if:true={noSearchData}>
+						<div class="success-container">
+							<p class=" noresult-content">{label.noResultMsg}
+							</p>
+						</div>
+					</template>
+					<template if:true={hasNoData}>
+						<div class="success-container">
+							<div class="success-screen">
+								<lightning-icon size="large" icon-name="utility:send" class="upload-icon"
+									style="display: flex;justify-content: center;"></lightning-icon>
+								<p class="success-content">{label.noReqMsg}</p>
+								<lightning-button role="button" class="success-button lt-button" variant="base"
+									label="Go to Dashboard" title="Get Started" onclick={gotoDashboard}>
+								</lightning-button>
+							</div>
+						</div>
+					</template>
+				</template>
+				<template if:true={shouldPaginate}>
+					<div class="pagination">
+						<lightning-icon size="xx-small" icon-name="utility:chevronleft" onclick={previousPage}
+							class={previousButtonClass}></lightning-icon>
+						<template for:each={pageNumbers} for:item="pageNumber">
+							<div key={pageNumber} onclick={changePage} data-page={pageNumber} class="page_button">
+								{pageNumber}
+							</div>
+						</template>
+						<lightning-icon size="xx-small" icon-name="utility:chevronright" onclick={nextPage}
+							class={nextButtonClass}></lightning-icon>
+					</div>
+				</template>
+			</lightning-layout>
+		</div>
+	</template>
+	<div if:true={showSpinner}>
+		<c-pds-spinner></c-pds-spinner>
+	</div>
+</template>

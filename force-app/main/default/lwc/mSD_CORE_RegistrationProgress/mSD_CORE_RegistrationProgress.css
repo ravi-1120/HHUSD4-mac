@@ -1,0 +1,48 @@
+.regProgress{
+	height : 80px;
+	width: 80px;
+}
+
+.progress{
+	height: 60px;
+	width: 80px;
+	text-align: center;
+
+}
+.reg-grid{
+	display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+	padding-bottom: 24px;
+}
+
+.fontstyle {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 24px;
+	color: #000000;
+	padding-top: 8px;
+	text-align: center;
+}
+.bar{
+	    height: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+
+.reg-grid{
+	display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+	padding-bottom: 16px;
+}
+
+}

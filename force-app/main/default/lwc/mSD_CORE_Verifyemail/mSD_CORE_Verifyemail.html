@@ -1,0 +1,39 @@
+<template>
+    <div>
+        <div class="pbanner">
+                <img class="pbanner_img" src={bannerLogo} alt="Banner Image">
+        </div>
+        <div class="container">
+            <!-- <div class="pbanner">
+                <img class="pbanner_img" src={bannerLogo} alt="Banner Image">
+            </div> -->
+            <div class="left-panel">
+                <div class="img-container deskpicdiv">
+                    <img class="imgclass" src={SignupSubmit_Logo} alt="Desktop Image" />
+                </div>
+                <div class="img-container mobpicdiv">
+                    <img class="imgclass" src={SignupSubmit_Logo1} alt="Mobile Image" />
+                </div>
+            </div>
+            <div class="right-panel">
+                <template if:true={showForm}>
+                    <p class="welcls">Verify your email address</p>
+                    <p class="welclsmatr">Please enter the security code we sent to {emailReceivedFromSignup}.</p>
+                    
+                    <template if:true={showCodeLabel}>
+                        <label class="field-label">Code</label>
+                    </template>
+                    <input required type="text" class={otpClass} placeholder="Code" onkeyup={handleInput} />
+
+                    <div class="error-message" if:true={errorOtp}>{errorDetails}</div>
+                                        
+                    <button class="loginbtn" onclick={verify} disabled={isButtonDisabled}>Verify</button>
+
+                    <p class="resendotp">
+                        <a href="javascript:void(0);" class="linkclr" onclick={resendVerification}>Resend verification code</a>
+                    </p>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

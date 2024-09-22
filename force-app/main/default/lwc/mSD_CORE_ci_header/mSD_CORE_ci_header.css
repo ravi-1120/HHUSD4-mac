@@ -1,0 +1,147 @@
+hr{
+    margin-bottom: 1.5%;
+    border-top: 1px solid #00857C;
+  }
+  
+  .background{
+    background-color: white;
+    padding: 1% 4% 0 4% !important;
+  }
+  .logo {
+    cursor: pointer;
+    width: auto;
+    height: 70px;
+  }
+    
+  .medicalfont, .medicalfont:hover {
+    color: #00857C;
+    text-decoration: none;
+    margin-left: 5px;
+    cursor: pointer;
+    vertical-align: middle; 
+    font-family: 'InventionRg' !important;
+  }
+  
+  .newstatement {
+    color: #000000 !important;
+    float: left;
+    font-weight: 500;
+    font-family: 'InventionRg';
+  
+  }
+  
+  @media only screen and (max-width: 484px){
+    .medicalfont{
+      display: inline-block;
+      padding-left: 31px;
+    }
+  }
+  
+  @media only screen and (min-width: 320px) and (max-width: 479px)   {
+    .newstatement{
+      padding-left: 3rem;
+    }
+  }
+  
+  @media only screen and (max-width: 479px) {
+    .logo {
+      height: 30px;
+    }
+    .medicalfont {
+      font-size: 16px;
+      margin-top: 1px;
+    }
+    .margindiv {
+      margin-top: 3%;
+    }
+    .newstatement {
+      font-size: 12px;
+      padding-left: 36px;
+    }
+  }
+  
+  @media only screen and (min-width: 480px) and (max-width: 639px) {
+    .logo {
+      height: 30px;
+    }
+    .medicalfont {
+      font-size: 16px;
+    }
+    .margindiv {
+      margin-top: 3%;
+    }
+    .newstatement {
+      font-size: 12px;
+      padding-left: 36px;
+    }
+    
+  }
+  
+  @media only screen and (min-width: 640px) and (max-width: 1023px){
+    .margindiv {
+      margin-top: 12px;
+    }
+    .medicalfont {
+      font-size: 20px;
+      margin-top: 1px;
+    }
+    .newstatement {
+      font-size: 11px;
+      padding-left: 43.5px;
+    }
+    .logo {
+      width: auto;
+      height: 34px;
+    }
+  }
+  @media only screen and (min-width: 1024px) and (max-width: 1365px) {
+    .firstbtn {
+        margin-right: 50px !important;
+    }
+    .btnsize {
+        width: 45% !important;
+    }
+    .logo {
+      width: auto;
+      height: 50px;
+    }
+    .medicalfont {
+      font-size: 28px;
+      display: inline-block;  
+    }
+    .newstatement {
+      padding-left: 61.5px;
+      font-size: 14px;
+    }
+  }
+  
+  
+  @media only screen and (min-width: 1366px) and (max-width: 1919px) {
+    .logo {
+      width: auto;
+      height: 50px;  
+    }
+    .medicalfont {
+      font-size: 28px;
+      display: inline-block;
+      margin-top: 2px
+    }
+    .newstatement {
+      padding-left: 59.5px;
+      font-size: 14px;
+    }
+  }
+  @media only screen and (min-width: 1920px) {
+    .logo {
+      width: auto;
+      height: 50px;
+    }
+    .medicalfont {
+      font-size: 28px;
+      display: inline-block;    
+    }
+    .newstatement {
+      padding-left: 61px;
+      font-size: 14px;
+    }
+  }

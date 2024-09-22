@@ -1,0 +1,23 @@
+.preview-area {
+    height: 60vh;
+}
+
+.templates-column {
+    background-color: transparent;
+    border-right: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorder,rgb(229, 229, 229));
+    height: 60vh;
+    width: 100%;
+}
+
+.templates-header {
+    border-color: var(--lwc-colorBorder,rgb(229, 229, 229));
+    border-top: none;
+}
+
+.template-item {
+    border-color: var(--lwc-colorBorder,rgb(229, 229, 229));
+}
+
+.template-content[aria-current=page], .template-content:hover {
+    background: var(--lwc-colorBackground,rgb(243, 243, 243));
+}

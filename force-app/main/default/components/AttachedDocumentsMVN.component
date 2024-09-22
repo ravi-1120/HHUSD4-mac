@@ -1,0 +1,70 @@
+<apex:component controller="AttachedDocumentsControllerMVN" allowDML="true">
+    <apex:includeScript value="/support/console/27.0/integration.js"></apex:includeScript>
+    <script type="text/javascript">
+    var parentTabId;
+
+    function getIds() {
+        sforce.console.getEnclosingPrimaryTabId(setPrimaryTabId);
+    }
+
+    var setPrimaryTabId = function setPrimaryTab(result){
+        parentTabId = result.id;
+    }
+    function openTabUrl(url, name){
+        sforce.console.openSubtab(parentTabId, url, true, name, null);
+    }
+
+    setTimeout(getIds,2000);
+    </script>
+    <style>
+        tr.headerRow.textShadow th{
+            text-shadow: 1px 1px 0px #fff, 3px 2px 0px rgba(0,0,0,0.15);
+        }
+    </style>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/jquery.tablesorter.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/QTip/jquery.qtip.min.js')}"/>
+
+    <apex:stylesheet value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/style.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.JQueryMVN, 'JQuery/QTip/jquery.qtip.min.css')}" />
+
+    <apex:pageBlock title="{!$Label.Document_Search_Attached_Articles_Header}" id="attachedBlock">
+        <apex:pageMessages /> 
+        <apex:outputPanel rendered="{!attachedDocumentList.size == 0}">
+            {!$Label.Document_Search_No_Attached_Articles}
+        </apex:outputPanel>
+        <apex:actionstatus id="attach-status">
+            <apex:facet name="start">
+                <div style="padding-left:40%">
+                    <img class="waitingImage" src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="20px" width="20px"/>
+                    <span class="waitingDescription">{!$Label.Waiting_to_Update_Articles_Message}</span>
+                    <a href="#" onclick="if(document.URL.indexOf('DocumentSearchMVN')!=-1){location.reload(true);}else{sforce.console.refreshPrimaryTabById(parentTabId);}"><span class="waitingDescription">{!$Label.Document_Search_Cancel}</span></a>
+                </div>
+            </apex:facet>
+            <apex:facet name="stop">
+                <apex:outputPanel id="selectedList">
+                     <apex:outputPanel id="selectedDocuments" rendered="{!attachedDocumentList.size > 0}">
+                            <apex:pageBlockTable headerClass="textShadow" style="border-color: #F8F8F8;" styleClass="tablesorter" value="{!attachedDocumentList}" var="ak" id="attachedResultsTable">
+                                <apex:column rendered="{!!(DocumentCase.IsClosed || DocumentCase.MSD_CORE_Is_Submitted__c)}">
+                                    <apex:commandLink status="attach-status" rerender="theForm, opHelper" action="{!removeDocument}">
+                                        <img class="mavensIcon" title="{!$Label.Remove_Article}" src="{!URLFor($Resource.GlobalAssetsMVN, 'Icons/File_delete.png')}" />
+                                        <apex:param name="kId" assignTo="{!attachedDocumentId}" value="{!ak.caseDocument.Id}" />
+                                    </apex:commandLink>
+                                </apex:column>
+                                <apex:column headerValue="{!$ObjectType.Case_Document_MVN__c.Fields.Document_Title_MVN__c.label}">
+                                    <div style="width:200px;max-width:200px;word-wrap:break-word;overflow:hidden;">
+                                        <apex:outputPanel >
+                                            <apex:commandLink style="color: #3A97C4;text-decoration: none; font-size:11px;" onclick="openTabUrl('{!JSENCODE(ak.viewerURL)}', '{!$Label.Document_Search_Article_Tab_Label}');" value="{!ak.caseDocument.Document_Title_MVN__c}" rerender="search-status" />
+                                        </apex:outputPanel>
+                                    </div>
+                                </apex:column>
+                                <apex:column headerValue="{!$ObjectType.Case_Document_MVN__c.Fields.Document_Summary_MVN__c.label}" value="{!ak.caseDocument.Document_Summary_MVN__c}" />
+                                <apex:column headerValue="{!$ObjectType.Case_Document_MVN__c.Fields.Document_Subtype_MVN__c.label}" value="{!ak.caseDocument.Document_Subtype_MVN__c}" width="50px;" />
+                                <apex:column headerValue="{!$Label.MSD_CORE_Created_By}" value="{!ak.caseDocument.CreatedBy.Name} {!ak.caseDocument.CreatedDate}" width="100px;" />
+                            </apex:pageBlockTable>
+                     </apex:outputPanel>
+                 </apex:outputPanel>
+            </apex:facet>
+        </apex:actionStatus>
+    </apex:pageBlock>
+</apex:component>

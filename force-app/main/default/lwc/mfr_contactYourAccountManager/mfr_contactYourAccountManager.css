@@ -1,0 +1,385 @@
+.header-title1{
+  position: relative;
+  width: 309px;
+  height: 20px;
+  left: 140px;
+  top: 40px;
+
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 20px;
+  /* identical to box height, or 125% */
+
+
+  /* Neutral/Black */
+
+  color: #000000;
+}
+
+.main-box{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+
+  position: relative;
+  width: 900px;
+  height: 200.5px;
+  left: 140px;
+  top: 80px;
+
+}
+.main-bottom-box{
+  padding-top: 16px;
+  gap: 12px;
+  position: relative;
+  width: 76%;
+  height: 250.5px;
+  left: 140px;
+  top: 15px;
+  border-bottom: 1px;
+  border-color: #000;
+}
+.line-3{
+  border-top: 1px solid #CFD2D7;
+}
+.main-sub-left{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 32px;
+
+  width: 744px;
+  height: 250.5px;
+
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+}
+.main-sub-right{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 16px;
+
+  width: 365px;
+  height: 188px;
+
+  /* Neutral/White */
+
+  background: #FFFFFF;
+  /* L2 Shadow */
+
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.header-accountmgt-team{
+  width: 650px;
+  height: 36px;
+  /* Header/5. Header 2 Bold - 24pt, 36pt */
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  color: #00877C;
+}
+
+
+.medi_btn {
+  color:#00857C !important;
+  height: 50px;
+  background: white;
+  border-radius: 6px;
+  border-color: rgba(0, 133, 124, 1);
+  margin-right: 8px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 28px;
+  font-family: Invention;border: 2px solid rgb(0, 133, 124) !important;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.861539px;
+  padding: 0px  10px;
+  padding-right:0px;padding-left:16px;
+}
+
+
+.medi-btn-font{
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.861539px;
+  color: #00857C;
+  padding: 16px 16px 16px 0px;
+}
+
+.header-contact-tech{
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  color: #000000;
+  margin-top: 0px;
+}
+.text-contact-tech{
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+}
+.text-contact-text-phone{
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+}
+.header-adverse-exp-text{
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  color: #000000;
+}
+.adverse-exp-text
+{
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #333333;
+}
+
+.draw-line{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 25px;
+  gap: 0;
+  
+  width: 800px;
+  height: 0.3px;
+  background: #CFD2D7;
+  box-shadow: 0px 0.3px 0.3px #CFD2D7;
+  border-radius: 0px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.b{
+  text-decoration: none;
+  color: black;
+}
+.b:hover {
+  color: black;
+  text-decoration: none;
+  }
+
+.hoverstyle:hover{
+  color: black;
+  text-decoration: none;
+}
+.hoverstyle{
+  color: black;
+  text-decoration: none;
+}
+
+.cursorcls {
+  cursor: default;
+}
+.margin1{
+  margin-top: 16px;
+}
+
+
+/* for added mobile screen  */
+.main-sub-right{
+  display: block;
+}
+.mob-main-sub-right{
+  display: none;
+}
+.mob-draw-line{
+  display: none;
+}
+.con-card_text p{
+  margin-left: 10px;
+}
+.con-card_text button{
+  margin-left: 10px;
+}
+
+@media only screen and (max-width:767px){
+	.header-title1{
+		position: static;
+		width: auto;
+		left: 0;
+	}
+	.mob-card{
+		display: block;
+	}
+	.mob-card2{
+		padding: 0;
+	}
+	.main-box{
+		display: block;
+		width: auto;
+		height: auto;
+		left: 0;
+		top: 0;
+	}
+	.mob-card3{
+		padding: 16px;
+    margin-top: 60px;
+	}
+	.margin1{
+		padding: 16px 0;
+		width: 100%;
+    flex-wrap: inherit;
+	}
+	.con-card_img{
+		height: 84px;
+		width: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F4F4F4;
+	}
+	.header-accountmgt-team{
+		height: auto;
+		width: auto;
+    font-size: 18px;
+    line-height: 27px;
+    margin-left: 0px !important;
+	}
+	.draw-line{
+		width: auto;
+	}
+	.main-sub-right{
+		width: auto;
+	}
+	.main-bottom-box{
+		width: auto;
+		left: 0;
+	}
+	.con-card_text{
+		min-width: 265px;
+		width: auto;
+    flex: auto;
+	}
+	.con-card_text p{
+    margin-left: 10px;
+	}
+	.con-card_text button{
+    margin-left: 10px;
+	}
+	.medi_btn{
+    font-size: 12px;
+    line-height: 18px;
+    /* padding: 3px; */
+    margin-right: 0;
+    height: auto;
+    margin: 1px 0;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+    margin-left: 0px !important;
+  }
+  .medi_btn img{
+    height: 18px;
+    width: 18px;
+  }
+  
+  .main-sub-right{
+    display: none;
+  }
+  .mob-main-sub-right{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 16px;
+    width: auto;
+    height: auto;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.16);
+    border-radius: 4px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    margin-top: 30px;
+  }
+  .main-bottom-box{
+    position: static;
+    height: auto;
+  }
+  .mob-draw-line{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 25px;
+    gap: 0;
+    height: 0.3px;
+    background: #CFD2D7;
+    box-shadow: 0px 0.3px 0.3px #CFD2D7;
+    border-radius: 0px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+  .mob-phone-div {
+    margin-top: 8px;
+  }
+  .mob-phone-div-icn {
+    height: 12px !important;
+    width: 12px !important;
+    margin-right: 8px;
+  }
+  .mob-email-div-icn {
+    height: 9px !important;
+    width: 12px !important;
+    margin-right: 8px;
+  }
+  .mob-act-icn {
+    height: 76px !important;
+    width: 70px !important;
+  }
+  .mob-pl-16 {
+    padding-left: 16px !important;
+  }
+/* ---->MS for mobile--> */
+.medi-btn-font{
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.861539px;
+  color: #00857C;
+  padding: 0px;
+}
+}

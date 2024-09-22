@@ -1,0 +1,9 @@
+<apex:page standardController="MRK_MYCOMM_PROCESSING__c" extensions="MSD_CORE_MyComm_BatchApex" action="{!runQRBatch}" lightningStylesheets="true">
+<apex:form >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Quality Review is in Progress</h1>
+  Click here to view the progress of the job
+  <apex:commandButton action="{!cont}" value="Continue"/>
+  <!-- End Default Content REMOVE THIS -->
+  </apex:form>
+</apex:page>

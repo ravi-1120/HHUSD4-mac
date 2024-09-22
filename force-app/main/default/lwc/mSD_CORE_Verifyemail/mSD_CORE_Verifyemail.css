@@ -1,0 +1,259 @@
+.pbanner {
+    position: relative;
+}
+.pbanner_img{
+    height: 309x !important;
+    object-fit: cover;
+}
+.error-message{
+    color: var(--error-main, #D32F2F);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.4px;
+    padding: 3px 14px 0px 14px;
+}
+.container {
+    top: -20px;
+    width: 1128px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    margin-top: -100px !important;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: auto;
+    background: #FFFFFF;
+    display: flex;
+}
+.left-panel {
+    width: 564px; 
+    height: 730px; 
+    background: #F1F9F9; 
+    border-radius: 10px 0 0 10px;
+}
+.right-panel {
+    width: 564px; 
+    height: 730px; 
+    border-radius: 0 10px 10px 0;
+    padding-top: 218.5px;
+    padding-right: 88px;
+    padding-left: 88px;
+    /* padding: 48px 88px; */
+    /* display: flex; */
+}
+.img-container {
+    width: 564px;
+    height: 730px;
+    border-radius: 10px 0 0 0;
+}
+.imgclass{
+	width: 564px;
+	height: 730px;
+	border-radius: 9px 0 0 10px;
+}
+.welcls{
+    color: var(--Gray-Scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 8px;
+	text-align: center;
+}   
+.welclsmatr{
+    color: var(--Gray-Scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 24px;
+	text-align: center;
+} 
+.loginbtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: #FFFFFF;
+    background: #00857C;
+    border-radius: 5px !important;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px !important;
+    width: 389px ;
+    height: 50px !important;
+    letter-spacing: 0.861539px;
+    border-color: #00857C;
+    border: none !important;
+	margin-top: 24px;
+}
+.otpcode{
+	width: 389px;
+    height: 50px;
+    border-radius: var(--borderRadius, 4px);
+    border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));
+    /* margin-bottom: 24px; */
+	padding-left: 10px;
+    font-family: invention;
+}
+
+.otpClass{
+    font-size: 16px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    word-wrap: break-word
+ }
+
+.otpcodered{
+	width: 389px;
+    height: 50px;
+    border-radius: var(--borderRadius, 4px);
+    border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));
+    /* margin-bottom: 24px; */
+	padding-left: 10px;
+    border-color: #D32F2F;
+    font-family: invention;
+}
+
+.resendotp{
+	color: var(--Brand-primary-dark, #005C56);
+	text-align: center;
+	font-feature-settings: 'clig' off, 'liga' off;
+	font-family: Invention;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	letter-spacing: 0.4px;
+	text-decoration-line: underline;
+	margin-top: 24px;
+}
+.linkclr{
+	color: #005C56 !important;
+}
+.mobpicdiv{
+	display: none !important;
+}
+.deskpicdiv{
+	display: block !important;
+}
+.errorotp{
+	color: #D32F2F;
+	font-size: 14px;
+}
+.field-label {
+    color: var(--text-secondary, rgba(0, 0, 0, 0.6));
+    text-align: left;
+    font-family: Invention;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.15px;
+    font-weight: 400;
+    background: #fff;
+    position: absolute;
+    margin-left: 12px;
+    margin-top: -4px;
+    padding: 0 5px;
+}
+
+@media only screen and (max-width: 767px) {
+
+	.resendotp{
+		margin-top:  16px;
+	}
+    .error-message{
+        color: var(--error-main, #D32F2F);
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.4px;
+        padding: 3px 14px 0px 14px;
+    }
+    .otpcodered{
+        width: 100%;
+    }
+	.welcls{
+		font-size: 20px;
+		text-align: left;
+	}
+	.welclsmatr{
+		font-size: 14px;
+		text-align: left;
+		margin-bottom: 16px;
+	}
+	.mobpicdiv{
+		display: block !important;
+		/* width: 100% !important; */
+	}
+	.deskpicdiv{
+		display: none !important;
+	}
+
+	.right-panel {
+        width: auto;
+        height: auto;
+        padding: 40px 16px 40px 16px;
+        
+    }
+	.left-panel {
+		 border-radius: 10px 10px 0 0;
+		 width: auto;
+		 height: auto;
+	}
+	.pbanner_img{
+        height: 140px !important;
+        object-fit: cover;
+    }
+	.container {
+        top: -20px;
+        width: auto;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        margin-top: -100px !important;
+        box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        /* margin: auto; */
+        background: #FFFFFF;
+        display: block;
+        margin: 16px;
+    }
+	.img-container, .img-container img {
+        width: 100% !important;
+        border-radius: 5px 5px 0 0;
+        height: auto;
+    }
+	.loginbtn{
+        width: 100% !important;
+		margin-top: 16px;
+    }
+    .signnbtn{
+        width: 100% !important;
+    }
+	.otpcode{
+	width: 100% !important;
+    /* height: 50px;
+    border-radius: var(--borderRadius, 4px);
+    border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));
+    margin-bottom: 24px;
+	padding-left: 10px; */
+	}
+
+}

@@ -1,0 +1,55 @@
+<template>
+    <c-custom-toast auto-close-time="3000"></c-custom-toast>
+    <div class="background">
+        <div class="title">
+          {label.ADVERSEEVENTCONFIRMATION}
+        </div>
+        <br>
+  
+        <p class="slds-m-left_large">
+          <span class="label">{label.SERVICECLOUDCASENUMBER} &nbsp;</span>
+          <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+          </template>
+          <span if:false={isLoading} class="value">
+            {caseNumber}
+          </span>
+        </p>
+        <br>
+        <p class="slds-m-left_large">{label.SUBMISSIONDATETIME} {currentDateTime} </p>
+        <br>
+        <br>
+        <div class="emailconf">
+            <lightning-input type="checkbox" label="Would you like a copy of the Adverse Event Confirmation Details sent to you via email?" style="font-size: 14px !important;" onchange={handleCheckboxChange}></lightning-input>
+        </div>
+        <template if:true={isCheckboxChecked}>
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+              <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                  <h2 class="slds-text-heading_medium">Email Adverse Event Confirmation Details</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                  <lightning-input name="sendemail" type="email" label="Email Address" onchange={handleEmailChange} value={email} class="requiredField" maxlength="80" pattern=".+\.\w+(\.\w+)?$" message-when-pattern-mismatch="Invalid Email Address" onblur={onBlur} message-when-type-mismatch="Invalid Email Address" required></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                  <div class="slds-float_left">
+                    <button class="button_slide slide_right" label="Cancel" onclick={closeModal}>Cancel</button>
+                  </div>
+                  <div class="slds-float_right">
+                    <button class="button_slide slide_right" label="Send Email" onclick={sendEmail}>Send Email</button>
+                  </div>
+                </footer>
+              </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+          </template>
+          <div id="outer">
+            <br /> <br /><br />
+            <button class="button_slide slide_right " onclick={handleButtonClick}>{label.Button}</button>
+            <br /> <br /><br />
+          </div>
+      <template if:true={buttonClicked}>
+        <c-m-s-d_-c-o-r-e_ae_landing-page></c-m-s-d_-c-o-r-e_ae_landing-page>
+      </template>
+    </div>
+  </template>

@@ -1,0 +1,114 @@
+/*
+   The following rules apply to the event's popup tooltip.
+   The first three rules override Bryntum's event tooltip padding and instead sets our own custom value.
+   This also lets us extend <hr> elements outside of their parent's padding.
+*/
+c-business-calendar-page .b-tooltip-content {
+    padding: 0;
+}
+
+c-business-calendar-page .event-tooltip {
+    padding: var(--lwc-spacingSmall, 0.75rem);
+    overflow: hidden;
+}
+
+c-business-calendar-page .event-tooltip hr {
+    width: 200%;
+    margin: var(--lwc-spacingXSmall, 0.5rem) 0 var(--lwc-spacingXSmall, 0.5rem) -50%;
+}
+
+c-business-calendar-page .event-tooltip .body, c-business-calendar-page .event-tooltip .footer {
+    font-size: 0.75rem;
+}
+
+c-business-calendar-page .event-tooltip .header {
+    font-size: 1rem;
+}
+
+c-business-calendar-page .event-tooltip .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lwc-spacingSmall, 0.75rem);
+}
+
+c-business-calendar-page .event-tooltip .body .line-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--lwc-spacingLarge, 1.5rem);
+}
+
+c-business-calendar-page .event-tooltip .body .line-container > .label,
+c-business-calendar-page .event-tooltip .body .line-container > .value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 75%
+}
+
+c-business-calendar-page .event-tooltip .body .line-container > .label {
+    flex-shrink: 2;
+}
+
+c-business-calendar-page .event-tooltip .body .line-container > .value {
+    flex-shrink: 1;
+}
+
+c-business-calendar-page .event-tooltip .footer {
+    color: var(--lwc-brandTextLink, rgb(1, 118, 211));
+}
+
+/* The following rules apply to the event box rendered on the scheduler */
+
+c-business-calendar-page .event .name {
+    font-weight: bold;
+}
+
+c-business-calendar-page .event > .description, c-business-calendar-page .event > .name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+c-business-calendar-page .event-tooltip, c-business-calendar-page .event {
+    color: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+}
+
+/* The following rules change the styling of the grouping rows for each object type */
+
+c-business-calendar-page .b-grid-row.b-group-row {
+    background-color: rgb(243,244,245);
+}
+
+c-business-calendar-page .b-grid-row.b-group-row .b-group-title {
+    text-transform: none;
+}
+
+/* This ensures the "Today" and important event line markers render over the group rows */
+c-business-calendar-page .b-timeline-subgrid .b-group-row {
+    z-index: 2;
+}
+
+/* This centers the view-selector dropdown arrow between its container's right border and the right border of the adjacent dropdown container */
+c-business-calendar-page .view-selector .b-icon.b-align-end {
+    padding-inline-start: 0.8em;
+}
+
+/* This restricts the max width of the timerange/important event headers */
+c-business-calendar-page .b-sch-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 25ch;
+}
+
+/* These rules ensure that column text is truncated correctly regardless of how narrow or wide the user has adjusted the subgrid */
+c-business-calendar-page .b-grid-subgrid-locked .b-grid-cell .resource-column-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+c-business-calendar-page .b-grid-subgrid-locked .b-grid-cell {
+    flex-shrink: 1;
+}

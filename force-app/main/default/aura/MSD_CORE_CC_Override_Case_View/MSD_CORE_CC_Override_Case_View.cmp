@@ -1,0 +1,9 @@
+<!--<aura:component controller="MSD_CORE_Override_Case_ViewController" implements="lightning:actionOverride,force:hasRecordId,force:hasSObjectName" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+  
+</aura:component> -->
+
+<aura:component implements="lightning:actionOverride,force:hasRecordId,force:hasSObjectName" access="global" >
+	{!v.recordId}
+</aura:component>

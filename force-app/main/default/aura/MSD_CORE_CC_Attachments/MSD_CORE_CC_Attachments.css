@@ -1,0 +1,16 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .seperator :after{
+    content: "\2022";
+    margin: 0 5px;
+}
+/*
+.THIS #help-message-72 {
+    color: White;
+}
+
+.THIS #help-message-72::before{
+    content:"You are not allowed to upload this filetype.";
+    color:rgb(194, 57, 52);
+}*/

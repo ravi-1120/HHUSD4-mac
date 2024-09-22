@@ -1,0 +1,28 @@
+<template>
+    <div class="slds-page-header  slds-p-left_none header-container" if:true={msgLoaded}>
+        <lightning-layout class="slds-page-header__row" vertical-align="center">
+            <lightning-layout-item class="slds-page-header__col-title" size="5">
+               <div class="slds-text-heading_medium page-title">{pageTitle}</div>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-page-header__col-actions" if:true={inSummary} size="5"> 
+                <lightning-button title={calculationMsg} label={calculationMsg} onclick={goToCalculate}></lightning-button>
+                <lightning-button title={uploadFileMsg} label={uploadFileMsg} onclick={goToUpload} class="slds-m-left_x-small"></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout class="slds-page-header__row slds-m-top_small slds-m-left_small slds-text-body_small" vertical-align="center" if:true={inDetail}>
+            <a onclick={goToSummary}>{returnToPrevious}</a>
+        </lightning-layout>
+    </div>
+    <c-veeva-alert-modal
+    size="tiny"
+    show={showDialog}
+    messages={alertMessages}
+    onclose={closeDialog}>
+    </c-veeva-alert-modal>
+    <c-veeva-confirmation-modal 
+    size="tiny" 
+    show={showConfirmationDialog} 
+    messages={confirmationMessages}
+    onconfirm={confirmCalculate} 
+    oncancel={cancelCalculate}></c-veeva-confirmation-modal>
+</template>

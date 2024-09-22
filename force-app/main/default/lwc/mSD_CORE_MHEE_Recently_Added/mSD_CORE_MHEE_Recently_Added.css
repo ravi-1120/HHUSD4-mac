@@ -1,0 +1,192 @@
+.headcls{
+	/* width: 50px; */
+    /* height: 50px; */
+    display: flex;
+    width: 100%;
+    padding: 40px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    border-radius: 10px;
+    background: #FFF;
+    margin-bottom: 24px;
+    /* box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.20); */
+	box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.20);
+}
+.headmatr{
+	display: flex;
+	padding: 0px 40px;
+	align-items: flex-start;
+	gap: 10px;
+	color: var(--Neutral-Black, #000);
+	font-feature-settings: 'liga' off, 'clig' off;	
+	/* Heading/H2/Bold */
+	font-family: Invention;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 36px; /* 150% */
+}
+.titlecls{
+	color: var(--Primary-Atlernative-Primary-Dark, #3A379F);
+	font-feature-settings: 'liga' off, 'clig' off;
+	font-family: Invention;
+	font-size: 19.584px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 29.376px; /* 150% */
+}
+.tabcls{
+	display: flex;
+	gap: 16px;
+	margin: 0px 40px 0px 40px;
+}
+.desccls{
+	color: var(--Primary-Atlernative-Primary-Dark, #3A379F);
+	font-feature-settings: 'liga' off, 'clig' off;
+	font-family: Invention;
+	font-size: 15.667px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 23.501px; /* 150% */
+}
+.contentcls{
+	color: #05215B;
+	text-align: center;
+	font-feature-settings: 'liga' off, 'clig' off;
+	/* Button/Button */
+	font-family: Invention;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 18px; /* 128.571% */
+	letter-spacing: 0.862px;
+	border-radius: var(--borderRadius, 4px);
+    background: #D4DDFC;
+	padding: 2px 8px 2px 8px;
+}
+.tabsubcls{
+	display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+	gap: 16px;
+    display: flex;
+    padding: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px; 
+    border-radius: 10px;
+    border: 1px solid var(--Primary-Atlernative-Primary, #5450E4);
+    background: #FFF;
+}
+.tabsubcls:hover {
+	background: #F6F6FE;
+}
+.buttoncls{
+	display: flex;
+	padding: 7px 16px;
+	justify-content: center;
+	align-items: center;
+	gap: 16px;
+	border-radius: 5px;
+	background: var(--Primary-Atlernative-Primary, #5450E4);
+	border: none;
+}
+.buttontext{
+	color: var(--Neutral-White, #FFF);
+	text-align: center;
+	font-feature-settings: 'liga' off, 'clig' off;
+	/* Button/Button */
+	font-family: Invention;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 18px; /* 128.571% */
+	letter-spacing: 0.862px;
+}
+.emptystate button:hover {
+  background-color: #5450E4;
+  /* color: white; */
+}
+
+.emptystate button:hover .btncls{
+  /* background-color: #5450E4; */
+  color: white;
+}
+
+.emptystate {
+    display: flex;
+    flex-direction: column;
+    /* padding: 16px; */
+}
+
+.emptystate p{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #757575;
+    margin: auto;
+}
+
+.emptystate button {
+    margin: auto;
+    /* margin-top: 16px; */
+    padding: 11px 16px;
+    border: 2px solid #5450E4;
+    border-radius: 5px;
+    background: white;
+}
+.emptystate button span {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    color: #5450E4;
+}
+.arrowcls{
+    margin-top: 1px;
+    margin-left: 16px;
+    width: 16px;
+    height: 16px;
+    font-size: 21px !important;
+    font-weight: 700 !important;
+}
+
+@media only screen and (max-width: 767px) {
+	.headcls{
+		display: block;
+	}
+	.emptystate button {
+		margin: auto;
+		/* margin-top: 16px; */
+		/* padding: 11px 16px;
+		border: 2px solid #5450E4;
+		border-radius: 5px;
+		background: white; */
+		width: 78%;
+		justify-content: center;
+	}
+	.tabcls{
+		display: block;
+		margin-bottom: 16px;
+	}
+	.tabsubcls{
+		margin-bottom: 16px;
+	}
+	.headmatr{
+		font-size: 20px;
+		margin-bottom: 16px;
+	}
+	.btnwdth{
+		width: 100%;
+	}
+	.buttoncls{
+		width: 100%;
+	}
+}

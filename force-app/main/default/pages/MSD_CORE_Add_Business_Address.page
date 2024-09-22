@@ -1,0 +1,220 @@
+<apex:page controller="MSD_CORE_AddBusinessAddressController" tabStyle="Address_vod__c">
+<apex:slds />
+    <apex:includeScript value="/support/console/30.0/integration.js"/>
+    <style>
+        .helpCircleOn {
+            background-position: top right;
+            background-image: url('{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/helpOrbs.gif')}');
+            width: 20px;
+            height: 15px;
+            position: absolute;
+        }
+
+        .helpCircle {
+            background-position: top left;
+            background-image: url('{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/helpOrbs.gif')}');
+            width: 20px;
+            height: 15px;
+            position: absolute;
+        }
+    </style>
+    <div class="slds-scope">
+    <apex:form id="frm">
+        <script>
+            var saveSuccess = {!saveSuccess};
+    
+            var tabId;
+            var thisTabId;
+            
+            var saveButton;
+    
+            function initialize() {
+                if (sforce.console.isInConsole()) {
+                    sforce.console.setTabTitle('{!$Label.MSD_CORE_New_Address}');
+                    getTabId();
+                }
+            }
+
+            function getTabId() {
+                sforce.console.getEnclosingPrimaryTabId(assignTabId);
+                sforce.console.getEnclosingTabId(assignThisTabId);
+            }
+    
+            function closeTab() {
+                if (sforce.console.isInConsole()) {
+                    sforce.console.refreshPrimaryTabById(tabId, false, closeSubTab);
+                }else{
+                    window.location = "/{!acct.Id}";
+                }
+            }
+    
+            var assignTabId = function assignTabId(result) {
+                tabId = result.id;
+            };
+            var assignThisTabId = function assignThisTabId(result) {
+                thisTabId = result.id;
+            };
+            var closeSubTab = function closeSubTab(result) {
+                setTimeout('sforce.console.closeTab(thisTabId)', 1);
+            };
+            
+            function keyPressed(e) {
+                var keyCode;
+                try {
+                    keyCode = window.event.keyCode;
+                } catch (ex) {
+                    keyCode = e.which;
+                }
+
+                if(keyCode == 13) {
+                    saveButton.className='btnDisabled';
+                    saveButton.disabled = true;
+                    
+                    try {
+                        window.event.preventDefault();
+                    } catch (ex) {
+                        try{
+                            e.preventDefault();
+                        }catch (ex2){
+                            event.returnValue = false;
+                        }
+                    }
+    
+                    createAddress();
+                }
+            }  
+            
+            window.onload = initialize;
+        </script>
+
+        <apex:pageBlock title="{!$Label.MSD_CORE_New_Address}" mode="edit">
+            <apex:pageBlockButtons location="top">
+                <apex:actionFunction name="createAddress" 
+                    action="{!createAddress}" rerender="frm" oncomplete="if(saveSuccess){closeTab();}"/>
+                <apex:commandButton id="saveButton" action="{!createAddress}" value="Save" rerender="frm"
+                    onclick="saveButton.className = 'btnDisabled'; saveButton.disabled = true;"
+                    oncomplete="if(saveSuccess){closeTab();}"/>
+                <apex:commandButton id="cancelButton" onclick="closeTab();" 
+                    value="{!$Label.Document_Search_Cancel}" rerender="none" immediate="true" />
+                    
+                <script>saveButton = document.getElementById('{!$Component.saveButton}');</script>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="{!$Label.MSD_CORE_Address_Information}" collapsible="false" columns="1">
+                <apex:pageMessages />
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.Account_vod__c.label}" for="addressLine1"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['Account_vod__c'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['Account_vod__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:outputText value="{!acct.Name}"/>
+                    </apex:pageBlockSectionItem>
+                    <!--Code added for requesting the users to select the appropriate checkboxes when a new address is created-->
+                    <apex:pageBlockSectionItem rendered="{!acct.IsPersonAccount = true}">
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.Mailing_vod__c.label}" for="mailing" />  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['Mailing_vod__c'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['Mailing_vod__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:inputField id="mailing" value="{!newAddress.Mailing_vod__c}" onkeypress="keyPressed(event);"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem rendered="{!acct.IsPersonAccount = true}">
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.Office_MRK__c.label}" for="office"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['Office_MRK__c'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['Office_MRK__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:inputField id="office" value="{!newAddress.Office_MRK__c}" onkeypress="keyPressed(event);"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem rendered="{!acct.IsPersonAccount = true}">
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.Home_and_Office_MRK__c.label}" for="homeoffice"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['Home_and_Office_MRK__c'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['Home_and_Office_MRK__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:inputField id="homeoffice" value="{!newAddress.Home_and_Office_MRK__c}" onkeypress="keyPressed(event);"/>
+                    </apex:pageBlockSectionItem>
+                    <!--code ends here-->
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.Name.label}" for="addressLine1"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['Name'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['Name'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:inputField id="addressLine1" value="{!newAddress.Name}" onkeypress="keyPressed(event);" required="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.Address_line_2_vod__c.label}" for="addressLine2"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['Address_line_2_vod__c'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['Address_line_2_vod__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:inputField id="addressLine2" value="{!newAddress.Address_line_2_vod__c}" onkeypress="keyPressed(event);"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.City_vod__c.label}" for="city"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['City_vod__c'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['City_vod__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:inputField id="city" value="{!newAddress.City_vod__c}" onkeypress="keyPressed(event);" required="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.State_vod__c.label}" for="state"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['State_vod__c'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['State_vod__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:outputPanel id="statePanel">
+                            <apex:inputField id="state" value="{!newAddress.State_vod__c}" onkeypress="keyPressed(event);" required="{!requireState}"/>
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields.Zip_vod__c.label}" for="postalCode"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields['Zip_vod__c'].inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['Zip_vod__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:inputField id="postalCode" value="{!newAddress.Zip_vod__c}" onkeypress="keyPressed(event);" required="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields['Country_vod__c'].label}" for="country"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields.Country_vod__c.inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['Country_vod__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:actionRegion >
+                            <apex:inputField id="country" value="{!newAddress.Country_vod__c}" onkeypress="keyPressed(event);" required="true">
+                                <apex:actionSupport event="onchange" rerender="statePanel"/>
+                            </apex:inputField>
+                        </apex:actionRegion>
+                       
+                    </apex:pageBlockSectionItem>
+                    
+                    <!-- Added by Satish -->
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <apex:outputLabel value="{!$ObjectType.Address_vod__c.fields['MSD_CORE_Rep_Notes__c'].label}" for="repNotes"/>  
+                            <apex:outputPanel rendered="{!IF($ObjectType.Address_vod__c.fields.MSD_CORE_Rep_Notes__c.inlineHelpText == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Address_vod__c.fields['MSD_CORE_Rep_Notes__c'].inlineHelpText)}"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                            <apex:inputField id="repNotes" value="{!newAddress.MSD_CORE_Rep_Notes__c}" onkeypress="keyPressed(event);" required="false" />
+                    </apex:pageBlockSectionItem>
+                    <!-- Code ends Here -->
+                     <!-- apex:inputtextarea value="{!newAddress.MSD_CORE_Rep_Notes__c}" label="Rep Notes" cols="40"/ -->
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    </div>
+</apex:page>

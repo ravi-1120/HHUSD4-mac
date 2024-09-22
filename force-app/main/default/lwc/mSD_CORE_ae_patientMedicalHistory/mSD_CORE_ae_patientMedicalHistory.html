@@ -1,0 +1,257 @@
+<template>
+    <div class="q-container">
+        <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+
+            <lightning-accordion-section name="1" label={label.FollowingSeriousCriteria}>
+
+                <lightning-layout multiple-rows="true" vertical-align="end">
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox name="patientdeath" label={label.PatientDie}
+                            value={inputValues.patientdeath} options={SeriousCriteriaOptions}
+                            dropdown-alignment="auto" role="option" onchange={handleInput}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item lwc:if={isyes} flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-input type="text" max-length="255" name='causedeath' label={label.CauseOfDeath}
+                            value={inputValues.causedeath} onchange={handleInput}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item lwc:if={isyes} flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-input type="text" max-length="50" name="deathdate" label={label.DateOfDeath}
+                            value={inputValues.deathdate} onchange={handleInput}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <label class="slds-form-element__label">
+                            <span class="slds-p-right_x-small">{label.AECAUSEHOSPITALIZATION}</span>
+                            <lightning-helptext class="helpCls" content={label.AECAUSEHOSPITALIZATIONHELP}></lightning-helptext>
+                        </label>
+                        <lightning-combobox name="AEhospitilization" value={inputValues.AEhospitilization}
+                            options={SeriousCriteriaOptions} dropdown-alignment="auto" role="option"
+                            onchange={handleInput} variant="label-hidden">
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox name="illness" label={label.ThreatningIllness} value={inputValues.illness}
+                            options={SeriousCriteriaOptions} dropdown-alignment="auto" role="option"
+                            onchange={handleInput}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox name="disability" label={label.Disability} value={inputValues.disability}
+                            options={SeriousCriteriaOptions} dropdown-alignment="auto" role="option"
+                            onchange={handleInput}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox name="birthdefect" label={label.BirthDefect} value={inputValues.birthdefect}
+                            options={SeriousCriteriaOptions} dropdown-alignment="auto" role="option"
+                            onchange={handleInput}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <label class="slds-form-element__label">
+                            <span class="slds-p-right_x-small">{label.AECancer}</span>
+                            <lightning-helptext class="helpCls" content="After taking product, if cancer is diagnosed and/or cancer has progressed while taking product, then response should be “Yes”."></lightning-helptext>
+                        </label>
+                        <lightning-combobox name="cancer" value={inputValues.cancer} options={SeriousCriteriaOptions}
+                            onchange={handleInput} dropdown-alignment="auto" role="option" variant="label-hidden"></lightning-combobox>
+                        <!-- <lightning-combobox name="cancer" label={label.AECancer} value={inputValues.cancer}
+                            onchange={handleInput} options={SeriousCriteriaOptions} dropdown-alignment="auto"
+                            role="option"
+                            field-level-help="After taking product, if cancer is diagnosed and/or cancer has progressed while taking product, then response should be “Yes”.">
+                        </lightning-combobox> -->
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox name="overdose" label={label.PatientOverdose} value={inputValues.overdose}
+                            options={SeriousCriteriaOptions} dropdown-alignment="auto" role="option"
+                            onchange={handleInput}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <label class="slds-form-element__label">
+                            <span class="slds-p-right_x-small">{label.PREVENTSERIOUSEVENT}</span>
+                            <lightning-helptext class="helpCls" content={label.PREVENTSERIOUSEVENTHELP}></lightning-helptext>
+                        </label>
+                        <lightning-combobox name="intervention" value={inputValues.intervention}
+                            options={SeriousCriteriaOptions} dropdown-alignment="auto" role="option"
+                            onchange={handleInput} variant="label-hidden"></lightning-combobox>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-accordion-section>
+
+            <lightning-accordion-section name="2" label={label.FillOutFields}>
+                <lightning-layout multiple-rows="true" vertical-align="end">
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-textarea label={label.Indication} maxlength="1000" name="indication"
+                            placeholder="e.g. used for High Blood Pressure, Cancer, Diabeties, routine vaccination,other"
+                            value={inputValues.indication} onchange={handleInput}></lightning-textarea>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-textarea label={label.RouteOfAdministration} maxlength="255"
+                            placeholder="e.g. oral, intravenous, intramuscular, subdermal, inhalation, topical, intraocular, other"
+                            name="roa" value={inputValues.roa} onchange={handleInput}></lightning-textarea>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <label class="slds-form-element__label">
+                            <span class="slds-p-right_x-small">{label.TheraphyStartDate}</span>
+                            <lightning-helptext class="helpCls" content="Ensure date is entered in MM/DD/YYYY format. This cannot be a future date">
+                            </lightning-helptext>
+                        </label>
+                        <lightning-input type="text" name="TherapySD" maxlength="50" variant="label-hidden"
+                            value={inputValues.TherapySD} onchange={handleInput}></lightning-input>
+                        <!-- <lightning-input type="text" name="TherapySD" label={label.TheraphyStartDate} maxlength="50"
+                            value={inputValues.TherapySD} onchange={handleInput}
+                            field-level-help="Ensure date is entered in MM/DD/YYYY format. This cannot be a future date"></lightning-input> -->
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox label={label.Discontinued} name="therapyque" maxlength="255"
+                            dropdown-alignment="auto" role="option" options={TreatmentOptions}
+                            value={inputValues.therapyque} onchange={handleInput}></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item lwc:if={istherapy} flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <label class="slds-form-element__label">
+                            <span class="slds-p-right_x-small">{label.TheraphyEndDate}</span>
+                            <lightning-helptext class="helpCls" content="Ensure date is entered in MM/DD/YYYY format. This cannot be a future date"></lightning-helptext>
+                        </label>
+                        <lightning-input type="text" name="TherapyED" maxlength="50" variant="label-hidden"
+                            value={inputValues.TherapyED} onchange={handleInput}></lightning-input>
+                        <!-- <lightning-input type="text" name="TherapyED" label={label.TheraphyEndDate} maxlength="50"
+                            value={inputValues.TherapyED} onchange={handleInput}
+                            field-level-help="Ensure date is entered in MM/DD/YYYY format. This cannot be a future date"></lightning-input> -->
+                    </lightning-layout-item>
+                    <lightning-layout-item lwc:if={istherapy} flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <label class="slds-form-element__label">
+                            <span class="slds-p-right_x-small">{label.TheraphyDechallenge}</span>
+                            <lightning-helptext class="helpCls" content="i.e. Yes - after/on stopping therapy"></lightning-helptext>
+                        </label>
+                        <lightning-combobox name="dechallenge" variant="label-hidden" value={inputValues.dechallenge}
+                            maxlength="255" options={dechallengeOptions} onchange={handleInput}
+                            dropdown-alignment="auto" role="option"></lightning-combobox>
+                        <!-- <lightning-combobox name="dechallenge" label={label.TheraphyDechallenge}
+                            value={inputValues.dechallenge} maxlength="255" options={dechallengeOptions}
+                            dropdown-alignment="auto" role="option" onchange={handleInput}
+                            field-level-help="i.e. Yes - after/on stopping therapy"></lightning-combobox> -->
+                    </lightning-layout-item>
+                    <lightning-layout-item lwc:if={istherapy} flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox name="rechallenge" label={label.TheraphyRechallenge}
+                            value={inputValues.rechallenge} maxlength="255" options={rechallengeOptions}
+                            onchange={handleInput} dropdown-alignment="auto" role="option">
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <label class="slds-form-element__label">
+                            <span class="slds-p-right_x-small">{label.SoughtMedicalAttention}</span>
+                            <lightning-helptext class="helpCls" content="If answering “yes”, then provide the type of medical attention(e.g.,patient contacted nurse/physician and/or office visit)"></lightning-helptext>
+                        </label>
+                        <lightning-input type="text" name="sma" maxlength="255" variant="label-hidden"
+                            value={inputValues.sma} onchange={handleInput}></lightning-input>
+                        <!-- <lightning-input type="text" name="sma" label={label.SoughtMedicalAttention} maxlength="255"
+                            field-level-help="If answering “yes”, then provide the type of medical attention (e.g., patient contacted nurse/physician and/or office visit) "
+                            value={inputValues.sma} onchange={handleInput}></lightning-input> -->
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox name="Treatmentque" label={label.WasTreatmentGiven}
+                            dropdown-alignment="auto" role="option" value={inputValues.Treatmentque}
+                            options={TreatmentOptions} onchange={handleInput}></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item lwc:if={istreatment} flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <label class="slds-form-element__label">
+                            <span class="slds-p-right_x-small">{label.YesTreatment}</span>
+                            <lightning-helptext class="helpCls" content="e.g., antibiotic, Aspirin, ice applied, etc."></lightning-helptext>
+                        </label>
+                        <lightning-textarea variant="label-hidden" value={inputValues.isTreatment}
+                            placeholder="e.g. Aspirin was taken, antibiotic and band aid applied" name="isTreatment"
+                            maxlength="255" onchange={handleInput}></lightning-textarea>
+                        <!-- <lightning-textarea type="text"
+                            placeholder="e.g. Aspirin was taken, antibiotic and band aid applied" name="isTreatment"
+                            maxlength="255" field-level-help="e.g., antibiotic, Aspirin, ice applied, etc."
+                            label={label.YesTreatment} value={inputValues.isTreatment}
+                            onchange={handleInput}></lightning-textarea> -->
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-combobox name="presentstatus" label={label.PresentStatus} options={StatusOptions}
+                            maxlength="255" dropdown-alignment="auto" role="option"
+                            value={inputValues.presentstatus}
+                            field-level-help="i.e. Recovered, Recovering, or Not Recovered"
+                            onchange={handleInput}></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item lwc:if={isRecovered} flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                        <lightning-input type="text" name="RecoveryDate" label={label.RecoveryDate} maxlength="50"
+                            value={inputValues.RecoveryDate} onchange={handleInput}
+                            field-level-help="Ensure date is entered in MM/DD/YYYY format. This cannot be a future date"></lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-accordion-section>
+
+            <lightning-accordion-section name="3" label={label.MedicalHistory}>
+                <lightning-layout multiple-rows="true" vertical-align="end">
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="6">
+                        <lightning-textarea name="CM" label={label.Concomitant} maxlength="1000"
+                            placeholder="list of current medications patient is taking" value={inputValues.CM}
+                            onchange={handleInput}></lightning-textarea>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="6">
+                        <lightning-textarea name="PMH" label={label.PertinentMedical} maxlength="1000"
+                            placeholder="e.g. high blood pressure, diabetes, etc." value={inputValues.PMH}
+                            onchange={handleInput}></lightning-textarea>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="6">
+                        <lightning-textarea name="DRA" label={label.DrugReactions} maxlength="1000"
+                            placeholder="e.g. Penicilin allergy, shellfish allergy, etc." value={inputValues.DRA}
+                            onchange={handleInput}></lightning-textarea>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                        small-device-size="12" medium-device-size="6" large-device-size="6">
+                        <lightning-textarea name="LD" label={label.LabDiagnostics} maxlength="1000"
+                            placeholder="lab values or tests performed related to AE" class="scrollable-input" value={inputValues.LD}
+                            onchange={handleInput}></lightning-textarea>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+        <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+            <template if:true={showSkipButton}>
+                <lightning-layout-item alignment-bump="left">
+                    <button class="slds-button slds-button_brand btnHover skipBtn" name="Skip"
+                        onclick={handlePrevNext}>{label.SKIPTOREVIEW}</button>
+                </lightning-layout-item>
+            </template>
+            <template if:false={showSkipButton}>
+                <lightning-layout-item alignment-bump="left">
+                    <button class="slds-button slds-m-right_small slds-button_outline-brand btnCancelHover nextPrevBtn slds-m-right_small" onclick={handlePrevNext}
+                        name="Previous">{label.PREVIOUSBUTTON}</button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext}
+                        name="Next">{label.NEXTBUTTON}</button>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+
+    </div>
+</template>

@@ -1,0 +1,581 @@
+/* .modalSize{
+    width: 640px;
+} */
+
+
+
+.continueCls{
+    background-color: #005c55;
+    color: #005c55;
+    top:1px;
+}
+.modalcls{
+    background-color: rgba(0,0,0,0.65);
+    background-size: auto;
+    /* width: 640px; */
+
+
+ }
+
+.footerCls {
+    background-color: #FFFF;
+    display: -webkit-box !important;
+    width: 100%;
+    font-size: .875rem;
+    line-height: 1.7rem;
+    position: initial;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    color: #757575;
+    margin-bottom: 8px;
+}
+
+.hcp-footer {
+    padding-left: 150px;
+    padding-right: 150px;
+    bottom: 0px !important;
+    padding-top: 50px;
+    position: static;
+}
+
+.slds-button_neutral,
+.slds-button_outline-brand,
+.slds-button:hover,
+.slds-button_outline-brand:hover,
+.slds-button:focus,
+.slds-button_outline-brand:focus,
+.slds-button:active,
+.slds-button_outline-brand:active {
+    border-color: #00857c;
+    color: #00857c;
+}
+
+.slds-button,
+.slds-button_neutral,
+.slds-button_outline-brand {
+    color: #00857c;
+}
+
+.slds-button_brand,
+.slds-button_brand:hover,
+.slds-button_brand:focus,
+.slds-button_brand:active {
+    background-color: #00857c;
+    color: #fff;
+}
+
+
+.footerImgCls {
+    width: 6rem;
+}
+
+.footeraccCls {
+    width: 18%;
+}
+
+.imageDivCls {
+    margin-left: 5rem !important;
+}
+
+.footerLinkCls {
+    cursor: pointer;
+    /* font-family: 'InventionRg'; */
+    font-family: 'InventionRg';
+}
+
+.footerCls a {
+    color: #000;
+}
+
+.slds-list_horizontal,
+.slds-list--horizontal {
+    flex-wrap: wrap;
+}
+
+.slds-item {
+    color: #000000;
+}
+
+.footerPopupCls {
+    -webkit-box-shadow: 0 0.375rem 0.375rem 0 rgb(0 0 0 / 40%);
+    box-shadow: 0 0.375rem 0.375rem 0 rgb(0 0 0 / 40%) !important;
+    text-align: left;
+    padding: 2rem;
+    /* margin-top: 8rem; */
+    margin-bottom: 2rem;
+}
+
+.footerPrefePopupCls {
+    height: 23%;
+    min-height: 22rem;
+    max-height: 25rem;
+    border-radius: 0 !important;
+}
+
+.footerheadcls {
+    border-bottom-style: none;
+    border-radius: 0 !important;
+}
+
+.footerContainerCls {
+    border-radius: 0 !important;
+    position: relative;
+    width: 580px;
+}
+
+.backColor {
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.footerPopupCls p,
+.footerPrefePopupCls p {
+    font-family: 'InventionRg';
+    line-height: 1.75rem !important;
+    font-size: 0.875rem !important;
+    color: #000000;
+    margin: 0 0 1rem 0 !important;
+    max-width: 32.25rem !important;
+    text-align: left !important;
+}
+
+.footerPopupCls {
+    margin-top: -5rem;
+    border-radius: 0 !important;
+}
+
+.slds-button_outline-brand:hover,
+.slds-button_outline-brand:active,
+.slds-button_outline-brand:focus {
+    color: #fff;
+    line-height: 1.15;
+}
+
+.slds-backdrop {
+    opacity: 0;
+}
+
+.footerPrefePopupCls {
+    min-height: 22rem;
+}
+
+.footerPopupCls button,
+.footerPrefePopupCls button {
+    width: 15rem;
+    height: auto;
+    padding: 1rem 1.5rem;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    z-index: 1;
+    border-radius: var(--dimenBorderRadius);
+    margin: 0 1rem;
+    border-color: #005c55;
+}
+
+.popupHeaderCls {
+    font-size: 1.5rem !important;
+    line-height: 2.5rem !important;
+    font-weight: 600 !important;
+    font-family: headerFont;
+    color: #00857c;
+}
+
+.popupTitleCls {
+    font-size: 1.875rem !important;
+    line-height: 2.5rem !important;
+    font-weight: 300 !important;
+    font-family: headerTitle;
+    color: #000000;
+    margin-bottom: 1.8rem;
+}
+
+.btnHover::after,
+.btnHover::before {
+    background: #005c55;
+    content: '';
+    position: absolute;
+    z-index: -1;
+}
+
+.btnCancelHover::after,
+.btnCancelHover::before {
+    background: #005c55;
+    opacity: 1;
+    content: '';
+    position: absolute;
+    z-index: -1;
+    color: #00857c !important;
+}
+
+.btnHover,
+.btnHover::after,
+.btnCancelHover,
+.btnCancelHover::after {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.btnHover,
+.btnCancelHover {
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.btnHover::after,
+.btnCancelHover::after {
+    height: 103%;
+    left: 0;
+    top: -1px;
+    width: 0;
+}
+
+.btnHover:hover:after,
+.btnCancelHover:hover:after {
+    width: 100%;
+}
+
+.footerLinkCls::after {
+    height: 4px !important;
+    width: 4px !important;
+}
+
+.AEMessageCls {
+    font-family: 'InventionRg' !important;
+    padding-bottom: 50px;
+    max-width: 478px;
+}
+
+.medicalInfoBody {
+    font-family: 'InventionLt' !important;
+    font-size: 16px;
+    color: black;
+    padding: 0 16px 15px 16px !important;
+    width:608px;
+    height:87px;
+}
+.slds-p-around_medium {
+    width:640px;
+    height:165.6;
+}
+
+.medicalInfoHeader {
+    font-size: 20px;
+    font-family: 'Invention' !important;
+    color: black;
+}
+
+.medicalInfoBtn {
+    font-family: 'Invention' !important;
+    color: white !important;
+    background: linear-gradient(to left, #00857C 50%, #035A53 50%) right !important;
+    background-size: 200% !important;
+    transition: .3s ease-out !important;
+    width: 150px !important;
+    font-size: 14px !important;
+    letter-spacing: 0.1px !important;
+    /* top:0.5px; */
+    
+}
+
+.medicalInfoBtn:hover {
+    background-position: left !important;
+}
+
+.medicalInfoFooter {
+    padding: 0 52px 15px 52px !important;
+}
+
+@font-face{
+    font-family : 'Invention';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Bd.woff')  format('woff');
+  }
+  @font-face {
+    font-family: 'InventionLt';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Lt.woff') format('woff');
+  }
+  @font-face {
+    font-family: 'InventionBdLt';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Bdlt.woff2') format('woff2');
+  }
+  @font-face{
+    font-family : 'InventionRg';
+    src:url('resource/AMO_Fonts/fonts/Invention_W_Rg.woff') format('woff');
+  }
+  @font-face{
+    font-family : 'InventionJPRG';
+    src:url('resource/AMO_Fonts/fonts/InventionJP_W_Rg.woff') format('woff');
+  }
+  
+  .amoFonts{
+    font-family : 'Invention';
+  }
+
+.copyrightCls,
+.informationCls {
+    /* height: 96px; */
+    /* width: 870px; */
+    color: #747474;
+    font-family: 'InventionRg';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 24px;
+}
+
+.copyrightCls {
+    padding-top: 5px;
+}
+
+.footerfont {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.accessibility {
+    margin-right: 12px;
+}
+
+.accessicon {
+    cursor: pointer;
+}
+
+.floatcls {
+    float: right;
+}
+
+@media only screen and (min-device-width: 640px) and (max-device-width: 1024px) and (orientation: portrait) {
+    .imgdiv {
+        width: 100%;
+    }
+
+    .floatcls {
+        float: left;
+    }
+
+    .popupTitleCls {
+        font-size: 1.5rem !important;
+    }
+
+    .footerContainerCls {
+        margin-top: -10rem !important;
+        width: 77% !important;
+    }
+
+    .alignTxt {
+        padding-right: 1.5rem;
+    }
+       .slds-p-around_medium {
+    width:auto !important;
+    height:auto !important;
+}
+.medicalInfoBody{
+     width:auto !important;
+    height:auto !important;
+}
+.MedicalBtn{
+    left:11px !important;
+}
+}
+
+@media only screen and (min-device-width: 640px) and (max-device-width: 1024px) and (orientation: landscape) {
+    .imgdiv {
+        margin-left: -6px;
+    }
+
+    .popupTitleCls {
+        font-size: 1.5rem !important;
+    }
+
+    .alignTxt {
+        padding-right: 1.5rem;
+    }
+     .slds-p-around_medium {
+    width:auto !important;
+    height:auto !important;
+}
+.medicalInfoBody{
+     width:auto !important;
+    height:auto !important;
+}
+.MedicalBtn{
+    left:11px !important;
+}
+}
+
+@media screen and (max-width: 768px) {
+    .img {
+        margin-left: 0px;
+    }
+
+    .floatcls {
+        float: left;
+    }
+
+    .footerContainerCls {
+        width: 85%;
+    }
+
+    .popupTitleCls {
+        font-size: 1.2rem !important;
+        line-height: 0 !important;
+    }
+
+    .accessibility {
+        margin-right: 12px;
+    }
+
+     .mobileaccessibility {
+        display: none
+    }  
+    .accessicon{
+        position:relative;
+        top: 177px;;
+        left:2px;
+    }
+
+    .hcp-footer {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .AEMessageCls {
+        padding-bottom: 50px;
+        width: 100%;
+        max-width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+
+    }
+    .mobview {
+        display: flex;
+        flex-wrap: wrap;
+    } 
+    .slds-p-around_medium {
+    width:auto !important;
+    height:auto !important;
+}
+.medicalInfoBody{
+     width:auto !important;
+    height:auto !important;
+}
+.MedicalBtn{
+    left:11px !important;
+}
+}
+
+@media only screen and (min-device-width: 1366px) and (max-device-width: 1919px) {
+    .footerLinkCls::after {
+        margin-left: 20px !important;
+    }
+
+    .footerLinkCls {
+        padding-right: 1%;
+    }
+
+    .alignTxt {
+        padding-right: 1.5rem;
+    }
+}
+
+@media only screen and (min-device-width: 1920px) {
+
+    .copyrightCls,
+    .informationCls {
+        font-size: 14px;
+    }
+
+    .footerLinkCls {
+        padding-right: 1%;
+    }
+
+    .footerLinkCls::after {
+        margin-left: 20px !important;
+    }
+
+    .footerContainerCls {
+        /* width:30.5% !important; */
+        margin-top: -7rem !important;
+    }
+
+    .popupTitleCls {
+        margin-bottom: 1.75rem;
+    }
+
+    .alignTxt {
+        padding-right: 1.5rem;
+    }
+}
+    
+@media only screen and (min-device-width: 390px) and (max-device-width: 780px) {
+.imgdiv{
+    height: 16px;
+}
+
+.accessicon{
+    position: relative;
+    top:147px;
+    left:2px;
+}
+    }
+
+
+    @media only screen and (min-device-width: 360px) and (max-device-width: 712px) {
+        .imgdiv{
+            height: 16px;
+    }
+
+    .accessicon{
+        position: relative;
+        top:147px;
+        left:2px;
+    }
+    }
+
+
+    @media only screen and (min-device-width: 414px) and (max-device-width: 896px) {
+
+        .accessicon{
+            position: relative;
+            top:147px;
+            left:2px;
+        }
+
+    }
+
+
+    @media only screen and (min-device-width: 390px) and (max-device-width: 844px) {
+        
+        .accessicon{
+            position: relative;
+            top:147px;
+            left:2px;
+        }
+
+    }
+
+    @media only screen and (min-device-width: 375px) and (max-device-width: 687px) {
+    .informationCls{
+        width: 346px;
+
+    }
+
+    .imgdiv1{
+
+    }
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 712px) {
+
+    .informationCls{
+        width: 346px;
+
+    }
+}

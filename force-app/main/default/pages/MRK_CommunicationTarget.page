@@ -1,0 +1,78 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_CommunicationTargetEdit.page
+* @description - Replaces the Communication Target Edit page
+*   in order to support dynamic loading of Team data from the
+*   Sales_Team_MRK__c object.
+* @createdate - Aug 7th, 2014
+-->
+
+<!-- D8 test URL: /apex/MRK_CommunicationTarget?id=a2qZ0000000tMx5 -->
+
+<apex:page standardController="Communication_Target_MRK__c"
+    extensions="MRK_CommunicationEventTargetCtrl"    
+    showHeader="true"
+    sidebar="true">
+
+    <!--
+
+    <c:MRK_CommunicationTarget standardCtrl="{!sc}"/>
+    -->
+    
+    <apex:form >
+
+        <apex:pageBlock title="{!title}">
+        <apex:pageMessages />
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Save" action="{!doSave}"/>
+            <apex:commandButton value="Save & New" action="{!doSaveAndNew}"/>
+            <apex:commandButton value="Cancel" action="{!doCancel}"/>
+        </apex:pageBlockButtons>
+
+        <apex:pageBlockSection >
+
+        <apex:panelGrid columns="2" id="formPanelGrid">
+
+            <apex:outputLabel value="{!parentObjectLabel}" />
+            <apex:inputField rendered="{!isCommunicationEventTarget}" value="{!communicationEventTargetRecord.Communication_Event_MRK__c}" />
+            <apex:inputField rendered="{!isCommunicationTarget}" value="{!communicationTargetRecord.Communication_MRK__c}" />
+            
+            <apex:outputLabel value="Type" for="eventType" />
+            <apex:selectList id="eventType" size="1" value="{!eventType}">
+                <apex:selectOptions value="{!eventTypes}"/>
+            </apex:selectList>
+
+            <apex:outputLabel value="Profile" for="profileMultiselect"/>
+            <c:MRK_MultiselectPicklist id="profileMultiselect" leftLabel="Available Profiles"
+                leftOptions="{!allProfiles}"
+                rightLabel="Selected Profiles"
+                rightOptions="{!selectedProfiles}"
+                size="6"
+                width="auto"/>
+                
+            <apex:outputLabel value="Product" for="productMultiselect"  />
+            <c:MRK_MultiselectPicklist id="productMultiselect" leftLabel="Available Products"
+                leftOptions="{!allProducts}"
+                rightLabel="Selected Products"
+                rightOptions="{!selectedProducts}"
+                size="10"
+                width="auto"/>
+
+            <apex:outputLabel value="Team" for="teamMultiselect" />
+            <c:MRK_MultiselectPicklist id="teamMultiselect" leftLabel="Available Teams"
+                leftOptions="{!allTeams}"
+                rightLabel="Selected Teams"
+                rightOptions="{!selectedTeams}"
+                size="10"
+                width="auto"/>
+
+            </apex:panelGrid>
+        </apex:pageBlockSection>
+        </apex:pageBlock>        
+    </apex:form>    
+    
+    <!--
+    <apex:outputText >{!message}</apex:outputText>
+    -->
+
+</apex:page>

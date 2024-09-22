@@ -1,0 +1,11 @@
+.edit-panel {
+    position: fixed;
+    z-index: 99;
+    top: var(--selectionDetailsPopoverYCoord);
+    left: var(--selectionDetailsPopoverXCoord);
+}
+
+.footer-placeholder {
+    height: 2.5rem;
+    background-color: var(--lwc-colorBackgroundAlt, white);
+}

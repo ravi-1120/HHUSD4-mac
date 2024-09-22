@@ -1,0 +1,43 @@
+.carousel {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    align-items: center;
+}
+
+.carouselimgcls {
+    width: 1272px;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-container {
+    width: 100%;
+}
+
+.carousel .slds-button--icon-border,
+.slds-button--icon-border-filled,
+.slds-button_icon-border,
+.slds-button_icon-border-filled {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .carousel {
+        padding: 0 40px;
+    }
+
+    .carouselimgcls {
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .carousel {
+        padding: 0 50px;
+    }
+
+    .carouselimgcls {
+        max-width: 80%;
+    }
+}

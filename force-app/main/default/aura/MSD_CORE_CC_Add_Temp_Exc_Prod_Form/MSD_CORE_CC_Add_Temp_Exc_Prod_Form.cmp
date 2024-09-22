@@ -1,0 +1,258 @@
+<aura:component extends="c:ComponentUtils" controller="MSD_CORE_CC_Add_TempExcProdController" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    
+    <aura:attribute name="parentId" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="mode" type="String" default="NEW" />
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    <aura:attribute name="buttonClicked" type="String"/>
+    <aura:registerEvent name="MSD_CORE_CC_CloseModalEvt" type="c:MSD_CORE_CC_CloseModalEvt"/>
+    <aura:registerEvent name="MSD_CORE_CC_TempProdEvent" type="c:MSD_CORE_CC_TempProdEvent"/>
+    <aura:registerEvent name="MSD_CORE_CC_TempProdFormEvent" type="c:MSD_CORE_CC_TempProdFormEvent"/>
+    <aura:registerEvent name="MSD_CORE_CC_VaccAdministeredEvent" type="c:MSD_CORE_CC_VaccAdministeredEvent"/>
+    
+    <aura:handler name="MSD_CORE_CC_TE_LotDetailsFormEvent" event="c:MSD_CORE_CC_TE_LotDetailsFormEvent"
+                  action="{!c.handleTELotDetailsFormEvent}"/>
+    
+    <aura:handler name="MSD_CORE_CC_TE_LotDetailsEvent" event="c:MSD_CORE_CC_TE_LotDetailsEvent"
+                  action="{!c.handleTELotDetailsEvent}"/>    
+    
+    <aura:attribute name="showLotDetailTabs" type="Boolean" default="false" />
+    <aura:attribute name="selectedLotTabId" type="String" default="1" />
+    <aura:attribute name="lotParentId" type="String" default="" />
+    
+    <aura:attribute name="lottabs" type="Object[]" />
+    
+    <aura:attribute name="lotNumber" type="String" />
+    <aura:attribute name="expDate" type="Date" />
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>    
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <lightning:recordEditForm aura:id="prodForm"
+                              onsubmit="{!c.handleSubmit}"
+                              onsuccess="{!c.handleSuccess}"
+                              onerror = "{!c.handleError}"
+                              recordId = "{!v.recordId}"
+                              objectApiName="MSD_CORE_Temperature_Excursion_Product__c">
+        <!-- the messages component is for error messages -->
+        <lightning:messages /> 
+        <lightning:card>               
+            <aura:if isTrue="{!v.mode!='VIEW'}">
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate" title="Section Title" style="font-size:14px">Product Information</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                        <lightning:layout>
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <span style="color:red;">* </span><label for="Product" class="slds-form-element__label">Product</label>
+                                <lightning:inputField required="true" aura:id="required" fieldName="MSD_CORE_Product__c" variant="label-hidden"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <label for="Product Formulation" class="slds-form-element__label slds-truncate">Product Formulation</label>
+                                <lightning:inputField fieldName="MSD_CORE_Product_Formulation__c" variant="label-hidden"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <label for="Product Type" class="slds-form-element__label">Product Type</label>
+                                <lightning:inputField fieldName="MSD_CORE_Vaccine_Type__c" variant="label-hidden"/>
+                            </lightning:layoutItem>
+                            <!--
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <label for="Product Type" class="slds-form-element__label">Lot Number</label>
+                                <lightning:inputField aura:id="MSD_CORE_Lot_Number__c" fieldName="MSD_CORE_Lot_Number__c" variant="label-hidden" disabled="true"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <label for="Product Type" class="slds-form-element__label">Expiration Date</label>
+                                <lightning:inputField aura:id="MSD_CORE_Expiration_Date__c" fieldName="MSD_CORE_Expiration_Date__c" variant="label-hidden" disabled="true"/>
+                            </lightning:layoutItem>
+							-->
+                        </lightning:layout>
+                    </div>
+                </div>
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate" title="Section Title" style="font-size:14px">Prior Temperature Excursion Details</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                        <lightning:layout  multipleRows="true">
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                                <lightning:inputField fieldName="MSD_CORE_Prior_Temperature_Excursion__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                                <lightning:inputField fieldName="MSD_CORE_Prior_Excursion_Details__c" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </div>
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate" title="Section Title" style="font-size:14px">Current Temperature Excursion Details (cont)</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                        <lightning:layout>
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                                <lightning:inputField fieldName="MSD_CORE_Temperature_Range__c" />
+                                <lightning:inputField fieldName="MSD_CORE_Temperature_Units__c" />
+                                <lightning:inputField aura:id="wasVaccAdministered" fieldName="MSD_CORE_Was_Vaccine_Administered__c" />
+                                <lightning:inputField fieldName="MSD_CORE_Outcome__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                                <lightning:inputField fieldName="MSD_CORE_Is_Data_Logger_Used__c" /> 
+                                <lightning:inputField fieldName="MSD_CORE_Time_Frame__c" />                                
+                                <lightning:inputField fieldName="MSD_CORE_Cumulative_Timeframe__c" />
+                                <lightning:inputField fieldName="MSD_CORE_Temperature__c" disabled="true"/>
+                                <lightning:inputField fieldName="MSD_CORE_Time_Units__c" disabled="true"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </div> 
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate" title="Section Title" style="font-size:14px">System Information</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                        <lightning:layout>
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="horizontal-small" size="6">
+                                <lightning:inputField fieldName="MSD_CORE_Case__c" value="{!v.parentId}" disabled="true"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </div> 
+                <aura:if isTrue="{!v.mode != 'EDIT'}">
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate" title="Section Title" style="font-size:14px">Lot Details</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                            <lightning:layout  multipleRows="true">
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <lightning:inputField aura:id="MSD_CORE_Lot_Number__c" fieldName="MSD_CORE_Lot_Number__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <lightning:inputField aura:id="MSD_CORE_Expiration_Date__c" fieldName="MSD_CORE_Expiration_Date__c"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </div>
+                </aura:if>                
+                <aura:set attribute="else">
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate" title="Section Title" style="font-size:14px">Product Information</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                            <lightning:layout>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <label for="Product">Product</label>
+                                    <lightning:outputField fieldName="MSD_CORE_Product__c" variant="label-hidden"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <label for="Product Formulation">Product Formulation</label>
+                                    <lightning:outputField fieldName="MSD_CORE_Product_Formulation__c" variant="label-hidden"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <label for="Product Type">Product Type</label>
+                                    <lightning:outputField fieldName="MSD_CORE_Vaccine_Type__c" variant="label-hidden"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </div>
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate" title="Section Title" style="font-size:14px">Prior Temperature Excursion Details</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                            <lightning:layout  multipleRows="true">
+                                <lightning:layoutItem padding="horizontal-small" size="6">
+                                    <lightning:outputField fieldName="MSD_CORE_Prior_Temperature_Excursion__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem padding="horizontal-small" size="6">
+                                    <lightning:outputField fieldName="MSD_CORE_Prior_Excursion_Details__c" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </div>
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate" title="Section Title" style="font-size:14px">Current Temperature Excursion Details (cont)</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                            <lightning:layout>
+                                <lightning:layoutItem padding="horizontal-small" size="6">
+                                    <lightning:outputField fieldName="MSD_CORE_Temperature_Range__c" style="padding-bottom:3rem;"/>
+                                    <lightning:outputField fieldName="MSD_CORE_Temperature_Units__c" style="padding-bottom:1rem;"/>
+                                    <lightning:outputField fieldName="MSD_CORE_Was_Vaccine_Administered__c" style="padding-bottom:1rem;"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem padding="horizontal-small" size="6">
+                                    <lightning:outputField fieldName="MSD_CORE_Is_Data_Logger_Used__c" style="padding-bottom:2rem;"/>                            
+                                    <lightning:outputField fieldName="MSD_CORE_Time_Frame__c" style="padding-bottom:1rem;"/>                                
+                                    <lightning:outputField fieldName="MSD_CORE_Cumulative_Timeframe__c" style="padding-bottom:1rem;"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </div>
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate" title="Section Title" style="font-size:14px">System Information</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                            <lightning:layout>
+                                <lightning:layoutItem padding="horizontal-small" size="6">
+                                    <lightning:outputField fieldName="CreatedById" />
+                                    <lightning:outputField fieldName="Name" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem padding="horizontal-small" size="6">
+                                    <lightning:outputField fieldName="MSD_CORE_Case__c" value="{!v.parentId}" disabled="true"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </div>
+                </aura:set>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.mode!='VIEW'}">
+                <br/><br/>
+        
+                <div class="slds-align_absolute-center" style="float: left; width: 100%; padding: 10px; text-align: center; position: fixed; bottom: 105px; right: 100px;">
+                    
+                    <lightning:button 
+                                      variant="neutral" 
+                                      type="submit"
+                                      name="saveAdd" 
+                                      label="Save &amp; New" 
+                                      onclick="{!c.handleSaveAdd}"/>
+                    
+                    <lightning:button 
+                                      variant="brand" 
+                                      type="submit"
+                                      name="save" 
+                                      label="Save" 
+                                      onclick="{!c.handleSave}"/>
+                </div>
+                
+            </aura:if>
+        </lightning:card>
+    </lightning:recordEditForm>
+    <aura:if isTrue="{!v.showLotDetailTabs}">
+        <lightning:card> 
+            <lightning:tabset onselect="{! c.handleLotSelect }"  selectedTabId="{!v.selectedLotTabId}" variant="vertical">
+                <lightning:tab  id="add_lot">
+                    <aura:set attribute="label">
+                        Add Lot Detail
+                    </aura:set>
+                </lightning:tab>
+                <aura:iteration items="{! v.lottabs }" var="ltab">
+                    <lightning:tab label="{! ltab.label }" class="customWidth" id="{! ltab.id }">
+                        <c:MSD_CORE_CC_TE_LotDetailsForm parentId="{!ltab.lotParentId}" recordId="{!ltab.recId}" mode="{!ltab.mode}"/>
+                    </lightning:tab>
+                </aura:iteration>
+            </lightning:tabset> 
+        </lightning:card>
+    </aura:if>
+</aura:component>

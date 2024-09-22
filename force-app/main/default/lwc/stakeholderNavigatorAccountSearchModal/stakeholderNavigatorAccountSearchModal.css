@@ -1,0 +1,16 @@
+.slds-input[readonly] {
+  border: var(--lwc-borderWidthThin, 1px) solid
+      var(--lwc-colorBorderInput, rgb(221, 219, 218));
+}
+
+.account-header {
+  margin: .5vh 0vh .5vh .2vh;
+}
+
+.content {
+  height: 300px;
+}
+
+.account-search-okay {
+  margin-left: 3px;
+}

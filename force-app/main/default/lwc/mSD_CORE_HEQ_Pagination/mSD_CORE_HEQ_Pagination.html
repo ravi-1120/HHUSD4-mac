@@ -1,0 +1,26 @@
+<template>
+    <div class="maincontainer">
+        <div class="pagination-container">
+            <button class="pagination-button" onclick={handlePrevious} disabled={isPreviousDisabled}>
+                <img src={leftarrowicon} /> <span> Previous</span>
+            </button>
+
+            <div class="page-numbers">
+                <template for:each={pageNumbers} for:item="page">
+                    <button key={page.number} class={page.class} onclick={handlePageClick} data-page={page.number}>
+                        {page.number}
+                    </button>
+                </template>
+            </div>
+
+            <button class="pagination-button" onclick={handleNext} disabled={isNextDisabled}>
+                <span>Next</span> <img src={rightarrowicon} />
+            </button>
+        </div>
+        <div class="per-page-dropdown">
+            <label for="recordsPerPage">Per page</label>
+            <lightning-select name="Per page" class="pagedropdown" variant="label-hidden" value={recordsPerPage} options={recordsPerPageOptionsData}
+                onchange={handleRecordsPerPageChange} required></lightning-select>
+        </div>
+    </div>
+</template>

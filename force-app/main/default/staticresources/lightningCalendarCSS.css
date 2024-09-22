@@ -1,0 +1,6 @@
+.slds-datepicker thead>tr>th{
+padding: 0rem !important;
+}
+.slds-datepicker{
+    width: 280px;
+}

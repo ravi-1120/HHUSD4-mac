@@ -1,0 +1,219 @@
+<apex:page standardController="Account" extensions="MSD_CORE_DCRAccountEditController">
+    <apex:includeScript value="/support/console/43.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/jquery.tablesorter.min.js')}" />
+    <script>
+        var j$ = jQuery.noConflict();
+    
+     var tabId;
+        var thisTabId;
+        var didSaveSucceed;
+        var isATab;
+
+        function initialize() {
+            isATab = false;
+            sforce.console.setTabTitle('{!$Label.MSD_CORE_DCR_Account_Edit_Title}');
+            getTabId();
+        }
+
+        function getTabId()
+        {
+            sforce.console.getEnclosingPrimaryTabId(assignTabId);
+            sforce.console.getEnclosingTabId(assignThisTabId);
+        }
+		function closeTab() 
+        {
+        	console.log("entered close tab");
+       		console.log(thisTabId,tabId);
+            sforce.console.refreshPrimaryTabById(tabId, false, sforce.console.closeTab(thisTabId));
+        }
+      
+        var assignTabId = function assignTabId(result)
+        {
+            tabId = result.id;
+        };
+        var assignThisTabId = function assignThisTabId(result)
+        {
+            console.log("tabs"+JSON.stringify(result));
+            thisTabId = result.id;
+            isATab = true;
+            document.getElementById('{!$Component.DCRForm.isATab}').value = isATab;
+        };
+      
+
+        var closeSubTab = function closeSubTab(result) {
+             console.log("entered close sub tab");
+            console.log(thisTabId);
+            setTimeout('sforce.console.closeTab(thisTabId)', 1);
+        };
+    
+
+        function keyPressed(e, type){
+            var keyCode;
+            try {
+                keyCode = window.event.keyCode;
+            } catch (ex) {
+                keyCode = e.which;
+            }
+
+            if(keyCode == 13)
+            {
+                try {
+                    window.event.preventDefault();
+                } catch (ex) {
+                    try{
+                        e.preventDefault();
+                    }catch (ex2){
+                        event.returnValue = false;
+                    }
+                }
+
+                if (type == 'save') {
+                    saveAccount();
+                }
+            }
+        }
+
+        function updateButtons(disableButton, buttonId, buttonName, message){
+            console.log(buttonId + ',' + buttonName + ',' + message);
+            updateButton(disableButton, buttonId, message);
+
+            var bottomSuffix = 'bottom:' + buttonName;
+            var bottomIndex = buttonId.indexOf(bottomSuffix);
+            var otherButtonId = '';
+            if(bottomIndex > -1){
+                otherButtonId = buttonId.substring(0, bottomIndex) + buttonName;
+            } else {
+                var nameIndex = buttonId.indexOf(buttonName);
+                otherButtonId = buttonId.substring(0, nameIndex) + bottomSuffix;                
+            }
+
+            updateButton(disableButton, otherButtonId, message);
+        }
+
+        function updateButton(disableButton, buttonId, message){
+            
+            var button = document.getElementById(buttonId);
+            button.disabled = disableButton;
+            if(disableButton){
+                j$(button).addClass('btnDisabled');
+            } else {
+                j$(button).removeClass('btnDisabled');
+            }
+            if(message != null){
+                button.value = message;
+            }
+        }
+
+        window.onload = initialize;
+    </script>
+
+    <style>
+        tr.border_bottom td {
+            border-bottom: 3pt solid black;
+        }
+
+        .dcrKeyIcon {
+            margin-left: 0.5em;
+            height: 12px;
+            width: 10px;
+        }
+
+        .dcrPendingIcon {
+            margin-left: 0.5em;
+            height: 12px;
+            width: 12px;
+        }
+
+        .ui-dialog-titlebar-close {
+            display: none;
+        }
+
+        .bPageBlock .requiredInput {
+            display: inline-block;
+            height: 19px;
+        }
+
+        .bPageBlock .condRequiredInput {
+            display: inline-block;
+            height: 19px;
+        }
+
+        .helpCircleOn {
+            background-position: top right;
+            background-image: url('{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/helpOrbs.gif')}');
+            width: 20px;
+            height: 15px;
+            position: absolute;
+        }
+
+        .helpCircle {
+            background-position: top left;
+            background-image: url('{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/helpOrbs.gif')}');
+            width: 20px;
+            height: 15px;
+            position: absolute;
+        }
+
+        .readonly {
+            display: none;
+        }
+
+        .noWrap {
+            white-space: nowrap;
+        }
+    </style>
+    <apex:form id="DCRForm" >
+        <script type="text/javascript">            
+            didSaveSucceed = {!didSaveSucceed};
+        </script>
+        <apex:inputHidden value="{!account.Status_MRK__c}" />  
+        <apex:inputHidden id="isATab" value="{!isATab}" />      
+        <apex:pageBlock title="{!$Label.MSD_CORE_DCR_Account_Edit_Title}" mode="edit">
+            <apex:pageBlockButtons >
+                <apex:commandButton id="saveDCRButton" value="{!$Label.MSD_CORE_Generic_Save_Button}" action="{!saveDCR}" oncomplete="if(didSaveSucceed){closeTab();}" reRender="DCRForm" rendered="{!!hadInitializationError}" status="saveStatus" />
+                <apex:commandButton id="cancelButton" value="{!$Label.Document_Search_Cancel}" action="{!goBackToDetail}" immediate="true" onclick="if(isATab){closeTab();}" rendered="{!!hadInitializationError}" status="saveStatus" />
+                <apex:commandButton id="closeTabButton" value="{!$Label.MSD_CORE_Close_Tab}" action="{!goBackToDetail}" immediate="true" onclick="if(isATab){closeTab();}" rendered="{!hadInitializationError}" />
+                <apex:actionFunction name="saveAccount" action="{!saveDCR}" oncomplete="if(didSaveSucceed){closeTab();}" reRender="DCRForm" status="saveStatus" />
+                <apex:actionStatus id="saveStatus"
+                    onstart="updateButtons(true, '{!$Component.saveDCRButton}', 'saveDCRButton', '{!$Label.Interaction_Log_Save_Status}');updateButtons(true, '{!$Component.cancelButton}', 'cancelButton', null)" 
+                    onstop="updateButtons(false, '{!$Component.saveDCRButton}', 'saveDCRButton', '{!$Label.MSD_CORE_Generic_Save_Button}');updateButtons(false, '{!$Component.cancelButton}', 'cancelButton', '{!$Label.Document_Search_Cancel}')" />
+            </apex:pageBlockButtons>
+            <apex:pageMessages id="dcrAccountMessages"/>
+            <apex:repeat value="{!sectionKeys}" var="sectionKey" rendered="{!dcrAccount != null}">
+                <apex:pageBlockSection title="{!sectionMap[sectionKey]}" columns="2">
+                    <apex:repeat value="{!dcrFieldsSectionMap[sectionKey]}" var="dcrField">
+                        <apex:pageBlockSectionItem rendered="{!dcrField.Field_API_Name__c == null}">
+                            <apex:outputLabel value="" />
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem rendered="{!!dcrField.Read_Only__c && dcrField.Field_API_Name__c != null}">
+                            <apex:outputPanel styleClass="noWrap">                                
+                                <apex:outputLabel value="{!$ObjectType.Account.Fields[dcrField.Field_API_Name__c].label}"/>
+                                <apex:outputPanel rendered="{!IF($ObjectType.Account.Fields[dcrField.Field_API_Name__c].inlinehelptext == NULL, 'FALSE', 'TRUE')}" layout="none">
+                                    <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/spacer.gif')}" class="helpCircle" onmouseover="this.className='helpCircleOn';" onmouseout="this.className='helpCircle';" title="{!HTMLENCODE($ObjectType.Account.Fields[dcrField.Field_API_Name__c].inlinehelptext)}"/>
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="noWrap">
+                                <apex:inputField value="{!dcrAccount[dcrField.Field_API_Name__c]}" required="{!dcrField.Required__c}" onkeypress="keyPressed(event, 'save');"/>
+                                <apex:outputPanel rendered="{!dcrField.DCR__c}">
+                                    <img title="{!$Label.MSD_CORE_DCR_Icon_Title}" class="dcrKeyIcon" src="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/icon_dcr.png')}"/>
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+                        </apex:pageBlockSectionItem>                        
+                        <apex:pageBlockSectionItem rendered="{!dcrField.Read_Only__c && dcrField.Field_API_Name__c != null}">
+                            <apex:outputLabel value="{!$ObjectType.Account.Fields[dcrField.Field_API_Name__c].label}"/>
+                            <apex:outputField value="{!dcrAccount[dcrField.Field_API_Name__c]}" />
+                        </apex:pageBlockSectionItem>                        
+                    </apex:repeat>            
+                </apex:pageBlockSection>
+            </apex:repeat>
+            <div id="readOnlyFields" class="readonly">
+                <apex:repeat value="{!sectionKeys}" var="sectionKey" rendered="{!dcrAccount != null}">
+                    <apex:repeat value="{!dcrFieldsSectionMap[sectionKey]}" var="dcrField">
+                        <apex:inputField value="{!dcrAccount[dcrField.Field_API_Name__c]}" styleClass="readonly" style="display: none;" rendered="{!dcrField.Read_Only__c}"/>
+                    </apex:repeat>
+                </apex:repeat>
+            </div>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,24 @@
+.channel-goal-label {
+    font-weight: bold;
+}
+
+.channel-disabled {
+    opacity: 0.5;
+}
+
+/* 
+ *  The following three rules are used to center the channel containers with fixed spacing between any two
+ *  containers. This is effectively equivalent to setting `justify-content: center`,except that justify-content does
+ *  not work properly with a horizontally-scrollable modal.
+ */
+.channel-container {
+    margin: var(--lwc-spacingXSmall,0.75rem);
+}
+
+lightning-layout-item:first-child {
+    margin-left: auto;
+}
+
+lightning-layout-item:last-child {
+    margin-right: auto;
+}

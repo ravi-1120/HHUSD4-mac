@@ -1,0 +1,67 @@
+<apex:page sidebar="false" controller="MRK_EM_ME_Call_Delink">
+   <apex:form id="formid">
+     <apex:pageMessages ></apex:pageMessages>
+       <apex:pageBlock >
+          <apex:pageBlock title="Delink Call from the EM Event">
+             <apex:pageBlockSection title="Call Delink" collapsible="true">
+           
+      <h1> Call Name </h1><apex:inputText value="{!CallName}" id="CallName" required="true"/>
+        <!--<h1> Medical Event ID </h1><apex:inputText value="{!RFMId}" id="RFMId" required="true"/>-->
+      <!--  <h2 style="background-color:Tomato;">
+WARNING!!!! Please Enter the Call name Which starts With "C0"
+</h2> -->
+
+ </apex:pageBlockSection>
+     </apex:pageBlock>
+ 
+      <apex:pageBlockButtons location="bottom">
+     <apex:commandButton action="{!Search}" value="Search EM Event" reRender="SK,formid"/>
+     <apex:commandButton action="{!Search1}" value="Search Medical Event" reRender="SKD,formid"/>
+     
+            </apex:pageBlockButtons> 
+  <!--<apex:commandButton action="{!Delink}" value="Call Delink"/> -->
+      
+   
+   
+   
+     
+     
+ <!--<apex:pageBlockButtons location="bottom">
+     
+     <apex:commandButton action="{!Search1}" value="Search Medical Event" reRender="SKD,formid"/>
+     </apex:pageBlockButtons>--> 
+     
+      </apex:pageBlock> 
+      
+      <apex:pageBlock id="SKD" rendered="{!enableblock}" >
+        <apex:pageBlockTable value="{!searchresult1}" var="vc">
+          <apex:column value="{!vc.Medical_Event_vod__r.name}"/>
+             <apex:column value="{!vc.Medical_Event_vod__c}"/>
+               <apex:column value="{!vc.Medical_Event_vod__r.id}"/>
+                  
+               
+               </apex:pageBlockTable>
+ <apex:pageBlockButtons location="bottom">
+          <apex:commandButton action="{!Delink1}" value="Medical Event Call Delink" rendered="{!enableblock}" /> 
+            </apex:pageBlockButtons>
+      
+     </apex:pageBlock>
+   
+    
+      <apex:pageBlock id="SK" rendered="{!enableblock}" >
+        <apex:pageBlockTable value="{!searchresult}" var="v">
+          <apex:column value="{!v.EM_Event_vod__r.name}"/>
+            <apex:column value="{!v.EM_Event_vod__c}"/>
+               <apex:column value="{!v.EM_Event_vod__r.id}"/>
+                  <apex:column value="{!v.EM_Event_vod__r.Status_vod__c}"/>
+               
+      
+            </apex:pageBlockTable>
+        <apex:pageBlockButtons location="bottom">
+          <apex:commandButton action="{!Delink}" value="EM Event Call Delink" rendered="{!enableblock}" /> 
+            </apex:pageBlockButtons>
+               </apex:pageBlock>
+            
+      
+   </apex:form>
+</apex:page>

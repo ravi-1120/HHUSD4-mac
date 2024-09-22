@@ -1,0 +1,246 @@
+<aura:component extends="c:ComponentUtils" controller="CaseControllerMVN" implements="flexipage:availableForRecordHome,force:hasSObjectName,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--<aura:handler event="force:refreshView" action="{!c.doInit}"/>-->
+    <aura:attribute name="caseRecord" type="Case"/>
+    <aura:attribute name="isReadOnlyUser" type="Boolean" default="false"/>
+    <aura:handler event="lightning:tabFocused" action="{!c.doInit}"/>
+    <aura:attribute name="Address" type="List"/>
+    <aura:attribute name="Phone" type="List"/>
+    <aura:attribute name="Email" type="List"/>
+    <aura:attribute name="Fax" type="List"/>
+    <aura:attribute name="isAccSearch" type="Boolean" default="false"/>
+    <aura:attribute name="infoType" type="String" />
+    <aura:attribute name="showModal" type="Boolean" default="false"/>
+    <aura:attribute name="newEmail" type="String" />
+    <aura:attribute name="newPhone" type="String" />
+    <aura:attribute name="newFax" type="String" />
+    <aura:attribute name="selectedAddressVal" type="String" />
+    <aura:attribute name="selectedPhoneVal" type="String" />
+    <aura:attribute name="selectedEmailVal" type="String" />
+    <aura:attribute name="selectedFaxVal" type="String" />
+    
+    <aura:attribute name="userProfileName" type="String"/>
+    <aura:attribute name="casestatus" type="String"/>
+    
+    <aura:attribute name="casAccountId" type="String" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <force:recordData aura:id="forceRecord"
+                      recordId="{!v.recordId}" 
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      targetError="{!v.recordError}"
+                      recordUpdated = "{!c.recordUpdated}"
+                      mode="EDIT"
+                      layoutType="FULL"/>
+    <aura:handler event="c:MSD_CORE_CC_RefreshCustInfoEvent" action="{!c.refreshCmp}"/>
+    <aura:handler event="c:MSD_CORE_CC_RefreshCustInfoCTI" action="{!c.refreshCmp}"/>    
+    <aura:registerEvent name="MSD_CORE_CC_RefreshCustInfoCTI" type="c:MSD_CORE_CC_RefreshCustInfoCTI"/>
+
+    <aura:attribute name="showAlert" type="Boolean" default="false" />
+    <aura:attribute name="zipcodeList" type="Object[]"/>
+    <div style="padding: 3px;position:relative;margin-top: 5px;" class="slds-box slds-theme_default"> 
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner />
+        </aura:if>
+        <div class="slds-section slds-is-open">
+            <div class="slds-section__content" style="padding: 5px;" id="requesterInfo">
+
+                <aura:if isTrue="{!v.isAccSearch}">
+                    <lightning:icon style="float:right;cursor:pointer;" iconName="utility:refresh" size="x-small" onclick="{!c.refreshCmp}"/>                                    
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!or(not(empty(v.caseRecord.MSD_CORE_Business__r.Name)),not(empty(v.caseRecord.Account.Name)),not(empty(v.caseRecord.Referred_By_MVN__r.Name)))}">
+                            <div class="slds-float--right" style="width: 100%;">                        
+                                <aura:if isTrue="{!and(v.casestatus == 'Open', v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                                    <lightning:icon style="float:right;cursor:pointer;" iconName="utility:edit" size="x-small" onclick="{!c.editInfo}"/>
+                                </aura:if>
+                                <lightning:icon style="float:left;cursor:pointer;" iconName="utility:switch" size="x-small" onclick="{!c.toggleSection}"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <lightning:icon style="float:right;cursor:pointer;" iconName="utility:refresh" size="x-small" onclick="{!c.refreshCmp}"/>                                    
+                            </aura:set>
+                        </aura:if>
+                        
+                    </aura:set>
+                </aura:if>
+                
+                <br/>
+                
+                <div class="slds-grid slds-gutters slds-wrap frame">
+                    <div class="slds-col slds-size_4-of-12"> 
+                        <b>Customer: </b> 
+                        <aura:if isTrue="{!and(v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                        
+                            <a href="javascript:void(0);" class="slds-truncate" style = "white-space: pre-wrap;" title="" onclick="{!c.navigateToCust}">{!v.caseRecord.Account.Name}</a>
+                        </aura:if>
+                        <aura:if isTrue="{!or(v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                        <b>{!v.caseRecord.Account.Name}</b>
+                        </aura:if>
+                            <aura:if isTrue="{!not(empty(v.caseRecord.Account.Name))}">
+                            <aura:if isTrue="{!v.isAccSearch}">
+                                <a class="slds-truncate" title="Remove" onclick="{!c.removeCustomer}">&nbsp; (Remove)</a>
+                            </aura:if>
+                        </aura:if>
+                    </div>
+                    <div class="slds-col slds-size_4-of-12"> 
+                        <b>Referred By: </b>
+                        <aura:if isTrue="{!and(v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                         
+                            <a href="javascript:void(0);" class="slds-truncate" style = "white-space: pre-wrap;" title="" onclick="{!c.navigateToRef}"><span style="overflow-wrap: break-word">{!v.caseRecord.Referred_By_MVN__r.Name}</span></a>
+                        </aura:if>
+                         <aura:if isTrue="{!or(v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                        <b>{!v.caseRecord.Referred_By_MVN__r.Name}</b>
+                        </aura:if>
+                        
+                            <aura:if isTrue="{!not(empty(v.caseRecord.Referred_By_MVN__r.Name))}">
+                            <aura:if isTrue="{!v.isAccSearch}">
+                                <a class="slds-truncate" title="Remove" onclick="{!c.removeReferredBy}">&nbsp; (Remove)</a>
+                            </aura:if>
+                        </aura:if>
+                    </div>
+                    <div class="slds-col slds-size_4-of-12"> 
+                        <b>Business: </b> 
+                        <aura:if isTrue="{!and(v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                           
+                        <a href="javascript:void(0);" class="slds-truncate" style = "white-space: pre-wrap;" title="" onclick="{!c.navigateToBuss}"><span style="overflow-wrap: break-word">{!v.caseRecord.MSD_CORE_Business__r.Name}</span></a>
+                        </aura:if>
+                          <aura:if isTrue="{!or(v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                        <b>{!v.caseRecord.MSD_CORE_Business__r.Name}</b>
+                        </aura:if>
+                        
+                            <aura:if isTrue="{!not(empty(v.caseRecord.MSD_CORE_Business__r.Name))}">
+                            <aura:if isTrue="{!v.isAccSearch}">
+                                <a class="slds-truncate" title="Remove" onclick="{!c.removeBusiness}">&nbsp; (Remove)</a>
+                            </aura:if>
+                        </aura:if>
+                    </div>
+                </div>
+                <div class="slds-section slds-is-open" aura:id="reqSection">
+                    <aura:if isTrue="{!and(not(empty(v.caseRecord.Account.Name)),not(v.isAccSearch))}">
+                        <div>
+                            <lightning:select aura:id="address" name="select1" label="Address" value="{!v.selectedAddressVal}" onchange="{! c.addressChange }" disabled="{!v.isReadOnlyUser}">
+                                                                                          
+                                <aura:iteration items="{!v.Address}" var="item">
+                                    <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}" />
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div style="float:left; width: 50%;">
+                            <lightning:select aura:id="phone" name="select1" label="Phone" value="{!v.selectedPhoneVal}" onchange="{! c.phoneChange }" disabled="{!v.isReadOnlyUser}">
+                                <aura:iteration items="{!v.Phone}" var="item">
+                                    <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}" />
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div style="float:right; width: 49%;">
+                            <lightning:select aura:id="fax" name="select1" label="Fax" value="{!v.selectedFaxVal}" onchange="{! c.faxChange }" disabled="{!v.isReadOnlyUser}">
+                                <aura:iteration items="{!v.Fax}" var="item">
+                                    <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}" />
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div>
+                            <lightning:select aura:id="email" name="select1" label="Email" value="{!v.selectedEmailVal}" onchange="{! c.emailChange }" disabled="{!v.isReadOnlyUser}">
+                                <aura:iteration items="{!v.Email}" var="item">
+                                    <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}" />
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div aura:id ="accSearchContainer">
+        
+    </div>
+    
+    <aura:if isTrue="{!v.showModal}">
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                 <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.closeNewModal}">
+                    <lightning:icon iconName="utility:close" size="medium" variant="bare"/>
+                     <span class="slds-assistive-text">Close</span>
+                        </button> 
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New {!v.infoType}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" style="position:relative" id="modal-content-id-1">
+                       <aura:if isTrue="{!v.showSpinner}">
+                       	<lightning:spinner />
+                       </aura:if>
+                        <aura:if isTrue="{!v.infoType == 'Email'}">
+                        	<lightning:input type="email" aura:id="Email" required="true" name="email1" value="{!v.newEmail}" label="Email" />
+                        </aura:if>
+                        <aura:if isTrue="{!v.infoType == 'Phone'}">
+                            <lightning:input type="text" aura:id="Phone" required="true" name="phone1" value="{!v.newPhone}" label="Phone" />
+                        </aura:if>
+                        <aura:if isTrue="{!v.infoType == 'Fax'}">
+                            <lightning:input type="text" aura:id="Fax" required="true" name="fax1" value="{!v.newFax}" label="Fax" />
+                        </aura:if>
+                        <aura:if isTrue="{!v.infoType == 'Address'}">
+                            <lightning:recordEditForm aura:id="newAddressForm"
+                                  onsubmit="{!c.handleSubmit}"
+                                  onsuccess="{!c.handleSuccess}"
+                                  objectApiName="Address_vod__c">
+                                	<lightning:messages /> 
+                                <div class="c-container">
+                					<lightning:layout multipleRows="true">
+                                        <lightning:layoutItem padding="around-small" size="6">
+                                        	<lightning:inputField aura:id="field" class="requiredField" fieldName="Name" required="true"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="6">
+                                        	<lightning:inputField aura:id="Address_line_2_vod__c" fieldName="Address_line_2_vod__c"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="6">
+                                        	<lightning:inputField aura:id="City_vod__c" class="requiredField" fieldName="City_vod__c" required="true"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="6">
+                                        	<lightning:inputField aura:id="State_vod__c" class="requiredField" fieldName="State_vod__c" required="true"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="6">
+                                        	<lightning:inputField aura:id="Zip_vod__c" class="requiredField" fieldName="Zip_vod__c" required="true" onchange="{!c.queryZip}"/>
+                                            
+                                            <aura:if isTrue="{!v.showAlert}">
+                                                <div onmouseleave="{!c.hideAlertPopup}" style="z-index: 3; display:block; visibility: visible; opacity: 1;" role="listbox" class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-dropdown_length-with-icon-10 slds-dropdown_left">
+                                                    <aura:iteration items="{!v.zipcodeList}" var="item">
+                                                        <div class="slds-media slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" aria-selected="false" id="{!item.Id}" onclick="{!c.fillAddressFields}">
+                                                            <span class="slds-media__body">
+                                                                <span title="{!item.pw_ccpro__City__c}" class="slds-truncate">{!item.pw_ccpro__City__c}</span>
+                                                            </span>
+                                                        </div>
+                                                    </aura:iteration>
+                                                </div>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="6">
+                                        	<lightning:inputField aura:id="Country_vod__c" class="requiredField" fieldName="Country_vod__c" required="true"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="6">
+                                        	<lightning:inputField aura:id="License_vod__c" fieldName="License_vod__c" />
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="6" class="slds-hide">
+                                        	<lightning:inputField aura:id="Account_vod__c" fieldName="Account_vod__c" value="{!v.casAccountId}"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                                
+                                
+                            </lightning:recordEditForm>
+                        </aura:if>
+                    </div>
+                    <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick="{!c.closeNewModal}">Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick="{!c.handleSave}">Save</button>                        
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+	</aura:if>
+</aura:component>

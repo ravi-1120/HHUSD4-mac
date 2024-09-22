@@ -1,0 +1,6 @@
+<template>
+  <button type="button" class="slds-button truncate-text" value={buttonValue} onclick={handleClick} disabled={disabled}>
+    <template if:false={isNumeric}>{text}</template>
+    <c-formatted-number-or-null if:true={isNumeric} number={text}></c-formatted-number-or-null>
+  </button>
+</template>

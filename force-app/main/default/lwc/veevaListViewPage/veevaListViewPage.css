@@ -1,0 +1,14 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.header {
+    flex: 0 1 auto;
+    --lwc-pageHeaderBorderRadius: var(--lwc-borderRadiusMedium, 0.25rem) var(--lwc-borderRadiusMedium, 0.25rem) 0 0;
+}
+
+.record-list {
+    flex: 1 1 auto;
+}

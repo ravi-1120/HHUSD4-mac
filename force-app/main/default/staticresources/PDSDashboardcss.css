@@ -1,0 +1,28 @@
+.imgmargin .slds-input-has-icon .slds-input__icon {
+    margin-top: 0rem;
+    top: 10px;
+}
+.crossicon .slds-icon-text-default{
+    width:14px;
+    height:14px;
+}
+.crossicon .slds-icon-text-default :hover{
+    cursor: pointer;
+}
+.icon-cls .slds-icon-text-default {
+    fill: #FFFFFF;
+}
+.radio-cls .slds-form-element__label {
+    font-family: 'InventionBd';
+    vertical-align: baseline;
+}
+.slds-radio [type=radio]+.slds-radio--faux, .slds-radio [type=radio]+.slds-radio__label .slds-radio--faux, .slds-radio [type=radio]+.slds-radio__label .slds-radio_faux, .slds-radio [type=radio]+.slds-radio_faux, .slds-radio [type=radio]~.slds-radio--faux, .slds-radio [type=radio]~.slds-radio_faux {
+    background-color: var(--radio-color-background);
+    border-color: var(--sds-c-radio-color-border, var(--dxp-s-form-element-color-border, var(--dxp-g-neutral-3)));
+    border-width: var(--dxp-c-radio-width-border, var(--dxp-s-form-element-width-border, 1px));
+    margin-bottom: 2px;
+}
+.quantityCls .slds-input {
+    padding: 0px;
+    padding-left: 6px;
+}

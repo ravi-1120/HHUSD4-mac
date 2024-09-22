@@ -1,0 +1,123 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-03-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+
+    <div class="body_cls">
+        <div class="bg" style={backgroundStyle}>
+        </div>
+
+        <div class="c-container productContainer slds-p-horizontal_xx-large">
+            <div class="productlist slds-p-around_x-large pdlist">
+                <h1 class="heading_cls cursorcls prodcls">{label.prodlabel}</h1>
+              
+                <h2 class="slds-p-vertical_medium subheading_cls cursorcls ">{label.prodsublabel}</h2>
+                <lightning-layout padding="around-small" class="layout_cls">
+                    <template if:true={products}>
+                        <lightning-layout-item padding="around-large" class="productsWrapper">
+                            <template for:each={products} for:item="prods">
+                                <lightning-layout-item key={prods.Id}
+                                    class="slds-var-p-around_x-small prodItemContainer">
+                                    <lightning-card>
+                                        <!-- Modified by Sabari - MFRUS-67 -->
+                                        <div class="slds-grid slds-gutters slds-wrap cardcolor slds-p-around_large"
+                                            data-fill={prods.MSD_CORE_Colourcode__c} onmouseenter={addColourcode} onmouseleave={removeColourcode}>
+                                            <div class="setcolorcode" style="top: 0%;bottom: 0%;border-top-left-radius: 5px;border-bottom-left-radius: 5px;width: 5px;position: absolute; display:none;"></div>
+                                            <div class="slds-col slds-size_1-of-2 productItem" data-id={prods.Id}>
+                                                <a>
+                                                    <h1 key={prods.Id} data-id={prods.Id}
+                                                        class="slds-p-left_small h1_cls">
+                                                        <div key={prods.Id} data-id={prods.Id} data-value={prods.Name}
+                                                            onclick={handlerOnclickProduct} onproductupdate={clickupdate} class="prod_name">
+                                                            {prods.Name}
+                                                        </div>
+                                                    </h1>
+                                                </a>
+                                                <a class="b cursorcls">
+                                                    <p key={prods.Id} class="slds-p-left_small pdListOne ">
+                                                        {prods.MSD_CORE_Generic_Name__c}
+                                                        {prods.	MSD_CORE_Dosage_Form_and_Strength__c}
+                                                    </p>
+                                                    <p key={prods.Id} class="slds-p-left_small pdListOne ">
+                                                        <b class="desccls">{prods.MSD_CORE_Product_Description__c}</b>
+                                                    </p>
+                                                </a>
+                                                <!--10 Jul 2023 - E2ESE-1251 - MFR2023SepR4-->
+                                                <!-- <template if:true={prods.showComingSoon}>
+                                                    <div class="slds-p-left_small" style="margin-top: 16px;">
+                                                        <p class="comingSoonLabel">More coming soon!</p>
+                                                    </div>
+                                                </template> -->
+                                            </div>
+                                            <!-- Modified by Sabari - MFRUS-67 -->
+                                            <div class="slds-col slds-size_1-of-2 set-width">
+                                                <template if:true={prods.MSD_CORE_Prescribing_Information__c}>
+                                                    <div class="slds-grid">
+                                                        <div class="slds-col slds-size_1-of-11 productLink">
+                                                            <img src={presinfo} class="marginRight">
+                                                            <a key={prods.Id} class="pre_cls" target="_blank" data-value={prods.Name} data-prodlabel="pi.pdf"
+                                                                href={prods.MSD_CORE_Prescribing_Information__c}
+                                                                data-prodpath={prods.MSD_CORE_Prescribing_Information__c} onclick={handlePreInfo}>{label.preinfo}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template if:true={prods.MSD_CORE_Patient_information__c}>
+                                                    <div class="slds-grid">
+                                                        <div class="slds-col slds-size_1-of-11 productLink">
+                                                            <img src={presinfo} class="marginRight">
+                                                            <a key={prods.Id} class="pre_cls" target="_blank"
+                                                                href={prods.MSD_CORE_Patient_information__c} data-value={prods.Name} data-prodlabel="ppi.pdf"
+                                                                data-prodpath={prods.MSD_CORE_Patient_information__c} onclick={handlePreInfo}>{label.patientinfo}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template if:true={prods.MSD_CORE_Instructions_For_Use_Link__c}>
+                                                    <div class="slds-grid">
+                                                        <div class="slds-col slds-size_1-of-11 productLink">
+                                                            <img src={presinfo} class="marginRight">
+                                                            <a key={prods.Id} class="pre_cls" target="_blank"
+                                                                href={prods.MSD_CORE_Instructions_For_Use_Link__c} data-value={prods.Name} data-prodlabel="ppi.pdf"
+                                                                data-prodpath={prods.MSD_CORE_Instructions_For_Use_Link__c} onclick={handleLinkClick}>{prods.MSD_CORE_Instructions_For_Use_Label__c}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template if:true={prods.MSD_CORE_Medication_Guide__c}>
+                                                    <div class="slds-grid">
+                                                        <div class="slds-col slds-size_1-of-11 productLink">
+                                                            <img src={presinfo} class="marginRight">
+                                                            <a key={prods.Id} class="pre_cls" target="_blank" 
+                                                                href={prods.MSD_CORE_Medication_Guide__c} data-value={prods.Name} data-prodlabel="mg.pdf"
+                                                                data-prodpath={prods.MSD_CORE_Medication_Guide__c} onclick={handlePreInfo}>{label.mediguide}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </lightning-card>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout-item>
+                    </template>
+
+                    <template if:true={norecord}>
+                        No Record Found                        
+                    </template>
+                </lightning-layout>
+                <div class="slds-p-vertical_medium">
+                    <c-mfr_-merckinfo></c-mfr_-merckinfo>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template if:true={error}>
+        {error}
+    </template>
+</template>

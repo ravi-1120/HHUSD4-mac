@@ -1,0 +1,12 @@
+.header-container {
+    background-color: #fff;
+    color: #222;
+}
+
+.page-title {
+    font-weight: 700;
+}
+
+:host {
+    --sds-c-button-text-color: #262426;
+}

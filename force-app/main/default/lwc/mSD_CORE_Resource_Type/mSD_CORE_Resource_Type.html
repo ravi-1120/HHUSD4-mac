@@ -1,0 +1,55 @@
+<template>
+    <div class="container">
+        <div class="header">{resourceTypes}</div>
+        <div class="resource-types">
+            <div class="resource">
+                <div class="icon">
+                    <img src={virusshieldimage} alt="Virus Shield">
+                </div>
+                <div class="description">
+                    <div>
+                        <a class="title" onclick={navigateToDiseaseStateDecks}>{diseaseStateDecks}</a>
+                    </div>
+                    <div class="details">{diseaseDecksDescription}</div>
+                </div>
+            </div>
+            <div class="resource">
+                <div class="icon">
+                    <img src={dnaimage} alt="DNA">
+                </div>
+                <div class="description">
+                    <div>
+                        <a class="title" onclick={navigateToPipelineInformation}>{pipelineInformation}</a>
+                    </div>
+                    <div class="details">{pipelineDescription}</div>
+                </div>
+            </div>
+            <div class="resource">
+                <div class="icon">
+                    <img src={searchimage} alt="Search">
+                </div>
+                <div class="description">
+                    <div>
+                        <a class="title" onclick={navigateToMirSearch} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
+                            {mirSearch}
+                            <img class="arrow" src={arrowiconimage} alt="Arrow Icon">
+                            <img class="arrow hover hidden" src={arrowhovericonimage} alt="Arrow Hover Icon">
+                        </a>
+                    </div>
+                    <div class="details">{mirSearchDescription}</div>
+                </div>
+            </div>
+            <div class="resource">
+                <div class="icon">
+                    <img src={documentimage} alt="Document">
+                </div>
+                <div class="description">
+                    <div>
+                        <a class="title" onclick={navigateToAmcpDossiers}>{amcpDossiers}</a>
+                    </div>
+                    <div class="details">{amcpDescription}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,1166 @@
+<template>
+
+  <template if:true={isCaseNumber}>
+    <c-m-s-d_-c-o-r-e_ae_submission case-number={caseNumber} case-details={caseDetails} is-submit-clicked={showWarning}
+      onshowmaincontent={handleShowMainContent}>
+    </c-m-s-d_-c-o-r-e_ae_submission>
+  </template>
+  <template if:false={isCaseNumber}>
+    <div class="q-container">
+      <h2 class=" headingCls slds-m-top_medium slds-m-left_medium slds-text-heading_small">
+        {label.REVIEWDETAILS}</h2>
+
+      <lightning-textarea class="slds-m-around_medium" label={label.AEDESCRIPTION} value={stage5.AE}
+        disabled="true"></lightning-textarea>
+
+      <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+        <lightning-accordion-section name="2" label={stage2Label}>
+          <span slot="actions" class="slds-p-left_x-large">
+            <button title={label.EDIT} data-section="2" onclick={toggleEdit} class="slds-button slds-button_icon">
+              <lightning-icon icon-name="utility:edit" title={label.EDIT} size="x-small"
+                alternative-text={label.EDIT}></lightning-icon>
+            </button>
+          </span>
+
+          <lightning-layout lwc:if={isMerckEmployee} multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.EMPLOYEEID}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{employeeId}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.FIRSTNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{firstName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.LASTNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{lastName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PHONE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{phone}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.EMAIL}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{email}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.COUNTRY}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{country}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+
+          <lightning-layout lwc:elseif={isPSP} multiple-rows="true">
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PSPPROGRAMNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage2.PSPProgramName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item lwc:if={isProgramOtherFieldDisabled} flexibility="auto" padding="horizontal-medium"
+              size="12" small-device-size="6" medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PSPPROGRAMNAMEOTHER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage2.PSPProgramNameOther}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PSPCOMPANY}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage2.PSPCompany}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item lwc:if={isCompanyOtherFieldDisabled} flexibility="auto" padding="horizontal-medium"
+              size="12" small-device-size="6" medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PSPCOMPANYOTHER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage2.PSPCompanyOther}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PSPNUMBER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage2.PSPNumber}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item lwc:if={isNumberOtherFieldDisabled} flexibility="auto" padding="horizontal-medium"
+              size="12" small-device-size="6" medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PSPNUMBEROTHER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage2.PSPNumberOther}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PATIENTID}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage2.PatientID}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.NAMEOFAGENT}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage2.Agentname}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+          <template if:true={isHCP}>
+            <lightning-layout multiple-rows="true">
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="12"
+                medium-device-size="8" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.WhatTypeOfHealthcare}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.licensedHCP}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout multiple-rows="true" vertical-align="end">
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.FIRSTNAME}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpFirstName}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.LASTNAME}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpLastName}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.PHONE}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpPhone}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.EMAIL}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpEmail}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.ADDRESS}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpAddress}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.ADDRESSLINE2}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpAddressLine2}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.CITY}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpCity}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.ZIPCODE}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpZip}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.STATE}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpState}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.COUNTRY}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpCountry}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <template if:true={isHCPType}>
+                <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                  medium-device-size="4" large-device-size="3">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">{label.TYPEHEALTHCARE}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage2.HCPType}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                  medium-device-size="4" large-device-size="3">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">{label.credential}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage2.hcpCredential}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              </template>
+              <template if:true={isHBPType}>
+                <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                  medium-device-size="4" large-device-size="3">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">{label.TypeOfRoleFacility}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage2.HBPType}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              </template>
+              <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                medium-device-size="4" large-device-size="3">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.FACILITYNAME}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.hcpFacilityName}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+            </lightning-layout>
+          </template>
+
+          <template if:true={hasUploadedFiles}>
+            <table
+              class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover">
+              <thead>
+                <tr class="slds-line-height_reset">
+                  <th class="" scope="col" style="width: 70%;">
+                    <div class="slds-truncate" title="File Name">{label.FILENAME}</div>
+                  </th>
+                  <th class="" scope="col" style="width: 15%;">
+                    <div class="slds-truncate" title="File Size">{label.FILESIZE}</div>
+                  </th>
+                  <th class="" scope="col" style="width: 15%;">
+                    <div class="slds-truncate" title="Download">{label.DOWNLOAD}</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <template for:each={uploadedFilesList} for:item="file">
+                  <tr key={file.id} class="slds-hint-parent">
+                    <td data-label="File Name">
+                      <div class="slds-truncate">{file.filename}</div>
+                    </td>
+                    <td data-label="File Size">
+                      <div class="slds-truncate">{file.size} MB</div>
+                    </td>
+                    <td data-label="Download">
+                      <button data-id={file.id} data-file-name={file.filename} onclick={handleFileDownload}
+                        title="Download" class="slds-button slds-button_icon">
+                        <lightning-icon icon-name="utility:download" size="x-small"
+                          title="Download this file"></lightning-icon>
+                      </button>
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </template>
+
+        </lightning-accordion-section>
+
+        <lightning-accordion-section name="3" label={stage3Label}>
+          <span slot="actions" class="slds-p-left_x-large">
+            <button title={label.EDIT} onclick={toggleEdit} class="slds-button slds-button_icon" data-section="3">
+              <lightning-icon icon-name="utility:edit" title={label.EDIT} size="x-small"
+                alternative-text={label.EDIT}></lightning-icon>
+            </button>
+          </span>
+
+
+          <lightning-layout if:false={isHCP}>
+            <h2 class="headCls slds-m-bottom_small slds-m-left_medium">{label.REPORTERINFORMATION}</h2>
+          </lightning-layout>
+
+          <lightning-layout class="slds-grid perviousCase">
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="6">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ADVERSEEVENTFORTHISPATIENT}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.firstReport}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={firstReport} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="12" medium-device-size="8" large-device-size="6">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.EVENTCASENUMBER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.Desc}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+          <lightning-layout if:false={isHCP}>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="6">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.WhoReportedAe}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.ReporterTypeLabel}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+          <lightning-layout if:false={isHCP} multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.FIRSTNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepFirstName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.LASTNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepLastName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PHONE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepPhone}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.EMAIL1}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepEmail}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ADDRESS}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepAddress}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ADDRESSLINE2}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepAddressLine2}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.CITY}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepCity}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ZIPCODE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepZip}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.STATE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepState}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.COUNTRY}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepCountry}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={ifHBP} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="6" medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">Type of Role at the Practice or Facility</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepHBPType}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={ifHCP} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="6" medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.HEALTHCAREPROVIDER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepType}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={ifHCP} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="6" medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.FACILITYNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.RepFacilityName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <template if:true={ifPatient}>
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+                  medium-device-size="4" large-device-size="3">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">{label.PATIENTDATEOFBIRTH}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.RepDOB}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+                  medium-device-size="4" large-device-size="3">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">{label.PATIENTAGE}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.RepAge}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+                  medium-device-size="4" large-device-size="3">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">{label.PATIENTGENDER}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.RepGender}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item lwc:if={isRepFemale} flexibility="auto" padding="horizontal-medium" size="12"
+                  small-device-size="6" medium-device-size="4" large-device-size="3">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">{label.ISPATIENTPREGNANT}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.isRepPregnant}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item lwc:if={ifRepPregnantYes} flexibility="auto" padding="horizontal-medium" size="12"
+                  small-device-size="6" medium-device-size="4" large-device-size="3">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">{label.PREGNANCYGESTATION}</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.RepGestationOrLMP}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+            </template>
+          </lightning-layout>
+
+          <h2 class="headCls slds-m-bottom_small slds-m-left_medium">{label.HEALTHCAREPROVIDERINFORMATION}</h2>
+          <lightning-layout lwc:if={ifHCP}>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="12" large-device-size="12">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.IsReporterHCPSame}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.ReporterHCPSame}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+          <lightning-layout lwc:if={isHCPType}>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="8" large-device-size="6">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.AreYouPatient}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.PatientsHC}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+          <lightning-layout lwc:if={showHCPFields} multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.FIRSTNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPFirstName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.LASTNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPLastName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PHONE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPPhone}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.EMAIL1}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPEmail}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ADDRESS}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPAddress}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ADDRESSLINE2}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPAddressLine2}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.CITY}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPCity}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ZIPCODE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPZip}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.STATE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPState}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.COUNTRY}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPCountry}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.HEALTHCAREPROVIDER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPType}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.FACILITYNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPFacilityName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="3">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.credential}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.HCPCredential}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+
+          <lightning-layout>
+            <template if:false={isHCP}>
+              <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.PERMISSIONTOCONTACT}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.HCPPermission}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+            </template>
+          </lightning-layout>
+
+          <lightning-layout>
+            <template if:true={isHCP}>
+              <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.PERMISSIONTOCONTACTHCP}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.permissionContact}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+            </template>
+          </lightning-layout>
+
+          <template if:false={ifPatient}>
+          <h2 class="headCls slds-m-bottom_small slds-m-left_medium">{label.PATIENTINFORMATION}</h2>
+          <lightning-layout multiple-rows="true">
+
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PATIENTFIRSTNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.PatientFirstName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PATIENTLASTNAME}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.PatientLastName}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PATIENTDATEOFBIRTH}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.PatientDOB}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PATIENTAGE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.PatientAge}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="6"
+              medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PATIENTGENDER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.PatientGender}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={isFemale} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="6" medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ISPATIENTPREGNANT}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.isPatientPregnant}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={ifPregnantYes} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="6" medium-device-size="4" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PREGNANCYGESTATION}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage3.GestationOrLMP}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+        </template>
+
+        </lightning-accordion-section>
+        <template if:true={isLoading}>
+          <div class="overlay">
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+          </div>
+        </template>
+
+        <lightning-accordion-section name="4" label={stage4Label}>
+          <span slot="actions" class="slds-p-left_x-large">
+            <button title={label.EDIT} onclick={toggleEdit} data-section="4" class="slds-button slds-button_icon">
+              <lightning-icon icon-name="utility:edit" title={label.EDIT} size="x-small"
+                alternative-text={label.EDIT}></lightning-icon>
+            </button>
+            <!--<span onclick={toggleEdit} data-section="4">{label.EDIT}</span>-->
+          </span>
+          <div lwc:if={stage4.length} style="overflow-x: auto; overflow-y: auto; max-height: 400px; width: 100%;">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer" role="presentation"
+              style="overflow-x: auto; overflow-y: auto; max-height: 400px; width: 100%;">
+              <thead>
+                <tr>
+                  <th>{label.PRODUCTNAME}</th>
+                  <th>{label.DOSEFREQUENCY}</th>
+                  <th>{label.LOTNUMBER}</th>
+                  <th>{label.EXPIRATIONDATE}</th>
+                  <th>{label.WHOADMINISTEREDTHEPRODUCT}</th>
+                  <th>{label.UNIQUEIDENTIFIER}</th>
+                  <th>{label.MODELNUMBER}</th>
+                  <th>{label.CATALOGNUMBER}</th>
+                  <th>{label.SERIALNUMBER}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template for:each={stage4} for:item="savedProd">
+                  <tr key={savedProd.id}>
+                    <td>{savedProd.values.Product}</td>
+                    <td>{savedProd.values.DoseFrequency}</td>
+                    <td>{savedProd.values.LotNumber}</td>
+                    <td>{savedProd.values.formattedDate}</td>
+                    <td>{savedProd.values.OperatorOfDevice}</td>
+                    <td>{savedProd.values.UniqueIdentifier}</td>
+                    <td>{savedProd.values.ModelNumber}</td>
+                    <td>{savedProd.values.CatalogNumber}</td>
+                    <td>{savedProd.values.SerialNumber}</td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="5" label={stage5Label}>
+          <span slot="actions" class="slds-p-left_x-large">
+            <button title={label.EDIT} onclick={toggleEdit} class="slds-button slds-button_icon" data-section="5">
+              <lightning-icon icon-name="utility:edit" title={label.EDIT} size="x-small"
+                alternative-text={label.EDIT}></lightning-icon>
+            </button>
+          </span>
+          <lightning-layout multiple-rows="true">
+            <template if:false={isHCP}>
+              <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                medium-device-size="6" large-device-size="4">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.REPORTINGMULTIPLEPATIENTS}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage5.MPI}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                medium-device-size="6" large-device-size="4">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">{label.AWAREOFTHISAE}</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage5.CAD}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+            </template>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.FIRSTEXPERIENCE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage5.AOD}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+        </lightning-accordion-section>
+
+        <lightning-accordion-section lwc:if={showStage6} name="6" label={stage6Label}>
+          <span slot="actions" class="slds-p-left_x-large">
+            <button title={label.EDIT} onclick={toggleEdit} class="slds-button slds-button_icon" data-section="6">
+              <lightning-icon icon-name="utility:edit" title={label.EDIT} size="x-small"
+                alternative-text={label.EDIT}></lightning-icon>
+            </button>
+          </span>
+
+          <h2 class="headCls slds-m-bottom_small slds-m-left_medium">{label.SERIOUSCRITERIA}</h2>
+          <lightning-layout multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PATIENTDIE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.patientdeath}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={isyes} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="12" medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.YESCAUSEOFDEATH}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.causedeath}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={isyes} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="12" medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.YESDATEOFDEATH}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.deathdate}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PROLONGEDHOSPITAL}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.AEhospitilization}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.THREATNINGILLNESS}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.illness}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.DISABILITYORINCAPACITY}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.disability}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.BIRTHDEFECT}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.birthdefect}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.AECANCER}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.cancer}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PATIENTOVERDOSE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.overdose}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PRESENTSERIOUSCRITERIA}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.intervention}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+
+          </lightning-layout>
+
+          <h2 class="headCls slds-m-bottom_small slds-m-left_medium">{label.DETAILSTOSHARE}
+          </h2>
+          <lightning-layout multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.INDICATION}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.indication}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.ROUTEOFADMINISTRATION}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.roa}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.THERAPYSTARTDATE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.TherapySD}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.THERAPYDISCONTINUED}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.therapyque}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={istherapy} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="12" medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.THERAPYENDDATE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.TherapyED}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={istherapy} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="12" medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.DECHALLENGE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.dechallenge}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={istherapy} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="12" medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.RECHALLENGE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.rechallenge}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.SOUGHTMEDICAL}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.sma}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.WASTREATMENT}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.Treatmentque}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={istreatment} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="12" medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.YESTREATMENT}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.isTreatment}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PRESENTSTATUS}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.presentstatus}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item lwc:if={isRecovered} flexibility="auto" padding="horizontal-medium" size="12"
+              small-device-size="12" medium-device-size="6" large-device-size="4">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.RECOVERYDATE}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.RecoveryDate}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+
+          <h2 class="headCls slds-m-bottom_small slds-m-left_medium">{label.HISTORYTOSHARE}</h2>
+          <lightning-layout multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="6">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.CONCOMITANTMEDICATION}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.CM}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="6">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.PERTINENTMEDICALHISTORY}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.PMH}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="6">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.DRUGREACTIONS}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.DRA}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+              medium-device-size="6" large-device-size="6">
+              <div class="slds-form-element">
+                <span class="slds-form-element__label ">{label.LABDIAGNOSTICS}</span>
+                <div class="slds-form-element__control">
+                  <span class="slds-form-element__static">{stage6.LD}</span>
+                </div>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+        </lightning-accordion-section>
+
+      </lightning-accordion>
+
+      <div lwc:if={errorMessage} class="slds-box slds-theme_error" style="padding: 3px 10px;">
+        <h2 class="headCls slds-text-body_regular" style="color:#fff">{errorMessage}</h2>
+      </div>
+
+      <lightning-layout if:false={showWarning} multiple-rows="true" class="slds-p-around_medium">
+        <lightning-layout-item alignment-bump="left">
+          <button class="slds-button slds-button_brand btnHover submitBtn" onclick={handleSubmit}
+            name="Submit">{label.SUBMITBUTTON}</button>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+
+  </template>
+</template>

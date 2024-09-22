@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event template" >
+	<aura:attribute name="fieldList" type="Map"/>
+    <aura:attribute name="type" type="String"/>
+</aura:event>

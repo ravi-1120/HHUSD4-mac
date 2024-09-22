@@ -1,0 +1,199 @@
+<template>
+    <!-- <c-d-i-h-login class="slds-float_right slds-p-around_large"></c-d-i-h-login> -->
+    <div class="imagelogo">
+        <img src={label.merckLogo} alt="Merck" style="width: 155px; height: 48px;" />
+    </div>
+    <div class="hcpscheduler slds-spinner_inline spinner-padding">
+        <template if:true={showSpinner}>
+            <div class="slds-is-relativ">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+        <article class="" style={schedulerCSS}>
+            <div class="slds-media__body">
+                <p class="slds-p-bottom_small headerTherapeuticCls">{label.headerTherapeutic}
+                </p>
+                <template if:true={showSchedular}>
+                    <div class="">
+                        <h1 class="headerClass">{label.header}</h1>
+
+                        <h2 class="headerMessageCls">
+                            {label.headerMessage}&nbsp;
+                            <span class="headerMessageClsUS">{label.headerMessageUS}</span>
+                        </h2>
+                        <!-- <h2 class="AEMessageCls">
+                            <lightning-formatted-rich-text value={label.AEMessageHeader}>
+                            </lightning-formatted-rich-text>
+                        </h2> -->
+                    </div>
+                    <div if:true={products} class="selectDropDownCls">
+                        <div class="slds-p-bottom_x-small profDesgntCls">
+                            {label.productEnquiryLabel}
+                        </div>
+                        <template if:true={products}>
+                            <div class="drop-down">
+                                <c-drop-down-l-w-c options-to-display={products} title="productEnquiry"
+                                    ondropdownchange={handleDropDownChange}>
+                                </c-drop-down-l-w-c>
+                            </div>
+                            <div if:true={showBlackBoxMsg} class="productEnquiryCls">
+                                <lightning-formatted-rich-text value={blackBoxMsg}>
+                                </lightning-formatted-rich-text>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="selectDropDownCls">
+                        <div class="slds-p-bottom_x-small profDesgntCls">
+                            {label.professionalDesignationLabel}
+                        </div>
+                        <template if:true={designationOptions}>
+                            <div class="drop-down">
+                                <c-drop-down-l-w-c options-to-display={designationOptions}
+                                    title="professionalDesignation" ondropdownchange={handleDropDownChange}>
+                                </c-drop-down-l-w-c>
+                                <!-- <lightning-combobox variant="label-hidden" name={label.professionalDesignationLabel}
+                                    data-value="ProfessionalDesignation" label={label.professionalDesignationLabel}
+                                    placeholder="Select an option" options={designationOptions}
+                                    onchange={handleDesignationChange}>
+                                </lightning-combobox> -->
+                            </div>
+                        </template>
+                    </div>
+
+                    <template if:true={appointmentTemplates}>
+                        <div class="slds-p-bottom_x-small templateLabelCls">
+                            {label.appointmentTemplateLabel}</div>
+                        <div class="drop-down">
+                            <c-drop-down-l-w-c class="appointmentTemplate" options-to-display={appointmentTemplates}
+                                title="appointmentTemplate" ondropdownchange={handleDropDownChange}></c-drop-down-l-w-c>
+                            <!-- <lightning-combobox  class="combo" variant="label-hidden" name="progress"
+                                label="What can we help you with?" placeholder="Select an option"
+                                options={appointmentTemplates} onchange={handleTemplatesChange}>
+                            </lightning-combobox> -->
+                        </div>
+                    </template>
+
+                    <div if:true={showCommunicationModes}>
+                        <div if:true={showTumor} class="tumorCls">
+                            <div class="slds-p-bottom_x-small tumerLabelCls">{label.tumorLabel}</div>
+                            <div class="drop-down">
+                                <lightning-input variant="label-hidden" type="text" label="Type of Tumor or Indication"
+                                    name="Type of Tumor or Indication" maxlength="15" data-value="tumorIndication"
+                                    data-field='Type of Tumor or Indication' onchange={handleTumorChange}
+                                    onclick={handleTumorClick}>
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <div class="communicatioModeCls">
+                            <div class="slds-p-bottom_x-small communicationModeLabelCls">
+                                {label.communicationModeLabel}</div>
+                            <!-- <template for:each={communicationoptions} for:item="communicationMode">
+                                <div key={communicationMode.value} class="radioCls">
+                                    <template if:false={communicationMode.readOnly}>
+                                        <input class="amoCls" type='radio' name="radioBtn"
+                                            data-value={communicationMode.value} label={communicationMode.label}
+                                            value={scheduleDetails.communicationMode}
+                                            onclick={handleCommunicationChange} />
+                                        <span class="slds-p-left_x-small communicationModeCls">{communicationMode.label}
+                                        </span>
+                                        <div if:true={communicationMode.message}
+                                            class=" slds-p-bottom_x-small communicationModeMsg">
+                                            {communicationMode.message}</div>
+                                    </template>
+                                    <template if:true={communicationMode.readOnly}>
+                                        <input class="amoCls" type='radio' name="radiobtn" id="input"
+                                            data-value={communicationMode.value} label={communicationMode.label}
+                                            disabled onclick={handleChange}/>
+                                        <span class="slds-p-left_x-small communicationModeReadonlyCls">{communicationMode.label}</span>
+                                        <div if:true={communicationMode.message}
+                                            class=" slds-p-bottom_x-small communicationModeReadOnlyMsg">
+                                            {communicationMode.message}</div>
+                                    </template>
+                                    
+                                </div>
+                            </template> -->
+                            <template for:each={communicationoptions} for:item="communicationMode">
+                                <div key={communicationMode.value} class="radioCls">
+                                    <template if:false={communicationMode.readOnly}>
+                                        <input class="amoCls" type='radio' name="radioBtn"
+                                            data-value={communicationMode.value} label={communicationMode.label}
+                                            value={scheduleDetails.communicationMode}
+                                            onclick={handleCommunicationChange}
+                                             />
+                                        <span class="slds-p-left_x-small communicationModeCls">{communicationMode.label}</span>
+                                        <div if:true={communicationMode.message}
+                                            class=" slds-p-bottom_x-small communicationModeMsg">
+                                            {communicationMode.message}</div>
+                                    </template>
+                                    <template if:true={communicationMode.readOnly}>
+                                        <input class="amoCls" type='radio' name="radiobtn" id="input"
+                                            data-value={communicationMode.value} label={communicationMode.label}
+                                            disabled onclick={handleChange}/>
+                                        <span class="slds-p-left_x-small communicationModeReadonlyCls">{communicationMode.label}</span>
+                                        <div if:true={communicationMode.message}
+                                            class=" slds-p-bottom_x-small communicationModeReadOnlyMsg">
+                                            {communicationMode.message}</div>
+                                    </template>
+                                </div>
+                            </template>
+                            
+                        </div>
+                        <div if:true={showScheduleCallbackCmp}>
+                            <c-schedule-callback-component holidays-list={holidaysList} dt-list={dtList}
+                                business-hours={businessHours} scheduling-group={scheduleDetails.schedulingGroup}
+                                onselectedtimeslot={handleSelectedTimeslot}
+                                onnextorpreviousweek={handleNextorPreviousWeek}>
+                            </c-schedule-callback-component>
+                        </div>
+
+                        <div if:true={showUserForm}>
+                            <c-user-details-form is-call-me-now={scheduleDetails.isCallMeNow}
+                                onuserformdetails={handleUserFormDetails} onuserdetailschange={handleUserdetailsChange}>
+                            </c-user-details-form>
+                        </div>
+                    </div>
+
+                    <!-- <div style="padding-top: 76px;">
+                        <button class="slds-button slds-button_neutral medicalInquiryBtnCls" style="">
+                            <lightning-formatted-rich-text class="" value={label.medicalInquiryButtonLabel}>
+                            </lightning-formatted-rich-text>
+                        </button>
+                    </div> -->
+
+                    <h2 class="AEMessageCls">
+                        <lightning-formatted-rich-text value={label.AEMessageHeader}>
+                        </lightning-formatted-rich-text>
+                    </h2>
+                </template>
+
+            </div>
+            <!-- <footer class="slds-card__footer">
+                <c-hcp-footer></c-hcp-footer>
+            </footer> -->
+        </article>
+    </div>
+
+    <div if:true={showMessage}>
+        <c-appointment-message-component is-schedulable={isSchedulable} is-call-me-now={scheduleDetails.isCallMeNow}
+            appointment-date-time={selectedDateTime} selected-template={selectedTemplate}
+            selected-product={selectedProduct} agent-availability={agentAvailability} callout-response={calloutResponse}
+            onback={handleBack} ondownloadics={handleDownloadICS} onmerckaccessweblink={handleMerckAcessWeblink}>
+        </c-appointment-message-component>
+
+        <!-- <template if:true={schdulerDataStructure.schedulerSurvey}>
+            <div if:true={scheduleDetails.isCallMeNow} class="slds-m-top_x-large">
+                <c-scheduler-feedback scheduler-survey={schdulerDataStructure.schedulerSurvey}
+                    schedule-event-id={scheduledEvent.scheduledEvent.Id}></c-scheduler-feedback>
+            </div>
+        </template> -->
+    </div>
+
+    <!-- <div if:true={showFeedback} class="slds-m-top_x-large">
+        <template if:true={schdulerDataStructure.schedulerSurvey}>
+            <c-scheduler-feedback scheduler-survey={schdulerDataStructure.schedulerSurvey}
+                schedule-event-id={scheduledEvent}></c-scheduler-feedback>
+        </template>
+    </div> -->
+
+
+</template>

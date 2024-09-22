@@ -1,0 +1,18 @@
+:host {
+    --veeva-popover-content-max-height: 17.5rem;
+    --veeva-popover-content-overflow-y: auto;
+    --veeva-popover-content-min-height: 0;
+}
+
+.top-offest-popover {
+    position: absolute;
+    /* Z index of a toast due to lightning-combobox taking 9144 */
+    z-index: 10000;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: calc(100% + 1rem);
+}
+
+.popover-body {
+    text-align: left;
+}

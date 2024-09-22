@@ -1,0 +1,12 @@
+.custom-card .slds-card{
+    height: 268px;
+    width: 97%;
+    background: #F7F7F7 !important;
+    margin-left: 2%;
+    font-family: InventionRg !important;
+    box-sizing: border-box;
+    overflow: auto;
+    margin-right: 1%;
+    border-radius: 1px;
+    margin-top: 1%;
+ }

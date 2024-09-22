@@ -1,0 +1,13 @@
+<template>
+    <lightning-button-group>
+        <template for:each={buttons} for:item="button" for:index="index">
+            <lightning-button if:true={button.visible} value={index} disabled={button.disabled} key={button.label} label={button.label} onclick={handleButtonSelection}></lightning-button>
+        </template>
+        <lightning-button-menu if:true={hasMenuItems} variant="border-filled" menu-alignment="auto" onselect={handleMenuItemSelection}>
+            <template for:each={menuItems} for:item="menuItem">
+                <lightning-menu-item if:true={menuItem.visible} value={menuItem} key={menuItem.label} 
+                    label={menuItem.label} disabled={menuItem.disabled}></lightning-menu-item>
+            </template>
+        </lightning-button-menu>
+    </lightning-button-group>
+</template>

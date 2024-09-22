@@ -1,0 +1,51 @@
+<template>
+    <template if:true={modal}>
+        <section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true" tabindex="0" data-id="popup-modal"
+            class="slds-modal slds-modal_small slds-fade-in-open backColor" style="z-index: 1000000;">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-grid slds-wrap" id="modal-content-id-1">
+                    <div class="slds-col slds-size_1-of-1 slds-p-top_large slds-p-bottom_large">
+                        
+                        <lightning-layout class="slds-grid slds-wrap slds-scrollable_none slds-p-left_x-large slds-p-right_x-large">
+                            <lightning-layout-item class="ptagcls">
+                                <div class="scrollable"> 
+                                <p class="formatted-text">{label.policytitle}</p>
+                                <p class="formatted-text"><strong>{label.subtitle}</strong></p>
+                                <ul class="statement-list">
+                                    <li class="formatted-text">
+                                        {label.statement1}
+                                    </li>
+                                    <li class="formatted-text">
+                                        {label.statement2}
+                                    </li>
+                                    <li class="formatted-text">
+                                        {label.statement3}
+                                    </li>
+                                    <li class="formatted-text">
+                                        {label.statement4}
+                                    </li>
+                                    <li class="formatted-text">
+                                        {label.lettertitle} <a href="Field Sales Policy letters">{label.fieldpolicy}</a>.
+                                    </li>
+                                </ul>
+                                </div>
+                                <lightning-input type="checkbox" label="I have read and understand the statements above." onchange={handleCheckboxChange}></lightning-input>
+                               
+                            </lightning-layout-item>
+                            <template if:true={showError}>
+                                <p class="error-message">{label.acknowledgment}</p>
+                            </template>
+                            <lightning-layout-item class="slds-align_absolute-center slds-m-top_large">
+                                <button data-value="Continue" onclick={handleContinue}
+                                    class="slds-button slds-button_brand btnHover"
+                                    title={label.CONTINUE}>Continue</button>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

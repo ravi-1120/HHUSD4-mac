@@ -1,0 +1,104 @@
+<apex:page showHeader="false" standardController="Address_vod__c" extensions="MSD_Core_NewAddrWiz_Controller" standardStylesheets="true" sidebar="false" docType="html-5.0" applyBodyTag="False" applyHtmlTag="False">
+    <head>
+        <apex:slds /> 
+        <title>New Address Form</title>
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+        
+        <style>
+            .slds-scope .slds-input {
+                width: auto;
+            }
+            .slds-scope{
+            	margin: 10px;
+            }
+            body .bPageBlock {
+                border-top-width: 0px;
+            }
+            body .bPageBlock, body #bodyCell .bResource .secondaryPalette, body .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock{
+            	background: #fff;
+            }
+        </style>
+        
+        <script>  
+        function SubmitJS(obj) { 
+            jQuery(".tempClass").attr('disabled','disabled');
+            obj.value = 'Saving...';   
+            SubmitAction(); 
+            document.getElementByClass('btnClass').disabled=disabled;
+        } 
+        </script> 
+    </head>
+    
+    <body class="slds-scope">
+        <apex:form >
+            <apex:actionFunction name="SubmitAction" action="{!Submit}" />
+            <apex:pageMessages />
+            
+            <div class="slds-page-header">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate" title="New Address Form">New Address Form</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <!-- ACCOUNT DETAIL CARD -->
+            <article class="slds-card">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                    <span>Account Information</span>
+                                </a>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body slds-card__body_inner">
+                    <apex:outputfield value="{!Acc.Name}"/>
+                </div>
+            </article>
+            <!-- / ACCOUNT DETAIL CARD -->
+            
+            <!-- ACCOUNT DETAIL CARD -->
+            <article class="slds-card">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                    <span>Address Information</span>
+                                </a>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <apex:pageBlock >
+                    <apex:pageBlockSection collapsible="false" columns="1">
+                        <apex:repeat value="{!addFields}" var="fieldAPIName">
+                            <apex:inputfield styleClass="slds-input" value="{!Addobj[fieldAPIName]}" label="{!NAWAddFMap[fieldAPIName].Label__c}" required="{!NAWAddFMap[fieldAPIName].Required__c}" />
+                        </apex:repeat>  
+                        <apex:inputtextarea styleClass="slds-input" value="{!Addobj.MSD_CORE_Rep_Notes__c}" label="Notes" cols="40"/>
+                    </apex:pageBlockSection>
+                    
+                    <apex:pageBlockButtons location="bottom" id="btns" >
+                        <apex:commandButton action="{!Submit}" value="Submit" onclick="SubmitJS(this) ;" styleClass="tempClass slds-button slds-button_brand" />  
+                        <apex:commandButton action="{!Cancel}" immediate="true" value="Cancel" styleClass="slds-button slds-button_neutral"/>              
+                    </apex:pageBlockButtons> 
+                </apex:pageBlock>
+            </article>
+            <!-- / ACCOUNT DETAIL CARD -->
+        </apex:form>
+    </body>
+</apex:page>

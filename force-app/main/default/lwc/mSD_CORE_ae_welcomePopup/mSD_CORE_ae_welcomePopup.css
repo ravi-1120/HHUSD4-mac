@@ -1,0 +1,1050 @@
+:host{
+    --textsize: 412px;
+}
+
+/* @font-face {
+    font-family: 'InventionLt';
+    src: url('/resource/GMSA_Fonts/fonts/Invention_W_Lt.woff') format('TrueType');
+}
+
+@font-face {
+    font-family: 'InventionRg';
+    src: url('/resource/GMSA_Fonts/fonts/Invention_W_Rg.woff') format('WOFF');
+} */
+
+.ButtonEmp{
+    padding-top: 5%;
+}
+
+.ptagcls1 {
+    font-size: 14px;
+    line-height: 1.3;
+    color:#000000 !important;
+    margin-bottom:24px;
+    font-family: 'InventionRg';
+}
+
+.modelwidth .slds-button_brand,
+.modelwidth .slds-button_brand:hover,
+.modelwidth .slds-button_brand:focus,
+.modelwidth .slds-button_brand:active {
+    background-color: #00857c;
+    color: #fff;
+}
+
+.modelwidth {
+    /* width: 90%; */
+ margin-top: 1rem;
+ width: 770px;
+ max-width:90%;
+}
+.contentHeight{
+    max-height:500px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.ConsentPadding
+{
+    padding: 0 32px 0 32px; 
+    align-items: center !important;
+    width: auto;
+}
+.btnAlingment
+{
+   justify-content: space-between;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.btnsize {
+    max-width: 303px;
+    max-height: 73.43px;
+    margin-left: 0px !important;
+    margin-right: 5px;
+    margin-bottom: 12px;
+    border-radius: 0px !important;
+    border-color: #00857c !important;
+    font-family: 'InventionRg';
+}
+
+.btnsizes{
+    max-width: 303px;
+    max-height: 73.43px;
+    margin-left: 0px !important;
+    margin-right: 5px;
+    margin-bottom: 12px;
+    border-radius: 0px !important;
+    border-color: #00857c !important;
+    font-family: 'InventionRg';
+
+}
+
+
+.thirdbtn{
+   margin-left:0px !important;
+   height: 73.43px;
+}
+
+.text-justify{
+    text-align: justify !important;
+}
+.popupCls {
+    border-radius: 0 !important;
+    position: relative;
+}
+.popupTitleCls {
+    font-size: 1.875rem !important;
+    line-height: 2.5rem !important;
+    font-weight: 300 !important;
+    color: #000000;
+}
+
+.contentCls{
+    -webkit-box-shadow: 0 0.375rem 0.375rem 0 rgb(0 0 0 / 40%);
+    box-shadow: 0 0.375rem 0.375rem 0 rgb(0 0 0 / 40%);
+    text-align: left;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    margin-top: -8rem;
+    border-radius: 0 !important;
+}
+
+.contentCls p {
+    line-height: 1.75rem !important;
+    font-size: 0.875rem !important;
+    color: #000000;
+    margin: 1rem 0 !important;
+    max-width: 32.25rem !important;
+    text-align: left !important;
+}
+
+.contentCls button, .contentCls button {
+    width: 15rem;
+    height: auto;
+    padding: 1rem 1.5rem;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    z-index: 1;
+    border-radius: var(--dimenBorderRadius);
+    margin: 0 1rem;
+    border-color: #005c55;
+}
+
+.backColor{
+    background-color: rgba(0,0,0,.3);
+}
+
+.slds-button_neutral, .slds-button_outline-brand, .slds-button:hover, .slds-button_outline-brand:hover, .slds-button:focus, .slds-button_outline-brand:focus, .slds-button:active, .slds-button_outline-brand:active {
+    border-color: #00857c;
+    color: #00857c;
+}
+
+.slds-button, .slds-button_neutral, .slds-button_outline-brand {
+    color: #00857c;
+}
+
+.slds-button_brand, .slds-button_brand:hover, .slds-button_brand:focus, .slds-button_brand:active {
+    background-color: #00857c;
+    color: #fff;
+}
+
+.slds-button_outline-brand:hover, .slds-button_outline-brand:active, .slds-button_outline-brand:focus {
+    color: #fff;
+    line-height: 1.15;
+}
+
+.slds-backdrop {
+    opacity: 0.5;
+}
+
+.btnHover::after, .btnHover::before {
+    background: #005c55;
+    content: '';
+    position: absolute;
+    z-index: -1;
+}
+
+.btnCancelHover::after, .btnCancelHover::before {
+    background: #005c55;
+    opacity: 1;
+    content: '';
+    position: absolute;
+    z-index: -1;
+    color: #00857c !important;
+}
+
+.btnHover, .btnHover::after, .btnCancelHover, .btnCancelHover::after {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.btnHover, .btnCancelHover {
+    /* height: 100%; */
+    position: relative;
+    z-index: 1;
+}
+
+.btnHover::after, .btnCancelHover::after {
+    height: 103%;
+    left: 0;
+    top: -1px;
+    width: 0;
+}
+
+.btnHover:hover:after, .btnCancelHover:hover:after {
+    width: 100%;
+}
+
+.imgdiv{
+    width: var(--textsize);
+    height: 452px;
+    height: 100%;
+}
+.bodydiv{
+    width: calc(100% - var(--textsize)) !important;
+}
+
+.mainfont{
+    font-size: 21px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    color:#0C2340 !important;
+    font-family: 'InventionRg';
+}
+
+.ptagcls{
+    font-size: 14px;
+    line-height: 1.3;
+    color:#757575 !important;
+    margin-bottom:24px;
+    font-family: 'InventionRg';
+}
+
+.btnHover{
+    font-size: 16px;
+    padding: 5px;
+}
+
+.btnAlingment
+{
+    justify-content: center;
+    align-content: center;
+}
+
+@media only screen and (min-width: 280px) and (max-width: 319px)
+{
+    .mainfont{
+        font-size: 21px;
+        padding-top: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .ptagcls{
+        font-size: 12px;
+        margin-bottom:16px !important;
+    }
+    .btnsize {
+        width: 100%;
+        margin: 0;
+        font-size: 12px;
+        height: 34.4px;
+    }
+
+    .btnsizes{
+        width: 100%;
+        margin: 0;
+        font-size: 12px;
+        height: 34.4px;
+    }
+    .thirdbtn{
+        margin: 0;
+        width: 100%;
+        margin-left: 0px !important;
+    }
+    .secbtn
+    {
+        margin-left: 0px !important;
+    }
+    .imgdiv{
+        height: 196px;
+        width: var(--textsize,100%);
+    }
+    .bodydiv{
+        width: var(--textsize,100%) !important;   
+    }
+    :host{
+        --textsize: 100%;
+    }
+    .img
+    {
+        width: 100%;
+        height: 100%;
+    }
+    .ConsentPadding{
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        width: auto;
+    }
+    .contentHeight{
+        height: auto;
+    }
+    .modelwidth {
+        width: auto;
+    }
+    /* .btnAlingment
+    {
+        font-size: 12px;
+        justify-content: center;
+        grid-row-gap: 12px;
+        margin-bottom: 20px;
+    } */
+}
+
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+    .mainfont{
+        font-size: 21px;
+        padding-top: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .ptagcls{
+        font-size: 12px;
+        margin-bottom:16px !important;
+    }
+    .btnsize {
+        width: 50%;
+        margin: 0;
+        font-size: 12px;
+        height: 44.4px;
+    }
+
+    .btnsizes {
+        width: 90%;
+        margin: 0;
+        font-size: 12px;
+        height: 44.4px;
+    }
+    .thirdbtn{
+        margin: 0;
+        width: 100%;
+        margin-left: 0px !important;
+    }
+    .secbtn
+    {
+        margin-left: 0px !important;
+    }
+    .imgdiv{
+        height: 196px;
+        width: var(--textsize,100%);
+    }
+    .bodydiv{
+        width: var(--textsize,100%) !important;
+    }
+    :host{
+        --textsize: 100%;
+    }
+    .img
+    {
+        width: 100%;
+        height: 100%;
+    }
+    .ConsentPadding{
+        padding-left: 20px !important;
+
+        padding-right: 20px !important;
+        width: auto;
+    }
+    .contentHeight{
+        max-height: 100% !important;
+    }
+    .modelwidth {
+        width: auto;
+        justify-content: flex-start !important;
+        margin: 0 2rem;
+        height: 100%;
+        padding: 3rem 0 5rem 0;
+        border-radius: .25rem;
+        -webkit-box-pack: center;
+        transition: transform .1s linear, opacity .1s linear, -webkit-transform .1s linear;
+        display: -webkit-box;
+        transform: translate(0, 0);
+        position: relative;
+    }
+    /* .btnAlingment
+    {
+        font-size: 12px;
+        justify-content: center;
+        grid-row-gap: 12px;
+        margin-bottom: 20px;
+        flex-direction: column;
+    } */
+}
+
+/* @media only screen and (min-width: 480px) and (max-width: 639px) { */
+@media only screen and (min-width: 480px) and (max-width: 753px) {
+    .mainfont{
+        font-size: 21px;
+        padding-top: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .ptagcls{
+        font-size: 12px;
+        margin-bottom:16px !important;
+    }
+    .btnsize {
+        width: 100%;
+        margin: 0;
+        font-size: 12px;
+        height: 59.35px;
+    }
+
+    .btnsizes {
+        width: 90%;
+        margin: 0;
+        font-size: 12px;
+        height: 59.35px;
+    }
+    .firstbtn{
+        margin: 0 !important;
+        margin-right: 0 !important;
+    }
+    .thirdbtn{
+        margin: 0;
+        width: 100%;
+        margin-left: 0px !important;
+    }
+    .secbtn
+    {
+        max-height: 69.43px;
+        margin-left: 0px !important;
+    }
+    .imgdiv{
+        height: 196px;
+        width: var(--textsize,100%);
+    }
+    .bodydiv{
+        width: var(--textsize,100%) !important;
+    }
+    :host{
+        --textsize: 100%;
+    }
+    .img
+    {
+        width: 100%;
+        height: 100%;
+    }
+    .ConsentPadding{
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        width: auto;
+    }
+    .contentHeight{
+        height: auto;
+    }
+    .modelwidth {
+        width: auto;
+    }
+    .btnAlingment
+    {
+        font-size: 12px;
+        justify-content: center;
+        grid-row-gap: 12px;
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 640px) and (max-width: 1023px) and (orientation: portrait) {
+    .bodydiv {
+        width: 100%;
+        height: 60% !important;
+    }
+    .mainfont{
+        font-size: 21px;
+        padding-top: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .ptagcls{
+        margin-bottom:16px !important;
+    }
+    .btnsize {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .btnsizes {
+        max-width: 100%;
+        margin: 0;
+    }
+    .firstbtn
+    {
+        margin-right: 50px;
+    }
+    .thirdbtn{
+        margin: 0;
+        max-width: 100%;
+        margin-left: 0px !important;
+    }
+    .secbtn
+    {
+        margin-left: 0px !important;
+    }
+    .imgdiv{
+        height: 300px;
+        width: var(--textsize,100%);
+    }
+    .bodydiv{
+        width: var(--textsize,100%) !important;
+    }
+    :host{
+        --textsize: 100%;
+    }
+    .img
+    {
+        width: 100%;
+        height: 100%;
+    }
+    .ConsentPadding{
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        width: auto;
+        justify-content: center;
+    }
+    .contentHeight{
+        height: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .modelwidth {
+        width: auto;
+    }
+    .btnAlingment
+    {
+        justify-content: center;
+        grid-row-gap: 12px;
+        margin-bottom: 40px;
+    }
+}
+
+@media only screen and (min-width: 640px) and (max-width: 1023px) and (orientation: landscape) {
+    .bodydiv {
+        width: 100%;
+        height: 60% !important;
+    }
+    .mainfont{
+        font-size: 21px;
+        padding-top: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .ptagcls{
+        margin-bottom:16px !important;
+    }
+    .btnsize {
+        width: 100%;
+        margin: 0;
+    }
+
+    .btnsizes {
+        width: 100%;
+        margin: 0;
+    }
+    .thirdbtn{
+        margin: 0;
+        width: 100%;
+        margin-left: 0px !important;
+    }
+    .secbtn
+    {
+        margin-left: 0px !important;
+    }
+    .imgdiv{
+        height: 300px;
+        width: var(--textsize,100%);
+    }
+    .bodydiv{
+        width: var(--textsize,100%) !important;  
+    }
+    :host{
+        --textsize: 100%;
+    }
+    .img
+    {
+        width: 100%;
+        height: 100%;
+    }
+    .ConsentPadding{
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        width: auto;
+        justify-content: center;
+    }
+    .contentHeight{
+        height: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .modelwidth {
+        width: auto;
+    }
+    .btnAlingment
+    {
+        justify-content: center;
+        align-content: center;
+        grid-row-gap: 12px;
+        margin-bottom: 40px;
+    }
+}
+
+@media only screen and (min-device-width: 640px) and (max-device-width: 1023px) and (max-height:500px) and (orientation: landscape) {
+    .imgdiv {
+        width: var(--textsize,100%);
+    }
+    .bodydiv{
+        width: var(--textsize,100%) !important;
+    }
+    :host{
+        --textsize: 100%;
+    }
+    .bodydiv {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1365px) and (orientation: portrait) {
+   
+
+    .bodydiv {
+        width: 100%;
+        height: 40% !important;
+    }
+    .mainfont{
+        font-size: 21px;
+        padding-top: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .ptagcls{
+        margin-bottom:16px !important;
+    }
+    .btnsize {
+        width: 100%;
+        margin: 0;
+    }
+
+    .btnsizes {
+        width: 100%;
+        margin: 0;
+    }
+    .thirdbtn{
+        margin: 0;
+        width: 100%;
+        margin-left: 0px !important;
+    }
+    .secbtn
+    {
+        margin-left: 0px !important;
+    }
+    .imgdiv{
+        height: 500px;
+        width: var(--textsize,100%);
+    }
+    :host{
+        --textsize: 100%;
+    }
+    .bodydiv{
+        width: var(--textsize,100%) !important;
+    }
+    .img
+    {
+        width: 100%;
+        height: 100%;
+    }
+    .ConsentPadding{
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        width: auto;
+        justify-content: center;
+    }
+    .contentHeight{
+        height: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .btnAlingment
+    {
+        justify-content: space-around;
+        align-content: center;
+        grid-row-gap: 12px;
+        margin-bottom: 40px;
+    }
+
+}
+
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1365px) and (orientation: landscape) {
+   
+
+    .mainfont{
+        font-size: 21px;
+        padding-top: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .ptagcls{
+        margin-bottom:16px !important;
+    }
+    .btnsize {
+        width: 100%;
+        margin: 0;
+    }
+
+    .btnsizes {
+        width: 100%;
+        margin: 0;
+    }
+    .thirdbtn{
+        margin: 0;
+        width: 100%;
+        margin-left: 0px !important;
+    }
+    .secbtn
+    {
+        margin-left: 0px !important;
+    }
+
+    .img
+    {
+        width: 100%;
+        /* max-width:412px; */
+        height: 100%;
+    }
+    .imgdiv{
+        /* height: 300px; */
+        width: var(--textsize);
+    }
+    .bodydiv{
+        width: calc(100% - var(--textsize)) !important; 
+    }
+    :host{
+        --textsize: 412px;
+    }
+    .ConsentPadding{
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        width: auto;
+        justify-content: center;
+    }
+    .contentHeight{
+        height: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .btnAlingment
+    {
+        justify-content: space-around;
+        align-content: center;
+        grid-row-gap: 10px;
+        margin-bottom: 20px;
+    }
+   
+
+}
+
+@media only screen and (min-device-width: 1024px) and (min-width: 769px) and (max-width: 1024px) and (max-device-width: 1365px) and (orientation: landscape) {
+    .imgdiv{
+        width: var(--textsize);
+    }
+    .img{
+        width: 100%;
+    }
+    .bodydiv{
+        width: var(--textsize);
+    }
+    :host{
+        --textsize: 100%;
+    }
+}
+
+
+
+
+@media only screen and (min-width: 1366px) and (max-width: 1920px) {
+
+    .mainfont{
+        padding-top: 33px;
+        padding-bottom: 20px;
+    }
+    .modelwidth {
+        margin-top: 1rem;
+        width: 770px;
+        min-width:770px !important;
+    }
+    .thirdbtn{
+        margin-top: 10px;
+        margin-left: 29% !important;
+    }
+    .btnsize {
+        width: 303px;
+    }
+    .btnsizes {
+        width: 303px;
+    }
+    .imgdiv
+    {
+        width: var(--textsize,412px);
+    }
+    .btnAlingment
+{
+    justify-content: space-between;
+    align-content: center;
+    grid-row-gap: 0px;
+    margin-bottom: 20px !important;
+}
+    .ConsentPadding
+{
+    padding: 0 52px 0 52px !important; 
+    width: 768px;
+}
+}
+
+@media only screen and (min-width: 1920px) {
+
+    .mainfont{
+        padding-top: 33px;
+        padding-bottom: 20px;
+    }
+    .imgdiv
+    {
+        width:var(--textsize);
+    }
+    .bodydiv{
+        width: calc(100% - var(--textsize)) !important
+    }
+}
+
+
+
+@media only screen and (min-device-width: 1280px) and (max-device-width: 1280px) {
+    .imgdiv{
+        width: fit-content !important;
+    }
+    .img{
+        width:412px !important;
+    }
+    .bodydiv{
+        width: 61% !important;
+    }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1100px){
+    .imgdiv{
+        width: var(--textsize,400px) !important;
+    }
+    .bodydiv{
+        width: calc(100% - var(--textsize)) !important;
+    }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1100px) and (orientation: landscape){
+    .imgdiv{
+        width: var(--textsize) !important;
+    }
+    .img{
+        width: var(--textsize) !important;
+        max-width: var(--textsize) !important;
+    }
+    .bodydiv{
+        width: var(--textsize) !important;
+    }
+    :host{
+        --textsize: 100%;
+    }
+
+}
+
+@media only screen and (min-width: 754px) and (max-width: 1023px) and (orientation: landscape) {
+    .firstbtn {
+        margin-right: 50px !important;
+    }
+
+    .btnsize {
+        width: 45% !important;
+    }
+
+    .btnsizes {
+        width: 45% !important;
+    }
+}
+@media only screen and (min-width: 754px) and (max-width: 1024px) and (orientation: landscape) {
+    .firstbtn {
+        margin-right: 50px !important;
+    }
+
+    .btnsize {
+        width: 45% !important;
+    }
+    .btnsizes {
+        width: 65% !important;
+    }
+}
+
+
+
+@media only screen and (min-width: 754px) and (max-width: 1023px) and (orientation: portrait) {
+    .firstbtn {
+        margin-right: 0px !important;
+    }
+
+    .btnsize {
+        width: 45% !important;
+    }
+    .btnsizes {
+        width: 73.43% !important;
+    }
+}
+@media only screen and (min-width: 754px) and (max-width: 1024px) and (orientation: portrait) {
+    .firstbtn {
+        margin-right: 0px !important;
+    }
+
+    .btnsize {
+        width: 45% !important;
+    }
+    .btnsizes {
+        width: 73.43% !important;
+    }
+}
+
+
+
+@media only screen and (min-width: 1101px) and (max-width: 1165px) and (orientation: landscape) {
+    :host{
+        --textsize: 300px !important;
+    }
+}
+@media only screen and (min-width: 1166px) and (max-width: 1230px) and (orientation: landscape) {
+    :host{
+        --textsize: 350px !important;
+    }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1365px) and (orientation: landscape) {
+    .firstbtn {
+        margin-right: 50px !important;
+    }
+
+    .btnsize {
+        width: 45% !important;
+    }
+
+    .btnsizes {
+        width: 75% !important;
+    }
+}
+
+@media only screen and (min-device-width: 620px) and (max-device-width: 1364px) and (orientation: landscape) {
+
+    .btnsize {
+        width: 45% !important;
+    }
+
+    .btnsizes {
+        width: 80% !important;
+    }
+
+}
+
+@media only screen and (min-device-width: 1025px) and (max-device-width: 1364px) and (orientation: portrait) {
+    .btnsizes {
+    margin: 0;
+    width: 81.43% !important;
+    }
+    .btnHover{
+        transition: all 0.3s;
+    }
+    
+}
+
+@media only screen and (min-device-width: 800px) and (max-device-width: 1000px) and (orientation: portrait) {
+    .btnsizes {
+        margin: 0;
+        width: 80.43% !important;
+        }
+}
+
+@media only screen and (min-device-width: 700px) and (max-device-width: 800px) and (orientation: portrait) {
+    .btnsizes {
+        margin: 0;
+        width: 80.43% !important;
+        }
+
+        .btnsize{
+            max-width: 50%;
+        }
+}
+
+@media only screen and (min-device-width: 700px) and (max-device-width: 800px) and (orientation: landscape) {
+    .btnsizes {
+        margin: 0;
+        width: 80.43% !important;
+        }
+
+        .btnsize{
+            max-width: 50%;
+        }
+}
+
+@media only screen and (min-device-width: 600px) and (max-device-width: 700px) and (orientation: portrait) {
+    .btnsize{
+        width: 50%;
+    }
+
+    .btnsizes {
+        margin: 0;
+        width: 80.43% !important;
+        }
+}
+
+@media only screen and (min-device-width: 500px) and (max-device-width: 600px) and (orientation: portrait) {
+    .btnsize{
+        width: 60%;
+    }
+
+    .btnsizes {
+        margin: 0;
+        width: 94% !important;
+        }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 480px) {
+    .modelwidth {
+        width: auto;
+        margin: 0 20px; /* Adjusted margin */
+    }
+
+    .ConsentPadding {
+        padding: 0 20px !important; /* Adjusted padding */
+    }
+
+    .btnsizes {
+        font-size: 10px; /* Adjusted font size */
+        height: 54.4px; /* Adjusted height */
+        margin-bottom: 20px;
+        width: 90%;
+    }
+
+    .btnsize{
+        font-size: 10px; /* Adjusted font size */
+        height: 54.4px;
+    }
+}

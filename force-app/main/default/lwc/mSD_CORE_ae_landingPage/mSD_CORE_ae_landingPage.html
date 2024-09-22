@@ -1,0 +1,138 @@
+<template>
+    <template lwc:if={showWelcomePopup}>
+        <c-m-s-d_-c-o-r-e_ae_welcome-popup onbuttonchoice={handleButtonChoice}></c-m-s-d_-c-o-r-e_ae_welcome-popup>
+    </template>
+    <template lwc:if={stepIsTwo}>
+        <c-m-s-d_-c-o-r-e_ae_instructions modal={modal} onmodalchange={handleModalChange}></c-m-s-d_-c-o-r-e_ae_instructions>
+    </template>
+    
+    <!-- <div  size="12" style="min-height:calc(100vh - 362px);"> -->
+    <div  size="12" style="margin-bottom: 2%;">
+        <div class="parentclass">
+            <div class="MainformCls MainFormClip">
+                <div class="formCls formClip">
+                    <div multiple-rows="true" class="heightdiv">
+                        <div size="10" class="divisionCls"> 
+                            <div class="mTitle">
+                                <template lwc:if={steps.length}>
+                                    {stageName}
+                                </template>
+                            </div>
+                            <div class="imptext">
+                                {buttonType}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="progress-container slds-align_absolute-center">
+                            <!-- Displaying the progress steps -->
+                            <template for:each={steps} for:item="step" >
+                                <div key={step.id} class="progress-step" title={step.label}>
+                                    <div class={step.class}>
+                                        <span class="step-number">{step.id}</span>
+                                    </div>
+                                    <span class={step.labelClass}>{step.label}</span>
+                                </div>
+                            </template>  
+                        </div>
+
+                        <template lwc:if={stepIsOne}>
+                            <c-m-s-d_-c-o-r-e_ae_assessment onchange={handleAssessment}></c-m-s-d_-c-o-r-e_ae_assessment>
+                        </template>
+
+                            <template lwc:if={stepIsTwo}>
+                                <c-m-s-d_-c-o-r-e_ae_instructions modal={modal} onmodalchange={handleModalChange}></c-m-s-d_-c-o-r-e_ae_instructions>
+                                <template lwc:if={Employee}>
+                                    <c-m-s-d_-c-o-r-e_ae_-emp-info
+                                        stage-id="2"
+                                        edited-section={editedSection}
+                                        case-details={caseDetails} 
+                                        portal-setting={portalSetting}
+                                        onstagedetails={handlePrevNext}>
+                                    </c-m-s-d_-c-o-r-e_ae_-emp-info>
+                                </template>
+                                <template lwc:if={HealthcareProfessional}>
+                                    <c-m-s-d_-c-o-r-e_ae_health-care
+                                        stage-id="2"
+                                        edited-section={editedSection}
+                                        case-details={caseDetails}
+                                        portal-setting={portalSetting}
+                                        onstagedetails={handlePrevNext}>
+                                    </c-m-s-d_-c-o-r-e_ae_health-care>
+                                </template>
+                                <template lwc:if={PSP}>
+                                    <c-m-s-d_-c-o-r-e_ae_-p-s-p-info
+                                        stage-id="2"
+                                        edited-section={editedSection}
+                                        case-details={caseDetails} 
+                                        portal-setting={portalSetting}
+                                        onstagedetails={handlePrevNext}>
+                                    </c-m-s-d_-c-o-r-e_ae_-p-s-p-info>
+                                </template>
+                            </template>
+                        
+                        <template lwc:elseif={stepIsThree}>
+                            <c-m-s-d_-c-o-r-e_ae_patient-information 
+                               stage-id="3"
+                               edited-section={editedSection}
+                               case-details={caseDetails}
+                               portal-setting={portalSetting}
+                               onstagedetails={handlePrevNext} >
+                            </c-m-s-d_-c-o-r-e_ae_patient-information>
+                        </template>
+                        <template lwc:elseif={stepIsFour}>
+                            <c-m-s-d_-c-o-r-e_ae_product-information
+                               stage-id="4"
+                               edited-section={editedSection}
+                               case-details={caseDetails}
+                               portal-setting={portalSetting} 
+                               onstagedetails={handlePrevNext}
+                               onmodalaction={handleClassChange}>
+                            </c-m-s-d_-c-o-r-e_ae_product-information>
+                        </template>
+                        <template lwc:elseif={stepIsFive}>
+                            <c-m-s-d_-c-o-r-e_ae_ae-details
+                               stage-id="5"
+                               edited-section={editedSection}
+                               portal-setting={portalSetting}
+                               case-details={caseDetails} 
+                               onstagedetails={handlePrevNext}>
+                            </c-m-s-d_-c-o-r-e_ae_ae-details>
+                        </template>
+                        <template lwc:elseif={isLastStep}>
+                            <c-m-s-d_-c-o-r-e_ae_reviewand-conf 
+                               stage-names={steps} 
+                               onedit={handleEdit} 
+                               onchange={handleAssessment}
+                               case-details={caseDetails}>
+                            </c-m-s-d_-c-o-r-e_ae_reviewand-conf>
+                        </template>
+                        <!-- <template lwc:elseif={isLastStep}>
+                            <c-m-s-d_-c-o-r-e_ae_reviewand-conf 
+                               stage-names={steps} 
+                               oneditclicked={handleEditClicked} 
+                               onnavigate={handleNavigation} 
+                               onchange={handleAssessment}
+                               onstagedetails={handlePrevNext} 
+                               case-details={caseDetails}
+                               result-data={submitResult}>
+                            </c-m-s-d_-c-o-r-e_ae_reviewand-conf>
+                        </template> -->
+                        <template lwc:elseif={stepIsSix}>
+                            <c-m-s-d_-c-o-r-e_ae_patient-medical-history
+                               stage-id="6"
+                               edited-section={editedSection}
+                               portal-setting={portalSetting}
+                               case-details={caseDetails}
+                               onstagedetails={handlePrevNext}>
+                            </c-m-s-d_-c-o-r-e_ae_patient-medical-history>
+                        </template>
+                    </div>
+
+                </div>
+            </div>
+            <div class="Triangle"></div>
+        </div>  
+    </div>
+</template>

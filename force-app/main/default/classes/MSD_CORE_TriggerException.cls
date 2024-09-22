@@ -1,0 +1,1 @@
+public class MSD_CORE_TriggerException extends Exception {}

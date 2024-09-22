@@ -1,0 +1,22 @@
+<template>
+    <c-veeva-modal size={modalSize} onclose={handleClose}>
+        <h1 slot="header">{header}</h1>
+
+        <div slot="content" class="slds-scrollable_x">
+            <c-territory-feedback-goal-editor
+                account-record={accountRecord}
+                goal-metadata={goalMetadata}
+                is-add-target-challenge={isAddTargetChallenge}
+                use-default-goals={useDefaultGoals}
+                class="slds-p-around_small">
+            </c-territory-feedback-goal-editor>
+        </div>
+
+        <div slot="footer">
+            <lightning-button-group class="slds-align_absolute-center"> 
+                <lightning-button label={cancelMessage} onclick={handleClose}></lightning-button>
+                <lightning-button variant="brand" type="submit" label={saveMessage} onclick={handleSubmit}></lightning-button>
+            </lightning-button-group>
+        </div>
+    </c-veeva-modal>
+</template>

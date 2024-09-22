@@ -1,0 +1,33 @@
+<template>
+    <c-veeva-modal if:true={hasLoadedMsg} class="header-align" size="small" onclose={handleClose}>
+        <span slot="header">{signatureMessageMap.signatureSetUpLabel}</span>
+        <span slot="content">
+            <div id="logoSection" class="section-spacing" if:true={isLogoAvailable}>
+                <h2 class="slds-text-heading--medium slds-hyphenate">{signatureMessageMap.displayImageLabel}</h2>
+                <lightning-layout class="logo-border" horizontal-align="center">
+                    <c-veeva-spinner spinner-style="spinner-relative  spinner-background" if:true={isLogoLoading}></c-veeva-spinner>
+                    <img class="logo-size" src={prodLogo} if:false={isLogoLoading}>
+                </lightning-layout>
+            </div>
+            <div id="detailsSection" class="section-spacing">
+                <h2 class="slds-text-heading--medium slds-hyphenate">{signatureMessageMap.accountDetailsLabel}</h2>
+                <lightning-input label={signatureMessageMap.signeeLabel} value={displayAccountName} disabled></lightning-input>
+                <lightning-input if:true={displayLocationName} label={locationNameLabel} value={displayLocationName} disabled></lightning-input>
+            </div>
+            <div id="languagesSection" class="section-spacing" if:false={signatureController.disableLanguageOptions}>
+                <h2 class="slds-text-heading--medium slds-hyphenate">{signatureMessageMap.languageLabel}</h2>
+                <lightning-combobox name="languagePicklist" label={signatureMessageMap.languageLabel} onchange={selectLanguage} options={signatureController.disclaimerLanguages} value={signatureController.languageValue}></lightning-combobox>
+            </div>
+            <div id="methodSection" class="footer-spacing">
+                <h2 class="slds-text-heading--medium slds-hyphenate">{signatureMessageMap.signatureMethodLabel}</h2>
+                <lightning-combobox dropdown-alignment="bottom-left" name="signaturePicklist" label={signatureMessageMap.signatureMethodLabel} onchange={selectMethod} options={signatureMethods} value={signatureValue}></lightning-combobox>
+            </div>
+        </span>
+        <span slot="footer">
+            <lightning-layout horizontal-align="center">
+                <lightning-button name="Cancel" label={signatureMessageMap.cancelLabel} title={signatureMessageMap.cancelLabel} onclick={handleClose}></lightning-button>
+                <lightning-button class="right-button-margins" name="Next" label={signatureMessageMap.nextLabel} title={signatureMessageMap.nextLabel} variant="brand" onclick={handleNext} disabled={signatureController.metadataNotLoaded}></lightning-button>
+            </lightning-layout>
+        </span>
+    </c-veeva-modal>
+</template>

@@ -1,0 +1,63 @@
+<aura:component controller="CaseControllerMVN" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="sessionId" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="ddpFilter" type="String"/>
+    <aura:attribute name="caseAccId" type="String"/>
+    <aura:attribute name="url" type="String"/>
+    <aura:attribute name="showPopup" type="Boolean" default="false"/>
+    <aura:attribute name="isValid" type="Boolean" default="true"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="casedata" type="Case"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <lightning:utilityBarAPI aura:id="utilitybar" />
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.doInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}"/>
+    
+    <aura:registerEvent name="refreshAttachments" type="c:MSD_CORE_RefreshAttachments"/>
+    
+    <div class="slds-card slds-card_boundary forceBaseCard flexipageCard">
+        <div style="{!v.isValid ? 'display:block;' : 'display:none;'}">
+            <button class="slds-button slds-button_brand" style="z-index: 1;float: right;
+    width: 96%;
+    margin: 13px 2%;" onclick="{!c.openModal}">
+                Send Letter
+            </button>
+        </div>
+        
+        <div style="{!v.isValid ? 'display:none;' : 'display:block;'}">
+            <ui:message severity="info" closable="false">
+                Send DDP is not applicable.
+            </ui:message>
+        </div>
+            
+        <!--<iframe src="{!v.url}" style="height: 100%;width:100%;"></iframe>-->
+        
+        <div class="{!'slds-scrollable ' + if(v.showPopup, 'slds-show', 'slds-hide')}" aura:id="aeFieldsModal" style="position:relative;">
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+                <div class="slds-modal__container" style="height: 95%; top: 5%; width: 98%;"> 
+                    <!-- Header Start-->
+                    <header class="slds-modal__header">
+                        <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                            <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Send Letter</h2>
+                    </header>
+                    <!-- Header End-->
+                    
+                    <!-- Body Content Start-->
+                    <div class="slds-modal__content slds-grow modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:auto">
+                        <!--<iframe src="{!v.url}" style="height: 100%;width:100%;"></iframe>-->
+                    </div>
+                    
+                    <footer class="slds-modal__footer" style="padding: 5px;background: #fff;">
+                        <div class="slds-align_absolute-center" style="padding: 5px;background: #fff;">
+                            <lightning:button label="Done" name="Done" variant="brand" onclick="{!c.closeModal}"/>
+                        </div>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,8 @@
+<design:component>
+    <design:attribute name="objectApiName" label="Object Api Name" />
+    <design:attribute name="rtId" label="RecordType ID" />
+    <design:attribute name="defaultFieldValues" label="Default Field Values" />
+    <design:attribute name="flowContext" label="Flow Context" />
+    <design:attribute name="isFlowScreen" label="Is Flow Screen" />
+    <design:attribute name="saveAndNew" label="Save and New" />
+</design:component>

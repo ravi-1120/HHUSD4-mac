@@ -1,0 +1,12 @@
+.section-title {
+    color: #000;
+    border-bottom: 1px solid #fff;
+}
+
+.upload-content {
+    color: #222;
+}
+
+:host {
+    --sds-c-button-text-color: #262426;
+}

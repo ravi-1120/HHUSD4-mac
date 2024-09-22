@@ -1,0 +1,22 @@
+<template>
+    <div class="help-links-container">
+        <!-- Header -->
+        <div class="help-links-header">
+            Helpful links
+        </div>
+
+        <!-- Help links -->
+        <ul class="help-links-list">
+            <template for:each={helpLinks} for:item="link">
+                <li key={link.id} class="help-link-item">
+                    <a href="javascript:void(0)">{link.name}</a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <path
+                            d="M22.4941 12C22.4941 12.251 22.4016 12.4805 22.2489 12.656C22.2213 12.6878 22.1916 12.7179 22.1599 12.7462C22.1567 12.749 22.1535 12.7518 22.1503 12.7546L14.1526 19.7526C13.737 20.1163 13.1052 20.0742 12.7416 19.6585C12.3779 19.2429 12.42 18.6111 12.8356 18.2474L18.8327 13L3.49414 13C2.94186 13 2.49414 12.5523 2.49414 12C2.49414 11.4477 2.94186 11 3.49414 11L18.8327 11L12.8356 5.75259C12.42 5.38891 12.3779 4.75715 12.7416 4.34151C13.1052 3.92587 13.737 3.88375 14.1526 4.24744L22.1471 11.2426C22.3596 11.426 22.4941 11.6973 22.4941 12C22.4941 12 22.4941 12 22.4941 12Z"
+                            fill="#00857C" />
+                    </svg>
+                </li>
+            </template>
+        </ul>
+    </div>
+</template>

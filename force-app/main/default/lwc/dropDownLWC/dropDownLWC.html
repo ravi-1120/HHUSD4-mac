@@ -1,0 +1,65 @@
+<template>
+    <div style="">
+        <div class="slds-form-element">
+            <div class="slds-form-element_control">
+                <!-- Combobox Container -->
+                <div class="slds-combobox_container">
+                    <div class={dropDownClass} aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                            role="none">
+                            <!-- Readonly Input to display selected value -->
+                            <input type="text"
+                                class="slds-input slds-combobox__input slds-combobox__input-value combobox-input-class dropDown"
+                                autocomplete="off" placeholder={placeholder} title={label} onclick={handleInputClick}
+                                value={label} onkeyup={handleKeyUp} readonly disabled={disabled} onblur={closeDropDown}></input>
+                            <!--/ Readonly Input to display selected value -->
+                            <!-- Down Arrow icon div if dropdown close -->
+                            <div>
+                                <span
+                                    class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                    <lightning-icon icon-name="utility:down" size="x-small"></lightning-icon>
+                                </span>
+                            </div>
+                            <!--/ Down Arrow icon div if dropdown close -->
+                        </div>
+                        <!-- List box to show dropdown options -->
+                        <div id="listbox-id-11" class="slds-dropdown slds-dropdown_fluid " role="listbox">
+                            <ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-5 customClass"
+                                tabindex="0" role="presentation">
+                                <template for:each={trackoptionsToDisplay} for:item="option">
+                                    <!-- li to display each option in the list -->
+                                    <li key={option.value} role="presentation" class="slds-listbox__item"
+                                        data-label={option.label} data-value={option.value} data-id={option.isChecked}
+                                        onmousedown={optionsClickHandler} title={option.label}>
+                                        <div id={option.value} class={option.class} role="option">
+                                            <!-- <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                            <span class="slds-wrap">
+                                                <span>{option.label}</span>
+                                            </span> -->
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                <span class="iconborde">
+                                                    <lightning-icon icon-name="utility:check" size="x-small"
+                                                        class="slds-listbox__icon-selected"></lightning-icon>
+                                                </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-wrap" style="color:black; font-size: 12px;" title={option.label}>
+                                                    {option.label}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <!--/ li to display each option in the list -->
+                                </template>
+                            </ul>
+                        </div>
+                        <!--/ List box to show dropdown options -->
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--/ Combobox Container -->
+            </div>
+        </div>
+    </div>
+</template>

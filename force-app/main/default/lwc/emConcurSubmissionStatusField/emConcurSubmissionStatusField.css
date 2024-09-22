@@ -1,0 +1,5 @@
+.container {
+    display: flex;
+    align-items: center;
+    gap: var(--lwc-spacingXxSmall, 0.25rem);
+}

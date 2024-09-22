@@ -1,0 +1,14 @@
+.THIS .cuf-content {
+    font-weight: var(--lwc-fontWeightLight,300);
+    font-size: var(--lwc-fontSize7,1.25rem);
+    line-height: var(--lwc-lineHeightHeading,1.25);
+    padding: 10px 0 5px 0 !important;
+}
+.THIS .slds-p-around--medium {
+    padding: 0rem !important;
+}       
+.THIS .slds-modal__content{
+    overflow-y:hidden !important;
+    height:unset !important;
+    max-height:unset !important;
+}

@@ -1,0 +1,144 @@
+<aura:component controller="MSD_CORE_CC_KnowledgePreviewController">
+    <aura:attribute name="knowledgeArticleId" type="String" default=""/>
+    <aura:handler name="change" value="{!v.knowledgeArticleId}" action="{!c.getKnowledgeArticle}"/>
+    <aura:attribute name="kav" type="Knowledge__kav"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="isAgentProfile" type="Boolean" default="true"/>
+    
+    <div>
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner />
+        </aura:if>
+        <aura:if isTrue="{!!v.isAgentProfile}">
+            <label class="slds-form-element__label">Title</label><br/>
+            <lightning:formattedText value="{!v.kav.Title}"/><br/>
+            <label class="slds-form-element__label">URL Name</label><br/>
+            <lightning:formattedText value="{!v.kav.UrlName}"/><br/>
+            <label class="slds-form-element__label">Approvals Required</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Approvals_Required__c}"/><br/>
+            <label class="slds-form-element__label">Product ID</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Product_ID__c}"/><br/>
+            <label class="slds-form-element__label">Audience</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Audience__c}"/><br/>
+            <label class="slds-form-element__label">Demographics Required?</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_DemoReqd__c}"/><br/>
+            <label class="slds-form-element__label">Urgent</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Urgent__c}"/><br/>
+            <label class="slds-form-element__label">Article Expiration Date</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_ExpiryDate__c}"/><br/>
+            <label class="slds-form-element__label">Generic Comment</label><br/>
+            <lightning:formattedDateTime value="{!v.kav.MSD_CORE_General_Cmnt__c}"/><br/>
+            <label class="slds-form-element__label">Generic Comment Conversation</label><br/>
+            <lightning:formattedDateTime value="{!v.kav.MSD_CORE_General_Cmnt_Conversation__c}"/><br/>
+            <label class="slds-form-element__label">Preview</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Preview__c}"/><br/>
+            <label class="slds-form-element__label">Preview Comment</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Preview_Cmnt__c}"/><br/>
+            <label class="slds-form-element__label">Preview Comment Conversation</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Preview_Cmnt_Conversation__c}"/><br/>
+            <label class="slds-form-element__label">Instruction / Background</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_InstrBckgnd__c}"/><br/>
+            <label class="slds-form-element__label">Instruction Comment</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Instruction_Comment__c}"/><br/>
+            <label class="slds-form-element__label">Instruction Comment Conversation</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Instruct_Cmnt_Conversation__c}"/><br/>
+            <label class="slds-form-element__label">Inform</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Inform__c}"/><br/>
+            <label class="slds-form-element__label">Inform Comment</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Information_Cmnt__c}"/><br/>
+            <label class="slds-form-element__label">Inform Comment Conversation</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Information_Cmnt_Conversation__c}"/><br/>
+            <label class="slds-form-element__label">Questions</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Questions__c}"/><br/>
+            <label class="slds-form-element__label">Questions Comment</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Questions_Comment__c}"/><br/>
+            <label class="slds-form-element__label">Question Comment Conversation</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Qstn_Cmnt_Convo__c}"/><br/>
+            <label class="slds-form-element__label">After Call Work</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_AftCllWork__c}"/><br/>
+            <label class="slds-form-element__label">After Call Work Comment</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_After_Call_Work_Cmnt__c}"/><br/>
+            <label class="slds-form-element__label">After Call Work Comment Conversation</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_AfterCallWork_Cmnt_Conversation__c}"/><br/>
+            <label class="slds-form-element__label">Knowledge Article Category</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_KnwlArtCat__c}"/><br/>
+            <label class="slds-form-element__label">Language</label><br/>
+            <lightning:formattedText value="{!v.kav.Language}"/><br/>
+            <label class="slds-form-element__label">Country</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_GenCntry__c}"/><br/>
+            <label class="slds-form-element__label">Channels</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Channels__c}"/><br/>
+            <label class="slds-form-element__label">Article SubType</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Subtype__c}"/><br/>
+            <label class="slds-form-element__label">Article Category</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_GenCatgry__c}"/><br/>
+            <label class="slds-form-element__label">Case Type</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Case_Type__c}"/><br/>
+            <label class="slds-form-element__label">Case Category</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Case_Category__c}"/><br/>
+            <label class="slds-form-element__label">Associated Articles</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_GenAssArtcle__c}"/><br/>
+            <label class="slds-form-element__label">Former Review Article</label><br/>
+            <lightning:formattedDateTime value="{!v.kav.MSD_CORE_FormerReviewArticle__c}"/><br/>
+            <label class="slds-form-element__label">Publication Status</label><br/>
+            <lightning:formattedText value="{!v.kav.PublishStatus}"/><br/>
+            <label class="slds-form-element__label">Is Latest Version</label><br/>
+            <lightning:formattedText value="{!v.kav.IsLatestVersion}"/><br/>
+            <label class="slds-form-element__label">Version Number</label><br/>
+            <lightning:formattedText value="{!v.kav.VersionNumber}"/><br/>
+            <label class="slds-form-element__label">Last Published Date</label><br/>
+            <lightning:formattedDateTime value="{!v.kav.LastPublishedDate}"/><br/>
+            <label class="slds-form-element__label">Last Modified Date</label><br/>
+            <lightning:formattedDateTime value="{!v.kav.LastModifiedDate}"/><br/>
+            <label class="slds-form-element__label">Last Modified By</label><br/>
+            <lightning:formattedText value="{!v.kav.LastModifiedBy.Name}"/><br/>
+            <label class="slds-form-element__label">Article Number</label><br/>
+            <lightning:formattedText value="{!v.kav.ArticleNumber}"/><br/>
+            <label class="slds-form-element__label">Assigned To</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Assigned_To__r.Name}"/><br/>
+            <label class="slds-form-element__label">Owner</label><br/>
+            <lightning:formattedText value="{!v.kav.Owner.Name}"/><br/>
+            <label class="slds-form-element__label">Article Created By</label><br/>
+            <lightning:formattedText value="{!v.kav.ArticleCreatedBy.Name}"/><br/>
+            <label class="slds-form-element__label">Article Created Date</label><br/>
+            <lightning:formattedDateTime value="{!v.kav.ArticleCreatedDate}"/><br/>
+        </aura:if>
+        <aura:if isTrue="{!v.isAgentProfile}">
+            <label class="slds-form-element__label">Title</label><br/>
+            <lightning:formattedText value="{!v.kav.Title}"/><br/>
+            <label class="slds-form-element__label">Assigned To</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Assigned_To__r.Name}"/><br/>      
+            <label class="slds-form-element__label">Demographics Required?</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_DemoReqd__c}"/><br/>
+            <label class="slds-form-element__label">Preview</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Preview__c}"/><br/>
+            <label class="slds-form-element__label">Instruction / Background</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_InstrBckgnd__c}"/><br/>
+            <label class="slds-form-element__label">Inform</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Inform__c}"/><br/>
+            <label class="slds-form-element__label">Questions</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Questions__c}"/><br/>
+            <label class="slds-form-element__label">Discliamer</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Disclaimer__c}"/><br/>
+            <label class="slds-form-element__label">After Call Work</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_AftCllWork__c}"/><br/>
+            <label class="slds-form-element__label">Article SubType</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Subtype__c}"/><br/>
+            <label class="slds-form-element__label">Article Category</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_GenCatgry__c}"/><br/>
+            <label class="slds-form-element__label">Case Type</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Case_Type__c}"/><br/>
+            <label class="slds-form-element__label">Case Category</label><br/>
+            <label class="slds-form-element__label">Audience</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Audience__c}"/><br/>
+            <label class="slds-form-element__label">Product ID</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_Product_ID__c}"/><br/>
+            <label class="slds-form-element__label">Country</label><br/>
+            <lightning:formattedText value="{!v.kav.MSD_CORE_GenCntry__c}"/><br/> 
+            <label class="slds-form-element__label">Parent Article</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_Parent_Article__c}"/><br/>
+            <label class="slds-form-element__label">Associated Articles</label><br/>
+            <lightning:formattedRichText value="{!v.kav.MSD_CORE_GenAssArtcle__c}"/><br/>
+        </aura:if>
+    </div>
+</aura:component>

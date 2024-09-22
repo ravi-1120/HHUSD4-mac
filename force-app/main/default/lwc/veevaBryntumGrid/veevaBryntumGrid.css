@@ -1,0 +1,7 @@
+.grid-container {
+  height: 100%;
+}
+
+.hide-column-dividers {
+  border-inline-end: none;
+}

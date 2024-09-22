@@ -1,0 +1,80 @@
+<template>
+	<div class="modal-container">
+		<div class="modal">
+			<template if:true={step1}>
+				<div class="modal-header">
+					<h2>{label.addProducts}</h2>
+				</div>
+				<div class="modal-lookup">
+					<!--<lightning-input type="search" label="Search Products" onchange={handleSearch}></lightning-input>-->
+					<div class="slds-form-element">
+						<!--<label class="slds-form-element__label" for="listbox-id-1" id="combobox-label-id-138">Relate To</label>-->
+						<div class="slds-form-element__control">
+							<div class="slds-combobox_container">
+								<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+									<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+										<input type="text" style="height:2.5rem" onkeydown={handleSearch} class="slds-input slds-combobox__input slds-has-focus" id="listbox-id-1" placeholder="Search Products..." aria-autocomplete="list" aria-controls="listbox-id-15" aria-expanded="true" aria-haspopup="listbox" autocomplete="off" role="combobox"/>
+										<span style="margin-top:-6px;padding-right:10px" class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+											<lightning-icon icon-name="utility:search" size="xx-small"></lightning-icon>
+										</span>
+									</div>
+									<template if:true={showProducts}>
+										<div id="listbox-id-15" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox" tabindex="0" aria-busy="false">
+											<ul class="slds-listbox slds-listbox_vertical" role="group">
+												<template for:each={products} for:item="product">
+													<li role="presentation" class="slds-listbox__item" key={product.Id}>
+														<div id="option741" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+															<span class="slds-media__figure slds-listbox__option-icon">
+																<span class="slds-icon_container">
+																	<lightning-icon icon-name="utility:product" size="small"></lightning-icon>
+																</span>
+															</span>
+															<span class="slds-media__body">
+																<span class="slds-listbox__option-text slds-listbox__option-text_entity">{product.Name}</span>
+																<span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{product.PDS_Product_Number__c} • {product.PDS_Actual_Product_Cost__c}</span>
+															</span>
+														</div>
+													</li>
+												</template>
+											</ul>
+										</div>
+									</template>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div style="margin-top:15px;">{label.showCount} ({showSelected})</div>
+				</div>
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<div class="content">
+						<lightning-datatable style="min-height:250px" key-field="Id" data={filteredProducts}
+							columns={tableColumns} onrowselection={handleRowSelection}>
+						</lightning-datatable>
+					</div>
+				</div>
+				<!-- Modal Footer -->
+				<div class="modal-footer">
+					<template if:true={step1}>
+						<!-- <lightning-button style="padding-right:5px" label={label.cancel} variant="neutral" onclick={closeAction}></lightning-button> -->
+						<lightning-button label={label.next} disabled={nxtDisabled} variant="brand" onclick={handleNext}>
+						</lightning-button>
+					</template>
+				</div>
+			</template>
+			<template if:true={step2}>
+				<div class="modal-header edit" style="background-color:#fff">
+					<h2>{label.editProducts}</h2>
+				</div>
+				<div class="modal-body">
+				    <!-- <lightning-button label="Add New Row" onclick={handleAddRow}></lightning-button> -->
+					<lightning-datatable key-field="Id" data-id="editTable" hide-checkbox-column="true" errors={errors}
+						oncellchange={handleCellChange} onsave={handleSave} draft-values={draftValues}
+						onrowaction={handleRowAction} data={selectedProducts} columns={editColumns}>
+					</lightning-datatable>
+				</div>
+			</template>
+		</div>
+	</div>
+</template>

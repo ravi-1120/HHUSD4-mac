@@ -1,0 +1,55 @@
+<template>
+    <div class="">
+        <div class="sample-bg">&nbsp;</div>
+        <div class="acc_cls">
+            <div class="accordian_1">
+                <lightning-accordion allow-multiple-sections-open  class="accordian_cls " onsectiontoggle={handleSectionToggle} active-section-name={activesection}>
+                    <lightning-accordion-section name="Indication" label={acrname} class="acc accam" style="text-decoration: none;" onclick={clc}>
+                        <div class="scrolling_cls " id="sc1" style="">
+                            <lightning-formatted-rich-text class="mfr_indicationtxt indicationtxt" value={infoval}></lightning-formatted-rich-text>
+                        </div>
+                    </lightning-accordion-section>
+                    <div class="scroll_b_1 " style="">
+                        <!-- <lightning-formatted-rich-text class="mfr_indicationtxt" value={infovalshort}></lightning-formatted-rich-text> -->
+                        <!-- <a if:true={readMoreIndication} class="smpl-a a1" onclick={readmore1}>Read More</a> -->
+                        <!-- <template if:true={readMoreIndication}>
+                            <span class="readmore" onclick={readmore1}>Read more</span>
+                        </template> -->
+                        <!-- Added by Sabari - MFRUS-113 -->
+                        <p class="mfr_indicationtxt indisafe" data-value={infovalshort} name="Indication">
+                        </p>
+                    </div>
+    
+                    <lightning-accordion-section name="Selected Safety Information" label={acr2name} class="acc am2 accam" style="text-decoration: none;" onclick={clc}>
+                        <p class="scrolling_cls scrolling_cls2" id="sc2"> 
+                            <lightning-formatted-rich-text class="mfr_indicationtxt richtxt" value={safetyinfo}></lightning-formatted-rich-text>
+                        </p>
+                    </lightning-accordion-section>
+                    <div class="scroll_b_2" style="">
+                        <!-- <lightning-formatted-rich-text class="mfr_indicationtxt" value={saftyshort}></lightning-formatted-rich-text> -->
+                        <!-- <a if:true={readMoreSSI} class="smpl-a a2" onclick={readmore2}>Read More</a> -->
+                        <!-- <template if:true={readMoreSSI}>
+                            <span class="readmore" onclick={readmore2}>Read more</span>
+                        </template> -->
+                        <!-- Added by Sabari - MFRUS-113 -->
+                        <p class="mfr_indicationtxt indisafe" data-value={saftyshort} name="SSI">
+                        </p>
+                    </div>
+
+                    <lightning-accordion-section name="Indication2" label={acrname} class="acc2" style="text-decoration: none;" onclick={clc}>
+                        <div class="scrolling_cls " id="sc3" style="">
+                            <lightning-formatted-rich-text class="mfr_indicationtxt" value={infoval}></lightning-formatted-rich-text>
+                        </div>
+                    </lightning-accordion-section>
+                    <div class="scroll_b_3" style="">
+                        <lightning-formatted-rich-text class="mfr_indicationtxt" value={infovalshort}></lightning-formatted-rich-text>
+                        <!-- <a if:true={readMoreIndication} class="smpl-a" onclick={readmore3}>Read More</a> -->
+                        <template if:true={readMoreIndication}>
+                            <span class="readmore" onclick={readmore3}>Read more</span></span>
+                        </template>
+                    </div>
+                </lightning-accordion>
+            </div>
+        </div>
+    </div>
+</template>

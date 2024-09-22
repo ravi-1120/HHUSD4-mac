@@ -1,0 +1,11 @@
+<template>
+    <div class="maindiv">
+        <div if:true={isModal} class="bsmodal">
+            <lightning-input type="text" data-id="username" class="uncls" label="Username" placeholder="Username" onchange={handlechange} message-when-pattern-mismatch="Please enter valid username" required></lightning-input>
+            <lightning-input type="password" data-id="password" class="pwcls" label="Password" placeholder="Password" onchange={handlechange} message-when-pattern-mismatch="Please enter valid password" required></lightning-input>
+            <div>
+                <button onclick={handlesumbit}>Submit</button>
+            </div>
+        </div>
+    </div>
+</template>

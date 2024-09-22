@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION"  >
+    <aura:attribute name="itemValues" type="MSD_CORE_SelectItem[]" default="[]"/>
+</aura:event>

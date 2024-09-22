@@ -1,0 +1,59 @@
+<apex:page standardController="Account" tabStyle="MyAccounts__tab">
+    <apex:composition template="{!$Page.RedirectLgtnVod}"/>
+    <apex:includeScript value="/support/console/55.0/integration.js"/>
+    <script>
+    var userTheme = "{! $User.UIThemeDisplayed }";
+    var myqueryparms = "&nau=";
+    if (userTheme.includes("Theme4")) {
+        // The user is using the lighting theme
+        myqueryparms += encodeURIComponent("/lightning/o/Account/new?useRecordTypeCheck=1");
+    } else {
+        myqueryparms += encodeURIComponent("/setup/ui/recordtypeselect.jsp?ent=Account&save_new_url=/001/e") + "&taburl=" + encodeURIComponent("{!$CurrentPage.URL}");
+    }
+    var vwid = "{!$CurrentPage.parameters.vwid}";
+    if (vwid != '') {
+        myqueryparms += "&vwid=" + vwid;
+    }
+
+    var terrid = "{!$CurrentPage.parameters.terrid}";
+    if (terrid != '') {
+        myqueryparms += "&terrid=" + terrid;
+    }
+    var retURL = "{!URLENCODE($CurrentPage.parameters.retURL)}";
+    if (retURL != '') {
+        myqueryparms += "&retURL=" + retURL;
+    }
+    myqueryparms += "&edit=y"
+    myqueryparms += "&lgtvf=true";
+    myqueryparms += "&minframeheight=90vh";
+    myqueryparms += "&lex=true";
+    com.vod309.redirect.redirect("myaccounts", myqueryparms);
+
+    function refreshViewsAndPreferences() {
+        var MY_ACCOUNTS_VIEW_CHANNEL = "{!$MessageChannel.My_Accounts_View_Channel_vod__c}"
+        sforce.one.publish(MY_ACCOUNTS_VIEW_CHANNEL, {
+            type: 'refreshViews',
+        });
+        sforce.one.publish(MY_ACCOUNTS_VIEW_CHANNEL, {
+            type: 'refreshPreferences',
+        });
+    }
+
+    function receiveMessage(event) {
+        var domain = com.vod309.resize.getDomain(event.origin);
+        var isValidDomain = com.vod309.resize.isValidDomain(domain);
+        if(domain && (isValidDomain || domain === "localhost")) {
+            var data = JSON.parse(event.data);
+            if (data.refreshViews && data.refreshPreferences) {
+                refreshViewsAndPreferences();
+            }
+        }
+    }
+
+    if(window.addEventListener) {
+        window.addEventListener("message", receiveMessage, false);
+    } else if (window.attachEvent) {
+        window.attachEvent("onmessage", receiveMessage);
+    }
+    </script>
+</apex:page>

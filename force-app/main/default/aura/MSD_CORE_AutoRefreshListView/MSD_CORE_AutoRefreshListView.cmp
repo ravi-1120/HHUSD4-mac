@@ -1,0 +1,19 @@
+<aura:component controller="MSD_CORE_AutoRefreshListViewCtrl" implements="flexipage:availableForAllPageTypes,lightning:backgroundUtilityItem">
+  
+  <!-- Attributes -->
+  <aura:attribute name="pageURL" type="String"/>  
+  <aura:attribute name="isValid" type="Boolean" default="false"/>  
+  <aura:attribute name="refreshInterval" type="Integer" default="10000" />
+  <aura:attribute name="intervalId" type="String" access="private" />   
+  <aura:attribute name="objListViewNames" type="Map" />
+    
+  <!-- Component Intilization -->  
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+  <!-- Handle the aura:valueChange event -->
+  <aura:handler name="change" value="{!v.pageURL}" action="{!c.handleValueChange}"/>  
+    
+  <!-- Needed to refresh the list -->
+  <lightning:navigationItemAPI aura:id="navigationItemAPI"/>
+    
+</aura:component>

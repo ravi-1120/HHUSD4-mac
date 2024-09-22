@@ -1,0 +1,190 @@
+<apex:page showHeader="false" extensions="MSD_CORE_SubmitForApprovalController" standardStylesheets="false" standardController="Knowledge__kav" recordSetVar="articles" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Salesforce Lightning Design System Trailhead Module</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <!-- Import the Design System style sheet -->
+            <apex:slds />
+            
+            <style>
+                body{
+                //background: #fff;
+                //border-radius: 5px;
+                margin: 0;
+                }
+                .slds-scope .slds-select {
+                height: 200px !important;
+                }
+            </style>
+            
+            <script>
+            function goBack(){
+                var url = "/lightning/o/Knowledge__kav/list";
+                window.top.location.href = url; 
+            }
+            </script>
+        </head>
+        <body>
+            <apex:form >
+                <apex:actionFunction name="recallApprvalJS" action="{!recallApprval}" reRender="error" oncomplete="goBack();"/>
+                <!-- REQUIRED SLDS WRAPPER -->
+                <div class="slds-scope">
+                    <!-- PRIMARY CONTENT WRAPPER -->
+                    <div class="myapp">
+                        <!-- SECTION - BADGE COMPONENTS -->
+                        
+                        <div class="slds-page-header">
+                            <div class="slds-page-header__row">
+                                <div class="slds-page-header__col-title">
+                                    <div class="slds-media">
+                                        <div class="slds-media__body">
+                                            <div class="slds-page-header__name">
+                                                <div class="slds-page-header__name-title">
+                                                    <h1>
+                                                        <span class="slds-page-header__title slds-truncate" title="Recall approval">
+                                                            Recall articles from approval
+                                                        </span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <br/>
+                        
+                        <section aria-labelledby="badges">
+                            
+                             <apex:outputPanel rendered="{!IF(ProfileName == 'Knowledge Community User', true, false)}">  
+                            <div class="slds-card__header slds-grid  slds-align_absolute-center" style="background-color:white;" >                           
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate slds-align_absolute-center"  > 
+                                    <div class="slds-media__figure">
+                                    <h2 class="slds-card__header-title">
+                                        <span style="color:red; font-size: medium; text-align:center;">Approvers are not authorised to Recall Articles.</span>
+                                    </h2>
+                                    </div>
+                                </header>
+                            </div>
+                            <footer class="slds-card__footer">
+                                <button class="slds-button slds-button_neutral" onclick="goBack(); return false;">Cancel</button>
+                            </footer>                            
+                        </apex:outputPanel>
+                            
+                            <apex:outputPanel rendered="{!IF(ProfileName != 'Knowledge Community User', true, false)}"> 
+                            <article class="slds-card">
+                                <div class="slds-card__header slds-grid">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-standard-account" title="account">
+                                                <span class="slds-assistive-text">Selected Articles (Out of {!knowledgeList.size} selected articls {!count} is valid for recall.)</span>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h2 class="slds-card__header-title">
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                                    <span>Selected Articles <span style="color: #17b;"> (Out of {!knowledgeList.size} selected articls {!count} is valid for recall.)</span></span>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <apex:pageMessages escape="false"></apex:pageMessages>
+                                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Title">Title</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Article Number">Article Number</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Version Number">Version Number</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Approval Status">Approval Status</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Record Type">Record Type</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Valid for Recall">Valid for Recall</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <apex:repeat value="{!articleList}" var="a">
+                                                <tr class="slds-hint-parent">
+                                                    <th scope="row">
+                                                        <div class="slds-truncate" title="{!a.article.Title}">
+                                                            <a href="javascript:void(0);" tabindex="-1">{!a.article.Title}</a>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <div class="slds-truncate" title="{!a.article.ArticleNumber}">{!a.article.ArticleNumber}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate" title="{!a.article.VersionNumber}">{!a.article.VersionNumber}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate" title="{!a.article.MSD_CORE_ApprStatus__c}">{!a.article.MSD_CORE_ApprStatus__c}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate" title="{!a.article.RecordType.Name}">{!a.article.RecordType.Name}</div>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <div class="slds-truncate">
+                                                            <apex:inputCheckbox value="{!a.isValid}" disabled="true"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </apex:repeat>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <footer class="slds-card__footer">
+                                </footer>
+                            </article>
+                                                      
+                            
+                            <article class="slds-card">
+                                <div class="slds-card__header slds-grid">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-standard-account" title="account">
+                                                <span class="slds-assistive-text">Comment</span>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h2 class="slds-card__header-title">
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                                    <span>Comment</span>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <apex:inputTextarea value="{!comment}" styleClass="slds-input"/>
+                                </div>
+                                <footer class="slds-card__footer">
+                                    <button class="slds-button slds-button_brand" onclick="recallApprvalJS(); return false;">Recall</button>
+                                    <button class="slds-button slds-button_neutral" onclick="goBack(); return false;">Cancel</button>
+                                </footer>
+                            </article>
+                                </apex:outputPanel>
+                        </section>
+                        <!-- / SECTION - BADGE COMPONENTS -->
+                    </div>
+                    <!-- / PRIMARY CONTENT WRAPPER -->
+                </div>
+                <!-- / REQUIRED SLDS WRAPPER -->
+            </apex:form>
+        </body>
+    </html>
+</apex:page>

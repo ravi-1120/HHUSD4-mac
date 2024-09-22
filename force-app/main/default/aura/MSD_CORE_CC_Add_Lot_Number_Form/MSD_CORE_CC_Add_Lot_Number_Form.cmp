@@ -1,0 +1,83 @@
+<aura:component extends="c:ComponentUtils" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+	<aura:attribute name="parentId" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="mode" type="String" default="NEW" />
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'AE', 'value': 'AE'},
+    {'label': 'PQC', 'value': 'PQC'}
+    ]"/>
+    <aura:attribute name="checkboxVal" type="List"/>
+    <aura:attribute name="relatedToVal" type="String"/>
+    <aura:attribute name="checkBoxesDisabled" type="Boolean" />
+     <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:registerEvent name="MSD_CORE_CC_CloseModalEvt" type="c:MSD_CORE_CC_CloseModalEvt"/>
+
+    <aura:attribute name="primary" type="Boolean"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+    <lightning:recordEditForm aura:id="prodForm"
+            onsubmit="{!c.handleSubmit}"
+            onsuccess="{!c.handleSuccess}"
+            onerror = "{!c.handleError}"
+            recordId = "{!v.recordId}"
+            onload = "{!c.handleLoad}"
+            objectApiName="MSD_CORE_Lot_Number__c">
+            <!-- the messages component is for error messages -->
+            <lightning:messages /> 
+        <lightning:card>
+            <lightning:layout multipleRows="true">
+                <aura:if isTrue="{!v.mode!='VIEW'}">
+                    <lightning:layoutItem padding="horizontal-small" size="6">
+                        <lightning:inputField fieldName="Name" />
+                        <lightning:inputField fieldName="MSD_CORE_Lot_Number__c" />
+                        <lightning:inputField fieldName="MSD_CORE_Component_Type__c"/>
+                        <lightning:inputField fieldName="MSD_CORE_Product_Quantity__c"/>
+                        <lightning:inputField fieldName="MSD_CORE_Product_Expiration_Date__c"/>     
+                    </lightning:layoutItem>
+                    <aura:set attribute="else">
+                  		<lightning:layoutItem padding="horizontal-small" size="6">
+                            <lightning:outputField class="formfieldborder" fieldName="Name" />
+                            <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Lot_Number__c" />
+                            <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Component_Type__c" />
+                            <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Quantity__c" />
+                            <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product_Expiration_Date__c"/>               
+                        </lightning:layoutItem> 
+                    </aura:set>
+                </aura:if>
+                
+                <aura:if isTrue="{!v.mode!='VIEW'}">
+                    <lightning:layoutItem padding="horizontal-small" size="6">
+                        <lightning:inputField aura:id="field" fieldName="MSD_CORE_Product__c" fieldLabel="Product" class="fieldrequired"/>
+                         <!--<lightning:inputField aura:id="field" required="true" fieldName="MSD_CORE_Product__c" fieldLabel="Product" class="fieldrequired"/>-->
+                        <lightning:inputField fieldName="MSD_CORE_Case__c" value="{!v.parentId}" disabled="true"/>
+                    </lightning:layoutItem>
+                    <aura:set attribute="else">
+                        <lightning:layoutItem padding="horizontal-small" size="6">
+                            <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Product__c" />
+                            <lightning:outputField class="formfieldborder" fieldName="MSD_CORE_Case__c" value="{!v.parentId}"/>
+                        </lightning:layoutItem>
+                    </aura:set>
+                    
+                </aura:if>
+        	</lightning:layout><br/>
+            <aura:if isTrue="{!v.mode!='VIEW'}">
+                <div class="slds-align_absolute-center">
+                    <lightning:button 
+                                      variant="neutral"
+                                      name="cancel" 
+                                      label="Cancel" onclick="{!c.closeFocusedTab}"  />
+                    <lightning:button 
+                                      variant="brand" 
+                                      type="submit"
+                                      name="save" 
+                                      label="Save" />
+                </div>
+            </aura:if>
+        <br/>
+		</lightning:card>
+    </lightning:recordEditForm>
+</aura:component>

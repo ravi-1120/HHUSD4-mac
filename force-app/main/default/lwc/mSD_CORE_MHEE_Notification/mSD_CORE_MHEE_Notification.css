@@ -1,0 +1,436 @@
+.container {
+  max-width: 1048px;
+  margin: auto;
+}
+.pagintion-margin{
+  margin-top: 24px;
+  margin-bottom: 20px;
+}
+.header {
+  font-family: "Invention";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 45px;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+.timeslot {
+  font-family: "Invention";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.mainparent .parentnotificationmain:first-child .mainpaddingcls {
+  padding-top: 0px;
+}
+
+.mainparent {
+  margin-left: 4px;
+  margin-bottom: 16px;
+  width: 100%;
+  /*border-left: 3.5px solid #D8D8D8; */
+}
+.notification-wrap{
+  display: flex;
+  justify-content: space-around;
+}
+
+.notification-bar{
+  width: 0.5%;
+  background-color: #D8D8D8;
+  margin-right: -5px;
+  margin-left: 7px;
+  margin-top: 25px;
+}
+
+.mainparent[c-mSD_CORE_MHEE_Notification_mSD_CORE_MHEE_Notification] .parentnotificationmain:last-child[c-mSD_CORE_MHEE_Notification_mSD_CORE_MHEE_Notification] .mainpaddingcls:last-child[c-mSD_CORE_MHEE_Notification_mSD_CORE_MHEE_Notification] {
+  padding-left: 22px; /*RT bug 1225*/
+  border-left: snow;
+  /*outline: 3.5px solid white; */
+}
+
+.mainpaddingcls {
+  /*padding-top: 16px; */
+  margin-top: 16px;
+  padding-left: 22px;
+  /*border-left: 4px solid #D8D8D8; */
+}
+
+.mainredcircle {
+  height: 8px;
+  width: 8px;
+  background-color: #db281a;
+  margin-top: 8px;
+  border-radius: 10px;
+  margin-right: 8px;  /*RT bug no 1203*/
+  display: flex;
+}
+
+.mainredcircleblank {
+  height: 8px;
+  width: 8px;
+  background-color: none;
+  margin-top: 8px;
+  border-radius: 10px;
+  margin-right: 8px;
+  display: flex;
+}
+
+.notifiction_main_body {
+  display: flex;
+
+}
+
+.notifiction_body {
+  /* width: 904px; */
+  width: 90%;
+}
+
+.notification_outer_body:hover {
+  box-shadow: 0 0px 20px #c7c7c7 !important;
+}
+
+.notifiction_headerdata {
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 27px;
+  color: #333333;
+  /* padding:0px; */
+}
+
+.showdetail {
+  background-color: #ffffff;
+  text-decoration: underline;
+  font-size: 12px;
+  cursor: pointer;
+  padding-top: 4px;
+}
+
+.hidedetails {
+  background-color: #ffffff;
+  text-decoration: underline;
+  font-size: 12px;
+  margin-top: 8px;
+  cursor: pointer;
+  margin-left: 24px;
+}
+
+
+.timeshowing {
+  font-family: "Invention";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+  margin-top: 4px; /*RT bug no 1204*/
+}
+
+.childnotificatincls {
+  background-color: #f4f4f4;
+  padding: 24px 24px 8px 16px;
+  margin-left: 24px;
+  margin-top: 8px;
+}
+
+.subdetails_body {
+  margin-left: 6px;
+  padding-left: 8px;
+}
+
+.hideshowmore {
+  display: none;
+}
+
+.showshowmore {
+  display: inline-block;
+  margin-left: 24px;
+}
+
+.hidechildnotification {
+  display: none;
+}
+
+.showchildnotification {
+  display: block;
+}
+
+.subdetails {
+  display: flex;
+  border-left: 4px solid #D8D8D8;
+  padding-bottom: 16px;
+}
+
+.childnotificatincls .subdetails:first-child {
+  padding-bottom: 16px;
+  margin-top: 10px;
+}
+
+.subdetails_body {
+  margin-top: -10px;
+}
+
+.childnotificatincls .subdetails:last-child {
+  border-left: none !important;
+  margin-left: 0px;
+}
+
+.subdetails:last-child .subbordercircle {
+  margin-left: -9px !important;
+}
+
+.subdetailsdata {
+  font-family: "Invention";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: #333333;
+}
+
+.subdetails_body {
+  margin-left: 8px;
+  padding-left: 8px;
+}
+
+.showdatetime {
+  font-family: "Invention";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+}
+
+.bordercircle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #00857c;
+  background-color: #ffffff;
+  border-radius: 16px;
+  margin-left: -9px;
+  position: absolute;
+  margin-top: 10px;
+}
+
+
+.subbordercircle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #00857c;
+  background-color: #ffffff;
+  border-radius: 16px;
+  margin-left: -10px;
+  position: absolute;
+}
+
+.rightarrowdiv {
+  height: 40px;
+  width: 40px;
+  border: 2px solid #00857c;
+  border-radius: 5px;
+  display: flex;
+  margin-left: 32px;
+  cursor: pointer;
+}
+
+.rightarrow {
+  width: 16px;
+  height: 16px;
+  margin: auto;
+}
+
+.downuparrow {
+  padding: 0 0 0 10px;
+}
+
+.pipelinebtncls {
+  font-family: 'Invention';
+  font-weight: 700;
+  border: 2px solid #00857C;
+  border-radius: 5px;
+  padding: 11px 16px;
+  font-size: 14px;
+  color: #00857C;
+  line-height: 18px;
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 271px;
+  height: 40px;
+  margin: auto;
+  margin-top: 7px;
+}
+
+.pipelinebtncls span{
+  margin-left: 16px;
+}
+
+.pipelinebtncls span img {
+  width: 16px;
+  height: 10px
+}
+
+.emptystatetext {
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #757575;
+  justify-content: center;
+}
+
+.notification_outer_body {
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  padding: 16px 16px 16px 8px;  /*RT bug no 1203*/
+}
+.job {
+	text-align: end;
+    font-size: 14px;
+    font-family: 'Invention';
+    position: fixed; 
+    bottom:0%;
+    width:100%;
+	padding-right: 24px;
+	/* padding-bottom: 24px; */
+}
+
+@media screen and (max-width: 767px) {
+  .mainparent[c-mSD_CORE_MHEE_Notification_mSD_CORE_MHEE_Notification] .parentnotificationmain:last-child[c-mSD_CORE_MHEE_Notification_mSD_CORE_MHEE_Notification] .mainpaddingcls:last-child[c-mSD_CORE_MHEE_Notification_mSD_CORE_MHEE_Notification] {
+    padding-left: 0px;
+  }
+  .container {
+    margin: 48px 16px 16px 16px;
+  }
+  
+  .header {
+    margin-bottom: 0px !important;
+  }
+
+  .maindiv {
+    margin-top: 16px;
+  }
+
+  .mainparent {
+    margin-left: 0px;
+  }
+
+  .emptynotificationmain {
+    margin-top: 32px;
+    padding: 0 16px;
+  }
+
+  .timeslot {
+    margin-bottom: 16px;
+  }
+
+  .mainpaddingcls {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 0px;
+    border-left: none;
+    border-top: 1px solid #D8D8D8;
+    margin-top: 0px;
+  }
+  .notification-bar{
+    display: none;
+  }
+
+  .bordercircle {
+    display: none;
+  }
+
+  .rightarrowdiv {
+    min-width: 32px;
+    width: 32px;
+    height:32px;
+    /*padding: 11px 8px;*/          /* Commented for the alignment of the arrow for the box center*/
+  }
+
+  .rightarrow {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mainredcircle {
+    height: 8px;
+    width: 8px;
+    background-color: #db281a;
+    border-radius: 10px;
+    display: flex;
+    margin: 8px 8px 0px 0px;
+  }
+
+  .notifiction_main_body {
+    display: flex;
+  }
+
+  .childnotificatincls {
+    background-color: #f4f4f4;
+    padding: 24px 24px 8px 24px;
+    margin-left: 16px;
+
+  }
+
+  .subbordercircle {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #00857c;
+    background-color: #ffffff;
+    border-radius: 16px;
+    margin-left: -10px;
+    position: absolute;
+  }
+
+  .notification_outer_body {
+    padding: 16px 23px 16px 8px;
+  }
+
+  .timeshowing {
+    padding-top: 4px;
+  }
+
+  .showdetail {
+    padding-top: 8px;
+  }
+
+  .showdatetime {
+    padding-top: 4px;
+  }
+
+  .mainparent .parentnotificationmain:first-child .mainpaddingcls {
+    border-top: none;
+  }
+
+  .mainredcircleblank {
+    margin: 8px 8px 0px 0px;
+  }
+
+  .childnotificatincls .subdetails:first-child {
+    margin-top: 10px;
+  }
+
+  .subdetails_body {
+    margin-top: -10px;
+  }
+  .notifiction_body {
+    width: 100%;
+  }
+   .job{
+	    position: fixed;
+	}
+}

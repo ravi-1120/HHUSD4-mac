@@ -1,0 +1,29 @@
+.selector-label {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: var(--lwc-fontWeightBold, 700);
+    line-height: var(--lwc-lineHeightHeading, 1.25);
+    --list-view-selector-size: 1.125rem;
+    --sds-c-button-text-color: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+    --sds-c-button-text-color-active: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+    --sds-c-button-text-color-hover: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+    --sds-c-button-sizing-border: 0px;
+    --lwc-sizeMedium: var(--lwc-sizeLarge);
+  }
+  
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .flex-row:hover {
+    border-bottom: var(--lwc-borderWidthThin,1px) solid currentColor;
+  }
+  
+  .center-icon {
+    align-self: center;
+  }
+
+  .view-option {
+    width: clamp( var(--lwc-sizeXSmall,12rem), var(--lwc-sizeSmall,15rem) , var(--lwc-sizeMedium,20rem));
+  }

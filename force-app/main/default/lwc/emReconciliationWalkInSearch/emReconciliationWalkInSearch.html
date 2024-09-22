@@ -1,0 +1,88 @@
+<template>
+    <lightning-card class={containerClass}>
+        <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+        <div class="slds-modal__header">
+            <div if:false={componentInitialized}>
+                <div class="walk-in-name slds-text-heading_medium">{walkInName}</div>
+                <div class="slds-text-title">{walkInTypeLabel}</div>
+            </div>
+        </div>
+        <div class="body">
+            <div if:false={componentInitialized}>
+                <div class="status-actions">
+                    <span class="status-badge">
+                        <lightning-badge class={statusBadgeStyle} label={walkInStatusLabel}></lightning-badge>
+                        <lightning-helptext class="badge-tooltip" content={tooltipHelpText} if:true={showTooltip}></lightning-helptext>
+                    </span>
+                    <div class="actions" if:false={reconciliationComplete}>
+                        <div class="slds-button-group-row">
+                            <lightning-button class="slds-button-group-item" data-id="search-for-matches-button" disabled={loading} if:false={matched} label={searchForMatchesButtonLabel} onclick={searchForMatches}></lightning-button>
+                            <lightning-button class="slds-button-group-item" data-id="dismiss-button" disabled={disableDismiss} if:false={matched} label={dismissButtonLabel} onclick={dismissWalkIn}></lightning-button>
+                            <lightning-button class="slds-button-group-item" data-id="reset-match-button" disabled={loading} if:true={matched} label={resetMatchButtonLabel} onclick={confirmResetMatch}></lightning-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-fields slds-p-bottom_x-small">
+                    <div class="fields-section slds-p-bottom_small">
+                        <template for:each={inputFields} for:item="field">
+                            <div key={field.apiName} class="field">
+                                <lightning-input data-id={field.name} label={field.label} name={field.name} read-only={reconciliationComplete} required={field.required} type={field.type} value={field.value} onchange={handleChange} data-validity></lightning-input>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div if:true={readOnlyFields.length} class="read-only-fields slds-border_top slds-m-horizontal_large">
+                    <div class="fields-section">
+                        <template for:each={readOnlyFields} for:item="field">
+                            <div key={field.apiName} class="field">
+                                <div if:true={field.isCheckbox} data-id={field.name} class="slds-form-element slds-grow">
+                                    <div class="slds-form-element__label slds-no-flex">{field.label}</div>
+                                    <div class="slds-form-element__control slds-grow">
+                                        <input class="slds-checkbox slds-checkbox_standalone" type='checkbox' checked={field.value} disabled/>
+                                        <span class="slds-checkbox_faux"></span>
+                                    </div>
+                                </div>
+                                <lightning-input if:false={field.isCheckbox} data-id={field.name} label={field.label} name={field.name} read-only=true type={field.type} value={field.value} data-validity></lightning-input>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="status-actions account-action">
+                    <div class="actions" if:false={reconciliationComplete}>
+                        <div class="slds-button-group-row">
+                            <lightning-button class="slds-button-group-item" data-id="create-new-account-button" disabled={disableAccountCreation} if:true={hasAccountCreationPermission} label={createNewAccountButtonLabel} onclick={createNewAccount}></lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-is-relative">
+                <div class="results-table slds-border_top">
+                    <c-em-reconciliation-search-datatable
+                        if:false={componentInitialized}
+                        columns={searchColumns}
+                        data={searchResults}
+                        hide-checkbox-column
+                        key-field="Id"
+                        onrowaction={confirmResetMatch}
+                    ></c-em-reconciliation-search-datatable>
+                    <div if:false={loading}>
+                        <div class="no-results slds-align_absolute-center" if:true={showNoResultsLabel}>
+                            <span class="slds-text-heading_small">{noResultsLabel}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div slot="footer">
+            <div class="footer-section" if:false={componentInitialized}>
+                <lightning-button disabled={loading} if:true={cancelButtonLabel} label={cancelButtonLabel} onclick={exit}></lightning-button>
+                <div class="place-in-line">{showing}</div>
+                <div class="slds-button-group-row">
+                    <lightning-button class="slds-button-group-item" disabled={isFirstSelection} if:true={previousButtonLabel} label={previousButtonLabel} onclick={handlePrevious}></lightning-button>
+                    <lightning-button class="slds-button-group-item" if:true={nextDoneButtonLabel} label={nextDoneButtonLabel} onclick={handleNext} variant="brand"></lightning-button>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

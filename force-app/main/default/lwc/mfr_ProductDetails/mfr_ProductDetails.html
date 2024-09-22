@@ -1,0 +1,454 @@
+<template>
+
+    <div class="body bodyh">
+        <div class="bg slds-p-vertical_medium" style={backgroundStyle}>
+            <div class="container">
+                <p class="p_cls slds-p-bottom_small"> <a href={navigateToProductList}
+                        style="text-decoration: underline !important;" onclick={handleproduct}>Products</a> <span> / </span><a
+                        class="b cursorcls"> {product.MSD_CORE_Product_Labeling__c} </a></p>
+                <a class=" b cursorcls"> 
+                    <!-- Added by Sabari - To Show Generic Name with Brand-->
+                    <template if:false={showBrandnamewithGenericName}>
+                         <span class="prod_name">{product.Name}</span>
+                    </template>
+                    <template if:true={showBrandnamewithGenericName}>
+                         <span class="prod_name">{product.Name} {product.MSD_CORE_Generic_Name__c}</span>
+                    </template>
+                </a>
+                <p class=" b header_des">
+                    <template if:false={showBrandnamewithGenericName}>
+                        <!-- Added by Sabari - MFRUS-95 -->
+                        <span class="set_dosage prod_desc slds-p-left_small nopad" data-name={product.MSD_CORE_Generic_Name__c} data-value={product.MSD_CORE_Dosage_Form_and_Strength__c}>{product.MSD_CORE_Generic_Name__c}
+                            {product.MSD_CORE_Dosage_Form_and_Strength__c}
+                        </span>
+                    </template>	 
+					<!-- Added by Sabari - To Show Generic Name with Brand-->
+                    <template if:true={showBrandnamewithGenericName}>
+                        <!-- Added by Sabari - Keytruda Product Launch -->
+                        <span class="set_dosage prod_desc slds-p-left_small nopad"  data-value={product.MSD_CORE_Dosage_Form_and_Strength__c}>
+                            {product.MSD_CORE_Dosage_Form_and_Strength__c}
+                        </span>
+                    </template>
+                </p>    
+                <div class="slds-wrap slds-grid_vertical-align-center header_button">
+                    <template if:true={product.MSD_CORE_Prescribing_Information__c}>
+                         <!-- Modified by Sabari - MFRUS-95 -->
+                        <a href={product.MSD_CORE_Prescribing_Information__c} target="_blank" class="bt1 slds-p-around_small btcls"
+                            onclick={handleLinkClick} data-value={product.Name} data-prodname="pi.pdf" data-prodpath={product.MSD_CORE_Prescribing_Information__c} data-prodlabel={label.preinfo}>
+                            <!-- Modified by Sabari - : [MFRUS-112] Bold Tag -->
+                            <span><b>{label.preinfo}</b>
+                                <img class="slds-p-left_small imgds" src={presinfo}>
+                            </span>
+                        </a>
+                    </template>
+                    <template if:true={product.MSD_CORE_Medication_Guide__c}>
+                         <!-- Modified by Sabari - MFRUS-95 -->
+                        <a href={product.MSD_CORE_Medication_Guide__c} target="_blank" class="bt1 slds-p-around_small btcls medcls" 
+                            onclick={handleLinkClick} data-value={product.Name} data-prodpath={product.MSD_CORE_Prescribing_Information__c} data-prodlabel={label.mediguide}>
+                            <!-- Modified by Sabari - : [MFRUS-112] Bold Tag -->
+                            <span><b>{label.mediguide}</b>
+                                <img class="slds-p-left_small imgds" src={presinfo}>
+                            </span>
+                        </a>
+                    </template>
+                    <template if:true={product.MSD_CORE_Patient_information__c}>
+                        <a href={product.MSD_CORE_Patient_information__c} target="_blank" class="bt1 slds-p-around_small btcls medcls" 
+                            onclick={handleLinkClick} data-value={product.Name} data-prodpath={product.MSD_CORE_Patient_information__c} data-prodlabel={label.patientinfo}>
+                            <!-- Modified by Sabari - : [MFRUS-112] Bold Tag -->
+                            <span><b>{label.patientinfo}</b>
+                                <img class="slds-p-left_small imgds" src={presinfo}>
+                            </span>
+                        </a>
+                    </template> 
+                    <template if:true={product.MSD_CORE_Instructions_For_Use_Link__c}>
+                         <!-- Modified by Sabari - MFRUS-95 -->
+                        <a href={product.MSD_CORE_Instructions_For_Use_Link__c} target="_blank" class="bt1 slds-p-around_small btcls"
+                            onclick={handleLinkClick} data-value={product.Name} data-prodname="pi.pdf" data-prodpath={product.MSD_CORE_Instructions_For_Use_Link__c} data-prodlabel={product.MSD_CORE_Instructions_For_Use_Label__c}>
+                            <!-- Modified by Sabari - : [MFRUS-112] Bold Tag -->
+                            <span><b>{product.MSD_CORE_Instructions_For_Use_Label__c}</b>
+                                <img class="slds-p-left_small imgds" src={presinfo}>
+                            </span>
+                        </a>
+                    </template>
+                    <!-- Added by Sabari - : [E2ESE-1770] Patient Information button -->
+                    <a href={product.MSD_CORE_HCP_site__c} target="_blank" class="bt2"
+                        onclick={handleLinkClick} data-value={product.Name} data-prodpath={product.MSD_CORE_HCP_site__c} data-prodlabel={label.hcpsite}>
+                        <!-- Modified by Sabari - : [MFRUS-112] Bold Tag -->
+                        <span><b>{label.hcpsite}</b></span>
+                           <span> <img class="slds-p-left_small" src={hcpimg} style="padding-bottom: 5px;">
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <!-- <div class="slds-p-top_x-large"> -->
+                <div class="containermob containercls">
+                    <a  class="b cursorcls mob_concls leftpad">
+                      <template if:false={showheader} > 
+                        <!-- <span  class="resourceHead slds-p-bottom_medium slds-p-left_small">Resource catalog</span> -->
+                        <div  class="catpadn">Resource catalog</div>
+                      </template>
+                    </a>
+                    <template if:true={optionlistFlag}>
+                        <div class="slds-p-horizontal_small slds-p-around_large optcls">
+                            <c-multi-select-picklist-lwc if:true={optionslst} options={optionslst}
+                                onvaluechange={handleValueChange} onclick={handleOptions}
+                                label="Filter by cancer type">
+                            </c-multi-select-picklist-lwc>
+                        </div>
+                        <template if:true={showfilterDisplay}>
+                            <template if:true={fitlers}>
+                                <div if:true={fitlers}>
+                                    <div class="slds-p-around_large nocardpad">
+                                        <template for:each={descriptions} for:item="filter">
+                                            <div key={filter.label} class="slds-box slds-p-around_large cardpad" style="margin-bottom:24px;">
+                                                <p class="filterlabel" key={filter.label}>{filter.label}</p>
+                                                <template if:false={filter.show}>
+                                                    <div key={filter.label} class="slds-float_right"
+                                                        style="display:inline-block;">
+                                                        <lightning-icon style="--sds-c-icon-color-foreground:#00857C;"
+                                                            size="xx-small" icon-name="utility:add"
+                                                            data-id={filter.label} id={filter.label}
+                                                            onclick={handleDescription} alternative-text="Expand"
+                                                            variant="bare" title="Descriptions"
+                                                            class="iconclass1">
+                                                        </lightning-icon>
+                                                    </div>
+                                                </template>
+                                                <template if:true={filter.show}>
+                                                    <div class="slds-float_right">
+                                                        <lightning-icon size="xx-small"
+                                                            style="--sds-c-icon-color-foreground:#00857C;"
+                                                            icon-name="utility:dash" data-id={filter.label}
+                                                            id={filter.label} onclick={handleDescription}
+                                                            alternative-text="Expand" variant="bare"
+                                                            title="Descriptions"
+                                                            class="iconclass">
+                                                        </lightning-icon>
+                                                    </div>
+                                                </template>
+                                                <div class="infopad">
+                                                    <lightning-formatted-rich-text  if:true={filter.show} data-id={filter.label} class="mfr_indicationtxt" value={filter.description}></lightning-formatted-rich-text>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+
+                    <lightning-layout padding="around-small">
+                        <template if:true={catalog}>
+                            <div class="lgtcls">
+                                <template for:each={catalog} for:item="prods">
+                                    <div key={prods.Id} class="card_margin"><!--1625: Ramana-->
+                                        <!-- <lightning-card class={prods.lcardBgColorCss}> -->
+                                        <div class="box_cls cardpadin">
+                                            <article class={prods.lcardBgColorCss}>
+                                                <div class="slds-card__body" part="body">
+                                                    <div>
+                                                        <div class={prods.cardBgColorCss}>
+                                                            <div class="slds-grid slds-size_12-of-12 pnon pnone">
+                                                                <!-- START ---------- E2ESE-911 ---------- Read Unread Red Dot ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                                <template if:true={prods.isViewImmediately}>
+                                                                    <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                        <template if:false={prods.MSD_CORE_Read__c}>
+                                                                            <div class="readdotcls slds-size_1-of-12">
+                                                                                
+                                                                            </div>
+                                                                        </template>
+                                                                    </template>
+                                                                </template>
+                                                                <template if:true={prods.isViewUponRequest}>
+                                                                    <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                        <template if:false={prods.MSD_CORE_Read__c}>
+                                                                            <div class="readdotcls slds-size_1-of-12">
+                                                                                
+                                                                            </div>
+                                                                        </template>
+                                                                    </template>
+                                                                </template>
+                                                                <!-- END ---------- E2ESE-911 ---------- Read Unread Red Dot ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                                <p if:true={prods.isComingSoon} class="b cursorcls mob_cursorcls cmsbtmpad slds-size_10-of-12 title_dev_cls">
+                                                                    <!--RT 23-02-2023 bug no 39-->
+                                                                    <span class="resourceHead1">
+                                                                        {prods.MSD_CORE_Resource_Title__c}
+                                                                    </span>
+                                                                </p>
+                                                                <p if:false={prods.isComingSoon} class="b cursorcls mob_cursorcls slds-size_10-of-12 title_dev_cls">
+                                                                    <!--RT 23-02-2023 bug no 39-->
+                                                                    <span class="resourceHead1">
+                                                                        {prods.MSD_CORE_Resource_Title__c}
+                                                                    </span>
+                                                                </p>
+                                                                <div class="slds-size_2-of-12 book_main_cls bookmark_dev_cls">
+                                                                    <div if:true={prods.isComingSoon} class="book_cls bookmark_cls">
+                                                                         
+                                                                    </div>
+                                                                    <div if:false={prods.isComingSoon} class="book_cls bookmark_cls">
+                                                                        <template if:true={prods.Libraries__r}>
+                                                                            <div>
+                                                                                <!-- START ---------- E2ESE-911 ---------- Partial Bookmark (Updated Condition) ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                                                <template if:true={prods.isViewImmediately}>
+                                                                                    <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                                        <a class="hoverstyle partialbookmark">
+                                                                                            <img data-id={prods.Id} data-pname={product.Name} 
+                                                                                                data-name={prods.Name} src={bookmarkSelect}>
+                                                                                        </a>
+                                                                                    </template>
+                                                                                    <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                                        <a class="hoverstyle"><img data-id={prods.Id} data-pname={product.Name} data-name={prods.Name}
+                                                                                            src={bookmarkSelect}
+                                                                                            onclick={handlerBookMarkRemove} style="width:24px;height:24px;"></a> 
+                                                                                    </template>
+                                                                                </template>
+                                                                                <template if:false={prods.isViewImmediately}>
+                                                                                        <a class="hoverstyle"><img data-id={prods.Id} data-pname={product.Name} data-name={prods.Name}
+                                                                                                src={bookmarkSelect}
+                                                                                                onclick={handlerBookMarkRemove} style="width:24px;height:24px;"></a> 
+                                                                                </template>
+                                                                                <!-- END ---------- E2ESE-911 ---------- Partial Bookmark (Updated Condition) ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                                            </div>
+                                                                        </template>
+                                                                        <template if:false={prods.Libraries__r}>
+                                                                            <div>
+                                                                                <a class="hoverstyle"><img data-id={prods.Id} data-pname={product.Name} data-name={prods.Name} src={like}
+                                                                                        onclick={handlerBookMark} style="width:24px;height:24px;"></a>
+                                                                            </div>
+                                                                        </template>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-col slds-size_10-of-12 pnon slds-p-bottom_medium descc">
+                                                                <!--RT 23-02-2023 bug no 39-->
+                                                                <a if:true={prods.isReadMore} class="b cursorcls_desc_width">
+                                                                    <div class="updatejobcd" data-id={prods.catalogDesID} data-value={prods.MSD_CORE_Description__c}>
+                                                                        {prods.shortDescription}... <span class="readmore"
+                                                                            data-id={prods.catalogID} data-prodtname={product.Name} data-contname={product.MSD_CORE_Generic_Name__c} onclick={handleReadMore}>Read
+                                                                            more</span><div class="jobid"></div>  
+                                                                            </div> <!--RT-N-1053-->
+                                                                </a>
+                                                                <a if:false={prods.isReadMore} class="b cursorcls_desc_width">
+                                                                     <!-- /* Added by Sabari to add the new line in Catalog description */ -->
+                                                                    <div class="updatedesc" data-id={prods.catalogDesID} data-value={prods.MSD_CORE_Description__c}> 
+                                                                        {prods.MSD_CORE_Description__c} </div>
+                                                                </a>
+                                                            </div>
+                                                            <!--  <div class="slds-col slds-size_1-of-12 book_main_cls">
+
+                                                            </div>-->
+                                                            <!--RT mob-warp 23-02-2023 Bug_Web_039-->
+                                                            <div class="slds-grid mob-warp label_main">
+                                                                <template if:true={prods.isComingSoon} >
+                                                                    <div class= "btntopmarg">
+                                                                        <a class="hoverstyle">
+                                                                            <div class="res_btn" data-id={prods.Id} data-pname={product.Name} data-name={prods.Name}
+                                                                                variant="brand-outline"
+                                                                                title="Schedule appointment"
+                                                                                label="Schedule appointment"
+                                                                                data-btnname="Schedule appointment"
+                                                                                data-cname={prods.Name}
+                                                                                onclick={scheduleclk}>
+                                                                                <span> Schedule an appointment </span>
+                                                                                <img class="cmsarwcls" src={rarrow}>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </template>
+                                                                <template if:false={prods.isComingSoon} >
+                                                                 <div class="slds-col slds-size_9-of-12 pnon postcls">
+                                                                    <!-- START ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                                    <template if:true={prods.isViewInMeeting}>
+                                                                        <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                            <p class="live">Live Presentation </p>
+                                                                        </template>
+                                                                    </template>
+                                                                    <template if:true={prods.isViewImmediately}>
+                                                                        <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                            <p class="live">Post-presentation materials</p>
+                                                                        </template>
+                                                                    </template>
+                                                                    <template if:true={prods.isViewImmediately}>
+                                                                        <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                            <p class="pdflabelcls">PDF </p>
+                                                                        </template>
+                                                                    </template>
+                                                                    <template if:true={prods.isViewUponRequest}>
+                                                                        <p class="pdflabelcls">Request-only PDF</p>
+                                                                    </template>
+                                                                    <!-- END ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                                    <!-- 1625----Rusheel -->
+                                                                    
+                                                                    <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                            <template if:true={prods.isExpirationDateIn10Days}>
+                                                                                <p class="expDate">{prods.showFormattedDate}</p>
+                                                                            </template>
+                                                                            <template if:false={prods.isExpirationDateIn10Days}>
+                                                                                <p class="norDate">{prods.showFormattedDate}</p>
+                                                                            </template>
+                                                                    </template>
+                                                                    
+                                                                    <!-- 1625----Rusheel -->
+                                                                </div>
+            
+                                                                <div class="slds-col book_main_cls slds-size_1-of-12" style="flex: auto;">
+                                                                    <div class="book_cls bookmark_btn_cls">
+                                                                        <!-- START ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards(Removing old logic and implement new) ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                                        <!-- <template if:true={prods.isViewUponRequest}> -->
+                                                                        <template if:true={prods.isViewInMeeting}>
+                                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>      <!--New Added-->
+                                                                                <div>
+                                                                                    <a class="hoverstyle">
+                                                                                        <div class="req_acc" data-id={prods.Id} data-pname={product.Name} data-name={prods.Name}
+                                                                                            variant="brand-outline"
+                                                                                            title="Schedule appointment"
+                                                                                            label="Schedule appointment"
+                                                                                            data-btnname="Schedule appointment"
+                                                                                            data-cname={prods.Name}
+                                                                                            onclick={scheduleclk}>
+                                                                                            <span> Schedule appointment </span>
+                                                                                            <img class="slds-p-left_medium" src={cal}>
+                                                                                        </div>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </template>
+                                                                        </template>
+                                                                        <template if:true={prods.isViewImmediately}>
+                                                                            <div>
+                                                                                <a class="res_btn" variant="brand-outline" data-pname={prods.Name} data-cname={prods.Name}
+                                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                                    title="View Resource" onclick={handleClick}
+                                                                                    label="View Resource" data-id={prods.Id} data-read={prods.MSD_CORE_Read__c}
+                                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}>
+                                                                                    View resource
+                                                                                    <img class="slds-p-left_medium" src={rarrow}>
+                                                                                </a>
+                                                                            </div>
+                                                                        </template>
+                                                                        <!-- Ravi Modi ------ START ------ For View Upon Request ------ -->
+                                                                        <template if:true={prods.isViewUponRequest}>
+                                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                                <!-- Need to add changes -->
+                                                                                <div> <!--RT-N-1053-->
+                                                                                    <a class="req_acc" variant="brand-outline" data-pname={product.Name} data-cname={prods.Name}
+                                                                                        data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                                        title="Request access" onclick={scheduleclk}
+                                                                                        label="Request access" data-id={prods.Id} data-read={prods.MSD_CORE_Read__c}
+                                                                                        data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                                        data-btnname="Request access">
+                                                                                        Request access
+                                                                                        <img  class="slds-p-left_medium-unique" src={lockimage}>
+                                                                                    </a>
+                                                                                </div>   
+                                                                            </template>
+                                                                        </template>
+                                                                        <template if:true={prods.isViewUponRequest}>
+                                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                                <div>
+                                                                                    <a class="res_btn" variant="brand-outline" data-pname={prods.Name} data-cname={prods.Name}
+                                                                                        data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                                        title="View Resource" onclick={handleClick}
+                                                                                        label="View Resource" data-id={prods.Id} data-read={prods.MSD_CORE_Read__c}
+                                                                                        data-check={prods.MSD_CORE_Post_Presentation__c}>
+                                                                                        View Resource
+                                                                                        <img class="slds-p-left_medium" src={rarrow}>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </template>
+                                                                        </template>
+                                                                        <!-- Ravi Modi ------ END ------ For View Upon Request ------ -->
+                                                                        <!-- END ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards(Removing old logic and implement new) ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                                    </div>
+
+                                                                </div>
+                                                                </template>
+                                                                <!-- END ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <!-- </lightning-card> -->
+                                    </div>
+                                </template>
+                                <template if:true={totalCount}>
+                                    <div if:true={showPagination} class="slds-align_absolute-center">
+                                        <c-do-pagination page-size={pageSize} total-count={totalCount} product-name={product.Name}
+                                            onmycustomevent={handleCustomEvent}>
+                                        </c-do-pagination>
+                                    </div>
+                                </template>
+                                <div class="mfrsf">
+                                    <c-mfr_-safety product={prodrecId}></c-mfr_-safety>
+                                </div>
+
+                                <div class="slds-p-bottom_xx-large">
+                                    <lightning-record-view-form record-id={recordId}
+                                        object-api-name="MSD_CORE_Product_Payor__c">
+                                        <lightning-output-field variant="label-hidden"
+                                            field-name="MSD_CORE_Information_About_Product__c"></lightning-output-field>
+                                    </lightning-record-view-form>
+                                </div>
+                            </div>
+                        </template>
+                        <lightning-layout-item>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+        </div>
+        <template if:false={footer}>
+            <div class={accordianClass} if:true={product.Name}>
+                <c-sample product-name={product.Name} apply-filter={isShowModal}></c-sample>
+            </div>
+        </template>
+    </div>
+
+    <!-- modal start -->
+    <template if:true={isShowModal}>
+        <section role="dialog" tabindex="-1" class={modalClass} onclick={closeModal}>
+            <div class="slds-modal__container" onclick={closeModal}>
+                <!-- modal header start -->
+                <header class="slds-modal__header" onclick={showModal}>
+                    <div class="slds-grid slds-wrap ">
+                        <div class="slds-col slds-size_10-of-12 slds-large-size_10-of-12 slds-text-align_left">
+                            <span class="header-modl-title header webkithyphensnone">Indication for GARDASIL®9 (Human Papillomavirus 9-valent Vaccine, Recombinant)</span>
+                        </div>
+                        <!-- Added class closediv for mobile screen -->
+                        <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12 slds-text-align_right closediv">
+                            <!-- <span ><img class="img-hover" src={closemodal} onclick={closeModal}></span> -->
+                            <span class="img-hoverspan" data-label='back to screen_X' onclick={closeModal}><img class="img-hover"
+                            src={cross} ></span> <!--RT GA bug-->
+                        </div>
+                    </div>
+                </header>
+
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-horizontal_large slds-p-vertical_large" onclick={showModal}>
+                    <p class="modal-para">GARDASIL 9 is a vaccine indicated in females 9 through 45 years of age for the prevention of cervical, vulvar, vaginal, anal, oropharyngeal and other head and neck cancers caused by human papillomavirus (HPV) Types 16, 18, 31, 33, 45, 52, and 58; cervical, vulvar, vaginal, and anal precancerous or dysplastic lesions caused by HPV Types 6, 11, 16, 18, 31, 33, 45, 52, and 58; and genital warts caused by HPV Types 6 and 11.</p>
+                    <p class="modal-para">GARDASIL 9 is indicated in males 9 through 45 years of age for the prevention of anal, oropharyngeal and other head and neck cancers caused by HPV Types 16, 18, 31, 33, 45, 52, and 58; anal precancerous or dysplastic lesions caused by HPV Types 6, 11, 16, 18, 31, 33, 45, 52, and 58; and genital warts caused by HPV Types 6 and 11. </p>
+                    <p class="modal-para">The oropharyngeal and head and neck cancer indication is approved under accelerated approval based on effectiveness in preventing HPV-related anogenital disease. Continued approval for this indication may be contingent upon verification and description of clinical benefit in a confirmatory trial.</p>
+                    <p class="modal-para">GARDASIL 9 does not eliminate the necessity for vaccine recipients to undergo screening for cervical, vulvar, vaginal, anal, oropharyngeal and other head and neck cancers as recommended by a health care provider.</p>
+                    <p class="modal-para">GARDASIL 9 has not been demonstrated to provide protection against diseases caused by:</p>
+                    <p class="modal-para">HPV types not covered by the vaccine.</p>
+                    <p class="modal-para">HPV types to which a person has previously been exposed through sexual activity.</p>
+                    <p class="modal-para">Not all vulvar, vaginal, anal, oropharyngeal and other head and neck cancers are caused by HPV, and GARDASIL 9 protects only against those vulvar, vaginal, anal, oropharyngeal and other head and neck cancers caused by HPV Types 16, 18, 31, 33, 45, 52, and 58.</p>
+                    <p class="modal-para">GARDASIL 9 is not a treatment for external genital lesions; cervical, vulvar, vaginal, anal, oropharyngeal and other head and neck cancers; or cervical intraepithelial neoplasia (CIN), vulvar intraepithelial neoplasia (VIN), vaginal intraepithelial neoplasia (VaIN), or anal intraepithelial neoplasia (AIN).</p>
+                    <p class="modal-para">Vaccination with GARDASIL 9 may not result in protection in all vaccine recipients.</p>  
+                </div>
+
+                <!-- modal footer start-->
+                <footer class="slds-modal__footer footermodel" onclick={showModal}>
+                    <button class="medi-btn-modal" data-label='back to screen_button' onclick={closeModal}> 
+                        <span class="continue-text">Close</span>
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class={backdropClass} onclick={closeModal}></div>
+    </template>
+    <!-- modal end -->
+</template>

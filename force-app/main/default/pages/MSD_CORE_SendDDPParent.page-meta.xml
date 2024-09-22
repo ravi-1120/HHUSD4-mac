@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>46.0</apiVersion>
+    <availableInTouch>true</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>https://msdlogin--hhusd8--c.cs65.visual.force.com/apex/MSD_CORE_SendDDP?url=</description>
+    <label>SendDDPParent</label>
+</ApexPage>

@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="VeevaEventAttendeeEditOverride" ref="veevaEventAttendeeEditOverride" label="Veeva Event Attendee Edit Override">
+		Used to override Event Attendee redirects in Lightning.
+	</aura:example>
+</aura:documentation>

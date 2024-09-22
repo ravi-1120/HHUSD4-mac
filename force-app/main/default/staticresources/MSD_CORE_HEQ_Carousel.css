@@ -1,0 +1,40 @@
+.carousel .slds-button--icon-border, .slds-button--icon-border-filled, .slds-button_icon-border, .slds-button_icon-border-filled {
+
+    display: none;
+ }
+
+ .carousel.slds-button.slds-button_icon {
+    color: var(--dxp-g-neutral-3);
+    display: none;
+}
+.slds-carousel__content {
+    display: none;
+}
+
+.slds-carousel__indicator-action.slds-is-active, .slds-carousel__indicator-action.slds-is-active:hover {
+    background: #00857C;
+    border-color: #00857C;
+}
+.slds-carousel__indicator-action.slds-is-active {
+    background: #00857C;
+    border-color: #00857C;
+}
+
+@media (min-width: 1024px) {
+    .carousel {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+    .carouselimgcls {
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .carousel {
+        /* padding: 0 50px; */
+    }
+    .carouselimgcls {
+        max-width: 80%;
+    }
+}

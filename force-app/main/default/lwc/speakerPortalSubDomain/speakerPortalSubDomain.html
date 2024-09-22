@@ -1,0 +1,39 @@
+<template>
+    <lightning-card class="slds-card_boundary slds-show slds-m-vertical_medium">
+        <h2 slot="title">
+            {messageMap.domainCardTitle}
+        </h2>
+        <lightning-button-group slot="actions">
+            <lightning-button onclick={displayDomainModal} label={messageMap.editButtonLabel} disabled={disableEdit} title={messageMap.editButtonLabel}></lightning-button>
+        </lightning-button-group>
+        <div>
+            <lightning-layout multiple-rows class="container-max-width">
+                <lightning-layout-item size="6" padding="horizontal-medium">
+                    <div class="slds-text-align_left">{messageMap.subDomainFieldLabel}</div>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="horizontal-medium">
+                    <div class="slds-text-align_left">{messageMap.lastModFieldLabel}</div>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="horizontal-medium">
+                    <div class="slds-text-align_left subdomain-field">{orgInfo.domain}</div>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="horizontal-medium">
+                    <div class="slds-text-align_left">
+                        <lightning-formatted-date-time
+                            value={orgInfo.lastModifiedDate}
+                            year="numeric"
+                            month="numeric"
+                            day="numeric"
+                        >
+                        </lightning-formatted-date-time>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </lightning-card>
+    <c-speaker-portal-sub-domain-modal if:true={showDomainModal}
+        org-info={orgInfo}
+        onclose={closeDomainModal}
+        onsave={saveDomainModal}>
+    </c-speaker-portal-sub-domain-modal>
+</template>

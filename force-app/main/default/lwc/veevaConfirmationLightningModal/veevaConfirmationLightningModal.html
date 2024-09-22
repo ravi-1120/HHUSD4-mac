@@ -1,0 +1,23 @@
+<template>
+    <lightning-modal-header if:true={title} label={title}>
+    </lightning-modal-header>
+    <lightning-modal-body>
+        <lightning-layout horizontal-align={messageHorizontalAlign}>
+            <div if:true={messages} class="slds-var-m-around_medium">
+                <template for:each={messages} for:item="message">
+                    <p class={messageStyling} key={message}>{message}</p>
+                </template>
+            </div>
+        </lightning-layout>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-layout horizontal-align={buttonHorizontalAlign}>
+            <lightning-button variant={cancelButtonVariant} data-id="confirm-modal-cancel-button"
+                class="slds-button" label={cancelButtonLabel}
+                onclick={handleModalCancel}></lightning-button>
+            <lightning-button variant={okayButtonVariant} data-id="confirm-modal-ok-button"
+                class="slds-button" label={confirmButtonLabel}
+                onclick={handleModalConfirm}></lightning-button>
+        </lightning-layout>
+    </lightning-modal-footer>
+</template>

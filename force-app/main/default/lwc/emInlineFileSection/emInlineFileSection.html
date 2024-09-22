@@ -1,0 +1,13 @@
+<template>
+  <c-section-template ctrl={ctrl} open>
+    <div slot="content">
+      <c-veeva-related-list-table
+        if:false={loading}
+        meta={meta}
+        parent-id={id}
+        page-ctrl={pageCtrl}
+        size="host"
+      ></c-veeva-related-list-table>
+    </div>
+  </c-section-template>
+</template>

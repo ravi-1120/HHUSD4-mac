@@ -1,0 +1,14 @@
+<aura:component implements="force:hasRecordId,lightning:actionOverride" access="global" >
+	<aura:attribute name="newCase" type="Object" access="private"/>
+    <aura:attribute name="simpleNewCase" type="Object" access="private"/>
+    <aura:attribute name="newCaseError" type="String" access="private"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <force:recordData aura:id="caseRecordCreator"
+        layoutType="FULL"
+        targetRecord="{!v.newCase}"
+        targetFields="{!v.simpleNewCase}"
+        targetError="{!v.newCaseError}"
+        />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+</aura:component>

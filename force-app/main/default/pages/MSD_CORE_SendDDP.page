@@ -1,0 +1,32 @@
+<apex:page sidebar="false" standardStylesheets="false" showHeader="false" lightningStylesheets="false">
+    <script>
+        //alert('{!$CurrentPage.parameters.url}');
+        
+        function callUnload()
+        {
+            //alert('d');
+        }
+        
+        window.onbeforeunload = function(e) {
+            //alert('d');
+        };
+        
+        var iframe = document.getElementById('iframe');
+        //iframe exists
+        if(iframe){
+            var iframe_window = document.getElementById('iframe').contentWindow;
+            //window exists (won't if frame hasn't loaded)
+            if(iframe_window){
+                iframe_window.redirectWindow = window.redirectWindow;
+            }
+        }
+        
+        function redirectWindow(url) {
+            window.location.href = url;
+        }
+    </script>
+    
+    <body onunload="callUnload();">
+        <iframe id="iframe" style="border:none; height: 550px; width: 100%;" src="https://msdlogin--hhusd8--loop.cs65.visual.force.com/apex/looplus?filter=Comp&eid=5000m000006LXHUAA4&accountId=0015C00000LNgsrQAD&header=false&sessionId=00D0m0000001LZh%21AQUAQPqBE8l4aRi2f.idbdVz.vktv_RoXY.XJ58iX6oYVT2QQF.tzJaOP5zZLH0RHOkU3PwjtCwRjfFhQWlS0SWB7ZUXTxhG&lightningExperience=false&hidecontact=true"></iframe>
+    </body>
+</apex:page>

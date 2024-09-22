@@ -1,0 +1,417 @@
+.paginationjs {
+    line-height: 1.6;
+    font-family: 'Invention';
+    font-size: 14px;
+    box-sizing: initial;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+   
+}
+
+.paginationjs:after {
+    display: table;
+    content: " ";
+    clear: both
+}
+
+.paginationjs .paginationjs-pages {
+    float: left
+}
+
+.paginationjs .paginationjs-pages ul {
+    float: left;
+    margin: 0;
+    padding: 0
+}
+
+.paginationjs .paginationjs-go-button,
+.paginationjs .paginationjs-go-input,
+.paginationjs .paginationjs-nav {
+    float: left;
+    margin-left: 10px;
+    font-size: 12px;
+    border: 1px solid #F7F7F7 !important;
+}
+.pagination-nav{
+    font-family: 'Invention';
+    font-size:13px;
+    font-weight: 700;
+    padding: 5;
+   margin-right:16px;
+    border-radius: 6px;
+    height: 37px;
+    line-height: 37px;
+    
+}
+.prevText[c-doPagination_doPagination] {
+    font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 14px;
+align-items: center;
+text-align: center;
+letter-spacing: 0.861539px;
+flex: none;
+order: 1;
+flex-grow: 0;
+}
+
+
+.paginationjs .paginationjs-pages li {
+    float: left;
+   /* height: 37px; */
+    line-height: 14px;
+    list-style: none;
+    /*RT bug 22*/   margin-right:8px;
+    
+    letter-spacing: 0.861539px;
+    border: 1px solid #F7F7F7 !important;
+    border-radius: 6px !important;
+    background: #F7F7F7;
+    font-style: normal;
+    font-weight: 700;
+    font-family: 'Invention';
+
+}
+
+.paginationjs .paginationjs-pages li>a {
+    min-width: 37px;
+    line-height: 14px;
+    display: block;
+    background: #F7F7F7;
+    font-size: 14px;
+    color: #333333!important;
+    text-decoration: none;
+    text-align: center;
+   /* height: 30px; */
+    font-style: normal;
+    font-weight: 700;
+    font-family: 'Invention';
+    padding: 11px 16px;
+    gap: 16px;
+}
+
+.paginationjs .paginationjs-pages li>a:hover {
+    min-width: 37px;
+    line-height: 14px;
+    height: 37px;
+
+    display: block;
+    background:#00857C;
+    color: white!important;
+    font-size: 14px;
+    
+    text-decoration: none;
+    text-align: center;
+    font-style: normal;
+    font-weight: 700;
+    font-family: 'Invention';
+    padding: 11px 16px;
+    gap: 16px;
+    border-radius: 6px !important;
+    /*background:#00857C;
+    color: white!important;
+    height: 35px;
+    border: 1px solid #00857C !important;
+    border-radius: 6px !important;
+    letter-spacing: 0.861539px;
+    line-height: 18px;*/
+}
+.pagination-arrow{
+    font-weight: 700;
+    font-size: 18px;
+}
+.paginationjs .paginationjs-pages li.active {
+    border: none
+}
+li.paginationjs-prev.disabled{
+    margin-right: 32px;
+}
+li.paginationjs-next.J-paginationjs-next{
+    margin-left: 26px;
+}
+li.paginationjs-next.disabled{
+    margin-left: 26px;
+}
+.paginationjs-prev.J-paginationjs-previous[c-doPagination_doPagination] {
+    margin-right: 32px;
+}
+.paginationjs .paginationjs-pages li.active>a {
+   /* height: 37px; */
+    line-height: 14px;
+    background: #00857C;
+    color: white!important;
+    border: 1px solid #00857C !important;
+    border-radius: 6px !important;
+}
+
+.paginationjs .paginationjs-pages li.disabled>a {
+    
+    float: left;
+    height: 37px;
+    line-height: 14px;
+    list-style: none;
+    letter-spacing: 0.861539px;
+    border: 1px solid #F7F7F7 !important;
+    border-radius: 6px !important;
+    background: #F7F7F7;
+    font-style: normal;
+    font-weight: 700;
+    font-family: 'Invention';
+    /*opacity: .3;
+    height: 35px;
+    background: 0 0;
+    line-height: 18px;
+    border-radius: 6px !important;*/
+}
+
+.paginationjs .paginationjs-pages li.disabled>a:hover {
+    background:#00857C;
+    color: white!important;
+    /*background: 0 0;
+    color: #333333!important;
+    border: 1px solid #F7F7F7 !important;
+    border-radius: 6px !important;
+    height: 35px;
+    line-height: 18px;*/
+}
+/*a{
+    padding-left: 16px;
+    padding-right: 16px;
+}*/
+
+@media only screen and (max-width:500px){
+    li.paginationjs-prev.disabled{    /*RT bug 22*/
+        margin-right: 16px;
+    }
+    li.paginationjs-next.J-paginationjs-next{  /*RT  Bug_22*/
+    margin-left: 8px;
+    }
+    li.paginationjs-next.disabled{ /*RT  Bug_22*/
+        margin-left: 0px;
+    }
+    
+    .paginationjs .paginationjs-pages li>a {
+        padding: 14px 16px;
+    }
+    .paginationjs .paginationjs-pages li.active {
+        margin-right: 16px;
+    }
+    .paginationjs-last{
+        display: none;
+    }
+    .paginationjs .paginationjs-pages li>a {
+        min-width: 25px;
+        padding: 14px 16px;
+    }
+    .paginationjs .paginationjs-pages li {
+      /*  margin-right:5px; */
+    }
+    .paginationjs .paginationjs-pages li.active>a:after {
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+    }
+
+    .J-paginationjs-page:active{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+        color: white!important;
+        border: 1px solid #00857C !important;
+        border-radius: 6px !important;
+    }
+    .J-paginationjs-page li.active>a:after{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+        color: white!important;
+        border: 1px solid #00857C !important;
+        border-radius: 6px !important;
+    }
+}
+
+@media only screen and (max-width:450px){
+    li.paginationjs-prev.disabled{ /*RT bug 22*/
+        margin-right: 16px;
+    }
+    li.paginationjs-next.J-paginationjs-next{  /*RT  Bug_22*/
+    margin-left: 8px;
+    }
+    li.paginationjs-next.disabled{ /*RT  Bug_22*/
+    margin-left: 0px;
+    }
+    .paginationjs .paginationjs-pages li>a {
+        padding: 14px 16px;
+    }
+    .paginationjs-prev.J-paginationjs-previous[c-doPagination_doPagination] {
+        margin-right: 16px;
+    }
+    .paginationjs .paginationjs-pages li.active {
+        margin-right: 16px;
+    }
+    .paginationjs-last{
+        display: none;
+    }
+    .paginationjs .paginationjs-pages li>a {
+        min-width: 25px;
+    }
+    .paginationjs .paginationjs-pages li {
+        /*margin-right:3px; */
+    }
+
+    .paginationjs .paginationjs-pages li.active>a{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+    }
+    .paginationjs .paginationjs-pages li.active>a:after {
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+    }
+    .paginationjs .paginationjs-pages li>a:hover{
+        background:#00857C; 
+        border: 1px solid #00857C !important;
+    }
+
+
+    .paginationjs-page.J-paginationjs-page li.active>a{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+        color: white!important;
+        border: 1px solid #00857C !important;
+        border-radius: 6px !important;
+    }
+    .paginationjs-page.J-paginationjs-page li.active>a:after{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+        color: white!important;
+        border: 1px solid #00857C !important;
+        border-radius: 6px !important;
+    }
+}
+@media only screen and (max-width:417px){
+    li.paginationjs-prev.disabled{  /*RT bug 22*/
+        margin-right: 16px;
+    }
+    li.paginationjs-next.J-paginationjs-next{  /*RT  Bug_22*/
+    margin-left: 8px;
+    }
+    li.paginationjs-next.disabled{ /*RT  Bug_22*/
+    margin-left: 0px;
+    }
+    .paginationjs .paginationjs-pages li>a {
+        padding: 14px 16px;
+    }
+    .paginationjs-prev.J-paginationjs-previous[c-doPagination_doPagination] {
+        margin-right: 16px;
+    }
+    .paginationjs .paginationjs-pages li.active {
+        margin-right: 16px;
+    }
+    .paginationjs-last{
+        display: none;
+    }
+    .pagination-arrow{
+        margin-left: -6px;
+        margin-right: -6px;
+    }
+    .paginationjs .paginationjs-pages li.active>a:after {
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+    }
+    .paginationjs .paginationjs-pages li>a:hover{
+        background:#00857C; 
+        border: 1px solid #00857C !important;
+        min-height: 43px;
+        min-width: 25px;
+    }
+
+
+    .paginationjs-page.J-paginationjs-page li.active>a{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+        color: white!important;
+        border: 1px solid #00857C !important;
+        border-radius: 6px !important;
+    }
+    .paginationjs-page.J-paginationjs-page li.active>a:after{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+        color: white!important;
+        border: 1px solid #00857C !important;
+        border-radius: 6px !important;
+    }
+}
+@media only screen and (max-width<390px){
+    .paginationjs .paginationjs-pages li>a {
+        padding: 14px 16px;
+    }
+    .paginationjs .paginationjs-pages li.active {
+        margin-right: 16px;
+    }
+    li.paginationjs-prev.disabled{   /*RT bug 22*/
+        margin-right: 8px;
+    }
+    li.paginationjs-next.J-paginationjs-next{
+        margin-left: 0px;
+    }
+    li.paginationjs-next.disabled{
+        margin-left: 0px;
+    }
+    .paginationjs-prev.J-paginationjs-previous[c-doPagination_doPagination] {
+        margin-right: 8px;
+    }
+    
+}
+@media only screen and (max-width:390px){
+    li.paginationjs-prev.disabled{  /*RT bug 22*/
+        margin-right: 16px;
+    }
+    li.paginationjs-next.J-paginationjs-next{  /*RT  Bug_22*/
+    margin-left: 8px;
+    }
+    li.paginationjs-next.disabled{ /*RT  Bug_22*/
+    margin-left: 0px;
+    }
+    .paginationjs .paginationjs-pages li>a {
+        padding: 14px 16px;
+    }
+    .paginationjs-prev.J-paginationjs-previous[c-doPagination_doPagination] {
+        margin-right: 16px;
+    }
+    .paginationjs .paginationjs-pages li.active {
+        margin-right: 16px;
+    }
+    .paginationjs-last{
+        display: none;
+    }
+    .arrow-align{
+        display: flex;
+    }
+    .paginationjs .paginationjs-pages li.active>a:after {
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+    }
+    .paginationjs .paginationjs-pages li>a:hover{
+        background:#00857C; 
+        border: 1px solid #00857C !important;
+    }
+
+    
+    .paginationjs-page.J-paginationjs-page li.active>a{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+        color: white!important;
+        border: 1px solid #00857C !important;
+        border-radius: 6px !important;
+    }
+    .paginationjs-page.J-paginationjs-page li.active>a:after{
+        background: #00857C !important;        
+        border: 1px solid #00857C !important;
+        color: white!important;
+        border: 1px solid #00857C !important;
+        border-radius: 6px !important;
+    }
+    .paginationjs .paginationjs-pages li>a {
+        padding: 14px 16px;
+    }
+}

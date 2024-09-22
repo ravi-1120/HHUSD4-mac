@@ -1,0 +1,14 @@
+<template>
+    <c-veeva-spinner if:false={errorMessage}></c-veeva-spinner>
+    <c-veeva-modal id="eventTemplatesPermissionModal" if:true={errorMessage} size="small" composed=true
+        onclose={exitFlow}>
+        <div slot="content">
+            <div class="slds-var-m-around_medium error-text">
+                {errorMessage}
+            </div>
+        </div>
+        <div slot="footer" class="slds-text-align_center">
+            <lightning-button variant="brand" label={messageMap.okLabel} onclick={exitFlow}></lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

@@ -1,0 +1,21 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-textarea{
+    height: 5rem;
+}
+.THIS .slds-card__body {
+    margin-bottom: 0;
+}
+.THIS .interactionicons {
+    position: absolute;
+    z-index: 99999;
+    width: 500px;
+    top: 80px;
+    right: 15px;
+    border: none;
+    box-shadow: none;
+}
+.THIS .slds-text-link {
+    color: #000;
+}

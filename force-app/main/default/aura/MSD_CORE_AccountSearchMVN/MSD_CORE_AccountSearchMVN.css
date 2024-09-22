@@ -1,0 +1,17 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-form-element__legend {
+    font-weight: 700;
+    float: left;
+    padding: 0;
+    margin: 0;
+    height: 0;
+}
+.THIS .slds-box {
+    padding: 10px;
+	border-radius: 0;
+}
+.THIS .slds-table td {
+    white-space: normal;
+}

@@ -1,0 +1,10 @@
+<template>
+  <lightning-button-menu variant="border-filled" icon-name="utility:settings" menu-alignment="auto"
+    onselect={handleSelection}>
+    <template for:each={controls} for:item="control">
+      <lightning-menu-item if:true={control.visible} value={control} key={control.label} label={control.label}
+        disabled={control.disabled}>
+      </lightning-menu-item>
+    </template>
+  </lightning-button-menu>
+</template>

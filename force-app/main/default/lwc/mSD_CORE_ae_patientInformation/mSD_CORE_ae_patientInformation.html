@@ -1,0 +1,506 @@
+<template>
+    <c-custom-toast auto-close-time="2000"></c-custom-toast>
+    <div class="q-container">
+        <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+            <lightning-layout multiple-rows="true" vertical-align="end">
+                <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="12"
+                    medium-device-size="8" large-device-size="6">
+                    <label class="slds-form-element__label">
+                        <span class="slds-p-right_x-small">{label.ADVERSEEVENTFORTHISPATIENT}</span>
+                    </label>
+                    <lightning-combobox name="firstReport" options={Options} dropdown-alignment="auto" role="option"
+                        onchange={handleInput} value={inputValues.firstReport}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item lwc:if={firstReport} flexibility="auto" padding="horizontal-large" size="12"
+                    small-device-size="12" medium-device-size="8" large-device-size="6">
+                    <label class="slds-form-element__label">
+                        <span class="slds-p-right_xx-small">{label.EVENTCASENUMBER}</span>
+                    </label>
+                    <lightning-input name="Desc" maxlength="100" value={inputValues.Desc}
+                        onchange={handleInput}></lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+            <template if:false={isHCP}>
+                <!--*** Reporter Information Section Start ***-->
+                <lightning-accordion-section class="infoCls" name="ReporterInfo" label={label.REPORTERINFORMATION} open>
+                    <lightning-layout vertical-align="end">
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <lightning-combobox name="ReporterType" label={label.WhoReportedAe}
+                                options={reporterOptions} dropdown-alignment="auto" role="option" tabindex="0"
+                                onchange={handleInput} value={inputValues.ReporterType}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <lightning-layout lwc:if={inputValues.ReporterType} multiple-rows="true" vertical-align="end">
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.firstname} name="RepFirstName" maxlength="50" disabled={RepFieldDisabled.RepFirstName}
+                                value={inputValues.RepFirstName} type="text" onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.Lastname} maxlength="50" name="RepLastName" disabled={RepFieldDisabled.RepLastName}
+                                value={inputValues.RepLastName} type="text" onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.phone} type="tel" name="RepPhone" value={inputValues.RepPhone} disabled={RepFieldDisabled.RepPhone}
+                                onchange={handleInput} maxlength="30" pattern="^[0-9+\-]+$"
+                                message-when-pattern-mismatch="Invalid Phone Number" onblur={handleBlur}
+                                message-when-type-mismatch="Invalid Phone Number"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.Email} name="RepEmail" type="email" disabled={RepFieldDisabled.RepEmail}
+                                value={inputValues.RepEmail} onchange={handleInput} maxlength="80" onblur={handleBlur}
+                                pattern=".+\.\w+(\.\w+)?$" message-when-pattern-mismatch="Invalid Email Address"
+                                message-when-type-mismatch="Invalid Email Address"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.Addressline1} maxlength="255" type="text" name="RepAddress"
+                                value={inputValues.RepAddress} onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.Addressline2} maxlength="255" type="text"
+                                name="RepAddressLine2" value={inputValues.RepAddressLine2}
+                                onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.city} maxlength="255" type="text" value={inputValues.RepCity}
+                                name="RepCity" onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.zipcode} maxlength="15" type="text" name="RepZip"
+                                value={inputValues.RepZip} onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+
+                            <div class="slds-form-element">
+                                <lightning-input name="RepState" label={label.State} maxlength="100"
+                                    onchange={handleInput} onblur={handleBlur} onfocus={handleFocus} value={inputValues.RepState}
+                                    type="search" autocomplete="off" style="margin-bottom: 0px">
+                                </lightning-input>
+                                <!-- Updated to check for RepState specific search results -->
+                                <div if:true={hasRepStateSearchResults}
+                                    style="max-height: 7rem;margin-top: 0 !important;margin-bottom: 0 !important;"
+                                    class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <!-- Updated to iterate over filteredResults.repState -->
+                                        <template for:each={filteredResults.repState} for:item="searchResult">
+                                            <li key={searchResult.value} data-value={searchResult.value}
+                                                data-field="repState" role="presentation" aria-selected="false"
+                                                tabindex="0" onmousedown={handleSelectOption}
+                                                class="slds-listbox__item">
+                                                <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                    role="option">
+                                                    <span class="slds-media__body">
+                                                        <span class="slds-truncate" title={searchResult.label}>
+                                                            {searchResult.label}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+
+
+                            <!-- <lightning-combobox name="RepState" label={label.State} options={stateOptions}
+                                dropdown-alignment="auto" role="option" tabindex="0" onchange={handleInput}
+                                value={inputValues.RepState}>
+                            </lightning-combobox> -->
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <!-- <lightning-input label={label.Country} value="US" disabled="true"></lightning-input> -->
+                            <lightning-combobox name="RepCountry"
+                            label={label.Country} dropdown-alignment="auto" role="option" tabindex="0" disabled={RepFieldDisabled.RepCountry}
+                                    options={CountryOptions} onchange={handleInput} value={inputValues.RepCountry}></lightning-combobox>
+                            <!-- <lightning-input label={label.Country} value="US" disabled="true"></lightning-input> -->
+                        </lightning-layout-item>
+                        <lightning-layout-item lwc:if={ifHCP} flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+
+                            <div class="slds-form-element">
+                                <lightning-input name="RepCredential" label= "Credential" maxlength="100"
+                                    onchange={handleInput} onblur={handleBlur} onfocus={handleFocus} value={inputValues.RepCredential}
+                                    type="search" autocomplete="off" style="margin-bottom: 0px">
+                                </lightning-input>
+                                <!-- Updated to check for RepCredential specific search results -->
+                                <div if:true={hasRepCredentialSearchResults}
+                                    style="max-height: 7rem;margin-top: 0 !important;margin-bottom: 0 !important;"
+                                    class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <!-- Updated to iterate over filteredResults.repCredential -->
+                                        <template for:each={filteredResults.repCredential} for:item="searchResult">
+                                            <li key={searchResult.value} data-value={searchResult.value}
+                                                data-field="repCredential" role="presentation" aria-selected="false"
+                                                tabindex="0" onmousedown={handleSelectOption}
+                                                class="slds-listbox__item">
+                                                <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                    role="option">
+                                                    <span class="slds-media__body">
+                                                        <span class="slds-truncate" title={searchResult.label}>
+                                                            {searchResult.label}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                       </lightning-layout-item>
+                        <template if:true={ifPatient}>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <lightning-input type="text" name='RepDOB' label="Date of Birth" maxlength="50"
+                                    value={inputValues.RepDOB} onchange={handleInput}
+                                    field-level-help="Ensure date is entered in MM/DD/YYYY format. This cannot be a future date"></lightning-input>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <lightning-input label="Age" type="text" name="RepAge" maxlength="50"
+                                    placeholder="e.g. 18 years old or 6 months old" value={inputValues.RepAge}
+                                    onchange={handleInput}></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <lightning-combobox name="RepGender" class="slds-combobox_container" label="Gender"
+                                    role="option" tabindex="0" dropdown-alignment="auto" value={inputValues.RepGender}
+                                    options={genderOptions} onchange={handleInput}></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <lightning-combobox lwc:if={isRepFemale} name="isRepPregnant"
+                                    label={label.ISPATIENTPREGNANT} dropdown-alignment="auto" role="option" tabindex="0"
+                                    options={pregnantOptions} value={inputValues.isRepPregnant}
+                                    onchange={handleInput}></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <lightning-textarea lwc:if={ifRepPregnantYes} label={label.PREGNANCYGESTATION}
+                                    maxlength="50" name="RepGestationOrLMP"
+                                    placeholder="e.g. 4 months pregnant or last menstrual cycle was 2 months ago"
+                                    value={inputValues.RepGestationOrLMP} onchange={handleInput}></lightning-textarea>
+                            </lightning-layout-item>
+                        </template>
+                        <template lwc:if={ifHCP}>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <lightning-combobox name="RepType" label={label.TYPEHEALTHCARE}
+                                    dropdown-alignment="auto" role="option" tabindex="0" options={hcpTypeOptions}
+                                    onchange={handleInput} value={inputValues.RepType}>
+                                </lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <lightning-input label={label.PracticeorFacilityName} type="text" name="RepFacilityName"
+                                    value={inputValues.RepFacilityName} onchange={handleInput}></lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                        <lightning-layout-item lwc:if={ifHBP} flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+                        medium-device-size="4" large-device-size="3">
+                        <lightning-combobox name="RepHBPType" label="Type of Role at the Practice or Facility" dropdown-alignment="auto"
+                          role="option" tabindex="0" options={hbpTypeOptions} onchange={handleInput} value={inputValues.RepHBPType}>
+                        </lightning-combobox>
+                      </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-accordion-section>
+            </template>
+            <!--*** Reporter Information Section End ***-->
+            <!--*** HCP Information Section Start ***-->
+            <lightning-accordion-section class="infoCls" name="HCPInfo" label={label.HEALTHCAREPROVIDER} open>
+
+                <lightning-layout lwc:if={isLicensedHCP}>
+                    <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                        small-device-size="12" medium-device-size="8" large-device-size="6">
+                        <lightning-combobox name="PatientsHC"
+                            label={label.AREYOUPATIENT} options={PatientsHCP}
+                            onchange={handleInput} value={inputValues.PatientsHC}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+                <template if:false={isHCP}>
+                    <lightning-layout lwc:if={ifHCP}>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <lightning-combobox name="ReporterHCPSame" label={label.IsReporterHCPSame}
+                                options={HCPOptions} onchange={handleInput} value={inputValues.ReporterHCPSame}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <template if:true={populateHCP}>
+                    <lightning-layout multiple-rows="true" vertical-align="end">
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.firstname} disabled={hcpFieldDisabled.HCPFirstName}
+                                maxlength="50" name="HCPFirstName" value={inputValues.HCPFirstName} type="text"
+                                onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.Lastname} disabled={hcpFieldDisabled.HCPLastName}
+                                maxlength="50" name="HCPLastName" value={inputValues.HCPLastName} type="text"
+                                onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.phone} disabled={hcpFieldDisabled.HCPPhone} type="tel"
+                                name="HCPPhone" value={inputValues.HCPPhone} onchange={handleInput} maxlength="30"
+                                pattern="^[0-9+\-]+$" message-when-pattern-mismatch="Invalid Phone Number" onblur={handleBlur}
+                                message-when-type-mismatch="Invalid Phone Number"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.Email} disabled={hcpFieldDisabled.HCPEmail} name="HCPEmail"
+                                type="email" value={inputValues.HCPEmail} onchange={handleInput} maxlength="80" onblur={handleBlur}
+                                pattern=".+\.\w+(\.\w+)?$" message-when-pattern-mismatch="Invalid Email Address" 
+                                message-when-type-mismatch="Invalid Email Address"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.Addressline1} disabled={hcpFieldDisabled.HCPAddress}
+                                maxlength="255" type="text" name="HCPAddress" value={inputValues.HCPAddress}
+                                onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.Addressline2} disabled={hcpFieldDisabled.HCPAddressLine2}
+                                maxlength="255" type="text" name="HCPAddressLine2" value={inputValues.HCPAddressLine2}
+                                onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.city} maxlength="255" disabled={hcpFieldDisabled.HCPCity}
+                                type="text" value={inputValues.HCPCity} name="HCPCity"
+                                onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.zipcode} disabled={hcpFieldDisabled.HCPZip} maxlength="15"
+                                type="text" name="HCPZip" value={inputValues.HCPZip}
+                                onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <!-- <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-combobox name="HCPState" disabled={hcpdisable} label={label.State}
+                                options={stateOptions} dropdown-alignment="auto" role="option" tabindex="0"
+                                onchange={handleInput} value={inputValues.HCPState}>
+                            </lightning-combobox>
+                        </lightning-layout-item> -->
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <div class="slds-form-element">
+                                <lightning-input name="HCPState" label={label.State} maxlength="100"
+                                    onchange={handleInput} onfocus={handleFocus} value={inputValues.HCPState}
+                                    type="search"  onblur={handleBlur} disabled={hcpFieldDisabled.HCPState} autocomplete="off"
+                                    style="margin-bottom: 0px">
+                                </lightning-input>
+                                <div if:true={hasHCPStateSearchResults}
+                                    style="max-height: 7rem;margin-top: 0 !important;margin-bottom: 0 !important;"
+                                    class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <template for:each={filteredResults.hcpState} for:item="searchResult">
+                                            <li key={searchResult.value} data-value={searchResult.value}
+                                                data-field="hcpState" role="presentation" aria-selected="false"
+                                                tabindex="0" onmousedown={handleSelectOption}
+                                                class="slds-listbox__item">
+                                                <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                    role="option">
+                                                    <span class="slds-media__body">
+                                                        <span class="slds-truncate" title={searchResult.label}>
+                                                            {searchResult.label}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-combobox name="HCPCountry" disabled={hcpFieldDisabled.HCPCountry}
+                            label={label.Country} dropdown-alignment="auto" role="option" tabindex="0"
+                                    options={CountryOptions} onchange={handleInput} value={inputValues.HCPCountry}></lightning-combobox>
+                            <!-- <lightning-input label={label.Country} value="US" disabled="true"></lightning-input> -->
+                        </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <lightning-combobox name="HCPType" disabled={hcpFieldDisabled.HCPType}
+                                    label={label.TYPEHEALTHCARE} dropdown-alignment="auto" role="option" tabindex="0"
+                                    options={hcpTypeOptions} onchange={handleInput} value={inputValues.HCPType}>
+                                </lightning-combobox>
+                            </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <lightning-input label={label.PracticeorFacilityName} maxlength="255" type="text"
+                                name="HCPFacilityName" disabled={hcpFieldDisabled.HCPFacilityName}
+                                value={inputValues.HCPFacilityName} onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12"
+                            small-device-size="6" medium-device-size="4" large-device-size="3">
+                            <div class="slds-form-element">
+                                <lightning-input name="HCPCredential" label="Credential" maxlength="100"
+                                    onchange={handleInput} onblur={handleBlur} onfocus={handleFocus} value={inputValues.HCPCredential}
+                                    type="search" disabled={hcpFieldDisabled.HCPCredential} autocomplete="off"
+                                    style="margin-bottom: 0px">
+                                </lightning-input>
+                                <div if:true={hasHCPCredentialSearchResults}
+                                    style="max-height: 7rem;margin-top: 0 !important;margin-bottom: 0 !important;"
+                                    class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <template for:each={filteredResults.hcpCredential} for:item="searchResult">
+                                            <li key={searchResult.value} data-value={searchResult.value}
+                                                data-field="hcpCredential" role="presentation" aria-selected="false"
+                                                tabindex="0" onmousedown={handleSelectOption}
+                                                class="slds-listbox__item">
+                                                <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                    role="option">
+                                                    <span class="slds-media__body">
+                                                        <span class="slds-truncate" title={searchResult.label}>
+                                                            {searchResult.label}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <template if:true={showSecondQuestion}>
+                    <lightning-layout>
+                        <lightning-layout-item padding="horizontal-large" flexibility="auto" size="12"
+                            small-device-size="12" medium-device-size="8" large-device-size="6">
+                            <lightning-combobox name="permissionContact" label={questionLabel} onchange={handleInput}
+                                dropdown-alignment="auto" role="option" tabindex="0" options={ContactOptions}
+                                value={inputValues.permissionContact}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <lightning-layout if:false={isHCP}>
+                    <lightning-layout-item padding="horizontal-large" flexibility="auto" size="12"
+                        small-device-size="12" medium-device-size="8" large-device-size="6">
+                        <lightning-combobox name="HCPPermission" value={inputValues.HCPPermission}
+                            dropdown-alignment="auto" role="option" tabindex="0" options={permissionOptions}
+                            label={label.PERMISSIONTOCONTACT} onchange={handleInput}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+            </lightning-accordion-section>
+            <!--*** HCP Information Section End ***-->
+
+            <!--*** Patient Infortmation Section Start ***-->
+            <template if:false={ifPatient}>
+                <lightning-accordion-section class="section3" name="PatientInfo" label={label.patientInformation} open>
+                    <lightning-layout>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                            small-device-size="12" medium-device-size="6" large-device-size="6">
+                            <lightning-combobox name="isPatientReporter" onchange={handleInput}
+                                dropdown-alignment="auto" role="option" tabindex="0" label={PatientLabel}
+                                value={inputValues.isPatientReporter}
+                                options={patientReporterOptions}></lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout multiple-rows="true" vertical-align="end">
+                        <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                            small-device-size="12" medium-device-size="6" large-device-size="4">
+                            <lightning-input disabled={patientFieldDisabled.PatientFirstName}
+                                label={label.PATIENTFIRSTNAME} maxlength="25" name='PatientFirstName'
+                                value={inputValues.PatientFirstName} onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                            small-device-size="12" medium-device-size="6" large-device-size="4">
+                            <lightning-input disabled={patientFieldDisabled.PatientLastName}
+                                label={label.PATIENTLASTNAME} maxlength="30" name='PatientLastName'
+                                value={inputValues.PatientLastName} onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                            small-device-size="12" medium-device-size="6" large-device-size="4">
+                            <lightning-input type="text" name='PatientDOB' label={label.PATIENTDATEOFBIRTH}
+                                maxlength="50" value={inputValues.PatientDOB} onchange={handleInput}
+                                field-level-help="Ensure date is entered in MM/DD/YYYY format. This cannot be a future date"></lightning-input>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                            small-device-size="12" medium-device-size="6" large-device-size="4">
+                            <lightning-input label={label.PATIENTAGE} type="text" name="PatientAge" maxlength="50"
+                                placeholder="e.g. 18 years old or 6 months old" value={inputValues.PatientAge}
+                                onchange={handleInput}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                            small-device-size="12" medium-device-size="6" large-device-size="4">
+                            <lightning-combobox name="PatientGender" class="slds-combobox_container"
+                                label={label.PATIENTGENDER} role="option" tabindex="0" dropdown-alignment="auto"
+                                value={inputValues.PatientGender} options={genderOptions}
+                                onchange={handleInput}></lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-combobox_container" flexibility="auto"
+                            padding="horizontal-medium" size="12" small-device-size="12" medium-device-size="6"
+                            large-device-size="4">
+                            <lightning-combobox lwc:if={isFemale} name="isPatientPregnant"
+                                label={label.ISPATIENTPREGNANT} dropdown-alignment="auto" role="option" tabindex="0"
+                                options={pregnantOptions} value={inputValues.isPatientPregnant}
+                                onchange={handleInput}></lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <div>
+                        <lightning-layout>
+                            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                small-device-size="12" medium-device-size="6" large-device-size="4">
+                                <lightning-textarea lwc:if={ifPregnantYes} label={label.PREGNANCYGESTATION}
+                                    maxlength="50" name="GestationOrLMP"
+                                    placeholder="e.g. 4 months pregnant or last menstrual cycle was 2 months ago"
+                                    value={inputValues.GestationOrLMP} onchange={handleInput}></lightning-textarea>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </lightning-accordion-section>
+            </template>
+            <!--Patient Infortmation Section End ***-->
+
+        </lightning-accordion>
+
+        <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+            <template if:true={showSkipButton}>
+                <lightning-layout-item alignment-bump="left">
+                    <button class="slds-button slds-button_brand btnHover skipBtn" name="Skip" onclick={handlePrevNext}>
+                        {label.SKIPTOREVIEW}</button>
+                </lightning-layout-item>
+            </template>
+            <template if:false={showSkipButton}>
+                <lightning-layout-item alignment-bump="left">
+                    <button class=" slds-button slds-m-right_small slds-button_outline-brand btnCancelHover nextPrevBtn"
+                        onclick={handlePrevNext} name="Previous">{label.PREVIOUSBUTTON}</button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext}
+                        name="Next">{label.NEXTBUTTON}</button>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+
+    </div>
+</template>

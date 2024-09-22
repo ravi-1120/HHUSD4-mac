@@ -1,0 +1,12 @@
+<!-- Currently not used for the Merck implementation -->
+<apex:page standardController="Account" extensions="UserTerritoryControllerMVN" showHeader="false" sidebar="false" standardStylesheets="true" title="{!$Label.User_Territory_Title_vod}" lightningStylesheets="true">
+	<apex:pageBlock title="{!$Label.User_Territory_Title_vod}">
+        <apex:pageBlockTable value="{!userTerritories}" var="usr">
+            <apex:column headervalue="{!$Label.User_Territory_Territory_Column_Label_vod}" value="{!usr.Territory}"></apex:column>
+            <apex:column headervalue="{!$Label.User_Territory_User_Column_Label_vod}" value="{!usr.User}"></apex:column>
+            <apex:column headervalue="{!$Label.User_Territory_Territory_Description_Column_Label_vod}" value="{!usr.Description}"></apex:column>
+            <apex:column headervalue="{!$ObjectType.User.Fields.Email.label}" value="{!usr.Email}"></apex:column>
+            <apex:column headervalue="{!$ObjectType.User.Fields.Phone.label}" value="{!usr.Phone}"></apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

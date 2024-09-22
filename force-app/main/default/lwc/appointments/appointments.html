@@ -1,0 +1,383 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+    </template>
+    <lightning-card>
+            <template if:true={isrecordsToDisplay}>
+                <template for:each={recordsToDisplay} for:item="req">
+                    <div class="ps-mobile-div slds-grid slds-gutters slds-wrap slds-box boxshadow_cls bsbobx" key={req.Id}>
+                        <div class="ps-top">
+                            <div class="ps-top-sub">
+                                <div class="ps-sts-dt">
+                                    <div class="ps-sts">
+                                        <span><a  class={setStatusCSS}> <span class="statusclass" >
+                                        {req.Status}</span></a></span>
+                                    </div>
+                                    
+                                    <div class="ps-dt">
+                                        <template if:true={pending}>
+                                            <c-appointment-Pendingtime meetingtimes={req.Meeting_Times__r}></c-appointment-Pendingtime>
+                                        </template>
+                                        <template if:false={pending}>
+                                            <!-- Class [.mar-lr-2] added for mobile responsive-->
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 top-margin mar-lr-2">
+                                                <!-- RR - E2ESE-1011 -->
+                                                <template if:false={req.isViewUponReq}>
+                                                    <div class="button2">
+                                                        <div class="b5">
+                                                            <lightning-formatted-date-time time-zone={setDefaultime}
+                                                                value={req.Start_DateTime_vod__c} month="short">
+                                                            </lightning-formatted-date-time>
+                                                        </div>
+                                                        <div class="b4">
+                                                            <lightning-formatted-date-time time-zone={setDefaultime}
+                                                                value={req.Start_DateTime_vod__c} day="2-digit">
+                                                            </lightning-formatted-date-time>
+                                                        </div>
+                                                        <div class="b5">
+                                                            <lightning-formatted-date-time time-zone={setDefaultime}
+                                                                value={req.Start_DateTime_vod__c} hour="2-digit" minute="2-digit">
+                                                            </lightning-formatted-date-time>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                
+                                                <template if:true={req.isViewUponReq}>
+                                                    <div class="button3">
+                                                        <p class="calText">No appointment needed</p>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                                
+                                <div class="ps-top-dsc">
+									<template if:false={noTitle}>
+										<span class="appointment-title"> {req.Name}:</span>
+									</template>
+									<template if:true={noTitle}>
+										<span class="appointment-title"> {req.Name}</span>
+									</template>
+                                    <template if:false={noTitle}>
+                                    <template if:true={req.MSD_CORE_Resource__r}>
+                                        <span class="appointment-title"> {req.MSD_CORE_Resource__r.MSD_CORE_Resource_Title__c}</span>
+                                    </template>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="ps-sbmtd slds-m-top_small submit_date">
+                                <span class="appointment-content-small"> Submitted&nbsp;
+                                    <lightning-formatted-date-time value={req.SubmittedDate} year="2-digit"
+                                        month="short" day="2-digit" hour="numeric" weekday="long" minute="2-digit"
+                                        time-zone={setDefaultime}>
+                                    </lightning-formatted-date-time>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="ps-btm">
+                            <div>
+                                <div class="slds-grid slds-wrap">
+                                    <!-- class [mar-2] added for Mobile Screen -->
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 mar-2 mar-lr-2 top_margin_div">
+                                        <span class="appointment-content-title">Resource type:</span>
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 mar-lr-mob">
+                                        <!-- RR - E2ESE-1011 -->
+                                        <template if:false={req.isViewUponReq}>
+                                            <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                        </template>
+                                        <template if:true={req.isViewUponReq}>
+                                            <span class="appointment-content">PDF</span>
+                                        </template>
+                                    </div>
+                                    
+                                    <template if:true={appointment}>
+                                        <!-- class [mar-2] added for Mobile Screen -->
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 mar-2 mar-lr-2 top_margin_div">
+                                            <!-- RR - E2ESE-1011 -->
+                                            <template if:false={req.isViewUponReq}>
+                                                <span class="appointment-content-title">Attendees:</span>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template if:true={appointment}>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 mar-lr-2">
+                                            <!-- RR - E2ESE-1011 -->
+                                            <template if:false={req.isViewUponReq}>
+                                                <span class="appointment-content">{req.MSD_CORE_attendee__c}</span>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template if:false={appointment}>
+                                        <!-- class [mar-2] added for Mobile Screen -->
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 mar-2 mar-lr-2 top_margin_div">
+                                            <!-- RR - E2ESE-1011 -->
+                                            <template if:false={req.isViewUponReq}>
+                                                <span class="appointment-content-title">Requested attendees:</span>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template if:false={appointment}>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 mar-lr-2">
+                                            <!-- RR - E2ESE-1011 -->
+                                            <template if:false={req.isViewUponReq}>
+                                                <span class="appointment-content">{req.MSD_CORE_attendee__c}</span>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    
+                                    <!-- For Pending Request -->
+
+                                    <!-- class [mar-2] added for Mobile Screen -->
+                                    <template if:true={pending}>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 mar-2 mar-lr-2">
+                                            <!-- Preferred appointment times --><!-- RR - E2ESE-1011 -->
+                                            <template if:false={req.isViewUponReq}>
+                                                <c-appointment-Pendingtimes meetingtimes={req.Meeting_Times__r} labelval={labelvalTime}></c-appointment-Pendingtimes>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <!-- For Closed Request -->
+                                    <template if:true={closed}>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 mar-2 mar-lr-2 top_margin_div">
+                                            <span class="appointment-content-title">Resolution:</span>
+                                        </div>
+                                    </template>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 mar-lr-2 moblr">
+                                        <!-- RR - E2ESE-1011 -->
+                                        <template if:false={req.isViewUponReq}>
+                                            <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                        </template>
+                                        <template if:true={req.isViewUponReq}>
+                                            <span class="appointment-content">PDF</span>
+                                        </template>
+                                    </div>
+
+                                    <!-- For Pending Request -->
+                                    <template if:true={pending}>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 mar-2 mar-lr-2">
+                                            <!-- Preferred appointment times --><!-- RR - E2ESE-1011 - View upon request -->
+                                            <template if:false={req.isViewUponReq}>
+                                                <c-appointment-Pendingtimes meetingtimes={req.Meeting_Times__r}></c-appointment-Pendingtimes>
+                                            </template>
+                                        </div>
+                                    </template>
+
+                                    <!-- For Closed Request -->
+                                    <template if:true={closed}>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 mar-lr-2">
+                                            <span class="appointment-content">{req.MSD_CORE_Request_Resolution__c}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            
+                            <div class="ps-vr-btn cboxr slds-m-top_small view_request_btn" data-id={req.Id} data-name={req.Name} data-mname={req.MSD_CORE_Resource__r.Name} onclick={viewRequest}>
+                                <button class="cta">View request<img src={rightarrow} style="margin-left:16px;"> </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- For Mobile End -->
+                    <!-- mbl-dsn class added for mobile scren-->
+
+                    <div class="slds-grid slds-gutters slds-wrap slds-box boxshadow_cls bsbobx mbl-dsn" key={req.Id}>
+                        <div class="slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 pending_width">
+                            <span>
+                                <a style="padding: 2px 8px;width: 92px;font-weight:700;display: table-cell;font-family:Invention;font-size:14px;" class={setStatusCSS}> 
+                                    <span>{req.Status}</span>
+                                </a>
+                            </span>
+                        </div>
+                        <div class="slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 slds-text-align_left titlecls ">
+                            <template if:false={noTitle}>
+                                <span class="appointment-title"> {req.Name}:</span>
+                            </template>
+                            <template if:true={noTitle}>
+                                <span class="appointment-title"> {req.Name}</span>
+                            </template>
+							<template if:false={noTitle}>
+								<template if:true={req.MSD_CORE_Resource__r}>
+									<span class="appointment-title"> {req.MSD_CORE_Resource__r.MSD_CORE_Resource_Title__c}</span>
+								</template>
+							</template>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 viewr">
+                            <div class="cboxr" data-id={req.Id} data-name={req.Name} data-mname={req.MSD_CORE_Resource__r.Name} onclick={viewRequest}>
+                                <button class="cta">View request<img src={rightarrow} style="margin-left:16px;"> </button>
+                            </div>
+                        </div>
+                        <template if:true={pending}>
+                            <c-appointment-Pendingtime meetingtimes={req.Meeting_Times__r}></c-appointment-Pendingtime>
+                        </template>
+                        <template if:false={pending}>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 top-margin cal_width">
+                                <!-- RR - E2ESE-1011 -->
+                                <template if:false={req.isViewUponReq}>
+                                    <div class="button2">
+                                        <div class="b5">
+                                            <lightning-formatted-date-time time-zone={setDefaultime}
+                                                value={req.Start_DateTime_vod__c} month="short">
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                        <div class="b4">
+                                            <lightning-formatted-date-time time-zone={setDefaultime}
+                                                value={req.Start_DateTime_vod__c} day="2-digit">
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                        <div class="b5">
+                                            <lightning-formatted-date-time time-zone={setDefaultime}
+                                                value={req.Start_DateTime_vod__c} hour="2-digit" minute="2-digit">
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- RR - E2ESE-1011 - View upon request -->
+                                <template if:true={req.isViewUponReq}>
+                                    <div class="button3">
+                                        <p class="calText">No appointment needed</p>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 slds-text-align_left top-margin">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 tagcls">
+                                    <span class="appointment-content-title">Resource type:</span>
+                                </div>
+
+                                <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 mar-lr-mob tagcls">
+                                    <!-- RR - E2ESE-1011 -->
+                                    <template if:false={req.isViewUponReq}>
+                                        <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                    </template>
+                                    <template if:true={req.isViewUponReq}>
+                                        <span class="appointment-content">PDF</span>
+                                    </template>
+                                </div>
+                                
+                                
+                                <template if:true={appointment}>
+                                    <div class="slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 tagcls">
+                                        <!-- RR - E2ESE-1011 -->
+                                        <template if:false={req.isViewUponReq}>
+                                            <span class="appointment-content-title">Attendees:</span>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:false={appointment}>
+                                    <div class="slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 tagcls">
+                                        <!-- RR - E2ESE-1011 -->
+                                        <template if:false={req.isViewUponReq}>
+                                            <span class="appointment-content-title">Requested attendees:</span>
+                                        </template>
+                                    </div>
+                                </template>
+
+                                <!-- For Pending Request -->
+                                <template if:true={pending}>
+                                    <div class="slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 tagcls">
+                                        <!-- Preferred appointment times --><!-- RR - E2ESE-1011 -->
+                                        <template if:false={req.isViewUponReq}>
+                                            <c-appointment-Pendingtimes meetingtimes={req.Meeting_Times__r} labelval={labelvalTime}></c-appointment-Pendingtimes>
+                                        </template>
+                                    </div>
+                                </template>
+                                <!-- For Closed Request -->
+                                <template if:true={closed}>
+                                    <div class="slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 tagcls">
+                                        <span class="appointment-content-title">Resolution:</span>
+                                    </div>
+                                </template>
+                                <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 moblr tagcls">
+                                    <!-- RR - E2ESE-1011 -->
+                                    <template if:false={req.isViewUponReq}>
+                                        <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                    </template>
+                                    <template if:true={req.isViewUponReq}>
+                                        <span class="appointment-content">PDF</span>
+                                    </template>
+                                </div>
+
+                                <template if:true={appointment}>
+                                    <div class="slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 tagcls">
+                                        <!-- RR - E2ESE-1011 -->
+                                        <template if:false={req.isViewUponReq}>
+                                            <span class="appointment-content">{req.MSD_CORE_attendee__c}</span>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:false={appointment}>
+                                    <div class="slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 tagcls">
+                                        <!-- RR - E2ESE-1011 -->
+                                        <template if:false={req.isViewUponReq}>
+                                            <span class="appointment-content">{req.MSD_CORE_attendee__c}</span>
+                                        </template>
+                                    </div>
+                                </template>
+
+                                <!-- For Pending Request -->
+                                <template if:true={pending}>
+                                    <div class="slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 tagcls">
+                                        <!-- Preferred appointment times --><!-- RR - E2ESE-1011 -->
+                                        <template if:false={req.isViewUponReq}>
+                                            <c-appointment-Pendingtimes meetingtimes={req.Meeting_Times__r}></c-appointment-Pendingtimes>
+                                        </template>
+                                    </div>
+                                </template>
+
+                                <!-- For Closed Request -->
+                                <template if:true={closed}>
+                                    <div class="slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 tagcls">
+                                        <span class="appointment-content">{req.MSD_CORE_Request_Resolution__c}</span>
+                                    </div>
+                                </template>
+
+                                <div class="slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 tagcls">
+                                    <div class="appointment-content-small slds-wrap">Submitted&nbsp;
+                                        <lightning-formatted-date-time
+                                            value={req.SubmittedDate} class="mob-formattime" year="numeric" day="2-digit"
+                                            month="long" time-zone={setDefaultime}>
+                                        </lightning-formatted-date-time>&nbsp;at&nbsp;
+                                        <lightning-formatted-date-time value={req.SubmittedDate} hour="2-digit" minute="2-digit"
+                                            time-zone={setDefaultime}>
+                                        </lightning-formatted-date-time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={isrecordsToDisplay}>
+                <lightning-layout-item size="12">
+                    <div class="NoSavedResourcePadding">
+                    <div class="NoSavedResources">
+                        {norecordsfound}
+                    </div>
+                    <div class="slds-button buttonpp" data-name="ProductList" data-brand={productName} onclick={navigatepage}
+                    data-prodlabel="browse catalog" target="_self">
+                    <span>Browse catalog<img class="imgone" src={Whitearrow}> </span>
+                </div>
+            </div>
+            </lightning-layout-item>
+            </template>
+
+        <template if:true={showPagination}>
+            <div class="slds-align_absolute-center" style="margin-top: 10px;">
+                <c-do-pagination page-size={pageSize} total-count={totalCount} onmycustomevent={handleCustomEvent} product-name={productName}>
+                </c-do-pagination>
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

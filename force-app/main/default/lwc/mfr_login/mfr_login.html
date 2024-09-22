@@ -1,0 +1,102 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-31-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <!-- For Basic Authentication Popup -->
+    <!-- <div> 
+        <template if:true={authentication}>
+        <c-m-s-d_-c-o-r-e_-basic-authentication onpassvaluetologin={getvaluefrombsauth}  ></c-m-s-d_-c-o-r-e_-basic-authentication>
+    </template>
+    </div> -->
+
+    <div style={sectionstyle}>
+        <div class="c-container">
+            <lightning-layout vertical-align="center" class="x-large">
+                <lightning-layout-item flexibility="auto" padding="around-small">
+                    <br />
+                    <div class="custom-box slds-align_absolute-center login">Log in to the </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout vertical-align="center" class="x-large">
+                <lightning-layout-item flexibility="auto" padding="around-small">
+                    <div class="custom-box slds-align_absolute-center mfrp">Merck Formulary Resources portal</div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <!-- class [mob-dn] added in br tag after comined text in one div-->
+            <br class="mob-dn" />
+            <!-- class [mob-log-main-div] added in br tag after comined text in one div-->
+            <lightning-layout vertical-align="center" class="x-large mob-log-main-div">
+                <lightning-layout-item flexibility="auto">
+                    <div class="container1 slds-align_absolute-center">
+                        <lightning-card style="width:90% ;">
+
+                            <div>
+                                <lightning-input type="text" data-id="username" class="uname" label="Email"
+                                    style="width:450;height:37;" placeholder="Email"
+                                    onchange={handleUserNameChange} onclick={handlegaevent}></lightning-input>
+                                <div if:true={isUnameerrorVisible}>
+                                    <p class="para1">Email is required.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <lightning-input type="password" class="pwd" label="Password"
+                                    style="width:450;height:37;" placeholder="Password"
+                                    onchange={handlePasswordChange} data-id="Password" onclick={handlegaevent}></lightning-input>
+                                <div if:true={isPWDerrorVisible}>
+                                    <p class="para1">Password is required.</p>
+                                </div>
+                                <div if:true={errorpopup}>
+                                    <p class="para1">The email and password combination you have entered does not match our records. Please try again. </p>
+                                </div>
+                            </div>
+                            <div class="slds-align_absolute-center">
+                                <br /><br /><br />
+                                <button class="cta" onclick={handleLogIn}> Log in
+                                </button>
+                            </div>
+                            <div class="forgotpasslink">
+                                <a href={forgotpass} onclick={handlegaevent} data-id= "forgotpasslink" target="_self">Forgot password?</a>
+                            </div>
+                        </lightning-card>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+
+
+
+            <lightning-layout vertical-align="center" class="x-large">
+                <lightning-layout-item flexibility="auto" padding="around-small">
+                    <!-- class [mob-dn] added for Mobile Screen -->
+                    <br class="mob-dn" />
+                    <!-- class [mob-dn] added for Mobile Screen -->
+                    <br class="mob-dn" />
+                    <!-- class [mob-wrp] added for Mobile Screen -->
+                    <div class="custom-box slds-align_absolute-center mob-wrp">Please call our technical support service
+                        at &nbsp;{label.supportcall},
+                    </div>
+                    <!-- class [mob-top-mr] added for Mobile Screen -->
+                    <div class="custom-box slds-align_absolute-center mfrp-normal mob-top-mr">Monday–Friday, 8 AM–7 PM
+                        ET.
+                    </div>
+                    <div class="custom-box slds-align_absolute-center paddcls mob-wrp"><a href={siteName.MyContacts} onclick={handlegaevent} data-id= "contactmerck" class="contactmerck">Contact the Merck account team</a>.
+                    </div>
+                    <div class="slds-align_absolute-center ckpref">
+                        <a role="link" aria-label="Cookie Preferences" href="javascript:Optanon.ToggleInfoDisplay()"
+                            class="ot-sdk-show-settings exo ckpref1" data-design-category="footer_ref_vd">Cookie
+                            Preferences</a>
+                    </div>
+                    <!-- class [mob-dn] added for Mobile Screen -->
+                    <br class="mob-dn" />
+                    <!-- class [mob-fotter-log] added for Mobile Screen -->
+                    <div class="custom-box slds-align_absolute-center mfrp-normal mob-fotter-log"><img src={logo}>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <p class="job">{label.jobcode}</p>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,71 @@
+<apex:page controller="MSD_CORE_NAW_EXT_Controller_New" showHeader="false" lightningStylesheets="true">
+<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+  <b>Hello {!$User.FirstName}! You are requesting a New Account of type {!sRT}</b>
+
+<script type="text/javascript">  
+        function SubmitJS(obj) { 
+            jQuery(".tempClass").attr('disabled','disabled');
+            obj.value = 'Saving...';   
+            SubmitAction(); 
+            document.getElementByClass('btnClass').disabled=disabled;
+                    
+        } 
+        </script>
+
+  <apex:form >
+  <apex:actionFunction name="SubmitAction" action="{!Submit}" />
+  <apex:pageMessages />
+    <apex:pageBlock title="New Request Form" Id="theblock">
+      <apex:pageBlockSection title="Account Information" collapsible="false" columns="1" >
+           
+      <!--  {!accFields}  -->
+      <apex:repeat value="{!accFields}" var="fieldAPIName">
+            <apex:inputfield value="{!Accobj[fieldAPIName]}" label="{!NAWAccFMap[fieldAPIName].Label__c}" required="{!NAWAccFMap[fieldAPIName].Required__c}" />
+            
+        </apex:repeat> 
+                
+         </apex:pageBlockSection>
+          <apex:pageBlockSection title="Address Information" collapsible="false" columns="1">
+        
+      <!--   {!addFields} -->
+      <apex:repeat value="{!addFields}" var="fieldAPIName">
+            <apex:inputfield value="{!Addobj[fieldAPIName]}" label="{!NAWAddFMap[fieldAPIName].Label__c}" required="{!NAWAddFMap[fieldAPIName].Required__c}" />
+        </apex:repeat> 
+        
+             <apex:inputtextarea value="{!Accobj.MSD_Core_Rep_Notes__c}" label="Notes" cols="40"/>
+             
+            </apex:pageBlockSection>
+         
+      <br/><font color="red">
+                <apex:outputLabel value="{!Instructions}" rendered="{!Instructions <> null}"/>
+                </font>
+      <br/>
+         
+             
+    
+ <!-- <input type="checkbox" name="consent" value="consent" required="true" /> <apex:outputLabel value="{!consent_msg}"/>
+ <apex:inputcheckbox value="{!AccObj.Consent_MRK__c}" required="true" /> <apex:outputLabel value="{!consent_msg}"/>  
+ <apex:inputcheckbox value="{!AccObj.Consent_MRK__c}"  > 
+          <apex:actionSupport event="onSelect"  rerender="theblock" />
+ </apex:inputcheckbox> -->
+ <apex:outputLabel value="{!consent_msg}"/>
+ 
+ 
+
+         <!--  <input type="checkbox" name="consent" value="consent"/> 
+            <apex:inputfield value="{!Accobj.Consent_MRK__c}"  required="true"/>
+         <apex:inputcheckbox value="{!AccObj.Consent_MRK__c}" required="true" />  -->
+         
+                
+         <apex:pageBlockButtons location="bottom" id="btns" >
+        
+              <!--  <apex:commandButton action="{!Submit}" value="Submit" disabled="{!Submit_btn}"/>  -->
+               <apex:commandButton action="{!Submit}" value="Submit"  rendered="{!(Accobj.Consent_MRK__c != true)}" onclick="SubmitJS(this) ;" styleClass="tempClass"  />   
+                <apex:commandButton action="{!Submit}" value="Submit" rendered="{!(Accobj.Consent_MRK__c == true)}" onclick="SubmitJS(this) ;" styleClass="tempClass" />
+                <apex:commandButton action="{!Cancel}" value="Cancel" immediate="true"/>              
+
+        </apex:pageBlockButtons>
+    </apex:pageBlock>
+     
+  </apex:form>
+</apex:page>

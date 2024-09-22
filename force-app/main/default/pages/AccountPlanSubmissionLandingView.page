@@ -1,0 +1,23 @@
+<!--
+* @author - Abu Aziz
+* @pageName - AccountPlanSubmissionLandingView.page
+* @description - Landing Page after Submission to prompt user to save the pdf version of the report
+* @createdate - Apr 03, 2014
+-->
+
+<apex:page standardController="Account_Plan_vod__c" extensions="MRK_AccountPlanPrintController" > 
+
+<apex:Form >
+<apex:PanelGrid columns="1">
+
+<apex:PageMessage severity="info" 
+    summary="Account Plan {!Account_Plan_vod__c.Name} has been successfully submitted for approval. All information under legal hold must be maintained\retained.  Please refer to <a href=http://legalholds.merck.com/ushhdept/legalhold/master.jsp target=_blank>http://legalholds.merck.com/ushhdept/legalhold/master.jsp</a> for a list of current legal holds.  Questions about whether information is subject to a Litigation Hold should be directed to a Merck Legal Representative."
+    strength="3"
+    escape="false" />
+
+<!--<apex:commandLink action="{!getPDFPrintReport}" value="Save Printable PDF Report" id="theButton"  target="new" />-->
+
+<apex:commandLink action="/{!Id}" value="Return to Account Plan" id="theButto1n"/>
+</apex:PanelGrid>
+</apex:Form>
+</apex:page>

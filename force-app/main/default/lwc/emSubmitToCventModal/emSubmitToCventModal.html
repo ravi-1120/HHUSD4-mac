@@ -1,0 +1,25 @@
+<template>
+    <lightning-modal-header if:true={labels.header} label={labels.header}></lightning-modal-header>
+    <lightning-modal-body>
+        <div class="slds-align_absolute-center modal-content">
+            <template if:true={loading}>
+                <c-veeva-spinner class="slds-is-relative spinner"></c-veeva-spinner>
+            </template>
+            <template if:true={error}>
+                <lightning-icon class="slds-p-bottom_small" icon-name="utility:error" variant="error"></lightning-icon>
+                <div>
+                    {labels.error}
+                </div>
+            </template>
+            <template if:true={success}>
+                <lightning-icon class="slds-p-bottom_small" icon-name="utility:success" variant="success"></lightning-icon>
+                <div>
+                    {labels.success}
+                </div>
+            </template>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer if:false={loading}>
+        <lightning-button class="slds-align_absolute-center" variant="brand" label={labels.okay} onclick={handleOkay}></lightning-button>
+    </lightning-modal-footer>
+</template>

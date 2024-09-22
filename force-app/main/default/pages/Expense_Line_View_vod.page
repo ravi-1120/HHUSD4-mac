@@ -1,0 +1,4 @@
+<apex:page standardController="Expense_Line_vod__c" >
+    <c:VOD_EMBED veevaModule="em" veevaPage="expense-line-view" objectType="Expense_Line_vod__c" queryParams="lgtvf=true" />
+    <c:FilesAttachmentsRelatedListVod objectType="{!Expense_Line_vod__c}" />
+</apex:page>

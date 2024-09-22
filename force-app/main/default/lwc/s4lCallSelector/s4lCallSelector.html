@@ -1,0 +1,45 @@
+<template>
+    <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+    <div if:false={loading} class="slds-p-horizontal_x-large slds-p-vertical_xx-small" >
+        <p class="slds-form-element__label">{callObjectLabel}</p>
+        <div class={comboboxClass}>
+            <c-veeva-raw-combobox button-label={picklistHintText} field-api-name={fieldApiName} 
+                add-button-padding="true" icon-size="small"
+                options={options} onoptionselection={handleSelectCall} value={selectedValue}>
+            </c-veeva-raw-combobox>
+        </div>
+        <span class={comboboxClass}>
+            <span class="slds-form-element__help">{validationMessage}</span>
+        </span>
+    </div>
+
+    <!-- show all calls modal -->
+    <c-veeva-modal if:true={showAll} size="large" max-height=true composed=true onclose={handleSearchClose}>
+        <div slot="header">
+            {callObjectLabel}
+        </div>
+        <div slot="content">
+            <c-veeva-spinner if:true={loadingInitialResults}></c-veeva-spinner>
+            <c-veeva-search-results if:false={loadingInitialResults} message-svc={ctrl.messageSvc} search-records={searchAllResults}
+                columns={columns} result-title={callObjectLabelPlural} enable-infinite-loading={enableInfiniteLoading}
+                onrowselection={handleRowSelection} onloadmoredata={handleLoadMore} hide-checkbox=true>
+            </c-veeva-search-results>
+        </div>
+        <div slot="footer">
+            <lightning-button label={labels.cancel} title={labels.cancel} onclick={handleSearchClose} variant="neutral" class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-veeva-modal>
+
+    <!-- alert modal with bulleted list (for attendee violation) -->
+    <c-s4l-bulleted-list-alert if:true={showAttendeeViolationAlert}
+        title={labels.cannotRecordCall} message={attendeeViolationMessage} list-items={violatedAttendeeNames}
+        cancel-label={labels.cancel} oncancel={closeAttendeeViolationAlert}
+        onclose={closeAttendeeViolationAlert}>
+    </c-s4l-bulleted-list-alert>
+
+    <!-- general alert modal -->
+    <c-veeva-alert-modal if:true={alertModalData.isVisible} show={alertModalData.isVisible}
+                            title={alertModalData.title} messages={alertModalData.messages}
+                            okay-label={labels.close} button-style="neutral" onclose={alertModalData.onCloseHandler} >
+    </c-veeva-alert-modal>
+</template>

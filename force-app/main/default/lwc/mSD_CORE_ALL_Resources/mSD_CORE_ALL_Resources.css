@@ -1,0 +1,1060 @@
+* {
+  font-family: Invention !important;
+}
+.title-body,
+.title-body * {
+  box-sizing: border-box;
+}
+.title-body {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 10px 0px 40px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    box-shadow: var(--level-1-box-shadow, 0px 2px 2px 0px rgba(0, 0, 0, 0.2));
+    width: 1128px;
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 120px;
+}
+.frame-27 {
+  padding: 0px 40px 0px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.title {
+  color: var(--neutral-black, #000000);
+  text-align: left;
+  font-family: var(--heading-h2-bold-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--heading-h2-bold-font-size, 24px);
+  line-height: var(--heading-h2-bold-line-height, 36px);
+  font-weight: var(--heading-h2-bold-font-weight, 700);
+  position: relative;
+  width: 292px;
+}
+.frame-4248 {
+  padding: 0px 40px 0px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.main-pipeline {
+  background: #ffffff;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: var(--primary-atlernative-primary, #5450e4);
+  border-width: 1px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.frame-24 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.mr-0000324-bridion-sugammedex-budget-impact-analysis {
+  color: var(--primary-atlernative-primary-dark, #3a379f);
+  text-align: left;
+  font-family: "Invention-Bold", sans-serif !important;
+  font-size: 19.58399772644043px;
+  line-height: 29.38px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+}
+.tags {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.body {
+  background: #d4ddfc;
+  border-radius: 4px;
+  padding: 2px 8px 2px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.label-here {
+  color: #05215b;
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tag-expiration-cta {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.primary-button {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+}
+.buttton-master {
+  background: var(--primary-atlernative-primary, #5450e4);
+  border-radius: 5px;
+  padding: 7px 16px 7px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.button-text {
+  color: var(--neutral-white, #ffffff);
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tag-master {
+  background: #c9e8d5;
+  border-radius: 4px;
+  padding: 2px 8px 2px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.label-here2 {
+  color: #3a4c04;
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tag-master2 {
+  background: #ddb9ff;
+  border-radius: 4px;
+  padding: 2px 8px 2px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.label-here3 {
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: 17px;
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+}
+.line-1 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #d8d8d8;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.frame-272 {
+  padding: 0px 40px 0px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.filters {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.select {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 417px;
+  position: relative;
+}
+.select2 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.input {
+  border-radius: var(--borderradius, 4px);
+  border-style: solid;
+  border-color: var(
+    --components-input-outlined-enabledborder,
+    rgba(0, 0, 0, 0.23)
+  );
+  border-width: 1px;
+  padding: 15px 12px 15px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  font-family: Invention;
+}
+.container {
+  padding: 16px 0px 16px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  font-size: 14px;
+}
+.min-height {
+  flex-shrink: 0;
+  width: 0px;
+  height: 24px;
+  position: relative;
+}
+.cbox {
+  padding: 19.6px 7px !important;
+  color: var(--Secondary-Neutral-Dark-Text, var(--Gray-Scale-text-dark, #333)) !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 21px !important;
+}
+.input:hover, .cbox:hover {
+  border-color: #5450E4 !important;
+}
+.email, .input::placeholder {
+  color: var(--secondary-neutral-dark-text, #333333);
+  text-align: left;
+  font-family: Invention;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.min-width {
+  flex-shrink: 0;
+  width: 24px;
+  height: 0px;
+  position: relative;
+}
+.select3 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 222px;
+  position: relative;
+}
+.email2 {
+  color: var(--secondary-neutral-dark-text, #333333);
+  text-align: left;
+  font-family: Invention;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.arrow-drop-down-filled {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 0px;
+  top: calc(50% - 12px);
+  overflow: visible;
+}
+.filters2 {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.select4 {
+  background: var(--primary-atlernative-primary, #5450e4) !important;
+  border-radius: 4px !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0px !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  flex: 1 !important;
+  position: relative !important;
+  cursor: pointer;
+}
+.all {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Invention-Bold", sans-serif !important;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.select4 .all2 {
+  color: #ffffff;
+  text-align: left;
+  font-size: 14px;
+  line-height: 21px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.select5 {
+  background: #ffffff;
+  border-radius: 4px;
+  border-style: solid;
+  border-color: var(--primary-atlernative-primary, #5450e4);
+  border-width: 1px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+}
+.all2 {
+  color: var(--primary-atlernative-primary, #5450e4);
+  text-align: left;
+  font-family: Invention;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.title-body2 {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.component-1 {
+  background: #ffffff;
+  padding: 24px 40px 24px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.frame-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  height: 127px;
+  position: relative;
+}
+.tag-title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.title2 {
+  color: var(--neutral-dark-text, #333333);
+  text-align: left;
+  font-family: "Invention-Bold", sans-serif !important;
+  font-size: 18px;
+  line-height: 27px;
+  font-weight: 700;
+  position: relative;
+}
+.title3 {
+  color: var(--neutral-dark-text, #333333);
+  text-align: left;
+  font-family: Invention;
+  font-size: 16px;
+  line-height: 27px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+.frame-273 {
+  padding: 16px 0px 16px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-end;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.frame-23 {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.line-18 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.component-2 {
+  background: #ffffff;
+  padding: 24px 40px 24px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tag-master3 {
+  background: #cfcbd9;
+  border-radius: 4px;
+  padding: 2px 8px 2px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.label-here4 {
+  color: #2a1270;
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon2 {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.line-19 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.component-3 {
+  background: #ffffff;
+  padding: 24px 40px 24px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tag-master4 {
+  background: #fed5f5;
+  border-radius: 4px;
+  padding: 2px 8px 2px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.label-here5 {
+  color: #ab307b;
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon3 {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.line-20 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.component-4 {
+  background: #ffffff;
+  padding: 24px 40px 24px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tag-master5 {
+  background: #bfeced;
+  border-radius: 4px;
+  padding: 2px 8px 2px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.label-here6 {
+  color: #065052;
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon4 {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.line-21 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.component-5 {
+  background: #ffffff;
+  padding: 24px 40px 24px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.tag-master6 {
+  background: #ccebfd;
+  border-radius: 4px;
+  padding: 2px 8px 2px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.label-here7 {
+  color: #043e60;
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon5 {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.line-22 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.line-17 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.line-16 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.line-14 {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.pagination-button {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+}
+.buttton-master2 {
+  background: var(--secondary-gray, #f7f7f7);
+  border-radius: 5px;
+  padding: 11px 16px 11px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.left-icon {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon6 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+.button-text2 {
+  color: var(--neutral-dark-text, #333333);
+  text-align: center;
+  font-family: "Invention-Bold", sans-serif !important;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.86px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.numbers {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.pagination-button2 {
+  background: var(--primary-atlernative-primary, #5450e4);
+  border-radius: 4px;
+  padding: 11px 16px 11px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  position: relative;
+  cursor: pointer;
+}
+.button-text3 {
+  color: var(--neutral-white, #ffffff);
+  text-align: center;
+  font-family: "Invention-Bold", sans-serif !important;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.86px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination-button3 {
+  background: var(--secondary-gray, #f7f7f7);
+  border-radius: 4px;
+  padding: 11px 16px 11px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  position: relative;
+  cursor: pointer;
+}
+.pagination-button4 {
+  background: var(--secondary-gray, #f7f7f7);
+  border-radius: 4px;
+  padding: 11px 16px 11px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+}
+.right-icon {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon7 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+.coming-soon-banner {
+  border-radius: 6px;
+  padding: 0px 40px 0px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.ui-backgrounds {
+  border-radius: 6px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 256px;
+  position: relative;
+  overflow: hidden;
+}
+.rectangle {
+  background: var(--accents-rich-blue, #5450e4);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 0%;
+  top: 0%;
+}
+.geometric-pattern-2-x-8-1 {
+  width: 1910px;
+  height: 552.33px;
+  position: absolute;
+  left: -235px;
+  top: -185px;
+  mix-blend-mode: multiply;
+  object-fit: cover;
+}
+.frame-32 {
+  border-radius: 6px;
+  padding: 16px 24px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: absolute;
+  left: calc(50% - 374.5px);
+  top: calc(50% - 112px);
+}
+.title-and-description {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.more-resources-comin {
+  color: #ffffff;
+  text-align: center;
+  font-family: var(
+    --header-7-header-1-bold-36pt-45pt-font-family,
+    "Invention-Bold",
+    sans-serif
+  );
+  font-size: var(--header-7-header-1-bold-36pt-45pt-font-size, 36px);
+  line-height: var(--header-7-header-1-bold-36pt-45pt-line-height, 45px);
+  font-weight: var(--header-7-header-1-bold-36pt-45pt-font-weight, 700);
+  position: relative;
+}
+.sign-up-to-be-notifi {
+  color: var(--neutral-white, #ffffff);
+  text-align: center;
+  font-family: Invention;
+  font-size: 16px;
+  line-height: 27px;
+  font-weight: 400;
+  position: relative;
+  width: 702px;
+}
+.buttton-master3 {
+  background: var(--gray-scale-white, #ffffff);
+  border-radius: 5px;
+  padding: 7px 16px 7px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.button-text4 {
+  color: var(--primary-atlernative-primary, #5450e4);
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif) !important;
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon8 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}

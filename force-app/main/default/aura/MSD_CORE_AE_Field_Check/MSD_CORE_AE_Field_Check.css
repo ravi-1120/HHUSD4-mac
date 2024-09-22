@@ -1,0 +1,13 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-size_6-of-12, .THIS .slds-size--6-of-12 {
+    width: 49%;
+    margin-left: 1%;
+}
+.THIS .slds-input {
+    border: 1px solid #ca0a0a !important;
+}
+.THIS .slds-textarea {
+    border: 1px solid #ca0a0a !important;
+}

@@ -1,0 +1,57 @@
+<apex:page controller="PDS_DocGenController" applyHtmlTag="true" contentType="application/vnd.ms-excel#Proposal.xls" showHeader="false" sidebar="false" standardStylesheets="false">
+    <html>
+        <head>
+            <style>
+                table {
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                    width: 5%;
+                }
+                th, td {
+                    border: 1px solid black;
+                    padding: 8px;
+                    text-align: Center;
+					width:10%
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+            </style>
+        </head>
+        <body>
+            <table cellspacing="0" cellpadding="0">
+                 <thead>
+                    <tr>
+                        <th>NGO</th>
+                        <th>Local Partner</th>
+                        <th>Country</th>
+                        <th>Product Name</th>
+                        <th>Product Size</th>
+                        <th>NDC</th>
+                        <th>SAP</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Market Value</th>
+                    </tr>
+        		</thead>
+                <tbody>
+                    <apex:repeat value="{!productLineItems}" var="record">
+                        <tr>
+                            <td>{!record.PDS_Donation_Request__r.PDS_Donee__r.Name}</td>
+                            <td>{!record.PDS_Local_Partner__c}</td>
+                            <td>{!record.PDS_Country__c}</td>
+                            <td>{!record.PDS_Product__r.Name}</td>
+                            <td>{!record.PDS_Product__r.PDS_Product_Size__c}</td>
+                            <td>{!record.PDS_Product__r.PDS_NDC_Number__c}</td>
+                            <td>{!record.PDS_Product__r.PDS_SAP_Code__c}</td>
+                            <td>{!record.PDS_Quantity_Requested__c}</td>
+                    		<td>US ${!actualUnitSalePriceStringPart}</td>
+                    		<!--<td>US ${!record.PDS_Total_Market_Value__c}</td>-->
+                            <td>US ${!totalMarketValueStringPart}</td>
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+        </body>
+    </html>
+</apex:page>

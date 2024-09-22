@@ -1,0 +1,13 @@
+<template>
+    <c-veeva-field-generic ctrl={ctrl}>
+        <div slot="control">
+            <div class={inputAddonClass}>
+                <lightning-input type={ctrl.inputType} value={value} variant='label-hidden' onchange={handleChange}
+                    date-style='short' step='any' required={ctrl.required} disabled={disabled} maxlength={ctrl.maxlength}
+                    format-fraction-digits={fractionDigits} timezone={timezone}>
+                </lightning-input>
+                <span if:true={showInputAddon} class="slds-form-element slds-form-element__addon">{inputAddon}</span>
+            </div>
+        </div>
+    </c-veeva-field-generic>
+</template>

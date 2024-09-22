@@ -1,0 +1,66 @@
+<aura:component controller="CaseControllerMVN" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="recordTypeId" type="String"/>
+    <aura:attribute name="sectionName" type="String"/>
+    <aura:attribute name="selTabId" type="String" default="All"/>
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    <aura:attribute name="fielddata" type="CaseControllerMVN.CaseAERequiredFieldWrapper[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showAll" type="Boolean" default="true" />
+    
+    <article class="slds-card slds-card_boundary" style="padding: 1px;">
+        <div class="slds-media__body slds-truncate slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner />
+            </aura:if>
+            <lightning:recordEditForm 
+                                      aura:id="recordViewForm" 
+                                      recordId="{!v.recordId}" 
+                                      onsuccess="{!c.handleSuccess}" 
+                                      recordTypeId="{!v.recordTypeId}"
+                                      objectApiName="Case">
+                <input type="button" class="slds-button slds-button_brand" 
+                       value="Edit" 
+                       onclick="{!c.doEdit}"
+                       style="position: absolute;right: 2px;top: 3px;"/>
+                <lightning:tabset selectedTabId="{!v.selTabId}" onselect="{!c.tabSelected}">
+                    <aura:iteration items="{!v.fielddata}" var="item">
+                        <lightning:tab label="{!item.sectionName}" id="{!item.sectionName}">
+                            <aura:if isTrue="{!!v.showAll}">
+                                <aura:iteration items="{!item.fieldList}" var="a">
+                                    <lightning:layoutItem class="{!v.isEdit == false ? 'slds-p-vertical_xx-small form-field-border form-field-bordr' : 'slds-p-vertical_xx-small form-field-border'}" padding="horizontal-small" size="6">
+                                        <aura:if isTrue="{!v.isEdit == false}">
+                                            <lightning:outputField fieldName="{!a.fieldName}"/>
+                                            <aura:set attribute="else">
+                                                <lightning:inputField fieldName="{!a.fieldName}"/>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </aura:iteration>
+                            </aura:if>
+                        </lightning:tab>
+                    </aura:iteration>
+                </lightning:tabset>
+                
+                <aura:if isTrue="{!v.isEdit == true}">
+                    <div style="float: left; width: 100%; padding: 10px; text-align: center;">
+                        <lightning:button 
+                                          variant="brand" 
+                                          type="submit"
+                                          name="save" 
+                                          label="Save"
+                                          onclick="{!c.doSave}"/>
+                        
+                        <lightning:button 
+                                          variant="neutral"
+                                          name="cancel" 
+                                          label="Cancel"
+                                          onclick="{!c.stopEdit}"/>
+                        
+                    </div>
+                </aura:if>
+            </lightning:recordEditForm>
+        </div>
+    </article>
+</aura:component>

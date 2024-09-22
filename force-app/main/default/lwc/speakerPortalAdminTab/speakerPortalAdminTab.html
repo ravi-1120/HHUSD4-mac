@@ -1,0 +1,8 @@
+<template>
+    <c-veeva-spinner if:true={loading} class="slds-spinner_container"></c-veeva-spinner>
+    <div class="slds-clearfix">
+        <lightning-button class="slds-float_right slds-p-around_small" onclick={clearCache} label={messageMap.speakerPortalClearCache}></lightning-button>
+    </div>
+    <c-admin-integration-user system-type="SalesForce_SPORTAL"></c-admin-integration-user>
+    <c-speaker-portal-sub-domain></c-speaker-portal-sub-domain>
+</template>

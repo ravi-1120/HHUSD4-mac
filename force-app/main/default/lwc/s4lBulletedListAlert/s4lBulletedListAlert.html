@@ -1,0 +1,21 @@
+<template>
+    <c-veeva-modal onclose={handleClose}>
+        <span slot="header">{title}</span>
+        <div slot="content">
+            <div class="slds-scrollable_y" style="max-height: 230px">
+                <div>{message}</div>
+                <div class="slds-p-vertical_xx-small">
+                    <ul class="slds-list_dotted">
+                        <template for:each={listItems} for:item="item">
+                            <li key={item}>{item}</li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div slot="footer">
+            <lightning-button if:true={cancelLabel} label={cancelLabel} title={cancelLabel} onclick={handleCancel} variant="neutral"></lightning-button>
+            <lightning-button if:true={continueLabel} label={continueLabel} title={continueLabel} onclick={handleContinue} variant="brand" class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

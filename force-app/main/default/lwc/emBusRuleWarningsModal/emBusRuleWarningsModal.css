@@ -1,0 +1,15 @@
+.body {
+    min-height: 8rem;
+    position: relative;
+}
+
+.disabled-overlay {
+    background-color: var(--lwc-colorBackgroundAlt, rgb(255, 255, 255));
+    bottom: 0;
+    left: 0;
+    opacity: 0.8;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}

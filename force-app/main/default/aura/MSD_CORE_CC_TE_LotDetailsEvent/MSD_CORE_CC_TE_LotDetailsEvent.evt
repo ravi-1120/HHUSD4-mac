@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT">
+    <aura:attribute name="lotName" type="String" default=""/>
+    <aura:attribute name="recId" type="String" default=""/>
+</aura:event>

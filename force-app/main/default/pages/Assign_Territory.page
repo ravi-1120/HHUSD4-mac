@@ -1,0 +1,39 @@
+<apex:page standardController="Account" extensions="VODRedirectController" standardStylesheets="true">
+  <apex:composition template="{!$Page.VODRedirectCustom_vod}"/>
+  <c:VOD_BASE_SF_INCLUDES_vod />
+  
+    <apex:includeScript value="{!VodUrl}/js/vendor/alertify.min.js" />
+    <apex:stylesheet value="{!VodUrl}/css/vendor/alertify.core.css" />
+    <apex:stylesheet value="{!VodUrl}/css/vendor/alertify.default.css" />
+
+    <script>
+
+    //preload alert OK and Cancel messages
+    alertify.set({
+      labels: {
+        ok: "{!TranslatedOk}",
+        cancel: "{!TranslatedCancel}"
+      }
+    });
+    
+    var accountId = '{!Account.Id}';
+
+    var queryParams;
+    var error;
+
+    if (accountId != "") {
+      queryParams = "&accountIds=" + accountId;
+    } else {
+       error = "You must select at least one record to process.";
+    }
+
+    if (error) {
+      alertify.alert(error, function() {
+        history.go(-1);
+      });
+    } else {
+      com.vod309.redirect.redirect("assignterritory", queryParams);
+    }
+
+  </script>
+</apex:page>

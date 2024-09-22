@@ -1,0 +1,44 @@
+<apex:component >
+    <apex:includeLightning />
+    <apex:slds />
+    <div id="lightningFlow"></div>
+    <script type="text/javascript">
+        var VeevaFlowUtils = {
+            createFlowComponent: function(flowName, inputVariables, inContextOfRef) {
+                $Lightning.use("c:veevaFlowLauncherApp", function() {                
+                    var auraAttributes = {
+                        "flowName": flowName,
+                        "flowVariables": inputVariables,
+                        "inContextOfRef": inContextOfRef
+                    };
+            
+                    $Lightning.createComponent("c:veevaLgtnFlowLauncher", auraAttributes, "lightningFlow",
+                        function() {
+                            console.log("Initializing lightning flow '" + flowName + "'");
+                        }
+                    );
+                });
+            },
+            createFlowComponentWithFlowContext: function(flowName, inputVariables, inContextOfRef) {
+
+                if (inContextOfRef) {
+                    //set the flowContext with inContextOfRef so that the context can be carried across the components in the flow.
+                    //inContextOfRef itself is not being carried between the components in the flow.
+                    inputVariables.push(this.createFlowVariable("flowContext", JSON.stringify(inContextOfRef), "String"));
+                }
+
+                this.createFlowComponent(flowName, inputVariables, inContextOfRef);
+            },
+            createVeevaRecordTypeSelectorFlowComponent: function(inputVariables, inContextOfRef) {
+                this.createFlowComponentWithFlowContext('VeevaRecordTypeSelectorFlow', inputVariables, inContextOfRef);
+            },
+            createFlowVariable: function(name, value, type) {
+                return {
+                    "name": name,
+                    "value": value,
+                    "type": type
+                };
+            }
+        }
+    </script>
+</apex:component>

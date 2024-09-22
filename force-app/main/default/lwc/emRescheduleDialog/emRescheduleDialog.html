@@ -1,0 +1,42 @@
+<template>
+    <c-veeva-spinner if:true={showSpinner} is-blocking=true></c-veeva-spinner>
+    <lightning-modal-header label={confirmationMessage}></lightning-modal-header>
+    <lightning-modal-body>
+        <div if:false={isLoading} class="modal-content__container slds-p-around_medium reschedule-slot-height">
+            <div class="slds-p-bottom_xx-large">
+                <ul class="error-alerts-container">
+                    <template if:true={hasErrors} for:each={errors} for:item="error">
+                        <li key={error.key} class="error-alert slds-theme_error">
+                            <lightning-icon class="slds-p-left_xx-small slds-p-right_xx-small slds-current-color"
+                                icon-name="utility:error" size="x-small"></lightning-icon>
+                            <span>{error.message}</span>
+                        </li>
+                    </template>
+                </ul>
+                <ul class="warning-alerts-container">
+                    <template if:true={hasWarnings} for:each={warnings} for:item="warning">
+                        <li key={warning.key} class="warning-alert slds-theme_warning">
+                            <lightning-icon class="slds-p-left_xx-small slds-p-right_xx-small slds-current-color"
+                                icon-name="utility:warning" size="x-small"></lightning-icon>
+                            <span>{warning.message}</span>
+                        </li>
+                    </template>
+                </ul>
+                <lightning-input class={rescheduleInputClass} name={RESCHEDULE_START_DATE_TIME} type="datetime"
+                    label={startTimeLabel} value={currentStartTime} timezone={userTimeZone} onchange={updateModel}></lightning-input>
+                <lightning-input class={rescheduleInputClass} name={RESCHEDULE_END_DATE_TIME} type="datetime"
+                    label={endTimeLabel} value={currentEndTime} timezone={userTimeZone} onchange={updateModel}></lightning-input>
+                <lightning-combobox if:true={showTimeZonePicker} name={TIME_ZONE_FIELD} label={timeZoneFieldLabel} 
+                    value={currentTimeZoneValue} options={timeZoneOptions} onchange={updateModel} required></lightning-combobox>
+                <c-veeva-field-generic if:true={isTimeZoneReadOnly} ctrl={readOnlyTimeZoneCtrl}></c-veeva-field-generic>
+                <lightning-textarea if:true={showComments} class="comments-field" name="comment" label={commentsLabel}
+                    value={model.comment} onchange={updateModel}></lightning-textarea>
+            </div>
+            <div if:true={isConfirming} class="disabled-overlay"></div>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+            <lightning-button variant="brand" label={buttonLabel} onclick={confirmation} disabled={disableButton}
+                class="slds-m-left_x-small"></lightning-button>
+    </lightning-modal-footer>
+</template>

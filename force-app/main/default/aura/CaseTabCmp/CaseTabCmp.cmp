@@ -1,0 +1,698 @@
+<aura:component extends="c:ComponentUtils" controller="CaseTabCmpController" implements="flexipage:availableForRecordHome,force:hasSObjectName,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:handler event="c:MSD_CORE_CC_AppEvent" action="{!c.handleMyApplicationEvent}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="isReadOnlyUser" type="Boolean"/>
+    <aura:attribute name="recTypeName" type="String"/>
+    <aura:attribute name="firstAttachedArticle" type="String"/>
+    
+    <aura:attribute name="displayOnRecordPage" type="Boolean" default="true"/>
+    
+    <aura:attribute name="popOverId" type="String"/>    
+    
+    <!--<aura:attribute name="Document_Type_MVN__c" type="List"/>
+    <aura:attribute name="Document_Subtype_MVN__c" type="List"/>
+    <aura:attribute name="MSD_CORE_Category__c" type="List"/>-->
+    
+    <!-- Picklist Attributes -->
+    <aura:attribute name="Document_Language_MVN__c" type="List"/>
+    <aura:attribute name="Country_MVN__c" type="List"/>
+    <aura:attribute name="Product_vod__c" type="List"/>
+    <aura:attribute name="recs" type="List"/>
+    
+    <!-- Dependent picklist attributes-->  
+    <aura:attribute name="listControllingValues" type="list" default="[]" description="to store controller field values"/>
+    <aura:attribute name="listDependingValues" type="list" default="['-- None --']" description="to store dependent field values"/>
+    <aura:attribute name="listSubDependingValues" type="list" default="['-- None --']" description="to store dependent field values"/>
+    
+    <aura:attribute name="depnedentFieldMap" type="map" description="map to store dependent values with controlling value"/>
+    <aura:attribute name="subDepnedentFieldMap" type="map" description="map to store sub dependent values with controlling value"/>
+    <aura:attribute name="bDisabledDependentFld" type="boolean" default="false"/> 
+    <aura:attribute name="bDisabledSubDependentFld" type="boolean" default="true"/> 
+    
+    <aura:attribute name="showQuickSearch" type="boolean" default="false"/>
+    <aura:attribute name="isClosed" type="boolean" default="false"/>
+    
+    <aura:attribute name="objDetail" type="Case_Document_MVN__c" default="{'sobjectType' : 'Case_Document_MVN__c'}"/>
+    <aura:attribute name="controllingFieldAPI" type="string" default="Document_Type_MVN__c" />
+    <aura:attribute name="dependingFieldAPI" type="string" default="Document_Subtype_MVN__c" />
+    <aura:attribute name="subDependingFieldAPI" type="string" default="MSD_CORE_Category__c" />
+    
+    <!-- Datatable attributes -->
+    <aura:attribute name="data" type="List" default="[]"/>
+    <aura:attribute name="columns" type="List"/>
+    
+    <aura:attribute name="qsdata" type="List" default="[]"/>
+    <aura:attribute name="qscolumns" type="List"/>
+    
+    <!-- Search Attributes -->
+    <aura:attribute name="searchTypeOverride" type="String"/>
+    <aura:attribute name="productId" type="String"/>
+    <aura:attribute name="documentSearchText" type="String"/>
+    <aura:attribute name="documentSearchTextbyDesc" type="String"/>
+    
+    <aura:attribute name="searchMsg" type="String" default="" />
+    
+    <aura:attribute name="prevSearchText" type="String" default="" />    
+    
+    <!-- Error Attributes -->
+    <aura:attribute name="showErrors" type="Boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String" default=""/>
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>    
+    
+    <!-- Attached Knowledge attributes -->
+    <aura:attribute name="knowledgeArticles" type="List"/>
+    
+    <aura:attribute name="caseDocWrapperLst" type="List"/>
+    
+    <aura:registerEvent name="MSD_CORE_CC_KnowledgePreviewEvt" type="c:MSD_CORE_CC_KnowledgePreviewEvt" />
+    <aura:registerEvent name="MSD_CORE_CC_RefreshQuickSearch" type="c:MSD_CORE_CC_RefreshQuickSearch" />
+    
+    <!-- LDS attributes to hold record data-->    
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="simpleRecord" type="Case" />
+    <aura:attribute name="recordError" type="String" />
+    <force:recordData aura:id="recordEditor"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      recordUpdated="{!c.reloadKnowledgeSearch}"
+                      targetFields ="{!v.simpleRecord}"
+                      mode="EDIT" />
+    <aura:attribute name="objCaseDoc" type="Case_Document_MVN__c"/>
+    <aura:attribute name="customerType" type="String" default=""/>
+    <aura:attribute name="searchTimeoutId" type="Object" />
+    
+    <aura:attribute name="allData" type="List"/>
+    <aura:attribute name="currentPageNumber" type="Integer" default="1"/>
+    <aura:attribute name="pageSize" type="Integer" default="50"/>
+    <aura:attribute name="totalPages" type="Integer" default="0"/>
+    <aura:attribute name="pageList" type="List"/>
+    
+   	<aura:attribute name="articleSettings" type="Object" /> 
+   <!-- <aura:attribute name="responseTime" type="Object" /> -->
+    <!--<aura:attribute name="disableQuickSearch" type="Boolean" default="false"/>    -->
+    
+    <aura:if isTrue="{!not(v.showQuickSearch)}">
+        <div class="slds-media__figure">
+            <div class="extraSmall forceEntityIcon">
+                <span class="uiImage"  />
+                <lightning:icon iconName="utility:search" size="small" ></lightning:icon>
+            </div>
+        </div>
+        
+        <div class="slds-media__body" >
+            <h2 id="header">
+                <!--a class="slds-card__header slds-grid"-->
+                <!--a class="slds-card__header-link baseCard__header-title-container"-->
+                <button class="slds-button" onclick="{!c.searchArticles}">
+                    <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Search Articles</span>
+                </button>
+                <!--/a-->
+            </h2>
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showQuickSearch == true}">   
+        <aura:if isTrue="{!v.showSpinner}">
+        	<lightning:spinner />
+   		</aura:if>
+        <aura:if isTrue="{!and(v.customerType != null,v.customerType != '')}">
+            <aura:if isTrue="{!!v.isReadOnlyUser}">
+                <aura:if isTrue="{!!v.isClosed}">
+                    <a style="position: absolute;top: 10px;right: 10px;" class="slds-text-heading--small slds-truncate slds-m-right--xx-small" onclick="{!c.openModal}">Advanced Search</a>
+                </aura:if>
+                <article class="slds-card slds-card_boundary">
+                    <div class="slds-media__body slds-truncate slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" onkeyup="{! c.handleKeyUp }">
+                        <!-- Search Text Input Box Start-->
+                        <ui:inputText aura:id="searchId" disabled="{!v.isClosed}" class="slds-input slds-combobox__input"  placeholder="Search Articles" value="{!v.documentSearchText}"/>
+                    </div>  
+                    <div style="position: absolute;right: 2px;top: 2px;">
+                        <lightning:button label="Search" disabled="{!v.isClosed}" name="Search" variant="brand" onclick="{!c.searchDocs}" />
+                    </div> 
+                </article>
+                
+                <!-- Search Response Time : {!v.responseTime} -->
+            </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.customerType == null}">
+            <div class="error-msg" id="fileError" style="background-color: #FFBABA;color: #D8000C;border-radius: 3px 3px 3px 3px;">
+                <lightning:icon iconName="utility:close" size="xx-small" alternativeText="Error!" variant="error"/>
+                {!$Label.c.MSD_CORE_Specify_a_Customer_Type}
+            </div>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.knowledgeArticles.length > 0}">
+            <article class="slds-card slds-card_boundary" style="margin-top: 10px;">
+                <table class="slds-table" style="border-bottom: 1px solid #eee;">
+                    <thead>
+                        <tr class="slds-text-title">
+                            <th scope="col">
+                                <div title="Case Articles">Attached Case Articles ({!v.knowledgeArticles.length})</div>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="slds-grid slds-wrap">
+                    <ul class="slds-list--vertical slds-has-dividers--bottom" style="width: 100%;">
+                        <aura:iteration items="{!v.knowledgeArticles}" var="cd" indexVar="index">
+                            <li class="slds-list__item" style="overflow: hidden;">
+                                <aura:if isTrue="{!!v.isReadOnlyUser}">
+                                    <aura:if isTrue="{!!v.isClosed}">
+                                        <div class="slds-col slds-p-top_xx-small" style="width: 30px;float: left;padding-bottom: .25rem;padding-left: 5px;">
+                                            <a class="slds-text-link" target="_blank" data-attriVal="{!index}" onclick="{!c.handleClick}">
+                                                <lightning:buttonIcon iconName="utility:close" variant="bare"/>
+                                            </a>
+                                        </div>
+                                    </aura:if>
+                                </aura:if>
+                                <aura:if isTrue="{!v.displayOnRecordPage}">
+                                    <div class="slds-col slds-p-top_xx-small" style="width: calc(100% - 35px);float: left;padding-top: .35rem;"> 
+                                        <a data-record="{!v.recordId+'-selected-'+index}" style="white-space: initial;" onmouseover="{!c.openPop}" onmouseout="{!c.closePop}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.navigateToKnowledge}">{!cd.Document_Title_MVN__c}</a>
+                                        
+                                        <div id="{!v.recordId+'-selected-'+index}" class="slds-hide" aura:id="{!index}" tabindex="0" data-record="{!v.recordId+'-selected-'+index}" onmouseover="{!c.openPopFocus}" onmouseleave="{!c.closePopFocus}">
+                                            
+                                            <div class="hoverpop slds-nubbin_top" role="dialog" aura:id="popover" style="{!v.popoverStyle}" data-record="{!v.recordId+'-selected-'+index}" >
+                                                
+                                                
+                                                
+                                                <section  aura:id="{!index}" role="dialog" tabindex="0"  data-record="{!v.recordId+'-selected-'+index}" >
+                                                    
+                                                    
+                                                    
+                                                    <!--<section id="{!'selected-'+index}" aura:id="{!index}" class="hoverpop slds-nubbin_top slds-hide" role="dialog" aria-labelledby="dialog-heading-id-1" aria-describedby="dialog-body-id-6" onmouseover="{!c.openPopFocus}" onmouseleave="{!c.closePopFocus}">-->
+                                                    <button class="slds-button slds-button_icon slds-button_icon slds-button_icon-small slds-float_right slds-popover__close" title="Close" data-record="{!'selected-'+index}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.closePopFocus}">
+                                                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" />
+                                                        <span class="slds-assistive-text">Close</span>
+                                                    </button>
+                                                    <!--
+                                            <header class="slds-popover__header slds-p-vertical_medium">
+                                                <h2 id="dialog-heading-id-1" class="slds-text-heading_medium custom-popover_header">Knowledge ({!cd.Document_Title_MVN__c})</h2>
+                                                <button class="slds-button slds-button_icon slds-button_icon slds-button_icon-small slds-float_right slds-popover__close" title="Close" data-record="{!'unselected-'+index}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.closePop}">
+                                                    <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" />
+                                                    <span class="slds-assistive-text">Close</span>
+                                                </button>
+                                            </header> -->
+                                                    <div class="slds-popover__header" style="background-color:rgb(236, 235, 234);">
+                                                        <header class="slds-media slds-media_center slds-m-bottom_small">
+                                                            <span class="slds-icon_container slds-icon-standard-account slds-media__figure">
+                                                                <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="standard:knowledge" size="small" alternativeText="knowledge" />
+                                                            </span>
+                                                            <div class="slds-media__body">
+                                                                <h5 class="slds-text-heading_medium slds-hyphenate" id="panel-heading-id">
+                                                                    <a href="javascript:void(0);" style="font-size:1rem !important;">Knowledge ({!cd.Document_Title_MVN__c})</a>
+                                                                </h5>
+                                                            </div>
+                                                        </header>
+                                                    </div>
+                                                    <div class="slds-popover__body custom-popover_body">
+                                                        <aura:unescapedHtml value="{!cd.MSD_CORE_Document_Preview__c}"/>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-col slds-p-top_xx-small" style="width: calc(100% - 35px);float: left;padding-top: .35rem;">  
+                                            
+                                            <a data-record="{!v.recordId+'-sel-'+index}" style="white-space: initial;" onmouseover="{!c.openPop}" onmouseout="{!c.closePop}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.navigateToKnowledge}">{!cd.Document_Title_MVN__c}</a>
+                                            
+                                            <div id="{!v.recordId+'-sel-'+index}" class="slds-hide" aura:id="{!index}" tabindex="0" data-record="{!v.recordId+'-sel-'+index}" onmouseover="{!c.openPopFocus}" onmouseleave="{!c.closePopFocus}">
+                                                
+                                                <div class="hoverpopProdPage" role="dialog" aura:id="popover" style="{!v.popoverStyle}" data-record="{!v.recordId+'-sel-'+index}" >
+                                                    
+                                                    
+                                                    
+                                                    <section  aura:id="{!index}" role="dialog" tabindex="0"  data-record="{!v.recordId+'-sel-'+index}" >
+                                                        <button class="slds-button slds-button_icon slds-button_icon slds-button_icon-small slds-float_right slds-popover__close" title="Close" data-record="{!'sel-'+index}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.closePop}">
+                                                            <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" />
+                                                            <span class="slds-assistive-text">Close</span>
+                                                        </button>
+                                                        <div class="slds-popover__header" style="background-color:rgb(236, 235, 234);">
+                                                            <!--<header class="slds-popover__header slds-p-vertical_medium">
+                                                    <h2 id="dialog-heading-id-1" class="slds-text-heading_medium custom-popover_header">Knowledge ({!cd.Document_Title_MVN__c})</h2>
+                                                    <button style="float: right; margin-top: -20px;" class="glc-button slds-button slds-button_icon slds-button_icon-inverse" title="Close" data-record="{!'sel-'+index}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.closePop}">
+                                                        
+                                                    </button>
+                                                </header>-->
+                                                            <header class="slds-media slds-media_center slds-m-bottom_small">
+                                                                <span class="slds-icon_container slds-icon-standard-account slds-media__figure">
+                                                                    <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="standard:knowledge" size="small" alternativeText="knowledge" />
+                                                                </span>
+                                                                <div class="slds-media__body">
+                                                                    <h5 class="slds-text-heading_medium slds-hyphenate" id="panel-heading-id">
+                                                                        <a class="slds-wrap" href="javascript:void(0);" style="font-size:1rem !important;">Knowledge ({!cd.Document_Title_MVN__c})</a>
+                                                                    </h5>
+                                                                </div>
+                                                            </header>
+                                                            
+                                                            
+                                                        </div>
+                                                        <div class="slds-popover__body custom-popover_body">
+                                                            <aura:unescapedHtml value="{!cd.MSD_CORE_Document_Preview__c}"/>
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
+                            </li>
+                        </aura:iteration>
+                    </ul>
+                </div>
+            </article>
+            <aura:set attribute="else">
+                <article class="slds-card slds-card_boundary" style="margin-top: 10px;">
+                    <div class="slds-align_absolute-center">
+                        {!$Label.c.Document_Search_No_Attached_Articles}
+                    </div>
+                </article>
+            </aura:set>
+        </aura:if>
+        
+        <!-- Panel Content -->
+        <article class="slds-card slds-card_boundary">
+            <aura:if isTrue="{!not(empty(v.searchMsg))}">
+                <div class="slds-notify_container slds-is-relative" style="z-index: 0;">
+                    <div class="{!'slds-notify '+if(equals(v.searchMsg,'Searching...'),'slds-theme_info','slds-theme_error')}" role="{!if(equals(v.searchMsg,'Searching...'),'info','alert')}">
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading_small">{!v.searchMsg}</h2>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.disableQuickSearch}">
+                <div class="slds-notify_container slds-is-relative" style="z-index: 0;">
+                    <div class="slds-theme_error" role="alert">
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading_small">Quick Auto Search disabled.</h2>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!!v.isReadOnlyUser}">
+                <aura:if isTrue="{!!v.isClosed}">
+                    <aura:if isTrue="{!v.data.length > 0}">
+                        <!--  <lightning:datatable
+                                         columns="{! v.qscolumns }"
+                                         data="{! v.data }"
+                                         keyField="id"
+                                         onrowaction="{! c.handleRowAction }"
+                                         hideCheckboxColumn="true"/>-->
+                        <article class="slds-card slds-card_boundary">
+                            <table class="slds-table" style="border-bottom: 1px solid #eee;">
+                                <thead>
+                                    <tr class="slds-text-title">
+                                        <th scope="col">
+                                            <div title="Case Articles">Search Results</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div class="slds-grid slds-wrap">
+                                <ul class="slds-list--vertical slds-has-dividers--bottom" style="width: 100%;">
+                                    <aura:iteration items="{!v.data}" var="cd" indexVar="index">
+                                        <li class="slds-list__item" style="overflow: hidden;">
+                                            <aura:if isTrue="{!!cd.actionDisabled}">
+                                                <div class="slds-col slds-p-top_xx-small" style="width: 30px;float: left;padding-bottom: .25rem;padding-left: 5px;">
+                                                	<lightning:buttonIcon name="{!index}" iconName="utility:add" variant="bare" onclick="{! c.quickAttach }" alternativeText="Attach" />
+                                                </div>
+                                                    <!--<lightning:icon iconName="" size="x-small"/>-->
+                                            </aura:if>
+                                            <aura:if isTrue="{!cd.actionDisabled}">
+                                                <!--<lightning:icon disabled="true" iconName="action:add_relationship" size="x-small"/>-->
+                                                <div class="slds-col slds-p-top_xx-small" style="width: 30px;float: left;padding-bottom: .25rem;padding-left: 5px;">
+                                                	<lightning:buttonIcon disabled="true" iconName="utility:add" variant="bare" alternativeText="Detach" />
+                                                </div>
+                                            </aura:if>
+                                            
+                                            <aura:if isTrue="{!v.displayOnRecordPage}">
+                                                <div class="slds-grid slds-wrap">
+                                                    
+                                                    <div class="slds-col slds-p-top_xx-small" style="width: calc(100% - 35px);float: left;padding-top: .35rem;"> 
+                                                        <a class="slds-wrap" data-record="{!v.recordId+'-unselected-'+index}" style="white-space: initial;" onmouseover="{!c.openPop}" onmouseout ="{!c.closePop}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.navigateToKnowledge}">{!cd.Document_Title_MVN__c}</a>
+                                                        
+                                                        <div id="{!v.recordId+'-unselected-'+index}" class="slds-hide" aura:id="{!index}" tabindex="0" data-record="{!v.recordId+'-unselected-'+index}" onmouseover="{!c.openPopFocus}" onmouseleave="{!c.closePopFocus}">
+                                                            
+                                                            <div class="hoverpop slds-nubbin_top" role="dialog" aura:id="popover" style="{!v.popoverStyle}" onmouseover="{!c.openPop}" data-record="{!'unselected-'+index}" onmouseleave="{!c.closePop}">
+                                                                
+                                                                
+                                                                
+                                                                <section  aura:id="{!index}" role="dialog" tabindex="0"  data-record="{!v.recordId+'unselected-'+index}" >
+                                                                    <!--<header class="slds-popover__header slds-p-vertical_medium">
+                                                                            <h2 id="dialog-heading-id-1" class="slds-text-heading_medium custom-popover_header">Knowledge ({!cd.Document_Title_MVN__c})</h2>
+                                                                            <button style="float: right; margin-top: -20px;" class="glc-button slds-button slds-button_icon slds-button_icon-inverse" title="Close" data-record="{!'unselected-'+index}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.closePop}">
+                                                                                <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" />
+                                                                                <span class="slds-assistive-text">Close</span>
+                                                                            </button>
+                                                                        </header> -->
+                                                                    <button class="slds-button slds-button_icon slds-button_icon slds-button_icon-small slds-float_right slds-popover__close" title="Close" data-record="{!'unselected-'+index}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.closePop}">
+                                                                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="close" />
+                                                                        <span class="slds-assistive-text">Close</span>
+                                                                    </button>
+                                                                    <div class="slds-popover__header" style="background-color:rgb(236, 235, 234);">
+                                                                        
+                                                                        <header class="slds-media slds-media_center slds-m-bottom_small">
+                                                                            <span class="slds-icon_container slds-icon-standard-account slds-media__figure">
+                                                                                <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="standard:knowledge" size="small" alternativeText="knowledge" />
+                                                                            </span>
+                                                                            <div class="slds-media__body">
+                                                                                <h5 class="slds-text-heading_medium slds-hyphenate" id="panel-heading-id">
+                                                                                    <a href="javascript:void(0);" style="font-size:1rem !important;">Knowledge ({!cd.Document_Title_MVN__c})</a>
+                                                                                </h5>
+                                                                            </div>
+                                                                        </header>
+                                                                        
+                                                                        
+                                                                    </div>
+                                                                    <div class="slds-popover__body custom-popover_body">
+                                                                        <aura:unescapedHtml value="{!cd.MSD_CORE_Document_Preview__c}"/>
+                                                                    </div>
+                                                                </section>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+                                                <aura:set attribute="else">
+                                                    <div class="slds-col slds-p-top_xx-small" style="width: calc(100% - 35px);float: left;padding-top: .35rem;"> 
+                                                        <a data-record="{!'unsel-'+index}" style="white-space: initial;" onmouseover="{!c.openPop}" onmouseout="{!c.closePop}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.navigateToKnowledge}">{!cd.Document_Title_MVN__c}</a>
+                                            
+                                            <div id="{!'unsel-'+index}" class="slds-hide" aura:id="{!index}" tabindex="0" data-record="{!'unsel-'+index}" onmouseover="{!c.openPopFocus}" onmouseleave="{!c.closePopFocus}">
+                                                
+                                                <div class="hoverpopProdPage" role="dialog" aura:id="popover" style="{!v.popoverStyle}" data-record="{!'unsel-'+index}" >
+                                                    
+                                                    
+                                                    
+                                                    <section  aura:id="{!index}" role="dialog" tabindex="0"  data-record="{!'unsel-'+index}" >                                                            <!--<header class="slds-popover__header slds-p-vertical_medium">
+                                                                            <h2 id="dialog-heading-id-1" class="slds-text-heading_medium custom-popover_header">Knowledge ({!cd.Document_Title_MVN__c})</h2>
+                                                                            <button style="float: right; margin-top: -20px;" class="glc-button slds-button slds-button_icon slds-button_icon-inverse" title="Close" data-record="{!'unselected-'+index}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.closePop}">
+                                                                                <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" />
+                                                                                <span class="slds-assistive-text">Close</span>
+                                                                            </button>
+                                                                        </header> -->
+                                                            <button class="slds-button slds-button_icon slds-button_icon slds-button_icon-small slds-float_right slds-popover__close" title="Close" data-record="{!'unsel-'+index}" data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.closePop}">
+                                                                <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" />
+                                                                <span class="slds-assistive-text">Close</span>
+                                                            </button>
+                                                            <div class="slds-popover__header" style="background-color:rgb(236, 235, 234);">
+                                                                
+                                                                <header class="slds-media slds-media_center slds-m-bottom_small">
+                                                                    <span class="slds-icon_container slds-icon-standard-account slds-media__figure">
+                                                                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="standard:knowledge" size="small" alternativeText="knowledge" />
+                                                                    </span>
+                                                                    <div class="slds-media__body">
+                                                                        <h5 class="slds-text-heading_medium slds-hyphenate" id="panel-heading-id">
+                                                                            <a href="javascript:void(0);" style="font-size:1rem !important;">Knowledge ({!cd.Document_Title_MVN__c})</a>
+                                                                        </h5>
+                                                                    </div>
+                                                                </header>
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="slds-popover__body custom-popover_body">
+                                                                <aura:unescapedHtml value="{!cd.MSD_CORE_Document_Preview__c}"/>
+                                                            </div>
+                                                        </section>
+                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                        </li>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                            
+                        </article>
+                        <br/><br/><br/><br/><br/><br/><br/>
+                    </aura:if>
+                </aura:if>
+            </aura:if>
+            
+        </article>
+    </aura:if>
+    
+    <div id="searchArticleSection" class="slds-hide slds-scrollable" aura:id="searchArticleSection" style="position:relative;">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container"> 
+                <!-- Header Start-->
+                <header class="slds-modal__header">
+                    <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Search Articles</h2>
+                    
+                    <div style="right: 10px; position: absolute; top: 13px;">
+                        <lightning:button label="X" name="Close Search" onclick="{!c.closeModal}"/>
+                    </div>
+                </header>
+                <!-- Header End-->
+                
+                <!-- Body Content Start-->
+                <div class="slds-modal__content slds-grow modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:auto">
+                    
+                    <div class="slds-col slds-grid slds-grid_vertical slds-scrollable_x ">
+                        <div class="slds-theme_shade">
+                            <div class="slds-form-element">
+                                
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container">
+                                        <div style="background-color: rgb(250, 250, 249); position: relative; overflow: hidden; display: flex;">
+                                            <lightning:spinner aura:id="spinner" class="slds-hide" variant="brand"/>
+                                            
+                                            <!-- Panel Header -->
+                                            <div style="width:25%;padding: 10px;border-right: 1px solid #ccc;" class="slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                                <article class="slds-card slds-card_boundary">
+                                                    <div class="slds-media__body slds-truncate slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" onkeyup="{! c.handleKeyUpAdvanced }">
+                                                        <!-- Search Text Input Box Start-->
+                                                        <ui:inputText aura:id="searchId" class="slds-input slds-combobox__input"  placeholder="Search Articles" value="{!v.documentSearchText}"/>
+                                                        <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" title="Search">
+                                                            <lightning:icon class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" iconName="utility:search" size="x-small" alternativeText="search"/>
+                                                            <span class="slds-assistive-text">search</span>
+                                                        </span>
+                                                        <!-- Search Text Input Box End-->
+                                                    </div>  
+                                                </article>
+                                                
+                                                <article class="slds-card slds-card_boundary">
+                                                    <div class="slds-media__body slds-truncate" style="padding: 0px 10px 5px 10px;">
+                                                        <lightning:recordEditForm objectApiName="Case_Document_MVN__c">
+                                                            <!-- Picklist fields for Filter Start-->
+                                                            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-top--small" >
+                                                                <div class="slds-p-horizontal--small slds-small-size--1-of-1 slds-p-bottom--xx-small" >
+                                                                    
+                                                                    
+                                                                    <!-- the messages component is for error messages -->
+                                                                    <lightning:messages />
+                                                                    
+                                                                    <!--sub Dependent Field-->
+                                                                    <div class="slds-hide">
+                                                                    <lightning:select name="controllerFld"
+                                                                                      value="{!v.objDetail.Document_Type_MVN__c}"
+                                                                                      label="Type"
+                                                                                      onchange="{!c.onControllerFieldChange}">
+                                                                        <aura:iteration items="{!v.listControllingValues}" var="val">
+                                                                            <aura:if isTrue="{!val == 'General'}">
+                                                                                <option value="General" selected="General">{!val}</option>
+                                                                                <aura:set attribute="else">
+                                                                                    <option  value="{!val}">{!val}</option>
+                                                                                </aura:set>
+                                                                            </aura:if>                                     
+                                                                        </aura:iteration>
+                                                                    </lightning:select>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="slds-p-horizontal--small slds-small-size--1-of-1 slds-p-bottom--xx-small" >
+                                                                    <lightning:select name="dependentFld"
+                                                                                      value="{!v.objDetail.Document_Subtype_MVN__c}"
+                                                                                      label="Subtype"
+                                                                                      disabled="{!v.bDisabledDependentFld}"
+                                                                                      onchange="{!c.onSubControllerFieldChange}">
+                                                                        <aura:iteration items="{!v.listDependingValues}" var="val">
+                                                                            <option value="{!val}">{!val}</option>
+                                                                        </aura:iteration>
+                                                                    </lightning:select>
+                                                                </div>
+                                                                
+                                                                <div class="slds-p-horizontal--small slds-small-size--1-of-1 slds-p-bottom--xx-small" >
+                                                                    <lightning:select name="subDependentFld"
+                                                                                      value="{!v.objDetail.MSD_CORE_Category__c}"
+                                                                                      label="Category"
+                                                                                      disabled="{!v.bDisabledSubDependentFld}">
+                                                                        <aura:iteration items="{!v.listSubDependingValues}" var="val">
+                                                                            <option value="{!val}">{!val}</option>
+                                                                        </aura:iteration>
+                                                                    </lightning:select>
+                                                                </div>
+                                                                
+                                                                <div class="slds-p-horizontal--small slds-small-size--1-of-1 slds-p-bottom--xx-small" >
+                                                                    <lightning:select aura:id="product" label="Product Catalog" name="Product_vod__c" value="{!v.productId}">
+                                                                        <aura:iteration items="{!v.Product_vod__c}" var="item">
+                                                                            <option text="{!item.value}" value="{!item.label}"/>
+                                                                        </aura:iteration>
+                                                                    </lightning:select>
+																	
+                                                                   <!-- <lightning:inputField aura:id="MSD_CORE_CC_Product__c" fieldName="MSD_CORE_CC_Product__c" value="{!v.objDetail.MSD_CORE_CC_Product__c}"/> -->
+                                                                   <!-- <lightning:inputField aura:id="MSD_CORE_CC_Product__c" fieldName="MSD_CORE_CC_Product__c" value="{!v.productId}"/> -->
+                                                                    
+                                                                </div>
+                                                                
+                                                                <div class="slds-p-horizontal--small slds-small-size--1-of-1 slds-p-bottom--xx-small" >
+                                                                    <lightning:select required="true" aura:id="language" label="Language" name="Document_Language_MVN__c" value="{!v.objDetail.Document_Language_MVN__c}">
+                                                                        <aura:iteration items="{!v.Document_Language_MVN__c}" var="item">
+                                                                            <option text="{!item.label}" value="{!item.value}" selected="en_US"/>
+                                                                        </aura:iteration>
+                                                                    </lightning:select>
+                                                                </div>
+                                                                <div class="slds-p-horizontal--small slds-small-size--1-of-1 slds-p-bottom--xx-small" >
+                                                                    <lightning:select aura:id="country" label="Country" name="Country_MVN__c" value="{!v.objDetail.Country_MVN__c}">
+                                                                        <aura:iteration items="{!v.Country_MVN__c}" var="item">
+                                                                            <option text="{!item.label}" value="{!item.value}" selected="US"/>
+                                                                        </aura:iteration>
+                                                                    </lightning:select>
+                                                                </div>
+                                                                <div class="slds-p-horizontal--small slds-small-size--1-of-1 slds-p-bottom--xx-small" >
+                                                                    
+                                                                    <lightning:select label="Article Search For" value="{!v.searchTypeOverride}">
+                                                                        <option text="-- None --" value=""/>
+                                                                        <option text="Customer" value="Customer"/>
+                                                                        <option text="Referred By" value="Referred By"/>
+                                                                    </lightning:select>
+                                                                </div>
+                                                            </div>	
+                                                        </lightning:recordEditForm>
+                                                        
+                                                        <div class="slds-float--right">
+                                                            <lightning:button label="Search" name="Search" variant="brand" onclick="{!c.searchDocsAdvanced}" />
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                                <br/> 
+                                                
+                                                <article class="slds-card slds-card_boundary">
+                                                    <div class="slds-media__body slds-truncate" style="padding: 0px;">
+                                                        <aura:if isTrue="{!v.knowledgeArticles.length > 0}">
+                                                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                                                <thead>
+                                                                    <tr class="slds-text-title_caps">
+                                                                        <th scope="col">
+                                                                            <div title="Knowledge Articles">Knowledge Articles</div>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                            
+                                                            <div class="slds-grid slds-wrap" style="padding: 10px;">
+                                                                <ul class="slds-list--vertical slds-has-dividers--bottom" style="width: 100%;">
+                                                                    <aura:iteration items="{!v.knowledgeArticles}" var="cd" indexVar="index">
+                                                                        <li class="slds-list__item" style="overflow: hidden;">
+                                                                            <div class="slds-col slds-p-top_xx-small" style="width: 25px;float: left;padding-bottom: .25rem;">
+                                                                                <a class="slds-text-link" target="_blank" data-attriVal="{!index}" onclick="{!c.handleClick}">
+                                                                                    <img src="{!$Resource.GlobalAssetsMVN+'/Icons/File_delete.png'}"/>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="slds-col slds-p-top_xx-small" style="width: calc(100% - 25px);float: left;padding-top: .35rem;"> 
+                                                                                <a data-knowledge-id="{!cd.Document_ID_MVN__c}" onclick="{!c.navigateToKnowledge}"> {!cd.Document_Title_MVN__c}</a>
+                                                                            </div>
+                                                                        </li>
+                                                                    </aura:iteration>
+                                                                </ul>
+                                                            </div>
+                                                            <aura:set attribute="else">
+                                                                <div class="slds-align_absolute-center">
+                                                                    {!$Label.c.Document_Search_No_Attached_Articles}
+                                                                </div>
+                                                                
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                            <!-- Panel Header -->
+                                            
+                                            <!-- Panel Content -->
+                                            <div class="slds-col slds-p-left_medium" style="width:75%;padding: 10px;background: #fff;">
+                                                <b>Results [{!v.allData.length}]</b>
+                                                <aura:if isTrue="{!not(empty(v.searchMsg))}">
+                                                    <div class="slds-notify_container slds-is-relative">
+                                                        <div class="{!'slds-notify slds-notify_toast '+if(equals(v.searchMsg,'Searching...'),'slds-theme_info','slds-theme_error')}" role="{!if(equals(v.searchMsg,'Searching...'),'info','alert')}">
+                                                            <div class="slds-notify__content">
+                                                                <h2 class="slds-text-heading_small">{!v.searchMsg}</h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:if>
+                                                
+                                                <aura:if isTrue="{!v.data.length > 0}">
+                                                    <div>
+                                                    <lightning:datatable
+                                                                         columns="{!v.columns }"
+                                                                         data="{!v.data }"
+                                                                         keyField="id"
+                                                                         onrowaction="{! c.handleRowAction }"
+                                                                         hideCheckboxColumn="true"/>
+                                                        <br/>
+                                                        <div class="slds-align_absolute-center">
+                                                            
+                                                            <lightning:button label="First" iconName="utility:left" iconPosition="left"
+                                                                              onclick="{!c.onFirst}" disabled="{! v.currentPageNumber == 1}"/>
+                                                            <lightning:button iconName="utility:chevronleft" iconPosition="left"
+                                                                              onclick="{!c.onPrev}" disabled="{! v.currentPageNumber == 1}"/>
+                                                            <span class="slds-p-horizontal_x-small">
+                                                                <a onclick="{!c.processMe}" name="1" 
+                                                                   class="{! (v.currentPageNumber == 1) ? 'selected' : ''}">1</a>
+                                                            </span>
+                                                            <span class="slds-p-horizontal_xxx-small">
+                                                                <a>...</a>
+                                                            </span>
+                                                            
+                                                            <aura:iteration items="{!v.pageList}" var="item">
+                                                                <span class="slds-p-horizontal_x-small">
+                                                                    <a onclick="{!c.processMe}" name="{!item}"
+                                                                       class="{! (v.currentPageNumber == item) ? 'selected' : ''}">{!item}</a>
+                                                                </span>
+                                                            </aura:iteration>
+                                                            
+                                                            <span class="slds-p-horizontal_xxx-small">
+                                                                <a>...</a>
+                                                            </span>
+                                                            <span class="slds-p-horizontal_x-small">
+                                                                <a onclick="{!c.processMe}" name="{!v.totalPages}"
+                                                                   class="{! (v.currentPageNumber == v.totalPages) ? 'selected' : ''}">{!v.totalPages}</a>
+                                                            </span>
+                                                            <lightning:button iconName="utility:chevronright" iconPosition="right" 
+                                                                              disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onNext}"/>
+                                                            <lightning:button label="Last" iconName="utility:right" iconPosition="right" 
+                                                                              disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onLast}"/>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                </aura:if>
+                                                
+                                            </div>
+                                            <!-- Panel Content -->   
+                                        </div> 
+                                        
+                                        <!-- Picklist fields for Filter End-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid Displaying Products - Ends -->
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

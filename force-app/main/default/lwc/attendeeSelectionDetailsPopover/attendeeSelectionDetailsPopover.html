@@ -1,0 +1,90 @@
+<template>
+    <c-veeva-popover nubbin="left">
+        <div class="popover-header" slot="header">
+            <h2 class="title slds-truncate slds-text-heading_medium">{title}</h2>
+            <div if:false={loading}>{identifier}</div>
+        </div>
+        <div slot="content">
+            <div class="slds-p-around_small">
+                <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+                <div if:false={loading}>
+                    <div class="sections">
+                        <div class="slds-notify slds-notify_alert slds-alert_warning" data-id="lastTopic" if:true={lastTopic}>
+                            <lightning-icon class="slds-p-left_xx-small slds-p-right_xx-small slds-current-color" icon-name="utility:warning" size="x-small"></lightning-icon> 
+                            <span>{lastTopic}</span>
+                        </div>
+                        <c-em-expandable-section data-id="details" if:true={attendeeFields} title={detailsHeaderLabel} open="true">
+                            <template for:each={attendeeFields} for:item="row">
+                                <div key={row.id} class="slds-form__row">
+                                    <template for:each={row.items} for:item="field">
+                                        <div key={field.apiName} class="slds-form__item">
+                                            <div if:true={field.apiName} class="slds-form-element slds-form-element_readonly slds-form-element_horizontal">
+                                                <span class="slds-form-element__label">{field.label}</span>
+                                                <div class="slds-form-element__control">
+                                                    <div if:true={field.htmlFormatted} class="slds-form-element__static">
+                                                        <lightning-formatted-rich-text value={field.value}></lightning-formatted-rich-text>
+                                                    </div>
+                                                    <div if:false={field.htmlFormatted} class="slds-form-element__static">
+                                                        {field.value}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </c-em-expandable-section>
+                        <c-em-expandable-section data-id="addresses" if:true={addresses} title={addressesHeaderLabel}>
+                            <div>
+                                <div if:false={addresses.length}>{noRecordsLabel}</div>
+                                <lightning-datatable
+                                    columns={addressesColumns}
+                                    data={addresses}
+                                    hide-checkbox-column
+                                    hide-table-header
+                                    if:true={addresses.length}
+                                    key-field="Id"
+                                    resize-column-disabled>
+                                </lightning-datatable>
+                            </div>
+                        </c-em-expandable-section>
+                        <c-em-expandable-section data-id="recentEvents" if:true={recentEvents} title={recentEventsHeaderLabel}>
+                            <div>
+                                <div if:false={recentEvents.length}>{noRecordsLabel}</div>
+                                <lightning-datatable
+                                    columns={recentEventsColumns}
+                                    data={recentEvents}
+                                    hide-checkbox-column
+                                    if:true={recentEvents.length}
+                                    key-field="Id"
+                                    resize-column-disabled>
+                                </lightning-datatable>
+                            </div>
+                        </c-em-expandable-section>
+                        <c-em-expandable-section data-id="mccp" if:true={mcCyclePlans} title={mccpHeaderLabel}>
+                            <div>
+                                <div if:false={mcCyclePlans.length}>{noActiveCyclePlanLabel}</div>
+                                <div if:true={mcCyclePlans.length}>
+                                    <lightning-combobox label={planLabel} onchange={handleCyclePlan} options={mcCyclePlans} value={selectedPlan} variant="label-inline"></lightning-combobox>
+                                    <lightning-datatable
+                                        columns={mccpColumns}
+                                        data={selectedPlanChannels}
+                                        hide-checkbox-column
+                                        key-field="id"
+                                        resize-column-disabled>
+                                    </lightning-datatable>
+                                </div>
+                            </div>
+                        </c-em-expandable-section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div slot="footer">
+            <div class="slds-button-group-row  slds-align_absolute-center">
+                <lightning-button class="slds-button-group-item" if:false={loading} label={cancelLabel} title={cancelLabel} onclick={cancel} variant="neutral"></lightning-button>
+                <lightning-button class="slds-button-group-item" if:false={loading} label={confirmationLabel} title={confirmationLabel} onclick={confirmation} variant="brand"></lightning-button>
+            </div>
+        </div>
+    </c-veeva-popover>
+</template>

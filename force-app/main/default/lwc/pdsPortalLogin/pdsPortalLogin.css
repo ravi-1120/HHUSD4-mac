@@ -1,0 +1,138 @@
+::root{
+	--sds-c-input-color-border: 1px solid #D0D5DD;
+	--slds-c-icon-color-foreground: red;
+}
+.login-container{
+	width:100%;
+	min-height:100vh;
+	display: flex;
+	background: #ffff;
+	gap:26px;
+	justify-content: center;
+	flex-direction: row;
+	align-items: center;
+}
+.login-section{
+	max-width:100%;
+	max-height:100%;
+	display: flex;
+	gap:0px;
+	justify-content: center;
+	flex-direction: column;
+}
+.login-cover{
+	max-width: 530px;
+    max-height: 630px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+.login-screen{
+	font-family:'InventionRg';
+	display: flex;
+	flex-direction: column;
+	padding: 32px 30px 0px 30px;
+	gap: 24px;
+	width: 459px;
+}
+.login-header{
+	font-family:'InventionBd';
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 32px;
+}
+.lt-input-container .lt-input{
+	height: 20px;
+}
+.login-fpwd{
+	font-family: 'InventionBd';
+	text-decoration: none;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 17px;
+	text-align: center;
+	color: rgba(0, 0, 0, 0.88) !important;
+}
+
+.login-fpwd:hover{
+	color: rgba(0, 0, 0, 0.88) !important;
+	text-decoration: underline;
+}
+
+.header-logo{
+	/* object-fit: contain; */
+ 	width: 200px;
+    /* height: 40px; */
+	margin-left:32px;
+}
+
+.login-error{
+	padding: 16px;
+	background: rgba(194, 84, 84, 0.1);
+	border-radius: 8px;
+	font-weight: 400;
+	font-size: 16px;
+	color: #000000;
+}
+.val-error{
+	line-height: 20px;
+	font-weight: 400;
+	margin-top:-16px;
+	font-family: 'InventionRg';
+	font-size: 12px;
+	color: #9A151C;
+}
+
+@media only screen and (max-width: 600px) {
+	.login-screen{
+		padding: 0px;
+		gap: 24px;
+		width: 100%;
+	}
+	.login-container{
+		gap:24px;
+		flex-direction: column;
+		padding:16px;
+		align-items: normal;
+	}
+	.login-cover{
+		min-width: 200px;
+		width: 100%;
+		/* max-height: 232px; */
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+	.header-logo{
+		margin-left:0px;
+		margin-bottom:24px;
+	}
+}
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait){
+	.login-container{
+		gap:24px;
+		flex-direction: column;
+		padding:16px;
+		justify-content: center;
+		/* height: 75vh; */
+		/* justify-content: flex-start; */
+		padding-top:56px;
+	}
+	.login-cover{
+		min-width: 200px;
+		max-width: 470px;
+		width: 100%;
+		max-height: 232px;
+		object-fit: cover;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+	.login-screen{
+		width: 458px;
+		padding: 0px;
+	}
+	.login-section{
+	gap: 24px;
+	}
+	.header-logo{
+		margin-left: 0px;
+	}
+}

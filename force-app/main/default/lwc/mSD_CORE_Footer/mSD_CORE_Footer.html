@@ -1,0 +1,73 @@
+<template>
+    <div class="ftr">
+        <div class="container">
+            <a class="b cursorcls">
+                <h3>Medical & Health Economic Evidence</h3>
+            </a>
+            <div class="ftrow">
+                <div class="ftcolhalf">
+                    <ul>
+                        <a class="hoverstyle">
+                            <li style="font-family: 'Invention';font-style: normal;font-weight: 400;font-size: 16px;line-height: 18px;text-decoration: underline !important;color: #00857C !important;"
+                                class="slds-item ftcolhalf" tabindex="0" data-value='Terms of use'
+                                onclick={redirectTermsofUse}>{label.termsofuse}</li>
+                        </a>
+
+                        <a class="hoverstyle">
+                            <li style="font-family: 'Invention';font-style: normal;font-weight: 400;font-size: 16px;line-height: 18px;text-decoration: underline !important;color: #00857C !important;"
+                                class="slds-item ftcolhalf" tabindex="0" data-value='Privacy Policy'
+                                onclick={privacyPolicy}>{label.privacypolicy}</li>
+                        </a>
+                        <!-- <li><a href="#">{label.cookiepreference}</a></li> -->
+                        <li><a href="javascript:Optanon.ToggleInfoDisplay()" class="ot-sdk-show-settings" data-value="Cookie Preferences" onclick={cookiepref}>{label.cookiepreference}</a></li>
+                        <a class="hoverstyle">
+                            <li style="font-family: 'Invention';font-style: normal;font-weight: 400;font-size: 16px;line-height: 18px;text-decoration: underline !important;color: #00857C !important;"
+                                class="slds-item ftcolhalf" tabindex="0" data-value=Accessibility
+                                onclick={accessibility}>{label.accessibilitytxt}</li>
+                        </a>
+                        <a class="hoverstyle">
+                            <li style="font-family: 'Invention';font-style: normal;font-weight: 400;font-size: 16px;line-height: 18px;text-decoration: underline !important;color: #00857C !important; border-right: none;"
+                                class="slds-item ftcolhalf" tabindex="0" data-value='Additional Merck Sites' onclick={Additional}>
+                                {label.additionalmerck}</li>
+                        </a>
+                    </ul>
+                    <div class="ftlogos">
+                        <div class="logol">
+                            <img src={logo1}>
+                        </div>
+                        <div class="logor" onclick={imageclick}>
+                            <a href="https://www.levelaccess.com/a/merck/" target="_blank">
+                            <img src={ftlogo1} > </a>
+                            <!-- <a href="https://privacy.truste.com/privacy-seal/validation?rid=140649f5-9394-46e8-bfe5-b4ea8a8c600e" target="_blank"> 
+                                <img src={ftlogo2} >
+                            </a> 
+                            <a href="https://privacy.truste.com/privacy-seal/validation?rid=11c1aa82-b7e7-4a2f-b02e-ba935e661720" target="_blank"> 
+                                <img src={ftlogo3} >
+                            </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ftcolhalf">
+
+                    <div class="cntbx cursorcls">
+                        <h6>Contact us:</h6>
+                        <a class="b">
+                            <!--<p style="color:#000;">Phone: 800-489-5119 <br> (800-489-5119)</p> -->
+                            <p style="color:#000;">Phone: (800) 489-5119 </p>
+                        </a>
+                        <p><a onclick={myContacts} data-value='More contact options' class="mycontactcls">More contact options </a></p>
+                        <!-- <p style="color:#000;font-size: 14px;padding-top: 1rem;"><a onclick={myContacts} style="text-decoration: underline !important;margin:0 !important;">More contact options </a></p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copy">
+        <div class="container">
+            <p>Copyright © {yyyy} Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved. <br> This
+                site is intended only for residents of the United States, its territories, and Puerto Rico.
+                US-NON-14402 11/23</p>
+        </div>
+    </div>
+</template>

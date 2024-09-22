@@ -1,0 +1,116 @@
+.footerCls {
+  /* background-color: #FFFF; */
+  display: -webkit-box !important;
+  width: 100%;
+  font-size: .875rem;
+  line-height: 1.7rem;
+  position: initial;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  color: #757575;
+  /* margin-bottom: 8px; */
+  border-top: 1px solid #00857C;
+  font-family : 'InventionRg';
+}
+.hcp-footer {
+  padding: 0 4% 0 4% !important;
+  position: static;
+  background-color: white;
+}
+
+  /* .amoFonts{
+    font-family : 'Invention';
+  } */
+  
+.footerLinkCls{
+    /* font-weight: bold; */
+    /* font-family : 'InventionRg'; */
+    color:black;
+    cursor: pointer;
+} 
+.footerfont{
+  flex-wrap: wrap;
+}
+
+/* .informationCls{
+    font-family : 'InventionRg';
+} */
+
+/* .borderCls{
+  border-top: 1px solid #bbb8b8;
+} */
+
+
+@media only screen and (min-device-width: 340px) and (max-device-width: 400px) {
+
+  /* .hcp-footer{
+    margin-left: 4px;
+    padding: 10px;
+    width: calc(100% - 8px);
+  } */
+
+  /* .footerfont{
+    flex-wrap: wrap;
+  } */
+
+  /* .informationCls{
+    font-family: 'InventionRg';
+    width: 319px;
+  } */
+}
+
+@media only screen and (min-device-width: 401px) and (max-device-width: 500px) {
+  /* .borderCls{
+    border-top: 1px solid #bbb8b8;
+    width: calc(100% - 29px) !important;
+    margin-left: 14px;
+} */
+  /* .footerfont{
+    flex-wrap: wrap !important;
+  } */
+  /* .hcp-footer{
+    padding-left: 0px;
+    padding-right: 2px;
+    padding-top: 20px;
+    position: static;
+} */
+}
+
+/* @media only screen and (min-device-width: 501px) and (max-device-width: 700px) {
+  .hcp-footer{
+    padding-left: 18px;
+    padding-right: 21px;
+    padding-top: 20px;
+    position: static;
+  }
+} */
+
+
+/* @media only screen and (min-device-width: 701px) and (max-device-width: 800px) {
+  .hcp-footer{
+    padding-left: 26px;
+    padding-right: 27px;
+    padding-top: 20px;
+    position: static;
+  }
+} */
+
+/* @media only screen and (min-device-width: 810px) and (max-device-width: 900px) {
+  .hcp-footer {
+    padding-left: 30px;
+  }
+  .borderCls{
+    width: calc(103% - 0px);
+  }
+} */
+
+/* @media only screen and (min-device-width: 901px) and (max-device-width: 1100px) {
+  .hcp-footer{
+    padding-left: 31px;
+  }
+  .borderCls{
+    width: calc(102% - 0px);
+  }
+} */

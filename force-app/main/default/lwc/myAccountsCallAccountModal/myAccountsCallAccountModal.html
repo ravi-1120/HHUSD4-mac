@@ -1,0 +1,15 @@
+<template>
+  <lightning-modal-header label={headerLabel}></lightning-modal-header>
+  <lightning-modal-body>
+    <div class="content">
+      <lightning-click-to-dial
+        class="slds-text-heading_small slds-var-m-around_medium"
+        tabindex="0"
+        value={phoneNumber}
+        record-id={recordId}
+        onclick={close}
+      ></lightning-click-to-dial>
+      <lightning-formatted-text value={labels.confirmClickToDialLabel}></lightning-formatted-text>
+    </div>
+  </lightning-modal-body>
+</template>

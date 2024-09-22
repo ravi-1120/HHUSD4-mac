@@ -1,0 +1,40 @@
+<template>
+    <c-veeva-modal size="medium" hide-header="true" hide-footer="true" max-height="true" onclose={handleClose}>
+        <c-veeva-spinner slot="spinner" if:true={isLoading}></c-veeva-spinner>
+
+        <lightning-layout slot="content" horizontal-align="center" class="slds-p-around_medium modal-body" multiple-rows>
+            <lightning-layout-item size="8" class="slds-p-around_x-small slds-p-right_none">
+                <lightning-input
+                    type="search" 
+                    name="search"
+                    variant="label-hidden"
+                    label={searchMessage}
+                    placeholder={searchMessage}
+                    class="search-input"
+                    value={searchQuery}
+                    autocomplete="off"
+                    oncommit={handleSearch}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="1" class="slds-p-around_x-small">
+                <lightning-button label={searchMessage} onclick={handleSearch}></lightning-button>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" class={tableContainerClass}>
+                <c-territory-table-data-types
+                    data={accounts}
+                    columns={columns}
+                    key-field="id"
+                    column-widths-mode="auto"
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </c-territory-table-data-types>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" if:true={hasTooManyResults} class="slds-text-align_center">
+                <lightning-formatted-text value={tooManyResultsMessage}></lightning-formatted-text>
+            </lightning-layout-item>
+        </lightning-layout>
+    </c-veeva-modal>
+</template>

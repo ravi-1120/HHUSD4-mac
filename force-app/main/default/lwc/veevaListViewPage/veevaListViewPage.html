@@ -1,0 +1,33 @@
+<template>
+  <c-veeva-spinner if:true={loading} class="slds-spinner_container"></c-veeva-spinner>
+  <div class="page-container">
+    <c-veeva-page-header class="header" icon-name={icon} if:true={gridInitialized}>
+      <div slot="title">
+        <div class="slds-page-header__name">
+          <div class="slds-page-header__name-title">
+            <h1>
+              <span>{subtitle}</span>
+              <c-veeva-list-view-selector value={currentView} options={views} onchange={handleViewChange}></c-veeva-list-view-selector>
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div slot="buttons">
+        <lightning-button-group>
+          <lightning-button label={newLabel} onclick={newRecord}></lightning-button>
+          <lightning-button data-id="clear-filters-button" disabled={enableClearFilters} label={clearFiltersLabel} onclick={clearFilters}></lightning-button>
+        </lightning-button-group>
+      </div>
+    </c-veeva-page-header>
+    <c-veeva-bryntum-grid
+      class="record-list"
+      column-store={columns}
+      features={gridFeatures}
+      hide-checkbox-column={hideCheckboxColumn}
+      model-fields={modelFields}
+      row-data-store={data}
+      onfilter={handleFilter}
+      onsort={handleSort}
+    ></c-veeva-bryntum-grid>
+  </div>
+</template>

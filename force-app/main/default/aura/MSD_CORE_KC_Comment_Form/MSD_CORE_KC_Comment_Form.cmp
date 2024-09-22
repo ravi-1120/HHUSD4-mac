@@ -1,0 +1,63 @@
+<aura:component controller="MSD_CORE_CC_Product_Form_Controller" extends="c:ComponentUtils" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" description="used to display product creation form">
+    <!-- Component attributes -->
+    <aura:attribute name="parentId" type="String" />
+    <aura:attribute name="parentIdForEdit" type="String" />
+    
+    <aura:attribute name="parentRT" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="mode" type="String" default="NEW" />
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+   
+    <lightning:workspaceAPI aura:id="workspace1"/>
+    
+    <!-- Event registers -->    
+    <aura:registerEvent name="refreshRecordTypeMVNEvent" type="c:refreshRecordTypeMVNEvent"/> 
+    <aura:registerEvent name="MSD_CORE_CC_CloseModalEvt" type="c:MSD_CORE_CC_CloseModalEvt"/>
+    
+    <!-- Component markup -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+      <lightning:recordEditForm aura:id="prodForm"
+                                      onsubmit="{!c.handleSubmit}"
+                                      onsuccess="{!c.handleSuccess}"
+                                      onerror = "{!c.handleError}"
+                                      recordId = "{!v.recordId}"
+                                      onload = "{!c.handleLoad}"
+                                      objectApiName="MSD_CORE_Comments__c">
+                
+                <lightning:card>
+                    <div onkeyup="{!c.handleKeyPress}">
+                        <!-- the messages component is for error messages -->
+                        <lightning:messages /> 
+                        <lightning:layout multipleRows="true">
+                             <lightning:inputField aura:id="required" required="true" fieldName="MSD_CORE_Comment__c" fieldLabel="Comment" class="fieldrequired"/>
+               
+                           
+                        </lightning:layout><br/>
+                        <aura:if isTrue="{!v.mode!='VIEW'}">
+                            <div class="slds-align_absolute-center">
+                                <lightning:button 
+                                                  variant="neutral"
+                                                  name="cancel" 
+                                                  label="Cancel" onclick="{!c.closeFocusedTab}" />
+                                <lightning:button 
+                                                  variant="brand" 
+                                                  type="submit"
+                                                  name="save" 
+                                                  label="Save" 
+                                                  disabled="{!v.disableSave}"
+                                                  onclick="{!c.handleSave}"/>
+                            </div>
+                            
+                        </aura:if>
+                        <br/><br/><br/><br/><br/><br/><br/>
+                    </div>
+                </lightning:card>
+            </lightning:recordEditForm>
+        
+      
+       
+</aura:component>

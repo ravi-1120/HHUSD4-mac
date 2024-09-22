@@ -1,0 +1,12 @@
+<template>
+    <c-veeva-modal id="nextApproverModal" if:true={display} size="small" composed=true onclose={finishFlow}>
+        <div slot="content" class="slds-p-around_medium">
+            <div class="slds-p-bottom_xx-large">
+                <c-veeva-field-lookup class="approver-lookup" ctrl={approverCtrl} onchange={handleChange}></c-veeva-field-lookup>
+            </div>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="brand" label={messageMap.submitLabel} onclick={goToNext} disabled={disableButton} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

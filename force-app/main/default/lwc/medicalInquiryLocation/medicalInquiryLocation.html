@@ -1,0 +1,68 @@
+<template>
+    <c-veeva-undo show-undo={showUndo} onundoclick={handleUndoClick}>
+        <div slot="undoElement">
+            <c-veeva-field-generic ctrl={ctrl} data-veeva-id={ctrl.fieldApiName}>
+                <div slot="control">
+                    <lightning-formatted-url label={selectedLocationName} value={selectedLocationIdUrl} if:true={showURL}></lightning-formatted-url>
+                    <div if:false={ctrl.readonly} >
+                        <div class="slds-combobox_container">
+                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" role="combobox">
+                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    <button type="button" class={buttonCssClass} onclick={showOptions} onblur={handleClose}>
+                                        <lightning-formatted-text if:true={selectedLocationName} class="slds-truncate" value={selectedLocationName}></lightning-formatted-text>
+                                    </button>
+                                    <lightning-icon class="slds-input__icon slds-p-left_xx-small" icon-name="utility:down" size="xx-small" alternative-text="search"></lightning-icon>
+                                </div>
+                            </div>
+                            <lightning-formatted-text if:true={hasFieldError} value={fieldErrorMsg} class="slds-required slds-form-element__help"></lightning-formatted-text>
+                        </div>
+                        <section if:false={hideDropdown}>
+                            <div class="slds-is-relative">
+                                <div class={dropdownClass} tabindex="-1" onblur={handleClose}>
+                                    <div class='slds-p-horizontal_x-small slds-is-relative'>
+                                        <header class="slds-popover__header slds-text-title_bold slds-text-align_center">
+                                            <h2 class="slds-text-heading_small">{selectLocationLabel}</h2>
+                                        </header>
+                                        <hr class="slds-border_top slds-p-bottom_x-small slds-m-top_none slds-m-bottom_x-small">
+                                        <div if:false={ctrl.disabled} class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                            <lightning-icon icon-name="utility:search" size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
+                                            <lightning-input type="text" required={ctrl.required} autocomplete="none" variant={variant}
+                                            onkeyup={handleInput} onkeydown={handleEnterInput} onblur={handleClose} onchange={handleSearchTermChange} onmousedown={handleMouseDown} onmouseup={handleMouseUp}
+                                                label={label} value={searchTerm} placeholder={searchLabel} data-input-term></lightning-input>
+                                        </div>
+                                    </div>
+                                    <div class='slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid slds-p-around_none slds-is-relative' onmousedown={handleMouseDown} onmouseup={handleMouseUp}>
+                                        <ul class='slds-listbox slds-listbox_vertical' if:true={searchRecords}>
+                                            <template for:each={searchRecords} for:item="result">
+                                                <li key={result.Id} class="slds-listbox__item">
+                                                    <div class={result.listboxOptionClass} onclick={handleResultClick} data-accountid={result.Id} data-name={result.name} onmouseout={handleMouseOut}>
+                                                        <span class="slds-media__figure slds-listbox__option-icon" if:true={result.isSelected}>
+                                                            <lightning-icon icon-name="utility:check" size="x-small" class="slds-icon-utility-check slds-icon_container"></lightning-icon>
+                                                        </span>
+                                                        <span class="slds-media__figure slds-listbox__option-icon" if:false={result.isSelected}>
+                                                            <lightning-icon size="x-small" class="slds-icon_container"></lightning-icon>
+                                                        </span>
+                                                        <span class="slds-media__body">
+                                                            <span class="slds-listbox__option-text truncate-two-lines" title={result.name} if:false={result.match}>{result.name}</span>
+                                                            <span class="slds-listbox__option-text truncate-two-lines" title={result.name} if:true={result.match}>
+                                                                {result.preMatch}
+                                                                <strong>{result.match}</strong>
+                                                                {result.postMatch}
+                                                            </span>
+                                                            <span if:true={result.accountIdentifier} class="slds-listbox__option-meta slds-listbox__option-meta_entity truncate-one-line" title={result.accountIdentifier}>{result.accountIdentifier}</span>
+                                                            <span if:true={result.address} class="slds-listbox__option-meta slds-listbox__option-meta_entity truncate-two-lines" title={result.address}>{result.address}</span>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </c-veeva-field-generic>
+        </div>
+    </c-veeva-undo>
+</template>

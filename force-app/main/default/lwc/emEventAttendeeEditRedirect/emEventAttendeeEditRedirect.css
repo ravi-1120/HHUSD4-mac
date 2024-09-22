@@ -1,0 +1,25 @@
+.content-loading {
+    display: flex;
+    min-height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered-spinner {
+    position: relative;
+    top: 0;
+    left: 0;    
+}
+
+:host {
+    --slds-c-button-neutral-color-border: rgb(116,116,116);
+    --slds-g-color-neutral-base-30: rgb(68,68,68);
+    --lwc-colorBorderInput: rgb(116,116,116);
+    --slds-c-input-text-color: rgb(24,24,24);
+    --slds-c-textarea-text-color: rgb(24,24,24);
+    --slds-c-modal-content-text-color: rgb(24,24,24);
+    --lwc-brandAccessibleActive: rgb(53,93,150);
+    --slds-g-color-neutral-base-10: rgb(24, 24, 24);
+    --lwc-colorTextDefault: rgb(24, 24, 24);
+    --slds-c-modal-header-text-color: rgb(24,24,24);
+}

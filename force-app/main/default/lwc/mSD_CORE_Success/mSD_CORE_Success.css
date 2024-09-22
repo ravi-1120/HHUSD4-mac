@@ -1,0 +1,463 @@
+.eligibilitybackground{
+/* background-image: linear-gradient(#00877C, #00000040, #00000040, #00000040);
+height: 100vh;
+width: 100%; */
+/* background-image: linear-gradient(#00877C, #00000040,#00000040,#00000040); */
+/* height:1106px; */
+/* width:1542px; */
+
+/* flex: none;
+order: 1;
+flex-grow: 0; */
+}
+
+.eligibilitycard{
+display: flex;
+flex-direction: column;
+align-items: center;
+/* padding: 40px; */
+background: #F4F4F4;
+
+gap: 24px;
+/* position: absolute; */
+/* height: 566px; */
+width:100%;
+}
+
+
+
+.elig-container{
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 40px;
+gap: 32px;
+
+/*width: 664px;
+height: 1728px; */
+
+/* Neutral/White
+
+The neutral palette is used for structure and to define spaces within the UI. Text colors are fully accessible against a white background.
+*/
+background: #FFFFFF;
+border-radius: 8px;
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+}
+
+.elig-head1{
+/*width: 584px; */
+height: 36px;
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 36px;
+display: flex;
+align-items: center;
+text-align: center;
+color: #000000;
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+padding-bottom: 16px;
+flex-direction: row-reverse;
+justify-content: center;
+
+}
+.elig-content1{
+
+/* Body/4. Large Body - 18pt, 27pt */
+
+font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 27px;
+/* or 150% */
+
+/*display: flex; */
+align-items: center;
+text-align: center;
+
+color: #000000;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+padding-bottom: 16px;
+}
+
+.elig-content2{
+
+font-family: 'Invention';
+font-style: italic;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+display: flex;
+align-items: center;
+text-align: center;
+color: #333333;
+padding-bottom: 32px;
+
+
+/* Inside auto layout */
+
+/* flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0; */
+}
+
+.combo-label{
+
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 21px;
+color: #333333;
+flex: none;
+order: 0;
+flex-grow: 0;
+padding-bottom: 8px;
+}
+
+.elig-head2{
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 27px;
+/* identical to box height, or 150% */
+
+
+/* Neutral/Dark Text */
+
+color: #333333;
+
+
+/* Inside auto layout */
+
+/* flex: none;
+order: 0;
+flex-grow: 0; */
+}
+
+.elig-content3{
+font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+
+/* Neutral/Dark Text */
+
+color: #333333;
+
+
+/* Inside auto layout */
+/* 
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0; */
+}
+
+.elig-content4 {
+font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+color: #000000;
+padding-bottom: 8px;
+}
+
+.elig-head3{
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+
+
+/* Neutral/Dark Text */
+
+color: #333333;
+
+
+/* Inside auto layout */
+
+/* flex: none;
+order: 0;
+flex-grow: 1; */
+}
+
+.elig-terms{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 34px 24px 32px 24px;
+gap: 16px;
+background: #F7F7F7;
+border-radius: 8px;
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+}
+
+.viewinfo{
+color: #00857C;
+text-decoration: underline;
+}
+
+.elig-info{
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+
+color: #333333;
+}
+.elig-placeholder{
+font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+/* identical to box height, or 150% */
+
+
+/* Neutral/Dark Text */
+
+color: #333333;
+
+
+/* Inside auto layout */
+/* 
+flex: none;
+order: 0;
+flex-grow: 1;
+z-index: 0;
+padding: 10px; */
+}
+
+.elig-addr1{
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 48px;
+
+
+/* Inside auto layout */
+
+/* flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0; */
+}
+
+.elig-col{
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 46%;
+
+/* Inside auto layout */
+
+/* flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0; */
+}
+.hone{
+margin-left: 136.5px;
+margin-right: 136.5px;
+font-size: 24px;
+font-weight: 700;
+font-family: 'Invention';
+font-style: normal;	
+min-width: 391px;
+max-height: 36px;
+line-height: 36px;
+display: flex;
+align-items: center;
+text-align: center;
+color: #000000;
+flex: none;
+order: 0;
+flex-grow: 0;
+margin-bottom: 8px;
+}
+.pone{
+margin-left: 40px;
+margin-right: 40px;
+font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 27px;
+display: flex;
+align-items: center;
+text-align: center;
+color: #333333;
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+}
+.ptwo{
+margin-top: 18px;
+}
+.iconclass{
+margin-left: 306.5px;
+margin-right: 306.5px;
+margin-bottom: 24px;
+}
+.linkclass{
+color: #00857C;
+text-decoration: underline;
+cursor: pointer;
+}
+
+
+
+
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+
+.eligibilitybackground1{
+background-image: linear-gradient(#00877C, #00000040, #00000040, #00000040);
+}
+.mob-container1{
+	width: auto !important;
+	display: flex;
+	padding: 0px;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 10px;
+	background: var(--neutral-ultralight-gray, #F4F4F4);
+}
+
+.outer-container{
+	
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.internal-container1{
+	width: 312px  !important;
+	display: flex;
+	padding: 16px;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 32px;
+	align-self: stretch;
+	border-radius: 8px;
+	background: var(--neutral-white, #FFF);
+}
+
+.border-content1{
+	width: 312px  !important;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	align-self: stretch;
+	padding: 16px;
+	background: var(--neutral-white, #FFF);
+	border-radius: 8px;
+}
+
+.iconclass1{
+	width: 51px;
+	height: 51px;
+		margin-left: 119.5px;
+margin-right: 119.5px;
+}
+
+.hone1{
+	color: #000;
+	font-feature-settings: 'clig' off, 'liga' off;
+	font-family: Invention;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 27px;
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+
+.pone1{
+	color: var(--neutral-dark-text, #333);
+	font-feature-settings: 'clig' off, 'liga' off;
+	font-family: Invention;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+}
+
+.ptwo1{
+	margin-top: 24px;
+}
+
+.linkclass1{
+	color: var(--primary-green, #00857C);
+	font-feature-settings: 'clig' off, 'liga' off;
+	font-family: Invention;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	text-decoration-line: underline;
+}
+.elig-form{
+	max-width: 774px;
+}
+}
+@media only screen and (max-width: 480px){
+.elig-progress{
+	display:none;
+}
+.elig-container{
+	padding:16px;
+}
+.hone{
+	margin-left: 0;
+	color: #000;
+	font-feature-settings: 'clig' off, 'liga' off;
+	font-family: Invention;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 27px;
+}
+.pone{
+	text-align: left;
+	margin-left: 0;
+}
+.ptwo{
+	text-align: left;
+	margin-left: 0;
+}
+}

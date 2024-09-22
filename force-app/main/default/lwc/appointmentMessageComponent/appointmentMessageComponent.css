@@ -1,0 +1,136 @@
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .message-class{
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    .header{
+        width: 100% !important;
+        height: 100% !important;
+    }
+    .scheduleBodyCls{
+        padding-top: 10px;
+    }
+    .downloadBtnCls{
+        padding-top: 100px !important;
+    }
+    .templateMsgCls{
+        max-width: 100% !important;
+    }
+    .templateMsgClsHeader{
+        width: 100% !important;
+    }
+    
+    .templateMsgClsBody{
+        width: 100% !important;
+    }
+}
+
+@font-face{
+    font-family : 'Invention';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Bd.woff')  format('woff');
+}
+@font-face {
+    font-family: 'InventionLt';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Lt.woff') format('woff');
+}
+@font-face {
+    font-family: 'InventionBdLt';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Bdlt.woff2') format('woff2');
+}
+@font-face{
+    font-family : 'InventionRg';
+    src:url('resource/AMO_Fonts/fonts/Invention_W_Rg.woff') format('woff');
+}
+@font-face{
+    font-family : 'InventionJPRG';
+    src:url('resource/AMO_Fonts/fonts/InventionJP_W_Rg.woff') format('woff');
+}
+
+.header{
+    height: 120px;
+    width: 740px;
+    color: #000000;
+    font-family: 'InventionLt';
+    font-size: 46px;
+    font-weight: 300;
+    letter-spacing: 0.1px;
+    line-height: 60px;
+}
+
+.message-class{
+    padding-left: 150px;
+    padding-bottom: 15px;
+}
+
+.scheduleCallFooterCls{
+    font-size: 16px;
+    letter-spacing: 0.15px;
+    line-height: 28px;
+    padding-bottom: 15px;
+    padding-top :24px;
+    color: #000000;
+    font-family: 'InventionRg';
+}
+
+.callmeFooterCls{
+    font-size: 30px;
+    letter-spacing: 0px;
+    color: #262626;
+    padding-bottom:13px;
+    height: 36px;
+}
+
+.appointmentDateCls{
+    color:#00857c;
+    font-size:46px;
+    font-family: 'InventionLt';
+    padding-bottom: 40px;
+    letter-spacing: -2.5px;
+    line-height: 80px;
+    height: 80px;
+}
+
+.icsBtnCls{
+    color:white;
+    background-color:#00857c;
+    margin-left:5px;
+    height: 48px;
+    width: 278px;
+    font-family: 'Invention';
+}
+
+.backBtnCls{
+    color:white;
+    background-color:#00857c;
+    margin-left:5px;
+    height: 48px; 
+    width: 84px;
+    font-family: 'Invention';
+}
+
+.templateMsgCls{
+    font-family: 'InventionRg' !important;
+    max-width: 550px;
+}
+.templateMsgClsHeader{
+    font-family: 'InventionLt' !important;
+    width: 740px;
+    letter-spacing: 0.1px;
+}
+
+.templateMsgClsBody{
+    font-family: 'InventionRg' !important;
+    width: 514px;
+    letter-spacing: 0.15px;
+    padding-top: 27px;
+}
+
+.exceptionMsgClsBody{
+    font-family: 'InventionRg' !important;
+    letter-spacing: 0.15px;
+}
+
+.scheduleBodyCls{
+    padding-top: 100px;
+}

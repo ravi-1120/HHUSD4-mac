@@ -1,0 +1,16 @@
+.carouselcls .slds-carousel .slds-carousel__indicators {
+    display: none;
+}
+.carouselcls .slds-carousel__panels .slds-carousel__content {
+    display: none;
+}
+.carouselcls .slds-carousel .slds-carousel__autoplay {
+    display: none;
+}
+.carouselcls .slds-carousel__panels{
+    transform: translateX(var(--transval)) !important;
+}
+
+:root {
+    --transval: -0%;
+}

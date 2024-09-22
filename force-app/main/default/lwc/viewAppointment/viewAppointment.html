@@ -1,0 +1,194 @@
+<template>
+	<div class="c-container schedulepg">
+		<div class="bg" style={backgroundStyle}>
+			<div class="container">
+				<c-custom-toast auto-close-time="8000"></c-custom-toast>
+				<div class="prodheader">
+					<p class="ptextone"> <a href="#" style="color:#FFFFFF;">Products</a> <span> / </span> <a href="#"
+							style="color:#FFFFFF;">{productName}</a> <span> / </span> Schedule appointment
+					</p>
+					<div class="ptexttwo">{productName}</div>
+					<p class="ptexthree">{productDescription}</p>
+					<div class="prescribediv">
+						<div class="lnbtns">
+							<a href={pdfDownloadLink} class="button bt1"><span class="prescribeinfo">Prescribing
+									Information<span class="prescribeimgcontainer"><img src={logo2}
+											class="prescibeimg"></span>
+								</span></a>
+							&nbsp;&nbsp;&nbsp;
+							<a href={pdfDownloadLink} class="button bt1 slds-p-left_small"><span
+									class="prescribeinfo">Browse catalog<span class="prescribeimgcontainer"><img
+											src={logo3}></span>
+								</span></a>
+							&nbsp;&nbsp;&nbsp;
+							<a href={pdfDownloadLink} class="bt2"><span class="hcp">HCP site <img
+										src={logo4}></span></a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="slds-p-left_xx-large card">
+				<div class="schedulebody">
+					<div class="innerbody">
+				
+						<h3 class="heading2">Requested content</h3>
+						<div class="titlecard">
+							<div class="slds-grid slds-wrap" style="width: 100%;">
+								<div class="slds-col slds-size_11-of-12">
+									<!--<p class="titlehead">Title</p>
+								<p class="description">Description of the budget impact model that was presented to
+									you by your
+									Merck Representative. Read more.</p>
+								<div class="presentationcontainer">
+									<p class="presentation">Live presentation </p>-->
+
+									<p class="titlehead">{catalogName}</p>
+									<p class="description">{catalofDescription}</p>
+									<div class="presentationcontainer">
+										<p class="presentation">Live presentation </p>
+									</div>
+								</div>
+								<div class="slds-col slds-size_1-of-12">
+									<img class="slds-float_right imgcls" src={bookmarklogo}>
+								</div>
+							</div>
+						</div>
+
+						<div class="appointmentpreference">Appointment preferences</div>
+						<hr style="clear: both;margin: 8px 0px 24px;" />
+						<div class="appointmenttime">Appointment times</div>
+						<div class="slds-form datetimecls">
+
+									<!-- <lightning-input type="datetime" date-style="short" value=""></lightning-input> -->
+
+									<!-- DATE TIME PICKER -->
+									<div class='col-sm-4 slds-p-right_small'>
+										<!-- <div class="form-group">
+										<label>Date</label>
+										<div class='input-group date'>
+											<input type='date' placeholder="Select"  class="form-control" data-id={counter}/>
+											<span class="input-group-addon">
+												<span class="glyphicon glyphicon-calendar"></span>
+											</span>
+										</div>
+									</div> -->
+									<p>Appointment Time:</p><br/>
+									<p> {meetingstartdate}</p>
+
+										<p>Meeting preference:</p><br/>
+									<p> {meetingPreference}</p>
+									
+										<p>Requested Attendee:</p><br/>
+									<p> {meetingattendee}</p>
+									</div>
+								
+						
+
+						</div>
+						<br>
+					
+						<br /><br />
+					
+					
+					</div>
+				</div>
+			</div>
+			<div class="descinfo">
+				<div class="indication">Indication</div>
+				<div class="verqu">VERQUVO is indicated to reduce the risk of cardiovascular death and heart failure
+					(HF)
+					hospitalization following a hospitalization for HF or need for outpatient IV diuretics,
+					in adults with symptomatic chronic HF and ejection fraction less than 45%.</div>
+				<div class="indication">Selected Safety Information</div>
+				<div class="verqu">VERQUVO is contraindicated in patients with concomitant use of other soluble
+					guanylate cyclase (sGC) stimulators.
+					VERQUVO is contraindicated in pregnancy.
+					Embryo-Fetal Toxicity: Based on data from animal reproduction studies, VERQUVO may cause fetal harm
+					when administered to a pregnant woman. Advise females of reproductive potential of the potential
+					risk to a fetus. Obtain a pregnancy test before the start of treatment. Advise females of
+					reproductive potential to use effective contraception during treatment with VERQUVO and for at least
+					one month after the final dose.
+					In a clinical trial, the most commonly observed adverse events with VERQUVO vs placebo, occurring at
+					a frequency ≥5%, were hypotension (16% vs 15%) and anemia (10% vs 7%).
+					Concomitant use of VERQUVO with PDE-5 inhibitors is not recommended due to the potential for
+					hypotension.
+					There are no data on the presence of vericiguat in human milk, the effects on the breastfed infant,
+					or effects on milk production. Because of the potential for serious adverse reactions in breastfed
+					infants from VERQUVO, advise women not to breastfeed during treatment with VERQUVO.</div>
+				<!-- <div class="indication">Before prescribing VERQUVO, please read the accompanying Prescribing Information, including the Boxed Warning about embryo-fetal toxicity. The Medication Guide also is available.</div> -->
+				<p><b style="font-size: 24px;">Before prescribing BRIDION, please read the
+						accompanying </b><a style="font-size: 24px; color: rgb(0, 135, 124);" target="_blank"
+						href="https://www.merck.com/product/usa/pi_circulars/b/bridion/bridion_pi.pdf"><b><u>Prescribing
+								Information</u></b></a><b
+						style="font-size: 24px; color: rgb(0, 135, 124);"><u>.</u></b><b style="font-size: 24px;"> The
+					</b><a style="font-size: 24px; color: rgb(0, 135, 124);" target="_blank"
+						href="https://www.merck.com/product/usa/pi_circulars/v/verquvo/verquvo_mg.pdf"><b><u> Medication
+								Guide</u></b></a><b style="font-size: 24px;"> also is
+						available.</b></p>
+			</div>
+
+		</div>
+		<div if:true={showResponse}>
+			<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+				class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+
+					<div class="slds-modal__header">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_11-of-12">
+								<h1 id="modal-heading-01" class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+									Your Request has been submitted</h1>
+							</div>
+							<div class="slds-col slds-size_1-of-12">
+								 <lightning-button-icon onclick={closeResponse} class="greenIcon"  icon-name="utility:close"  alternative-text="Close" title="Close"></lightning-button-icon>
+								
+							</div>
+						</div>
+					</div>
+					<!--<div><p>You have submitted a request for an appointment to view:  Vericiguat Budget Impact Model</p></div>-->
+					<div class="slds-modal__content " id="modal-content-id-2">
+						<div class="slds-align_absolute-center">
+								<span class ="subtitle "> 
+									<p> You have submitted a request for an appointment to view: </p>
+									<p> {catalogName}</p>
+								</span>
+						</div>
+								<div class="slds-align_absolute-center">
+						<div class="slds-box box">
+							<p class="requestNumber"> Your Request Number is :<span
+									style="color:#00857c">#{meetingRequestNumber}</span></p>
+							</br>
+							<div class="detailpopUp">
+								<p>Look for email updates as your Merck Account Team works to schedule your Appointment
+									and grant access to the requested content. A Merck account
+									team member will be in touch with you shortly regarding your request.</p>
+								</br>
+							</div>
+							<a href="#" class="slds-button viewrequest"><span>View request<img
+                    style="margin-left: 16px;" src={sidearrow}> </span></a>
+						</div>
+								</div>
+						<p class="questions">Questions? Contact your Merck Account Team for further assistance</p>
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral" style="font-family: 'Invention';color:white;
+								background-color:#00857c;height: 32px;font-size: 16px;letter-spacing: 0.1px;"
+								data-name="Dashboard" onclick={navigatepage}>Go to Dashboard</button>
+
+							<button class="slds-button slds-button_neutral " style="font-family: 'Invention';color:#00857c;
+								background-color:white;height: 32px;font-size: 16px;letter-spacing: 0.1px;"
+								onclick={closeResponse}>Close<span><img style="margin-left: 16px;" src={cross}> </span></button>
+
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</div>
+
+	</div>
+
+</template>

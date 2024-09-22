@@ -1,0 +1,158 @@
+.container {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(Blur.png);
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.pass_container {
+    padding: 40px;
+    background: #FFFFFF;   
+}
+.pass_headersec h2 {
+    color: #000;
+    text-align: center;
+    font-family: 'Invention';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    padding-bottom: 8px;
+}
+.pass_headersec p {
+    color: #333;
+    text-align: center;
+    font-family: 'Invention';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+}
+.pass_headersec p b {
+    color: #333333;
+    font-family: 'Invention';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;;
+}
+.pass_headersec p a {
+    color: #00857C;
+    font-family: 'Invention';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+    text-decoration-line: underline;
+}
+.pass_bodysec {
+    padding-top: 32px;
+}
+.otpnotreceived {
+    padding-top: 32px;
+}
+.otpinput {
+    margin-bottom: 0;
+}
+.otpnotreceived p {
+    color: #000000;
+    text-align: center;
+    font-family: 'Invention';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.otpnotreceived p span{
+    color: #00857C;
+    font-family: 'Invention';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    text-decoration-line: underline;
+    cursor: pointer;
+}
+.btnmaincls {
+    display: flex;
+    justify-content: end;
+    padding-top: 32px;
+}
+.nextbtncls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 16px;
+    gap: 20px;
+    height: 50px;
+    background: #A4A4A4;
+    border: none;
+    border-radius: 5px;
+    color: #FFF;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+}
+.btnenablecls {
+    background: #00857C !important;
+}
+.errormsgcls {
+    color: #DB281A;
+    font-style: normal;
+    font-weight: 400;
+    font-family: 'Invention';
+    font-size: 12px;
+    vertical-align: top;
+    margin-top: 4px;
+}
+
+
+
+ @media only screen and (max-width: 768px) {
+   .pass_headersec h2{
+       color: #000;
+       font-family: Invention;
+       font-size: 18px;
+       font-style: normal;
+       font-weight: 700;
+       line-height: 27px;
+       text-align: left;
+       /* white-space: nowrap; */
+
+   }
+   .pass_headersec p{
+       color: var(--neutral-dark-text, #333);
+       font-family: Invention;
+       font-size: 16px;
+       font-style: normal; 
+       font-weight: 400;
+       line-height: 24px;
+       text-align: left;
+    }
+    .otpnotreceived p{
+        color: #000;
+        font-family: Invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 21px;
+        text-align: left;
+
+    }
+    .otpnotreceived {
+        padding-top: 24px;
+
+    }
+    .btnmaincls{
+        display: flex;
+        padding-top: 32px;
+        flex-direction: column;
+
+    }
+    .pass_container{
+        padding: 16px;
+        background: #FFFFFF;
+    }
+    
+ }

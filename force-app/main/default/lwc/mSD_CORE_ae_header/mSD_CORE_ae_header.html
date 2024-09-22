@@ -1,0 +1,22 @@
+<!-- myComponent.html -->
+<template>
+    <div class="background">
+        <lightning-layout class="slds-grid slds-wrap" interop-layout_layout-host="">
+            <lightning-layout-item class="slds-size_12-of-12">
+                <!-- <slot> -->
+                    <!-- <div class="slds-grid slds-wrap"> -->
+                        <div class="margindiv">
+                            <img class="logo" role="link" src={imageUrl} title="Merck Medical Portal" data-id="logo"
+                                height="150" tabindex="0" alt="Merck Medical Portal logo">
+                            <a class="medicalfont" padding="horizontal-medium" role="presentation">{label.Headermsg}</a>
+                        </div>
+                        <div class="newstatement">
+                            <p>{label.Headermsg1}</p>
+                        </div>
+                    <!-- </div> -->
+                    <hr>
+                <!-- </slot> -->
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

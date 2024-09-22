@@ -1,0 +1,76 @@
+*{
+    font-family: 'Invention';
+}
+
+.custom-container{
+	color : black;
+}
+
+.thumbnail-container {
+    width: 200px;
+    height: 250px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.thumbnail-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s;
+    transform-origin: top left;
+}
+
+.zoom-percentage {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 6px;
+}
+
+.zoom-button {
+    --slds-c-icon-color-foreground-default: #5450e4;
+    cursor: pointer;
+}
+
+.zoom-button:disabled {
+    --slds-c-icon-color-foreground-default: #9f9f9f;
+    cursor: not-allowed
+}
+
+.thumbnail-container.scroll-enabled::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.thumbnail-container.scroll-enabled::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+.thumbnail-container.scroll-enabled::-webkit-scrollbar-track {
+    background-color: transparent;
+}

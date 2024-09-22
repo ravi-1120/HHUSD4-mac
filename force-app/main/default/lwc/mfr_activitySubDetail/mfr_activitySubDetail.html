@@ -1,0 +1,15 @@
+<template>
+    <div class="slds-p-around_medium bggrey subdiv">
+        <template for:each={activityDetail} for:item="activityDetailobj" >
+            <div class="subborder slds-p-left_medium" key={activityDetailobj.id}>
+                <div class="subgreencircle"></div>
+                <div class="subboxcls">
+                    <div class="header_cls">
+                        <lightning-formatted-rich-text value={activityDetailobj.activity}></lightning-formatted-rich-text>
+                    </div>
+                    <div><p class="time_cls">{activityDetailobj.dateval}</p></div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

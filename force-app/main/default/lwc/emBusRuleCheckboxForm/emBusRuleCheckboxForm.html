@@ -1,0 +1,16 @@
+<template>
+    <div class="slds-p-vertical_medium sticky-header" if:true={page}>
+        <lightning-button variant="base" label={page.messages.REMOVE_ALL} onclick={handleSelectAll}></lightning-button>
+    </div>
+    <template for:each={rows} for:item="row" for:index="i">
+        <lightning-layout key={row.key} class="slds-p-bottom_large">
+            <lightning-layout-item size="4" large-device-size="3" class="checkbox-column slds-p-right_small">
+                <lightning-input if:true={row.name} type="checkbox" checked={row.checked} name={i} onchange={handleCheckboxChange}></lightning-input>
+                <div class="slds-text-align_left">{row.name}</div>
+            </lightning-layout-item>
+            <lightning-layout-item size="8" large-device-size="9">
+                <div class="slds-text-align_left">{row.warning}</div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>

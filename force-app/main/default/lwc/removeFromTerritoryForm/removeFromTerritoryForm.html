@@ -1,0 +1,49 @@
+<template>
+  <lightning-quick-action-panel header={modalTitle}>
+    <template if:true={loading}>
+      <div class="modal-spinner-container-height">
+        <c-veeva-spinner></c-veeva-spinner>
+      </div>
+    </template>
+    <template if:true={showRequestForm}>
+      <lightning-layout>
+        <lightning-layout-item padding="around-small" size="12">
+          <lightning-layout vertical-align="center">
+            <lightning-layout-item class="slds-p-right_medium">
+              <lightning-icon icon-name="utility:warning" size="medium" variant="warning"></lightning-icon>
+            </lightning-layout-item>
+            <lightning-layout-item size="11">
+              {removeFromTerritoryWarningLabel}
+            </lightning-layout-item>
+          </lightning-layout>
+        </lightning-layout-item>
+      </lightning-layout>
+      <lightning-layout vertical-align="center">
+        <lightning-layout-item size={territoryPicklistSize} padding="around-small">
+          <lightning-dual-listbox name="territories"
+          label={territoryLabel}
+          disabled={territoryPicklistDisabled}
+          disable-reordering
+          required
+          options={territoryOptions}
+          value={defaultTerritories}
+          onchange={handleTerritorySelectionChange}></lightning-dual-listbox>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" padding="around-small" if:true={showChallengeReasonsPicklist}>
+          <lightning-dual-listbox name="challenge reasons"
+          label={challengeReasonsLabel}
+          disable-reordering
+          required={challengeReasonsRequired}
+          options={challengeReasonsOptions}
+          value={defaultChallengeReasons}
+          onchange={handleChallengeReasonSelectionChange}></lightning-dual-listbox>
+        </lightning-layout-item>
+      </lightning-layout>
+      <div slot="footer">
+        <lightning-button variant="neutral" label={cancelButtonLabel} onclick={handleCancel}></lightning-button>
+        <lightning-button variant="brand" label={submitButtonLabel} class="slds-m-left_x-small" onclick={handleSubmit} disabled={formIsInvalid}></lightning-button>
+      </div>
+    </template>
+    <c-remove-from-territory-error-handler message-service={messageService} error={error}></c-remove-from-territory-error-handler>
+  </lightning-quick-action-panel>
+</template>

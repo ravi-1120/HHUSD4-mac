@@ -1,0 +1,146 @@
+<template>
+    <div class="logo">
+        <div class="menudiv"> <!--RT GA bug-->
+        <div if:false={prevwelcpg}> <!-- added this condition to disable the logo if it is on welcome page -->
+            <div if:false={isAccountLocked}> 
+                <a class="" style="position: absolute;left: 0;" href={navigatedashboard} onclick={navigatetodash}> 
+                    <img if:false={isGuestUser} src={merck} class="mercklogo" width="150" height="180" style="position: relative;   bottom: 25px;">
+                    <img if:true={isGuestUser} src={merck} width="150" height="180" style="position: relative;   bottom: 25px;">
+                </a>
+            </div>
+            <div if:true={isAccountLocked}> 
+                <a class="" style="position: absolute;left: 0;"> 
+                    <img if:false={isGuestUser} src={merck} class="mercklogo" width="150" height="180" style="position: relative;   bottom: 25px;">
+                    <img if:true={isGuestUser} src={merck} width="150" height="180" style="position: relative;   bottom: 25px;">
+                </a>
+            </div>
+        </div>
+
+        <div if:true={prevwelcpg}> <!-- added this condition to disable the logo if it is on welcome page -->
+            <p class="" style="position: absolute;left: 0;">
+                <img  src={merck} width="150" height="180" style="position: relative;   bottom: 25px;">
+            </p>
+        </div>
+        
+            <div if:false={isGuestUser} class="medbutton">
+                <div if:true={isAccountLocked}>
+                <button class="medi_btn"> {mheeheader}<span
+                       class="medicon"><img src={vmi}> </span> </button>
+                 </div>
+                <div if:false={isAccountLocked}>
+                <button class="medi_btn" onclick={Showpopup}> {mheeheader}<span
+                       class="medicon"><img src={vmi}> </span> </button>
+                 </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <!-- <lightning-button if:true={isGuestUser} onclick={onclickhandler} data-id='login' variant="brand-outline" label="Login"  class="slds-m-left_x-small slds-button_icon-inverse"></lightning-button> -->
+                <div if:true={isGuestUser} class="slds-p-left_small slds-p-right_small mob-login">
+                    <button onclick={onclickhandler} data-id='login' class="viewall_btn">Log in</button>
+                </div>
+                <div if:false={isGuestUser} class="notBtn slds-p-left_large slds-p-right_large slds-p-top_xx-small">
+                    <div if:false={isAccountLocked}>
+                        <div if:false={isGuestUser} class="number" data-name="notification" onclick={navigation}>{noticount}
+                        </div>
+                    
+                    <img if:false={isGuestUser} src={notificationicon} data-name="notification" onclick={navigation}>
+                   
+
+                    <template if:true={notificationpg}>
+                        <div class="solidbar"></div>
+                    </template>
+                     </div>
+                    <div if:true={isAccountLocked}>
+                        <div if:false={isGuestUser} class="number" data-name="notification" >{noticount}
+                        </div>
+                    
+                    <img if:false={isGuestUser} src={notificationicon} data-name="notification" >
+                   
+
+                    <template if:true={notificationpg}>
+                        <div class="solidbar"></div>
+                    </template>
+                     </div>
+                </div>
+                <!-- <img src={bell} style="padding-left: 45px;">-->
+                <div class="slds-grid slds-grid_vertical">
+                    <div class="slds-float slds-grid menucls" data-name="menu" onclick={navigation}>
+                        <img class="slds-col menuicon" src={MenuHeaderNew} data-name="menu"
+                        onclick={navigation}>
+                        &nbsp;<div class="menu1" data-name="menu" onclick={navigation}>Menu</div>
+                    </div>
+                    <template if:true={menupg}>
+                        <div class="solidbar"></div>
+                    </template>
+                </div>
+                <div if:false={prevwelcpg}> <!-- added this condition to change the navigation to welcome page -->
+                    <img if:true={isGuestUser} src={close} onclick={onclickhandler} data-id='logoutcconfirmationpage'
+                    class="logoutimg">
+                    <img if:false={isGuestUser} src={close} onclick={closemenu} data-id='logoutcconfirmationpage'
+                    class="logoutimg">
+                </div>
+                <div if:true={prevwelcpg}> <!-- added this condition to change the navigation to welcome page -->
+                    <img  src={close} onclick={backtowelpg} data-id='logoutcconfirmationpage'
+                    class="logoutimg">
+                </div>
+                
+
+            </div>
+        </div>
+        <div if:true={showResponse}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <div class="slds-modal__header medpopup">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_11-of-12">
+                                <h1 id="modal-heading-01"
+                                    class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit medpoph1">
+                                    <span class="popuphead"><b> Medical
+                                            &amp; Health Economic Evidence </b></span>
+                                </h1>
+                            </div>
+                            <div class="slds-col slds-size_1-of-12">
+
+                                <button class="slds-button slds-button_neutral closebuttn"
+                                    onclick={closeResponse} data-id="back to screen_X"><span><img src={cross}> </span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div><p>You have submitted a request for an appointment to view:  Vericiguat Budget Impact Model</p></div>-->
+                    <div class="slds-modal__content " id="modal-content-id-2">
+
+                        <div class="slds-align_absolute-center">
+                                	<div class="box innermed">
+                                <br />
+                                <span class="para1">
+                                    <p class="innerp1">Search the database for
+                                        available information and submit requests to our Medical team.</p>
+                                    <p class="innerp2"><b>This will take you out of Merck Formulary Resources
+                                            portal.</b></p>
+                                </span>
+                                </br>
+                                <div class="slds-align_absolute-center">
+                                    <button class="slds-button slds-button_neutral continuebtn"
+                                        data-name="Continue to Merck Medical &amp; Health Economic Evidence" onclick={handleHealthEconomicEvidence}>Continue to
+                                        Merck Medical &amp; Health Economic Evidence <img src={HeaderArrow}></button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="slds-modal__footer popupfooter">
+
+                            <button class="slds-button slds-button_neutral returnbtn"
+                                onclick={closeResponse} data-id="return to mfr portal" >Return to Merck Formulary Resources portal</button>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open" role="presentation">
+                <p class="job">{label.jobcode}</p>
+            </div>
+        </div>
+    </div>
+</template>

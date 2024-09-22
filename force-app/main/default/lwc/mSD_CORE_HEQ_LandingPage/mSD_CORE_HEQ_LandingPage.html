@@ -1,0 +1,36 @@
+<template>
+    <div class="controllerCls">
+        <div class="main-container">
+            <div class="image-text-container">
+                <img src={imageUrl} alt="Image" class="center-image" />
+                <p class="center-text">To log in and access the site, click one of the links below.</p>
+            </div>
+            <div class="icons-container">
+                <div class="icon customer-icon" onclick={handleCustomerClick}>
+                    <img src={usericon} alt="Image" class="icon-image" />
+                    <div class="customerCls">Customer</div>
+                </div>
+                <div class="icon employee-icon" onclick={handleMerckEmployeeClick}>
+                    <img src={usericon} alt="Image" class="icon-image" />
+                    <div class="merckCls">Merck Employee SSO</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <img src={imageUrl} alt="Image" class="center-image" />
+    <div class="footer">
+        <div class="footer-row1">
+            <div class="additionalCls">Additional Merck sites</div>
+            <div class="contactCls">Contact us:</div>
+        </div>
+        <div class="footer-row2">
+            <div class="merckAccountCls">My Merck Accounts</div>
+            <div class="merckRahway">Merck & Co., Inc., Rahway, NJ USA</div>
+        </div>
+        <div class="footer-row3">
+            <div class="merckConnectCls">MerckConnect</div>
+            <div class="viewMoreCls">View more contact options</div>
+        </div>
+    </div> -->
+    <c-m-s-d_-c-o-r-e_-h-e-q_-footer></c-m-s-d_-c-o-r-e_-h-e-q_-footer>
+</template>

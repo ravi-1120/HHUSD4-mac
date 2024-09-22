@@ -1,0 +1,52 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_CommunicationEventTargetView.page
+* @description - Replaces the Communication Event Target View page
+*   in order to support display of Product and Sales Team names
+*   instead of the IDs stored.
+* @createdate - Aug 7th, 2014
+-->
+<apex:page showHeader="true"
+		sidebar="true"
+		standardController="Communication_Event_Target_MRK__c"
+    extensions="MRK_CommunicationEventTargetViewCtrl">
+	
+		<apex:form >
+        <apex:pageBlock title="{!title}">
+	        <apex:pageMessages />
+	        <apex:pageBlockButtons >
+	            <apex:commandButton value="Edit" action="{!doEdit}"/>
+	            <apex:commandButton value="Delete" action="{!doDelete}"/>
+	        </apex:pageBlockButtons>
+
+	        <apex:pageBlockSection columns="2">
+
+			      <apex:outputField value="{!communicationEventTargetRecord.Name}" />
+			      <apex:outputField value="{!communicationEventTargetRecord.OwnerId}" />
+			      
+			      <apex:outputField value="{!communicationEventTargetRecord.Communication_Event_MRK__c}" />
+						<apex:outputText />
+
+						<apex:outputField value="{!communicationEventTargetRecord.Type_MRK__c}" />
+						<apex:outputText />
+
+						<apex:outputField value="{!communicationEventTargetRecord.Profile_MRK__c}" />
+						<apex:outputText />
+
+						<apex:outputText value="{!productNames}" label="Product"/>
+						<apex:outputText />
+
+						<apex:outputText value="{!teamNames}" label="Team"/>
+						<apex:outputText />
+						
+
+						<apex:outputField value="{!communicationEventTargetRecord.CreatedById}" />
+						<apex:outputField value="{!communicationEventTargetRecord.LastModifiedById}" />
+						<apex:outputField value="{!communicationEventTargetRecord.CreatedDate}" />						
+						<apex:outputField value="{!communicationEventTargetRecord.LastModifiedDate}" />
+
+	        </apex:pageBlockSection>
+        </apex:pageBlock>
+
+		</apex:form>
+</apex:page>

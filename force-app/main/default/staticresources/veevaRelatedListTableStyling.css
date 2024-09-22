@@ -1,0 +1,79 @@
+/* Edit Data Table Styling starts */
+c-veeva-related-list-table .slds-table .slds-has-error,
+c-veeva-related-list-table .slds-table .slds-has-error:hover,
+c-veeva-related-list-table .slds-table_edit.slds-table tbody tr:hover>.slds-has-error,
+c-veeva-related-list-table .slds-table--edit.slds-table tbody tr:hover>.slds-has-error {
+    box-shadow: var(--lwc-colorBorderError,rgb(234, 0, 30)) 0 0 0 2px inset;
+}
+
+c-veeva-related-list-table .slds-table .slds-cell-edit.slds-is-edited,
+c-veeva-related-list-table .slds-table .slds-cell-edit.slds-is-edited:hover,
+c-veeva-related-list-table .slds-table_edit.slds-table tbody tr:hover>.slds-cell-edit.slds-is-edited,
+c-veeva-related-list-table .slds-table--edit.slds-table tbody tr:hover>.slds-cell-edit.slds-is-edited,
+.slds-table:not(.slds-no-row-hover) tbody tr:hover>td.slds-is-edited {
+    background-color: var(--lwc-colorBackgroundHighlight,rgb(250, 255, 189));
+}
+
+/** Multi-Select Styling starts **/
+c-veeva-related-list-table .slds-table tbody tr.slds-is-selected>td.slds-is-edited,
+c-veeva-related-list-table .slds-table tbody tr.slds-is-selected>td.slds-is-edited:hover,
+c-veeva-related-list-table .slds-table:not(.slds-no-row-hover) tr.slds-is-selected:hover>td.slds-is-edited,
+c-veeva-related-list-table .slds-table:not(.slds-no-row-hover) tr.slds-is-selected:hover>th.slds-is-edited {
+    background-color: var(--lwc-colorBackgroundHighlight,rgb(250, 255, 189));
+}
+/** Multi-Select Styling ends **/
+
+
+c-veeva-related-list-table .slds-table .slds-is-edited.slds-has-error,
+c-veeva-related-list-table .slds-table .slds-is-edited.slds-has-error:hover,
+c-veeva-related-list-table .slds-table_edit.slds-table tbody tr:hover>.slds-is-edited.slds-has-error,
+c-veeva-related-list-table .slds-table--edit.slds-table tbody tr:hover>.slds-is-edited.slds-has-error
+{
+    background-color: var(--lwc-colorBackgroundHighlight,rgb(250, 255, 189));
+    box-shadow: var(--lwc-colorBorderError,rgb(234, 0, 30)) 0 0 0 2px inset;
+}
+
+c-veeva-related-list-table c-veeva-datatable lightning-primitive-datatable-iedit-panel .slds-p-left_xx-small + lightning-input
+{
+    padding-left: var(--lwc-spacingXxSmall, 0.25rem);
+}
+/* Edit Data Table Styling ends */
+
+/* File Styling starts */
+c-veeva-related-list-table c-veeva-datatable lightning-icon[class^="slds-icon-doctype-"] svg.slds-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+c-veeva-related-list-table lightning-file-upload .slds-form-element__label {
+    display: none;
+}
+/* File Styling ends */
+
+
+/* Popover Styling Starts */
+lightning-primitive-datatable-tooltip-bubble .slds-popover__header .slds-truncate {
+    overflow-wrap: break-word;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+}
+
+lightning-primitive-datatable-tooltip-bubble .slds-popover__body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+/* Popover Styling Ends */
+
+/* Popover Footer Styling Starts */
+c-veeva-related-list-table lightning-primitive-datatable-status-bar .slds-docked-form-footer.slds-is-absolute {
+    position: relative;
+    transform: scale(1.001);
+    z-index: var(--lwc-zIndexDefault, 1);
+}
+
+c-veeva-related-list-table c-veeva-datatable .slds-table_header-fixed_container,
+c-veeva-related-list-table c-veeva-datatable .slds-table_header-fixed_container.slds-scrollable_x {
+    padding-bottom: 0 !important;
+}
+/* Popover Footer Styling Ends */

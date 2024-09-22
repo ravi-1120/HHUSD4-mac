@@ -1,0 +1,29 @@
+<template>
+    <c-veeva-modal size="smaller" composed=true onclose={closeDialog}>
+        <div slot="header">
+            <div class="slds-text-heading--small">
+                {modalTitle}
+            </div>
+        </div>
+        <div slot="content">
+            <div>
+                <div class="slds-m-top_medium slds-m-bottom_large slds-p-horizontal_xx-large">
+                    <lightning-input type="text" label={modalMessageMap.userNameFieldLabel} class="validation" data-id="username" name="username" required value={userData.adminUser} ></lightning-input>
+                </div>
+                <div class="slds-m-top_medium slds-m-bottom_large slds-p-horizontal_xx-large">
+                    <lightning-input type="password" label={modalMessageMap.passwordFieldLabel} class="validation" data-id="password" name="password" required value="" ></lightning-input>
+                </div>
+                <div class="slds-m-top_medium slds-m-bottom_large slds-p-horizontal_xx-large">
+                    <lightning-input type="checkbox" variant="label-stacked" label={modalMessageMap.sandboxFieldLabel} data-id="sandbox" name="sandbox" checked={userData.isSandbox} ></lightning-input>
+                </div>
+            </div>
+        </div>
+        <div slot="footer">
+            <div class="slds-align_absolute-center slds-button-group-row">
+                <c-veeva-error-popover-container field-errors={fieldErrors} record-errors={recordErrors} class="slds-m-right_small"></c-veeva-error-popover-container>
+                <lightning-button class="slds-button-group-item" variant="neutral" label={modalMessageMap.cancelButtonLabel} onclick={closeDialog}></lightning-button>
+                <lightning-button class="slds-button-group-item" variant="brand" label={modalMessageMap.saveButtonLabel} onclick={save}></lightning-button>
+            </div>
+        </div>
+    </c-veeva-modal>
+</template>

@@ -1,0 +1,14 @@
+<apex:page controller="VODRedirectController">
+    <apex:composition template="{!$Page.RedirectLgtnVod}"/>
+    <script>
+        var iframe = document.getElementById("vod_iframe");
+        var url = "{!VodUrl}/app/nas/index?sfSession={!$Api.Session_ID}&sfEndpoint={!$Api.Partner_Server_URL_240}&motif=Custom42Tab&lgtvf=true";
+
+        var retURL = "{!$CurrentPage.parameters.retURL}";
+        if (retURL) {
+            url += "&retURL=" + retURL;
+        }
+
+        iframe.src = url;
+    </script>
+</apex:page>

@@ -1,0 +1,14 @@
+<template>
+    <div class={popoverClass}>
+        <div if:false={isPrompt} class="slds-popover__header">
+            <slot name="header"></slot>
+        </div>
+        <lightning-button-icon class="slds-float_right slds-popover__close" if:true={isPrompt} icon-name="utility:close" onclick={close} variant="bare"></lightning-button-icon>
+        <div class="popover-body slds-popover__body">
+            <slot name="content"></slot>
+        </div>
+        <div if:false={isPrompt} class="slds-popover__footer slds-align_absolute-center">
+            <slot name="footer"></slot>
+        </div>
+    </div>
+</template>

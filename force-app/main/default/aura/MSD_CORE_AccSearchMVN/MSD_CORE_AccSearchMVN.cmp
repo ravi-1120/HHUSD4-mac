@@ -1,0 +1,21 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="searchCriteria" type="Map" default="{}"/>
+    <aura:attribute name="fieldListPerson" type="Map" default="{}"/>
+    <aura:attribute name="fieldListBusiness" type="Map" default="{}"/>
+    <aura:attribute name="recentlyAddedBusiness" type="String"/>
+    <aura:attribute name="recentlyAddedPerson" type="String"/>
+    <aura:attribute name="state" type="String"/>
+    <aura:attribute name="fromNice" type="Boolean" default="false"/>
+    <aura:handler event="c:MSD_CORE_AccountQuery" action="{!c.refreshCmp}"/>
+    <aura:handler event="c:MSD_CORE_CC_SearchCriteria" name="MSD_CORE_CC_SearchCriteria" action="{!c.handleSearchEvent}"/>
+    <aura:attribute name="recordId" type="String"/>
+    <lightning:tabset selectedTabId="one">
+        <lightning:tab label="Person" id="one" iconName="standard:person_account" onactive="{! c.handleActivePerson }">
+            <c:MSD_CORE_AccountSearchMVN recentlyAddedBusiness="{!v.recentlyAddedBusiness}" aura:id="accSerhCmpPerson" type="Person" recordId="{!v.recordId}" searchCriteria ="{!v.fieldListPerson}" state="{!v.state}"/>
+        </lightning:tab>
+        <lightning:tab label="Business" id="two" iconName="standard:account" onactive="{! c.handleActive }">
+            <c:MSD_CORE_AccountSearchMVN recentlyAddedPerson="{!v.recentlyAddedPerson}" aura:id="accSerhCmp" type="Business" recordId="{!v.recordId}" searchCriteria ="{!v.fieldListBusiness}" state="{!v.state}"/>
+        </lightning:tab>
+    </lightning:tabset>
+</aura:component>

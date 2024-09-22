@@ -1,0 +1,21 @@
+<template>
+  <div class="background">
+    <template if:false={isSubmitClicked}>
+      <span class="exclamation-icon">⚠️</span>
+      <span class="warning-text">{label.WarningMsg}&nbsp;</span>
+      <br><br>
+      <p>{label.WarningMsg3} &nbsp;
+        <a href={phoneHref} class="green-text" title="This is a phone number">{label.Phone}</a>&nbsp;
+        {label.WarningMsg2}&nbsp;
+      </p>
+    </template>
+    <div id="outer">
+      <br /> <br /><br />
+      <button class="button_slide slide_right " onclick={handleButtonClick}>{label.Button}</button>
+      <br /> <br /><br />
+    </div>
+    <template if:true={buttonClicked}>
+      <c-m-s-d_-c-o-r-e_ae_landing-page></c-m-s-d_-c-o-r-e_ae_landing-page>
+    </template>
+  </div>
+</template>

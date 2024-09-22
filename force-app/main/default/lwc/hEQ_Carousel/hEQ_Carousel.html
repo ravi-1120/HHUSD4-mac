@@ -1,0 +1,26 @@
+<template>
+    
+        <!-- <lightning-carousel class="carousel">
+            <template for:each={banners} for:item="banner">
+                <lightning-carousel-image
+                    key={banner.Id}
+                    src={banner.imageUrl}
+                    header={banner.Header__c}
+                    description={banner.Description__c}>
+                </lightning-carousel-image>
+            </template>
+        </lightning-carousel> -->
+    
+    
+    <div class="container">
+        <div class="slds-size_4-of-4">
+            <div class="image">
+                <lightning-carousel>
+                    <lightning-carousel-image src={HEQ_Banner_1} alternative-text="First card accessible description." href="javascript:void(0);"></lightning-carousel-image>
+                    <lightning-carousel-image class="image" src={HEQ_Banner_1} alternative-text="Second card accessible description." href="javascript:void(0);"></lightning-carousel-image>
+                    <lightning-carousel-image class="image" src={HEQ_Banner_1} href="javascript:void(0);"></lightning-carousel-image>
+                </lightning-carousel>
+            </div>
+        </div>
+    </div>
+</template>

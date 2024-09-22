@@ -1,0 +1,21 @@
+<apex:component controller="VPS_Object_Selector_Cont">
+    <apex:attribute name="sObjectName" description="Name of SObjectToSelect"
+                  type="String" required="required" assignTo="{!sObjName}"/>
+    <apex:attribute name="ctrl" description="My controller" type="VPS_VR_Extension" required="true" assignTo="{!cont}"/>
+    
+ 
+    
+    <apex:pageBlock >
+        <apex:pageBlockSection >
+            <apex:inputText value="{!search}"/>
+            <apex:commandButton action="{!runQuery}" value="Query"/>
+        </apex:pageBlockSection>
+        <apex:pageBlockTable value="{!objList}" var="wrap">
+            <apex:column >
+                <apex:inputCheckbox value="{!wrap.include}"/>
+            </apex:column>
+            <apex:column value="{!wrap.obj['Id']}"  />
+            <apex:column value="{!wrap.obj['Name']}" />
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:component>

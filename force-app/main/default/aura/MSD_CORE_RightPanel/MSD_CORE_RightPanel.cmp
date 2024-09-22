@@ -1,0 +1,26 @@
+<aura:component controller="CaseRecordTypeControllerMVN" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="disclaimer" type="CaseDataWrapperMVN"/>
+    
+    <div class="slds-box slds-theme_default" style="padding: 2px 15px;">      
+        <lightning:tabset selectedTabId="one">
+            <lightning:tab label="Interaction" id="one" iconName="standard:log_a_call">
+                <c:MSD_CORE_CC_InteractionLog recordId="{!v.recordId}"/>
+            </lightning:tab>
+            <lightning:tab label="Knowledge" id="two" iconName="standard:knowledge">
+                <c:CaseTabCmp recordId="{!v.recordId}" showQuickSearch="true"></c:CaseTabCmp>
+            </lightning:tab>
+            <aura:if isTrue="{!v.disclaimer.cs.MSD_CORE_Event_Case_Type__c == 'AE Only'}">
+                <lightning:tab label="AE Field Check" id="three" iconName="standard:record_update">
+                    <c:MSD_CORE_AE_Field_Check recordId="{!v.recordId}"/>
+                </lightning:tab>
+            </aura:if>
+            <aura:if isTrue="{!v.disclaimer.cs.MSD_CORE_Event_Case_Type__c == 'AE and PQC'}">
+                <lightning:tab label="AE Field Check" id="three" iconName="standard:record_update">
+                    <c:MSD_CORE_AE_Field_Check recordId="{!v.recordId}"/>
+                </lightning:tab>
+            </aura:if>
+        </lightning:tabset>
+    </div>
+</aura:component>

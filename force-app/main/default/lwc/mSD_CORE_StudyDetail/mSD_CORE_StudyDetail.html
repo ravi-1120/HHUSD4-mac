@@ -1,0 +1,94 @@
+<template>
+    <div>
+        <!-- For the Header Section -->
+        <div>
+            <div class="bannercls" style={backgroundStyle}>
+                <div class="header_cls">
+                    <div class="container">
+                        <!-- Breadcrumbs start -->
+                        <div class="slds-grid slds-wrap mobhidesection">
+                            <a if:true={siteNames} href={siteNames.Dashboard} class="breadcrumbs slds-p-right_x-small" onclick={clickdashboard} data-contname={studyDetail.Name} > Dashboard </a><span>/</span>
+                                <a href={phasenav} class="mobTruncateText">...</a>
+                            <a if:true={siteNames} href={siteNames.Pipeline} class="breadcrumbs slds-p-left_x-small slds-p-right_x-small mobbreadcrumbs" onclick={clickpipeline} data-contname={studyDetail.Name}> Pipeline Information</a>
+                                <span class="mobbreadcrumbs">/</span>
+                            <a href={phasenav} class="breadcrumbs slds-p-left_x-small slds-p-right_x-small mobbreadcrumbs" onclick={clickPhase} data-contname={studyDetail.Name} data-phasename={studyDetail.MSD_CORE_Phase__c}>{studyDetail.MSD_CORE_Phase__c}</a>
+                                <span>/</span>
+                            <a if:true={studyDetail} class="breadcrumbs finalbreadcrumbs slds-p-left_x-small slds-p-right_x-small"> {studyDetail.Name} </a>
+                        </div>
+                        <div class="mobshowsection">
+                            <span class="mobbreadcls" onclick={navbreadcrumb} data-navvar="Dashboard">Dashboard</span>
+                            <span class="mobbreadcls mobbreadpad">/</span>
+                            <span class="mobbreadcls" onclick={navbreadcrumb} data-navvar="Phase">...</span>
+                            <span class="mobbreadcls mobbreadpad">/</span>
+                            <span class="mobbreadcls mobbreadpad">{studyDetail.Name}</span>
+                        </div>
+                        <!-- END Breadcrumbs start -->
+                        <div class="slds-grid slds-wrap slds-m-top_small">
+                            <div class="headerparent">
+                                <h1 class="headertitle" if:true={studyDetail}>{studyDetail.Name}</h1>
+                            </div>
+                            <div class="compoundname" if:true={studyDetail}>
+                                <p> {studyDetail.MSD_CORE_Therapeutic__c} </p>
+                            </div>
+                        </div>
+                        <div class="forwardlookingst slds-p-top_small">
+                            <button onclick={openmodal} data-name={studyDetail.Name}>
+                                <span>
+                                    Forward-looking statement 
+                                    <img src={bookmarkimg} class="bookimg">
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- For the Container Section -->
+        <div class="container bodymaincls">
+            <div>
+                <div class="compoundwarning" if:true={studyDetail}>
+                    <p>{studyDetail.MSD_CORE_Compound_Warning__c}</p>
+                </div>
+                <div class="body_header">
+                    <h1>Study Details</h1>
+                </div>
+                <div class="mainbodysection">
+                    <!-- For Carousel Image Section -->
+                    <div class="carousel_main">
+                        <c-m-s-d_-c-o-r-e_-carousel clinicalcontname={studyDetail.Name}></c-m-s-d_-c-o-r-e_-carousel>
+                    </div>
+                    <!-- For Clinical Trial Section -->
+                    <div class="clinicaltrial">
+                        <div class="clinical1">
+                            <c-m-s-d_-c-o-r-e_-clinical-trial clinicalcontname={studyDetail.Name} clinicaltrialdata={studyDetail.Clinicaltrial_Links__r}></c-m-s-d_-c-o-r-e_-clinical-trial>
+                        </div>
+                        <div class="clinical2">
+                            <div class="reqinfo">
+                                <img src={lockimg}>
+                                <h1>Request additional information</h1>
+                            </div>
+                            <div class="reqmoreinfo">
+                                <p>Contact your medical affairs director to get access to more information.</p>
+                            </div>
+                            <div class="reqprebtn">
+                                <button if:true={studyDetail.MSD_CORE_Tumor__r} onclick={requestbtnclk} data-id={studyDetail.Id}
+                                        data-type={studyDetail.MSD_CORE_Therapeutic__c}
+                                        data-typevalue={studyDetail.MSD_CORE_Tumor__r.Name} data-value={studyDetail.Name}> 
+                                        <span>Request a presentation</span>
+                                </button>
+                                    <button if:false={studyDetail.MSD_CORE_Tumor__r} onclick={requestbtnclk} data-id={studyDetail.Id}
+                                        data-type={studyDetail.MSD_CORE_Therapeutic__c} data-value={studyDetail.Name}> 
+                                        <span>Request a presentation</span>
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Forward Looking Statement Popup Modal -->
+        <div>
+            <c-m-s-d_-c-o-r-e_-f-l-s-popup></c-m-s-d_-c-o-r-e_-f-l-s-popup>
+        </div>
+    </div>
+</template>

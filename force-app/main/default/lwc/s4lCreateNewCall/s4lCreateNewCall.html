@@ -1,0 +1,55 @@
+<template>
+    <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+    <div if:false={loading}>
+        <div class="slds-modal__header">
+            <h1 class="slds-modal__title slds-hyphenate">{labels.convertToCallTitle}</h1>
+        </div>
+        <div class="slds-modal__content slds-p-around_xx-small v-s4l-modal-content">
+            <div class="slds-grid slds-p-horizontal_xx-small slds-grid_vertical slds-p-vertical_x-small">
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_x-large slds-p-vertical_xx-small">
+                    <!-- search bar -->
+                    <div class={accountSearchBoxClass}>
+                        <c-veeva-account-search onclick={focusAccountSearch} if:true={showAccountSelector} ctrl={accountSearchCtrl}
+                            onaccountselected={handleSelectAccount} onsearchcleared={handleClearAccount} show-clear-button={allowAccountSearchToBeCleared}>
+                        </c-veeva-account-search>
+                    </div>
+                    <p class="slds-text-color_error" if:true={accountRequiredError}>{labels.thisFieldIsRequired}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_x-large slds-p-vertical_xx-small" if:true={validAccountSelected}>
+                    <c-s4l-record-type-selector labels={labels} account={selectedAccountId} data-validity
+                        onselect={handleRecordTypeChange} onfailure={handleNoRecordTypeFailure}>
+                    </c-s4l-record-type-selector>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_x-large slds-p-vertical_xx-small" if:true={showLocationSelectorSection}>
+                    <c-s4l-location-selector labels={labels} account={selectedAccountId} data-validity
+                        onselect={handleSelectLocation} onnolocation={setLocationNotRequired}>
+                    </c-s4l-location-selector>
+                </div>
+            </div>
+            <!-- enable attendee section when the selected account is NOT a person account
+                and the unique activity zvod field presents on the selected record type page layout -->
+            <c-s4l-attendee-section data-validity if:true={showAttendeeSection} labels={labels}
+                mca-id={mcaId} selected-account-id={selectedAccountId}
+                title={labels.attendees} add-attendees-button-label={labels.addAttendees}
+                attendee-search-modal-title={labels.addAttendees} attendee-search-modal-save-btn-label={labels.add}
+                is-child-account-enabled={isChildAccountEnabled}>
+            </c-s4l-attendee-section>
+        </div>
+        <!-- unified alert window, references properties from `alertModalData` -->
+        <c-veeva-alert-modal if:true={alertModalData.isVisible} show={alertModalData.isVisible}
+                             title={alertModalData.title} messages={alertModalData.messages}
+                             okay-label={labels.close} button-style="neutral" onclose={alertModalData.onCloseHandler} >
+        </c-veeva-alert-modal>
+        <div class="slds-modal__footer">
+            <div class="slds-grid">
+                <div>
+                    <lightning-button label={labels.previous} title={labels.previous} onclick={handlePrevious} variant="neutral"></lightning-button>
+                </div>
+                <div class="slds-col_bump-left">
+                    <lightning-button label={labels.cancel} title={labels.cancel} onclick={handleCancel} variant="neutral"></lightning-button>
+                    <lightning-button label={labels.save} title={labels.save} onclick={handleSave} variant="brand" disabled={disableSaveButton} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

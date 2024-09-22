@@ -1,0 +1,303 @@
+<template>
+  <template if:true={showTandC}>
+    <div class="tandc-popup">
+      <c-m-s-d_-c-o-r-e_-h-e-q_-tand-c></c-m-s-d_-c-o-r-e_-h-e-q_-tand-c>
+    </div>
+  </template>
+  <div class="header-wrapper">
+    <header class="header-container" role="banner">
+      <div class="menu-section-mb" onclick={handleMobileMenu} data-id="mobileMenu" onkeydown={handleKeyEvent}
+        tabindex="0">
+        <template if:true={mobileVersionMenu}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <path
+              d="M3.5 5.5C3.5 4.94772 3.90294 4.5 4.4 4.5H20.6C21.0971 4.5 21.5 4.94772 21.5 5.5C21.5 6.05229 21.0971 6.5 20.6 6.5L4.4 6.5C3.90294 6.5 3.5 6.05229 3.5 5.5Z"
+              fill="#333333" />
+            <path
+              d="M3.5 12.5C3.5 11.9477 3.90294 11.5 4.4 11.5L20.6 11.5C21.0971 11.5 21.5 11.9477 21.5 12.5C21.5 13.0523 21.0971 13.5 20.6 13.5L4.4 13.5C3.90294 13.5 3.5 13.0523 3.5 12.5Z"
+              fill="#333333" />
+            <path
+              d="M4.4 18.5C3.90294 18.5 3.5 18.9477 3.5 19.5C3.5 20.0523 3.90294 20.5 4.4 20.5L20.6 20.5C21.0971 20.5 21.5 20.0523 21.5 19.5C21.5 18.9477 21.0971 18.5 20.6 18.5L4.4 18.5Z"
+              fill="#333333" />
+          </svg>
+          {labels.menu}
+        </template>
+        <template if:false={mobileVersionMenu}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+              fill="#1D1B20" />
+          </svg>
+          {labels.close}
+        </template>
+
+      </div>
+      <!-- logo section -->
+      <div class="logo-container">
+        <div class="logo" onclick={redirectHomePage}>
+          <img src={mainLogo} alt={labels.logoAlt}/>
+        </div>
+
+        <!-- <nav class="nav-links" aria-label="Primary Navigation">
+          <ul>
+            <template for:each={profileMenuList} for:item="profilemenu">
+              <li key={profilemenu.Id}><a href="javascript:void(0)" data-name={profilemenu.URL__c}
+                  onclick={handleRedirection}>{profilemenu.Label}</a>
+                  </li>
+            </template>
+          </ul>
+        </nav> -->
+        <div class="linksCls">
+          <nav class="nav-links" aria-label="Primary Navigation">
+            <ul>
+              <template for:each={profileMenuList} for:item="profilemenu">
+                <li key={profilemenu.Id}>
+                  <a href="javascript:void(0)" data-name={profilemenu.URL__c} data-label={profilemenu.Label}
+                    onclick={handleRedirection}>
+                    {profilemenu.Label}
+                  </a>
+                </li>
+              </template>
+            </ul>
+
+          </nav>
+
+          <template if:false={isShow}>
+            <!-- Customer Help Dropdown -->
+            <div class="dropCls">
+              <!-- Separate Help Dropdown -->
+              <template if:true={showHelpDropdown}>
+                <div class="dropdown">
+                  <ul>
+                    <template for:each={helpSubMenuItems} for:item="helpItem">
+                      <li key={helpItem.label}>
+                        <a href={helpItem.url}>{helpItem.label}</a>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </template>
+
+              <template if:true={showHelpDropdown}>
+                <lightning-icon icon-name="utility:chevronup" class="iconCls" size="x-small"
+                  onclick={toggleHelpDropdown}>
+                </lightning-icon>
+              </template>
+              <template if:false={showHelpDropdown}>
+                <lightning-icon icon-name="utility:chevrondown" class="iconCls" size="x-small"
+                  onclick={toggleHelpDropdown}>
+                </lightning-icon>
+              </template>
+            </div>
+          </template>
+
+
+          <template if:true={isShow}>
+            <!-- AE Help Dropdown -->
+            <div class="dropCls">
+              <!-- Separate Help Dropdown -->
+              <template if:true={showHelpDropdown}>
+                <div class="dropdownCls">
+                  <ul>
+                    <template for:each={helpSubMenuItems} for:item="helpItem">
+                      <li key={helpItem.label}>
+                        <a href={helpItem.url}>{helpItem.label}</a>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </template>
+
+              <template if:true={showHelpDropdown}>
+                <lightning-icon icon-name="utility:chevronup" class="iconCls" size="x-small"
+                  onclick={toggleHelpDropdown}>
+                </lightning-icon>
+              </template>
+              <template if:false={showHelpDropdown}>
+                <lightning-icon icon-name="utility:chevrondown" class="iconCls" size="x-small"
+                  onclick={toggleHelpDropdown}>
+                </lightning-icon>
+              </template>
+            </div>
+          </template>
+        </div>
+
+
+
+      </div>
+      <!-- logo section end -->
+      <!-- Profile section -->
+      <div class="header-right">
+        <div class="search-box">
+          <label for="searchInput" class="slds-assistive-text">{labels.search}</label>
+          <div class="search-container">
+            <input
+                          type="search"
+                          id="searchInput"
+                          onkeyup={handleChange}
+                          placeholder={labels.searchPlaceholder}
+                          aria-label={labels.searchPlaceholder}
+                          class="custom-search-input"
+                      />
+            <div class="search-icon-container" onclick={searchKeyword}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                <path
+                  d="M21.3187 20.5273L15.232 14.4406C16.1766 13.2195 16.6875 11.7266 16.6875 10.1562C16.6875 8.27656 15.9539 6.51406 14.6273 5.18516C13.3008 3.85625 11.5336 3.125 9.65625 3.125C7.77891 3.125 6.01172 3.85859 4.68516 5.18516C3.35625 6.51172 2.625 8.27656 2.625 10.1562C2.625 12.0336 3.35859 13.8008 4.68516 15.1273C6.01172 16.4562 7.77656 17.1875 9.65625 17.1875C11.2266 17.1875 12.7172 16.6766 13.9383 15.7344L20.025 21.8187C20.0428 21.8366 20.064 21.8508 20.0874 21.8604C20.1107 21.8701 20.1357 21.8751 20.1609 21.8751C20.1862 21.8751 20.2112 21.8701 20.2345 21.8604C20.2578 21.8508 20.279 21.8366 20.2969 21.8187L21.3187 20.7992C21.3366 20.7814 21.3508 20.7602 21.3604 20.7369C21.3701 20.7135 21.3751 20.6885 21.3751 20.6633C21.3751 20.638 21.3701 20.613 21.3604 20.5897C21.3508 20.5664 21.3366 20.5452 21.3187 20.5273ZM13.3688 13.8688C12.375 14.8602 11.0578 15.4062 9.65625 15.4062C8.25469 15.4062 6.9375 14.8602 5.94375 13.8688C4.95234 12.875 4.40625 11.5578 4.40625 10.1562C4.40625 8.75469 4.95234 7.43516 5.94375 6.44375C6.9375 5.45234 8.25469 4.90625 9.65625 4.90625C11.0578 4.90625 12.3773 5.45 13.3688 6.44375C14.3602 7.4375 14.9062 8.75469 14.9062 10.1562C14.9062 11.5578 14.3602 12.8773 13.3688 13.8688Z"
+                  fill="#555555" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-icon" role="button" tabindex="0" aria-label="Profile" data-id="profileIcon"
+          onkeydown={handleKeyEvent} onclick={toggleDropdown}>
+          <div class="profile-icon-container">
+            {userChar}
+          </div>
+          <span class="username">
+            <template if:true={userVar}>
+                {userVar.FirstName} {userVar.LastName} 
+            </template>
+          </span>
+          <template if:false={isDropdownOpen}>
+            <lightning-icon class="chevron-icon" icon-name="utility:chevrondown" size="x-small"></lightning-icon>
+          </template>
+          <template if:true={isDropdownOpen}>
+            <lightning-icon class="chevron-icon" icon-name="utility:chevronup" size="x-small"></lightning-icon>
+            <div class="dropdown-menu">
+              <ul>
+                <template for:each={myaccountList} for:item="myaccount">
+                  <li key={myaccount.Id}>
+                    <div class="menu-ls-container">
+                      <img src={myaccount.Icon__c} width="24px" height="24px" />
+                      <a href="javascript:void(0)" data-name={myaccount.URL__c} data-label={myaccount.Label}
+                        onclick={handleRedirection}>{myaccount.Label}</a>
+                    </div>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </template>
+        </div>
+      </div>
+      <!-- Profile section end-->
+    </header>
+    <!-- Mobile menu overlay -->
+    <!-- <template if:false={mobileVersionMenu}>
+      <section class="menu-section">
+        <nav class="menu">
+          <ul>
+            <template for:each={profileMenuList} for:item="profilemenu">
+              <li key={profilemenu.Id}><a href="javascript:void(0)" data-name={profilemenu.URL__c}
+                  onclick={handleRedirection}>{profilemenu.Label}</a></li>
+            </template>
+            
+          </ul>
+        </nav>
+      </section>
+    </template> -->
+    <!-- Mobile menu overlay -->
+    <template if:false={mobileVersionMenu}>
+      <section class="menu-section">
+        <template if:false={showMobileHelpMenu}>
+          <!-- Main mobile menu -->
+          <nav class="menu">
+            <ul>
+              <template for:each={profileMenuList} for:item="profilemenu">
+                <li key={profilemenu.Id}>
+                  <a href="javascript:void(0)" data-name={profilemenu.URL__c} onclick={handleRedirection}>
+                    {profilemenu.Label}
+                  </a>
+                </li>
+              </template>
+
+              <!-- Help option to open submenu -->
+              <li>
+                <a href="javascript:void(0)" onclick={openMobileHelpMenu}>
+                  <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </template>
+
+        <!-- Help submenu -->
+        <template if:true={showMobileHelpMenu}>
+          <div class="help-submenu-container">
+            <div class="help-submenu-header">
+              <a href="javascript:void(0)" onclick={closeMobileHelpMenu}>
+                <lightning-icon icon-name="utility:chevronleft" size="x-small"></lightning-icon>
+                Main Menu
+              </a>
+              <h2 class="helpCls" onclick={toggleHelpDropdown}>Help</h2>
+              <nav class="help-submenu">
+                <ul>
+                  <template for:each={helpSubMenuItems} for:item="helpItem">
+                    <li key={helpItem.label}>
+                      <a href={helpItem.url}>{helpItem.label}</a>
+                    </li>
+                  </template>
+
+                </ul>
+              </nav>
+            </div>
+            <!-- <nav class="help-submenu">
+            <ul>
+                <template for:each={helpSubMenuItems} for:item="helpItem">
+                  <li key={helpItem.label}>
+                    <a href={helpItem.url}>{helpItem.label}</a>
+                  </li>
+                </template>
+              </template>
+              <template if:false={isShow}>
+                Customer Help Dropdown
+                <template for:each={helpSubMenuItems} for:item="helpItem">
+                  <li key={helpItem.label}>
+                    <a href={helpItem.url}>{helpItem.label}</a>
+                  </li>
+                </template>
+              </template>
+            </ul>
+          </nav> -->
+          </div>
+        </template>
+      </section>
+    </template>
+    <!-- Mobile menu overlay end -->
+    <div if:true={isShow} class="cart" role="button" tabindex="0" aria-label="Cart">
+      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+        <path opacity="0.1"
+          d="M18.3516 12.4453C18.3516 12.5613 18.2566 12.6562 18.1406 12.6562H16.6641C16.548 12.6562 16.4531 12.5613 16.4531 12.4453V10.125H10.5469V12.4453C10.5469 12.5613 10.452 12.6562 10.3359 12.6562H8.85938C8.74336 12.6562 8.64844 12.5613 8.64844 12.4453V10.125H6.11719V22.1484H20.8828V10.125H18.3516V12.4453Z"
+          fill="white" />
+        <path
+          d="M21.9375 8.22656H18.3516V7.80469C18.3516 5.12578 16.1789 2.95312 13.5 2.95312C10.8211 2.95312 8.64844 5.12578 8.64844 7.80469V8.22656H5.0625C4.5958 8.22656 4.21875 8.60361 4.21875 9.07031V23.2031C4.21875 23.6698 4.5958 24.0469 5.0625 24.0469H21.9375C22.4042 24.0469 22.7812 23.6698 22.7812 23.2031V9.07031C22.7812 8.60361 22.4042 8.22656 21.9375 8.22656ZM10.5469 7.80469C10.5469 6.17256 11.8679 4.85156 13.5 4.85156C15.1321 4.85156 16.4531 6.17256 16.4531 7.80469V8.22656H10.5469V7.80469ZM20.8828 22.1484H6.11719V10.125H8.64844V12.4453C8.64844 12.5613 8.74336 12.6562 8.85938 12.6562H10.3359C10.452 12.6562 10.5469 12.5613 10.5469 12.4453V10.125H16.4531V12.4453C16.4531 12.5613 16.548 12.6562 16.6641 12.6562H18.1406C18.2566 12.6562 18.3516 12.5613 18.3516 12.4453V10.125H20.8828V22.1484Z"
+          fill="black" />
+      </svg>
+    </div>
+  </div>
+  <div>
+    <div class="search-box-mb search-box">
+      <label for="searchInput" class="slds-assistive-text">{labels.search}</label>
+      <div class="search-container">
+        <input
+                            type="search"
+                            id="searchInputMb"
+                            onkeyup={handleChange}
+                            placeholder={labels.searchPlaceholder}
+                            aria-label={labels.searchPlaceholder}
+                            class="custom-search-input"
+                        />
+        <div class="search-icon-container" onclick={searchKeyword}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+            <path
+              d="M21.3187 20.5273L15.232 14.4406C16.1766 13.2195 16.6875 11.7266 16.6875 10.1562C16.6875 8.27656 15.9539 6.51406 14.6273 5.18516C13.3008 3.85625 11.5336 3.125 9.65625 3.125C7.77891 3.125 6.01172 3.85859 4.68516 5.18516C3.35625 6.51172 2.625 8.27656 2.625 10.1562C2.625 12.0336 3.35859 13.8008 4.68516 15.1273C6.01172 16.4562 7.77656 17.1875 9.65625 17.1875C11.2266 17.1875 12.7172 16.6766 13.9383 15.7344L20.025 21.8187C20.0428 21.8366 20.064 21.8508 20.0874 21.8604C20.1107 21.8701 20.1357 21.8751 20.1609 21.8751C20.1862 21.8751 20.2112 21.8701 20.2345 21.8604C20.2578 21.8508 20.279 21.8366 20.2969 21.8187L21.3187 20.7992C21.3366 20.7814 21.3508 20.7602 21.3604 20.7369C21.3701 20.7135 21.3751 20.6885 21.3751 20.6633C21.3751 20.638 21.3701 20.613 21.3604 20.5897C21.3508 20.5664 21.3366 20.5452 21.3187 20.5273ZM13.3688 13.8688C12.375 14.8602 11.0578 15.4062 9.65625 15.4062C8.25469 15.4062 6.9375 14.8602 5.94375 13.8688C4.95234 12.875 4.40625 11.5578 4.40625 10.1562C4.40625 8.75469 4.95234 7.43516 5.94375 6.44375C6.9375 5.45234 8.25469 4.90625 9.65625 4.90625C11.0578 4.90625 12.3773 5.45 13.3688 6.44375C14.3602 7.4375 14.9062 8.75469 14.9062 10.1562C14.9062 11.5578 14.3602 12.8773 13.3688 13.8688Z"
+              fill="#555555" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <template if:true={showSpinner}>
+    <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+  </template>
+</template>

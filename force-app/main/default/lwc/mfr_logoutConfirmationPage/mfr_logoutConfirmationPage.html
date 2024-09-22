@@ -1,0 +1,91 @@
+<template>
+   <!-- <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+            <img src={logo1} width="150" height="180">
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+            <span></span>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 container-mainHeader">
+            <div class="slds-grid">
+                <div class="slds-col slds-text-align_center" style="margin-top: 15px;margin-left: 30px;border: 1px solid white !important;
+                border-radius: 5px !important;
+                color: #ffffff!important;">
+                    <button class="cta"> <span style="
+                        padding-top: 10px;
+                        padding-left: 5px;
+                    ">Login &nbsp;</span></button>
+                </div>
+                <div class="slds-col slds-text-align_center" style="margin-top: 15px;">
+                    <span class="menu"><img src={menurightsider} /> &nbsp;Menu</span>
+                </div>
+
+            </div>
+        </div>
+    </div> -->
+
+    <div class="" if:true={isGuestUser}>
+         <div class="pbanner"><img class="pbanner_img" src={logo5}>
+            <div class="slds-p-top_x-small">
+
+                <div>
+                    <div class="container">
+                         <div class="slds-text-align_center text_start">
+                            <span class="text"><b>{label.Header}</b></span>
+
+                            <!--    <span class="text1">{label.Header1}</span>
+                            <span class="text1">{label.Header1_02}</span>
+                            <span class="text1">{label.Header1_03}</span>-->
+                        </div>
+                         <div class="slds-text-align_center text_start">
+                            <span class="text1">{label.Header1}</span><br />
+                            <span class="text1">{label.Header1_02}</span><br />
+                            <span class="text1">{label.Header1_03}</span>
+                        </div>
+
+                    </div>
+                     <br class="dis-none" /> <br class="dis-none"/>
+                    <div class="container1">
+                         <div class="slds-p-around_large slds-text-align_left container2">
+
+                             <span class="text6"> <img src={imgpersonal} /><b>&nbsp;&nbsp;{label.Header2}</b></span>
+                        </div>
+
+                         <div class="slds-grid slds-gutters slds-wrap slds-p-horizontal_medium container2">
+
+                            <div class="slds-col slds-size_6-of-12 headone">
+                                <span class="text4">{label.Header3}</span>
+                                <span class="text5">{label.Header4}</span>
+                            </div>
+
+
+                             <div class="slds-col slds-size_6-of-12 headone">
+                                <span class="text4"><b>{label.Header5}</b></span>
+                                <span class="text5">{label.Header6}</span>
+
+                            </div>
+                        </div>
+                        <div class="slds-text-align_center">
+                            <button class="button1"  onclick={login} >Log in or register<img src={rightArrow} /></button>
+                            <!--<a href = {navigatelogin} class="button1" style="text-decoration: none;"><button class="button1">Login<img src={rightArrow} /></button></a>-->
+                            <!--<a href = {navigatelogin} class="button1" style="text-decoration: none;">Login<img src={rightArrow} /></a>-->
+                        </div>
+                    </div>
+                    
+                    <div class="container-bottom" >
+                        <div><img src={logo5} class="imgone">
+                            <div class="ptextimg">
+                                <p class="imgtext1">{label.Header7}</p>
+                                <p class="imgtext2">{label.Header8}</p>
+                                <button class="button2" onclick={mfrcontactyouraccountmanager} >Contact Merck&nbsp;<img
+                                        src={rightArrow} /></button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

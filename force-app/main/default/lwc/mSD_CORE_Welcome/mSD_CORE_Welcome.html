@@ -1,0 +1,58 @@
+<template>
+    <div>
+        <div class="pbanner">
+            <img class="pbanner_img" src={bannerLogo}>
+        </div>
+        <div class="container">
+            <div class="left-panel">
+                <div class="img-container">
+                    <img src={Welcomelogo} />
+                    <!-- <img src={samplegif} /> -->
+                    <!-- <img src="https://drive.google.com/file/d/1naa0b1YIAWwmQk7eG3t_HLUwUMvV-LV3/view" /> -->
+                </div>
+                <div class="learnmore learnmob">
+                        <p class="learnhead">
+                           Learn more
+                        </p>
+                        <p class="learnmatr">
+                           Discover data and resources to help support formulary decisions and connect with your Merck account team. 
+                           <br/> 
+                           <br/>
+                           <a href="javascript:void(0);" onclick={learnmoreClick} ><u>Learn more</u></a>&nbsp;about the MFR portal.
+                        </p>
+                </div>
+            </div>
+            <div class="right-panel">
+                <div>
+                    <p class="welcls">
+                           Welcome
+                    </p>
+                    <p class="welclsmatr">
+                           to the Merck Formulary Resources portal
+                    </p>
+                    <button class="signnbtn" data-name="loginbtn" onclick={sinupclick} >
+                            Sign up
+                    </button>
+                    <button class="loginbtn" data-name="loginbtn" onclick={loginclick}>
+                            Log in
+                    </button>
+                </div>
+                
+            </div>
+            <div class="learnmore learnmob1">
+                    
+                        <p class="learnhead">
+                           Learn more
+                        </p>
+                        <p class="learnmatr">
+                           Discover data and resources to help support formulary decisions and connect with your Merck account team. 
+                           <br/> 
+                           <br/>
+                           <!-- <a href={navigatelearnmore}><u>Learn more</u></a>&nbsp;about the MFR portal. -->
+                           <a href="javascript:void(0);" onclick={learnmoreClick} ><u>Learn more</u></a>&nbsp;about the MFR portal.
+                        </p>
+                    
+                </div>
+        </div>
+    </div>
+</template>

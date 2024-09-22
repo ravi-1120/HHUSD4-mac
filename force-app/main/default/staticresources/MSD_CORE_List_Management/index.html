@@ -1,0 +1,148 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class=""> <!--<![endif]-->
+  <head>
+    <!-- *** this is extremely important for IE to work.  wasted hours on this :) *** -->
+      <meta http-equiv="X-UA-Compatible" content="IE=8" />
+      <script>
+
+          // .js and .css loader
+          // pass in array of .js and .css paths with optional docRoot and callback when complete
+          function load(scripts, docRoot, callback) {
+              docRoot = docRoot || document
+              if (typeof scripts !== 'object') {
+                  alert('loadScripts(scripts) without array argument');
+              }
+
+              if (scripts.length === 0) {
+                  if (callback) { callback(); }
+                  return;
+              }
+
+              // pull off 1st script in array
+              var scriptDefinition = scripts.shift();
+
+              // build script tag
+              var headElement = docRoot.getElementsByTagName("head")[0];
+
+              var e;
+
+              if ( scriptDefinition.match(/\.js$/) ) {
+                  e = docRoot.createElement('script');
+                  e.type = 'text/javascript';
+                  e.src = scriptDefinition;
+              } else if (scriptDefinition.match(/\.css$/)) {
+                  e = docRoot.createElement('link');
+                  e.href = scriptDefinition;
+                  e.rel  = 'stylesheet';
+                  e.type = 'text/css';
+                  e.media = 'all';
+              }
+
+              var scriptLoadCompletedFunction = function() {
+                  // load the rest (tail of array) of the scripts
+                  load(scripts, docRoot, callback);
+              };
+
+              // for ie
+              e.onreadystatechange = function () {
+                  if (e.readyState == 'loaded' || e.readyState == 'complete') {
+                      scriptLoadCompletedFunction();
+                  }
+              }
+
+              e.onload = scriptLoadCompletedFunction;
+              e.onerror = scriptLoadCompletedFunction;
+
+              // add script tag
+              headElement.appendChild(e);
+          }
+
+          // copy from gruntfile.js
+          var devSrcs = [
+              'dist/css/styles.css',
+              'bower_components/outdated-browser/outdatedbrowser/outdatedbrowser.min.js',
+              'bower_components/es5-shim/es5-shim.min.js',
+              'app/lib/patches.js',
+              'bower_components/respond/dest/respond.src.js',
+              'bower_components/lodash/dist/lodash.min.js',
+              'bower_components/uri.js/src/URI.js',
+              'bower_components/locache/locache.js',
+              'bower_components/async/lib/async.js',
+              'bower_components/jquery/dist/jquery.min.js',
+              'bower_components/select2/select2.js',
+              'bower_components/datatables/media/js/jquery.dataTables.js',
+              'bower_components/bootstrap/dist/js/bootstrap.js',
+              'bower_components/angular/angular.js',
+              'bower_components/angular-route/angular-route.js',
+              'bower_components/angular-resource/angular-resource.js',
+              'bower_components/angular-cookies/angular-cookies.js',
+              'bower_components/angular-sanitize/angular-sanitize.js',
+              'bower_components/angular-animate/angular-animate.js',
+              'bower_components/angular-touch/angular-touch.js',
+              'bower_components/angular-ui-router/release/angular-ui-router.js',
+              'bower_components/angular-translate/angular-translate.js',
+              'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+              'bower_components/ng-grid/ng-grid-2.0.11.min.js',
+              'bower_components/angular-multi-select/angular-multi-select.js',
+              'bower_components/angular-ui-select2/src/select2.js',
+              'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
+              'build/partials.js',
+              'app/lib/jsforce-1.2.0.js',
+              'bower_components/ForceTK/forcetk.js',
+              'app/lib/splash.js',
+              'app/lib/forcetk-additions.js',
+              'app/lib/forcetk-veeva-additions.js',
+              'app/lib/jQuery-ajaxTransport-XDomainRequest.js',
+              'app/lib/cometd-2.2.0/cometd-javascript/common/target/org/cometd.js',
+              'app/lib/cometd-2.2.0/cometd-javascript/jquery/src/main/webapp/jquery/jquery.cometd.js',
+              'app/services.js',
+              'app/directives.js',
+              'app/controllers.js',
+              'app/app.js'];
+
+          for (var i = 0; i < devSrcs.length; i++) {
+              devSrcs[i] = '../' + devSrcs[i];
+          }
+
+          devSrcs.unshift('https://localhost:35729/livereload.js');
+
+          // grunt puts release builds in the dist/ directory and the following
+          // references are relative to dist/
+          /*
+          var prodSrcs = [
+              'https://localhost:35729/livereload.js',
+              'css/styles.css',
+              'libs.js',
+              'app.js'];
+          */
+
+          var prodSrcs = [
+              'https://localhost:35729/livereload.js',
+              'css/styles.css',
+              'all.js'];
+
+          var e = document.getElementsByTagName('html')[0];
+          if (e.className.indexOf('ie') !== -1) {
+              alert('IE is not supported for List Management Administration.  Please use Chrome, Firefox, or Safari.');
+          } else {
+              // local dev
+              if ( location.href.match(/localhost/) /* || (location.href.match(/127.0.0.1/) */ ) {
+                  load(devSrcs);
+              } else {
+                  load(prodSrcs);
+              }
+          }
+
+
+      </script>
+
+  </head>
+  <body class="container">
+    <div ng-view></div>
+    <div id="outdated"></div>
+  </body>
+</html>

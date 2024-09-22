@@ -1,0 +1,93 @@
+<apex:page standardController="MSD_CORE_AE_Product__c" extensions="CaseProductControllerMVN" showHeader="false" sidebar="false">
+    <apex:includeScript value="/support/console/31.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    
+    <style>
+        .column {
+            width: 25%;
+            float: left;
+        }
+        .column label{
+            float: left;
+            font-weight: bold;
+            font-size: 10px;
+            color: #666;
+            padding: 0px 0px 0px 5px;
+        }
+        .column span{
+            float: right;
+            padding-right: 15px;
+            font-weight: bold;
+            font-size: 11px;
+            color: #555;
+        }
+        .row{
+            float: left;
+            width: 100%;
+            padding: 2px 0px;
+        }
+        .column img{
+            float: left;
+        }
+    </style>
+    
+    <script>
+        $('document').ready(function(){
+            if('{!product.MSD_CORE_Related_to__c}' == 'AE and PQC')
+            {
+                $('#adverseEvent').prop('checked', true);
+                $('#productComplaint').prop('checked', true);
+            }    
+            else if('{!product.MSD_CORE_Related_to__c}' == 'AE')
+                $('#adverseEvent').prop('checked', true);
+            else if('{!product.MSD_CORE_Related_to__c}' == 'PQC')
+                $('#productComplaint').prop('checked', true);
+        });
+        
+        function updateCaseJS(ct)
+        {
+            var adverseEvent = $('#adverseEvent').prop('checked');
+            var productComplaint = $('#productComplaint').prop('checked');
+        
+            if(productComplaint)
+                $('[id$="primaryProduct"]').prop('checked', true);
+            else
+                $('[id$="primaryProduct"]').prop('checked', false);
+                
+            if(adverseEvent && productComplaint)
+                $('[id$="relatedTo"]').val('AE and PQC');
+            else if(adverseEvent)
+                $('[id$="relatedTo"]').val('AE');
+            else if(productComplaint)
+                $('[id$="relatedTo"]').val('PQC');
+            else
+                $('[id$="relatedTo"]').val('');
+                
+            updateCase();
+        }
+    </script>
+    
+    <apex:form id="frm">
+        <apex:actionFunction name="updateCase" action="{!updateRelatedTo}" reRender="pnl" oncomplete="window.location.reload();">
+        </apex:actionFunction>
+        
+        <apex:outputPanel id="pnl"></apex:outputPanel>
+        
+        <div class="row">
+            <div class="column" style="width: 36%;">
+                <span>Related to</span>
+            </div>
+            <div class="column">
+                <input disabled="true" type="checkbox" style="margin: -1px 5px;" name="case" id="adverseEvent" onchange="updateCaseJS('AE');"/>
+                <label class="labelCol">AE</label>
+            </div>
+            <div class="column">
+                <input disabled="true" type="checkbox" style="margin: -1px 5px;" name="case" id="productComplaint" label="PQC" onchange="updateCaseJS('PQC');"/>
+                <label class="labelCol">PQC</label>
+            </div>
+            
+            <apex:inputField style="display:none;" id="relatedTo" value="{!product.MSD_CORE_Related_to__c}"/>
+            <apex:inputField style="display:none;" id="primaryProduct" value="{!product.MSD_CORE_Primary_Product__c}"/>
+        </div>
+    </apex:form>    
+</apex:page>

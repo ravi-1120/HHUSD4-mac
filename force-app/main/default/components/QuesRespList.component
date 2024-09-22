@@ -1,0 +1,15 @@
+<apex:component controller="QuesResp_Controller" access="global">
+    <apex:attribute name="SurveyTargetId" type="Id" description="Id of the Survey Target" assignTo="{!SurveyTgtId}"/>
+    <table border = "2" cellspacing = "5">
+        <tr>
+            <th style="background-color:#00FF00">Question</th>
+            <th style="background-color:#00FF00">Answer</th>             
+        </tr>
+        <apex:repeat value="{!QuesResp}" var="o">
+        <tr>
+            <td>{!o.Question_Text_vod__c}</td>
+            <td>{!o.MRK_Answer__c}</td>             
+        </tr>
+        </apex:repeat>       
+    </table>
+</apex:component>

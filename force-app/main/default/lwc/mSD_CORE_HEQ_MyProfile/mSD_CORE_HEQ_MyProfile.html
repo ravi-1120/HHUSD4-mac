@@ -1,0 +1,55 @@
+<template>
+    <div class="profile-header">
+        <h2>{labels.MyProfile}</h2>
+        <lightning-button label="Update" class="update-button" variant="brand" onclick={handleUpdateClick}>
+        </lightning-button>
+    </div>
+    <template if:true={user}>
+        <div class="profile-info">
+            <div class="profile-row">
+                <div class="profile-label">{labels.ID}</div>
+                <div class="profile-value">{user.Username}</div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-label">{labels.Roles}</div>
+                <div class="profile-value">{userRoleName}</div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-label">{labels.FirstName}</div>
+                <div class="profile-value">{user.FirstName}</div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-label">{labels.LastName}</div>
+                <div class="profile-value">{user.LastName}</div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-label">{labels.Phone}</div>
+                <div class="profile-value">{user.Phone}</div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-label">{labels.EmailId}</div>
+                <div class="profile-value">{user.Email}</div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-label">{labels.DefaultCountry}</div>
+                <div class="profile-value">{user.Country}</div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-label">{labels.Language}</div>
+                <div class="profile-value1">
+                    <lightning-combobox name="language" value={user.LanguageLocaleKey} options={languageOptions}
+                        onchange={handleLanguageChange}>
+                    </lightning-combobox>
+                </div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-label">{labels.Timezone}</div>
+                <div class="profile-value1">
+                    <lightning-combobox name="timezone" value={user.TimeZoneSidKey} options={timezoneOptions}
+                        onchange={handleTimezoneChange}>
+                    </lightning-combobox>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,15 @@
+.modal-body {
+  overflow: unset;
+}
+
+.selector-label {
+  display: block;
+  --sds-c-button-text-color: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+  --sds-c-button-text-color-active: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+  --sds-c-button-text-color-hover: var(--lwc-colorTextDefault, rgb(24, 24, 24));
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}

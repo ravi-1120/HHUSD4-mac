@@ -1,0 +1,98 @@
+<aura:component controller="RecordTypeController" extends="c:ComponentUtils" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:attribute name="descriptionVal" type="String" default=""/>
+    <aura:attribute name="descLabel" type="String"/>
+    <aura:attribute name="maxLength" type="Integer"/>
+    <aura:attribute name="remainingChars" type="String" default="50"/>
+    <aura:attribute name="newCase" type="Object" access="private"/>
+    <aura:attribute name="simpleNewCase" type="Object" access="private"/>
+    <aura:attribute name="newCaseError" type="String" access="private"/>
+    <aura:attribute name="message" type="String" default=""/>
+   <aura:handler name="init" value="this" action="{!c.doInit}"/> 
+    <aura:attribute name="timeStamp" type="String" default=""/>
+    <aura:attribute name="needSaving" type="Boolean" default="false"/>
+    <aura:attribute name="descDisabled" type="Boolean" default="false"/>
+     <aura:attribute name="mode" type="String"/> 
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="RequestrecordTypeId" type="Id"/>
+    <aura:attribute name="Case" type="Case"/> 
+    <aura:attribute name="isReadOnlyUser" type="Boolean"/> 
+    <aura:attribute name="fields" type="String[]" default="['MSD_CORE_Source_Code__c',MSD_CORE_AE_Description__c]" />
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="isSearchDisabled" type="Boolean" default="false"/> 
+    <aura:attribute name="enableDynamicSearch" type="Boolean" default="true"/>
+    <aura:attribute name="hideDSCheckbox" type="Boolean" default="false"/>
+    <aura:registerEvent name="MSD_CORE_CC_AppEvent" type="c:MSD_CORE_CC_AppEvent"/>
+    <aura:if isTrue = "{!v.isReadOnlyUser}" >
+     <force:recordData aura:id="caseRecordCreatorread"
+                      recordId="{!v.recordId}"              
+                      layoutType="FULL"
+                      targetRecord="{!v.newCase}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetFields="{!v.simpleNewCase}"
+                      targetError="{!v.newCaseError}"
+                      fields="RecordTypeId,RecordType.DeveloperName,Interaction_Notes_MVN__c,MSD_CORE_AE_Description__c,Details_MVN__c,Status"	
+                      mode="VIEW"
+                      />
+        <aura:if isTrue="{!v.descLabel}"> 
+        <div class="flexipageComponent">
+            <div class="container forceRelatedListSingleContainer">
+                <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                    <div class="slds-m-around_medium" style="margin:  2px 10px;">
+                        <div id="textArea">
+                            <label class="slds-form-element__label">{!v.descLabel} &nbsp;<span class="{!if(v.descriptionVal.length/v.maxLength > 0.9, 'highlightRemaining', '')}">(Remaining Characters :{!(v.maxLength - v.descriptionVal.length)})</span></label><br/>
+                            <lightning:textarea variant="label-hidden" name="input1" value="{!v.descriptionVal}" disabled="{!v.descDisabled}" maxlength="{!v.maxLength}"/> <!--onmouseout="{!c.saveDescription}" -->
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </aura:if>
+        <aura:set attribute="else">
+     <force:recordData aura:id="caseRecordCreator"
+                      recordId="{!v.recordId}"              
+                      layoutType="FULL"
+                      targetRecord="{!v.newCase}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetFields="{!v.simpleNewCase}"
+                      targetError="{!v.newCaseError}"
+                      fields="RecordTypeId,RecordType.DeveloperName,Interaction_Notes_MVN__c,MSD_CORE_AE_Description__c,Details_MVN__c,Status"	
+                      mode="EDIT"
+                      />   
+            <aura:if isTrue="{!v.descLabel}"> 
+                <div class="flexipageComponent">
+                    <div class="container forceRelatedListSingleContainer">
+                        <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                            <div class="slds-m-around_medium" style="margin:  2px 10px;">
+                                <div id="textArea" class="{!if(or(v.isSearchDisabled,!v.enableDynamicSearch),'textAreaHeight','')}">
+                                    <label class="slds-form-element__label">{!v.descLabel} &nbsp;<span class="{!if(v.descriptionVal.length/v.maxLength > 0.9, 'highlightRemaining', '')}">(Remaining Characters :{!(v.maxLength - v.descriptionVal.length)})</span></label>
+                                    <lightning:input type="checkbox" id="checkDynamicSearch" class="{!if(or(v.hideDSCheckbox,v.descDisabled), 'hideDynamicSearch','showDynamicSearch')}"  label="Dynamic Search" disabled="{!v.descDisabled}" checked="{!v.enableDynamicSearch}"></lightning:input>
+                                    <br/>
+                                    <lightning:textarea variant="label-hidden" name="input1" value="{!v.descriptionVal}" onchange="{!c.fireEvent}" onfocusout="{!c.updateCaseDescription}" disabled="{!v.descDisabled}" maxlength="{!v.maxLength}"/> <!--onmouseout="{!c.saveDescription}" -->
+                                    
+                                    <aura:if isTrue="{!or(v.isSearchDisabled, !v.enableDynamicSearch) }">
+                                        <div class="slds-float_right">
+                                            <lightning:button label="Search" disabled="{!v.descDisabled}" name="Search" variant="brand" onclick="{!c.byPassSearch}" />
+                                        </div>
+                                    </aura:if> 
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </aura:if> 
+        </aura:set>
+    </aura:if>
+   <!-- <aura:if isTrue="{!v.descLabel}"> 
+        <div class="flexipageComponent">
+            <div class="container forceRelatedListSingleContainer">
+                <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                    <div class="slds-m-around_medium" style="margin:  2px 10px;">
+                        <div id="textArea">
+                            <lightning:textarea label="{!v.descLabel}" name="input1" value="{!v.descriptionVal}" onchange="{!c.fireEvent}" onmouseout="{!c.updateCaseDescription}" disabled="{!v.descDisabled}"/> --> <!-- onmouseout="{!c.saveDescription}" -->
+                      <!--  </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </aura:if>  -->
+</aura:component>

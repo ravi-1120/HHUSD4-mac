@@ -1,0 +1,2010 @@
+.slds-spinner_container {
+    background-color: rgba(0, 0, 0, 0.10);
+    margin-top: 200px;
+    margin-bottom: 200px;
+    overflow: hidden;
+    -ms-overflow-style: none;
+    /* for Internet Explorer, Edge */
+    scrollbar-width: none;
+    /* for Firefox */
+    overflow-y: hidden;
+}
+.cmstoppad{
+    padding-top: 0px;
+}
+.datemarg{
+    margin-bottom: 0px !important; /*RT 1221*/
+}
+.slds-form-element{
+    margin-bottom: 0px !important; /*RT 1221*/
+}
+.br-on-mobile {
+    display: none;
+}
+
+html body {
+    scroll-behavior: smooth;
+}
+
+.sub1 {
+    border-color: #00857c;
+    color: #00857c;
+    border: 2px solid #00857c;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 5px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 20px;
+}
+
+.slds-form-element__control .slds-radio {
+    display: inline;
+}
+
+.bgstyle {
+    background-color: #F7F7F7;
+}
+
+.bgstylone {
+    padding-bottom: 8%;
+}
+
+.padstyle {
+    padding-right: 8px;
+}
+
+.pbanner {
+    position: relative;
+}
+
+.box_cls {
+    border: 1px solid #E2E2E2;
+}
+
+.logo-pb {
+    height: 180px !important;
+    width: 100%;
+    object-fit: cover;
+}
+
+.ptext {
+    position: absolute;
+    color: #fff;
+    z-index: 3;
+    top: 20%;
+    text-align: left;
+    font-size: 20px;
+    left: 0;
+    right: 0;
+}
+
+.button1 {
+    --sds-c-button-outline-brand-color-border: #00857C;
+    --sds-c-button-text-color: #00857C;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1128px;
+    margin-bottom: 10px !important;
+    /* padding-left: 156px;
+    padding-right: 156px; */
+}
+
+.bcatalog {
+    position: relative;
+    z-index: 1;
+    margin-top: -25px;
+}
+
+.card {
+    width: 100% !important;
+    min-height: auto !important;
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09), 0px 3px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px !important;
+    z-index: 90;
+    position: relative;
+    /*max-width: 1128px;*/
+}
+
+
+
+.bg {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Invention';
+    color: #FFFFFF;
+    padding: 30px 0 !important;
+}
+
+.Date {
+    width: 25..200px;
+}
+
+.form-group label {
+    padding: 2px 0;
+}
+
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #FFFFFF;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    border: none;
+}
+
+.slds-p-left_xx-large.card {
+    padding: 0 !important;
+    margin-top: 20px !important;
+    display: block !important;
+}
+
+.heading1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    padding-bottom: 8px;
+    color: #000000;
+}
+
+.heading2 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    padding-bottom: 16px;
+
+
+    color: #000000;
+}
+
+.titlecard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 24px;
+    gap: 40px;
+    background: #F7F7F7;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.prodheader {
+    color: white;
+}
+
+.schedulebody {
+    /*box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);*/
+    border-radius: 4px;
+}
+
+.requestbody {
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    margin-top: 24px;
+    padding: 24px;
+}
+
+.innerbody {
+
+    /* padding: 20px; */
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 0px;
+    padding-bottom: 24px;
+
+}
+
+.titlecard {
+    background: #F7F7F7;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.titlehead {
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    margin: 0px;
+    color: #000000;
+}
+
+.requestprogress {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    /* padding-top: 5px; */
+    padding-left: 8px;
+}
+
+.requestcontent {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000;
+}
+
+.ptextone {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    font-family: Invention;
+    padding: 0 0 24px;
+}
+
+
+
+.ptextone a {
+    text-decoration: underline;
+}
+
+.ptexttwo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2px 8px;
+    width: 91px;
+    height: 22px;
+    background: #5450E4;
+    border-radius: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #FFFFFF;
+    margin: 10px 0 5px;
+}
+
+.ptexthree {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    margin: 0px;
+    padding-top: 8px;
+    padding-bottom: 0 !important;
+    margin-bottom: 16px;
+
+}
+
+.ptextfour {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #333333;
+    margin: 0px;
+}
+
+.ptextfive {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #333333;
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 8px;
+}
+.datepad{
+    padding-bottom: 24px;
+}
+.adddate button {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 16px;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    color: #00857C !important;
+    
+    /*margin-bottom: 10px;*/ /*RT 1221*/
+}
+
+
+.bookmarkicon {
+    padding-left: 20px;
+
+}
+
+.description {
+    padding-bottom: 8px;
+    padding-top: 4px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000;
+}
+
+.presentation {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #000000;
+}
+
+.presentationcontainer {
+    background: #E5F4E5;
+    border-radius: 4px;
+    padding: 2px 8px;
+    width: 146px;
+    height: 22px;
+}
+
+.presentationcontainerR {
+    background: #FFE7E6;
+    border-radius: 4px;
+    padding: 2px 8px;
+    width: 150px;
+    height: 22px;
+}
+
+.appointmentpreference {
+    padding-top: 16px;
+    padding-bottom: 8px;
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+}
+
+.appointmenttime {
+    font-family: Invention;
+    font-style: normal;
+    padding-bottom: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0px;
+}
+.appointmenttimeAT {
+    font-family: Invention;
+    font-style: normal;
+    padding-bottom: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0px;
+}
+
+.datelabel {
+    padding-bottom: 8px;
+}
+
+.additionalattendees {
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.additionalemail {
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.dotClass {
+    color: #167E71;
+    font-size: 60px;
+    width: 16px;
+    height: 16px;
+    margin-top: -22px;
+    margin-left: -5px;
+}
+
+.dotClasshide {
+    color: #D8D8D8;
+
+    font-size: 60px;
+    width: 16px;
+    margin-top: -22px;
+    margin-left: -5px;
+}
+
+.slds-gutters {
+    margin-right: 0rem;
+    margin-left: 0rem;
+    height: 28px;
+}
+
+.pathTextsc {
+    padding-left: 16px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height, or 150% */
+    color: #303B44;
+    left: 10px;
+}
+
+.pathTextscl {
+    padding-right: 16px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height, or 150% */
+    color: #303B44;
+    left: 10px;
+    text-align: right;
+}
+
+.pathText {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height, or 150% */
+    color: #303B44;
+}
+
+.pathTextRight {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height, or 150% */
+    color: #303B44;
+    text-align: right;
+}
+
+.slds-progress-bar {
+    width: 100%;
+    height: 4px;
+    top: 6px;
+    background: #D8D8D8;
+    margin-top: 16px;
+    margin-left: -1px;
+}
+
+.slds-progress-bar__value {
+    background: #167E71 !important; 
+}
+
+.mrfcolor {
+    color: #00857C;
+}
+
+
+.submitrequest {
+    /* padding-bottom: 24px;
+    padding-top: 24px; */
+
+}
+
+.descinfo {
+    width: 100%;
+    padding-top: 40px;
+    padding-bottom: 24px;
+    color: #000;
+}
+
+.indication {
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 24px;
+    padding-bottom: 24px;
+}
+
+.verqu {
+    font-family: Invention;
+    font-weight: 400;
+    font-size: 16px;
+    /* width: 1121px; */
+    padding-bottom: 24px;
+}
+
+.lnbtns {
+    display: inline;
+    align-items: center;
+    margin-top: 8px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff !important;
+    text-decoration: none !important;
+    letter-spacing: 0.861539px;
+    line-height: 18px;
+    flex-wrap: wrap;
+}
+
+.prescribeinfo {
+    color: #FFFFFF;
+    text-align: center;
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.prescibeimg {
+    background-color: #FFFFFF;
+    /* height: 16px;
+    width: 16px; */
+}
+
+
+.prescribeimgcontainer {
+    padding-left: 16px;
+}
+
+.bt1 {
+    color: #00857C !important;
+}
+
+.hcp {
+    color: #FFFFFF;
+    text-align: center;
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.button1 {
+    display: flex;
+}
+
+.cls_date,
+.cls_add {
+    display: flex;
+}
+
+.cls_date .close_cls {
+    margin: 2.5%;
+    cursor: pointer;
+}
+
+.cls_add .close_cls {
+    margin: 0.3% 2%;
+    cursor: pointer;
+}
+
+.form-group label {
+    padding: 2px 0;
+}
+
+.dateval_def {
+    width: 100%;
+    padding: 6px;
+    border-radius: 3px;
+    border: 1px solid black;
+}
+.resolution{
+    padding-top: 16px;
+}
+
+/* NEW */
+
+.prodheader1 {
+    color: #000000;
+}
+
+.pad_cls {
+    padding: 3px 0 10px 0;
+}
+
+.prescribeinfo1 {
+    color: #00857C;
+    border: 2px solid #00857C;
+    padding: 7px;
+    border-radius: 5px;
+    padding-left: 16px;
+    padding-right: 16px;
+    display: inline;
+}
+.prescribeinfo2 {
+    color: #00857C;
+    border: 2px solid #00857C;
+    padding: 7px;
+    border-radius: 5px;
+    padding-left: 16px;
+    padding-right: 16px;
+    margin: 0 8px;
+    display: inline;
+}
+.prescribeinfo3 {
+    margin: 0px 0px 0px 8px;
+}
+.hcpsite {
+    display: inline-table;
+    margin: 8px 0 0 8px;
+}
+.hcp {
+    color: #00857C;
+}
+
+.edit_btn {
+    background-color: rgb(0, 133, 124);
+    color: #fff;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none !important;
+    letter-spacing: 0.861539px;
+    line-height: 18px;
+    width: 154px;
+    height: 40px;
+    padding: 16px 11px;
+    gap: 16px;
+
+}
+
+
+.cancel_btn {
+    border: 2px solid #00857C;
+    color: #00857C;
+    border-radius: 5px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none !important;
+    letter-spacing: 0.861539px;
+    line-height: 18px;
+    background-color: white;
+    width: auto;
+    height: 40px;
+    padding: 11px 16px;
+    gap: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ptexthree1 {
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+}
+
+.prescribediv {
+    box-shadow: 0px 1px 5px rgb(0 0 0 / 20%);
+    background-color: #ffffff;
+}
+
+.attend_box {
+    border: 1px solid #CFD2D7;
+    border-radius: 4px;
+    padding-left: 17.5px;
+    padding-top: 17px;
+    padding-right: 93px;
+    padding-bottom: 17px;
+    margin: 4px;
+}
+
+.req_box {
+    box-shadow: 0px 1px 5px rgb(0 0 0 / 20%);
+    background-color: #EDEDFC;
+}
+
+.date_box {
+    /*box-shadow: 0px 1px 5px rgb(0 0 0 / 20%);*/
+    /* padding-top: 0px; */
+    padding-bottom: 16px;
+    padding-left: 17.5px;
+    padding-right: 50px;
+    border: 1px solid #CFD2D7;
+    border-radius: 3px;
+}
+
+.datetimestyle {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #000000;
+    width: 260px;
+    padding-top: 0px;
+}
+
+.requesteddiv {
+    padding-top: 0px;
+    padding-bottom: 24px;
+}
+
+.requestedattendees {
+    font-family: Invention;
+    font-weight: 700;
+    font-size: 16px;
+    padding-top: 16px;
+    padding-bottom: 8px;
+    margin: 0px;
+    color: #000000;
+}
+
+.attendeename {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #000000;
+    margin: 0px;
+}
+
+a.schedule-appointment__Scheduled-Approved {
+    padding: 3px 8px;
+    background-color: #5450E4 !important;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    width: fit-content;
+    display: flex;
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+a.schedule-appointment__Scheduled-Pending {
+    padding: 2px 8px;
+    background-color: #FFAB00 !important;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    width: fit-content;
+    display: flex;
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+a.schedule-appointment__Scheduled-Rejected {
+
+    padding: 3px 8px;
+    background-color: #008A00 !important;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    width: fit-content;
+    display: flex;
+    border: 1px solid;
+    border-radius: 4px;
+
+}
+
+
+.meetingpreference {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+
+.viewrequest {
+    font-weight: 700;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    color: #00857C;
+    font-family: 'Invention';
+    font-size: 14px;
+    padding: 11px 16px;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    padding-bottom: 10px;
+}
+
+.slds-modal__container {
+    max-width: 55rem;
+    width: 100%;
+}
+
+.slds-box.box {
+    margin-left: 140px;
+    margin-right: 140px;
+}
+
+.subtitle {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 10px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+.reqs{
+    margin-left: 8px;
+}
+.greenIcon {
+    --sds-c-icon-color-foreground-default: #00857C;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.schedulepg .slds-input__icon-group {
+    right: 10px;
+    margin-top: -8px;
+}
+
+.requestNumber {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+}
+
+.requestsubmit {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+}
+
+.detailpopUp {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000;
+    width: 568px;
+    /*margin-left: 8px;*/
+    margin-right: 10px;
+    padding-top: 13px;
+}
+
+.questions {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;/*Rusheel*/
+    text-align: center;
+    color: #000000;
+    padding-top: 24px;
+    height: 50px;
+    padding-bottom: 40px;/*Rusheel*/
+
+}
+.questions a{
+	text-decoration: underline !important;
+	color: var(--primary-green, #00857C);
+	font-feature-settings: 'clig' off, 'liga' off;
+	font-family: Invention;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	/* text-decoration-line: underline !important; */
+}
+.popupfooter {
+    background: #FFFFFF;
+    box-shadow: none;
+    width: 100%;
+    padding-bottom: 16px;/*Rusheel*/
+    padding-top: 16px;
+}
+
+.cls_date,
+.cls_add {
+    display: flex;
+}
+
+.cls_date .close_cls {
+    margin: 2.5%;
+    cursor: pointer;
+}
+
+.cls_add .close_cls {
+    margin: 0.3% 2%;
+    cursor: pointer;
+}
+
+.form-group label {
+    padding: 2px 0;
+}
+
+.disablebtn {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.fixed_cls {
+    position: fixed;
+    bottom: 0;
+    left: 14px;
+    right: 14px;
+    z-index: 100;
+    background: #fff;
+    /* width: 100%; */
+    /* top:0px; */
+}
+
+.breadprodname {
+    color: #00857c;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.b {
+    text-decoration: none;
+    color: black;
+}
+
+.b:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle {
+    color: black;
+    text-decoration: none;
+}
+
+.cursorcls {
+    cursor: default;
+}
+.reqcls{
+    margin-bottom: 16px;
+}
+.loader {
+    background-color: transparent;
+}
+
+.card1 {
+    padding-bottom: 0px;
+}
+
+.editreq {
+    /* padding-right: 16px;*/
+}
+
+.cancelbtn {
+    /*  padding-right: 19px; */
+}
+
+.hcpurl {
+    text-decoration: none;
+}
+
+.reqno {
+    color: #00857c
+}
+
+.edit {
+    margin: 0px;
+    /* padding-top: 2px;*/
+    color: white;
+    /* width: 90px; */
+    height: 18px;
+    text-align: center;
+}
+
+.cancel {
+    margin: 0px;
+    /* padding-top:4px; */
+    color: #00857C;
+}
+
+.url {
+    padding-bottom: 16px;
+}
+
+.catalog {
+    width: 100%;
+}
+
+.cal {
+    width: 14px;
+    height: 16px;
+    margin-bottom: 4px;
+}
+.call{
+    margin-top: 11px;
+}
+
+.Date {
+    padding-top: 0px;
+
+
+    width: 280px;
+    background: #FFFFFF;
+
+}
+
+.slds-input.slds-is-disabled,
+.slds-input[disabled] {
+    background-color: var(--dxp-c-input-color-background-disabled, var(--dxp-g-neutral));
+    border-color: var(--dxp-c-input-color-border-disabled, var(--dxp-g-neutral-1));
+    cursor: pointer;
+}
+
+.Time {
+    width: 268px;
+    margin-top: 4px;
+    padding-left: 10px;
+}
+
+.cal1 {
+    width: 24px;
+    height: 24px;
+}
+
+.appointment {
+    clear: both;
+    margin: 0px 0px 24px;
+}
+
+.datetime {
+    padding-top: 4px;
+}
+
+.subreq {
+    font-family: 'Invention';
+    color: white;
+    background-color: #00857c;
+    height: 48px;
+    font-size: 16px;
+    letter-spacing: 0.1px;
+
+    font-family: 'Invention';
+    color: white;
+    /* background-color: #00857c; */
+    /* height: 48px; */
+    font-size: 16px;
+    letter-spacing: 0.1px;
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    padding: 11px 16px;
+    gap: 16px;
+    /* width: 148px; */
+    height: 40px !important;
+    background: #00857C;
+    /* border-radius: 5px; */
+    /* flex: none; */
+    /* order: 0; */
+    /* flex-grow: 0;
+}
+
+.canclebt {
+    margin: 0px;
+    padding-top: 5px;
+}
+
+.meetpref {
+    margin: 0px;
+}
+
+.meetpref1 {
+    margin: 0px;
+}
+
+.reqIcon {
+    padding-bottom: 16px;
+}
+
+.reqsub {
+    /* padding-bottom: 8px; */
+}
+.reqsub {
+    margin-top: 8px;
+}
+.progress1 {
+    width: 0%
+}
+.progress2{
+    width: auto;
+}
+
+.progressbar1 {
+    width: 100%
+}
+
+.viewreq {
+    margin-left: 16px;
+}
+
+.ref1 {
+    color: #00857C;
+    text-decoration: none;
+}
+
+.pop1 {
+    font-family: 'Invention';
+    color: white;
+    background-color: #00857c;
+    height: 40px;
+    font-size: 14px;
+    letter-spacing: 0.861539px;
+    line-height: 18px;
+    /* width: 151px; */
+    border-radius: 5px;
+    font-weight: 700;
+    border-color: #00857C;
+    padding-bottom: 1px;
+    padding-top: 2px;
+}
+
+.pop {
+    font-family: 'Invention';
+    color: #00857c;
+    background-color: white;
+    height: 40px;
+    font-size: 14px;
+    letter-spacing: 0.861539px;
+    line-height: 17px;
+    border-radius: 5px;
+    font-weight: 700;
+    border: 2px solid #00857C;
+}
+
+.viewreqs {
+    margin-left: 21px; /*Rusheel*/
+}
+
+.attList {
+    width: 307px;
+}
+
+.multiplerow {
+    padding-left: 0px;
+}
+.noaroundpad{
+    padding: 0px !important;
+}
+
+/*  */
+
+.headerAnchorCls a {
+    color: #00857C;
+    text-decoration: underline !important;
+}
+
+.headerAnchorCls {
+    color: #00857C;
+}
+
+.headerAnchor {
+    color: #00857C;
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+.curcls {
+    color: #00857C;
+}
+
+.prodcls {
+    color: #00857C;
+}
+
+.setStatusHeader {
+    color: #00857c;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.reqnum {
+    color: #00857C !important;
+    text-decoration: none !important;
+}
+
+.statusstyle a {
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+}
+
+.apptime {
+    font-weight: 700;
+}
+
+.mobTruncate {
+    visibility: visible;
+}
+
+.mobTruncateText {
+    display: none;
+    visibility: hidden;
+}
+
+.attendeeListCls {
+    padding-right: 16px;
+    padding-bottom: 16px;
+}
+
+.mgdiv {
+    margin-left: -5px;
+}
+
+.input-cls {
+    /* border: 1px solid #333333 !important; */
+    border-radius: 4px !important;
+    background-color: #FFFFFF;
+    box-shadow: none;
+    padding-left: 0px;
+    cursor: pointer;
+
+}
+
+.input-cls:focus {
+    box-shadow: none;
+}
+
+.closeicon {
+    cursor: pointer;
+    border: 1px solid #00857c;
+}
+
+
+/* ======= For Mobile Screen CSS ======= */
+
+.dsk-dsn {
+    display: none;
+}
+
+.mobRemoveDateBtn {
+    display: none;
+}
+
+.book_cls{
+    /* padding-right: 2.25px; */
+}
+
+.mobCloseCls {
+    display: block;
+    margin-top: 4px;
+}
+
+
+.box_cls {
+    border: 1px solid #E2E2E2;
+    padding: 5px;
+    margin-top: 8px;
+    margin: 0px 16px 8px 16px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+}
+
+.fullwidthcal {
+    width: 268px;
+}
+
+.readmore {
+    font-size: 14px;
+    color: #00857C !important;
+    font-family: 'Invention' !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: #00857C !important;
+    ;
+}
+
+.cursorcls:hover {
+    color: black !important;
+}
+
+/* Mobile Screen */
+@media screen and (max-width: 767px) {
+    .ptext {
+        top: 20px !important;
+        margin-inline: 20px !important;
+    }
+
+    .fullwidthcal {
+        width: 235px !important;
+        width: 268px;
+        margin-top: 3px;
+        /* padding-left: 10px; */
+    }
+    .Time{
+        padding-left: 0px;
+        margin-bottom: 16px !important;
+    }
+
+    .ptexthree {
+        padding-bottom: 8px;
+    }
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+
+
+    .mob-cbox {
+        display: block;
+    }
+
+    .container {
+        max-width: 90% !important;
+    }
+
+    .browseimg {
+        margin-left: 16px;
+    }
+
+    .innerbody {
+        padding: 16px;
+        padding-top: 0px;
+    }
+    .reqs{
+        margin-left: 0px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+
+    /* For mobile phones: */
+    .prescribeimgcontainer {
+        /* padding-left: 0; */
+        /* margin-right: 20px; */
+    }
+    .resolution{
+        padding-top: 24px;
+    }
+    .description{
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .mfrsf {
+        margin-left: 15px !important;
+    }
+
+    .mgdiv {
+        margin-left: 0px !important;
+    }
+
+    .Date {
+        width: 260px;
+    }
+
+    .card1 {
+        /* padding-left: 16px !important;
+       padding-top: 16px !important;
+       padding-right: 20px !important; */
+        /* padding: 0px !important; */
+    }
+
+    /* RM --- 22 Feb 2023 --- Bug_Mbl_027 */
+    .mob-er-cr-btn {
+        padding-top: 8px;
+    }
+
+    .mobTruncate {
+        display: none;
+        visibility: hidden;
+    }
+
+    .mobTruncateText {
+        display: inline;
+        visibility: visible;
+        color: #00857C;
+    }
+
+    .lnbtns {
+        /* display: block !important; */
+    }
+
+    .mobBrowseCatalogCls {
+        display: block !important;
+        /* padding-top: 15px !important; */
+        padding-top: 8px !important;
+        padding-left: 0 !important;
+        padding-bottom: 8px;
+        /* padding-top: 0px !important; */
+        /* margin-top: 8px !important; */
+    }
+
+    .presentationcontainerR {
+        background: none;
+        padding: 0;
+        width: 100%;
+    }
+
+    .reqpres {
+        background: #FFE7E6;
+        padding: 2px 8px;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+    .mobBrowseCatalogTxtCls {
+        /* padding-left: 40Px !important;
+       padding-right: 40Px !important; */
+    }
+
+    .datetimestyle {
+        width: 80%;
+        padding: inherit !important;
+        padding-left: 0px !important;
+    }
+
+    .url {
+        padding: 24px 16px;
+    }
+
+    .ptexthree {
+        max-width: 311px !important;
+        font-size: 18px;
+        line-height: 27px;
+    }
+
+    /* RM --- 22 Feb 2023 --- Bug_Mbl_027 */
+    .cancel_btn {
+        margin-left: 0px !important;
+        width: auto !important;
+    }
+
+    .innerbody {
+        /* padding-left: 0px;
+       padding-right: 0px; */
+
+    }
+
+    /* .ptextone {
+       padding: 0px 5px 0px 0px;
+   } */
+    .ptextone span {
+        padding: 0px 5px 0px 0px;
+    }
+
+    .prescribeinfo1 {
+        padding-right: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .prescribeinfo2{
+        padding: 0;
+        padding-left: 0;
+        padding-right: 0;
+        display: flex;
+        justify-content: center;
+        margin: 8px 0;
+    }
+    .prescribeinfo3 {
+        margin: 8px 0 0 0;
+    }
+    .aBtn {
+        max-width: 203px;
+        min-width: 198px;
+    }
+
+    .bt1 {
+        /* line-height: 18px !important; */
+        line-height: 14px !important;
+    }
+
+    .date_box {
+        padding-right: 0px;
+        width: 100%;
+        margin-bottom: 16px;
+        /* min-width: 320px; */
+    }
+
+    .mob-ap-icn-mr {
+        margin: 0px;
+        padding: 26px 17.5px 26px 0px;
+    }
+
+    .mob-rp-top-dv {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .mob-rp-icon {
+        height: 28px;
+        width: 28px;
+    }
+
+    .requestprogress {
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 27px;
+        color: #000000;
+        padding-top: 0px;
+    }
+
+    .mob-rp-text {
+        margin-left: 20px;
+    }
+
+    .mob-dsn {
+        display: none;
+    }
+
+    /*  for Progress Bar Mobile View  */
+    .mob-pb-wb {
+        border-left: 4px solid #D8D8D8;
+        display: flex;
+        padding-bottom: 16px;
+    }
+    .nopmobpad{
+        padding-bottom: 0px !important;
+    }
+    .mob-pb-wb-last {
+        /* border-left: 4px solid #D8D8D8; */
+        /* padding-bottom: 16px; */
+        display: flex;
+        margin-left: 4px;
+    }
+
+    .mob-pb-gb {
+        /* border-left: 4px solid #167E71; */
+        border-left: 4px solid #9ebdb9;
+        display: flex;
+        padding-bottom: 16px;
+    }
+
+    .mob-green-crcl {
+        height: 16px;
+        width: 16px;
+        background: #167E71;
+        border-radius: 50%;
+        left: -10px;
+        position: relative;
+    }
+
+    .mob-white-crcl {
+        height: 16px;
+        width: 16px;
+        background: #D8D8D8;
+        border-radius: 50%;
+        left: -10px;
+        position: relative;
+    }
+
+    .mob-rp-br-txt {
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: #303B44;
+    }
+
+    .dsk-dsn {
+        display: block;
+        margin-top: 16px;
+        padding-left: 6px;
+    }
+
+    .mob-pdd-lft-zero {
+        padding-left: 0px !important;
+    }
+
+    .attendeeListCls {
+        width: 100%;
+        padding-right: 0px;
+        padding-bottom: 16px;
+    }
+
+    .attend_box {
+        /* width: auto; */
+        width: 100%;
+        padding-right: 17px;
+    }
+
+    .attendeename {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 200px;
+        /* width: 90%; */
+    }
+
+    .mob-pd-pdn {
+        padding-right: 0px !important;
+        width: 100%;
+    }
+
+    /* RM --- 22 Feb 2023 --- Bug_Mbl_027 */
+    .edit_btn {
+        margin-right: 16px;
+        margin-bottom: 8px;
+        width: auto !important;
+    }
+
+    .cancel {
+        padding-top: 0px;
+    }
+
+    .edit {
+        padding-top: 0px;
+        /* RM --- 24 Feb 2023 --- Bug_Mbl_027 */
+        width: 100% !important;
+    }
+
+    .mob-brows-ct-btn {
+        /* width: 229px; */
+    }
+
+    .broimg img {
+        margin-right: 20px;
+    }
+
+    /* for when Edit Request Button Clicked Start */
+
+    .cls_date {
+        display: inline;
+    }
+
+    .attList {
+        width: 100%;
+    }
+
+    .mob-er-fot-btn {
+        display: block !important;
+        padding-top: 32px;
+    }
+
+    .mob-er-fot-can-btn {
+        padding-top: 16px !important;
+    }
+
+    .datetime {
+        padding-right: 0px;
+
+    }
+
+    .dt {
+        width: 260px;
+    }
+
+    .mobRemoveDateBtn {
+        display: block;
+    }
+
+    .mobCloseCls {
+        display: none;
+    }
+
+    .presentationcontainer {
+        width: 165px !important;
+        justify-content: center !important;
+        display: flex !important;
+        align-items: baseline !important;
+    }
+
+    .presimg img {
+        width: 10px;
+    }
+
+    /* for popup modal start */
+
+    .slds-modal__container {
+        width: auto;
+        min-width: 315px;
+        padding: 10px;
+        margin: 0px;
+    }
+
+    .popupfooter {
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .questions {
+        padding: 16px;
+        margin-bottom: 0px;
+        height: auto;
+        justify-content: space-between;
+        text-align: left;
+        width: 100%;
+    }
+
+    .slds-box.box {
+        margin: 0px 16px 8px 16px;
+        padding: 16px;
+        width: 100%;
+    }
+
+    .detailpopUp {
+        width: 100%;
+    }
+
+    .mob-rs-popup-hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .mob-rs-popup-hdr .slds-col.slds-size_11-of-12 {
+        width: 80%;
+    }
+
+    .mob-rs-popup-hdr .slds-col.slds-size_1-of-12 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .requestsubmit {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .viewrequest {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        /* width: 155px; */
+        width: 280px;
+        padding: 8px 16px;
+        margin-top: 0px;
+        line-height: 18px;
+        letter-spacing: 0.861539px;
+        margin-bottom: 10px
+    }
+
+    .pop1 {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 16px;
+        width: 100%;
+        height: 40px;
+        background: #00857C;
+        letter-spacing: 0.861539px;
+        flex: none;
+        order: 0;
+        align-self: stretch;
+        flex-grow: 0;
+
+
+    }
+
+    .pop {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        /* width: 155px; */
+        width: 100%;
+        height: 40px;
+        padding: 11px 16px;
+        margin-top: 8px;
+        line-height: 18px;
+        letter-spacing: 0.861539px;
+        flex: none;
+        order: 0;
+        align-self: stretch;
+        flex-grow: 0;
+        margin-left: 0px !important;
+        border: 2px solid #00857C;
+        border-radius: 5px;
+
+    }
+
+    .bgstylone {
+        padding-bottom: 20%;
+    }
+    /* Rusheel */
+    .reqsub{
+        min-height: 42px;
+        line-height: 21px;
+        margin-bottom: 8px;
+        text-indent: -16px;
+    }
+ /* Rusheel */
+    /* for popup modal start */
+
+    /* for when Edit Request Button Clicked End */
+}
+
+@media screen and (max-width:767px) {
+    .container {
+        padding: 16px;
+        width: 343px;
+        padding: 0 !important;
+    }
+
+    .ptextone {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .lnbtns {
+        display: grid;
+    }
+
+    .requestbody {
+        padding: 16px !important;
+    }
+
+    .titlehead {
+        padding-right: 1px;
+        margin-bottom: 0px;
+    }
+
+    .requestcontent {
+        padding-left: 24px;
+        margin-top: 16.5px;
+    }
+
+    .dashbord {
+        display: none;
+    }
+}
+
+@media screen and (max-width:391px) {
+    .br-on-mobile {
+        display: inherit;
+    }
+
+    .pop1 {
+        font-family: 'Invention';
+        color: white;
+        background-color: #00857c;
+        height: 40px;
+        font-size: 14px;
+        letter-spacing: 0.861539px;
+        line-height: 18px;
+        width: 100%;
+        border-radius: 5px;
+        font-weight: 700;
+        border-color: #00857C;
+        padding-bottom: 1px;
+        padding-top: 2px;
+    }
+
+    .pop {
+        font-family: 'Invention';
+        color: #00857c;
+        background-color: white;
+        height: 40px;
+        font-size: 14px;
+        letter-spacing: 0.861539px;
+        line-height: 17px;
+        border-radius: 5px;
+        font-weight: 700;
+        border: 2px solid #00857C;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:394px) {
+    .br-on-mobile {
+        display: inherit;
+    }
+
+    .pop1 {
+        font-family: 'Invention';
+        color: white;
+        background-color: #00857c;
+        height: 40px;
+        font-size: 14px;
+        letter-spacing: 0.861539px;
+        line-height: 18px;
+        width: 100%;
+        border-radius: 5px;
+        font-weight: 700;
+        border-color: #00857C;
+        padding-bottom: 1px;
+        padding-top: 2px;
+    }
+
+    .pop {
+        font-family: 'Invention';
+        color: #00857c;
+        background-color: white;
+        height: 40px;
+        font-size: 14px;
+        letter-spacing: 0.861539px;
+        line-height: 17px;
+        border-radius: 5px;
+        font-weight: 700;
+        border: 2px solid #00857C;
+        width: 100%;
+    }
+}
+@media screen and (max-width:400px) {
+    .titlehead{
+        padding-right: 24px;
+    }
+    .book_cls{
+        float: none;
+        width: 24px;
+        height: 24px;
+    }
+    .description{
+        width: 263px;
+    }
+}

@@ -1,0 +1,1022 @@
+<apex:page standardController="Case" extensions="AccountSearchControllerMVN" tabStyle="Case" sidebar="false" standardStylesheets="true" lightningStylesheets="true">
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/jquery.tablesorter.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/style.css')}" />
+
+    <!-- KRB 7/25/2017 Rel 10 Added per ProvenWorks manual -Start -->
+    <apex:includeScript value="/soap/ajax/42.0/connection.js" />
+    <!-- <apex:includeScript value="/soap/ajax/27.0/apex.js" /> -->
+    <apex:includeScript value="/apex/pw_ccpro__CountriesJavaScript?core.apexpages.devmode.url=1" />
+    <apex:includeScript value="{!URLFOR($Resource.pw_ccpro__CountryCompleteResources, '/javascript/CountryAutoComplete.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.pw_ccpro__AddressCompleteResources, '/javascript/AddressComplete.js')}" />
+    
+    <script type="text/javascript">
+       sforce.connection.sessionId = '{!$Api.Session_ID}';
+       pw_sessionId = '{!$Api.Session_ID}';
+    </script>
+    <!-- KRB 7/25/2017 Rel 10 Added per ProvenWorks manual -End -->
+   
+    
+    <style>
+        button.minimal {
+            background: #eaeaea;
+            border: 1px solid #bbb;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+            -moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
+            box-shadow: inset 0 0 1px 1px #f6f6f6;
+            color: #333;
+            font: bold 12px "helvetica neue", helvetica, arial, sans-serif;
+            line-height: 1;
+            padding: 5px 0 6px;
+            text-align: center;
+            text-shadow: 0 1px 0 #fff;
+            width: 150px; }
+          button.minimal:hover {
+            background: #d9d9d9;
+            -webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
+            -moz-box-shadow: inset 0 0 1px 1px #eaeaea;
+            box-shadow: inset 0 0 1px 1px #eaeaea;
+            color: #222;
+            cursor: pointer; }
+          button.minimal:active {
+            background: #d0d0d0;
+            -webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
+            -moz-box-shadow: inset 0 0 1px 1px #e3e3e3;
+            box-shadow: inset 0 0 1px 1px #e3e3e3;
+            color: #000; 
+        }
+        hr.style-four {
+            height: 12px;
+            border: 0;
+            box-shadow: inset 0 12px 12px -12px rgba(0,0,0,0.5);
+        }
+        .black_overlay {
+            display: none;
+            position: fixed;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index:1001;
+            -moz-opacity: 0.8;
+            opacity:.80;
+            filter: alpha(opacity=80);
+        }
+        .white_content {
+            display: none;
+            position: absolute;
+            top: 5%;
+            /*height: 320px;*/
+            padding: 16px;
+            border: 2px solid #408040;
+            background-color: white;
+            z-index:1002;
+            overflow: auto;
+        }
+
+        @media (min-width: 1100px) {
+            .white_content {
+                left: 25%;
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 1099px ) and (min-width: 750px){
+            .white_content {
+                left: 15%;
+                width: 600px;
+            }
+        }
+
+        @media (max-width: 749px ) {
+            .white_content {
+                left: 125px;
+                width: 500px;
+            }
+        }
+
+        .close_button {
+            display:none;
+            position: fixed;
+            top: 20%;
+            left: 25%;
+            padding: 0 32px 0 32px;
+            width: 50%;
+            text-align: right;
+            margin: -16px 0 0 48px;
+            z-index: 1003
+        }
+        .searchPanelColor {
+            background-color: #e9e9e9 !important;
+        }
+        .nameLink {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .hasSort > div {
+            padding-right: 20px;
+        }
+
+        div.requester-info { display: inline-table; }
+        div.requester-info div { display: inline-table; margin: 5px 3px;}
+        div.requester-info div, div.requester-info a, div.requester-info span { font-size: 12px; }
+        div.requester-info div.label { font-weight: bold; }
+        div.requester-info div .remove-link { margin-left: 5px; }
+        div.requester-info div.account-group {
+            margin-right: 20px;
+            min-width: 150px;
+        }
+
+        #createAccountModal input {
+            margin-bottom: 8px;
+        }
+    </style>
+    <script type="text/javascript">
+        function setTitle() {
+            sforce.console.setTabTitle('{!$Label.Account_Search_Tab}');
+            getTabId();
+        }
+
+        var tabId;
+        var thisTabId;
+
+        function getTabId() {
+            sforce.console.getEnclosingPrimaryTabId(assignTabId);
+            sforce.console.getEnclosingTabId(assignThisTabId);
+        }
+
+        var assignTabId = function assignTabId(result) {
+            tabId = result.id;
+        };
+        
+        var assignThisTabId = function assignThisTabId(result) {
+            thisTabId = result.id;
+        }
+
+        function closeTab() {
+            sforce.console.refreshPrimaryTabById(tabId, false, closeSubTab);
+        }
+        
+        var closeSubTab = function closeSubTab(result) {
+            setTimeout('sforce.console.closeTab(thisTabId)', 1);
+        };
+
+        function keyPressed(e, type) {
+            var keyCode;
+            try {
+                keyCode = window.event.keyCode;
+            } catch (ex) {
+                keyCode = e.which;
+            }
+
+            if(keyCode == 13) {
+                try {
+                    window.event.preventDefault();
+                } catch (ex) {
+                    try{
+                        e.preventDefault();
+                    }catch (ex2){
+                        event.returnValue = false;
+                    }
+                }
+
+                if (type == 'search') {
+                    hideMessages();
+                    searchAccounts();
+                }
+                else if (type == 'create') {
+                    createAccount();
+                }
+            }
+        }
+
+        function hideMessages() {
+            var errorMessage = j$('span[id$="searchErrorMessage"]');
+            if (errorMessage != null){
+                errorMessage.hide();
+            }
+        }
+
+        //window.onload = setTitle;
+
+        /*Open Contact in a new tab*/
+        var contactId;
+
+        function openContactRecord(result) {
+            contactId = result;
+            sforce.console.getEnclosingPrimaryTabId(openContactSubtab);
+        }
+
+        var openContactSubtab = function openContactSubtab(result) {
+            var subtabId = result.id;
+            sforce.console.openSubtab(subtabId, '/' + contactId + '?isdtp=vw&', true);
+        }
+        
+        sforce.console.setTabTitle('{!$Label.Account_Search_Tab}');
+        getTabId();
+    </script>
+
+    <apex:outputPanel id="opHelper">
+        <script type="text/javascript">
+
+            var j$ = jQuery.noConflict();
+
+            /*Table Sorter*/
+            var elResource = document.getElementById('{!$Component.theForm:searchPanel:searchResultsPanel:addressResultsTable}');
+            j$(document).ready(function()
+            {
+                j$(elResource).tablesorter({
+                    widgets: ['zebra'],
+                    0:{sorter:false},
+                });
+            });
+
+            /*Hide Remove Requester errors */
+            function hideRemoveRequesterError(){
+                var errorMessage = document.getElementById('{!$Component.theForm:theBlock:removeErrorMessage}');
+                if (errorMessage != null){
+                    j$(errorMessage).hide();
+                    
+                   //KRB 7/31 REL 10.0 per the ProvenWorks Manual
+                    preInit();
+                    preInitCC();
+                    ProvenWorks.AutoComplete.Init();
+                    ProvenWorks.AddressComplete.Init();
+                    
+                    //CH ProvenWorks 7/31/2017 - ('')id value changed to match zipCreate ID.
+                    ProvenWorks.ZipCodeLookup.enforceValidation('zipCreate’);
+                                    
+                }
+            }
+        </script>
+    </apex:outputPanel>
+
+    <apex:outputPanel id="accountLinkHelper">
+        <script type="text/javascript">
+            function openAccount() {
+                var accountId = '{!URLENCODE(accountLinkId)}';
+                if(accountId != null && accountId != '') {
+                    if({!IF(standAloneSearch, 'true', 'false')}){
+                        sforce.console.openPrimaryTab(null, '/'+accountId, true);
+                    }
+                    else{
+                        sforce.console.openSubtab(tabId, '/'+accountId, true);
+                    }
+                }
+            }
+        </script>
+    </apex:outputPanel>
+
+    <style>
+        .searchTextInput {
+            width: 90%;
+            min-width: 80px;
+            max-width: 200px;
+        }
+        .searchInput, .searchLabel {
+            clear:both;
+        }
+    </style>
+
+
+    <apex:form id="theForm">
+        <apex:outputPanel id="closeTabButton" rendered="{!!standAloneSearch}">
+            <div style="width:100%; text-align:center; padding:5px;">
+                <script>var showAffiliationModal = {!showAffiliationModal};</script>
+                <apex:commandButton value="{!$Label.Close_Account_Search}" action="{!setupAffiliateModal}" oncomplete="if(showAffiliationModal){showAffiliationCreate();} else {closeTab();}" rerender="theForm,closeTabButton,createAffiliationModalContent" style="width:200px;"/>
+            </div>
+        </apex:outputPanel>
+        <apex:pageBlock tabStyle="Account" rendered="{!!standAloneSearch}">
+        <apex:actionRegion >
+            <apex:outputPanel id="displayPanel" >
+                <apex:pageMessages id="removeErrorMessage" rendered="{!removeAccountError}"/>
+                <div class="requester-info">
+                    <div class="account-group">
+                        <div class="label"><apex:outputText value="{!$Label.Selected_Requester}" /></div>
+                        <apex:outputPanel layout="block" rendered="{!cs.AccountId != null}">
+                            <a href="#" onClick="openContactRecord('{!JSENCODE(cs.AccountId)}');">
+                                <apex:outputText value="{!customerPreferedName}" />
+                            </a>
+                            <apex:actionStatus id="remove-requester-status">
+                                <apex:facet name="stop">
+                                    <apex:commandLink action="{!removeRequester}" rerender="displayPanel,closeTabButton" styleClass="remove-link" status="remove-requester-status">
+                                        <apex:outputText value="{!$Label.Remove_Account_Button}" />
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:facet name="start">
+                                    <span class="remove-link">
+                                        {!$Label.Removing_Account_Button}
+                                    </span>
+                                </apex:facet>
+                            </apex:actionStatus>
+                        </apex:outputPanel>
+                    </div>
+                    <div class="account-group">
+                        <div class="label"><apex:outputText value="{!$Label.Selected_Referrer}" /></div>
+                        <apex:outputPanel layout="block" rendered="{!cs.Referred_By_MVN__c != null}">
+                            <a href="#" onClick="openContactRecord('{!JSENCODE(cs.Referred_By_MVN__c)}');">
+                                <apex:outputText value="{!referedByPreferedName}" />
+                            </a>
+                            <apex:actionStatus id="remove-referrer-status">
+                                <apex:facet name="stop">
+                                    <apex:commandLink action="{!removeReferredBy}" rerender="displayPanel,closeTabButton" styleClass="remove-link" status="remove-referrer-status">
+                                        <apex:outputText value="{!$Label.Remove_Account_Button}" />
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:facet name="start">
+                                    <span class="remove-link">
+                                        {!$Label.Removing_Account_Button}
+                                    </span>
+                                </apex:facet>
+                            </apex:actionStatus>
+                        </apex:outputPanel>
+                    </div>
+                    <div class="account-group">
+                        <div class="label"><apex:outputText value="{!$Label.MSD_CORE_Selected_Business}" /></div>
+                        <apex:outputPanel layout="block" rendered="{!cs.MSD_CORE_Business__c != null}">
+                            <a href="#" onClick="openContactRecord('{!JSENCODE(cs.MSD_CORE_Business__c)}');">
+                                <apex:outputText value="{!cs.MSD_CORE_Business__r.Preferred_Full_Name_MRK__c}" />
+                            </a>
+                            <apex:actionStatus id="remove-business-status">
+                                <apex:facet name="stop">
+                                    <apex:commandLink action="{!removeBusiness}" rerender="displayPanel,closeTabButton" styleClass="remove-link" status="remove-business-status">
+                                        <apex:outputText value="{!$Label.MSD_CORE_Remove_Business_Button}" />
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:facet name="start">
+                                    <span class="remove-link">
+                                        {!$Label.MSD_CORE_Removing_Business_Button}
+                                    </span>
+                                </apex:facet>
+                            </apex:actionStatus>
+                        </apex:outputPanel>
+                    </div>
+                </div>
+            </apex:outputPanel>
+        </apex:actionRegion>
+        </apex:pageBlock>
+        <apex:outputPanel id="tabs">
+            <hr class="style-four"/>
+            <button onclick="toggleIsPersonSearch(true); return false;" class="minimal" style="{!IF(isPersonSearch,'background: #eaeaea;border:2px solid #236fbd;','background: #ffffff')}">{!$Label.MSD_CORE_Person_Search_Tab}</button>
+            <button onclick="toggleIsPersonSearch(false); return false;" class="minimal" style="{!IF(!isPersonSearch,'background: #eaeaea;border:2px solid #236fbd;','background: #ffffff')}">{!$Label.MSD_CORE_Business_Search}</button>
+            <apex:actionFunction name="toggleIsPersonSearch" action="{!isPersonUpdated}" rerender="searchFields, tabs, searchResults, createAccountModalContent, opHelper, searchPanel">
+                <apex:param name="personSearchToggle" assignTo="{!isPersonSearch}" value=""/>
+            </apex:actionFunction>
+        </apex:outputPanel>
+        <apex:pageBlock id="searchPanel" tabStyle="Account">
+            <div style="display:inline-block; width:100%;">
+                <!--Search Accounts -->
+                <apex:actionFunction name="searchAccounts" action="{!doSearch}" rerender="addressResults, searchResults, createAccountModalContent, opHelper, searchPanel" status="status" oncomplete="hideRemoveRequesterError();" />
+                <apex:outputPanel style="width:100%; min-width:250px; display:inline-block; float:left;">
+                    <apex:outputPanel layout="searchBlock" id="searchFields">
+                        <table class="searchTable" width="100%">
+                            <tr>
+                                <td style="{!IF(isPersonSearch, '','display: none')}">
+                                    <div class="searchLabel">
+                                        <apex:outputLabel for="lastNameText" value="{!$ObjectType.Account.Fields.LastName.label}"/>
+                                    </div>
+                                    <div class="searchInput">
+                                        <apex:inputText id="lastNameText" maxlength="80" onkeypress="keyPressed(event, 'search');" value="{!searchLastName}" styleClass="searchTextInput" />
+                                        <script>
+                                            var text_input = document.getElementById ('{!$Component.lastNameText}');
+                                            text_input.focus();
+                                            text_input.select();
+                                        </script>
+                                    </div>
+                                </td>
+                                <td style="{!IF(!isPersonSearch, '','display: none')}">
+                                    <div class="searchLabel">
+                                        <apex:outputLabel for="nameText" value="{!$ObjectType.Account.Fields.Name.label}"/>
+                                    </div>
+                                    <div class="searchInput">
+                                        <apex:inputText id="nameText" maxlength="80" onkeypress="keyPressed(event, 'search');" value="{!searchName}" styleClass="searchTextInput" />
+                                        <script>
+                                            var text_input = document.getElementById ('{!$Component.nameText}');
+                                            text_input.focus();
+                                            text_input.select();
+                                        </script>
+                                    </div>
+                                </td>
+                                <td style="{!IF(isPersonSearch, '','display: none')}">
+                                    <div class="searchLabel">
+                                        <apex:outputLabel for="firstNameSearch" value="{!$ObjectType.Account.Fields.FirstName.label}"/>
+                                    </div>
+                                    <div class="searchInput">
+                                        <apex:inputText id="firstNameSearch" maxlength="40" onkeypress="keyPressed(event, 'search');" value="{!searchFirstName}" styleClass="searchTextInput" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <span style="{!IF(isPersonSearch, 'display:inline-block;', '')}">
+                                        <div class="searchLabel">
+                                            <apex:outputLabel for="phoneSearch" value="{!$Label.Generic_Phone_Field_Label}"/>
+                                        </div>
+                                        <div class="searchInput">
+                                            <apex:inputField id="phoneSearch" onkeypress="keyPressed(event, 'search');" value="{!searchAccount.Phone}" styleClass="searchTextInput"/>
+                                        </div>
+                                    </span>
+                                    <span style="{!IF(isPersonSearch && (typeText == 'All' || typeText == 'EMPLOYEE'), 'display:inline-block;','display: none;')}">
+                                        <div class="searchLabel">
+                                            <apex:outputLabel for="employeeID" value="{!$ObjectType.Account.Fields.MSD_CORE_Merck_Employee_ID__c.label}"/>
+                                        </div>
+                                        <div class="searchInput">
+                                            <apex:inputText id="employeeId" maxlength="40" onkeypress="keyPressed(event, 'search');" value="{!searchAccount.MSD_CORE_Merck_Employee_ID__c}" styleClass="searchTextInput" />
+                                        </div>
+                                    </span>
+                                    <span style="{!IF(isPersonSearch, 'display:inline-block;','display: none;')}">
+                                        <!-- Code for Search by Merck ID -->
+                                        <div class="searchLabel">
+                                                <apex:outputLabel for="masterId" value="{!$ObjectType.Account.Fields.Merck_ID_MRK__c.label}"/>
+                                        </div>
+                                        <div class="searchInput">
+                                                <apex:inputText id="masterId" maxlength="40" onkeypress="keyPressed(event, 'search');" value="{!searchMerckIDpersonAccount}" styleClass="searchTextInput" />
+                                        </div>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="{!IF(!isPersonSearch, 'display:inline-block;', 'display: none;')}">
+                                        <div class="searchLabel">
+                                            <apex:outputLabel for="alternateID" value="{!$Label.MSD_CORE_Customer_Number}"/>
+                                        </div>
+                                        <div class="searchInput">
+                                            <apex:inputText id="alternateID" maxlength="40" onkeypress="keyPressed(event, 'search');" value="{!alternateId}" styleClass="searchTextInput" />
+                                        </div>
+                                    </span>
+                                    <span style="{!IF(!isPersonSearch, 'display:inline-block;', 'display: none;')}">
+                                        <!-- Code for Search by Merck ID -->
+                                        <div class="searchLabel">
+                                                <apex:outputLabel for="merckID" value="{!$ObjectType.Account.Fields.Merck_ID_MRK__c.label}"/>
+                                        </div>
+                                        <div class="searchInput">
+                                                <apex:inputText id="merckID" maxlength="40" onkeypress="keyPressed(event, 'search');" value="{!searchMerckID}" styleClass="searchTextInput" />
+                                        </div>
+                                    </span>
+                                    <!-- Code Ends here -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="searchLabel">
+                                        <apex:outputLabel for="citySearch" value="{!$ObjectType.Address_vod__c.Fields.City_vod__c.label}"/>
+                                    </div>
+                                    <div class="searchInput">
+                                        <apex:inputField value="{!searchAddress.City_vod__c}" styleClass="searchTextInput" onkeypress="keyPressed(event, 'search');"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="searchLabel">
+                                        <apex:outputLabel for="zipSearch" value="{!$ObjectType.Address_vod__c.Fields.Zip_vod__c.label}"/>
+                                    </div>
+                                    <div class="searchInput">
+                                        <apex:inputField id="zipSearch" onkeypress="keyPressed(event, 'search');" value="{!searchAddress.Zip_vod__c}" styleClass="searchTextInput"/>
+                                    </div>
+                                </td>
+                                <td style="white-space:nowrap;">
+                                    <span style="display:inline-block;">
+                                        <div class="searchLabel">
+                                            <apex:outputLabel for="stateSearch" value="{!$ObjectType.Address_vod__c.Fields.State_vod__c.label}"/>
+                                        </div>
+                                        <div class="searchInput">
+                                            <apex:inputField id="stateSearch" value="{!searchAddress.State_vod__c}" styleClass="searchTextInput" onkeypress="keyPressed(event, 'search');"/>
+                                        </div>
+                                    </span>
+                                    <span style="display:inline-block;">
+                                        <div class="searchLabel">
+                                            <apex:outputLabel for="countrySearch" value="{!$ObjectType.Address_vod__c.Fields.Country_vod__c.label}"/>
+                                        </div>
+                                        <div class="searchInput">
+                                            <apex:inputField value="{!searchAddress.Country_vod__c}"/>
+                                        </div>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" >
+                                    <hr width="100%" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" align="center" text-align="center">
+                                    <span style="display:inline-block;">
+                                        <apex:selectRadio value="{!typeText}" id="typeRadio" layout="lineDirection" rendered="{!isPersonSearch}">
+                                            <apex:selectOption itemValue="All" itemLabel="{!$Label.Account_Search_All_Record_Type}" />
+                                            <apex:selectOptions value="{!typeSelectOptions}"/>
+                                            <apex:actionSupport action="{!changeType}" event="onclick" rerender="newAccountButton,searchPanel"/>
+                                        </apex:selectRadio>
+                                    </span>
+                                    <span style="display:inline-block;padding-left:20px;vertical-align:top;">
+                                        <apex:actionStatus id="status" >
+                                            <apex:facet name="stop">
+                                                <apex:commandButton value="{!$Label.Generic_Search_Button}" style="padding: 5px 25px" action="{!doSearch}" rerender="searchFields,searchResults, notSearching, addressResults, createAccountModalContent, opHelper" status="status" oncomplete="hideRemoveRequesterError();" onclick="hideMessages();"/>
+                                            </apex:facet>
+                                            <apex:facet name="start">
+                                                <apex:commandButton value="{!$Label.Generic_Search_Status}" style="padding: 5px 25px" disabled="true" />
+                                            </apex:facet>
+                                        </apex:actionStatus>
+                                        &nbsp;&nbsp;
+                                        <apex:commandLink value="{!$Label.Clear_Search_Results_Button}" action="{!clearSearch}" rerender="searchFields,searchResults, notSearching, addressResults, createAccountModalContent, opHelper, displayPanel,closeTabButton"/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:outputPanel>
+                </apex:outputPanel>
+
+                <!--Search Results -->
+                <apex:outputPanel id="searchResults" style="width:100%; min-width:500px; display:inline-block; float:left;">
+                    <apex:pageBlock id="searchResultsPanel" tabStyle="Account">
+                        <apex:outputPanel id="notSearching" rendered="{!!didSearch}">
+                            <div style="width:100%;">
+                                <apex:pageMessages />
+                            </div>
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <br/><br/>
+                                        <h1></h1>
+                                        <br/><br/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </apex:outputPanel>
+                        <apex:outputPanel id="addressResults" rendered="{!didSearch}">
+                            <div style="width:100%;">
+                                <apex:pageMessages id="searchErrorMessage" rendered="{!NOT(didTryCreate)}"/>
+                            </div>
+                            <div style="text-align:center; margin-bottom:5px;">
+                                <apex:outputPanel id="newAccountButton">
+                                    <apex:commandButton value="{!IF(standAloneSearch, $Label.New_Account_Button, $Label.MSD_CORE_New_Customer)}" action="{!updateNewAccount}" oncomplete="showAccountCreate();pwRefresh();nameTextField.focus();nameTextField.select();" rendered="{!showNewButton && isPersonSearch && !isReadOnlyUser}" rerender="displayPanel,closeTabButton, createAccountModalContent" style="margin-left:5px;">
+                                        <apex:param name="didInsertSucceed" assignTo="{!didInsertSucceed}" value="false"/>
+                                        <apex:param name="removeAccountError" assignTo="{!removeAccountError}" value="false"/>
+                                        <apex:param name="createReferredBy" assignTo="{!createReferredBy}" value="false" />
+                                    </apex:commandButton>
+                                    <apex:commandButton value="{!$Label.MSD_CORE_New_Referred_By}" action="{!updateNewAccount}" oncomplete="showAccountCreate();pwRefresh();nameTextField.focus();nameTextField.select();" rendered="{!showNewButton && isPersonSearch && !standAloneSearch}" rerender="displayPanel,closeTabButton, createAccountModalContent" style="margin-left:5px;">
+                                        <apex:param name="didInsertSucceed" assignTo="{!didInsertSucceed}" value="false"/>
+                                        <apex:param name="removeAccountError" assignTo="{!removeAccountError}" value="false"/>
+                                        <apex:param name="createReferredBy" assignTo="{!createReferredBy}" value="true" />
+                                    </apex:commandButton>
+                                    <apex:commandButton value="{!$Label.MSD_CORE_New_Business}" action="{!updateNewAccount}" oncomplete="showAccountCreate();pwRefresh();nameTextField.focus();nameTextField.select();" rendered="{!showNewButton && !isPersonSearch && !isReadOnlyUser}" rerender="displayPanel,closeTabButton, createAccountModalContent" style="margin-left:5px;">
+                                        <apex:param name="didInsertSucceed" assignTo="{!didInsertSucceed}" value="false"/>
+                                        <apex:param name="removeAccountError" assignTo="{!removeAccountError}" value="false"/>
+                                    </apex:commandButton>
+                                </apex:outputPanel>
+                            </div>
+                            <!--Search Results Table -->
+                            <apex:outputPanel >
+                                <apex:pageBlockTable styleClass="tablesorter" id="addressResultsTable" value="{!orderedResultList}" var="rslt" >
+                                    <apex:column rendered="{!(!standAloneSearch && isPersonSearch)}">
+                                        <apex:actionStatus id="add-requester-status">
+                                            <apex:facet name="stop">
+                                                <apex:commandLink action="{!updateCase}" rerender="displayPanel,closeTabButton, searchErrorMessage" status="add-requester-status">
+                                                    <img title="{!$Label.Add_Requester_Title}" src="{!URLFor($Resource.GlobalAssetsMVN, 'Icons/profile24.png')}" width="20px"/>
+                                                    <apex:param name="recqId" assignTo="{!reqId}" value="{!rslt.resultKey}" />
+
+                                                </apex:commandLink>
+                                            </apex:facet>
+                                            <apex:facet name="start">
+                                                <img class="waitingImage" src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="20px;"/>
+                                            </apex:facet>
+                                        </apex:actionStatus>
+                                    </apex:column>
+                                    <apex:column rendered="{!(!standAloneSearch && isPersonSearch)}">
+                                        <apex:actionStatus id="add-referred-by-status">
+                                            <apex:facet name="stop">
+                                                <apex:commandLink action="{!addReferredBy}" rerender="displayPanel,closeTabButton" status="add-referred-by-status">
+                                                    <img title="{!$Label.Add_Referred_By_Title}" src="{!URLFor($Resource.GlobalAssetsMVN, 'Icons/people24.png')}" width="20px"/>
+                                                    <apex:param name="refId" assignTo="{!refId}" value="{!rslt.SFDCAccountID}" />
+                                                </apex:commandLink>
+                                            </apex:facet>
+                                            <apex:facet name="start">
+                                                <img class="waitingImage" src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="20px;"/>
+                                            </apex:facet>
+                                        </apex:actionStatus>
+                                    </apex:column>
+                                    <apex:column rendered="{!(!standAloneSearch && !isPersonSearch)}">
+                                        <apex:actionStatus id="add-business-status">
+                                            <apex:facet name="stop">
+                                                <apex:commandLink action="{!addBusiness}" rerender="displayPanel,closeTabButton" status="add-business-status">
+                                                    <img title="{!$Label.MSD_CORE_Add_Business_Title}" src="{!URLFor($Resource.GlobalAssetsMVN, 'Icons/business.png')}" width="20px"/>
+                                                    <apex:param name="businessId" assignTo="{!businessId}" value="{!rslt.SFDCAccountID}" />
+                                                </apex:commandLink>
+                                            </apex:facet>
+                                            <apex:facet name="start">
+                                                <img class="waitingImage" src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="20px;"/>
+                                            </apex:facet>
+                                        </apex:actionStatus>
+                                    </apex:column>
+                                    <apex:column headerValue="{!$ObjectType.Account.Fields.LastName.label}" headerClass="hasSort" rendered="{!isPersonSearch}">
+                                        <apex:commandLink action="{!goToAccountPage}" value="{!rslt.account.Preferred_Last_Name_MRK__c}" styleClass="nameLink" rerender="accountLinkHelper, searchErrorMessage" oncomplete="openAccount()" >
+                                            <apex:param name="reqId" assignTo="{!reqId}" value="{!rslt.resultKey}" />
+                                        </apex:commandLink>
+                                    </apex:column>
+                                    <apex:column headerValue="{!$ObjectType.Account.Fields.Name.label}" headerClass="hasSort" rendered="{!!isPersonSearch}">
+                                        <apex:commandLink action="{!goToAccountPage}" value="{!rslt.account.Preferred_Full_Name_MRK__c}" styleClass="nameLink" rerender="accountLinkHelper, searchErrorMessage" oncomplete="openAccount()" >
+                                            <apex:param name="reqId" assignTo="{!reqId}" value="{!rslt.resultKey}" />
+                                        </apex:commandLink>
+                                    </apex:column>
+                                    <apex:column headerValue="{!$ObjectType.Account.Fields.FirstName.label}" headerClass="hasSort" rendered="{!isPersonSearch}">
+                                        <apex:commandLink action="{!goToAccountPage}" value="{!rslt.account.Preferred_First_Name_MRK__c}" styleClass="nameLink" rerender="accountLinkHelper, searchErrorMessage" oncomplete="openAccount()" >
+                                            <apex:param name="reqId" assignTo="{!reqId}" value="{!rslt.resultKey}" />
+                                        </apex:commandLink>
+                                    </apex:column>
+                                    <apex:column value="{!rslt.account.Preferred_Middle_Name_MRK__c}" headerClass="hasSort" headerValue="{!$ObjectType.Account.Fields.Middle_vod__c.label}"  rendered="{!isPersonSearch}"/>
+                                    <apex:column headerClass="hasSort" headerValue="{!$Label.Generic_Address_Field_Label}">
+                                        <apex:outputText value="{!rslt.address.Name}" />&nbsp;
+                                        <apex:outputText value="{!rslt.address.Address_line_2_vod__c}" />
+                                    </apex:column>
+                                    <apex:column value="{!rslt.address.City_vod__c}" headerClass="hasSort" headerValue="{!$ObjectType.Address_vod__c.Fields.City_vod__c.label}"/>
+                                    <apex:column value="{!rslt.address.State_vod__c}" headerClass="hasSort" headerValue="{!$ObjectType.Address_vod__c.Fields.State_vod__c.label}"/>
+                                    <apex:column value="{!rslt.address.Zip_vod__c}" headerClass="hasSort" headerValue="{!$ObjectType.Address_vod__c.Fields.Zip_vod__c.label}"/>
+                                    <apex:column value="{!rslt.address.Country_vod__c}" headerClass="hasSort" headerValue="{!$ObjectType.Address_vod__c.Fields.Country_vod__c.label}"/>
+                                    <apex:column value="{!rslt.account.Class_of_Trade_MRK__c}" headerClass="hasSort" headerValue="{!$ObjectType.Account.Fields.Class_of_Trade_MRK__c.label}" rendered="{!!isPersonSearch}"/> 
+                                    <apex:column value="{!rslt.account.Class_of_Trade_Sub_MRK__c}" headerClass="hasSort" headerValue="{!$ObjectType.Account.Fields.Class_of_Trade_Sub_MRK__c.label}" />     
+                                    <apex:column value="{!rslt.SAPIds}" headerClass="hasSort" headerValue="SAP Ids" rendered="{!!isPersonSearch}"/> 
+                                    <apex:column value="{!rslt.account.Merck_ID_MRK__c}" headerClass="hasSort" headerValue="{!$ObjectType.Account.Fields.Merck_ID_MRK__c.Label}" />
+                                    <apex:column value="{!rslt.account.Status_MRK__c}" headerClass="hasSort" headerValue="{!$ObjectType.Account.Fields.Status_MRK__c.Label}"/> 
+                                </apex:pageBlockTable>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <br/>
+                    </apex:pageBlock>
+
+                    <script>
+                        var searchResultsPanel = document.getElementById('{!$Component.searchResultsPanel}');
+
+                        j$(searchResultsPanel).addClass('searchResultsPanelColor');
+                    </script>
+                </apex:outputPanel>
+            </div>
+        </apex:pageBlock>
+
+        <script>
+            var searchPanel = document.getElementById('{!$Component.searchPanel}');
+
+            j$(searchPanel).addClass('searchPanelColor');
+        </script>
+    </apex:form>
+
+    <!--Create Account -->
+    <script>
+        var j$ = jQuery.noConflict();
+
+        function closeLightbox() {
+            document.getElementById('createAccountModal').style.display='none';
+            document.getElementById('createAffiliationModal').style.display='none';
+            document.getElementById('modalBackground').style.display='none';
+        }
+
+        //CH ProvenWorks 8/2/2017 - Init the JavaScript once the Create Account popup is displayed. (Note the addition of this function call to lines 560, 565, 570)
+        
+        function pwRefresh(){
+            //console.log('ProvenWorks: Reload scripts');
+            sforce.connection.sessionId = '{!$Api.Session_ID}';
+            ProvenWorks.AutoComplete.Init();
+            ProvenWorks.AddressComplete.Init();
+        }
+
+        function showAccountCreate() {
+            document.getElementById('modalBackground').style.display='block';
+            document.getElementById('createAccountModal').style.display='block';
+        }
+
+        function showAffiliationCreate() {
+            document.getElementById('modalBackground').style.display='block';
+            document.getElementById('createAffiliationModal').style.display='block';
+        }
+
+        function disableButton(buttonId, message){
+            var button = document.getElementById(buttonId);
+            button.disabled = true;
+            j$(button).addClass('btnDisabled');
+            if(message != null){
+                button.value = message;
+            }
+        }
+
+        function enableButton(buttonId, message){
+            var button = document.getElementById(buttonId);
+            button.disabled = false;
+            j$(button).removeClass('btnDisabled');
+            if(message != null){
+                button.value = message;
+            }
+        }
+    </script>
+
+    <div id="modalBackground" class="black_overlay" />
+    <div id="createAccountModal" class="white_content" style="width: 700px; left: 100px;">
+        <apex:outputPanel id="createAccountModalContent">
+            <apex:form id="createAccountForm">
+                <table width="700px">
+                    <tr>
+                        <td style="text-align: center;" colspan="4">
+                            <font size="2"><apex:outputText value="{!$Label.Create_New_Account_Prompt}" escape="false"/></font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <hr width="100%"/>
+                        </td>
+                    </tr>
+                    <tr style="height: 30px;">
+                        <td colspan="4">
+                            <apex:outputLabel for="typeList" value="*{!$ObjectType.Account.Fields.Class_of_Trade_MRK__c.label}" style="margin-right: 5px;"/>
+                            <apex:selectList value="{!selectedType}" id="typeList" multiselect="false" size="1">
+                                <apex:selectOptions value="{!typeNewSelectOptions}"/>
+                                <!-- KRB 9/25/2017 PW - added onComplete Event  -->
+                                <apex:actionSupport action="{!typeSelected}" event="onchange" rerender="createButtons,createErrorMessage,createAccountModalContent" status="changingType" oncomplete="pwRefresh();" />
+                            </apex:selectList>
+                            
+                            <apex:inputField id="hiddenTypeList" value="{!createAccount.Class_of_Trade_MRK__c}" style="display:none;" />
+                        </td>
+                    </tr>
+                    <tr style="{!IF(createAccount.Class_of_Trade_MRK__c != null && createAccount.Class_of_Trade_MRK__c != employeeType && createAccount.Class_of_Trade_MRK__c != consumerType, '','display: none')}">
+                        <td colspan="4">
+                            <apex:outputLabel for="subTypeList" value="*{!$ObjectType.Account.Fields.Class_of_Trade_Sub_MRK__c.label}" style="margin-right: 5px;"/>
+                            <apex:inputField id="subTypeList" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Class_of_Trade_Sub_MRK__c}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <hr width="100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="center">
+                            <apex:pageMessages id="createErrorMessage" rendered="{!didTryCreate}"/>
+                        </td>
+                    </tr>
+                    <!-- START OF BUSINESS NAME FIELDS -->
+                    <tr style="{!IF(!isPersonSearch, '','display: none')}">
+                        <td colspan="1">
+                            <apex:outputLabel for="nameCreateText" value="*{!$ObjectType.Account.Fields.Name.label}" rendered="{!!isPersonSearch}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(!isPersonSearch, '','display: none')}">
+                        <td colspan="1">
+                            <apex:inputText id="nameCreateText" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Preferred_Full_Name_MRK__c}" size="30" maxlength="80" rendered="{!!isPersonSearch}"/>
+                        </td>
+                    </tr>
+                    <!-- END OF BUSINESS NAME FIELDS -->
+                    <!-- START OF PERSON NAME FIELDS -->
+                    <tr style="{!IF(isPersonSearch, '','display: none')}">
+                        <td colspan="1">
+                            <apex:outputLabel for="salutationCreateText" value="{!$ObjectType.Account.Fields.Salutation.label}" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:outputLabel for="firstNameSearch" value="{!$ObjectType.Account.Fields.FirstName.label}" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:outputLabel for="lastNameCreateText" value="*{!$ObjectType.Account.Fields.LastName.label}" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:outputLabel for="suffixCreateText" value="{!$ObjectType.Account.Fields.Suffix_vod__c.label}" rendered="{!isPersonSearch}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(isPersonSearch, '','display: none')}">
+                        <td colspan="1">
+                            <apex:inputField id="salutationCreateText" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Preferred_Salutation_MRK__c}" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:inputText id="firstNameSearch" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Preferred_First_Name_MRK__c}" size="20" maxlength="80" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:inputText id="lastNameCreateText" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Preferred_Last_Name_MRK__c}" size="30" maxlength="80" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="1">                        
+                            <apex:inputField id="suffixCreateText" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Preferred_Suffix_MRK__c}" rendered="{!isPersonSearch}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(isPersonSearch, '','display: none')}">
+                        <td colspan="2">
+                            <apex:outputLabel for="midNameCreate" value="{!$ObjectType.Account.Fields.Middle_vod__c.label}" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="2">
+                            <apex:outputLabel for="phoneSearch" value="{!$ObjectType.Account.Fields.Phone.label}" rendered="{!isPersonSearch}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(isPersonSearch, '','display: none')}">
+                        <td colspan="2">
+                            <apex:inputField id="midNameCreate" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Preferred_Middle_Name_MRK__c}" html-size="40" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="2">
+                           <apex:inputField id="phoneSearch" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Phone}" html-size="40" rendered="{!isPersonSearch}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(isPersonSearch, '','display: none')}">
+                        <td colspan="2">
+                            <apex:outputLabel for="emailCreate" value="{!$ObjectType.Account.Fields.PersonEmail.label}" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="2">
+                            <apex:outputLabel for="faxCreate" value="{!$ObjectType.Account.Fields.Fax.label}" rendered="{!isPersonSearch}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(isPersonSearch, '','display: none')}">
+                        <td colspan="2">
+                            <apex:inputField id="emailCreate" onkeypress="keyPressed(event, 'create');" value="{!createAccount.PersonEmail}" html-size="40" rendered="{!isPersonSearch}"/>
+                        </td>
+                        <td colspan="2">
+                            <apex:inputField value="{!createAccount.Fax}" onkeypress="keyPressed(event, 'create');" html-size="40" rendered="{!isPersonSearch}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(createAccount.Class_of_Trade_MRK__c == hcpType || createAccount.Class_of_Trade_MRK__c == hbpType, '','display: none')}">
+                        <td colspan="1">
+                            <apex:outputLabel for="credentialsCreate" value="{!$ObjectType.Account.Fields.Credentials_vod__c.label}" rendered="{!createAccount.Class_of_Trade_MRK__c == hcpType || createAccount.Class_of_Trade_MRK__c == hbpType}"/>
+                        </td>
+                        <td colspan="1" style="{!IF(isPrescriber, '','display: none')}">
+                            <apex:outputLabel for="specialtyCreate" value="{!$ObjectType.Account.Fields.IMS_Sub_Specialty_MRK__c.label}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(createAccount.Class_of_Trade_MRK__c == hcpType || createAccount.Class_of_Trade_MRK__c == hbpType, '','display: none')}">
+                        <td colspan="1">
+                            <apex:inputField id="credentialsCreate" onkeypress="keyPressed(event, 'create');" value="{!createAccount.Credentials_vod__c}" rendered="{!createAccount.Class_of_Trade_MRK__c == hcpType || createAccount.Class_of_Trade_MRK__c == hbpType}"/>
+                        </td>
+                        <td colspan="3">                        
+                            <apex:inputField id="specialtyGroupCreate" onkeypress="keyPressed(event, 'create');" value="{!createAccount.IMS_Specialty_MRK__c}" rendered="{!isPrescriber}"/><br />
+                            <apex:inputField id="specialtyCreate" onkeypress="keyPressed(event, 'create');" value="{!createAccount.IMS_Sub_Specialty_MRK__c}" rendered="{!isPrescriber}"/>
+                        </td>
+                    </tr>
+                    <!-- END OF PERSON NAME FIELDS -->                            
+                    <script>
+                        nameTextField = document.getElementById ('{!IF(isPersonSearch, $Component.lastNameCreateText, $Component.nameCreateText)}');
+                    </script>
+                    <tr>
+                        <td colspan="4">
+                            <hr width="100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <apex:outputLabel for="address1" value="{!IF(isAddressRequired,'*','') + $ObjectType.Address_vod__c.Fields.Name.label}"/>
+                        </td>
+                        <td colspan="2">
+                            <apex:outputLabel for="address2" value="{!$ObjectType.Address_vod__c.Fields.Address_line_2_vod__c.label}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <apex:inputField id="address1" onkeypress="keyPressed(event, 'create');" value="{!createAddress.Name}" html-size="40" />
+                        </td>
+                        <td colspan="2">
+                            <apex:inputField id="address2" onkeypress="keyPressed(event, 'create');" value="{!createAddress.Address_line_2_vod__c}" html-size="40" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <apex:outputLabel for="cityCreate" value="{!IF(isAddressRequired,'*','') + $ObjectType.Address_vod__c.Fields.City_vod__c.label}"/>
+                        </td>
+                        <td colspan="2">
+                            <apex:outputLabel for="stateCreate" value="{!IF(isStateRequired,'*','') + $ObjectType.Address_vod__c.Fields.State_vod__c.label}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <apex:inputField id="cityCreate" onkeypress="keyPressed(event, 'create');" value="{!createAddress.City_vod__c}" />
+                        </td>
+                        <td colspan="2">
+                            <apex:inputField id="stateCreate" onkeypress="keyPressed(event, 'create');" value="{!createAddress.State_vod__c}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <apex:outputLabel for="zipCreate" value="{!IF(isAddressRequired,'*','') + $ObjectType.Address_vod__c.Fields.Zip_vod__c.label}"/>
+                        </td>
+                        <td colspan="2">
+                            <apex:outputLabel for="countryCreate" value="{!IF(isAddressRequired,'*','') + $ObjectType.Address_vod__c.Fields.Country_vod__c.label}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <apex:inputField id="zipCreate" onkeypress="keyPressed(event, 'create');" value="{!createAddress.Zip_vod__c}" />
+                        </td>
+                        <td colspan="2">
+                            <apex:inputField id="countryCreate" onchange="setSearchAddressCountry(this.value);" onkeypress="keyPressed(event, 'create');" value="{!createAddress.Country_vod__c}" />
+                            <apex:actionFunction name="setSearchAddressCountry" rerender="theForm">
+                                <apex:param name="searchCountry" assignTo="{!searchAddress.Country_vod__c}" value=""/>
+                            </apex:actionFunction>
+                        </td>
+                    </tr>                    
+                    <tr style="{!IF(createAccount.Class_of_Trade_MRK__c == hcpType || createAccount.Class_of_Trade_MRK__c == 'EMPLOYEE', '','display: none')}">
+                        <td colspan="4">
+                            <hr width="100%"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(createAccount.Class_of_Trade_MRK__c == hcpType, '','display: none')}">
+                        <td colspan="1">
+                            <apex:outputLabel for="licenseCreate" value="{!$ObjectType.Address_vod__c.Fields.License_vod__c.label}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(createAccount.Class_of_Trade_MRK__c == hcpType, '','display: none')}">
+                        <td colspan="1">
+                            <apex:inputField id="licenseCreate" onkeypress="keyPressed(event, 'create');" value="{!createAddress.License_vod__c}" rendered="{!createAccount.Class_of_Trade_MRK__c == 'INDIV HEALTHCARE PROF'}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(createAccount.Class_of_Trade_MRK__c == 'EMPLOYEE', '','display: none')}">
+                        <td colspan="1">
+                            <apex:outputLabel for="employeeCompany" value="{!$ObjectType.Account.Fields.MSD_CORE_Employee_Company__c.label}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:outputLabel for="employeeAlias" value="{!$ObjectType.Account.Fields.MSD_CORE_Employee_Alias__c.label}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:outputLabel for="employeeId" value="{!$ObjectType.Account.Fields.MSD_CORE_Merck_Employee_ID__c.label}"/>
+                        </td>
+                    </tr>
+                    <tr style="{!IF(createAccount.Class_of_Trade_MRK__c == 'EMPLOYEE', '','display: none')}">
+                        <td colspan="1">
+                            <apex:inputField id="employeeCompany" onkeypress="keyPressed(event, 'create');" value="{!createAccount.MSD_CORE_Employee_Company__c}" rendered="{!createAccount.Class_of_Trade_MRK__c == 'EMPLOYEE'}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:inputField id="employeeAlias" onkeypress="keyPressed(event, 'create');" value="{!createAccount.MSD_CORE_Employee_Alias__c}" rendered="{!createAccount.Class_of_Trade_MRK__c == 'EMPLOYEE'}"/>
+                        </td>
+                        <td colspan="1">
+                            <apex:inputField id="employeeId" onkeypress="keyPressed(event, 'create');" value="{!createAccount.MSD_CORE_Merck_Employee_ID__c}" rendered="{!createAccount.Class_of_Trade_MRK__c == 'EMPLOYEE'}"/>
+                        </td>
+                    </tr>
+                    <!-- 8.0 Req - Satish: Code changes for Rep Notes on Account creation for SC -->
+                     <tr>
+                        <td>
+                            <apex:outputLabel for="repNotes" value="{!IF(isAddressRequired,'*','') + $ObjectType.Address_vod__c.Fields.MSD_CORE_Rep_Notes__c.label}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:inputField id="repNotes" onkeypress="keyPressed(event, 'create');" value="{!createAddress.MSD_CORE_Rep_Notes__c}" html-size="40" />
+                        </td>
+                    </tr>
+                    <!-- Code Ends here -->
+                    <tr>
+                         <td colspan="4" align="center">
+                            <apex:outputPanel id="createButtons">
+                                 <script>
+                                    var didInsertSucceed = {!didInsertSucceed};
+                                </script>
+                                <br/>
+                                <apex:commandButton id="createAccountButton" action="{!createAccount}" onComplete="if(didInsertSucceed){closeLightbox();}" value="{!IF(isPersonSearch, IF(standAloneSearch, $Label.Create_Account_Button, IF(createReferredBy, $Label.Create_Referred_By_Button, $Label.Create_Requester_Button)), $Label.MSD_CORE_Create_Business)}" rerender="createErrorMessage, searchFields,searchResults, notSearching, addressResults, createAccountModalContent, opHelper, displayPanel,closeTabButton, createAffiliationModalContent" status="createStatus" />
+                                <apex:actionStatus id="changingType" 
+                                    onstart="disableButton('{!$Component.createAccountButton}', null)" 
+                                    onstop="enableButton('{!$Component.createAccountButton}', null)" />
+                                <apex:actionStatus id="createStatus"
+                                    onstart="disableButton('{!$Component.createAccountButton}', '{!$Label.Currently_Creating}')" 
+                                    onstop="enableButton('{!$Component.createAccountButton}', '{!IF(isPersonSearch, IF(standAloneSearch, $Label.Create_Account_Button, IF(createReferredBy, $Label.Create_Referred_By_Button, $Label.Create_Requester_Button)), $Label.MSD_CORE_Create_Business)}')" />
+                                <apex:actionFunction name="createAccount" action="{!enterAccount}" onComplete="if(didInsertSucceed){closeLightbox();}" rerender="createErrorMessage, searchFields,searchResults, notSearching, addressResults, createAccountModalContent, opHelper, displayPanel,closeTabButton, createAffiliationModalContent" status="createStatus" />
+                                &nbsp;&nbsp;
+                                <apex:commandLink value="{!$Label.Document_Search_Cancel}" onclick="closeLightbox()" rerender="createErrorMessage, searchFields,searchResults, notSearching, addressResults, createAccountModalContent, opHelper, displayPanel,closeTabButton">
+                                    <apex:param name="hideRemoveAccountError" assignTo="{!removeAccountError}" value="false" />
+                                </apex:commandLink>
+                            </apex:outputPanel>
+                        </td>
+                    </tr>
+                </table>
+            </apex:form>
+        </apex:outputPanel>
+    </div>
+    <div id="createAffiliationModal" class="white_content">
+        <apex:outputPanel id="createAffiliationModalContent">
+            <script>var didAffiliationCreateSucceed = {!didAffiliationCreateSucceed};</script>
+            <apex:form id="createAffiliationForm">
+                <table width="100%">    
+                    <tr>
+                        <td style="text-align: center;" colspan="2">
+                            <font size="2"><apex:outputText value="{!affiliationPrompt}"/></font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <hr width="100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <apex:pageMessages id="createErrorMessage" rendered="{!didTryCreate}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <apex:outputLabel for="role" value="{!$ObjectType.Child_Account_vod__c.Fields.Role_MRK__c.label}" style="margin-right: 5px;" />
+                            <apex:inputField id="role" value="{!affiliation.Role_MRK__c}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <apex:outputPanel id="affiliationButtons">
+                                <br/>
+                                <apex:commandButton id="createAffiliationButton" action="{!createAffiliation}" 
+                                    value="Create Affiliation" status="createAffiliationStatus" oncomplete="if(didAffiliationCreateSucceed){closeLightbox();closeTab();}" rerender="createErrorMessage, searchFields,searchResults, notSearching, addressResults, createAffiliationModalContent, opHelper, displayPanel,closeTabButton, theForm"/><!-- TODO: Label -->
+                                <apex:actionStatus id="createAffiliationStatus" 
+                                    onstart="disableButton('{!$Component.createAffiliationButton}',null)" 
+                                    onstop="enableButton('{!$Component.createAffiliationButton}', null)" />
+                                <apex:commandButton value="{!$Label.Document_Search_Cancel}" onclick="closeLightbox();closeTab();" rerender="createErrorMessage, searchFields,searchResults, notSearching, addressResults, createAffiliationModalContent, opHelper, displayPanel,closeTabButton, theForm">
+                                </apex:commandButton>
+                            </apex:outputPanel>
+                        </td>
+                    </tr>
+                </table>
+            </apex:form>
+        </apex:outputPanel>
+    </div>
+</apex:page>

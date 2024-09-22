@@ -1,0 +1,71 @@
+<aura:component controller="CaseControllerMVN" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="cs" type="Case"/>
+    <aura:attribute name="isReadOnlyUser" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:if isTrue="{!and(v.cs.RecordType.Name != 'Interaction', v.cs.RecordType.Name != 'Interaction - Closed')}">
+        <article class="slds-card">
+            <div class="slds-path">
+                <div class="slds-grid slds-path__track">
+                    <div class="slds-grid slds-path__scroller-container">
+                        <div class="slds-path__scroller" role="application">
+                            <div class="slds-path__scroller_inner">
+                                <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+                                    <li id="Open" class="{!v.status == 'Open' ? 'slds-path__item slds-is-incomplete slds-is-active' : 'slds-path__item slds-is-incomplete'}" role="presentation" onclick="{!c.updateStatus}">
+                                        <a id="Open" aria-selected="true" class="slds-path__link" href="javascript:void(0);" role="option" tabindex="0">
+                                            <span id="Open" class="slds-path__stage">
+                                                <lightning:icon iconName="utility-sprite:check" alternativeText="Open" />
+                                            </span>
+                                            <span id="Open" class="slds-path__title">Open</span>
+                                        </a>
+                                    </li>
+                                    <aura:if isTrue="{!v.cs.MSD_CORE_Event_Case_Type__c == 'AE and PQC' || v.cs.MSD_CORE_Event_Case_Type__c == 'AE Only' || v.cs.MSD_CORE_Event_Case_Type__c == 'PQC Only'}">
+                                        <li id="Submitted" class="{!v.status == 'Submitted' ? 'slds-path__item slds-is-incomplete slds-is-active' : 'slds-path__item slds-is-incomplete'}" role="presentation" onclick="{!c.updateStatus}">
+                                            <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="Submitted" role="option" tabindex="-1">
+                                                <span class="slds-path__stage" id="Submitted">
+                                                    <lightning:icon iconName="utility-sprite:check" alternativeText="Submitted" />
+                                                </span>
+                                                
+                                                <aura:if isTrue="{!v.status == 'Submitted'}">
+                                                    <span class="slds-path__title" id="Submitted">Submitted</span>
+                                                    <aura:set attribute="else">
+                                                        <span class="slds-path__title" id="Submitted">Submit</span>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </a>
+                                        </li>
+                                    </aura:if>
+                                    <li id="Closed" class="{!v.status == 'Closed' ? 'slds-path__item slds-is-incomplete slds-is-active' : 'slds-path__item slds-is-incomplete'}" role="presentation" onclick="{!c.updateStatus}">
+                                        <a id="Closed" aria-selected="false" class="slds-path__link" href="javascript:void(0);" role="option" tabindex="-1">
+                                            <span id="Closed" class="slds-path__stage">
+                                                <lightning:icon iconName="utility-sprite:check" alternativeText="Approved" />
+                                            </span>
+                                            <aura:if isTrue="{!v.status == 'Closed'}">
+                                                <span class="slds-path__title" id="Closed">Closed</span>
+                                                <aura:set attribute="else">
+                                                    <span class="slds-path__title" id="Closed">Close</span>
+                                                </aura:set>
+                                            </aura:if>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-path__action">
+                        <button id="Cancelled" disabled="{!v.isReadOnlyUser}" class="slds-button slds-button_brand slds-path__mark-complete" style="min-width: auto;" onclick="{!c.removeItem}">
+                            <aura:if isTrue="{!v.status == 'Cancelled'}">
+                                <span class="slds-path__title" id="Cancelled">Cancelled</span>
+                                <aura:set attribute="else">
+                                    <span class="slds-path__title" id="Cancelled">Cancel</span>
+                                </aura:set>
+                            </aura:if>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </aura:if>
+</aura:component>

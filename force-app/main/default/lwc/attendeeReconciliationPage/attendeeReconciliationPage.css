@@ -1,0 +1,101 @@
+.complete-badge-tooltip {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.complete-tooltip {
+    position: absolute;
+    align-self: flex-end;
+    transform: translateX(calc(100% + var(--lwc-spacing-xx-small, 0.25rem)));
+}
+
+.walk-in-counts {
+    display: flex;
+    justify-content: space-evenly;
+    padding-left: 20vw;
+    padding-right: 20vw;
+}
+
+.selected-filters {
+    width: calc(100% - var(--lwc-squareIconMediumBoundary,2rem) - var(--lwc-spacing-small, 0.75rem));
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: var(--lwc-spacing-xx-small, 0.25rem);
+}
+
+.filter-section {
+    display: flex;
+    align-items: end;
+    gap: var(--lwc-spacing-small, 0.75rem);
+}
+
+.filter-button {
+    align-self: start;
+}
+
+.filter-popover {
+    position: fixed;
+    transform: translate(calc(-1 * var(--lwc-squareIconMediumBoundary)), var(--lwc-squareIconMediumBoundary));
+    z-index: 97;
+}
+
+.table-crumbs {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--lwc-spacing-xx-small, 0.25rem);
+}
+
+.truncated-tooltip-icon {
+    --veeva-tooltip-opacity: 0
+}
+
+.truncated-tooltip-icon:hover {
+    --veeva-tooltip-opacity: 1;
+}
+
+.truncated-results-tooltip {
+    position: absolute;
+    opacity: var(--veeva-tooltip-opacity, 0);
+    pointer-events: none;
+    transition-property: opacity;
+    transition-delay: 0.25s;
+    transition-duration: 0.25s;
+    transform: translate(calc(-1 * var(--lwc-squareIconUtilitySmall,1rem) - 2rem), calc(-100% - 1rem));
+}
+
+.slds-nubbin_bottom-left:before, .slds-nubbin_bottom-left:after {
+    left: calc(var(--lwc-spacingLarge,1.5rem) + 1rem); /* nubbin is rotated 45* = 2rem from the bottom left corner, corresponds to the -2rem x translation in truncated-results-tooltip */
+}
+
+.walk-in-table {
+    border-radius: 5px;
+    height: clamp(10vh, 40vh, 60vh);
+}
+
+.no-results {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.footer-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.dismiss-button {
+    display: flex;
+    gap: var(--lwc-spacing-xx-small, 0.25rem);
+}
+
+.new-walk-in-button {
+    width: calc(100% - (2 * var(--lwc-spacingMedium,1rem)));
+    text-align: right;
+    position: absolute;
+}

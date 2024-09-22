@@ -1,0 +1,232 @@
+<apex:page standardController="Case" extensions="CaseRecordTypeControllerMVN" showHeader="false" sidebar="false">
+    <apex:includeScript value="/support/console/31.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    
+    <script>
+        function setTabIcon() {  
+            if("{!scTabSettings.MSD_CORE_Icon__c}" != "")     
+                sforce.console.setTabIcon('{!URLFOR($Resource.GlobalAssetsMVN, scTabSettings.MSD_CORE_Icon__c)}',null);
+        }
+
+        sforce.console.addEventListener(sforce.console.ConsoleEvent.OPEN_TAB, setTabIcon());
+
+        window.onload = function() {
+            setTimeout('setTabIcon()', '1000');
+            
+            setTimeout(function(){
+                $('.preCombo').fadeOut();
+                setTimeout(function(){
+                    $('.preCombo').fadeIn();
+                    setTimeout(function(){
+                        $('.preCombo').fadeOut();
+                        setTimeout(function(){
+                            $('.preCombo').fadeIn();
+                        }, 1000);
+                    }, 2000);
+                }, 1000);
+            }, 2000);
+            
+            //Req # : USVEEV-R-0074 Added by Prasanjeet Sharma START
+            var caseType = '{!Case.MSD_CORE_Event_Case_Type__c}';
+            var profileName = '{!$Profile.Name}';
+            
+            if('{!recordTypeName}' == 'Product Complaint' ||  caseType.indexOf('PQC') != -1)
+                $('#productComplaint').prop('checked', true).prop('disabled', true);
+            else if('{!recordTypeName}' == 'Combo Case' ||  caseType == 'AE and PQC'){
+                $('#productComplaint').prop('checked', true).prop('disabled', true);
+            }
+            
+            var type = $('[id$="type"]').val();
+            if(type != '')
+            {
+                $('[id$="type"] option[value=""]').remove();
+            }
+            
+            if(('{!Case.Status}' != 'Open' && '{!Case.Status}' != '') || profileName.indexOf('Read Only') != -1){
+                $('[id$="type"]').prop('disabled', true);
+                $('#productComplaint').prop('disabled', true);
+            }
+        
+            //Req # : USVEEV-R-0074 Added by Prasanjeet Sharma END
+        }; 
+        
+        function getFocusedSubtabId() {
+            //sforce.console.getFocusedSubtabId(showTabId);
+            //window.top.location.href = '/console';
+            refreshPTab(true);
+        }
+        var showTabId = function showTabId(result) {
+            sforce.console.refreshSubtabById(result.id, true, refreshSuccess);
+        };
+        var refreshSuccess = function refreshSuccess(result) {
+            
+        };
+        
+        //Req # : USVEEV-R-0074 Added by Prasanjeet Sharma START
+        function updateCaseJS(ct)
+        {
+            if('{!Case.Type}' == ''){
+                alert('{!$Label.MSD_CORE_AE_Type}');
+            }else
+                updateCase(ct);
+        }
+        
+        function refreshPTab(isSave) {
+            sforce.console.getPrimaryTabIds(closeSubtab);
+        }
+        
+        //Req # : USVEEV-R-0074 Added by Prasanjeet Sharma END
+        
+        function closeTab() {
+            //First find the ID of the current tab to close it
+            sforce.console.getEnclosingTabId(clseSubtab);
+        }
+        
+        var clseSubtab = function clseSubtab(result) {
+            //Now that we have the tab ID, we can close it
+            var tabId = result.id;
+            sforce.console.closeTab(tabId);
+        };
+        
+        var closeSubtab = function closeSubtab(result) {
+            //Now that we have the tab ID, we can close it
+            var tabId = result.ids;
+            for(var i=0; i < tabId.length; i++)
+            {
+                sforce.console.refreshPrimaryTabById(tabId[i], true, refreshSuccess);
+            }
+        };
+    </script>
+    
+    <style>
+        .column {
+            width: 33%;
+            float: left;
+        }
+        .column label{
+            float: left;
+            font-weight: bold;
+            font-size: 11px;
+            color: #444;
+            padding: 3px 5px 0px 5px;
+        }
+        .row{
+            float: left;
+            width: 100%;
+            margin-top: 20px;
+            border-top: 2px solid #c0be72;
+            padding: 11px 0px 4px 0px;
+            border-bottom: 1px solid #ececec;
+        }
+        .column img{
+            float: left;
+        }
+        div.message{
+            position: relative;
+            padding:1px;
+            background: #BBB;
+            color: #FFF;
+            border:none;
+        }
+
+        div.message.yes{
+            color: #c61a1a;
+            float: left;
+            margin: 0px 0 0;
+            padding: 0;
+            background: #fff;
+        }
+        
+        .imgicon{
+            height: 20px;
+        }
+        
+        .preCombo{
+            float: left;
+            margin-top: -20px;
+            color: #d01313;
+            font-size: 14px;
+            margin-right: 25px;
+            font-weight: bold;
+            text-shadow: 0 3px 5px #ccc;
+        }
+    </style>
+
+    <apex:outputPanel >
+        
+        <!-- KRB DGF-419 Defect Fix 1/13/2020 -->
+        <!--
+        <b>
+            <center>
+                <span style="color: {!scTabSettings.MSD_CORE_Color__c}; font-size: 18px;">
+                     {!if(OR(recordTypeName == 'Combo Case Preview', recordTypeName == 'Combo Case'), 'AE & PQC',recordTypeName)}  
+                </span>
+            </center>
+        </b>
+         -->
+        
+        <apex:outputPanel rendered="{!AND(case.MSD_CORE_Pre_MDCP_Combo__c, OR(case.MSD_CORE_Event_Case_Type__c == 'AE Only', case.MSD_CORE_Event_Case_Type__c = 'PQC Only'))}">
+            <span class="preCombo"> Pre MDCP Combo </span>
+        </apex:outputPanel>
+    
+    
+        <!-- USVEEV-R-0073 Added by Prasanjeet Sharma START -->
+        <apex:outputText escape="false" value="{!$Label.MSD_CORE_AE_PQC_Disclaimer}" rendered="{!isCOMBO}"/>
+        <!-- USVEEV-R-0073 Added by Prasanjeet Sharma END -->
+        <apex:outputText escape="false" value="{!$Label.MSD_CORE_Temp_Excursion_Disclaimer_Not_Supported}" rendered="{!isTempExcursion}"/>
+        <apex:outputText escape="false" value="{!$Label.MSD_CORE_Temp_Excursion_Disclaimer_Supported_Part_1}" rendered="{!isTempExcursion}"/>
+        <apex:outputText escape="false" value="{!$Label.MSD_CORE_Temp_Excursion_Disclaimer_Supported_Part_2}" rendered="{!isTempExcursion}"/>
+    </apex:outputPanel>
+    
+    <br/>
+    
+    <apex:form id="frm" rendered="{!isCombo}">
+        <!--- Req # : USVEEV-R-0074 Added by Prasanjeet Sharma START --->
+        <apex:actionFunction name="updateCase" action="{!updateRecordType}" reRender="pnl" oncomplete="getFocusedSubtabId();">
+            <apex:param value="" name="arg1" assignTo="{!caseRecordTypeName}"/>
+        </apex:actionFunction>
+        
+        <apex:actionFunction name="saveCaseAction" action="{!saveCase}" reRender="pnl" oncomplete="getFocusedSubtabId();">
+        </apex:actionFunction>
+        
+        <apex:outputPanel id="pnl"></apex:outputPanel>
+        <!--- Req # : USVEEV-R-0074 Added by Prasanjeet Sharma END --->
+        
+        <apex:outputText >
+            <!---- USVEEV-R-0083 Added by Prasanjeet Sharma START --->
+            <div id="warningMsgDiv" style="height:10px;">
+                <div  class="yes message" style="display: {!IF(((CASE.MSD_CORE_AE_Hospitalization_or_Prolonged__c = "Yes" || 
+                                                    CASE.MSD_CORE_AE_Sig_Disability_or_Incapacity__c = "Yes" ||
+                                                    CASE.MSD_CORE_AE_Is_Was_AE_Congenital_Anomaly__c = "Yes" ||
+                                                    CASE.MSD_CORE_AE_Is_Was_the_AE_Cancer__c = "Yes" ||
+                                                    CASE.MSD_CORE_AE_Patient_Overdose__c = "Yes" ||
+                                                    CASE.MSD_CORE_AE_Life_Threatening__c = "Yes" ||
+                                                    CASE.MSD_CORE_AE_Intervention_Prevent_Serious__c = "Yes" ||
+                                                    CASE.MSD_CORE_AE_Did_the_Patient_Die__c = "Yes") && CASE.Status == 'Open'),'','none')}">
+                    <h2>Since you have answered “yes” to a serious criteria question, check for an MDCP product to determine if product should be held for possible return</h2>
+                </div>
+            </div> 
+            <!---- USVEEV-R-0083 Added by Prasanjeet Sharma END --->
+        </apex:outputText>
+        
+        <!--- Req # : USVEEV-R-0074 Added by Prasanjeet Sharma START --->
+        <div class="row">
+            <div class="column" style="margin-left: 20%;">
+                <apex:image style="height: auto;" styleClass="imgicon" value="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/adverseEvent-small.png')}"/>
+                <label class="labelCol">Adverse Event Type</label>
+                
+                <apex:inputField value="{!cs.Type}" id="type" style="float: left; width: 150px;" onchange="saveCaseAction();"/>
+            </div>
+            <div class="column">
+                <apex:image style="height: 18px;" styleClass="imgicon" value="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/pqc.png')}"/>
+                <input type="checkbox" name="case" id="productComplaint" label="PQC" onchange="updateCase('Product Complaint');"/>
+                <label class="labelCol">Product Complaint</label>
+            </div>
+        </div>
+        <!--- Req # : USVEEV-R-0074 Added by Prasanjeet Sharma END --->
+    </apex:form>
+    
+    <script type="text/javascript">
+        //setTimeout(function() {document.getElementById('warningMsgDiv').innerHTML='';},12000);
+    </script>   
+</apex:page>

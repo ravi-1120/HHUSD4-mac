@@ -1,0 +1,236 @@
+<template>
+
+    <div>
+        <div>
+            <div class="bannercls">
+                <img class="bannerclsimg" src={bannerimg}>
+
+                <div class="container position_cls">
+                    <!-- Breadcrumbs start -->
+                    <div class="boxshadow_cls slds-wrap slds-p-around_large">
+                        <div class="slds-grid slds-wrap">
+                            <a href={siteNames.Dashboard} class="breadcrumbs mobreq" onclick={dashnavclick} data-name="Dashboard"> Dashboard </a>
+                            <span class="breadcrumbsspan  mobreq nonecls">/</span>
+                            <a href={pendingRequests} class="breadcrumbs middisplaynone" onclick={reqappnavclick} data-name="Requests & Appointments">Requests &
+                                Appointments</a>
+                            <span class="breadcrumbsspan">/</span>
+                            <span class="breadcrumbs displaynone">...</span>
+                            <span class="displaynone breadcrumbsspan">/</span>
+                            <span  class="breadcrumbsline dispalycase">
+                                {meetingReqData.RequestName}:{meetingReqData.MeetSFName}</span>
+                        </div>
+                        <!-- Breadcrumbs end -->
+                        <div>
+                            <div class="status_cls">
+                                <p class="status_txt">{meetingReqData.Status}</p>
+                            </div>
+                            <div class="header_cls">
+                                <h1>Request {meetingReqData.RequestName}: {meetingReqData.MeetSFName}</h1>
+                            </div>
+                            <template if:true={meetingReqData.isPendingReq}>
+                                <div class="pending_btncls">
+                                    <div class="editMain_cls">
+                                        <div class="edit_btn" onclick={handleRequestEdit} data-cname={meetingReqData.MeetSFName}> <!--RT GA bug-->
+                                            <img src={editimg}>
+                                            <p>Edit request</p>
+                                        </div>
+                                    </div>
+                                    <div class="buttonMain_cls">
+                                        <div class="cancel_btn" onclick={openmodalpopup} data-cname={meetingReqData.MeetSFName} >
+                                            <img src={crossimg}>
+                                            <p>Cancel request</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:true={meetingReqData.isScheduleReq}>
+                                <div class="buttonMain_cls">
+                                    <div class="cancel_btn" onclick={openmodalpopup} data-cname={meetingReqData.MeetSFName}>
+                                        <img src={crossimg}>
+                                        <p>Cancel request</p>
+                                    </div>
+                                </div>
+                            </template>
+                            <div>
+                                <h2 class="req_padding">Requested topics</h2>
+                                <div>
+                                    <div class="selectedval_cls">
+                                        <template for:each={meetingReqData.ScheduleFilter} for:item="schedulefilter">
+                                            <p class="selectedval_data" key={schedulefilter}>{schedulefilter}</p>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <template if:true={isPending}><p class="appheader">Preferred appointment times </p></template>
+                                <template if:false={isPending}><p class="appheader">Appointment time</p></template>
+                                <div class="appointmentmain">
+                                    <template if:true={meetingReqData.isPendingReq}>
+                                        <template for:each={meetingReqData.appointments} for:item="appointmentTime">
+                                            <div class="appointment" key={appointmentTime}>
+                                                <img class="appimg" src={calenderimg}>
+                                                <div class="appdate_cls">
+                                                    <div class="meetdate">{appointmentTime.meetingDate}</div>
+                                                    <p class="meettime">{appointmentTime.meetingTime}</p>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={meetingReqData.isPendingReq}>
+                                        <div class="appointment">
+                                            <img class="appimg" src={calenderimg}>
+                                            <div class="appdate_cls">
+                                                <lightning-formatted-date-time class="meetdate"
+                                                    value={meetingReqData.StartTime} year="numeric" month="long"
+                                                    day="2-digit" weekday="long" time-zone={USER_Time_zone}>
+                                                </lightning-formatted-date-time><br>
+                                                <lightning-formatted-date-time class="meettime"
+                                                    value={meetingReqData.StartTime} hour="2-digit" minute="2-digit"
+                                                    time-zone={USER_Time_zone}>
+                                                </lightning-formatted-date-time>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="meetpre_cls">
+                                    <div class="meetres_cls meetpad_cls">
+                                        <h1>Meeting preference</h1>
+                                        <p>{meetingReqData.Preference}</p>
+                                    </div>
+                                    <template if:true={meetingReqData.isClosedReq}>
+                                        <div class="meetres_cls ">
+                                            <h1>Resolution</h1>
+                                            <p>{meetingReqData.Resoulution}</p>
+                                            <!-- <div class="processdata">
+                                                &bull; &nbsp; <p>You submitted this request on &nbsp;
+                                                    <lightning-formatted-date-time value={meetingReqData.scheduledDate}
+                                                        year="numeric" month="long" day="2-digit" hour="2-digit"
+                                                        minute="2-digit" time-zone={USER_Time_zone}>
+                                                    </lightning-formatted-date-time>
+                                                </p>
+                                            </div> -->
+                                        </div>
+                                    </template>
+                                </div>                                
+                            </div>
+                            <div class="progress_cls">
+                                <div class="progressbox_cls">
+                                    <div class="reqheader_cls">
+                                        <div class="imgdiv">
+                                            <img class="img" src={Bookimg}>
+                                        </div>
+                                        <h1 class="">Request progress</h1>
+                                    </div>
+                                    <!--Rusheel-start-->
+                                    <template if:true={meetingReqData.isPendingReq}>
+                                        <div  class="processdata ">
+                                            <li class="reqmsgcl">Request submitted,&nbsp;
+                                                <lightning-formatted-date-time value={meetingReqData.scheduledDate}
+                                                    year="numeric" month="long" day="2-digit" hour="2-digit"
+                                                    minute="2-digit" time-zone={USER_Time_zone}>
+                                                </lightning-formatted-date-time>
+                                            </li>
+                                        </div>
+                                    </template>
+                                    <template if:true={meetingReqData.isScheduleReq}>
+                                        <div   class="req_box slds-p-around_medium requestcontent">
+                                            <li class="reqmsgcl">Request submitted,&nbsp;
+                                                <lightning-formatted-date-time value={meetingReqData.scheduledDate}
+                                                    year="numeric" month="long" day="2-digit" hour="2-digit"
+                                                    minute="2-digit" time-zone={USER_Time_zone}>
+                                                </lightning-formatted-date-time>
+                                            </li>
+                                            <li class="reqmsgcl">Appointment scheduled by&nbsp;<span>{meetingReqData.executiveFname}
+                                                {meetingReqData.executiveLname},</span>&nbsp;<lightning-formatted-date-time year="numeric" time-zone={USER_Time_zone} 
+                                                value={meetingReqData.setDefaultime} 
+                                                month="long" day="2-digit" hour="numeric" minute="2-digit" >
+                                                </lightning-formatted-date-time>
+                                            </li> 
+                                        </div>
+                                    </template>
+                                    <template if:true={meetingReqData.isClosed}>
+                                        <div  class="req_box slds-p-around_medium requestcontent">
+                                            <li class="reqmsgcl">Request submitted,&nbsp;
+                                                <lightning-formatted-date-time value={meetingReqData.scheduledDate}
+                                                    year="numeric" month="long" day="2-digit" hour="2-digit"
+                                                    minute="2-digit" time-zone={USER_Time_zone}>
+                                                </lightning-formatted-date-time>
+                                            </li>
+                                            <!-- <template if:true={meetingReqData.isscheduled}> -->
+                                                <li class="reqmsgcl">Appointment scheduled by&nbsp;<span>{meetingReqData.executiveFname}
+                                                    {meetingReqData.executiveLname},</span>&nbsp;
+                                                    <lightning-formatted-date-time year="numeric" time-zone={USER_Time_zone} 
+                                                        value={meetingReqData.setDefaultime} 
+                                                        month="long" day="2-digit" hour="numeric" minute="2-digit" >
+                                                    </lightning-formatted-date-time>
+                                                </li>
+                                            <!-- </template> -->
+                                            <!-- <template if:true={meetingReqData.isscheduled}> -->
+                                                <li class="reqmsgcl">Appointment completed by&nbsp;<span>{meetingReqData.executiveFname}
+                                                    {meetingReqData.executiveLname},</span>&nbsp;<lightning-formatted-date-time year="numeric" 
+                                                    time-zone={USER_Time_zone} 
+                                                    value={meetingReqData.completionDate} 
+                                                    month="long" day="2-digit" hour="numeric" minute="2-digit" >
+                                                    </lightning-formatted-date-time>
+                                                </li>
+                                            <!-- </template> -->
+                                        </div>
+                                    </template>
+                                    <template if:true={meetingReqData.isCancelled}>
+                                        <div  class="req_box slds-p-around_medium requestcontent">
+                                            <li class="reqmsgcl">Request submitted,&nbsp;
+                                                <lightning-formatted-date-time value={meetingReqData.scheduledDate}
+                                                    year="numeric" month="long" day="2-digit" hour="2-digit"
+                                                    minute="2-digit" time-zone={USER_Time_zone}>
+                                                </lightning-formatted-date-time>
+                                            </li>
+                                            <template if:true={meetingReqData.isscheduledCanceled}>
+                                                <li class="reqmsgcl">Appointment scheduled by&nbsp;<span>{meetingReqData.executiveFname}
+                                                    {meetingReqData.executiveLname},</span>&nbsp;
+                                                    <lightning-formatted-date-time year="numeric" time-zone={USER_Time_zone} 
+                                                        value={meetingReqData.setDefaultime} 
+                                                        month="long" day="2-digit" hour="numeric" minute="2-digit" >
+                                                    </lightning-formatted-date-time>
+                                                </li>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <!--Rusheel-end-->
+                                    <div class="progressbar">
+                                        <c-m-s-d_-c-o-r-e_-request-bar></c-m-s-d_-c-o-r-e_-request-bar>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <template if:true={cancelreq_pop}>
+            <div>
+                <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                    class="slds-modal popupheight slds-fade-in-open">
+                    <div class="slds-modal slds-fade-in-open">
+                        <div class="popup_container slds-modal__container">
+                            <div class="popupheader slds-modal__header">
+                                <p class="popupheader_text"> Cancel request</p>
+                                <div class="popupimgdiv" data-name={meetingReqData.MeetSFName} onclick={closemodalpopup}> <img src={crossimg}></div> 
+                            </div>
+                            <div class="popupbody slds-modal__content">
+                                <p>Are you sure you want to cancel this request for <a class="popup_reqtops_link"><span onclick={viewRequestDetail} data-cont={meetingReqData.MeetSFName}>{meetingReqData.MeetSFName}</span></a>?</p>
+                                <p style="color: #333333">If you cancel, you will have to submit a new request.</p>
+                            </div>
+                            <div class="popupfooter slds-modal__footer">
+                                <div class="popbutton1" data-name={meetingReqData.MeetSFName} onclick={navigateToDashboard}>Go to dashboard</div>
+                                <div class="popbutton2" data-name={meetingReqData.MeetSFName} onclick={cancelMeetingReq}>Yes, I want to cancel this request</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+            </div>
+        </template>
+    </div>
+</template>

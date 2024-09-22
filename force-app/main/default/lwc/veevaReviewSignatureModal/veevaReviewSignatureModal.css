@@ -1,0 +1,23 @@
+.logo-position-review {
+    position: relative;
+    display: block;
+    float: left;
+    border-radius: 4px;
+    padding: 5%;
+}
+.logo-size {
+    max-width: 700px;
+    max-height: 300px;
+}
+img {
+    display:block;
+}
+.image-border {
+  width: 100%;
+  background-color: white;
+  border: 1px solid #A6A6A6;
+  border-radius: 5px;
+}
+.right-button-margins {
+    margin-left: 12px;
+}

@@ -1,0 +1,122 @@
+<template>
+	<div class="dr-form">
+		<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+			<lightning-input name="searchLabel" value={searchKey} class="con-search" onchange={handleSearchKeyChange}
+				onselect={handleSearch} onblur={hideDropdown} placeholder={labels.search} label={label}
+				message-when-value-missing={erromsg} style="font-family: 'InventionRg';" required={requiredField}>
+			</lightning-input>
+			<lightning-icon icon-name="utility:search" size="x-small" alternative-text="Search"
+				class="slds-input__icon slds-input__icon_right" style="margin-top: 35px;cursor:pointer;">
+			</lightning-icon>
+		<template if:true={showDropdown}>
+			<div class="dr-form dr-form-dropdown">
+				<ul class="slds-dropdown slds-dropdown_length-with-icon-10 slds-dropdown_fluid dropdown-cls"
+					 tabindex="-1" role="presentation">
+					<li class="slds-listbox__item hover-cls">
+						<lightning-icon icon-name="utility:search" size="xx-small" style="margin-right: 8px;">
+						</lightning-icon>
+						<span style="font-size: 14px;line-height: 22px;">{labels.showResults} {searchKey}</span>
+					</li>
+					<ul>
+					<template for:each={records} for:item="record">
+						<div key={record.Id} data-id={record.Id}
+							class="slds-listbox__item hover-cls" style="width: 100%;" onclick={handleSelectRecord}>
+							<li role="option" data-id={record.Id} class="slds-truncate"
+								style="width:100%">
+								{record.Name}</li>
+						</div>
+					</template>
+					</ul>
+					<template if:true={createRecord1}>
+						<li class="slds-listbox__item hover-cls" onclick={handleOpenModal} style="width:100%">
+							<lightning-icon icon-name="utility:add" size="x-small" style="margin-right:8px;">
+							</lightning-icon>
+							<span>{labels.newContact}</span>
+						</li>
+					</template>
+				</ul>
+			</div>
+		</template>
+		</div>
+		<section role="dialog" if:true={isshow} class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<div class="slds-modal__content dr-form">
+					<!-- <p class="slds-hyphenate">New PDS Contact</p> -->
+					<p class="slds-hyphenate">{titleText}</p>
+					<!-- <lightning-record-form object-api-name={sObjectApiName} columns="2" oncancel={handleCloseModal}
+					layout-type="Compact" onsuccess={handleSuccess}>
+				</lightning-record-form> -->
+					<lightning-input label={labels.contactName} onchange={handleChange} data-name="name" class="name-cls"
+						message-when-value-missing={labels.nameErrorMsg} max-length="80" required value={userName}>
+					</lightning-input>
+					<div class="modal-content">
+						<lightning-input type="text" label={labels.unit} data-name="unit" required class="add-cls"
+							message-when-value-missing={labels.unitErrorMsg} maxlength="50" onchange={handleChange} value={unit}>
+						</lightning-input>
+
+						<lightning-input type="text" label={labels.organization} data-name="organization" required
+							message-when-value-missing={labels.orgErrorMsg} maxlength="100" class="add-cls" value={organization}
+							onchange={handleChange}>
+						</lightning-input>
+					</div>
+					<div class="address-div">
+						<div class="address-firstdiv">
+							<lightning-input label={labels.addressOne} onchange={handleChange} data-name="street" value={street}
+								message-when-value-missing={labels.addErrorMsg} max-length="100" required>
+							</lightning-input>
+						</div>
+						<div class="address-secondiv" style="width: 100%;">
+							<lightning-input label={labels.addressTwo} data-name="addone" class="add-cls" max-length="100" value={addone}
+								onchange={handleChange}>
+							</lightning-input>
+							<lightning-input label={labels.addressThree} data-name="addtwo" class="add-cls" max-length="100" value={addtwo}
+								onchange={handleChange}>
+							</lightning-input>
+						</div>
+					</div>
+					<div class="modal-content">
+						<lightning-combobox label={labels.countryTxt} options={countryoption} data-name="country" value={country}
+							class="input-cls" onchange={handleChange} placeholder="Select"
+							message-when-value-missing={labels.countryErrorMsg} required></lightning-combobox>
+						<lightning-input label={labels.stateTxt} data-name="state" class="input-cls" max-length="50" value={state}
+							onchange={handleChange}>
+						</lightning-input>
+						<lightning-input label={labels.zip} data-name="zipcode" class="input-cls" onchange={handleChange} value={zipcode}
+							message-when-value-missing={labels.zipErrorMsg} max-length="10" required>
+						</lightning-input>
+					</div>
+					<div class="modal-content">
+						<lightning-input label={labels.phoneOne} data-name="phone" type="tel" class="input-cls" value={phone}
+							onchange={handleChange} message-when-value-missing={labels.phoneErrorMsg} pattern="[0-9-]*" message-when-pattern-mismatch="Please enter valid Phone number"
+							max-length="15" required>
+						</lightning-input>
+						<lightning-input label={labels.phoneTwo} data-name="mobile" type="tel" class="input-cls" pattern="[0-9-]*" message-when-pattern-mismatch="Please enter valid Phone number"
+							onchange={handleChange} max-length="15" value={mobile}>
+						</lightning-input>
+						<lightning-input label={labels.faxNumber} data-name="fax" type="tel" class="input-cls" pattern="[0-9]*" message-when-pattern-mismatch="Please enter valid Fax number"
+							onchange={handleChange} max-length="15" value={fax}>
+						</lightning-input>
+					</div>
+					<div class="modal-content">
+						<lightning-input label={labels.emailAddOne} type="email" data-name="email" class="input-cls" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" message-when-pattern-mismatch="Please enter a valid email"
+							onchange={handleChange} message-when-value-missing={labels.emailErrorMsg} max-length="40" value={email} required>
+						</lightning-input>
+						<lightning-input label={labels.emailAddTwo} type="email" data-name="emailtwo" max-length="40" class="input-cls" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" message-when-pattern-mismatch="Please enter a valid email"
+							onchange={handleChange} value={emailtwo}>
+						</lightning-input>
+						<lightning-input label={labels.emailAddThree} type="email" data-name="emailthree" max-length="40" class="input-cls" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" message-when-pattern-mismatch="Please enter a valid email"
+							onchange={handleChange} value={emailthree}>
+						</lightning-input>
+					</div>
+					<footer class="footer">
+						<button onclick={handleCloseModal} class="cancel-btn">{labels.cancelBtn}</button>
+						<lightning-button class="lt-button" onclick={handlenext} label={btnText}></lightning-button>
+					</footer>
+				</div>
+
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open" if:true={isshow}></div>
+	</div>
+
+</template>

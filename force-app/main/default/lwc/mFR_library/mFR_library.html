@@ -1,0 +1,284 @@
+<template>
+
+	<div class="container librarypg">
+		<div class="c-container libraryhead">
+			<a href={navigatedashboard} class="p1" onclick={handledashboard}>Dashboard</a>
+			<a class="cursorcls"><span class="p2"> / </span></a>
+			<a class="cursorcls"><span class="p3 p3o"> Library </span></a>
+			<p class="p4"><text> Library </text></p>
+            <p class="para cursorcls"> Access all of your saved resources in a personalized collection. Start saving resources by
+				<a class="p5" data-name="ProductList" onclick={navigatepage}><span class="browsing"> browsing the catalog </span> </a>for approved Merck products.
+			</p>
+		</div>
+		
+		<template if:true={isproduct}>
+			<lightning-layout padding="around-small" class="librarycard">
+				<lightning-layout-item padding="around-large" class="sdlcard">
+					<template for:each={pageProducts} for:item="prods" class="sdlcard1">
+						<template if:true={prods.Libraries__r}>
+							<lightning-layout-item key={prods.Name} class="slds-var-p-around_x-small">
+								<lightning-card class="sdlcard2">
+									<div class="slds-grid slds-wrap mob-card">
+										<div class="slds-col slds-size_10-of-12 slds-large-size_7-of-12">
+											<div class="titletext">
+												<a class="b cursorcls">
+													<p key={prods.Name} class="prodheading">
+														{prods.Name}</p>
+												</a>
+												<a class="b cursorcls">
+													<p key={prods.Name} class="slds-p-left_large mob-prod-description">
+														{prods.MSD_CORE_Generic_Name__c}
+														{prods.MSD_CORE_Dosage_Form_and_Strength__c}
+														<br><b>{prods.MSD_CORE_Product_Description__c}</b></br>
+													</p>
+												</a>
+											</div>
+
+											<div class="pdflinks" if:true={prods.MSD_CORE_Prescribing_Information__c}>
+												<div class="slds-grid mob_description">
+												<div class="slds-grid">
+													<div class="">
+														<img src={presinfo}>
+													</div>
+													<div class="pinfotext">
+														<span class="pinfo">
+															<a key={prods.Id} target="_blank" 
+																href={prods.MSD_CORE_Prescribing_Information__c} data-prodlabel="pi.pdf" data-prodname={prods.Name} 
+																data-prodpath={prods.MSD_CORE_Prescribing_Information__c} data-urltext="Prescribing Information" onclick={handlePreInfo}>
+																Prescribing information
+															</a>
+														</span>
+														</div>
+													</div>
+													<div if:true={prods.MSD_CORE_Patient_information__c}>
+														<div class="slds-grid">
+															<div class="">
+																<img src={presinfo}>
+															</div>
+															<div class="pinfotext">
+																<span class="patinfocls">
+																	<a key={prods.Id} target="_blank"
+																	href={prods.MSD_CORE_Patient_information__c} class="patinfo" data-prodlabel="ppi.pdf" data-prodname={prods.Name} 
+																data-prodpath={prods.MSD_CORE_Patient_information__c} data-urltext="Patient Information" onclick={handlePreInfo}
+																	>Patient information</a></span>
+															</div>
+														</div>
+													</div>
+													<div if:true={prods.MSD_CORE_Instructions_For_Use_Link__c}>
+														<div class="slds-grid">
+															<div class="">
+																<img src={presinfo}>
+															</div>
+															<div class="pinfotext">
+																<span class="patinfocls">
+																	<a key={prods.Id} target="_blank"
+																	href={prods.MSD_CORE_Instructions_For_Use_Link__c} class="patinfo" data-prodlabel="ppi.pdf" data-prodname={prods.Name} 
+																data-prodpath={prods.MSD_CORE_Instructions_For_Use_Link__c} data-urltext={prods.MSD_CORE_Instructions_For_Use_Link__c} onclick={handleLinkClick}
+																	>{prods.MSD_CORE_Instructions_For_Use_Label__c}</a></span>
+															</div>
+														</div>
+													</div>
+													<div if:true={prods.MSD_CORE_Medication_Guide__c}>
+														<div class="slds-grid">
+															<div class="">
+																<img src={presinfo}>
+															</div>
+															<div class="pinfotext">
+																<span class="patinfocls">
+																	<a key={prods.Id} target="_blank" 
+																	href={prods.MSD_CORE_Medication_Guide__c} class="patinfo" data-prodlabel="mg.pdf" data-prodname={prods.Name} 
+																	data-prodpath={prods.MSD_CORE_Medication_Guide__c} data-urltext="Medication Guide" onclick={handlePreInfo}
+																		>Medication guide</a></span>
+															</div>
+														</div>
+													</div>
+													</div>
+													</div>
+												</div>
+										<div class="slds-col slds-size_5-of-12 mob-card-box">
+											<div class="panel-right">
+												<!-- Class [mob-saved-btn] added for moblile responsive-->
+												<div class="button2 mob-saved-btn tab_cls slds-m-right_medium" data-name="Save"
+													data-id={prods.Id} data-prodname={prods.Name} onclick={redirectpage}>
+													<div class="b6">
+														<c-mfrproduct-res-count product={prods.Id} ongahandler={handleGAEventSaved}>
+														</c-mfrproduct-res-count>
+													</div>
+													<div>
+														<span class="reddot"></span>
+														&nbsp;<span class="spnname">Saved</span>
+													</div>
+												</div>
+
+												<!-- Class [mob-appointments-btn] added for moblile responsive-->
+												<div class="button2 mob-appointments-btn tab_cls slds-m-right_medium" data-name="Appointment" data-prodname={prods.Name}
+													data-id={prods.Id} onclick={redirectpage}>
+													<div class="b6">
+														<c-mfr-appointmentcount product={prods.Id} ongahandler={handleGAEventApp}>
+														</c-mfr-appointmentcount>
+													</div>
+													<span class="spnname">Appointments</span>
+												</div>
+												
+												<!-- Class [mob-requests-btn] added for moblile responsive-->
+												<div class="button2 mob-requests-btn tab_cls slds-m-right_medium" data-name="Request" data-prodname={prods.Name}
+													data-id={prods.Id} onclick={redirectpage}>
+													<div class="b6">
+														<c-mfr-pendingcount product={prods.Id} ongahandler={handleGAEventReq}>
+														</c-mfr-pendingcount>
+													</div>
+													<span class="spnname">Requests</span>
+												</div>
+												<div class="img">
+													<a class="hoverstyle">
+														<div onclick={navigate} data-prodname={prods.Name} data-id={prods.Id}><img class="arrowstyle"
+																src={resarrow}></div>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</lightning-card>
+							</lightning-layout-item>
+						</template>
+						<template if:true={prods.Meeting_Requests__r}>
+							<template if:false={prods.Libraries__r}>
+								<lightning-layout-item key={prods.Name} class="slds-var-p-around_x-small">
+									<lightning-card class="sdlcard2">
+										<div class="slds-grid  slds-wrap mob-card">
+											<div class="slds-col slds-size_10-of-12 slds-large-size_7-of-12">
+												<div class="titletext">
+													<a class="b cursorcls">
+														<h1 key={prods.Name} class="prodheading">
+															{prods.Name}</h1>
+													</a>
+													<a class="b cursorcls">
+														<p key={prods.Name} class="slds-p-left_large mob-prod-description">
+															{prods.MSD_CORE_Generic_Name__c}
+														{prods.MSD_CORE_Dosage_Form_and_Strength__c}
+														<br><b>{prods.MSD_CORE_Product_Description__c}</b></br>
+														</p>
+													</a>
+												</div>
+
+												<div class="pdflinks" if:true={prods.MSD_CORE_Prescribing_Information__c}>
+													<div class="slds-grid mob_description">
+													<div class="slds-grid">
+														<div class="">
+															<img src={presinfo}>
+														</div>
+														<div class="pinfotext">
+															<span class="piinfocls">
+															<a key={prods.Id} target="_blank" 
+																href={prods.MSD_CORE_Prescribing_Information__c}>Prescribing
+																Information</a></span>
+															</div>
+														</div>
+														<div if:true={prods.MSD_CORE_Patient_information__c}>
+															<div class="slds-grid">
+																<div class="">
+																	<img src={presinfo}>
+																</div>
+																<div class="pinfotext">
+																	<span class="ptinfocls">
+																	<a key={prods.Id} target="_blank" 
+																		href={prods.MSD_CORE_Patient_information__c}>Patient
+																		Information</a></span>
+																</div>
+															</div>
+														</div>
+														<div if:true={prods.MSD_CORE_Medication_Guide__c}>
+														<div class="slds-grid">
+															<div class="">
+																<img src={presinfo}>
+															</div>
+															<div class="pinfotext">
+																<span class="patinfocls">
+																<a key={prods.Id} target="_blank" class="patinfo"
+																	href={prods.MSD_CORE_Medication_Guide__c}>Medication Guide</a></span>
+															</div>
+														</div>
+													</div>
+														</div>
+													</div>
+
+												</div>
+											<div class="slds-col slds-size_5-of-12 mob-card-box">
+												<div class="panel-right">
+													<!-- Added mob-saved-btn class for mobile screen -->
+													<div class="button2 mob-saved-btn tab_cls slds-m-right_medium" data-name="Save" data-prodname={prods.Name}
+														data-id={prods.Id} onclick={redirectpage}>
+														<div class="b6">
+															<c-mfrproduct-res-count product={prods.Id} ongahandler={handleGAEventSaved}>
+															</c-mfrproduct-res-count>
+														</div>
+														<div>
+															<span class="reddot"></span>
+															&nbsp;<span class="spnname">Saved</span>
+														</div>
+													</div>
+													<!-- Added mob-appointments-btn class for mobile screen -->
+													<div class="button2 mob-appointments-btn tab_cls slds-m-right_medium" data-name="Appointment" data-prodname={prods.Name}
+														data-id={prods.Id} onclick={redirectpage}>
+														<div class="b6">
+															<c-mfr-appointmentcount product={prods.Id} ongahandler={handleGAEventApp}>
+															</c-mfr-appointmentcount>
+														</div>
+														<span class="spnname">Appointments</span>
+													</div>
+													<!-- Added mob-requests-btn class for mobile screen -->
+													<div class="button2 mob-requests-btn tab_cls slds-m-right_medium" data-name="Request" data-prodname={prods.Name}
+														data-id={prods.Id} onclick={redirectpage}>
+														<div class="b6">
+															<c-mfr-pendingcount product={prods.Id} ongahandler={handleGAEventReq}>
+															</c-mfr-pendingcount>
+														</div>
+														<span class="spnname">Requests</span>
+													</div>
+													<div class="img">
+														<a class="hoverstyle">
+															<div onclick={navigate} data-prodname={prods.Name} data-id={prods.Id}><img
+																	class="arrowstyle" src={resarrow}></div>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</lightning-card>
+								</lightning-layout-item>
+							</template>
+						</template>
+					</template>
+				</lightning-layout-item>
+				<lightning-layout-item>
+
+				</lightning-layout-item>
+			</lightning-layout>
+		</template>
+
+		<template if:false={isproduct}>
+			<div class="box">
+				<div class="norecords">
+					You don’t have any saved resources at this time.
+				</div>
+				<div class="bottomP">
+					<button class="buttonPP" data-name="ProductList" onclick={navigatepage}>
+						Browse product catalog
+						<img class="arrclass" src={warrow}>
+					</button>
+				</div>
+			</div>
+		</template>
+
+		<template if:true={error}>
+			{error}
+		</template>
+	</div>
+
+	<template if:true={showPagination}>
+		<div  class="slds-align_absolute-center">
+			<c-do-pagination  page-size={pageSize} total-count={totalCount} onmycustomevent={handleCustomEvent}>
+			</c-do-pagination>
+		</div>
+	</template>
+</template>

@@ -1,0 +1,16 @@
+<template>
+    <div>
+        <div class="clinical">
+            <h1>View on clinicaltrials.gov</h1>
+            <div class="clinicalmaincls">
+                <template for:each={clinicaltrialdata} for:item="clt">
+                    <a href={clt.MSD_CORE_Clinicaltrial_URL__c} data-linkname={clt.Name} target="_blank" key={clt.Id} onclick={linkclick}>
+                        {clt.Name}
+                        <img src={navigateicon}>
+                    </a>
+                    <br key={clt.Id}/>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

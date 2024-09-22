@@ -1,0 +1,91 @@
+<aura:component extends="c:ComponentUtils" controller="MSD_CORE_KnowledgeAttachmentController" implements="lightning:isUrlAddressable,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    
+    <!--KRB 1/8/2020 Defect Fix --> 
+    <aura:attribute name="showUploadButton" type="Boolean" default="true" />
+    
+    <aura:attribute name="accept" type="List" default="['.csv', '.jpg', '.jpeg', '.pdf', '.png', '.docx', '.pptx']"/>
+    <aura:attribute name="multiple" type="Boolean" default="false"/>
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    <aura:attribute name="showAsTable" type="Boolean" default="false"/>
+    <aura:attribute name="attachmentSize" type="Integer" />
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name="attType" type="String" default="Article attachment"/>
+    <aura:attribute name="userProfile" type="String" />
+    <aura:attribute name="attList" type="Object[]"/>
+    <aura:attribute name="attachments" type="MSD_CORE_CC_AttachmentsController.AttachmentWrapper"/>
+    <aura:attribute name="attIdList" type="List"/>
+    <aura:attribute name="publishStatus" type="String"/>
+    <aura:attribute name="approvalStatus" type="String"/>     
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:method name="resetList" action="{!c.doAction}"/>  
+    
+    <aura:if isTrue ="{!or(v.publishStatus == 'Online', v.approvalStatus == 'Submitted for Approval')}" >        
+        <div class=" slds-box  slds-box_x-small slds-theme--default slds-align_absolute-center slds-text-heading_small">
+            <p style= "color:red;">Approval Documenatation can not be added to the  Published articles or Submitted articles .</p>
+        </div>
+        <br></br>
+        <div class = "slds-align_absolute-center">
+            <button class="slds-button slds-button_brand"  Style="align:center;" onclick="{!c.doCancel}">Cancel</button>
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue = "{!and(v.publishStatus == 'Draft', v.approvalStatus !='Submitted for Approval')}">                  
+        <div class="flexipageComponent">
+            <div class="container forceRelatedListSingleContainer">
+                <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                                <div class="extraSmall forceEntityIcon">
+                                    <span class="uiImage"  />
+                                    <lightning:icon iconName="standard:file" size="small" ></lightning:icon>
+                                </div>
+                            </div>
+                            <div class="slds-media__body" >
+                                <h2 id="header">
+                                    <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" >New Attachment</span>
+                                    <span class="slds-text-heading--small slds-shrink-none slds-m-right--xx-small" ></span>
+                                </h2>
+                            </div>
+                        </header>
+                    </div>
+                    <div class="slds-card__body" style="padding: 0px 10px;">
+                        <div class="previewMode SMALL forceRelatedListPreview" >
+                            <div class="slds-grid_pull-padded slds-card__body_inner" >
+                                <aura:if isTrue="{!v.userProfile != 'MSD_CORE Contact Center - Read Only User'}">
+                                    <!--<div style="width: 250px;">
+                                    <lightning:select value="{!v.attType}" name="select1" label="Attachment Type" required="true">
+                                        <option value="Article attachment">Article attachment</option>
+                                        <option value="Approval documentation">Approval documentation</option>
+                                    </lightning:select>
+                                </div>-->
+                                    
+                                    <lightning:input aura:id="fileId" onchange="{!c.handleFilesChange}" type="file" name="file" multiple="false"/>
+                                    <div class="slds-text-body_small slds-text-color_error"><aura:unescapedHtml value="{!v.fileName}"/></div>
+                                    
+                                    <!--use aura:if for show-hide the loading spinner image--> 
+                                    <aura:if isTrue="{!v.showLoadingSpinner}">
+                                        <div class="slds-text-body_small slds-text-color_error">Uploading... 
+                                            <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>'
+                                        </div>
+                                    </aura:if>
+                                    
+                                    <!-- KRB 1/8/2020 Defect Fix  showUploadButton-->
+                                    <!-- <aura:if isTrue="{!v.fileName != 'No File Selected..'}"> -->
+                                    <aura:if isTrue="{!and((v.fileName != 'No File Selected..'),(v.showUploadButton == true))}">
+                                        <button class="slds-button slds-button_brand" onclick="{!c.doSave}">Upload</button>
+                                    </aura:if>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>           
+    </aura:if>
+</aura:component>

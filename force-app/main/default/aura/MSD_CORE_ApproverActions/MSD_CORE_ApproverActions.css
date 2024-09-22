@@ -1,0 +1,6 @@
+.THIS .slds-modal__header {
+    border-bottom: none;
+}
+.THIS .uiInput--textarea .textarea, .THIS .uiInput--textarea.textarea {
+    height: 184px;
+}

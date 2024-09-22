@@ -1,0 +1,40 @@
+<template>
+
+    <div class="container">
+        <div>
+            <div>
+                <h2>My Customer</h2>
+            </div>
+            <!-- Search box -->
+            <div>
+                <lightning-input 
+                    type="search"
+                    placeholder="Search"
+                    variant="label-hidden"
+                    onchange={handleKeyChange}>
+                </lightning-input>
+            </div>
+            <!-- Table -->
+            <div>
+                <table if:false={norecord}>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                    </tr>
+                    <template for:each={filteredCustomers} for:item="mycustomer">
+                        <tr key={mycustomer}>
+                            <td>{mycustomer.Name}</td>
+                            <td>{mycustomer.Phone}</td>
+                            <td>{mycustomer.PersonEmail}</td>
+                        </tr>
+                    </template>
+                </table>
+                <div if:true={norecord} class="slds-p-top_medium">
+                    {norecordfound}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</template>

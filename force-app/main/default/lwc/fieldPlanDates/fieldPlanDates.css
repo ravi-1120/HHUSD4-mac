@@ -1,0 +1,12 @@
+.row-container {
+    display: flex;
+  }
+  
+.date-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 0 0 95px;
+    padding-right: var(--lwc-spacingMedium);
+    overflow-wrap: anywhere;
+}

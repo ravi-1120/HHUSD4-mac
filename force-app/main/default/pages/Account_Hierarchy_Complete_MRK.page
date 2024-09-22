@@ -1,0 +1,168 @@
+<apex:page standardController="Account" extensions="MRK_AccountHierarchyComplete" showHeader="true" sidebar="true">
+<html>
+  <head>
+    <style type="text/css">
+    .additional-detail {
+        font-size: 10px;
+        font-weight: normal;
+        margin-top: 10px;
+        display: block;
+    }
+    
+    
+    #filter-criteria-form {
+        /* hide - only able to display business accounts */
+        display: none;
+    }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+     if (typeof window.console === 'undefined') {
+        window.console = { log: function() {} };
+     }
+     jQuery.noConflict();
+        var $ = jQuery;
+        var accounts = <apex:outputText value="{!jsonData}"/>;
+        var alignedAccounts = <apex:outputText value="{!alignedAccountsJsonData}"/>;
+        var accountId = '<apex:outputText value="{!accountId}"/>';
+        
+      function imgUrlFor(assetFileName) {
+        //return 'https://dl.dropbox.com/u/298636/cust-affil/images/' + assetFileName;
+        //return '//static-01.s3.amazonaws.com/account-hierarchy-chart/images/' + assetFileName;
+        var baseResourceURL = '<apex:outputText value="{!baseResourceURL}"/>';
+        console.log('baseResourceURL = ' + baseResourceURL);
+        var imgURL = baseResourceURL + '/account-hierarchy-chart/images/' + assetFileName;
+        console.log('imgURL = ' + imgURL);
+        return imgURL;
+      }
+        
+      google.load('visualization', '1', {packages:['orgchart']});
+      google.setOnLoadCallback(function() {
+        $("#business-accounts-toggle").attr('checked', 'checked');
+        drawChart(true);
+      });
+        
+      $("#business-accounts-toggle, #all-accounts-toggle").live('change', function() {
+        console.log('changed');
+        drawChart( $("#business-accounts-toggle").attr('checked') );
+      });
+
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function(obj, start) {
+         for (var i = (start || 0), j = this.length; i < j; i++) {
+             if (this[i] === obj) { return i; }
+         }
+         return -1;
+    }
+}      
+        
+     $('.toggle-node').live('click', function() {
+        var $e = $(this);
+        
+        setTimeout(function() {
+            var imgSrc = $e.attr('src');
+            console.log( 'current img = ' + imgSrc );        
+            var collapse = (imgSrc === imgUrlFor('bullet_toggle_minus.png') );
+            var row = $e.data('row');
+            var collapedRows = window.chart.getCollapsedNodes();
+            collapse = (collapedRows.indexOf(row) == -1);
+
+            chart.collapse( $e.data('row'), collapse );
+            var newImgSrc = (imgSrc === imgUrlFor('bullet_toggle_plus.png')) ? imgUrlFor('bullet_toggle_minus.png') : imgUrlFor('bullet_toggle_plus.png'); 
+            console.log('newImgSrc = ' + newImgSrc);
+            $e.attr('src',  newImgSrc);        
+            console.log('clicked row ' + $e.data('row') );
+        }, 200);
+      });
+        
+      function drawChart(showBusinessAccounts) {
+        $('#chart_div').empty();
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('string', 'Manager');
+        data.addColumn('string', 'ToolTip');
+        
+        var rows = [];
+        var rowToSelect = 0;
+        var rowsToCollapse = [];
+        for (var i = 0; i < accounts.length; i++) {
+            var a = accounts[i];
+            var isAligned = $.inArray(a['Child_Account_vod__c'], alignedAccounts);
+            var isBusinessAccount = (a['Child_Account_vod__r.IsPersonAccount'] === 'false');
+        
+            var html = '';
+            if (isBusinessAccount) {
+                html = '<img src="' + imgUrlFor((a['Child_Account_vod__r.IsPersonAccount'] === 'true') ? 'anonymous_user.png' : 'hospital.png') + '" /><br/>' + (isAligned ? ('<a href="/' + a['Child_Account_vod__c'] + '">' + a['Child_Account_vod__r.Name'] + '</a><br/><span class="additional-detail">' + a['Child_Account_vod__r.Merck_ID_MRK__c'] + '</span><br/><img class="toggle-node" data-row="' + i + '" src="' + imgUrlFor('bullet_toggle_minus.png') + '">') : (a['Child_Account_vod__r.Name']));
+            } else {
+                html = '<img src="' + imgUrlFor((a['Child_Account_vod__r.IsPersonAccount'] === 'true') ? 'anonymous_user.png' : 'hospital.png') + '" /><br/>' + (isAligned ? ('<a href="/' + a['Child_Account_vod__c'] + '">' + a['Child_Account_vod__r.Name'] + '</a><br/>') : (a['Child_Account_vod__r.Name'])) + '<br/><span class="additional-detail">' + a['Child_Account_vod__r.Merck_ID_MRK__c'] + '</span>';
+            }
+                         
+            if (showBusinessAccounts) {
+                if (a['Child_Account_vod__r.IsPersonAccount'] === 'false') {
+                    rows.push([{v: a['Child_Account_vod__c'], f: html}, a['Parent_Account_vod__c'], a['Child_Account_vod__r.Name']]);
+                }
+            } else {
+                rows.push([{v: a['Child_Account_vod__c'], f: html}, a['Parent_Account_vod__c'], a['Child_Account_vod__r.Name']]);                
+            }
+        }
+
+        for (var j = 0; j < rows.length; j++) {
+            var childAccountId = rows[j][0]['v'];
+            if (childAccountId === accountId) {
+                rowToSelect = j;
+            }
+        }
+        
+        data.addRows(rows);
+        var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+
+        // expose to debugging
+        window.chart = chart;
+
+
+        // let chart render async 
+        google.visualization.events.addListener(chart, 'ready', function(e) {
+            
+            // select account
+            console.log('rowToSelect=' + rowToSelect);
+            chart.setSelection([{row: rowToSelect}]);
+
+            for (var i = 0; i < rowsToCollapse.length; i++) {
+                console.log('collapsing row ' + rowsToCollapse[i]);
+                chart.collapse(rowsToCollapse[i], true);
+            }
+
+            // animate scroll the selected account into view 
+            var $ = jQuery;
+            $('html, body').animate({
+                scrollTop: $(".google-visualization-orgchart-nodesel").offset().top,
+                scrollLeft: $(".google-visualization-orgchart-nodesel").offset().left - (screen.width/2)
+            }, 1500);
+        });
+
+        // render 
+        chart.draw(data, {allowHtml:true, allowCollapse: false, size: 'large'});
+
+        
+        // node selection 
+        // google.visualization.events.addListener(chart, 'select', function(e) { console.log(chart.getSelection()); });
+
+
+      }
+    </script>
+  </head>
+
+  <apex:pageBlock >
+    <apex:pageMessages ></apex:pageMessages>
+    
+    <form id="filter-criteria-form">
+        <input id="business-accounts-toggle" type="radio" name="accountDisplay" value="Business"></input>Business Accounts
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="all-accounts-toggle" type="radio" name="accountDisplay" value="All"></input>All Accounts
+    </form>
+    <div id='chart_div'></div>
+  </apex:pageBlock>
+    
+</html>
+</apex:page>

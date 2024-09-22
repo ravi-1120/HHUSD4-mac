@@ -1,0 +1,37 @@
+<apex:component controller="MSD_CORE_AE_Contact_Record_Selector_Cont">
+
+    <!--  
+         KRB Release 11.0   - 1/9/2018-  For the AE Additional Contact Search Functionality - Displays the Resultset from the Search 
+    -->
+    
+   <apex:attribute name="fName" description="FirstName of Contact"
+                  type="String" required="required" assignTo="{!contfirstName}"/>
+    <apex:attribute name="lName" description="LastName of Contact"
+                  type="String" required="required" assignTo="{!contlastName}"/>
+    <apex:attribute name="phn" description="Phone of Contact"
+                  type="String" required="required" assignTo="{!contPhone}"/>
+    <apex:attribute name="zipCode" description="Zip of Contact"
+                  type="String" required="required" assignTo="{!contZip}"/>
+    <apex:attribute name="addressCity" description="City of Contact"
+                  type="String" required="required" assignTo="{!contCity}"/>
+    <apex:attribute name="acctType" description="Type of Account"
+                  type="String" required="required" assignTo="{!contType}"/>    
+    <apex:attribute name="ctrl" description="My controller" type="MSD_CORE_AE_Case_Con_Search_Extension" required="true" assignTo="{!cont}"/>
+
+    <apex:pageBlock >
+        <apex:pageBlockSection >
+            <apex:commandButton action="{!runQuery}" value="Search" />
+        </apex:pageBlockSection>
+        <apex:pageBlockTable value="{!objList}" var="wrap">
+            <apex:column headerValue="Selected">
+                <apex:inputCheckbox value="{!wrap.include}"/>
+            </apex:column>
+            <apex:column headerValue="First Name" value="{!wrap.firstName}"  />
+            <apex:column headerValue="Last Name" value="{!wrap.lastName}"  />
+            <apex:column headerValue="Phone" value="{!wrap.phone}"  />
+            <apex:column headerValue="Address Line 1"  value="{!wrap.addressLine1}"  />
+            <apex:column headerValue="City"  value="{!wrap.city}"  />
+            <apex:column headerValue="Zip"  value="{!wrap.zip}"  />
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:component>

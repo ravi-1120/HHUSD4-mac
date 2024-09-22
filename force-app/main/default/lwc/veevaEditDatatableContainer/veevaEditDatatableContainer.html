@@ -1,0 +1,23 @@
+<template>
+    <c-veeva-datatable-edit-panel if:true={inlineEditRowId} selected-rows={selectedRows} initial-item={initialItem} class="edit-panel"
+        onclosepanel={closePanel} onvaluechange={handleValueChange}>
+        <div slot="cellTemplate">
+            <c-veeva-datatable-picklist if:true={isPicklist} record-id={inlineEditRowId} recordtype-id={recordtypeId} object-api-name={object}
+                initial-value={initialItem.value} context={field} data-inputable="true">
+            </c-veeva-datatable-picklist>
+            <c-veeva-datatable-lookup if:true={isLookup} record-id={inlineEditRowId} recordtype-id={recordtypeId} object-api-name={object}
+                initial-value={initialItem.value} context={field} lookup-object={lookupObject} data-inputable="true">
+            </c-veeva-datatable-lookup>
+            <c-veeva-datatable-number-edit if:true={isNumber}
+                context={field} record-id={inlineEditRowId} value={initialItem.value} scale={scale}>
+            </c-veeva-datatable-number-edit>
+            <c-veeva-datatable-text-area-edit if:true={isTextArea} context={field} record-id={inlineEditRowId} value={initialItem.value}
+                max-length={length}>
+            </c-veeva-datatable-text-area-edit>
+        </div>
+    </c-veeva-datatable-edit-panel>
+    <slot onclick={handleClick} onscroll={closePanel} name="dataTable">
+    </slot>
+    <div if:true={draftValuesPresent} class="footer-placeholder">
+    </div>
+</template>

@@ -1,0 +1,11 @@
+.THIS .toastMessage {
+     white-space: pre-line !important;
+}
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-size_3-of-12 .slds-dropdown_length-with-icon-10, .THIS .slds-size_3-of-12 .slds-dropdown--length-with-icon-10 {
+    width: 15%;
+    top: 85px;
+    left: 9.3%;
+}

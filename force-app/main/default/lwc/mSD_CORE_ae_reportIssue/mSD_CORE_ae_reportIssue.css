@@ -1,0 +1,72 @@
+.slds-table {
+    border: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
+}
+
+.instructional-text {
+    background-color: #f4f6f9;
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: #575756;
+}
+
+.ButtonEmp {
+    padding-top: 5%;
+}
+
+.closeHover:hover {
+    border: 1px solid #00857C;
+}
+.fileCls {
+    font-family: 'InventionRg';
+    font-size: 12px;
+}
+/* .btnsize {
+    max-width: 303px;
+    border-radius: 5px !important;
+    border-color: #00857c !important;
+    font-family: 'InventionRg';
+} */
+
+.backColor {
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.mainfont {
+    font-size: 20px;
+    color: #0C2340 !important;
+    font-family: 'InventionRg';
+}
+
+.ptagcls {
+    font-size: 15px;
+    line-height: 1.3;
+    color: #000000 !important;
+    margin-bottom: 24px;
+    font-family: 'InventionRg';
+}
+
+.ptagcls p {
+    color: #757575;
+}
+
+.slds-button{
+    color: #ffffff;
+}
+.btnHover{
+    padding: 2px 20px 2px 20px;
+}
+.btnHover:not([disabled]){
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    box-shadow: inset 0 0 0 0 #005C55;
+}
+.btnHover:hover:not([disabled]){
+    box-shadow: inset 400px 0 0 0 #005C55;
+}
+
+@media only screen and (max-width: 522px) {
+    .fileInfo{
+        max-width: 40%;
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
+    <cacheControl>Private</cacheControl>
+    <contentType>application/javascript</contentType>
+    <description>Contains mini JS for SheetJS version 0.19.2. This script has been modified to bind to VEEVA_XLSX rather than XLSX to avoid clashing with other customer code.</description>
+</StaticResource>

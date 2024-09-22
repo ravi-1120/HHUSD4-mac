@@ -1,0 +1,14 @@
+<template>
+    <div class="slds-p-around_medium">
+        <div if:true={progressSteps}  class="slds-m-bottom_x-small slds-list_horizontal progress-bar">
+            <template for:each={progressSteps} for:item="step">
+                <div class={step.status} key={step.value}>{step.label}</div>
+            </template>
+        </div>
+        <div if:true={progressInfos}>
+            <template for:each={progressInfos} for:item="step">
+                <div class="slds-m-bottom_xx-small slds-text-body_small step-info" key={step.step}>{step.info}</div>
+            </template>
+        </div>
+    </div>
+</template>

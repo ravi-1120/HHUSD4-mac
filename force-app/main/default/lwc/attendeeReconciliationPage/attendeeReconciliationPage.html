@@ -1,0 +1,85 @@
+<template>
+	<c-em-new-walk-in-modal event-id={recordId} if:true={displayNewWalkIn} walk-in-fields={allWalkInFields} onclose={closeNewWalkIn}></c-em-new-walk-in-modal>
+  <c-veeva-modal if:true={displayPage} onclose={closePage} size="large">
+    <div slot="header">
+		<span data-id="page-title">{pageTitle}</span>
+	</div>
+    <div slot="content">
+		<div class="new-walk-in-button slds-p-top_x-small">
+			<lightning-button data-id="new-walk-in-button" disabled={disableNewWalkInButton} if:true={canCreateWalkIn} label={newWalkInLabel} title={newWalkInLabel} onclick={handleNewWalkIn}></lightning-button>
+		</div>
+		<div if:true={completed} class="complete-badge-tooltip slds-p-top_x-small">
+			<lightning-badge data-id="complete-badge" class="complete-badge slds-theme_success" label={reconciliationCompleteLabel}></lightning-badge>
+			<lightning-helptext data-id="complete-tooltip" class="complete-tooltip" content={reopenHelpText}></lightning-helptext>
+		</div>
+		<div class="walk-in-counts slds-p-vertical_x-small">
+			<span data-id="walk-in-total-count">{walkInTotalCount}</span>
+			<span data-id="reconciled-count">{reconciledCount}</span>
+			<span data-id="dismissed-count">{dismissedCount}</span>
+			<span data-id="pending-verification-count">{pendingVerificationCount}</span>
+			<span data-id="needs-reconciliation-count">{needsReconcilitionCount}</span>
+		</div>
+      	<c-em-reconciliation-walk-in-search if:true={displaySearchForMatches} onclose={closeSearch} onprevious={previousWalkIn} onnext={nextWalkIn} selected-walk-ins={staticSelectedWalkIns} service={service} walk-in-index={selectedIndex} walk-in-fields={selectedWalkInFields}></c-em-reconciliation-walk-in-search>
+		<div class="filter-section slds-p-top_x-small">
+			<div class="slds-is-relative filter-button">
+				<lightning-button-icon-stateful icon-name="utility:filterList" onclick={toggleFilterPopover} selected={displayFilters} title={filterLabel}></lightning-button-icon-stateful>
+				<c-em-filter-popover class="filter-popover" if:true={displayFilters} selected={selectedFilters} filter-groups={filters} onapply={applyFilters} oncancel={closeFilters}></c-em-filter-popover>
+			</div>
+			<div class="selected-filters">
+				<template for:each={selectedFiltersPills} for:item="filter">
+					<span key={filter.value}>
+						<c-veeva-pill data-filter-group={filter.filterGroup} label={filter.label} value={filter.value} onremove={applyFilters}></c-veeva-pill>
+					</span>
+				</template>
+			</div>
+		</div>
+		<div class="slds-m-vertical_small">
+			<div class="table-crumbs">
+				<div class="truncated-tooltip-icon" if:true={isTruncated}>
+					<lightning-icon icon-name="utility:warning" size="x-small" variant="warning"></lightning-icon>
+					<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left slds-theme_warning truncated-results-tooltip">
+						<div class="slds-popover__body">{resultsTruncatedLabel}</div>
+					</div>
+				</div>
+				<c-count-sorted-by-label results={walkIns.length} selected={selectedWalkInsCount} sorted-by={sortedByLabel} sort-direction={sortDirection}></c-count-sorted-by-label>
+			</div>
+			<div class="slds-p-top_xx-small">
+				<div class="slds-is-relative slds-border_top slds-border_left slds-border_right slds-border_bottom">
+					<c-veeva-spinner if:true={loading}></c-veeva-spinner>
+					<div class="walk-in-table">
+						<c-em-selection-page-datatable
+							columns={columns}
+							data={walkIns} 
+              				errors={errors}
+							hide-checkbox-column={completed}
+							key-field="Id"
+							onopenpopover={searchForMatches}
+							onrowselection={handleSelection}
+							onsort={handleSort}
+							selected-rows={selectedRows}
+							show-row-number-column	
+							sorted-direction={sortDirection}
+							sorted-by={sortedBy}>
+						</c-em-selection-page-datatable>
+					</div>
+					<div class="slds-illustration slds-illustration_small no-results" if:true={noResults}>
+						<div class="slds-text-longform">
+							<h3 class="slds-text-heading_medium">{noResultsLabel}</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div slot="footer">
+		<div class="footer-buttons slds-button-group-row">
+			<div class="slds-button-group-item dismiss-button" if:false={completed}>
+				<lightning-helptext data-id="dismiss-tooltip" content={dismissHelpText}></lightning-helptext>
+				<lightning-button data-id="dismiss-button" disabled={noneSelectedOrLoading} if:false={completed} label={dismissLabel} onclick={dismiss} title={dismissLabel}></lightning-button>
+			</div>
+			<lightning-button class="slds-button-group-item" data-id="search-for-matches-button" disabled={noneSelectedOrLoading} if:false={completed} label={searchForMatchesLabel} onclick={searchForMatches} title={searchForMatchesLabel}></lightning-button>
+			<lightning-button class="slds-button-group-item" data-id="complete-reopen-button" disabled={loading} label={completeReopenLabel} onclick={completeReopen} title={completeReopenLabel} variant="brand"></lightning-button>
+		</div>
+	</div>
+  </c-veeva-modal>
+</template>

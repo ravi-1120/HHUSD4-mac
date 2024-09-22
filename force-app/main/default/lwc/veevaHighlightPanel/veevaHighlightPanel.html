@@ -1,0 +1,60 @@
+<template>
+    <div class=spacer>
+        <div class="highlight-panel">
+            <div class="slds-page-header slds-clearfix slds-page-header_record-home">
+                <div class="highlight-panel-buttons">
+                    <div class='slds-grid'>
+                        <div data-veeva-id="detail_title" class="slds-col slds-has-flexi-truncate">
+                            <div class="slds-media slds-no-space">
+                                <div class="slds-avatar slds-m-right--small">
+                                    <lightning-icon icon-name={page.icon}></lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <p class="slds-breadcrumb__item slds-line-height--reset">{page.title}</p>
+                                    <h1 class="slds-page-header__title slds-m-right--small slds-align-middle compact-layout-subtitle">
+                                        <c-veeva-field if:true={subtitleField} ctrl={subtitleField.ctrl}></c-veeva-field>
+                                        <lightning-formatted-text if:false={subtitleField} value={page.subtitle}>
+                                        </lightning-formatted-text>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>                                                                    
+                        <div class="slds-col slds-no-flex" if:true={buttons}>
+                            <ul class='slds-button-group-list slds-is-relative'>
+                                <template iterator:it={displayButtons}>
+                                    <li class='slds-truncate' key={it.value.name}>
+                                        <c-veeva-button button={it.value} page-ctrl={pageCtrl} ontoggleloading={handleToggleLoading} disable-button={disableButtons}></c-veeva-button>
+                                    </li>                                    
+                                </template>
+                                <li if:true={menuButtons.length}>
+                                    <c-veeva-button-menu menu-alignment="right" overflow-length="10" title={msgMore} if:true={msgMore} disable-button={disableButtons}>
+                                        <div slot="buttons">
+                                            <template iterator:it={menuButtons}>
+                                                <div tabindex="-1" class="focusable_element" onclick={handleButtonClick} key={it.value.name}>
+                                                    <c-veeva-button button={it.value}
+                                                        page-ctrl={pageCtrl} ontoggleloading={handleToggleLoading}></c-veeva-button>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </c-veeva-button-menu>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div if:true={showCompactLayout} class="compact_layout slds-page-header__row slds-page-header__row_gutters">
+                        <div class="slds-page-header__col-details">
+                            <div class="compact-layout-header slds-page-header__detail-row">
+                                <template for:each={compactLayoutFields} for:item="field">
+                                    <span key={field.apiName}
+                                        class="compact-layout-item slds-page-header__detail-block slds-p-vertical_small">
+                                        <c-veeva-field ctrl={field.ctrl}></c-veeva-field>
+                                    </span>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

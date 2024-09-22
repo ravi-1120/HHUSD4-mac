@@ -1,0 +1,177 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" showHeader="false" applyBodyTag="false" controller="PDS_DocGenController">
+    <html>
+    <head>
+        <style type="text/css" media="print">
+            @page {
+                margin: 20px;
+                padding: 20px;
+            	padding-right: 30px;
+            }
+            body {
+                font-size: 13px;
+            	font-family:'Arial,Sans-Serif';
+            }  
+            table {
+                width: 100%;
+                height: auto;
+            	border-collapse: collapse;	
+            }
+            table th, table td {
+                border: 1px solid black;
+                padding: 5px;
+        	}
+            .header{
+            	height: auto;
+            	vertical-align: top;
+                font-weight: bold;
+            	text-align: center;
+            	background-color: #C0C0C0;
+            }
+            tr{
+            	vertical-align: top;
+            }
+        </style>
+    </head>
+    <body> 
+        <div style="text-align:center;line-height:1.5"><b><span style="font-size: 18px;">MERCK SHARP &amp; DOHME CORP.,</span><br/><span style="font-size: 14px;">A SUBSIDARY OF MERCK &amp; CO., INC</span></b><br/>126 East Lincoln Avenue, P.O. Box 2000, Rahway, NJ 07065<hr/></div>
+        <table style="margin-top: 15px;">
+            <tr class="header">
+                <td colspan="1" style="width: 25%;">INVOICE NO.</td>
+                <td colspan="1" style="width: 25%;">CUSTOMER ORDER NO.</td>
+                <td colspan="1" style="width: 25%;">APPLICATION NO.</td>
+                <td colspan="1" style="width: 25%;">DATE</td>
+            </tr>
+            <tr style="text-align:center;">
+                <td colspan="1" style="width: 25%;">{!requestRecord.PDS_U_S_Invoice_Number__c}</td>
+                <td colspan="1" style="width: 25%;">{!requestRecord.PDS_Customer_Order_Number__c}</td>
+                <td colspan="1" style="width: 25%;">{!requestRecord.PDS_Application_Number__c}</td>
+                <td colspan="1" style="width: 25%;">{! MONTH(TODAY()) }/{! DAY(TODAY()) }/{! YEAR(TODAY()) }</td>
+            </tr>
+            <tr class="header" style="text-align:left;">
+                <td colspan="2" style="width: 50%;">DONATED TO</td>
+                <td colspan="2" style="width: 50%;">FINAL RECIPIENT</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="width: 50%; word-break: break-all; word-wrap: break-word;">
+                   <!-- {!requestRecord.PDS_Donee__r.Name}<br/>
+                    {!requestRecord.PDS_Donee__r.MSD_CORE_Primary_Address_Line_1__c}<br/>
+                    {!requestRecord.PDS_Donee__r.MSD_CORE_Primary_City__c} {!requestRecord.PDS_Donee__r.MSD_CORE_Primary_State__c} {!requestRecord.PDS_Donee__r.MSD_CORE_Primary_Zip__c}<br/>
+              		{!requestRecord.PDS_Donee__r.MSD_CORE_Country_Code__c}-->
+                    {!doneeAddress.Account__r.Name}<br/>
+                    {!doneeAddress.PDS_Shipping_Street__c}<br/>
+                    {!doneeAddress.PDS_Shipping_City__c} {!doneeAddress.PDS_Shipping_State__c} {!doneeAddress.PDS_Shipping_Postal_Code__c}<br/>
+                    {!doneeAddress.PDS_Shipping_Country__c}               
+                    <br/><br/>
+                    Attn: {!doneeAddress.PDS_Attention__c}<br/>
+                    Tel: {!doneeAddress.PDS_Phone__c}/ Fax: {!doneeAddress.PDS_Fax_Number__c}<br/>
+                    <span style="word-wrap: break-word !important; display: flex; box-sizing: border-box;">Email: {!doneeAddress.PDS_Email__c}  </span> 
+                    <!--<div style="display: inline-block; width: 20%;margin-left:-38px;margin-right: -39px; text-align:center;vertical-align: top;">Email:</div>
+                    <div style="display: inline-block; width: 50%;"> {!doneeAddress.PDS_Email__c}</div>-->
+                </td>
+                <td colspan="2" style="width: 50%; word-break: break-all; word-wrap: break-word;">              	
+                    {!requestRecord.PDS_Final_Recipient__r.Name}<br/>
+                    {!requestRecord.PDS_Final_Recipient__r.PDS_Shipping_Street__c}<br/>
+                    {!requestRecord.PDS_Final_Recipient__r.PDS_Shipping_City__c} {!requestRecord.PDS_Final_Recipient__r.PDS_Shipping_State__c} {!requestRecord.PDS_Final_Recipient__r.PDS_Shipping_Postal_Code__c}<br/>           
+                    <span style="text-transform:uppercase"> {!requestRecord.PDS_Final_Recipient__r.PDS_Shipping_Country__c}</span> <br/><br/><br/>
+                    Tel: {!requestRecord.PDS_Final_Recipient__r.PDS_Phone__c}<br/>
+                    <span style="word-wrap: break-word !important; display: flex; box-sizing: border-box; width: 30%;">Email: {!requestRecord.PDS_Final_Recipient__r.PDS_Email__c} </span>
+                    <!--<div style="display: inline-block; width: 20%;margin-left:-38px;margin-right: -39px; text-align:center;vertical-align: top;">Email:</div>
+                    <div style="display: inline-block; width: 50%;"> {!requestRecord.PDS_Final_Recipient__r.PDS_Email__c}</div>-->
+                </td>
+            </tr>
+            <tr class="header" style="text-align:left;">
+                <td colspan="2" style="width: 50%;">CONSIGNED TO</td>
+                <td colspan="2" style="width: 50%;">SHIP FROM</td>
+            </tr>
+            <tr style="vertical-align: top;">
+                <td colspan="2" style="width: 50%; word-break: break-all; word-wrap: break-word;">
+                	{!requestRecord.PDS_Consignee__r.Name}<br/>
+                    {!requestRecord.PDS_Consignee__r.PDS_Shipping_Street__c}<br/>
+                    {!requestRecord.PDS_Consignee__r.PDS_Shipping_City__c} {!requestRecord.PDS_Consignee__r.PDS_Shipping_State__c} {!requestRecord.PDS_Consignee__r.PDS_Shipping_Postal_Code__c}<br/>
+                    <span style="text-transform:uppercase">{!requestRecord.PDS_Consignee__r.PDS_Shipping_Country__c}</span><br/><br/><br/>
+                    Tel: {!requestRecord.PDS_Consignee__r.PDS_Phone__c}<br/>
+                    <span style="word-wrap: break-word !important; display: flex; box-sizing: border-box;">Email: {!requestRecord.PDS_Consignee__r.PDS_Email__c}</span>
+                    <!--<div style="display: inline-block; width: 20%;margin-left:-38px;margin-right: -39px; text-align:center;vertical-align: top;">Email:</div>
+                    <div style="display: inline-block; width: 50%;"> {!requestRecord.PDS_Consignee__r.PDS_Email__c}</div>-->
+                </td>
+                <td colspan="2" style="width: 50%;">
+                    <apex:outputText value="{!$Label.PDS_InvoiceShipFrom}" escape="false" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="width:100%;">
+                    <div style="display: inline-block; width: 20%;margin-left:-9px;margin-right: 15px; text-align:center;vertical-align: top;">VIA Forwarding agent:</div>
+                    <div style="display: inline-block; width: 75%;">INCOTERM: {!requestRecord.PDS_Forwarding_Agent__c}</div>
+                </td>
+            </tr>
+            <tr>
+            <td colspan="4" style="width:100%;">
+                    <div style="display: inline-block; width: 20%;margin-left:-9px;margin-right: 15px; text-align:center;vertical-align: top;">Shipping Instructions:</div>
+                    <div style="display: inline-block; width: 75%;"> {!requestRecord.PDS_Additional_Information__c}</div>
+                </td>
+            </tr>
+            
+            <tr class="header">
+                <td colspan="1" style="width:10%;"></td>
+                <td colspan="2" style="width:80%;"></td>
+                <td colspan="1" style="width:10%;">U.S. CURRENCY</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="width:100%;">
+                	<table style="margin:0px;padding:0px;"> 
+                        <tr class="header">
+                            <td style="width: 10%;">SAP CODE</td>
+                            <td style="width: 14.5%;">PRODUCT NO.</td>
+                            <td style="width: 10%;">QUANTITY</td>
+                            <td style="width: 40.5%;">DESCRIPTION</td>
+                            <td style="width: 12.5%;">UNIT PRICE</td>
+                            <td style="width: 12.5%;">AMOUNT</td>
+                        </tr>
+                        <tr style="vertical-align: top;text-align:center">
+                            <apex:repeat value="{!productLineItems}" var="lineItem" id="productItems">
+                            <td style="width: 10%;">{!lineItem.PDS_Product__r.PDS_SAP_Code__c}</td>
+                            <td style="width: 14.5%;">{!lineItem.PDS_Product__r.PDS_Product_Number__c}</td>
+                            <td style="width: 10%;">{!shippedQuantity}</td>
+                            <td style="width: 40.5%;text-align:left;"> 
+                                {!productName}<br/>
+                                <span style="text-transform:uppercase">{!productSize}</span><br/>
+                                HS code 300490000000<br/>
+                                DAP - 2020 - Male,<br/>
+                                MALDIVES
+                                <hr style="margin-top: 20px;"/>
+                                <p style="margin-top:-6px;margin-bottom: -2px">
+                                    FREE MEDICATION FOR THE TREATMENT OF LYMPHATIC FILARIASIS. DONATION APPROVED AND ENDORSED BY THE MINISTER OF HEALTH.
+                                </p>
+                            </td>
+                            <td style="width: 12.5%;">US ${!productUnitPriceString} per {!productSize}</td>
+                                <td style="width: 12.5%;">US $ {!totalSICString}</td>
+                         </apex:repeat>
+                        </tr>
+                    </table>
+                </td>
+            </tr> 
+             <tr>
+                <td colspan="4" style="width:100%;">
+                    <div style="text-align: center;">
+                        COMMODITIES, TECHNOLOGY OR SOFTWARE SHIPPED IN ACCORDANCE WITH THE EXPORT ADMINISTRATION REGULATIONS. DIVERSION CONTRARY TO U.S. LAW PROHIBITED.<br/>
+                    </div>
+                    <p>
+                        Batch Number / Expiry: see packing list <br/><br/>
+                        DONATION FREE OF CHARGE - VALUE FOR CUSTOMS PURPOSE ONLY
+                    </p>
+                    <p style="text-align:right;font-weight: bold;font-size:16px;margin-bottom:-5px">
+                        INVOICE
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <div class="footer">
+            <p>
+                We undersigned hereby certify that:<br/>
+                - these goods are the property of Merck &amp; CO. and are shipped by Fareva Mirabel on behalf of Merck &amp; CO.<br/>
+                - these goods are not dangerous for air transportation
+            </p>
+        </div>
+    </body>
+    </html>
+</apex:page>

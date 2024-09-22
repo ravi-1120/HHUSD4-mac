@@ -1,0 +1,76 @@
+.progress-bar div{
+    width: 20%;
+    height: 30px;
+    position: relative;
+    background: #eee;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+    color: #666;
+    margin-right: 15px;
+    padding: 5px;
+}
+
+.progress-bar div:first-child {
+    border-radius: 15px 0 0 15px;
+}
+
+.progress-bar div:last-child {
+    border-radius: 0 15px 15px 0;
+}
+
+.progress-bar div:not(:first-child):after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 15px solid #fff;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+
+  .progress-bar div:not(:last-child):before {
+    content: "";
+    position: absolute;
+    right: -15px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 15px solid #eee;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+
+  
+.progress-bar div.finished {
+    background-color: #45c65a;
+    color: #fff;
+}
+
+.progress-bar div:not(:last-child).finished:before{
+    border-left: 15px solid #45c65a;
+}
+
+.progress-bar div.current {
+    background-color: #014486;
+    color: #fff;
+}
+
+.progress-bar div:not(:last-child).current:before{
+    border-left: 15px solid #014486;
+}
+
+.progress-bar div.error {
+    background-color: #ff5543;
+    color: #fff;
+}
+
+.progress-bar div:not(:last-child).error:before{
+    border-left: 15px solid #ff5543;
+}
+
+.step-info {
+    color: #999;
+}

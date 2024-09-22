@@ -1,0 +1,45 @@
+.THIS .slds-picklist__label .slds-icon{
+    right: 2px;
+}
+.THIS .slds-picklist__label {
+    padding-right: 10px;
+}
+.THIS .viewCls{
+    position: absolute;
+    bottom: 35px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.THIS .viewCls .slds-dropdown__item{
+    width: 159px;
+}
+.THIS .slds-dropdown--left {
+    width: 642px;
+    max-width: 642px;
+    padding: 0;
+}
+.THIS .slds-dropdown__item {
+    line-height: 0;
+    float: left;
+    width: 160px;
+    border-right: 1px solid #eee;
+}
+.THIS .slds-dropdown__item>a{
+    padding: 3px 0px;
+}
+.THIS .slds-icon--x-small {
+    width: 15px;
+    height: 15px;
+    line-height: 1;
+    padding-right: 0;
+    margin-right: 5px;
+}
+.THIS .slds-table .slds-button_neutral, .THIS .slds-table .slds-button--neutral {
+    border-radius: 0;
+    height: 36px;
+    border: 2px solid transparent;
+}
+.THIS .slds-table .slds-button_neutral:focus, .THIS .slds-table .slds-button--neutral:focus {
+    border: 2px solid green;
+}

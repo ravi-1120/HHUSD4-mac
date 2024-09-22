@@ -1,0 +1,73 @@
+/* .iconborder{
+    border: 1px solid #D9DBDD;
+    padding: 0px 2px;
+} */
+.slds-listbox__icon-selected{
+    --sds-c-icon-color-foreground-default: #00857C;
+}
+
+/* .slds-is-selected .iconborder{
+    background: #00857c;
+    border: 1px solid #00875c;
+}
+
+.borderradius{
+    border-radius: 0px;
+} */
+
+.fontsize{
+    font-size: 10px;
+    letter-spacing: 0.09px;
+    font-weight: 300;
+}
+.list-item-focus:hover{
+    background: #F3F2F2;
+}
+.list-item-focus:active{
+    background: #F3F2F2;
+}
+.list-item-focus:focus{
+    background: #F3F2F2;
+}
+.deFocusList{
+    
+}
+.listItemFocus{
+    /* background: #f3f2f2; */
+    background: #fafafa;
+}
+
+.slds-input:focus{
+    border-color: rgb(216, 221, 230);
+    box-shadow: none;
+}
+
+.backdrop {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .content {
+    z-index: 1000;
+    /* anything else you need here */
+  }
+  .prodCls{
+      font-size: 12px !important;
+  }
+  .customClass{
+    max-height: calc(((1rem * 1.3) + 1rem) * 5.8);
+  }
+  .dropDown{
+    border: 1px solid #c9c9c9;
+  }
+
+   @media only screen and (min-device-width: 360px) and (max-device-width: 712px) {
+
+    .customClass{
+        max-height: calc(((1rem * 1.3) + 1rem) * 5.3);
+      }
+     
+  }

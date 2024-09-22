@@ -1,0 +1,8 @@
+.modal-body {
+    display: inline-block;
+    width: 100%;
+
+    /* Based on what is done to calculate the height of veeva-modal */
+    height: calc(100vh - 278px);
+    margin-bottom: 16.5px;
+}

@@ -1,0 +1,52 @@
+<template>
+    <div class="greencircle"></div>
+    <div class="box_cls slds-grid boxstyle1">
+        <template if:false={meetingRequestObj.read}>
+            <div class="redmark ">             <!--R4-->
+
+            </div>
+        </template>
+        <template if:true={meetingRequestObj.read}>
+            <div class="Nomarg">                             <!--R4--slds-m-horizontal_medium-->
+
+            </div>
+        </template>
+        <div class="descriptioncls">
+            <!-- Redirect to Meeting Request -->
+            <div class="header_cls boxstyle2">
+                <lightning-formatted-rich-text class="notifcls" value={meetingRequestObj.activity} data-id={meetingRequestObj.resid} ></lightning-formatted-rich-text>
+            </div>
+            <!-- <br/> -->
+            <div><p class="time_cls boxstyle3">{meetingRequestObj.dateval}</p></div>
+
+            <template if:true={meetingRequestObj.isMultipleMeeting}>
+                <div if:true={showAutomore} class="bcbox slds-p-top_medium">
+                    <span class="showmore" style="color: #555555;" onclick={handleShow}>
+                        Show {meetingRequestObj.multipleMeetingCount}<img src={downarrow} class="slds-p-left_small" />
+                    </span>
+                </div>
+            </template>
+
+
+            <template if:true={meetingRequestObj.isMultipleMeeting}>
+                <div if:true={showmorevar}>
+                    <div>
+                        <c-mfr_activity-sub-detail product-i-d={productID} meeting-request={meetingRequestObj.resid}
+                            activity-i-d={meetingRequestObj.activityID}></c-mfr_activity-sub-detail>
+                    </div>
+                    <div class="bcbox slds-p-top_medium" onclick={hidemore}>
+                        <div class="hidemore" style="color: #555555;">Hide {meetingRequestObj.multipleMeetingCount}<img src={uparrow} class="slds-p-left_small"/></div>
+                    </div>
+                </div>
+            </template>
+
+
+        </div>
+        <!-- For Mobile responsive added class arrow-img-div-->
+        <div class="slds-col_bump-left arrow-img-div">
+            <img class="arrowstyle" src={arrow} data-id={meetingRequestObj.resid} data-notiid={meetingRequestObj.activityID} onclick={redirect} />
+        </div>
+
+    </div>
+
+</template>

@@ -1,0 +1,24 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="58.968%" y1="98.293%" x2="43.092%" y2="12.8%" id="a">
+            <stop stop-color="#FFF" offset="0%"/>
+            <stop stop-color="#CDCDCD" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="92.248%" y1="117.903%" x2="30.853%" y2="22.742%" id="b">
+            <stop stop-color="#FFF" offset="0%"/>
+            <stop stop-color="#CDCDCD" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="115.549%" y1="94.681%" x2="15.512%" y2="26.501%" id="c">
+            <stop stop-color="#FFF" offset="0%"/>
+            <stop stop-color="#CDCDCD" offset="100%"/>
+        </linearGradient>
+    </defs>
+    <g fill-rule="nonzero" fill="none">
+        <circle fill="#666" cx="32" cy="32" r="32"/>
+        <rect fill="url(#a)" x="12" y="29.34" width="2.285" height="12.305" rx="1"/>
+        <path d="M13.225 49h-.16c-.74 0-1.92-.61-1.92-1.35l.57-3.5a1.355 1.355 0 0 1 1.35-1.35h.16a1.355 1.355 0 0 1 1.35 1.35l.57 3.5c0 .72-1.18 1.35-1.92 1.35z" fill="url(#b)"/>
+        <circle fill="#FFF" cx="13.145" cy="42.76" r="2.285"/>
+        <path d="M32 25.715c-7.575 0-13.715 2.735-13.715 6.1v6.5c0 3.365 6.14 6.095 13.715 6.095s13.715-2.73 13.715-6.095v-6.5c0-3.365-6.14-6.1-13.715-6.1z" fill="url(#c)"/>
+        <path d="m9.355 27.14 21.73-7.325c.594-.2 1.236-.2 1.83 0l21.73 7.325a1.14 1.14 0 0 1 0 2.165l-21.73 7.325c-.594.2-1.236.2-1.83 0l-21.73-7.325a1.14 1.14 0 0 1 0-2.165z" fill="#FFF"/>
+    </g>
+</svg>

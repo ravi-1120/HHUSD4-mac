@@ -1,0 +1,52 @@
+.toastText{
+    width: 100%; 
+    height: auto;
+    margin:auto; 
+    padding:16px 16px 16px 16px;
+    background-color:#00756C;
+    color:#fff;
+}
+.toastMain{
+    position: relative;
+    width: 30%;
+    max-width: 400px;
+    font-family:InventionRg; 
+    font-size:14px; 
+    margin: auto;
+}
+
+.top-toast{
+    top: 15%
+}
+
+@media all and (min-width: 1920px){
+.top-toast{
+    top: 14%;
+}
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1024px) and (orientation:landscape){
+    .toastText{
+        height:auto;
+        margin:auto; 
+        padding:16px 86px 16px 80px;
+    }
+    .toastMain{
+        width: 70%;
+    }
+    .top-toast{
+        top: 25%;
+    }
+}
+@media only screen and (min-width: 320px) and (max-width: 1024px) and (orientation:portrait){
+    .top-toast{
+        top: 25%;
+    }
+    .toastMain{
+        width: 70%;
+    }
+    .toastText{
+        padding: 12px 10px;
+        height: auto;
+    }
+}

@@ -1,0 +1,10 @@
+<template> 
+    <template if:false={showRecordCreateError}>
+        <c-veeva-modal-page page-ctrl={pageCtrl} page={page} record-update-flag={page.recordUpdateFlag} onclose={handleClose}
+            page-reference={pageReference}>
+        </c-veeva-modal-page>
+    </template>
+    <template if:true={showRecordCreateError}>
+        <c-veeva-record-create-error-modal error={recordCreateError} close-handler={handleRecordCreateErrorModalClose}></c-veeva-record-create-error-modal>
+    </template>
+</template>

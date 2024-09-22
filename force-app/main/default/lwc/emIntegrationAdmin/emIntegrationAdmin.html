@@ -1,0 +1,31 @@
+<template>
+    <c-veeva-page-header icon-name="standard:custom" title={messageMap.pageTitle} subtitle={messageMap.pageHelpText}>
+    </c-veeva-page-header>
+    <div class="slds-tabs_card slds-theme_default slds-p-horizontal_small slds-m-top_large">
+        <lightning-tabset>
+            <lightning-tab class="slds-p-vertical_none" label={messageMap.speakerPortalTabTitle}>
+                <c-speaker-portal-admin-tab></c-speaker-portal-admin-tab>
+            </lightning-tab>
+            <lightning-tab class="slds-p-top_large slds-p-bottom_none" label={messageMap.vaultTabTitle}>
+                <c-admin-integration-user
+                    system-type={salesforceEm}>
+                </c-admin-integration-user>
+                <div class="slds-p-top_large">
+                    <c-integration-history-table
+                        ctrl={connectionCtrl.historyTableController}
+                        enable-infinite-loading=true
+                        number-of-rows=20
+                    >
+                    </c-integration-history-table>
+                </div>
+                <div class="slds-p-top_large">
+                    <c-admin-connection
+                        system-type={vaultEm}
+                        ctrl={connectionCtrl}
+                    >
+                    </c-admin-connection>
+                </div>
+            </lightning-tab>
+        </lightning-tabset>
+    </div>
+</template>

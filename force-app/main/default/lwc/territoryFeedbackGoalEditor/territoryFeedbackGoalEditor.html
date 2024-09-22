@@ -1,0 +1,51 @@
+<template>
+    <lightning-layout>
+        <template for:each={channelGoals} for:item="channelGoalDetail">
+            <lightning-layout-item key={channelGoalDetail.templateId} class={channelGoalDetail.channelContainerClass}>
+                <div class="slds-m-around_small slds-box">
+                    <h1 class="slds-text-heading_medium">{channelGoalDetail.label}</h1>
+
+                    <hr class="slds-m-vertical_small">
+
+                    <div class="slds-m-vertical_small">
+                        <c-territory-feedback-counter
+                            data-channel-id={channelGoalDetail.id}
+                            value={channelGoalDetail.feedbackGoal}
+                            counter-datatype={channelGoalDetail.counterDatatype}
+                            disable-decrement={channelGoalDetail.shouldDisableMinControls}
+                            disable-increment={channelGoalDetail.shouldDisableMaxControls}
+                            onchange={handleChannelCounterChange}>
+
+                            <label slot="label" class="slds-form-element__label slds-m-left_small slds-text-heading_small channel-goal-label">{goalMessage}</label>
+                        </c-territory-feedback-counter>
+                    </div>
+        
+                    <template for:each={channelGoalDetail.productGoals} for:item="productGoal">
+                        <div key={productGoal.templateId} class="slds-m-vertical_small">
+                            <c-territory-feedback-counter
+                                data-channel-id={channelGoalDetail.id}
+                                data-product-id={productGoal.id}
+                                value={productGoal.feedbackGoal}
+                                counter-datatype={productGoal.counterDatatype}
+                                disable-decrement={productGoal.shouldDisableMinControls}
+                                disable-increment={productGoal.shouldDisableMaxControls}
+                                onchange={handleProductCounterChange}>
+
+                                <lightning-layout slot="label" vertical-align="center">
+                                    <lightning-layout-item>
+                                        <lightning-icon icon-name="utility:right" class="slds-m-left_small" size="x-small"></lightning-icon>
+                                    </lightning-layout-item>
+                                    
+                                    <lightning-layout-item>
+                                        <label class="slds-form-element__label slds-m-left_small slds-text-heading_small">{productGoal.label}</label>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+
+                            </c-territory-feedback-counter>
+                        </div>
+                    </template>
+                </div>
+            </lightning-layout-item>
+        </template>
+    </lightning-layout>
+</template>

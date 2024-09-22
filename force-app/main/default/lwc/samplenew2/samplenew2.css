@@ -1,0 +1,207 @@
+.accordian_cls {
+    text-decoration: none;
+}
+
+.scrolling_cls {
+    /* max-height: 55vh; */
+   /* max-height: calc(100vh - 250px); */
+    /* max-height: 66vh; *//*Rusheel*/
+    max-height: 55vh;/*Rusheel*/
+    height: auto;
+   padding: 8px 16px;
+   margin-bottom: 15px;
+    overflow-y: scroll;
+
+}
+
+.scrolling_cls2 {
+    /* max-height: calc(100vh - 80px) !important; *//*Rusheel*/
+    height: auto;
+    padding: 8px 16px;
+    overflow-y: scroll;
+    margin-top: -20px;
+}
+
+.acc {
+    /* max-height: 697px; */
+    transition: height .5s;
+    overflow: hidden;
+    text-decoration: none;
+    -webkit-box-shadow: 0 -1px 4px 1px rgb(0 0 0 / 50%);
+    border-radius: 6px 6px 0 0;
+    border-top-style: none;
+    /* margin-top: 2px; *//*Rusheel*/
+
+     margin-left: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px; 
+
+}
+
+.acc:active {
+    text-decoration: none;
+}
+
+.acc:visited {
+    text-decoration: none;
+}
+
+.acc:hover {
+    text-decoration: none;
+}
+
+
+.acc:link {
+    text-decoration: none;
+}
+
+.mfr_indicationtxt {
+    font-family: 'Invention' !important;
+}
+
+.accordian_cls .slds-button {
+    border-radius: 6px 6px 0 0;
+}
+
+.scroll_b_1,
+.scroll_b_2,
+.scroll_b_3 {
+    height: auto;
+    padding: 8px 16px;/*Rusheel*/
+    -webkit-box-shadow: 0 -1px 4px rgb(0 0 0 / 50%);
+    overflow: hidden;
+    background-color: #FFFFFF;
+    /* margin-top: -7px; *//*Rusheel*/
+    border-radius: 4px;/*Rusheel*/
+    box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.25);/*Rusheel*/
+}
+
+.scroll_b_1 a,
+.scroll_b_2 a,
+.scroll_b_3 a {
+    /* color: #0d6efd !important; */
+    text-decoration: underline !important;
+}
+
+.scroll_b_1 {
+    display: none;
+}
+
+.block_cls {
+    display: none;
+}
+
+.accordian_1 .slds-accordion__summary-action-icon {
+    -webkit-transform: rotate(-180deg) !important;
+    transform: rotate(-180deg) !important;
+}
+
+.scrollBlock {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* width: 100vw;
+    height: 100vh; */
+    width: 100%;/*Rusheel*/
+    height: 100%;/*Rusheel*/
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .6) !important;
+    z-index: 510;
+}
+
+.zindex_cls {
+    z-index: 510;
+}
+
+.isiScrollBlocker {
+    display: none;
+}
+
+.sample-bg {
+    display: none;
+}
+
+.accordian_1 .slds-accordion__section {
+    padding-bottom: 0 !important;
+}
+
+.sample-active {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 0vh;/*AMS - E2ESE-1531*/
+    overflow: hidden;
+    /* background-color: rgba(0, 0, 0, .6) !important; *//*Rusheel*/
+    z-index: 510;
+}
+
+.readmore {
+    color: #00857C !important;
+    font-family: 'Invention' !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: #00857C !important;
+  }
+
+.smpl-a {
+    color: #00857C;
+    font-family: 'Invention';
+}
+
+.zindex {
+    z-index: 510;
+}
+
+.acc .slds-accordion__section {
+    padding: 0 !important;
+}
+
+.overflowcls {
+    overflow-y: hidden;
+    /* overflow-y:scroll; */
+}
+
+.acc2,
+.scroll_b_3 {
+    display: none;
+}
+
+.db {
+    display: block !important;
+}
+
+.acc,
+.acc2 {
+    /* margin-bottom: -9px; Rusheel*/
+}
+
+.scrolling_cls {
+    /* margin-bottom: -9px;Rusheel */
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;/*Rusheel */
+}
+
+
+@media only screen and (max-width: 767px) {
+    .scrolling_cls {
+        /* max-height: 19vh; */
+        /* max-height: 60vh;
+        margin-bottom: -90px; */
+      /*  max-height: calc(100vh - 280px); */
+
+    }
+
+    .scrolling_cls2 {
+        //max-height: calc(100vh - 200px) !important;
+        padding: 8px 16px;
+    }
+}

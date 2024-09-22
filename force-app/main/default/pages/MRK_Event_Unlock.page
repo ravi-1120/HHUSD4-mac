@@ -1,0 +1,39 @@
+<apex:page sidebar="false" controller="MRK_RFM_FFM_unlock">
+   <apex:form id="formid">
+     <apex:pageMessages ></apex:pageMessages>
+       <apex:pageBlock >
+          <apex:pageBlock title="Unlock the FFM Event">
+             <apex:pageBlockSection title="Event Unlock" collapsible="true">
+           
+      <h1> Event Name </h1><apex:inputText value="{!EventName }" id="EventName" required="true"/>
+
+           </apex:pageBlockSection>
+               </apex:pageBlock>
+       
+ 
+    
+      <apex:pageBlock id="SK" rendered="{!enableblock}" >
+        <apex:pageBlockTable value="{!searchresult}" var="v">
+          <apex:column value="{!v.Name}"/>
+            <apex:column value="{!v.Id}"/>
+               <apex:column value="{!v.Status_vod__c}"/>  
+                   <apex:column value="{!v.MSD_CORE_Event_Id__c}"/>  
+                     <apex:column value="{!v.RecordType.name}"/> 
+                       <apex:column value="{!v.PW_Event_Type__c }"/> 
+                          <apex:column value="{!v.MSD_CORE_Event_Owner__c}"/> 
+                             </apex:pageBlockTable>
+                                  </apex:pageBlock> 
+               
+                          
+                
+     <apex:pageBlock >
+          <apex:pageBlockButtons location="bottom">
+            <apex:commandButton action="{!Search}" value="Search EM Event" reRender="SK,formid" />
+              <apex:commandButton action="{!Eventunlock}" value="Unlock EM Event" rendered="{!enableblock}" /> 
+                 </apex:pageBlockButtons> 
+                     </apex:pageBlock>
+    
+            
+       </apex:pageBlock>
+   </apex:form>
+</apex:page>

@@ -1,0 +1,13 @@
+<apex:page standardStylesheets="true">
+    <apex:includeLightning />    
+    <div id="reassignmentPage" />   
+    <script>
+        $Lightning.use("c:weComExternalUserReassignmentApp", function() {
+            $Lightning.createComponent("c:reassignmentPage",{},
+            "reassignmentPage",
+            function(cmp) {
+                console.log('Calling the LWC Component');
+            });
+        });
+    </script>
+</apex:page>

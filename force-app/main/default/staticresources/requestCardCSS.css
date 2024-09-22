@@ -1,0 +1,60 @@
+
+.slds-card{
+    left :300px;
+    top: 10px;
+}
+.slds-form-element__label {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    color: #333333;
+    padding: 0px;
+}
+.slds-truncate {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+ 
+    /* identical to box height, or 150% */
+    
+    
+    /* Neutral/Dark Text */
+    
+    color: #333333; 
+}
+.slds-input_faux {
+
+    border: 1px solid #333333;
+    height: 40px;
+    padding-top: 9px;
+    padding-bottom: 10px;
+    line-height: 21px;
+    padding-left: 12px;
+   }
+   .slds-input-has-icon .slds-input__icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    position: absolute;
+    top: 42%;
+    margin-top: -0.5275rem;
+    line-height: 1;
+    border: 0;
+    z-index: 2;
+    padding-right: 16px;
+}
+.slds-combobox__input-value{
+    padding: 9px 12px 10px;
+}
+.slds-icon-utility-down{
+    height: 5px;
+width: 8px;
+
+}
+.slds-dropdown--fluid, .slds-dropdown_fluid{
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+}

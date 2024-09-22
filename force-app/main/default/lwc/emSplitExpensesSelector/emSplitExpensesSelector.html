@@ -1,0 +1,41 @@
+<template>
+  <c-veeva-spinner if:false={showSelector}></c-veeva-spinner>
+  <c-veeva-modal onclose={finishFlow} size="smaller" if:true={showSelector}>
+    <span slot="header">
+      {splitExpenseSelectorHeader}
+    </span>
+    <div slot="content">
+        <fieldset class="slds-form-element slds-no-space firefox-fieldset-bug-fix slds-m-top_small">
+          <div class="slds-form-element__control">
+            <template for:each={options} for:item="option">
+              <label key={option.value} class="slds-radio split-expense-selection-row">
+                <div class="split-expense-selection-left-column">
+                  <input 
+                    id={option.value}
+                    class="input uiInput uiInputRadio uiInput--default uiInput--radio" 
+                    type="radio"
+                    value={option.value}
+                    name="splitLinesRadio"
+                    checked={option.checked}
+                    onchange={handleOptionChange}/>
+                  <span class="slds-radio--faux"></span>
+                </div>
+                <div class="split-expense-selection-right-column">
+                  <span><strong>{option.label}</strong></span>
+                  <div>{option.description}</div>
+                </div>
+              </label>
+            </template>
+          </div>
+        </fieldset>
+    </div>
+    <div slot="footer">
+      <div>
+          <lightning-button label={labelCancel} title={labelCancel} variant="neutral" onclick={finishFlow}>
+          </lightning-button>
+          <lightning-button label={labelNext} title={labelNext} variant="brand" class="slds-m-left_x-small" onclick={goToNext} disabled={disableNext}>
+          </lightning-button>
+      </div>
+  </div>
+  </c-veeva-modal>
+</template>

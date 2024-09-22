@@ -1,0 +1,32 @@
+<template>
+    <div class="slds-form-element">
+        <label if:true={label} class="slds-form-element__label">{label}</label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click">
+                    <div class={comboboxInputClass}>
+                        <div class={inputClass} onclick={handleClick} tabindex="-1">
+                            <lightning-icon class="prefix-icon slds-p-right_xx-small" if:true={selectedIcon} icon-name={selectedIcon} size="x-small"></lightning-icon>
+                            <span class="slds-truncate">{selectedLabel}</span>
+                        </div>
+                        <lightning-button-menu class="button-menu slds-icon_container slds-input__icon slds-input__icon_right" onclose={menuClosed} onselect={handleSelection} onopen={menuOpened} variant="bare">
+                            <template for:each={options} for:item="option">
+                                <div key={option.value} class={option.color}>
+                                    <lightning-menu-item
+                                        checked={option.checked}
+                                        class="menu-item"
+                                        disabled={option.disabled}
+                                        icon-name={option.iconName}
+                                        label={option.label}
+                                        prefix-icon-name={option.prefixIconName}
+                                        value={option.value}>
+                                    </lightning-menu-item>
+                                </div>
+                            </template>
+                        </lightning-button-menu>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,36 @@
+<template>
+    <div>
+        <div class="pbanner">
+            <img class="pbanner_img" src={bannerLogo}>
+        </div>
+        <div class="container">
+            <div class="left-panel">
+                <div class="img-container logo">
+                    <img class="imgcls" src={SignupSubmit_Logo} />
+                </div>
+
+                <div class="img-container logo1">
+                    <img class="imgcls" src={SignupSubmit_Logo1} />
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div>
+                    <p class="welcls">
+                        Email sent!
+                    </p>
+                    <p class="welclsmatr">
+                        An email has been sent to <u>{emailrecvd}</u> to reset your password.
+                    </p>
+                    
+                    <button class="homebtn" data-name="loginbtn" onclick={loginclick} >
+                        Log in
+                    </button>
+                    <p class="welclslinkp">
+                        <a class="welclslink" href="javascript:void(0);" onclick={userResetPassword}>Didn’t receive an email</a>?
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,132 @@
+c-veeva-bryntum-grid .actions:not(.b-group-title) { 
+    justify-content: center;
+}
+
+c-veeva-bryntum-grid .actions .actions-button-group { 
+    display: contents;
+}
+
+c-veeva-bryntum-grid .more-actions-button .b-button-menu-icon {
+    margin-inline-start: 0;
+}
+
+c-veeva-bryntum-grid i.target-icon, c-veeva-bryntum-grid .target-icon i {
+    font-size: 18px;
+}
+
+c-veeva-bryntum-grid .header-icon.target-icon i {
+    margin-inline-end: 0;
+}
+
+c-veeva-bryntum-grid .header-icon.target-icon .b-grid-header-text-content {
+    overflow: visible;
+}
+
+c-veeva-bryntum-grid .challenge-status {
+    padding: 0;
+}
+
+c-veeva-bryntum-grid .challenge-status .status-container {
+    width: 100%;
+    height: 100%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    display: flex;
+    align-items: left;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+/* :not selectors are used for challenge status columns to ensure that Bryntum's default row hover/selection styling is not overridden */
+c-veeva-bryntum-grid .b-grid-row:not(.b-hover):not(.b-selected) .challenge-status .challenged {
+    background-color: rgb(253, 241, 204);
+}
+
+c-veeva-bryntum-grid .b-grid-row:not(.b-hover):not(.b-selected) .challenge-status .approved {
+    background-color: rgb(223, 247, 215);
+}
+
+c-veeva-bryntum-grid .b-grid-row:not(.b-hover):not(.b-selected) .challenge-status .rejected {
+    background-color: rgb(244, 204, 204);
+}
+
+/* However, we wish to maintain the custom font color even when row is highlighted/selected */
+c-veeva-bryntum-grid .challenge-status .challenged {
+    color: rgb(255, 161, 29);
+}
+
+c-veeva-bryntum-grid .challenge-status .approved {
+    color: rgb(90, 189, 57);
+}
+
+c-veeva-bryntum-grid .challenge-status .rejected {
+    color: rgb(255, 52, 25);
+}
+
+c-veeva-bryntum-grid .challenge-status .status-container .secondary-text {
+    font-size: 75%;
+    font-weight: normal;
+}
+
+c-veeva-bryntum-grid .challenge-status .status-container .secondary-text span:first-child {
+    color: rgb(255, 52, 25);
+}
+
+c-veeva-bryntum-grid .goal-text {
+    padding-left: 0.5em;
+    font-size: 85%;
+    color: rgb(175, 175, 175);
+}
+
+c-veeva-bryntum-grid .goal .positive {
+    color: rgb(98, 216, 58);
+}
+
+c-veeva-bryntum-grid .goal .negative {
+    color: rgb(255, 52, 25);
+}
+
+/* Defines background-color for the product goal/segment column headers */
+c-veeva-bryntum-grid .product-segment-column, c-veeva-bryntum-grid .product-goal-column {
+    background-color: rgb(231, 232, 235);
+}
+
+/*
+ * Defines background-color for the product goal/segment data cells.
+ * :not selectors are used here to ensure that Bryntum's default row hover/selection styling is not overridden
+ */
+c-veeva-bryntum-grid .b-grid-row:not(.b-hover):not(.b-selected) .product-segment,
+c-veeva-bryntum-grid .b-grid-row:not(.b-hover):not(.b-selected) .product-goal {
+    background-color: rgb(249, 249, 249);
+}
+
+c-veeva-bryntum-grid .channel-goal {
+    font-weight: bold;
+}
+
+/* Need to override "row grouping" cells to use original background color */
+c-veeva-bryntum-grid .b-group-row .product-segment, c-veeva-bryntum-grid .b-group-row .product-goal {
+    background-color: inherit;
+}
+
+c-veeva-bryntum-grid .datetime-filter-field.datetime-filter-input {
+    min-width: 32em;
+}
+
+c-veeva-bryntum-grid .datetime-filter-field.datetime-filter-input input {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+c-veeva-bryntum-grid .datetime-filter-field.datetime-filter-input .b-icon-remove {
+    margin-right: 10px;
+}
+
+c-veeva-bryntum-grid .b-filter-popup .b-icon.b-align-end {
+    padding-inline-start: 0.8em;
+}
+
+c-veeva-bryntum-grid .hidden-actions {
+    visibility: hidden;
+}

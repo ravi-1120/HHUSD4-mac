@@ -1,0 +1,42 @@
+<template>
+    <c-section-template ctrl={ctrl} open>
+        <div slot="content" class={sectionClass}>
+            <div class="slds-clearfix">
+                <lightning-button if:true={newButtonLabel} class="slds-float_right new-expense-line-button" variant="base" label={newButtonLabel} icon-name="utility:add"
+                    icon-position="right" onclick={addRow}>
+                </lightning-button>
+            </div>
+            <div class="expense-line-table-container">
+                <table if:true={columns} class="slds-table slds-no-row-hover expense-line-table">
+                    <thead>
+                        <tr>
+                            <template for:each={columns} for:item="column">
+                                <th class="field-column slds-cell-wrap" key={column.apiName}>
+                                    <abbr class="slds-required" if:true={column.required}>*</abbr>
+                                    {column.label}
+                                </th>
+                            </template>
+                            <th class="actions-column">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template if:true={recordsWithAlignment} for:each={recordsWithAlignment} for:item="record">
+                            <c-expense-line-section-row data-expense-line-section-row={record.id}
+                                expense-line-section-row-key={record.id} key={record.id} record={record}
+                                lines-updated-flag={linesUpdatedFlag} onselect={handleMenuAction} menu-align={record.menuAlign}></c-expense-line-section-row>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </c-section-template>
+    <c-veeva-confirmation-modal show={showDeleteModal} size="veeva-small" title={deleteModalLabels.header}
+        messages={deleteModalLabels.body} confirm-label={deleteModalLabels.delete} cancel-label={deleteModalLabels.cancel}
+        disable-buttons={disableDeleteModalButtons} onconfirm={handleDeleteConfirm} oncancel={handleDeleteCancel}>
+    </c-veeva-confirmation-modal>
+    <c-veeva-confirmation-modal show={showChangeCurrencyModal} size="veeva-small" title={currencyModalLabels.changeHeader}
+        messages={changeCurrencyModalBody} confirm-label={currencyModalLabels.yes} cancel-label={currencyModalLabels.no}
+        onconfirm={handleChangeCurrencyConfirm} oncancel={handleChangeCurrencyCancel}>
+    </c-veeva-confirmation-modal>
+</template>

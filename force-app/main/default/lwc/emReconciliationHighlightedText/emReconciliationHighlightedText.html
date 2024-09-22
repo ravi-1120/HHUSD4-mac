@@ -1,0 +1,9 @@
+<template>
+    <div class="slds-p-around_x-small">
+        <template for:each={lines} for:item="line">
+            <div class="slds-truncate" key={line.id}>
+                <lightning-formatted-rich-text disable-linkify value={line.text}></lightning-formatted-rich-text>
+            </div>
+        </template>
+    </div>
+</template>

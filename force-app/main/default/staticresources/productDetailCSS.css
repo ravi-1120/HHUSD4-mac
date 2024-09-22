@@ -1,0 +1,32 @@
+
+
+.box_cls .slds-card {
+    padding: 16px 24px;
+    min-height: 139px;
+    /* background: #F7F7F7; */
+}
+.iconclass .slds-icon_xx-small {
+     width: 24px;
+    height: 24px;
+    line-height: 1;
+}
+.iconclass1 .slds-icon_xx-small {
+    width: 24px;
+   height: 24px;
+   line-height: 1;
+}
+.slds-current-color .slds-icon{ 
+    --slds-c-icon-color-foreground: white;    
+    background: black;
+}
+.slds-icon_x-small {
+    width: 24px;
+    height: 24px;
+    line-height: 1;
+}
+
+@media all and (min-width:360px) and (max-width: 600px) {
+    .box_cls .slds-card{
+        height: auto;
+    }
+}

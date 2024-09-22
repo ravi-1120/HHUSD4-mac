@@ -1,0 +1,266 @@
+<template>
+	<!-- Added class layoutmain for mobile screen -->
+	<lightning-layout multiple-rows class="layoutmain">
+		<lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6" class="layoutitemdiv">
+			<lightning-layout multiple-rows class="layout">
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<div class="heading cursorcls b ">Medical Health & Economic Evidence</div>
+				</lightning-layout-item>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<div class="portal cursorcls b">portal</div>
+				</lightning-layout-item>
+				<lightning-layout-item  size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<span style="text-decoration: none;"  ><div class="menulist" data-id='dashboard' onclick={handleNavigation}>Dashboard</div></span>
+					<hr class="solid">
+				</lightning-layout-item>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<!-- Added class pipeinfo for mobile screen -->
+					<div class="slds-grid slds-gutters pipeinfo">
+						<div class="slds-col slds-size_2-of-3">
+							<a style="text-decoration: none;"><div class="menulist"  onclick={handleNavigation} data-id='pipeline' >Pipeline information</div></a>
+						</div>						
+					 </div>
+					<hr class="solid">
+				</lightning-layout-item>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<!-- Added class pipeinfo for mobile screen -->
+					<div class="slds-grid slds-gutters pipeinfo">
+						<div class="slds-col slds-size_2-of-3">
+							<template if:true={diseaseEnable}>
+								<a style="text-decoration: none;"><div class="menulist" onclick={handleNavigation} data-id='disease'>Disease information</div></a>
+							</template>
+							<template if:false={diseaseEnable}>
+								<a style="text-decoration: none;"><div class="menulistHidden" data-id='product'>Disease information</div></a>
+							</template>
+						</div>
+					</div>
+					<hr class="solid">
+				</lightning-layout-item>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<!-- Added class pipeinfo for mobile screen -->
+					<div class="slds-grid slds-gutters pipeinfo">
+						<div class="slds-col slds-size_2-of-3">
+							<a style="text-decoration: none;"><div class="menulist" onclick={handleNavigation} data-id='request' >Requests & appointments</div></a>
+						</div>
+					</div>
+					<hr class="solid">
+				</lightning-layout-item>
+				<lightning-layout-item  size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<!-- Added class accsetting for mobile screen -->
+					<div class="slds-grid slds-gutters accsetting" >
+						<div class="slds-col slds-size_2-of-3">
+							<a style="text-decoration: none;"><div class="menulist" onclick={handleNavigation} data-id='settings'  >Account settings</div></a>
+						</div>
+						<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+							<img  src={imgpopup}  onclick={handleNavigation} data-id='settings' style="cursor: pointer;"/>	
+						</div>
+					</div>
+					<hr class="solid">
+				</lightning-layout-item>
+				<lightning-layout-item  size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<!-- Added class medinfo for mobile screen -->
+					<div class="slds-grid slds-gutters medinfo">
+						<div class="slds-col slds-size_2-of-3">
+							<a style="text-decoration: none;"><div class="menulist" onclick={handleNavigation} data-id='medicalinfo' >Medical information</div></a>
+						</div>
+						<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+							<img  src={imgpopup} onclick={handleNavigation} data-id='medicalinfo' style="cursor: pointer;" />	
+						</div>
+					</div>
+					<hr class="solid">
+				</lightning-layout-item>
+				<!-- <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<a style="text-decoration: none;" href="#"><div class="menulistHidden" >Appointments and requests<img align="right" src={arrow}  style="padding-top: 12px;"></div></a>
+					<hr class="solid">
+				</lightning-layout-item>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					Added class disinfo for mobile screen -->
+					<!-- <div class="slds-grid slds-gutters disinfodiv">
+						 Added class disinformation for mobile screen -->
+						<!-- <div class="slds-col slds-size_2-of-4 disinformation">
+							<a style="text-decoration: none;" href="#"><div class="menulistHidden"  data-id='product'>Disease information</div></a>
+						</div>
+						 Added class comingsoondiv for mobile screen -->
+						<!-- <div class="slds-col slds-size_2-of-4 slds-align_absolute-center comingsoondiv" style="padding-left: 0px;padding-right: 16px;">
+							<span class="coming-soon"> <span class="coming">Coming soon</span></span>	
+						</div>
+					</div>
+					<hr class="solid">
+				</lightning-layout-item> --> 
+			</lightning-layout>
+		</lightning-layout-item>
+		<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+					<div> 
+						<div class="othersite" onclick={Showpopup}>
+							<div class="othersite_p">View Merck &amp; Formulary Resources</div>
+							<span>
+								<img src={navarrow}>
+							</span>
+						</div>
+					</div>
+					</lightning-layout-item>
+					<div if:true={showResponse}>
+			<section role="dialog" tabindex="-1" aria-modal="true" 
+				class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<div class="slds-modal__header medpopup">
+						<div class="slds-grid meddiv">
+							<div class="slds-col slds-size_11-of-12 medtext">
+								<h1
+									class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit medpoph1">
+									<span class="popuphead"><b> Merck Formulary Resources </b></span>
+								</h1>
+							</div>
+							<div class="slds-col slds-size_1-of-12 closebtndiv">
+								<button class="slds-button slds-button_neutral closebuttn"
+                                    	onclick={closeResponse}><span><img src={cross}> </span></button>
+							</div>
+						</div>
+					</div>
+					<!--<div><p>You have submitted a request for an appointment to view:  Vericiguat Budget Impact Model</p></div>-->
+					<div class="slds-modal__content ">
+						<div class="slds-align_absolute-center">
+							<div class="box innermed">
+								<br />
+								<span class="para1">
+                                    <p class="innerp1">Search the database for
+                                        available information and submit requests to our Medical team.</p>
+                                    <p class="innerp2"><b>This will take you out of Medical & Health Economic Evidence
+                                            portal.</b></p>
+                                </span>
+								</br>
+								<div class="slds-align_absolute-center">
+									<button class="slds-button slds-button_neutral continuebtn"
+                                        data-name="Continue to Merck Medical &amp; Health Economic Evidence" onclick={handleHealthEconomicEvidence}>Continue to
+                                        Merck Formulary Resources <img src={HeaderArrow}></button>
+								</div>
+							</div>
+						</div>
+
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral returnbtn"
+                                onclick={closeResponse}>Return to Medical & Health Economic Evidence</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</div>
+		
+
+		<lightning-layout-item size="12" small-device-size="3" medium-device-size="6" large-device-size="6">
+			<div class="box-right">
+				<div class="slds-grid slds-gutters">
+					<div class="slds-col slds-size_3-of-3">
+						<img src={avtar} class="avtar"> &nbsp;&nbsp;<span class="header-merck">My contacts at Merck</span>
+					</div>
+				</div>
+				<div class="slds-col slds-size_3-of-3 ">
+					<p class="merck-desc">We are ready to answer your questions and help you find information.</p>
+				</div>
+
+				<template for:each={primaryExecutive} for:item="executive" for:index="index">
+					<!-- Added contactdivmob class for mobile screen -->
+					<div class="slds-grid slds-gutters_direct contactdivmob" key={executive.id}>
+						<!-- Added class imgdiv for mobile screen -->
+						<div class="slds-col imgdiv">
+							<!-- <img src={executive.fullPhotoURL}  class="imgsrc" width="78px" height="85px"/> --> 
+								<template if:true={executive.isPicturePresent}>
+							<img src={executive.MediumPhotoUrl}  class="photoone" /> 
+						</template>
+						<template if:false={executive.isPicturePresent}>
+							<img src={noprofile} width="78px" height="85px" class="phototwo" />
+						</template>
+						</div>
+						<div class="slds-grid">
+					  		<div class="slds-col" >
+								<span class="namel">{executive.FirstName}&nbsp;{executive.LastName}</span>
+								<span class="name-desc">{executive.Title}</span>
+
+								<!-- Addd mobbtns,nbspcls class for mobile screen --><!--Remove &nbsp;&nbsp;-->
+								<p>
+									<span class="mobbtns">
+										<button class="mycontactbtn" data-name="phone" onclick={handlegaevent}>
+											<img style=" border-radius: 4px; margin-right:8px;" src={phone}/>
+											<template if:true={executive.isPhoneAvailable}>
+                  <a class="hyplink" href={executive.formatNumber} >{executive.Phone}</a>
+              </template>
+              <template if:false={executive.isPhoneAvailable}>
+                {executive.Phone}
+              </template>
+											
+											<!-- <span class="phone">{executive.Phone}</span> Mukesh-->
+										</button>
+									</span>
+									<span class="emailspan">
+										<button class="mycontactbtn" data-name="email" onclick={handlegaevent}>
+											<img src={email} class="imgsrc" style="margin-right:8px;"/>
+											<template if:true={executive.isEmailAvailable}>
+                  <a class="hyplink" href={executive.formatEmail}>{executive.primaryemail}</a>
+              </template>
+              <template if:false={executive.isEmailAvailable}>
+                {executive.primaryemail}
+              </template>
+											<!-- <span class="phone">{executive.primaryemail}</span> Mukesh -->
+										</button>
+									</span>
+								</p>
+					  		</div>
+						</div>
+				  	</div>
+
+				  	<div class="slds-col slds-size_3-of-3 " style="height: 30px;" key={executive.id}>
+						<hr class="solid-profile">
+				  	</div>
+				</template>
+			</div>		
+		</lightning-layout-item>
+	</lightning-layout>
+
+	<div if:true={showExternalSiteWarning}>
+		<!-- Added class popupmenudiv for mobile screen -->
+	   	<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open backgroundbg slds-modal_medium popupmenudiv">
+		   <div class="slds-modal__container">
+			   <div class="slds-modal__header">
+				   <div class="slds-grid slds-gutters">
+					<!-- Added leavingtxt class for mobile screen -->
+					   <div class="slds-col slds-size_11-of-12 leavingtxt">
+                        	<h1 id="modal-heading-01" class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+							   <span > You are leaving Merck Medical Health & Economic Evidence portal </span>
+                            </h1>
+					   	</div>
+					   	<!-- Added crossbtn class for mobile screen -->
+					   	<div class="slds-col slds-size_1-of-12 crossbtn">
+                            <!--  <lightning-button-icon-stateful onclick={closeResponse} class="greenIcon"
+                                    icon-name="utility:close" alternative-text="Close" title="Close">
+                            </lightning-button-icon-stateful> -->
+							<button onclick={closeResponse1} style="background: white; border: 2px solid #00857C; border-radius: 5px;"><img src={cross}></button>
+					   	</div>
+				   	</div>
+			   	</div>
+			   	<!--<div><p>You have submitted a request for an appointment to view: 
+Vericiguat Budget Impact Model</p></div>-->
+			   	<div class="slds-modal__content " id="modal-content-id-2">
+				   	<div class="slds-align_absolute-center">
+						<span class="subtitle">
+							<p> This will take you out of Medical Health & Economic Evidence portal </p>
+						</span>
+				   	</div>
+					<div class="slds-align_absolute-center externalbutton">
+						<button  onclick={handleNavigation} data-id={datasetidval}  class="slds-button viewrequest">Continue
+							<!--<img class="view" src={sidearrow}>  -->
+							<img class="view" src={righttoparrow} >
+						</button>
+					</div>
+				   	<div class="slds-modal__footer popupfooter">
+                        <button class="slds-button slds-button_neutral pop1"  onclick={handleNavigation} data-id='mhee'>Return to Medical Health & Economic Evidence portal<span><img
+                                        > </span>
+						</button>
+				   	</div>
+			   	</div>
+		   	</div>
+	   	</section>
+	   	<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+   	</div>
+</template>

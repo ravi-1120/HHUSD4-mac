@@ -1,0 +1,233 @@
+<template>
+    <div>
+        <div>
+            <div class="bannercls">
+                <img class="bannerclsimg" src={bannerimg}>
+
+                <div class="container position_cls">
+                    <!-- Breadcrumbs start -->
+                    <div class="boxshadow_cls slds-wrap">
+                        <div class="slds-grid slds-wrap">
+                            <a class="breadcrumbs mobreq" data-name="Dashboard" href={siteNames.Dashboard} onclick={handlegaevent}> Dashboard </a>
+                            <span class="breadcrumbsspan  mobreq">/</span>
+                            <span class="breadcrumbsline dispalycase">
+                                Disease information</span>
+                        </div>
+
+                        <!-- Breadcrumbs end -->
+                        <div class="headercls">
+                            <h2>Disease information</h2>
+                        </div>
+
+                        <!-- Desktop Screen -->
+                        <div class="newTabset" if:false={mobilescreen}>
+                            <div>
+                                <lightning-tabset>
+                                    <lightning-tab label="All resources" onactive={hanldetabchange}  data-tabval="all" value="All">
+                                        <div class="slds-form-element inputsearch" if:false={nodata}>
+                                            <label class="slds-form-element__label diseaselabel" for="text-input-id-47">Search by disease</label>
+                                            <div class="slds-form-element__control pipelineVal">
+                                                <input type="text" id="text-input-id-47" placeholder=Search
+                                                    class="slds-input searchval allsearch" onblur={handlegasearch} onkeyup={handleSearch}/>
+                                            </div>
+                                        </div>
+                                        <div class="maincontainercls">
+                                            <div>
+                                                <template if:false={nodata}>
+                                                    <template if:false={noresultfound} for:each={diseaseinformationlist} for:item="dis">
+                                                        <div key={dis}>
+                                                            <div class="diseasemaincls">
+                                                                <div class="diseasecontent1">
+                                                                    <h2>{dis.MSD_CORE_Disease_Information_Title__c}</h2>
+                                                                    <div class="bookmarkcls" if:false={dis.Disease_Info_Librarys__r} data-conname={dis.MSD_CORE_Disease_Information_Title__c} onclick={handlebookmark} data-id={dis.Id}>
+                                                                        <img src={bookmarkselect}>
+                                                                    </div>
+                                                                    <div class="bookmarkcls" if:true={dis.Disease_Info_Librarys__r} data-conname={dis.MSD_CORE_Disease_Information_Title__c} data-id={dis.Id} onclick={handlebookmarkremove}>
+                                                                        <img src={bookmarkremove}>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="diseasecontent2">
+                                                                    <div class="resourcetype">{dis.MSD_CORE_Resource_Type__c}</div>
+                                                                    <button class="viewresourcebtn" data-url={dis.MSD_CORE_Resource_URL__c} data-conname={dis.MSD_CORE_Disease_Information_Title__c} onclick={viewResource}>
+                                                                        <span>View resource</span>
+                                                                        <span class="rightarrow"><img src={rightarrow}></span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                    <template if:true={noresultfound}>
+                                                        <div class="noresultcls">
+                                                            No results found. Please try a different combination of keywords.
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <template if:true={nodata}>
+                                                    <div class="noresultcls">
+                                                        <p>More resources are expected to be added to the portal soon. </p><br/>
+                                                        <p>If you’d like to learn more about what resources are available, contact your Merck account team. </p>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </lightning-tab>
+                                    <lightning-tab label="Saved resources" onactive={hanldetabchange}  data-tabval="saved" value="Saved">
+                                        <div class="slds-form-element inputsearch" if:false={nosaveddata}>
+                                            <label class="slds-form-element__label diseaselabel" for="text-input-id-47">Search by disease</label>
+                                            <div class="slds-form-element__control pipelineVal">
+                                                <input type="text" id="text-input-id-48" placeholder=Search 
+                                                    class="slds-input searchval savesearch" onblur={handlegasearch} onkeyup={handleSavedSearch}/>
+                                            </div>
+                                        </div>
+                                        <div class="maincontainercls">
+                                            <div>
+                                                <template if:false={nosaveddata}>
+                                                    <template if:false={nosavedresultfound} for:each={saveddiseaseinformationlist} for:item="dis">
+                                                        <div key={dis} if:true={dis.MSD_CORE_Disease_Information__c}>
+                                                            <div class="diseasemaincls">
+                                                                <div class="diseasecontent1">
+                                                                    <h2>{dis.MSD_CORE_Disease_Information__r.MSD_CORE_Disease_Information_Title__c}</h2>
+                                                                    <div class="bookmarkcls" data-conname={dis.MSD_CORE_Disease_Information__r.MSD_CORE_Disease_Information_Title__c} onclick={handlebookmarkremove} data-id={dis.MSD_CORE_Disease_Information__c}>
+                                                                        <img src={bookmarkremove}>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="diseasecontent2">
+                                                                    <div class="resourcetype">{dis.MSD_CORE_Disease_Information__r.MSD_CORE_Resource_Type__c}</div>
+                                                                    <button class="viewresourcebtn" data-url={dis.MSD_CORE_Disease_Information__r.MSD_CORE_Resource_URL__c} data-conname={dis.MSD_CORE_Disease_Information__r.MSD_CORE_Disease_Information_Title__c} onclick={viewResource}>
+                                                                        <span>View resource</span>
+                                                                        <span class="rightarrow"><img src={rightarrow}></span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                    <template if:true={nosavedresultfound}>
+                                                        <div class="noresultcls">
+                                                            No results found. Please try a different combination of keywords.
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <template if:true={nosaveddata}>
+                                                    <div class="noresultcls">
+                                                        You don’t have any saved resources at this time.
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </lightning-tab>
+                                </lightning-tabset>
+                            </div>
+                        </div>
+                        <!-- End Of Desktop Scren -->
+
+                        <!--Mobile Screen Start-->
+                        <div class="newTabset" if:true={mobilescreen}>
+                            <div class="tabset-pickList">
+                                <div class="picklist-label">Jump to</div>
+                                <lightning-combobox name="jumpTO" value={selectedTabMobile}
+                                    options={tabsetOptions} onchange={handleMobileTabChange} variant="label-hidden"
+                                    class="diseasecomboboxcls">
+                                </lightning-combobox>
+                            </div>
+                            <template if:true={isAllDiseaseMobile}>
+                                <!-- code foe All Disesase Mobole -->
+                                <div class="slds-form-element inputsearch" if:false={nodata}>
+                                    <label class="slds-form-element__label diseaselabel" for="text-input-id-47">Search by disease</label>
+                                    <div class="slds-form-element__control pipelineVal">
+                                        <input type="text" id="text-input-id-50" placeholder=Search 
+                                            class="slds-input searchval" onblur={handleSearch}  onkeypress={handleSearch} onpaste={handleSearch}/>
+                                    </div>
+                                </div>
+                                <div class="maincontainercls">
+                                    <div>
+                                        <template if:false={nodata}>
+                                            <template if:false={noresultfound} for:each={diseaseinformationlist} for:item="dis">
+                                                <div key={dis}>
+                                                    <div class="diseasemaincls">
+                                                        <div class="diseasecontent1">
+                                                            <h2>{dis.MSD_CORE_Disease_Information_Title__c}</h2>
+                                                            <div class="bookmarkcls" if:false={dis.Disease_Info_Librarys__r} data-conname={dis.MSD_CORE_Disease_Information_Title__c} onclick={handlebookmark} data-id={dis.Id}>
+                                                                <img src={bookmarkselect}>
+                                                            </div>
+                                                            <div class="bookmarkcls" if:true={dis.Disease_Info_Librarys__r} data-conname={dis.MSD_CORE_Disease_Information_Title__c} data-id={dis.Id} onclick={handlebookmarkremove}>
+                                                                <img src={bookmarkremove}>
+                                                            </div>
+                                                        </div>
+                                                        <div class="diseasecontent2">
+                                                            <div class="resourcetype">{dis.MSD_CORE_Resource_Type__c}</div>
+                                                            <button class="viewresourcebtn" data-url={dis.MSD_CORE_Resource_URL__c} data-conname={dis.MSD_CORE_Disease_Information_Title__c} onclick={viewResource}>
+                                                                <span>View resource</span>
+                                                                <span class="rightarrow"><img src={rightarrow}></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <template if:true={noresultfound}>
+                                                <div class="noresultcls">
+                                                    No results found. Please try a different combination of keywords.
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template if:true={nodata}>
+                                            <div class="noresultcls">
+                                                <p>More resources are expected to be added to the portal soon. </p><br/>
+                                                <p>If you’d like to learn more about what resources are available, contact your Merck account team. </p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:false={isAllDiseaseMobile}>
+                                <!-- code foe Saved Disesase Mobole -->
+                                <div class="slds-form-element inputsearch" if:false={nosaveddata}>
+                                    <label class="slds-form-element__label diseaselabel" for="text-input-id-47">Search by disease</label>
+                                    <div class="slds-form-element__control pipelineVal">
+                                        <input type="text" id="text-input-id-49" placeholder=Search 
+                                            class="slds-input searchval" onblur={handleSavedSearch}  onkeypress={handleSavedSearch} onpaste={handleSavedSearch}/>
+                                    </div>
+                                </div>
+                                <div class="maincontainercls">
+                                    <div>
+                                        <template if:false={nosaveddata}>
+                                            <template if:false={nosavedresultfound} for:each={saveddiseaseinformationlist} for:item="dis">
+                                                <div key={dis} if:true={dis.MSD_CORE_Disease_Information__c}>
+                                                    <div class="diseasemaincls">
+                                                        <div class="diseasecontent1">
+                                                            <h2>{dis.MSD_CORE_Disease_Information__r.MSD_CORE_Disease_Information_Title__c}</h2>
+                                                            <div class="bookmarkcls" onclick={handlebookmarkremove} data-conname={dis.MSD_CORE_Disease_Information__r.MSD_CORE_Disease_Information_Title__c} data-id={dis.MSD_CORE_Disease_Information__c}>
+                                                                <img src={bookmarkremove}>
+                                                            </div>
+                                                        </div>
+                                                        <div class="diseasecontent2">
+                                                            <div class="resourcetype">{dis.MSD_CORE_Disease_Information__r.MSD_CORE_Resource_Type__c}</div>
+                                                            <button class="viewresourcebtn" data-url={dis.MSD_CORE_Disease_Information__r.MSD_CORE_Resource_URL__c} data-conname={dis.MSD_CORE_Disease_Information__r.MSD_CORE_Disease_Information_Title__c} onclick={viewResource}>
+                                                                <span>View resource</span>
+                                                                <span class="rightarrow"><img src={rightarrow}></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <template if:true={nosavedresultfound}>
+                                                <div class="noresultcls">
+                                                    No results found. Please try a different combination of keywords.
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template if:true={nosaveddata}>
+                                            <div class="noresultcls">
+                                                You don’t have any saved resources at this time.
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <!--End Mobile Screen End-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

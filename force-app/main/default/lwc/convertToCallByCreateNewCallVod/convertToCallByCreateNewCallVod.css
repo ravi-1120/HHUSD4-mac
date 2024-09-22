@@ -1,0 +1,56 @@
+.cnc-body {
+    padding: 0;
+    min-height: 350px;
+    overflow-y: auto !important;
+}
+
+.create-new-call-container {
+    padding: 15px 40px;
+}
+
+.s4l-attendee-title {
+    background-color: rgb(243, 243, 243);
+    margin: 0 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.cnc-body .input-label {
+    margin: .5vh 0vh .5vh .2vh;
+}
+
+.s4l-attendee-button-container {
+    padding: 15px 0 10px 40px;
+}
+
+.s4l-selected-attendee-list-container {
+    max-height: 120px;
+    overflow-y: auto;
+    padding: 0px 40px 15px 40px;
+}
+
+.s4l-selected-attendee-list {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.s4l-selected-attendee-list > div {
+    display: table-row;
+    border-bottom: 2px solid rgb(243, 243, 243);
+}
+
+.s4l-selected-attendee-list > div > div {
+    display: table-cell;
+    line-height: 1.5;
+    padding: 2px;
+    vertical-align: middle;
+    width: 100%;
+    min-height: 50px;
+    word-break: break-word;
+}
+
+.attendee-supplemental-info {
+    color: #6a6565;
+}

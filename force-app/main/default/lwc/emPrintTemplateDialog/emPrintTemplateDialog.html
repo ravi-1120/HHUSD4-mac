@@ -1,0 +1,62 @@
+<template>
+    <c-veeva-modal id="emPrintTemplateDialog" size="medium" composed=true onclose={closeDialog}>
+        <div slot="header">
+            {dialogHeader}
+        </div>
+        <div slot="content">
+            <div class="slds-grid slds-is-relative">
+                <c-veeva-spinner if:true={templatesLoading} class="slds-spinner_container"></c-veeva-spinner>
+                <div if:false={templatesLoading} class="slds-col slds-size_1-of-3 slds-split-view_container slds-is-open">
+                    <article class="templates-column slds-split-view slds-grid slds-grid_vertical">
+                        <div class="templates-header slds-split-view__list-header">
+                            <h1 class="slds-col slds-text-heading_small slds-text-color_default">{templatesLabel}</h1>
+                            <p class="slds-col slds-text-body_small">{templateSelectLabel}</p>
+                        </div>
+                        <ul if:false={noTemplates} class="slds-scrollable_y">
+                            <template iterator:it={templates}>
+                                <li class="template-item slds-split-view__list-item" key={it.value.Id}>
+                                    <a class="template-content slds-split-view__list-item-action slds-has-flexi-truncate slds-media"
+                                        aria-current={it.value.ariaCurrent} data-index={it.index} onclick={selectTemplate}>
+                                        <lightning-icon class="slds-media__figure" icon-name="standard:document" size="medium"></lightning-icon>
+                                        <div class="slds-media__body">
+                                            <div class="slds-text-title_bold slds-text-color_default">{it.value.name}</div>
+                                            <div>{it.value.description}</div>
+                                            <div>{it.value.templateLastModified}</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                        <div if:true={noTemplates} class="slds-media slds-media_center slds-p-around_small">
+                            <lightning-icon class="slds-media__figure" icon-name="utility:info_alt" size="small"></lightning-icon>
+                            <div class="slds-media__body slds-text-heading_small slds-text-color_default">{noTemplatesLabel}</div>
+                        </div>
+                    </article>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-is-relative">
+                    <c-veeva-spinner if:true={previewLoading} class="slds-spinner_container"></c-veeva-spinner>
+                    <div class="preview-area slds-scrollable_y slds-grid slds-grid_vertical">
+                        <div if:true={previewError} class="slds-media slds-media_center slds-p-horizontal_small slds-p-top_small">
+                            <lightning-icon class="slds-media__figure" icon-name="utility:error" size="small" variant="error"></lightning-icon>
+                            <div class="slds-media__body slds-text-heading_small slds-text-color_error">
+                                <lightning-formatted-rich-text value={previewError}></lightning-formatted-rich-text>
+                            </div>
+                        </div>
+                        <img if:true={preview} class="slds-p-around_x-small" src={preview} alt="Preview">
+                        <c-veeva-no-data-desert-illustration if:true={noTemplateSelected} class="slds-align_absolute-center"
+                            header={noTemplateSelectedLabel}>
+                        </c-veeva-no-data-desert-illustration>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div slot="footer">
+            <div if:false={templatesLoading} class="slds-align_absolute-center slds-button-group-row">
+                <lightning-button class="slds-button-group-item" variant="neutral" label={cancelButtonLabel} onclick={closeDialog}
+                    disabled={disableButtons}></lightning-button>
+                <lightning-button class="slds-button-group-item" variant="brand" label={button.label} onclick={generatePdf}
+                    disabled={disableGenerateButton}></lightning-button>
+            </div>
+        </div>
+    </c-veeva-modal>
+</template>

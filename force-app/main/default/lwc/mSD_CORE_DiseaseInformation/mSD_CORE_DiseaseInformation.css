@@ -1,0 +1,213 @@
+.bannercls {
+    position: relative;
+}
+.bannercls img {
+    width: 100%;
+}
+.container {
+    max-width: 81%;
+    margin: auto;
+}
+.position_cls {
+    max-width: 1128px;
+    position: relative;
+    z-index: 1;
+    margin-top: -6%;
+    margin-bottom: 120px;/* Rusheel */
+}
+.boxshadow_cls {
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09), 0px 3px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 1128px;
+    padding: 40px;
+}
+.breadcrumbs {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: underline !important;
+    color: #00857c !important;
+    padding-right: 8px;
+}
+.breadcrumbsspan {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #00857c !important;
+    padding-right: 8px;
+}
+.breadcrumbsline{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: none !important;
+    color: #00857c !important;
+    padding-right: 8px;   
+}
+.headercls {
+    color: #000;
+    font-family: 'Invention';
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 45px; /* 125% */
+    padding-bottom: 24px;
+}
+.inputsearch {
+    max-width: 410px;
+}
+.diseasemaincls {
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.20);
+    margin-top: 16px;
+}
+.diseasecontent1 {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+}
+.diseasecontent2 {
+    display: flex;
+    justify-content: space-between;
+}
+.diseasecontent1 h2 {
+    color: #333;
+    font-family: 'Invention';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;
+    max-width: 80%;
+}
+.resourcetype {
+    border-radius: 4px;
+    background: #FFE7E6;
+    color: var(--neutral-black, #000);
+    text-align: center;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px; /* 128.571% */
+    letter-spacing: 0.862px;
+    padding: 2px 8px;
+    margin: auto 0;
+		padding-bottom:0;
+		height:18px;
+}
+.bookmarkcls img {
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+}
+.viewresourcebtn {
+    display: flex;
+    color: #FFF;
+    text-align: center;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.862px;
+    border-radius: 5px;
+    background:  #00857C;
+    padding: 7px 16px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    line-height: 1;
+}
+.rightarrow {
+    margin-left: 16px;
+}
+.rightarrow img {
+    width: 16px;
+    height: 16px;
+}
+.diseaselabel {
+    display:flex;/* Rusheel */
+    color:  #333;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px; /* 150% */
+    padding-bottom: 8px;
+    margin:0;/* Rusheel */  
+}
+.searchval {
+    padding: 9px 12px 10px 12px;
+    color: #757575;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+}
+lightning-tab {
+    padding-top: 16px;
+    padding-bottom:0;/* Rusheel */
+}
+.noresultcls {
+    color: #757575;
+    text-align: center;
+    font-family: 'Invention';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    padding: 40px 16px;
+}
+
+@media screen and (max-width: 768px) {
+    .bannerclsimg{
+        height: 182px;
+    }
+    .position_cls{
+        max-width: 343px;
+        margin-top: -141px;
+    }
+    .boxshadow_cls{
+        max-width: 343px;
+        padding: 16px;
+    }
+    .picklist-label {
+        color: #333;
+        font-family: 'Invention';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 21px; /* 150% */   
+        padding-bottom: 8px;
+    }
+    .diseasecontent2 {
+        display: block;
+    }
+    .diseasecomboboxcls {
+        margin-bottom: 24px;
+    }
+    .headercls {
+        color: #333;
+        font-family: 'Invention';
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 36px; /* 150% */
+        padding-top: 8px;
+    }
+    .resourcetype {
+        display: initial;
+    }
+    .viewresourcebtn {
+        margin-top: 16px;
+    }
+}

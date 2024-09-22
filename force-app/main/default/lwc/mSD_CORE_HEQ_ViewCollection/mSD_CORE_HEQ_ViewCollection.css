@@ -1,0 +1,399 @@
+* {
+    font-family: 'Invention';
+}
+
+.maincontainer {
+    min-height: calc(-376px + 100vh);
+    background:#F4F4F4;
+    padding: 24px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FFFFFF;
+    height: 66px;
+    padding: 21px;
+    margin-bottom: 18px;
+}
+
+.title {
+    margin: auto 0;
+    font-size: 18px;
+    font-family: 'Invention';
+    line-height: 24px;
+}
+
+.icon-container {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-border {
+	cursor: pointer;
+}
+
+.filter-modal {
+    padding: 3rem 0 3rem 0;
+}
+
+.image-container {
+    width: 100%;
+    height: 114px;
+    margin-bottom: 24px;
+}
+
+.header-image {
+    width: 100%;
+    max-height: 114px;
+}
+
+hr {
+    border: 0;
+    border-top: 2px solid #d8dde6;
+    margin: 20px 0;
+}
+
+.tabs-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid #d8dde6;
+}
+
+.tab-button {
+    border: 1px solid transparent;
+    padding: 10px;
+    cursor: pointer;
+    font-family: 'Invention';
+    border-bottom: none;
+    font-size: 14px;
+    color: #0B0000;
+}
+
+.tab-button.active {
+    background: #00857c;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Invention';
+    border-radius: 3px;
+}
+
+.add-item-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.tab-content {
+    background: #FFFFFF;
+    justify-content: center;
+    display: flex;
+    min-height: 395px;
+}
+
+.bodycls {
+    width: 100%;
+}
+
+.bodycls table tr th {
+    background: #FFFFFF;
+    font-size: 14px;
+    font-family: 'Invention';
+    font-weight: 700;
+    color: #202020;
+}
+
+.bodycls table tr td {
+    font-size: 14px;
+    font-family: 'Invention';
+    color: #202020;
+}
+
+.noCustomertxt {
+    font-size: 18px;
+    font-family: 'Invention';
+    color: #0B0000;
+    line-height: 24px;
+    text-align: center;
+}
+
+.noCustomertxt span {
+    color: #00857c;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: 'Invention';
+    cursor: pointer;
+}
+
+.section {
+    padding: 20px;
+    border: 1px solid #d8dde6;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.tile-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    position: relative;
+}
+
+.tile-header {
+    text-align: right;
+    padding: 5px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: #999;
+    padding: 5px;
+}
+
+.tile-content {
+    display: flex;
+    padding: 10px 10px 10px 0px;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tile-preview {
+    text-align: center;
+    width: 200px;
+    height: 80px;
+}
+
+.preview-image {
+    height: 60px;
+    width: 60%;
+    object-fit: contain;
+    text-align: center;
+}
+
+.tile-metadata {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.metadata {
+    margin: 5px 0;
+    font-size: 12px;
+    word-wrap: break-word;
+}
+
+.preview_icon {
+    cursor: pointer;
+    padding-left: 20px;
+    --slds-c-icon-color-foreground-default: #00857c !important;
+}
+
+.customermodel {
+    max-width: 100%;
+    min-width: 90%;
+    margin: auto 5%;   
+}
+
+.customerheader {
+    padding: 0;
+}
+
+.closeicon {
+    cursor: pointer;
+}
+
+.breadcrumbs {
+	padding-bottom: 18px;
+}
+
+.breadcrumb1 {
+	color: #ADADAD;
+	font-family: 'Invention';
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	cursor: pointer;
+}
+
+.breadcrumb2 {
+	color: #070101;
+	font-family: 'Invention';
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+	margin-left: 6px;
+}
+
+.collection-container{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 35px 24px 0px 24px;
+    padding-bottom: 8px;
+}
+
+.collection-data{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-family: 'Invention';
+    color: #333;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.resource-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-radius: 5px;
+    border: 1px solid #E4E4E4;
+    background: #FFF;
+    min-height: 832px;
+    padding: 24px 24px 97px 24px;
+    gap: 13px;
+    row-gap: 19px;
+}
+
+.col-val{
+    color: #ADADAD;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 6px;
+}
+
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 29px;
+}
+
+
+.filter-header-txt {
+    font-family: 'Invention';
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #005C56;
+}
+
+.closeiconclick {
+    cursor: pointer;
+}
+
+.mainmodel-print {
+    max-width: 1098px;
+    min-height: 661px;
+    padding: 32px 31px 48px 33px;
+    padding-bottom: 26px;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.print-bd {
+    font-family: 'Invention';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    padding-bottom: 14px;
+    color: #333333;
+}
+
+.removeusermodelbody {
+    padding: 32px;
+    max-width: 552px;
+    margin: auto;
+}
+
+.removeusermodelheader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.removeusermodelheader span {
+    font-family: 'Invention';
+    font-size: 24px;
+    color: #005C56;
+    line-height: 36px;
+    font-weight: 500;
+}
+
+.removeuserbodytxt {
+    font-size: 16px;
+    font-family: 'Invention';
+    font-weight: 500;
+    line-height: 24px;
+    padding-bottom: 16px;
+}
+
+.removeusername {
+    font-size: 16px;
+    font-family: 'Invention';
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.removeuseremail {
+    font-size: 16px;
+    font-family: 'Invention';
+    font-weight: 500;
+    line-height: 24px;
+    padding-bottom: 21px;
+}
+
+.removuserbtncls {
+    display: flex;
+    gap: 16px;
+}
+
+/* Smartphones (portrait) */
+@media only screen and (max-width: 480px) {
+    .mainmodel-print{
+        min-height: 100vh;
+        padding: 0px;
+    }
+
+    .print-bd{
+        font-size: 14px;
+    }
+    .filter-header{
+        padding: 36px 24px 24px 24px;
+    }
+    .filter-header-txt{
+        color: #000;
+        font-family: 'Invention';
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+    }
+    .close-icon{
+        position: absolute;
+        top: 24px;
+        right: 24px;
+    }
+}

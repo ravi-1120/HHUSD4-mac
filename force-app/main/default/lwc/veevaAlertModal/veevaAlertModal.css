@@ -1,0 +1,9 @@
+.icon {
+    display: block;
+    margin: auto;
+    padding: 16px;
+}
+
+.modal-content-message {
+  min-height: 1rem;
+}

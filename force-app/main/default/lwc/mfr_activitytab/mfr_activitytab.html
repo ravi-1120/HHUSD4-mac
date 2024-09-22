@@ -1,0 +1,39 @@
+<template>
+	<div class="activity-container">
+
+
+		<template for:each={activitydata} for:item="act" for:index="index">
+			<div key={act.key}>
+				<br/>
+				<div class="header_cls">{act.key}</div>
+
+				<div>
+					<div class="status_bar">
+						<div class="positioncls slds-p-around_medium">
+							<template for:each={act.value} for:item="data" for:index="index">
+								<div key={act.key} class="border_cls slds-p-vertical_medium slds-p-left_medium">
+								<template if:true={productNameval}>
+									<template if:true={passcontentname}>
+									<c-mfr_activity-detail meeting-request-obj={data} product-i-d={recId} key={data.id}
+										prodname={productNameval} content={passcontentname}></c-mfr_activity-detail>
+								   </template>
+								</template>
+								</div>
+							</template>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+
+	<br/>
+	<template if:true={showPagination}>
+		<div class="slds-align_absolute-center">
+			<c-do-pagination page-size={pageSize} total-count={totalCount} onmycustomevent={handleCustomEvent}
+				product-name={productNameval}>
+			</c-do-pagination>
+		</div>
+	</template>
+	<!-- </div> -->
+</template>

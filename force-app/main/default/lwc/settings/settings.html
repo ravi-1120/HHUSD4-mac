@@ -1,0 +1,509 @@
+<template>
+
+  <div if:true={showtoast}>
+    <div class="toastmsgmain">
+        <div class="toastbody" role="status">
+            <img src={alertimg}/ class="imgcls">
+            <h2 class="slds-text-heading_small toasttext">
+                Changes have been saved
+            </h2>
+            <img src={crossimg}/ class="closeicon" onclick={closeclick}>
+        </div>
+    </div>
+  </div>
+  <template if:true={isshowmodal}>
+    <div class="body_cls">
+      <div class="bg" style={backgroundStyle}>
+        <!--  CSS class [ mob-bg-banner ] added in img tag for mobile screen -->
+        <img class="mob-bg-banner" src={banner}>
+      </div>
+      <div class="c-container slds-p-horizontal-large">
+
+        <div class="productlist c-container slds-p-around_x-large plone">
+          <template if:false={eligibilityRecords.accountLocked}>
+            <p class="ptextone ptone">
+              <span class="dacls">
+                <a href={navigatedashboard} onclick={handlenavigatedashboard}>Dashboard</a> </span>
+              <span class="cursorcls cscls">/</span>
+              <span class="stlcs">
+                <a class="cursorcls settings"><span>Settings</span></a></span>
+            </p>
+          </template>
+          <template if:true={eligibilityRecords.accountLocked}>
+            <p class="ptextone ptone">
+              <span class="dacls">
+                <a>Dashboard</a> </span>
+              <span class="cursorcls cscls">/</span>
+              <span class="stlcs">
+                <a class="cursorcls settings"><span>Settings</span></a></span>
+            </p>
+          </template>
+          <h1 class="heading_cls cursorcls">Settings</h1>
+
+          <div class="tabset-pickList">
+            <lightning-combobox name="settingTabSet" value={value} placeholder="Select" options={tabsetOptions}
+              onchange={handlePickListChange} variant="label-hidden" class="jump-to-pickList">
+            </lightning-combobox>
+          </div>
+
+          <!-- div for Mobile Screen only -->
+          <!--  div and class [ mob-main-div ] added for pick lis -->
+
+
+
+          <!-- div for Mobile Screen only -->
+
+          <!--  <h2 class="slds-p-vertical_medium subheading_cls cursorcls">Settings</h2> -->
+          <lightning-layout padding="around-small" class="layout_cls">
+
+            <div class="newTabset">
+              <ul class="slds-tabs_default__nav" role="tablist">
+                <li class={tab1CSS} onclick={handleTabClick} data-id="1"
+                  style="list-style-type: none; text-align: center; width: auto;" role="presentation"
+                  title="Account information">
+                  <a class="slds-tabs_default__link " role="tab" tabindex="-1" aria-selected="true"
+                    aria-controls="tab-default-1">
+                    <span class="tab-header-name">Account information</span>
+                  </a>
+                </li>
+                <li class={tab2CSS} onclick={handleTabClick} data-id="2"
+                  style="list-style-type: none; text-align: center; width: auto;" role="presentation"
+                  title="Eligibility information">
+                  <a class="slds-tabs_default__link" role="tab" tabindex="0" aria-selected="true"
+                    aria-controls="tab-default-2">
+                    <span class="tab-header-name">Eligibility information</span>
+                  </a>
+                </li>
+                <li class={tab3CSS} onclick={handleTabClick} data-id="3"
+                  style="list-style-type: none; text-align: center; width: auto;" role="presentation"
+                  title="Notifications">
+                  <a class="slds-tabs_default__link" role="tab" tabindex="0" aria-selected="true"
+                    aria-controls="tab-default-3">
+                    <span class="tab-header-name">Notifications</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <template if:true={tab1Bool}>
+              <div>
+                <p class="acctitle">Account email and password</p>
+                <p class="acctitletwo">If necessary, update your Merck formulary resources account email, password, and
+                  professional information.</p>
+                <div class="slds-grid slds-gutters btnmaindiv">
+                  <template if:false={eligibilityRecords.accountLocked}>
+                    <div>
+                      <!-- <button class="accemail" style="margin-left:12px;" onclick={updateEmail} disabled={accbtndisable}>Update account email</button> -->
+                      <button class={accemailbtn} onclick={updateEmail}
+                        disabled={accbtndisable}>Update account email</button>
+                    </div>
+                  </template>
+                  <template if:true={eligibilityRecords.accountLocked}>
+                    <div>
+                      <button class="accemail btndisabled">Update account email</button>
+                    </div>
+                  </template>
+                  <template if:false={eligibilityRecords.accountLocked}>
+                    <div>
+                      <button class={updatpass} onclick={onUpdatePassword} disabled={accbtndisable}>Update
+                        password</button>
+                    </div>
+                  </template>
+                  <template if:true={eligibilityRecords.accountLocked}>
+                    <div>
+                      <button class="updatebtn btndisabled">Update password</button>
+                    </div>
+                  </template>
+                </div>
+              </div>
+              <div if:false={showpersonaleditpage}>
+                <div class="slds-grid personalheadercls">
+                  <div class="slds-col personalinfo">Personal information
+                    <span class="ssodesc" style="display: grid;">Update your professional information.</span>
+                  </div>
+                  <template if:false={eligibilityRecords.accountLocked}>
+                    <button class="slds-col_bump-left editbtn" onclick={showPersonal}>
+                      Edit
+                    </button>
+                  </template>
+                  <template if:true={eligibilityRecords.accountLocked}>
+                    <button class="slds-col_bump-left editbtn btndisabled">Edit</button>
+                  </template>
+                </div>
+                <!-- <p class="ssodesc" style="margin-top:-16px;">Update your professional information.</p> -->
+
+                <div class="slds-grid salutationcls">
+                  <div class="slds-col mobpadding">
+                    <div class="optioncls"><span class="optionalcls"> Salutation</span>&nbsp;<span class="optionalfont">
+                        (optional):</span></div>
+                    <div class="formvalue"> {eligibilityRecords.salutation}</div>
+                  </div>
+                  <div class="slds-col mobpadding">
+                    <div class="personalinfocls"> First name:</div>
+                    <div class="formvalue"> {eligibilityRecords.firstName}</div>
+                  </div>
+                  <div class="slds-col mobpadding">
+                    <div class="personalinfocls"> Last name:</div>
+                    <div class="formvalue"> {eligibilityRecords.lastName}</div>
+                  </div>
+                  <div class="slds-col mobpadding">
+                    <div class="optioncls suffixcls"><span class="optionalcls"> Suffix</span>&nbsp; <span
+                        class="optionalfont">(optional):</span></div>
+                    <div class="formvalue"> {eligibilityRecords.suffix}</div>
+                  </div>
+                </div>
+                <div class="slds-grid descls">
+                  <div class="slds-col mobpadding">
+                    <div class="personalinfocls">Designation or Title:</div>
+                    <div class="formvalue"> {eligibilityRecords.designation}</div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="personalinfocls"> Specialty:</div>
+                    <div class="formvalue"> {eligibilityRecords.specialty}</div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="personalinfocls"></div>
+                    <div> </div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="personalinfocls"> </div>
+                    <div> </div>
+                  </div>
+                </div>
+
+
+                <div class="optioncls licinfo"><span class="optionalcls">License
+                    information</span>&nbsp; <span class="optionalfont">(optional)</span></div>
+                <!-- <div class="liccls">  -->
+                <lightning-layout multiple-rows="true" class="licenselayoutcls slds-wrap">
+                  <template if:true={eligibilityRecords.relatedLicense} for:each={eligibilityRecords.relatedLicense}
+                    for:item="counter" for:index="index">
+                    <lightning-layout-item size="6" key={counter} class="licsenebox">
+                      <div key={counter}>
+                        <div key={counter}>
+                          <div key={counter} class="slds-col">
+                            <p class="licenseindex"> License {counter.serialNum} </p>
+                            <hr class="barstyle" />
+                          </div>
+                        </div>
+
+                        <div key={counter} class="slds-grid licensename">
+                          <div key={counter} class="slds-col paddingcls marginliccls">
+                            <p class="formcls">Name on the license:</p>
+                            <p class="formvalue lencls"> {counter.license.Name}</p>
+                          </div>
+                          <div key={counter} class="slds-col paddingcls">
+                            <p class="formcls">License number:</p>
+                            <p class="formvalue lencls"> {counter.license.MSD_CORE_License_Number__c}</p>
+                          </div>
+                        </div>
+                        <div key={counter} class="slds-grid licensename">
+                          <div key={counter} class="slds-col paddingcls">
+                            <p class="formcls">Licensing state (s):</p>
+                            <p class="formvalue lencls"> {counter.license.MSD_CORE_License_State__c}</p>
+                          </div>
+                          <div key={counter} class="slds-col">
+                            <p class="formcls">Type of license:</p>
+                            <p class="formvalue lencls"> {counter.license.MSD_CORE_Type_of_license__c}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+                </lightning-layout>
+              </div>
+              <div if:true={showpersonaleditpage}>
+                <c-m-s-d_-c-o-r-e_-edit-personal-page
+                  onhidepersonalpage={hideEditPersonal}></c-m-s-d_-c-o-r-e_-edit-personal-page>
+              </div>
+            </template>
+            
+            <template if:true={tab2Bool}>
+              <div class="slds-grid">
+                <lightning-layout class="lytwdthcls">
+                  <lightning-layout-item size=3 class="slds-size_3-of-12">
+                    <div class="eligicls">Eligibility information</div>
+                  </lightning-layout-item>
+                  <lightning-layout-item size=3 class="slds-size_3-of-12">
+                    <template if:false={eligibilityRecords.hideReviewLabel}>
+                      <p class={reviewLabelStyle}>{eligibilityRecords.reviewStatus}</p>
+                    </template>
+                  </lightning-layout-item>
+                  <lightning-layout-item size=6 class="slds-size_6-of-12 elgcls webbtn">
+                    <template if:false={editcomponent}>
+                      <div class="">
+                        <template if:false={eligibilityRecords.disableEligibilityUpdate}>
+                          <button class={btnstyle} style="margin-right: 5px;" onclick={handleConfirm}>
+                            Confirm eligibility information
+                          </button>
+                        </template>
+                        <template if:true={eligibilityRecords.disableEligibilityUpdate}>
+                          <button class="btnDisabledCls" style="margin-right: 5px;">
+                            Confirm eligibility information
+                          </button>
+                        </template>
+                      </div>
+                    </template>
+                  </lightning-layout-item>
+                </lightning-layout>
+              </div>
+              <div class="slds-col">
+                <p class="ssodesc webpara">Eligibility information needs to be reviewed every 6 months in order for the
+                  account
+                  to stay active. If this deadline passes your account will be locked until the eligibility criteria is
+                  reviewed. </p>
+                <!--for mobile start-->
+                <p class="ssodesc mobpara">If necessary, update your Merck formulary resources account email, password,
+                  and professional information.</p>
+                <!--for mobile end-->
+              </div>
+              <div class="slds-col">
+                <template if:true={eligibilityRecords.accountLocked}>
+                  <p class={accLockCss}>Account locked</p>
+                </template>
+                <template if:false={eligibilityRecords.accountLocked}>
+                  <p class={accLockCss}>Account locks on: <lightning-formatted-date-time
+                      value={eligibilityRecords.nextReviewDueDate} year="numeric" month="long"
+                      day="2-digit"></lightning-formatted-date-time></p>
+                </template>
+              </div>
+              <!--for mobile start-->
+              <div class="slds-grid mobbtn">
+                <template if:false={editcomponent}>
+                  <div class="">
+                    <template if:false={eligibilityRecords.disableEligibilityUpdate}>
+                      <button class={btnstyle} style="margin-right: 5px;" onclick={handleConfirm}>
+                        Confirm eligibility information
+                      </button>
+                    </template>
+                    <template if:true={eligibilityRecords.disableEligibilityUpdate}>
+                      <button class="btnDisabledCls" style="margin-right: 5px;">
+                        Confirm eligibility information
+                      </button>
+                    </template>
+                  </div>
+                </template>
+              </div>
+              <!--for mobile end-->
+              <template if:false={editcomponent}>
+                <div class="slds-grid salutationcls orgnamemarg">
+                  <div class="slds-col slds-wrap">
+                    <div class="orgname"> Organization name:</div>
+                    <div class="formvalue"> {eligibilityRecords.organizationName}</div>
+                  </div>
+                  <div class="slds-col orgtypemarg">
+                    <div class="orgname"> Organization type:</div>
+                    <div class="formvalue orgtypewdth1 slds-size_11-of-12">
+                      {eligibilityRecords.organizationType}
+                    </div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="orgname"> </div>
+                    <div class="formvalue"> </div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="orgname"> </div>
+                    <div class="formvalue"> </div>
+                  </div>
+                </div>
+                <template if:true={otherblock}>
+                  <div class="slds-grid slds-gutters">
+                    <div class="slds-col colB">
+                      <p class="orgname othercls"> Role:</p>
+                      <p class="formvalue rolecls"> {eligibilityRecords.otherrole}</p>
+                    </div>
+                  </div>
+                </template>
+                <template if:false={otherblock}>
+                  <div class="slds-grid slds-gutters">
+                    <div class="slds-col colB othercls">
+                      <p class="orgname"> Role:</p>
+                      <p class="formvalue rolecls"> {eligibilityRecords.role}</p>
+                    </div>
+                  </div>
+                </template>
+                <template if:true={consultantblock}>
+                  <template if:true={eligibilityRecords.relatedOrganizations}
+                    for:each={eligibilityRecords.relatedOrganizations} for:item="counter" for:index="index">
+                    <div key={counter} class="orgcard">
+                      <div key={counter} class="slds-grid">
+                        <div class="slds-col" style="margin-bottom:24px;">
+                          <p class="consultcls"> Consulting on behalf of (organization name):</p>
+                          <p class="formvalue"> {counter.MSD_CORE_Organization__r.Name}</p>
+                        </div>
+                      </div>
+                      <div class="slds-grid slds-col slds-size_12-of-12 emailblk">
+                        <div class="emailwdth">
+                          <p class="consultcls"> Email address:</p>
+                          <p class="formvalue"> {counter.MSD_CORE_Email__c}</p>
+                        </div>
+                        <div class="orgtypewdth">
+                          <p class="consultcls"> Organization type:</p>
+                          <p class="formvalue"> {counter.MSD_CORE_Organization_Type__c}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </template>
+                <template if:true={PTblock}>
+                  <div>
+                    <template if:true={eligibilityRecords.ptprocess}>
+                      <p class="orgname"> P&T Process:</p>
+                      <div class="slds-checkbox">
+                        <input type="checkbox" name="options" id="checkbox-unique-id-84" value="checkbox-unique-id-84"
+                          checked disabled />
+                        <label class="slds-checkbox__label" for="checkbox-unique-id-84">
+                          <span class="slds-checkbox_faux"></span>
+                        </label>
+                      </div>
+                    </template>
+                  </div>
+                </template>
+                <div class="slds-grid salutationcls clsto">
+                  <div class="slds-col wrkmrg">
+                    <div class="orgname"> Work street address:</div>
+                    <div class="formvalue"> {eligibilityRecords.work}</div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="optioncls"><span class="optionalcls">Unit, suite, building</span>&nbsp; <span
+                        class="optionalfont">(optional):</span></div>
+                    <div class="formvalue"> {eligibilityRecords.workstreet}</div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="orgname"></div>
+                    <div class="formvalue"></div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="orgname"></div>
+                    <div class="formvalue"></div>
+                  </div>
+                </div>
+                <div class="slds-grid salutationcls orgcls">
+                  <div class="slds-col wrkmrg">
+                    <div class="orgname"> City:</div>
+                    <div class="formvalue"> {eligibilityRecords.city}</div>
+                  </div>
+                  <div class="slds-col wrkmrg">
+                    <div class="orgname">State:</div>
+                    <div class="formvalue"> {eligibilityRecords.statecode}</div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="orgname">Zip:</div>
+                    <div class="formvalue"> {eligibilityRecords.zip}</div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="orgname"></div>
+                    <div class="formvalue"></div>
+                  </div>
+                </div>
+                <div class="slds-grid salutationcls">
+                  <div class="slds-col wrkmrg">
+                    <div class="orgname"> Work phone:</div>
+                    <div class="formvalue"> {eligibilityRecords.phone}</div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="optioncls"> <span class="optionalcls"> Extension</span>&nbsp; <span
+                        class="optionalfont">(optional):</span></div>
+                    <div class="formvalue"> {eligibilityRecords.extension}</div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="orgname"></div>
+                    <div class="formvalue"></div>
+                  </div>
+                  <div class="slds-col">
+                    <div class="orgname"> </div>
+                    <div class="formvalue"> </div>
+                  </div>
+                </div>
+              </template>
+              <template if:true={editcomponent}>
+                <c-m-s-d_-c-o-r-e_-confirm-eligibility
+                  oncancelediteligibility={handleCancelConfirmEligibility}></c-m-s-d_-c-o-r-e_-confirm-eligibility>
+              </template>
+            </template>
+
+
+            <!--- Notification section -->
+            <template if:true={tab3Bool}>
+              <div class="lytwdthcls slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                  <div class="eligicls">Email Notifications</div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                  <p class="subhdr">Update your preferences to opt in/out of the following emails.</p>
+                </div>
+              </div>
+              
+              <br/><br/>
+
+              <div class="lytwdthcls slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                  <label class="checkbox-container">
+                    <b>Daily digest summary</b><br/>
+                    <span class="span">Receive a daily digest summarizing any actions taken on the portal for the day.</span>
+                    <input type="checkbox" data-field="Daily_Digest_Summary__c" checked={notificationData.Daily_Digest_Summary__c} onchange={handleNotificationCheckChange}>
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                  <label class="checkbox-container">
+                    <b>Request confirmation messages</b><br/>
+                    <span class="span">Receive a confirmation email when you submit a request through the portal.</span>
+                    <input type="checkbox" data-field="MSD_Core_Request_Confirmation_Messages__c" checked={notificationData.MSD_Core_Request_Confirmation_Messages__c} onchange={handleNotificationCheckChange}>
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                  <label class="checkbox-container">
+                    <b>Appointment notifications</b><br/>
+                    <span class="span">Get notified when an appointment has been scheduled.</span>
+                    <input type="checkbox" data-field="MSD_Core_Appointment_Notifications__c" checked={notificationData.MSD_Core_Appointment_Notifications__c} onchange={handleNotificationCheckChange}>
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                  <label class="checkbox-container">
+                    <b>Closed request</b><br/>
+                    <span class="span">Receive an email confirming when a request has been closed (this happens when a request has been rejected, expired or received).</span>
+                    <input type="checkbox" data-field="MSD_Core_Closed_Request__c" checked={notificationData.MSD_Core_Closed_Request__c} onchange={handleNotificationCheckChange}>
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                  <label class="checkbox-container">
+                    <b>Expiring resources</b><br/>
+                    <span class="span">Get notified when a resource is about to expire.</span>
+                    <input type="checkbox" data-field="MSD_Core_Expiring_Resources__c" checked={notificationData.MSD_Core_Expiring_Resources__c} onchange={handleNotificationCheckChange}>
+                    <span class="checkmark"></span>
+                  </label>
+                  <div class="field-container">
+                    <label class="dropdown-label">Choose how many days in advance you’d like to be notified.</label>
+                    <lightning-combobox class="custom-combobox" variant="label-hidden" value={notificationData.Prior_Days_to_Expire__c} data-field="Prior_Days_to_Expire__c" options={priorDaysExpireList} onchange={handlePriorDaysExpireChange} placeholder="10 days (default)"></lightning-combobox>
+                </div>
+                </div>
+              </div>
+            </template>
+          </lightning-layout>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template if:true={isUpdatePassword}>
+    <c-m-s-d_-c-o-r-e_-password-update heading1={hedi} subheading1={subhed} page={pageName}
+      settingpagetrue={updatesettingpage} onpopupclose={handleCloseValue}></c-m-s-d_-c-o-r-e_-password-update>
+  </template>
+
+  <template if:true={isUpdateEmail}>
+    <c-m-s-d_-c-o-r-e_-update-email-address currentemailaddress={userEmailAddress} onpopupclose={handleCloseValue}
+      settingpagestatus={updateEmailSettingPage} redirectedto={emailPage} onsitelogout={sitelogout}></c-m-s-d_-c-o-r-e_-update-email-address>
+  </template>
+
+  <template if:true={error}>
+    {error}
+  </template>
+</template>

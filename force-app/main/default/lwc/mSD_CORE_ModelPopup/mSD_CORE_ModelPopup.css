@@ -1,0 +1,21 @@
+.detailpopUp {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+.viewrequest {
+    font-weight: 700;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    color: #00857C;
+    font-family: 'Invention';
+    font-size: 14px;
+    padding: 11px 16px;
+    justify-content: center;
+    align-items: center;
+    width: 159px;
+    height: 40px;
+}

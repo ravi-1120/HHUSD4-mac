@@ -1,0 +1,23 @@
+.field-column {
+    width: 16rem;
+}
+
+.actions-column {
+    width: 36px;
+}
+
+.expense-line-table-container {
+    overflow: auto;
+}
+
+.expense-line-section-editable .expense-line-table-container {
+    min-height: 22rem;
+}
+
+.expense-line-table {
+    table-layout: fixed;
+}
+
+.new-expense-line-button {
+    margin-bottom: 8px;
+}

@@ -1,0 +1,216 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" showHeader="false" applyBodyTag="false" controller="PDS_DocGenController">
+        <head>
+            <style type="text/css" media="print">
+                @page {  
+                    padding-left: 30px;
+                    padding-right: 30px;
+                    margin: 0;
+                    margin-bottom: 100px;
+                    @bottom-center {
+                        content: element(footer);
+                    }
+                    @top-center {
+                    	content: element(pageheader);
+                    }
+                    thead {
+                    	display: table-header-group;
+                    }
+                }
+                thead {
+                	display: table-header-group;
+                }
+                div.pageheader{
+                	content: running(pageheader);
+                }
+                
+                .header{
+                    height: auto;
+                    vertical-align: bottom;
+                    font-weight: bold;
+                    text-align: center;
+                    background-color: #C0C0C0;
+                }
+                body {
+                    font-size: 12px;
+                    font-family: Arial, Sans-Serif;
+                }  
+                table {
+                    width: 100%;
+                    border-collapse: collapse;  
+                    padding-bottom: 10px;
+                }
+                    table th, table td {
+                    border: 1px solid black;
+                    padding: 5px;
+                }
+                div.footer {
+                    display: block;
+                    border: 1px solid black;
+                    position: running(footer);
+                    width: 97%;
+                    margin-left: 35px;
+                    padding:5px;
+                    text-align:left;
+                }
+                .pagenumber:before {
+                    content: counter(page);
+                }
+                .pagecount:before {
+                    content: counter(pages);
+                }
+                tr{
+                    vertical-align: center;
+                }
+              </style>
+        </head>
+        <div class="footer">
+                <div style="text-align:center;padding:5px;width:80%">COMMODITIES TECHNOLOGY OR SOFTWARE SHIPPED IN ACCORDANCE WITH THE EXPORT <br/> ADMINISTRATION REGULATIONS. DIVERSION CONTRARY TO U.S. LAW PROHIBITED</div>
+                <div style="float:right;font-size:16px;font-weight:bold;margin-top:-20px;">INVOICE</div>  
+          </div>
+        <div class="content">
+            <body> 
+                <div style="text-align:center;line-height:1.5">
+                    <b>
+                        <span style="font-size: 18px;">MERCK SHARP &amp; DOHME CORP.,</span><br/>
+                        <span style="font-size: 14px;">A SUBSIDIARY OF MERCK &amp; CO., INC</span>
+                    </b><br/> 
+                    126 East Lincoln Avenue, P.O. Box 2000, Rahway, NJ 07065
+                    <hr/>
+                </div>
+                <table>
+                    <thead>
+                        <tr class="header">
+                            <td colspan="4">INVOICE NO.</td>
+                            <td colspan="4">CUSTOMER ORDER NO.</td>
+                            <td colspan="5">DATE</td>
+                        </tr>
+                        <tr style="text-align:center;">
+                            <td colspan="4">{!requestRecord.PDS_U_S_Invoice_Number__c}</td>
+                            <!--<td colspan="4">
+    						{!IF(CONTAINS(requestRecord.PDS_U_S_Invoice_Number__c, "/FR"),
+         						LEFT(requestRecord.PDS_U_S_Invoice_Number__c, FIND("/FR", requestRecord.PDS_U_S_Invoice_Number__c) - 1),
+         						requestRecord.PDS_U_S_Invoice_Number__c)}</td>-->
+                            <td colspan="4">{!requestRecord.PDS_Customer_Order_Number__c}</td>
+                            <td colspan="5">{! MONTH(TODAY()) }/{! DAY(TODAY()) }/{! YEAR(TODAY()) }</td>
+                        </tr>
+                        <tr class="header">
+                            <td colspan="6">DONATED TO</td>
+                            <td colspan="7">FINAL RECIPIENT/MARKS</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <!--{!requestRecord.PDS_Donee__r.Name}<br/>
+                                {!requestRecord.PDS_Donee__r.MSD_CORE_Primary_Address_Line_1__c}<br/>
+                                {!requestRecord.PDS_Donee__r.MSD_CORE_Primary_City__c} {!requestRecord.PDS_Donee__r.MSD_CORE_Primary_State__c} {!requestRecord.PDS_Donee__r.MSD_CORE_Primary_Zip__c}<br/>
+                                {!requestRecord.PDS_Donee__r.MSD_CORE_Country_Code__c}-->
+                                {!doneeAddress.Account__r.Name}<br/>
+                                {!doneeAddress.PDS_Shipping_Street__c}<br/>
+                                {!doneeAddress.PDS_Shipping_City__c} {!doneeAddress.PDS_Shipping_State__c} {!doneeAddress.PDS_Shipping_Postal_Code__c}<br/>
+                                {!doneeAddress.PDS_Shipping_Country__c} 
+                                <br/><br/>
+                                <!--Attn: {!requestRecord.PDS_Attention__c}<br/>
+                                Tel: {!requestRecord.PDS_Donee__r.Phone}-->
+                                Attn: {!doneeAddress.PDS_Attention__c}<br/>
+                                Tel: {!doneeAddress.PDS_Phone__c}<br/>
+                            </td>
+                            <td colspan="7"></td>
+                        </tr>
+                        <tr class="header">
+                            <td colspan="6">CONSIGNED TO</td>
+                            <td colspan="7">TERMS OF PAYMENT</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                {!doneeAddress.Account__r.Name}<br/>
+                                {!doneeAddress.PDS_Shipping_Street__c}<br/>
+                                {!doneeAddress.PDS_Shipping_City__c} {!doneeAddress.PDS_Shipping_State__c} {!doneeAddress.PDS_Shipping_Postal_Code__c}<br/>
+                                {!doneeAddress.PDS_Shipping_Country__c} <br/><br/><br/>
+                                <!--{!requestRecord.PDS_Consignee__r.Name}<br/>
+                                {!requestRecord.PDS_Consignee__r.PDS_Shipping_Street__c}<br/>
+                                {!requestRecord.PDS_Consignee__r.PDS_Shipping_City__c} {!requestRecord.PDS_Consignee__r.PDS_Shipping_State__c} {!requestRecord.PDS_Consignee__r.PDS_Shipping_Postal_Code__c}<br/>
+                                <span style="text-transform:uppercase">{!requestRecord.PDS_Consignee__r.PDS_Shipping_Country__c}</span><br/><br/><br/>-->
+                                <!--Tel: {!requestRecord.PDS_Consignee__r.PDS_Phone__c}<br/>-->
+                                Tel: {!doneeAddress.PDS_Phone__c}<br/>
+                               <!-- Email: {!requestRecord.PDS_Consignee__r.PDS_Email__c}-->
+                                Email: {!doneeAddress.PDS_Email__c}
+                            </td>
+                            <td colspan="7" style="vertical-align:top">
+                                <apex:outputText value="{!$Label.PDS_InvoiceTerms}" escape="false" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="13">
+                                <div style="display: inline-block; text-align:center;vertical-align: top;">VIA </div>
+                            </td>
+                        </tr>
+                        <tr class="header">
+                            <th>&nbsp;</th>
+                            <th colspan="4" style="width:30px">WEIGHT</th>
+                            <th rowspan="3">PRODUCT NO</th>
+                            <th rowspan="3">COUNTRY</th>
+                            <th rowspan="3">QUANTITY</th>
+                            <th rowspan="3" colspan="3">DESCRIPTION</th>
+                            <th colspan="2">U.S.CURRENCY</th>
+                        </tr>
+                        <tr class="header">
+                            <th rowspan="2">PLG No</th>
+                            <th colspan="2">GROSS</th>
+                            <th rowspan="2">LEGAL KILOS EACH</th>
+                            <th rowspan="2">SAP CODE</th>
+                            <th rowspan="2">UNIT PRICE</th>
+                            <th rowspan="2">AMOUNT</th>
+                        </tr>
+                        <tr class="header">
+                            <th>KILOS EACH</th>
+                            <th>LBS EACH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:variable var="loopCount" value="{!0}" />
+                        <apex:repeat value="{!productLineItems}" var="lineItem" id="productItems">
+                            <tr style="min-height:80px">
+                                <td>&nbsp;</td>
+                                <td colspan="4" style="text-align: right">{!lineItem.PDS_Product__r.PDS_SAP_Code__c}</td>
+                                <td colspan="1">{!lineItem.PDS_Product__r.PDS_Product_Number__c}</td>
+                                <td colspan="1" style="text-transform:uppercase">{!lineItem.PDS_Country__c}</td>
+                                <td colspan="1">{!lineItem.PDS_Quantity_Shipped__c}</td>
+                                <td colspan="3" style="text-transform:uppercase">{!lineItem.PDS_Product__r.Name} {!lineItem.PDS_Quantity_Unit__c}</td>
+                                <td colspan="2">DONATION NO CHARGE</td>
+                            </tr>
+                            <apex:variable var="loopCount" value="{!loopCount + 1}" />
+                            <apex:outputPanel layout="none" rendered="{!AND(loopCount == 5, loopCount > 1)}">
+                                <div style="margin-top:30px;" class="pageheader">
+                                    <tr class="header">
+                                        <th>&nbsp;</th>
+                                        <th colspan="4" style="width:30px">WEIGHT</th>
+                                        <th rowspan="3">PRODUCT NO</th>
+                                        <th rowspan="3">COUNTRY</th>
+                                        <th rowspan="3">QUANTITY</th>
+                                        <th rowspan="3" colspan="3">DESCRIPTION</th>
+                                        <th colspan="2">U.S.CURRENCY</th>
+                                    </tr>
+                                    <tr class="header">
+                                        <th rowspan="2">PLG No</th>
+                                        <th colspan="2">GROSS</th>
+                                        <th rowspan="2">LEGAL KILOS EACH</th>
+                                        <th rowspan="2">SAP CODE</th>
+                                        <th rowspan="2">UNIT PRICE</th>
+                                        <th rowspan="2">AMOUNT</th>
+                                    </tr>
+                                    <tr class="header">
+                                        <th>KILOS EACH</th>
+                                        <th>LBS EACH</th>
+                                    </tr>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:repeat>
+                    </tbody>      
+                    <tr>
+                        <td colspan="13">            
+                            <div style="text-align:center;font-weight:bold;line-height:2;">Market value of Donation<br/><span style="text-decoration: underline">US ${!formattedDonationValue}</span></div>
+                        </td>
+                    </tr>
+                </table> 
+            </body>
+        </div>
+</apex:page>

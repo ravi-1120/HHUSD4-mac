@@ -1,0 +1,15 @@
+<template>
+    <div class={sectionClass}>
+        <h3 class="slds-section__title slds-theme_shade">
+            <button class="slds-button slds-section__title-action" onclick={toggleSection}>
+                <span>
+                    <lightning-icon icon-name={expanderIcon} size='x-small' if:true={expanderIcon}></lightning-icon>
+                </span>
+                <span class='slds-m-left--small'>{title}</span>
+            </button>
+        </h3>
+        <div class="slds-section__content">
+            <slot></slot>
+        </div>
+    </div>
+</template>

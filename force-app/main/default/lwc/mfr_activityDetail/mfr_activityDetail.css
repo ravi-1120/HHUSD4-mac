@@ -1,0 +1,241 @@
+.header_cls {
+    /* width: 904px; */
+    height: auto;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #333333;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.request:hover {
+    text-decoration: underline;
+}
+
+.status_bar {
+    /* border: 1px solid #D8D8D8; */
+    /* background-color: #D8D8D8; */
+    /* width: 1px; */
+    /* height: 1px; */
+    width: 100%;
+    height:100%;
+}
+
+.positioncls {
+    /* position: absolute; */
+    width: 100%;
+}
+
+.positioncls .border_cls:first-child {
+    padding-top: 0 !important;
+}
+.positioncls .border_cls:last-child {
+    /* padding-bottom: 0 !important;
+    height: 1px;
+    margin-bottom: 5rem; */
+    border-left: 0;
+}
+.positioncls .border_cls:nth-last-child(2) {
+    padding-bottom: 2rem;
+    margin-bottom: -15px;
+}
+
+/* .subborder .subboxcls:first-child {
+    padding-top: 0 !important;
+}
+.subborder .subboxcls:last-child {
+    padding-bottom: 0 !important;
+    height: 1px;
+    margin-bottom: 5rem;
+} */
+/* R4 */
+.box_cls {
+    width: 100%;
+    padding: 16px 24px 16px 8px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 4px 1px #e6e6e6;
+    position: relative;
+}
+
+.greencircle, .subgreencircle {
+    border: 2pt solid #00857C;
+    width: 15px;
+    height: 15px;
+    border-radius: 30px;
+    margin-left: -25px;
+    position: absolute;
+    background: white;
+}
+
+.border_cls, .subborder {
+    border-left: 3px solid #D8D8D8;
+}
+
+.box_cls:hover {
+    box-shadow: 0 0px 20px #c7c7c7 !important;
+}
+
+.arrowstyle {
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid #00857C !important;
+    border-radius: 5px !important;
+    padding: 8px;
+}
+/* R4 */
+.redmark {
+    width: 8px;
+    height: 8px;
+    margin-top: 6px;
+    background-color: #bf1f1f;
+    border-radius: 20px;
+    border: solid 1px #c93a3a;
+}
+
+/* .descriptioncls {
+    font-size: 14.6px !important;   
+    font-family: 'Invention' !important;
+}
+
+.box_cls {
+    font-size: 14.6px !important;   
+    font-family: 'Invention' !important;
+} */
+
+.subdiv {
+    background: #F4F4F4;
+    width: 950px;
+    /* min-height: 15rem;    */
+}
+
+.time_cls {
+    /* width: 254px; */
+    height: 21px;
+    font-size: 14px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    color: #000000;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    display: inline; /*RT 02-03-2023 Bug_Mbl_015*/
+}
+
+.bcbox {
+    cursor: pointer;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration-line: underline;
+}
+
+.groupdiv {
+    width: 93%;
+}
+/* R4 */
+.descriptioncls {
+    padding-left: 8px;
+    max-width: 86%;
+    font-family: 'Invention' !important;
+}
+
+.groupdiv .descriptioncls:first-child .subborder {
+    padding-top: 0 !important;
+}
+
+.groupdiv .descriptioncls:last-child .subborder {
+    padding-bottom: 0 !important;
+    height: 1px;
+    margin-bottom: 5rem;
+}
+
+.descriptioncls:last-child {
+    height: 100%;
+}
+.descriptioncls:last-child .subdiv {
+    height: 6rem;
+    width: 950px;
+}
+
+/* .descriptioncls .slds-rich-text-editor__output span p{
+    font-size: 15px !important;   
+    font-family: 'Invention' !important;
+} */
+
+.hyplink:hover{
+    text-decoration: underline;
+}
+/* R4 */
+.Nomarg{
+   padding-right: 8px;
+}
+
+
+
+
+/* ===================== Mobile Screen =====================  */
+
+/* Start Mobile Screen */
+
+/* Mobile Screen */
+@media screen and (max-width: 767px) {
+    /*RT 27-02-2023 Bug_Mbl_015*/
+    .Nomarg{
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+    .greencircle{
+        display: none;
+    }
+    .redmark {
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        /* margin-left: 8px; */
+        /* margin-right: 8px; */
+    }
+    /*RT 28-02-2023 Bug_Mbl_015*/
+    .arrowstyle {
+        padding: 5px 5px;
+        margin-left: 5px;  
+    }
+    .arrow-img-div {
+        height: 40px;
+        width: 40px;
+    }
+    .box_cls .slds-m-horizontal_medium {
+        margin-left: 10px;
+        margin-right: 8px;
+    }
+    .descriptioncls {
+        max-width: 79%;
+    }
+    /*RT 28-02-2023 Bug_Mbl_015*/
+    .boxstyle1{
+        min-height: 134px;
+        margin-bottom: 16px;
+    }
+    .boxstyle2{
+     height: fit-content;
+     position: relative;
+    }
+    /*RT 28-02-2023 Bug_Mbl_015*/
+    .boxstyle3{
+        /*position: absolute;*/
+    }
+    /* .positioncls {
+        padding: 0px;
+    }
+    .positioncls .border_cls:first-child {
+        padding-top: 5%;
+    } */
+
+}

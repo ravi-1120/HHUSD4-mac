@@ -1,0 +1,673 @@
+<template>
+	<template if:true={successScreen}>
+		<div class="success-container">
+			<div class="success-screen">
+				<lightning-icon size="large" icon-name="utility:send" class="upload-icon"></lightning-icon>
+				<h2 class="success-header">{successMsg}</h2>
+				<p class="success-content">{labels.successContent}</p>
+				<div class="success_btns">
+					<lightning-button role="button" class="success-button lt-button" variant="base"
+						label={labels.toDashboard} title="Back to Dashboard" onclick={navigateToDashboard}>
+					</lightning-button>
+					<lightning-button role="button" class="success-button lt-button" variant="base" label={labels.vReq}
+						title="View Request" onclick={navigateToRequestDetail}>
+					</lightning-button>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template if:true={blockEle}>
+		<div style="min-height: calc(100vh - 182px); background:#fff"></div>
+	</template>
+	<template if:true={mdpType}>
+		<div class="dr-form_container">
+			<div class="dr-form_section">
+				<a href="javascript:void(0);" onclick={handleBackButton} class="dr-form_back">
+					<lightning-icon icon-name="utility:back" size="x-small" alternative-text="Back" title="Back" class="back-icon">
+					</lightning-icon>
+					<p>{labels.back}</p>
+				</a>
+				<h2 class="dr-form_heading">{labels.formHeading}</h2>
+
+				<div class="dr-form">
+					<lightning-layout multiple-rows>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<lightning-input type="text" label={productObj.label} name={productObj.label}
+								value={prodName} disabled={productObj.readonly} aria-disabled="true">
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="8"
+							large-device-size="8" class="slds-p-right_large inputField-mb">
+							<lightning-combobox name={indicationObj.name} label={indicationObj.label}
+								placeholder="Select" required={indicationObj.required} value={indicationValue}
+								options={indication} message-when-value-missing={indicationObj.errorMsg}
+								onchange={handleCombobox}>
+							</lightning-combobox>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+							large-device-size="4">
+							<lightning-input type="text" label={applicationNumberObj.label}
+								name={applicationNumberObj.name} required={applicationNumberObj.required}
+								message-when-value-missing={applicationNumberObj.errorMsg} value={applicationNumber}
+								maxlength={applicationNumberObj.maxlength} onchange={handleUserInput}>
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6" class="slds-p-right_large inputField-mb">
+							<lightning-combobox name={doneeObj.name} label={doneeObj.label} required={doneeObj.required}
+								value={doneeId} data-id={doneeId} message-when-value-missing={doneeObj.errorMsg}
+								options={doneeList} onchange={handleCombobox} placeholder="Select">
+							</lightning-combobox>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6">
+							<lightning-combobox name={donationTypeObj.name} label={donationTypeObj.label}
+								required={donationTypeObj.required} value={donationType} onchange={handleCombobox}
+								message-when-value-missing={donationTypeObj.errorMsg} options={donationTypes}
+								disabled={donationTypeObj.readonly} placeholder="Select"></lightning-combobox>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6" class="slds-p-right_large inputField-mb">
+							<lightning-combobox name={countryObj.name} label={countryObj.label}
+								required={countryObj.required} value={drCountry} onchange={handleCombobox}
+								placeholder="Select" message-when-value-missing={countryObj.errorMsg} options={country}>
+							</lightning-combobox>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6">
+							<lightning-radio-group class="form-radio" name={destinationObj.name}
+								label={destinationObj.label} options={destOptions} value={destinationValue} type="radio"
+								onchange={handleRadioChange}>
+							</lightning-radio-group>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6" class="slds-p-right_large inputField-mb">
+							<lightning-input type="text" label={applicantNameObj.label} name={applicantNameObj.name}
+								required={applicantNameObj.required}
+								message-when-value-missing={applicantNameObj.errorMsg}
+								maxlength={applicantNameObj.maxlength} value={applicantName} onchange={handleUserInput}>
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6">
+							<lightning-input type="text" label={applicantInsObj.label} name={applicantInsObj.name}
+								required={applicantInsObj.required}
+								message-when-value-missing={applicantInsObj.errorMsg}
+								maxlength={applicantInsObj.maxlength} value={applicantIns} onchange={handleUserInput}>
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6" class="slds-p-right_large inputField-mb date-cls">
+							<lightning-input type="date" label={approvalDateObj.label} class="date-icon"
+								name={approvalDateObj.name} required={approvalDateObj.required}
+								message-when-value-missing={approvalDateObj.errorMsg} placeholder="Select date"
+								value={approvalDate} max={currentDate}
+								message-when-range-overflow={approvalDateObj.validError} onchange={handleUserInput}>
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="6" medium-device-size="6"
+							large-device-size="6" class="inputField-L-mb inputField-L_margin">
+							<lightning-input type="number" label={tabletsReqObj.label} name={tabletsReqObj.name} min="0"
+								message-when-range-underflow={tabletsReqObj.validError}
+								required={tabletsReqObj.required} message-when-value-missing={tabletsReqObj.errorMsg}
+								maxlength={tabletsReqObj.maxlength} value={tabletsReq} onchange={handleUserInput}>
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="6" medium-device-size="6"
+							large-device-size="6" class="slds-p-right_large inputField-L-mb">
+							<lightning-input type="number" label={treatmentsApprovedObj.label}
+								name={treatmentsApprovedObj.name} required={treatmentsApprovedObj.required}
+								value={treatmentsApproved} message-when-value-missing={treatmentsApprovedObj.errorMsg}
+								disabled>
+							</lightning-input>
+						</lightning-layout-item>
+						<!-- <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6" class="slds-p-right_large inputField-mb date-cls">
+							<lightning-input type="date" label={approvalDateObj.label} class="date-icon"
+								name={approvalDateObj.name} required={approvalDateObj.required}
+								message-when-value-missing={approvalDateObj.errorMsg} placeholder="Select date"
+								value={approvalDate} max={currentDate}
+								message-when-range-overflow={approvalDateObj.validError} onchange={handleUserInput}>
+							</lightning-input>
+						</lightning-layout-item> -->
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6">
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6" class="slds-p-right_large inputField-mb">
+							<div class="slds-form-element">
+								<span class="slds-form-element__label" id="file-selector-primary-label-117">{labels.uploadApplication}</span>
+								<!-- <div class="downloadBtn">
+									<span class="slds-form-element__label" id="file-selector-primary-label-117">Upload Application</span>
+									<a onclick={handleDownload}
+										class="slds-form-element__label download-link">Download
+										Application</a>
+								</div> -->
+								<div class="slds-form-element__control">
+									<div class="slds-file-selector slds-file-selector_images"
+										style="background: #00000005;">
+										<div class="slds-file-selector__dropzone">
+											<input type="file" class="slds-file-selector__input slds-assistive-text" accept={fileFormats}
+											 id="file-upload-input-119" aria-labelledby="file-selector-primary-label-117 file-selector-secondary-label118"
+											 onchange={handleFileInput} name="uploadApplication"/>
+											<label class="slds-file-selector__body" for="file-upload-input-119" id="file-selector-secondary-label118">
+											<lightning-icon class="upload-icon" icon-name="utility:upload" size="x-large" alternative-text="Upload" title="Upload">
+											</lightning-icon>
+											<span class="slds-file-selector__text">{labels.areaToUpload}</span>
+											<span class="file_sub" style="color: #0000008A">{labels.documentTags}</span>
+											<span if:true={uploadFileConfirmation} class="file_sub" style="color: rgba(219, 30, 40, 1)">{labels.uploadNewFile}</span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="file-invalid uploadApplication">
+									<b style="text-decoration:underline;font-family:'InventionRg';font-size:14px;">File Uploaded:</b>
+									{appTypeMsg}</div>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6">
+							<div class="slds-form-element">
+								<span class="slds-form-element__label" id="file-selector-primary-label-118">{labels.uploadApprovalLetter}</span>
+								<div class="slds-form-element__control">
+									<div class="slds-file-selector slds-file-selector_images"
+										style="background: #00000005;">
+										<div class="slds-file-selector__dropzone">
+											<input type="file" class="slds-file-selector__input slds-assistive-text" accept={fileFormats} id="file-upload-input-120"
+											aria-labelledby="file-selector-primary-label-118 file-selector-secondary-label119" onchange={handleFileInput}
+											name="uploadApprovalLetter"/>
+											<label class="slds-file-selector__body" for="file-upload-input-120" id="file-selector-secondary-label119">
+											<lightning-icon class="upload-icon" icon-name="utility:upload" size="x-large" alternative-text="Upload" title="Upload">
+											</lightning-icon>
+											<span class="slds-file-selector__text">{labels.areaToUpload}</span>
+											<span class="file_sub" style="color: #0000008A">{labels.documentTags}</span>
+											<span if:true={approvalLetterConfirmation} class="file_sub" style="color: rgba(219, 30, 40, 1)">{labels.uploadNewFile}</span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="file-invalid uploadApprovalLetter">
+									<b style="text-decoration:underline;font-family:'InventionRg';font-size:14px;">File Uploaded:</b>
+									{approvalTypeMsg}</div>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6">
+							<lightning-radio-group class="form-radio" name={taxReportObj.name}
+								label={taxReportObj.label} options={taxOptions} value={taxValue} type="radio"
+								onchange={handleRadioChange}>
+							</lightning-radio-group>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6"></lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<!-- <span>(Optional)</span> -->
+							<lightning-textarea name={fwdAgentObj.name} label={fwdAgentObj.label}
+								value={donationRequestObj.fwdAgent} onchange={handleUserInput}
+								maxlength={fwdAgentObj.maxlength}>
+							</lightning-textarea>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<lightning-textarea name={addInfoObj.name} placeholder="" maxlength={addInfoObj.maxlength} label={addInfoObj.label}
+								value={addInfoValue} onchange={handleUserInput}>
+							</lightning-textarea>
+						</lightning-layout-item>
+						<!-- Consignee Information Start -->
+						<lightning-layout multiple-rows class="contact-section">
+							<div class="edit-cls">
+								<h3 class="contact-heading">{labels.consginee}</h3>
+								<div href="javascript:void(0);" if:true={csConsigneeValue} data-name="Consignee"
+									onclick={handleEdit} class="href-cls">
+									<lightning-icon icon-name="utility:edit" size="xx-small"></lightning-icon>
+									<p class="edit-btn">{labels.edit}</p>
+								</div>
+							</div>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+								large-device-size="12">
+								<!-- <lightning-input type="text" label="Consignee Name" name="Consignee Name" required=true
+									message-when-value-missing="Please select Consignee Name"
+									value={csConsigneeValue} onchange={handleUserInput}>
+								</lightning-input> -->
+								<c-pds-custom-lookup object-name="PDS_Contact__c" erromsg={labels.consigneeErrMsg}
+									label={labels.consigneeName} required="true" create-record="true"
+									rec-id={csConsigneeValue} openpopup={openConsigneeModal}
+									onpdscontactdata={handleContactData} valid-message={consigneeValidation}
+									myconlist={editConsingeeValue}>
+								</c-pds-custom-lookup>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" label={csUnitObj.label} name={csUnitObj.name}
+									required={csUnitObj.required} message-when-value-missing={csUnitObj.errorMsg}
+									maxlength={csUnitObj.maxlength} disabled={csUnitObj.readonly} value={csUnitValue}
+									onchange={handleUserInput}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6">
+								<lightning-input type="text" label={csorganizationObj.label}
+									name={csorganizationObj.name} required={csorganizationObj.required}
+									disabled={csorganizationObj.readonly}
+									message-when-value-missing={csorganizationObj.errorMsg} onchange={handleUserInput}
+									maxlength={csorganizationObj.maxlength} value={csOrgValue}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+								large-device-size="12">
+								<lightning-input type="text" label={csAddress1.label} name={csAddress1.name}
+									required={csAddress1.required} message-when-value-missing={csAddress1.errorMsg}
+									onchange={handleUserInput} maxlength={csAddress1.maxlength}
+									disabled={csAddress1.readonly} value={csAdd1Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" label={csAddress2.label} name={csAddress2.name}
+									required={csAddress2.required} message-when-value-missing={csAddress2.errorMsg}
+									onchange={handleUserInput} maxlength={csAddress2.maxlength}
+									disabled={csAddress2.readonly} value={csAdd2Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6">
+								<lightning-input type="text" label={csAddress3.label} name={csAddress3.name}
+									required={csAddress3.required} message-when-value-missing={csAddress3.errorMsg}
+									onchange={handleUserInput} maxlength={csAddress3.maxlength}
+									disabled={csAddress3.readonly} value={csAdd3Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-combobox name={cscountryObj.name} label={cscountryObj.label}
+									options={country} required={cscountryObj.required} value={csCountryValue}
+									placeholder="Select" disabled={cscountryObj.readonly}
+									message-when-value-missing={cscountryObj.errorMsg} onchange={handleCombobox}>
+								</lightning-combobox>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={csStateObj.name} label={csStateObj.label}
+									required={csStateObj.required} value={csStateValue} disabled={csStateObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={csStateObj.errorMsg}
+									maxlength={csStateObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={csZipCodeObj.name} label={csZipCodeObj.label}
+									required={csZipCodeObj.required} value={csZipValue} disabled={csZipCodeObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={csZipCodeObj.errorMsg}
+									maxlength={csZipCodeObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={csPhone1Obj.name} label={csPhone1Obj.label}
+									required={csPhone1Obj.required} value={csPhone1Value}
+									disabled={csPhone1Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={csPhone1Obj.errorMsg} maxlength={csPhone1Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={csPhone2Obj.name} label={csPhone2Obj.label}
+									required={csPhone2Obj.required} value={csPhone2Value}
+									disabled={csPhone2Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={csPhone2Obj.errorMsg} maxlength={csPhone2Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={csFaxObj.name} label={csFaxObj.label}
+									required={csFaxObj.required} value={csFaxValue} disabled={csFaxObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={csFaxObj.errorMsg}
+									maxlength={csFaxObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={csEmail1Obj.name} label={csEmail1Obj.label}
+									required={csEmail1Obj.required} value={csEmail1Value}
+									disabled={csEmail1Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={csEmail1Obj.errorMsg} maxlength={csEmail1Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={csEmail2Obj.name} label={csEmail2Obj.label}
+									required={csEmail2Obj.required} value={csEmail2Value}
+									disabled={csEmail2Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={csEmail2Obj.errorMsg} maxlength={csEmail2Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={csEmail3Obj.name} label={csEmail3Obj.label}
+									required={csEmail3Obj.required} value={csEmail3Value}
+									disabled={csEmail2Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={csEmail3Obj.errorMsg} maxlength={csEmail3Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+						</lightning-layout>
+						<!-- Consignee Information End-->
+						<!-- Final Recipient Start -->
+						<lightning-layout multiple-rows class="contact-section">
+							<div class="edit-cls">
+								<h3 class="contact-heading">{labels.finalRecepient}</h3>
+								<div href="javascript:void(0);" if:true={frContactValue} data-name="Final Recipient"
+									onclick={handleEdit} class="href-cls">
+									<lightning-icon icon-name="utility:edit" size="xx-small"></lightning-icon>
+									<p class="edit-btn">{labels.edit}</p>
+								</div>
+							</div>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+								large-device-size="12">
+								<!-- <lightning-input type="text" label="Final Recipient Name" name="Final Recipient"
+									required=true onchange={handleUserInput}
+									message-when-value-missing="Please select valid Final Recipient Name"
+									value={frContactValue}>
+								</lightning-input> -->
+								<c-pds-custom-lookup object-name="PDS_Contact__c" erromsg={labels.finalErrMsg}
+									label={labels.finalName} required="true" create-record="true"
+									rec-id={frContactValue} openpopup={openFinalRecModal}
+									onpdscontactdata={handleContactData} valid-message={frValidation}
+									myconlist={editFinalValue}>
+								</c-pds-custom-lookup>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" label={frUnitObj.label} name={frUnitObj.name}
+									required={frUnitObj.required} message-when-value-missing={frUnitObj.errorMsg}
+									onchange={handleUserInput} maxlength={frUnitObj.maxlength}
+									disabled={frUnitObj.readonly} value={frUnitValue}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6">
+								<lightning-input type="text" label={frorganizationObj.label}
+									name={frorganizationObj.name} required={frorganizationObj.required}
+									disabled={frorganizationObj.readonly} onchange={handleUserInput}
+									message-when-value-missing={frorganizationObj.errorMsg} value={frOrgValue}
+									maxlength={frorganizationObj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+								large-device-size="12">
+								<lightning-input type="text" label={frAddress1.label} name={frAddress1.name}
+									required={frAddress1.required} message-when-value-missing={frAddress1.errorMsg}
+									onchange={handleUserInput} maxlength={frAddress1.maxlength}
+									disabled={frAddress1.readonly} value={frAdd1Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" label={frAddress2.label} name={frAddress2.name}
+									required={frAddress2.required} message-when-value-missing={frAddress2.errorMsg}
+									onchange={handleUserInput} maxlength={frAddress2.maxlength}
+									disabled={frAddress2.readonly} value={frAdd2Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6">
+								<lightning-input type="text" label={frAddress3.label} name={frAddress3.name}
+									required={frAddress3.required} message-when-value-missing={frAddress3.errorMsg}
+									onchange={handleUserInput} maxlength={frAddress3.maxlength}
+									disabled={frAddress3.readonly} value={frAdd3Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-combobox name={frcountryObj.name} label={frcountryObj.label}
+									required={frcountryObj.required} options={country} value={frCountryValue}
+									disabled={frcountryObj.readonly} message-when-value-missing={frcountryObj.errorMsg}
+									onchange={handleCombobox} placeholder="Select">
+								</lightning-combobox>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={frStateObj.name} label={frStateObj.label}
+									required={frStateObj.required} value={frStateValue} disabled={frStateObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={frStateObj.errorMsg}
+									maxlength={frStateObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={frZipCodeObj.name} label={frZipCodeObj.label}
+									required={frZipCodeObj.required} value={frZipValue} disabled={frZipCodeObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={frZipCodeObj.errorMsg}
+									maxlength={frZipCodeObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={frPhone1Obj.name} label={frPhone1Obj.label}
+									required={frPhone1Obj.required} value={frPhone1Value}
+									disabled={frPhone1Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={frPhone1Obj.errorMsg} maxlength={frPhone1Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={frPhone2Obj.name} label={frPhone2Obj.label}
+									required={frPhone2Obj.required} value={frPhone2Value}
+									disabled={frPhone2Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={frPhone2Obj.errorMsg} maxlength={frPhone2Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={frFaxObj.name} label={frFaxObj.label}
+									required={frFaxObj.required} value={frFaxValue} disabled={frFaxObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={frFaxObj.errorMsg}
+									maxlength={frFaxObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={frEmail1Obj.name} label={frEmail1Obj.label}
+									required={frEmail1Obj.required} value={frEmail1Value}
+									disabled={frEmail1Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={frEmail1Obj.errorMsg} maxlength={frEmail1Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={frEmail2Obj.name} label={frEmail2Obj.label}
+									required={frEmail2Obj.required} value={frEmail2Value}
+									disabled={frEmail2Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={frEmail2Obj.errorMsg} maxlength={frEmail2Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={frEmail3Obj.name} label={frEmail3Obj.label}
+									required={frEmail3Obj.required} value={frEmail3Value}
+									disabled={frEmail3Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={frEmail3Obj.errorMsg} maxlength={frEmail3Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+						</lightning-layout>
+						<!-- Final Recipient End-->
+						<!-- Ship Notify Start -->
+						<lightning-layout multiple-rows class="contact-section">
+							<div class="edit-cls">
+								<h3 class="contact-heading">{labels.shipNotify}</h3>
+								<div if:true={snContactValue} class="href-cls" data-name="Ship Notify"
+									onclick={handleEdit}>
+									<lightning-icon icon-name="utility:edit" size="xx-small"></lightning-icon>
+									<p class="edit-btn">{labels.edit}</p>
+								</div>
+							</div>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+								large-device-size="12">
+								<!-- <lightning-input type="text" label="Ship Notify Name" name="Ship Notify"
+									message-when-value-missing="Please enter valid Ship Notify Name" value={snContactValue}
+									onchange={handleUserInput}>
+								</lightning-input> -->
+								<c-pds-custom-lookup object-name="PDS_Contact__c" erromsg={labels.shipErrMsg}
+									label={labels.shipName} required="false" create-record="true"
+									rec-id={snContactValue} openpopup={openShipNotifyModal}
+									onpdscontactdata={handleContactData} valid-message={snValidation}
+									myconlist={editShipValue}>
+								</c-pds-custom-lookup>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" label={snUnitObj.label} name={snUnitObj.name}
+									required={snUnitObj.required} message-when-value-missing={snUnitObj.errorMsg}
+									onchange={handleUserInput} maxlength={snUnitObj.maxlength}
+									disabled={snUnitObj.readonly} value={snUnitValue}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6">
+								<lightning-input type="text" label={snorganizationObj.label}
+									name={snorganizationObj.name} required={snorganizationObj.required}
+									disabled={snorganizationObj.readonly} onchange={handleUserInput}
+									message-when-value-missing={snorganizationObj.errorMsg} value={snOrgValue}
+									maxlength={snorganizationObj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+								large-device-size="12">
+								<lightning-input type="text" label={snAddress1.label} name={snAddress1.name}
+									required={snAddress1.required} message-when-value-missing={snAddress1.errorMsg}
+									onchange={handleUserInput} maxlength={snAddress1.maxlength}
+									disabled={snAddress1.readonly} value={snAdd1Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" label={snAddress2.label} name={snAddress2.name}
+									required={snAddress2.required} message-when-value-missing={snAddress2.errorMsg}
+									onchange={handleUserInput} maxlength={snAddress2.maxlength}
+									disabled={snAddress2.readonly} value={snAdd2Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6">
+								<lightning-input type="text" label={snAddress3.label} name={snAddress3.name}
+									required={snAddress3.required} message-when-value-missing={snAddress3.errorMsg}
+									onchange={handleUserInput} maxlength={snAddress3.maxlength}
+									disabled={snAddress3.readonly} value={snAdd3Value}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-combobox name={sncountryObj.name} label={sncountryObj.label}
+									options={country} required={sncountryObj.required} value={snCountryValue}
+									placeholder="Select" disabled={sncountryObj.readonly}
+									message-when-value-missing={sncountryObj.errorMsg} onchange={handleCombobox}>
+								</lightning-combobox>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={snStateObj.name} label={snStateObj.label}
+									required={snStateObj.required} value={snStateValue} disabled={snStateObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={snStateObj.errorMsg}
+									maxlength={snStateObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={snZipCodeObj.name} label={snZipCodeObj.label}
+									required={snZipCodeObj.required} value={snZipValue} disabled={snZipCodeObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={snZipCodeObj.errorMsg}
+									maxlength={snZipCodeObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={snPhone1Obj.name} label={snPhone1Obj.label}
+									required={snPhone1Obj.required} value={snPhone1Value}
+									disabled={snPhone1Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={snPhone1Obj.errorMsg} maxlength={snPhone1Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={snPhone2Obj.name} label={snPhone2Obj.label}
+									required={snPhone2Obj.required} value={snPhone2Value}
+									disabled={snPhone2Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={snPhone2Obj.errorMsg} maxlength={snPhone2Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={snFaxObj.name} label={snFaxObj.label}
+									required={snFaxObj.required} value={snFaxValue} disabled={snFaxObj.readonly}
+									onchange={handleUserInput} message-when-value-missing={snFaxObj.errorMsg}
+									maxlength={snFaxObj.maxlength}></lightning-input>
+							</lightning-layout-item>
+
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={snEmail1Obj.name} label={snEmail1Obj.label}
+									required={snEmail1Obj.required} value={snEmail1Value}
+									disabled={snEmail1Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={snEmail1Obj.errorMsg} maxlength={snEmail1Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4" class="slds-p-right_large inputField-mb">
+								<lightning-input type="text" name={snEmail2Obj.name} label={snEmail2Obj.label}
+									required={snEmail2Obj.required} value={snEmail2Value}
+									disabled={snEmail2Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={snEmail2Obj.errorMsg} maxlength={snEmail2Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="4"
+								large-device-size="4">
+								<lightning-input type="text" name={snEmail3Obj.name} label={snEmail3Obj.label}
+									required={snEmail3Obj.required} value={snEmail3Value}
+									disabled={snEmail3Obj.readonly} onchange={handleUserInput}
+									message-when-value-missing={snEmail3Obj.errorMsg} maxlength={snEmail3Obj.maxlength}>
+								</lightning-input>
+							</lightning-layout-item>
+						</lightning-layout>
+						<!-- Ship Notify End-->
+					</lightning-layout>
+				</div>
+				<div class="dr-form_btnGroup">
+					<lightning-button role="button" class="lt-button" variant="base" label={labels.sendRequest}
+						title="Send Request" onclick={submitRequest}>
+					</lightning-button>
+					<lightning-button role="button" class="lt-button cancel" variant="base" label={labels.cancelBtn}
+						title="Cancel" onclick={handleBackButton}>
+					</lightning-button>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template if:true={saveForLaterEnable}>
+		<div role="button" class="floating-button bottom" tabindex="0" onclick={saveForLater}>
+			<lightning-icon size="small" icon-name="utility:save" class="date_input-icon"></lightning-icon>
+			<span>{labels.saveForLater}</span>
+		</div>
+	</template>
+	<template if:true={goBackPopup}>
+		<div>
+			<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01">
+				<div class="slds-modal slds-fade-in-open slds-align_absolute-center modalcss">
+					<div class="cancel-popup">
+						<p class="cancel-title-cls">{labels.cancelReq}?</p>
+						<p class="comm-content">{labels.goBackPopUp}</p>
+						<div class="pop-btns">
+							<button class="cancel-btn" onclick={onPopupCancel}>{labels.cancelBtn}</button>
+							<button class="cancelReq-btn" onclick={navigateBackToDashboard}>{labels.discardChanges}</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</div>
+	</template>
+	<div if:true={showSpinner}>
+		<c-pds-spinner></c-pds-spinner>
+	</div>
+	<template if:true={mmopType}>
+		<c-pds-donation-form onmmopsubmit={handleMMOPsubmit}></c-pds-donation-form>
+	</template>
+	<c-pds-toast-message auto-close-time="8000"></c-pds-toast-message>
+</template>

@@ -1,0 +1,33 @@
+<template>
+    <div class="maincls">
+        <a class="" style="position: absolute;left: 0;" href={navigatedashboard}>
+            <img src={merck} width="150" height="180">
+        </a>
+        <div class="header_left slds-grid slds-wrap">
+            <div class="notification slds-p-right_medium slds-p-left_x-large slds-p-bottom_medium">
+                <a href={siteNames.Notification} onclick={notificationclick}>
+                    <div class="notBtn">
+                        <div if:true={isCountVisible} class="number">{notiCount}</div>
+                        <img src={notificationicon} style=" cursor: pointer"/>
+                    </div>
+                </a>
+                <template if:true={notificationpg}>
+                    <div class="solidbar"></div>
+                </template>
+            </div>
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-float slds-grid menucls" data-name="Menu" onclick={navigation}>
+                    <img class="slds-col menuicon" src={MenuHeaderNew} data-name="Menu"
+                    onclick={navigation}>
+                    <div class="menu1" data-name="Menu" onclick={navigation}>Menu</div>
+                </div>
+                <template if:true={menupg}>
+                    <div class="solidbar-menu"></div>
+                </template>
+            </div>
+            <div class="slds-float slds-grid cssclose slds-p-right_large" style="cursor:pointer ;"  onclick={handleClose}>
+                <img src={close} class="menuiconcls" title="Close"/>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,8 @@
+.veeva-field-generic {
+    padding: 0 var(--lwc-spacingXxSmall, 0.25rem);
+}
+
+.helptext-icon {
+    position: absolute;
+    margin-left: -6px;
+}

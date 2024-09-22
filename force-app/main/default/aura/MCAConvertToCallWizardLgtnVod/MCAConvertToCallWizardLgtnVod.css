@@ -1,0 +1,18 @@
+.THIS .slds-spinner_container {
+    background-color: transparent;
+}
+
+.THIS div.input-error c-veeva-account-search > div > div:nth-child(2) input,
+.THIS div.input-error > lightning-combobox button {
+    border: 1px solid var(--lwc-colorBorderError,rgb(234, 0, 30));
+}
+
+.THIS .slds-backdrop[c-veevaModal_veevaModal] {
+    left: -1250px;
+    right: -1250px;
+    width: unset;
+}
+
+.THIS .v-s4l-modal-content {
+    min-height: 350px;
+}

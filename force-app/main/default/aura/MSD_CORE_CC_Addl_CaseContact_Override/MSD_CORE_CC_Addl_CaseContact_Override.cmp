@@ -1,0 +1,4 @@
+<aura:component extends="c:ComponentUtils" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" description="used to display Additional Case Contact form based on Case RecordType">
+    <aura:handler name="init" value="{!this}" action = "{!c.doInit}"/>
+    Please wait...
+</aura:component>

@@ -1,0 +1,75 @@
+<aura:component controller="MSD_Core_NewAddrWiz_Controller" extends="c:ComponentUtils" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+	<aura:attribute name="parentId" type="String" />
+    <aura:attribute name="parentRT" type="String" />
+     <aura:attribute name="activeSections" type="List" default="['A','B']" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="mode" type="String" default="NEW" />
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+     <lightning:workspaceAPI aura:id="workspace1"/>
+    <aura:registerEvent name="MSD_CORE_CC_CloseModalEvt" type="c:MSD_CORE_CC_CloseModalEvt"/>
+
+    <aura:attribute name="primary" type="Boolean" default="true"/>
+    <aura:attribute name="reloadForm" type="Boolean" default="true"/>
+    <aura:attribute name="addFields" type="List"/>
+    <aura:attribute name="NAWAddFMap" type="Map"/>
+    
+    <aura:attribute name="AccDetails" type="Object"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+    <aura:if isTrue="{!v.reloadForm}">
+    <lightning:recordEditForm aura:id="addressForm"
+             
+            onsuccess="{!c.handleSuccess}"
+            onerror = "{!c.handleError}"
+            recordId = "{!v.recordId}"
+            onload = "{!c.handleLoad}"
+            objectApiName="Address_vod__c">
+            <!-- the messages component is for error messages -->
+            <lightning:messages /> 
+        <lightning:card>
+            <lightning:accordion aura:id="accordion" activeSectionName="{! v.activeSections }" allowMultipleSectionsOpen="true">
+                <lightning:accordionSection name="A" label="Account Details">
+                    
+                    <ui:outputText value="{!v.AccDetails.Name}" />
+                    <ui:outputText value="{!v.AccDetails.Class_of_Trade_MRK__c}" />
+                    <ui:outputText value="{!v.AccDetails.Merck_ID_MRK__c}" />
+                    <ui:outputText value="{!v.AccDetails.Status_MRK__c}" />
+            </lightning:accordionSection>
+                <lightning:accordionSection name="B" label="Address Details">
+            <lightning:layout >
+                    <lightning:layoutItem padding="horizontal-small" size="6">
+                         <aura:iteration items="{!v.addFields}" var="item">
+        					<lightning:inputField aura:id="{!item}" required="{!NAWAddFMap.item.Required__c}" fieldName="{!item}" fieldLabel="{!NAWAddFMap.item.Label__c}" />
+    					 </aura:iteration>
+                    </lightning:layoutItem>
+            </lightning:layout>
+                    </lightning:accordionSection>
+                    <br/>
+                <div class="slds-align_absolute-center">
+                    <lightning:button 
+                                      variant="neutral"
+                                      name="cancel" 
+                                      label="Cancel"
+                                      onclick="{!c.closeFocusedTab}" />
+                    
+                    
+                    <lightning:button 
+                                      variant="brand" 
+                                      type="submit"
+                                      name="save" 
+                                      label="Save" 
+                                      onclick="{!c.handleSave}"/>
+                </div>
+                
+            <br/><br/><br/>
+                </lightning:accordion>
+		</lightning:card>
+    </lightning:recordEditForm>
+        <aura:set attribute="else">
+                    Please wait...
+                </aura:set>
+            </aura:if>
+</aura:component>

@@ -1,0 +1,37 @@
+<template>
+    <lightning-layout multiple-rows="true" class={tableContainerClass}>
+        <lightning-layout-item size="12" if:true={title}>
+            <div class="slds-text-title_bold slds-p-around_x-small section-title">{title}</div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12">
+            <div class="lightning-datatable-container slds-m-bottom_x-small slds-is-relative">
+                <div class={datatableClass}>
+                    <c-we-chat-datatable
+                    hide-checkbox-column
+                    key-field="id"
+                    data={tableData}
+                    class="slds-m-top_small"
+                    columns={tableColumns}
+                    onactionclicked={actionHandler}
+                    wrap-text-max-lines=5
+                >
+                </c-we-chat-datatable>
+                </div>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" if:true={msgLoaded}>
+            <lightning-layout if:true={totalCount} class="slds-p-around_x-small slds-text-align_center footer" horizontal-align="end">
+                <lightning-layout-item class="slds-p-around_x-small">
+                    <div class="slds-text-body_regular">{recordNum}</div>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-p-around_x-small">
+                    <div class="slds-text-body_regular">{pageNum}</div>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-list_horizontal slds-m-horizontal_x-small btns">
+                    <div class={previousClass} onclick={goToPrevious}>{labelPrevious}</div>
+                    <div class={nextClass} onclick={goToNext}>{labelNext}</div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

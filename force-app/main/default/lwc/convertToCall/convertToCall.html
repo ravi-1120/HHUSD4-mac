@@ -1,0 +1,7 @@
+<template>
+        <c-veeva-modal if:true={show} size="smaller" composed=true onclose={onClose} hide-header=true hide-footer=true>
+            <div slot="content">
+                <lightning-flow flow-api-name="Save4LaterReconciliationFlow" flow-input-variables={inputVars} onstatuschange={handleStatusChange}></lightning-flow>    
+            </div>
+        </c-veeva-modal>
+</template>

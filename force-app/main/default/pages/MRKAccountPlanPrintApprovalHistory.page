@@ -1,0 +1,27 @@
+<apex:page standardController="Account_Plan_vod__c"  renderAs="pdf" lightningStylesheets="true" showHeader="false" extensions="MRK_AccountPlanPrintController">
+  <apex:include pageName="MRKAccountPlanPrintableView"/>
+<div style="page-break-before:always;"> </div>
+<apex:PanelGrid columns="1">
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="100%">
+<tr><td align="left" width="100%">
+    <apex:PanelGrid columns="1" styleClass="summaryheading" width="100%">
+    <apex:outputText value="Approval History" styleClass="summaryheading"/>
+    </apex:PanelGrid>
+<apex:panelGrid styleclass="swottopborder" width="100%" cellspacing="0" cellpadding="0"/>  
+<br/>
+<apex:dataTable value="{!approvalHistory}" styleClass="approvalmaintbl" var="apHistory" style="width:100%" align="center" rendered="{!approvalHistory.size>0}">
+<apex:column headerValue="Date" width="20%"><apex:outputText value="{!apHistory['Date']}"/> </apex:column>
+<apex:column headerValue="Status"  width="15%"><apex:outputText value="{!apHistory['Status']}"/> </apex:column>
+<apex:column headerValue="Assigned To"  width="20%"><apex:outputText value="{!apHistory['Assigned To']}"/> </apex:column>
+<apex:column headerValue="Actual Approver"  width="20%"><apex:outputText value="{!apHistory['Actual Approver']}"/> </apex:column>
+<apex:column headerValue="Comments"  width="25%"><apex:outputText value="{!apHistory['Comments']}"/> </apex:column>
+<apex:column headerValue="Overall Status"  width="25%"><apex:outputText value="{!apHistory['Overall Status']}"/> </apex:column>
+</apex:dataTable>
+<apex:PanelGrid rendered="{!NOT(approvalHistory.size>0)}" width="100%">
+<apex:OutputText value="No Records Found!"/>
+</apex:PanelGrid>
+</td>
+</tr>
+</table>
+</apex:PanelGrid>
+</apex:page>

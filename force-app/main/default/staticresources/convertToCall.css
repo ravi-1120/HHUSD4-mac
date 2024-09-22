@@ -1,0 +1,64 @@
+c-convert-to-call .v-s4l-modal-content {
+    min-height: 350px !important;
+}
+
+c-convert-to-call c-veeva-alert-modal .slds-modal__content {
+    min-height: unset;
+}
+
+c-convert-to-call c-s4l-bulleted-list-alert .slds-modal__content {
+    min-height: unset;
+}
+
+c-convert-to-call c-s4l-bulleted-list-alert .slds-modal__content.slds-p-horizontal--medium {
+    padding-left: var(--lwc-spacingMedium,1rem) !important;
+    padding-right: var(--lwc-spacingMedium,1rem) !important;
+}
+
+c-convert-to-call c-s4l-bulleted-list-alert .slds-modal__content slot[name="content"] > div {
+    padding: 15px 0;
+    line-height: 1.5;
+    max-height: 230px
+}
+
+c-convert-to-call .slds-modal__content {
+    overflow: initial;
+    height: unset;
+    max-height: unset;
+    min-height: 350px;
+}
+
+c-convert-to-call c-s4l-attendee-search .slds-modal__container {
+    max-width: 30rem !important;
+    min-height: 310px !important;
+}
+
+c-convert-to-call .slds-p-horizontal--medium {
+    padding-left: unset !important;
+    padding-right: unset !important;
+}
+
+c-convert-to-call .flowruntimeBody {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+c-convert-to-call flowruntime-flow {
+    background-color: transparent;
+}
+
+/* hide spinner overlay */
+c-convert-to-call flowruntime-spinner-lwc .slds-spinner_container {
+    background-color: transparent;
+}
+
+/* hide spinner between flow screens and after flow finish */
+c-convert-to-call .hide-spinner flowruntime-spinner-lwc {
+    display: none;
+}
+
+/* remove padding from flow spinner so the flow component does not take up extra space */
+c-convert-to-call flowruntime-spinner-lwc .slds-p-vertical--xx-large {
+    padding-top: 0;
+    padding-bottom: 0;
+}

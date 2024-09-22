@@ -1,0 +1,15 @@
+<template>
+    <c-veeva-field
+        if:true={isVeevaField}
+        ctrl={ctrl}
+        onfieldchange={handleFieldChange}
+        onkeyup={handleKeyUpForField} data-validity
+    ></c-veeva-field>
+    <c-gas-button-group-filter-field
+        if:true={isBoolean}
+        label={label}
+        options={booleanOptions}
+        values={selectedValues}
+        onchange={setSelectedBooleanValue}
+    ></c-gas-button-group-filter-field>
+</template>

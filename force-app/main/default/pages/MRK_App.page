@@ -1,0 +1,41 @@
+<!--
+
+	load app / index.html into iframe
+	
+		/apex/MRK_App?_iframesrc=https://static-01.s3.amazonaws.com/projects/angularjs-base-template/index.html
+
+	load app / index.html into iframe with iframe heigth set
+
+		/apex/MRK_App?_iframesrc=https://static-01.s3.amazonaws.com/projects/angularjs-base-template/index.html&height=900
+
+	load app from static resource
+
+		/apex/MRK_App?_iframesrc=staticresource:angularjsbasetemplate/index.html
+
+
+	sample app load URL
+	
+		/apex/MRK_App?stylesheets=//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css,//static-01.s3.amazonaws.com/projects/angularjs-base-template/styles.css&scripts=https://localhost:35729/livereload.js?snipver=1,//static-01.s3.amazonaws.com/projects/angularjs-base-template/libs.js,//static-01.s3.amazonaws.com/projects/angularjs-base-template/app.js
+-->
+<apex:page controller="MRK_AppController"
+	standardStylesheets="{!cfg['standardStylesheets'] == 'true'}"
+	showHeader="{!cfg['showHeader']  == 'true'}"
+	sidebar="{!cfg['sidebar'] == 'true'}"
+	tabStyle="Survey_Assignments_MRK__tab">
+	
+
+	<!--
+	<pre>
+		<apex:outputText value="{!debugOutput}" escape="false" />
+	</pre>
+	-->
+
+	
+	<script>
+	window.__sessionId__ = '{!$Api.Session_ID}';
+	</script>
+
+
+  <apex:iframe id="app-iframe" src="{!cfg['src']}" height="{!cfg['height']}" scrolling="{!cfg['scrolling']}"></apex:iframe>
+    
+</apex:page>

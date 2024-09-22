@@ -1,0 +1,49 @@
+.search {
+  margin-top: var(--lwc-spacingXSmall, 0.75rem);
+  --veeva-em-combobox-width-override: 12rem;
+  align-items: center;
+}
+
+.view-search {
+  --sds-c-input-radius-border: 0 4px 4px 0;
+}
+
+.footer-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.results-data-table {
+  border-radius: 5px;
+  height: clamp(10vh, 45vh, 70vh);
+}
+
+.result-selection-sort-message {
+  display: flex;
+  align-items: center;
+}
+
+.no-results {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.selected-rows {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.25rem 0.75rem;
+  max-height: 15vh;
+  overflow: auto;
+}
+
+.selection-page-pill {
+  max-width: 100%;
+}
+
+.remove-all {
+  flex: 3 3 auto;
+  text-align: end;
+}

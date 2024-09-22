@@ -1,0 +1,14 @@
+<template>
+  <c-veeva-modal onclose={handleCancel} composed=true>
+    <span slot='header'>
+      {messageMap.modalTitle}
+    </span>
+    <div slot="content" class="content">
+        <c-veeva-account-search ctrl={ctrl} onaccountselected={handleAccountSelected} onsearchcleared={handleSearchCleared}></c-veeva-account-search>
+    </div>
+    <div slot="footer">
+        <lightning-button data-id="accountSearchCancel" name="cancel" label={messageMap.msgCancel} onclick={handleCancel}></lightning-button>
+        <lightning-button data-id="accountSearchOk" class="account-search-okay" variant="brand" name="ok" label={messageMap.msgOk} onclick={createEvent} disabled={okButtonDisabled}></lightning-button>
+    </div>
+  </c-veeva-modal>  
+</template>

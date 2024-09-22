@@ -1,0 +1,6 @@
+<template>
+    <div class="link-container">
+        <lightning-avatar if:true={icon} class="icon" fallback-icon-name={icon.name} size="x-small" style={icon.style} variant="circle"></lightning-avatar>
+        <a class="slds-truncate" onclick={handleClick} target="_blank">{label}</a>
+    </div>
+</template>

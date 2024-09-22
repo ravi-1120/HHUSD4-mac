@@ -1,0 +1,819 @@
+.pbanner_img{
+    height: 309x !important;
+    object-fit: cover;
+}
+.lightning-radio-group::part(radio) {
+    border: 2px solid blue; /* Change border color of the radio buttons */
+    border-radius: 50%; /* Make the radio buttons circular */
+    width: 20px;
+    height: 20px;
+    border-color: red;
+    background-color: yellow; /* Change the background color of the radio buttons */
+}
+.radiomaindiv{
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    display: flex;
+    /* margin-left: -77px; */
+}
+.radiosubdiv{
+    width: 388px; 
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    display: inline-flex;
+}
+.container-radio {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #333333;
+    font-size: 16px;
+    font-family: Invention;
+    font-weight: 700;
+    line-height: 24px;
+    word-wrap: break-word;
+  }
+.required {
+    border: 1px solid #DB281A !important;
+    }
+  .checkmark-radio {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 24px;
+    width: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid;
+  }
+  .checkmark-radio:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  /* Hide the browser's default radio button */
+  .container-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .container-radio:hover input ~ .checkmark-radio {
+    background-color: #ccc;
+  }
+  
+  /* When the radio button is checked, add a blue background */
+  .container-radio input:checked ~ .checkmark-radio {
+    background-color: #fff;
+    border: 1px solid #00857C;
+  }
+  .container-radio input:checked ~ .checkmark-radio:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .container-radio .checkmark-radio:after {
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: #00857C;
+  }
+.container {
+    top: -20px;
+    width: 1128px;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    margin-top: -100px !important;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: auto;
+    background: #FFFFFF;
+    display: flex;
+    margin-bottom: 60px;
+}
+.pbanner {
+    position: relative;
+}
+.container-mainHeader{
+    background: #00857C;
+    height: 58px;
+}
+.signupLogo_img{
+    height: 496x !important;
+    width: 496x !important;
+}
+.img-container {
+    width: 566px;
+    height: 496px;
+    border-radius: 10px 0 0 0;
+}
+.img-container img {
+    border-radius: 10px 0 0 0;
+    width: 566px; 
+    height: 496px; 
+    border-top-left-radius: 10px;
+}
+.left-panel {
+    width: 566px; 
+    background: #F1F9F9; 
+    border-radius: 10px 0 0 10px;
+}
+.right-panel {
+    width: 566px; 
+    border-radius: 0 10px 10px 0;
+    padding: 103px 88px;
+}
+.data-privacy-container {
+    width: 486px; 
+    height: 77px; 
+    border-radius: 8px; 
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    margin: 40px; 
+    display: inline-flex;
+}
+.sign-up {
+    width: 386px; 
+    color: #333333; 
+    font-size: 24px; 
+    font-family: Invention; 
+    font-weight: 700; 
+    line-height: 36px; 
+    word-wrap: break-word;
+    margin-bottom: 20px;
+}
+.validate {
+    border: 1px solid #DB281A !important;
+}
+.row {
+    flex: 1 1 0; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    display: inline-flex;
+}
+.slds-dropdown {
+    display: none;
+}
+.input-txt {
+    flex: 1 1 0; 
+    color: rgba(0, 0, 0, 0.60); 
+    font-size: 16px; 
+    font-family: Invention; 
+    font-weight: 400; 
+    line-height: 24px; 
+    letter-spacing: 0.15px; 
+    word-wrap: break-word;
+    align-self: stretch;
+    height: 56px;
+    padding: 27px 12px;
+    border-radius: 4px;
+    border: 1px rgba(0, 0, 0, 0.23) solid;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+}
+
+/* Custom styles for the checkbox */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 25px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-container .span {
+    font-size: 14px;
+ }
+  
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+  
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 24px;
+    width: 24px;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 3px;
+}
+  
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #fff;
+}
+  
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #000;
+    border-radius: 3px;
+}
+  
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+  
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+    left: 6px;
+    top: 1px;
+    width: 9px;
+    height: 17px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.web {
+    display: block;
+}
+
+.mobile {
+    display: none;
+}
+.radiocls{
+    margin-left: -40px;
+}
+.modlhead{
+    color: var(--Gray-Scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    /* Heading/H1/Bold */
+    font-family: Invention;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 45px; /* 125% */
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    width: 94%;
+}
+.modlmatr{
+    color: var(--Gray-Scale-text-dark, #333);
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+}
+.linkcls{
+    color: var(--Gray-Scale-text-green, #00857C) !important;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    text-decoration-line: underline;
+    justify-content: center;
+    display: flex;
+}
+.modlmatr1{
+    color: var(--Gray-Scale-text-dark, #333);
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    display: inline-flex;
+    margin-left: 20%;
+}
+.img-hoverspan {
+    border-radius: 4px;
+    border: 2px solid #00857C;
+    padding: 5px;
+    padding-top: 2px !important;
+    cursor: pointer;
+}
+.img-hover {
+    cursor: pointer;
+}
+.modalpad{
+    padding: 40px;
+    width: 732px;
+}
+.closediv{
+    width: 6%;
+    left: 12px;
+    bottom: 12px;
+    position: relative;
+}
+.contmarg{
+    margin-left: 25%;
+}
+.medi-btn-modal{
+    display: none;
+}
+
+.flex-column-start {
+    flex: 1 1 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    display: inline-flex;
+}
+
+.flex-row-center {
+    align-self: stretch;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+    display: flex;
+}
+
+.flex-row-center-2 {
+    align-self: stretch;
+    height: 128px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+    display: flex;
+}
+
+.text-heading {
+    flex: 1 1 0;
+    color: #333333;
+    font-size: 18px;
+    font-family: Invention;
+    font-weight: 700;
+    line-height: 27px;
+    word-wrap: break-word;
+}
+
+.text-heading-2 {
+    width: 385px;
+    color: #333333;
+    font-size: 24px;
+    font-family: Invention;
+    font-weight: 700;
+    line-height: 36px;
+    word-wrap: break-word;
+    font-size: 24px; 
+    line-height: 36px;
+}
+
+.text-detail {
+    width: 486px;
+    color: #333333;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 21px;
+    word-wrap: break-word;
+}
+
+.text-detail-2 {
+    align-self: stretch;
+    color: #333333;
+    font-size: 16px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 24px;
+    word-wrap: break-word;
+}
+
+.flex-column-center {
+    left: 654px;
+    top: 100px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    display: inline-flex;
+}
+
+.flex-row-close {
+    align-self: stretch;
+    height: 466px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    display: flex;
+}
+
+.button-close {
+    cursor: pointer;
+    height: 32px;
+    padding: 16px;
+    border-radius: 5px;
+    border: 2px #00857C solid;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    display: inline-flex;
+}
+
+.button-text {
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.86px;
+    word-wrap: break-word;
+}
+
+.error-message {
+    width: 386px;
+    height: 34px;
+    padding: 16px;
+    background: #FFE7E6;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.error-text {
+    flex: 1 1 0;
+    color: #DB281A;
+    font-size: 12px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 18px;
+    word-wrap: break-word;
+}
+
+.continue-button {
+    cursor: pointer;
+    width: 386px;
+    height: 50px;
+    padding: 16px;
+    background: #00857C;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    display: inline-flex;
+}
+
+.text-link {
+    width: 234px;
+    text-align: center;
+    color: #333333;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 21px;
+    word-wrap: break-word;
+}
+
+.link-highlight {
+    color: #00857C;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.already-registered {
+    color: #333333; 
+    font-size: 14px; 
+    font-family: Invention; 
+    font-weight: 400; 
+    line-height: 21px; 
+    word-wrap: break-word;
+}
+
+.mob-main {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1.55497px 7.25654px;
+    border-radius: 5px;
+    flex-direction: column;
+    gap: 40px;
+    display: inline-flex;
+    width: 100%;
+}
+
+.mob-main img {
+    border-radius: 5px 5px 0 0;
+}
+
+.mob-flex-column {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.mob-column-detail {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+}
+  
+.mob-button-close {
+    height: 40px;
+    padding: 11px 16px;
+    border-radius: 5px;
+    border: 2px solid #00857C;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+  
+.mob-button-close-text {
+    text-align: center;
+    color: #00857C;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    word-wrap: break-word;
+}
+
+.mob-heading {
+    color: #333333;
+    font-size: 20px;
+    font-family: Invention;
+    font-weight: 700;
+    line-height: 30px;
+    word-wrap: break-word;
+}
+
+.mob-text {
+    align-self: stretch;
+    color: #333333;
+    font-size: 16px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 24px;
+    word-wrap: break-word;
+    margin-bottom: 8px;
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+    .medi-btn-modal {
+        color: #00857C !important;
+        height: 30px;
+        background: white;
+        border-radius: 3px;
+        border-color: rgba(0, 133, 124, 1);
+
+        margin-right: 4px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 28px;
+        font-family: Invention;
+        border: 1px solid rgb(0, 133, 124) !important;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: 0.861539px;
+        padding: 0px 10px;
+        padding-right: 0px;
+        padding-left: 10px;
+        width: 100%;
+        margin-top: 12px;
+        display: block;
+    }
+    .modlhead{
+        color: var(--Gray-Scale-text-dark, #333);
+        font-feature-settings: 'clig' off, 'liga' off;
+        /* Heading/H1/Bold */
+        font-family: Invention;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 30px; /* 125% */
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+    }
+    .linkcls{
+        color: var(--Gray-Scale-text-green, #00857C) !important;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        text-decoration-line: underline;
+        /* justify-content: center; */
+        justify-content: flex-start;
+        display: inline-flex;
+        margin-bottom: 12px;
+    }
+    .modlmatr{
+        color: var(--Gray-Scale-text-dark, #333);
+        /* text-align: center; */
+        text-align: left;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+    }
+    .modalpad{
+        padding: 24px;
+        width: 100%;
+    }
+    .contmarg{
+        margin: 5%;
+        height: auto;
+    }
+    .container{
+        top: 0;
+        width: auto;
+        height: auto;
+        text-align: start;
+        justify-content: start;
+        margin: 16px;
+        gap: 12px;
+    }
+    .radiocls{
+        margin-left: 0px;
+    }
+    .pbanner_img{
+        height: 140px !important;
+        object-fit: cover;
+    }
+
+    .web {
+        display: none;
+    }
+    
+    .mobile {
+        display: block;
+        margin-bottom: 80px;
+    }
+    .radiomarg{
+        margin-bottom: 0px;
+    }
+    .closediv{
+        display: none;
+    }
+    .modlmatr1{
+        color: var(--Gray-Scale-text-dark, #333);
+        text-align: center;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+        display: inline;
+        /* display: block; */
+        margin-left: 0%;
+        
+    }
+    
+    .radiosubdiv {
+        width: auto;
+    }
+
+    .continue-button, .error-message {
+        width: 100% !important;
+    }
+
+    .mob-container-detail {
+        padding: 24px;
+        background: #F1F9F9;
+        border-radius: 0 0 5px 5px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        display: flex;
+    }
+    
+    .mob-inner-flex {
+        align-self: stretch;
+        border-radius: 8px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        display: inline-flex;
+    }
+    
+    .mob-column-flex {
+        flex: 1 1 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 8px;
+        display: inline-flex;
+    }
+    
+    .mob-text-header {
+        align-self: stretch;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 12px;
+        display: inline-flex;
+        flex: 1 1 0;
+        color: #333333;
+        font-size: 18px;
+        font-family: Invention;
+        font-weight: 700;
+        line-height: 27px;
+        word-wrap: break-word;
+    }
+    
+    .mob-text-detail {
+        align-self: stretch;
+        color: #333333;
+        font-size: 14px;
+        font-family: Invention;
+        font-weight: 400;
+        line-height: 21px;
+        word-wrap: break-word;
+    }
+    .mob-container-detail {
+        padding: 24px;
+        background: #F1F9F9;
+        border-radius: 0 0 5px 5px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        display: flex;
+    }
+    
+    .mob-inner-flex {
+        align-self: stretch;
+        border-radius: 8px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        display: inline-flex;
+    }
+    
+    .mob-column-flex {
+        flex: 1 1 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 8px;
+        display: inline-flex;
+    }
+    
+    .mob-text-header {
+        align-self: stretch;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 12px;
+        display: inline-flex;
+        flex: 1 1 0;
+        color: #333333;
+        font-size: 18px;
+        font-family: Invention;
+        font-weight: 700;
+        line-height: 27px;
+        word-wrap: break-word;
+    }
+    
+    .mob-text-detail {
+        align-self: stretch;
+        color: #333333;
+        font-size: 14px;
+        font-family: Invention;
+        font-weight: 400;
+        line-height: 21px;
+        word-wrap: break-word;
+    }
+}

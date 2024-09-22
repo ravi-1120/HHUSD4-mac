@@ -1,0 +1,16 @@
+<template>
+  <div class="slds-card">
+    <div if:false={showEmptyDesert} class="slds-page-header">
+      <p>
+        <lightning-formatted-text if:true={documentName} class="slds-text-heading_large" value={documentName}></lightning-formatted-text>
+      </p>
+      <p>
+        <lightning-formatted-text if:true={documentId} value={documentId}></lightning-formatted-text>
+      </p>
+    </div>
+    <c-veeva-no-data-desert-illustration if:true={showEmptyDesert} class="slds-align_absolute-center" header={noTemplateMessage}></c-veeva-no-data-desert-illustration>
+    <c-veeva-spinner if:true={isWaiting}></c-veeva-spinner>
+    <div class="htmlContainer" ishtmlcontainer="true" lwc:dom="manual"></div>
+  </div>
+
+</template>

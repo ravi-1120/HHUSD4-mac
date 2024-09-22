@@ -1,0 +1,54 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-item--label {
+    width: 55%;
+    padding-right : 0rem;
+}
+.THIS .slds-media__figure{
+    float: left;
+}
+.THIS .menuItemLink>a{
+	color:rgba(27, 82, 151, 1.0);
+}
+.THIS .slds-card__header .slds-size_1-of-2 {
+    float: left;
+}
+.THIS .slds-card__header {
+    overflow: hidden;
+}
+.THIS .slds-size_1-of-2 .slds-media__figure{
+    margin-right: .25rem;
+    margin-top: 6px;
+}
+.THIS .slds-size_1-of-2 .slds-icon_small{
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.THIS.popoverclass {
+    min-height: 100px;
+}
+
+.THIS.no-pointer .pointer{
+    visibility: hidden;
+}
+
+.THIS .textAreaHeight{
+    min-height:110px;
+    padding-bottom:35px;
+}
+
+.THIS .highlightRemaining{
+    color:red;
+}
+
+.THIS .hideDynamicSearch{
+    display:none;
+    
+}
+.THIS .showDynamicSearch{
+
+	display:inline-block;
+    float:right;    
+}

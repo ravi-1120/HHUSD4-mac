@@ -1,0 +1,117 @@
+<template>
+    <div class="page-container">
+        <c-veeva-page-header if:false={hidePageContent} icon-name="standard:user" title={pageHeaderTitle}>
+            <lightning-breadcrumbs slot="breadcrumbs">
+                <lightning-breadcrumb label={messages.fieldPlans} onclick={handleFieldPlanNavigation}></lightning-breadcrumb>
+                <lightning-breadcrumb label={tableMetadata.fieldPlanName} onclick={handleTerritoriesNavigation}></lightning-breadcrumb>
+            </lightning-breadcrumbs>
+    
+            <lightning-layout slot="buttons" horizontal-align="end" vertical-align="center" multiple-rows>
+                <lightning-layout-item size="12">
+                    <div class="slds-float_right slds-p-left_x-small info-button-container">
+                        <lightning-button icon-name="utility:info" label={messages.summary} title={messages.summary} onclick={handleInfoEvent} disabled={isTableRendering}></lightning-button>
+                    </div>
+    
+                    <div class="slds-float_right slds-p-left_x-small clear-filters-button-container">
+                        <lightning-button icon-name="utility:filterList" label={messages.clearFilters} onclick={handleClearFilters} disabled={isTableUnfiltered}></lightning-button>
+                    </div>
+    
+                    <lightning-button
+                        if:true={tableMetadata.canChallenge}
+                        label={messages.addAccounts}
+                        icon-name="utility:world"
+                        class="slds-float_right outside-territory-search-button"
+                        onclick={openOutsideTerritorySearchModal}>
+                    </lightning-button>
+                </lightning-layout-item>
+    
+                <lightning-layout-item if:true={tableMetadata.canReview} class="slds-p-left_x-small slds-p-top_x-small approve-reject-button-container">
+                    <lightning-button-group if:true={veevaMessagesLoaded}>
+                        <lightning-button
+                            class="header-button"
+                            label={messages.approve}
+                            icon-name="utility:like"
+                            title={messages.approve}
+                            onclick={handleApproveChallenges}
+                            disabled={areNoSelectedRecords}>
+                        </lightning-button>
+                        <lightning-button
+                            class="header-button"
+                            label={messages.reject}
+                            icon-name="utility:dislike"
+                            title={messages.reject}
+                            onclick={handleRejectChallenges}
+                            disabled={areNoSelectedRecords}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+
+                <c-feedback-territory-model-actions-menu
+                    if:true={translatedActionsForTerritoryModel.length}
+                    territory-model-actions={translatedActionsForTerritoryModel}
+                    class="slds-p-left_x-small slds-p-top_x-small"
+                    onterritorymodelaction={handleTerritoryModelAction}
+                >
+                </c-feedback-territory-model-actions-menu>
+            </lightning-layout>
+        </c-veeva-page-header>
+    
+        <c-territory-feedback-error-handler></c-territory-feedback-error-handler>
+    
+        <div if:true={loading} class="spinner-container">
+            <lightning-spinner size="large"></lightning-spinner>
+        </div>
+        
+        <div if:true={isInitialized} class={containerClass}>
+            <lightning-layout class="table-panel-container slds-p-top_small">
+                <lightning-layout-item size={accountsTableSize}>
+                    <c-feedback-accounts-datatable
+                        accounts-table-details-record={tableMetadata}
+                        selected-accounts-filter={selectedAccountsFilter}
+                        onrowaction={handleRowAction}
+                        onselectionchange={handleSelectionChange}
+                        onfilter={handleFilterUpdate}
+                        onrenderrows={handleRenderRows}>
+                    </c-feedback-accounts-datatable>
+                </lightning-layout-item>
+        
+                <lightning-layout-item size={infoPanelSize} class={sidePanelClass}>
+                    <c-field-plan-info-panel
+                        feedback-local-data-service={feedbackLocalDataService}
+                        html-report-id={htmlReportId}
+                        html-report-height={tableMetadata.htmlReportHeight}
+                        onclose={handlePanelCloseEvent}
+                        onupdatefilters={handleUpdateFiltersEvent}
+                    ></c-field-plan-info-panel>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    
+        <c-territory-feedback-edit-goals-modal
+            if:true={displayGoalEditorModal}
+            account-record={goalEditorAccountRecord}
+            goal-metadata={tableMetadata.goalMetadata}
+            territory-model-id={selectedTerritoryModelId}
+            territory-feedback-service={territoryFeedbackService}
+            is-add-target-challenge={goalEditorIsAddTargetChallenge}
+            use-default-goals={goalEditorUseDefaultGoals}
+            header={goalEditorHeader}
+            onclose={handleCloseEditGoalsModal}
+            onsubmitgoals={handleSubmitGoals}>
+        </c-territory-feedback-edit-goals-modal>
+    
+        <c-feedback-outside-territory-search-modal
+            if:true={displayOutsideTerritorySearchModal}
+            territory-feedback-service={territoryFeedbackService}
+            territory-model-id={selectedTerritoryModelId}
+            in-territory-accounts-by-id={inTerritoryAccountsById}
+            location-based-targeting={tableMetadata.locationBasedTargeting}
+            cycle-present={tableMetadata.cyclePresent}
+            onclose={closeOutsideTerritorySearchModal}
+            onrowaction={handleRowAction}
+            onerror={handleErrorEvent}>
+        </c-feedback-outside-territory-search-modal>
+
+        <c-territory-feedback-modal onconfirm={handleConfirmCommand} oncancel={handleCancelCommand}></c-territory-feedback-modal>
+    </div>
+</template>

@@ -1,0 +1,68 @@
+<apex:page standardController="Case" extensions="CreateCaseRedirectControllerMVN" action="{!getRedirect}" lightningStylesheets="true">
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <script>
+        var interactionTabId;
+        var tempTabId;
+    
+    	window.onload = getTabId;
+        function getTabId() {
+            sforce.console.getEnclosingTabId(openInteractionTab);
+        }
+
+        var openInteractionTab = function openInteractionTab(result) {
+            var newCaseId = <apex:outputText escape="false" value="'{!newCase.Id}'" />;
+            tempTabId = result.id;
+
+            if({!closeTab}){
+                sforce.console.setTabTitle('{!$Label.MSD_CORE_External_Transfer}');
+                setInterval(closeTempTab, 1500);
+                return;
+            }
+
+            sforce.console.setTabTitle('{!$Label.Creating}');
+
+            if(newCaseId == '' || newCaseId == 'null' || newCaseId == undefined){
+                sforce.console.setTabTitle('{!$Label.Error}');
+                return;
+            }
+
+            sforce.console.openPrimaryTab(null, '/'+newCaseId+'?isdtp=vw', true, <apex:outputText escape="false" value="'{!Case.CaseNumber}'" />, openSuccess);
+        	
+        };
+
+        var openSuccess = function openSuccess(result) {
+            var accountId = <apex:outputText escape="false" value="'{!newCase.AccountId}'" />;
+
+            if(accountId != '' && accountId != 'null' && accountId != undefined){
+                closeTempTab(null);
+                return;
+            }
+
+            var phone = <apex:outputText escape="false" value="'{!JSENCODE($CurrentPage.parameters.phone)}'"/>;
+            var customerNumber = <apex:outputText escape="false" value="'{!JSENCODE($CurrentPage.parameters.customerNumber)}'" />;
+            var employeeNumber = <apex:outputText escape="false" value="'{!JSENCODE($CurrentPage.parameters.employeeNumber)}'" />;
+            var caseId = <apex:outputText escape="false" value="'{!newCase.Id}'" />;
+
+            var isPersonSearch = '1';
+            if({!shouldRenderBusinessSearch}){
+                isPersonSearch += '0';
+            }
+
+            interactionTabId = result.id;
+
+            if((phone != null && phone != "" && phone != undefined) ||
+                (customerNumber != null && customerNumber != "" && customerNumber != undefined) ||
+                (employeeNumber != null && employeeNumber != "" && employeeNumber != undefined)){
+                // sforce.console.openSubtab(interactionTabId, '/apex/AccountSearchMVN?caseId='+caseId+'&phone='+phone+'&customerNumber='+customerNumber+'&employeeNumber='+employeeNumber+'&isPersonSearch='+isPersonSearch, true, '{!$Label.Account_Search_Tab}', null, closeTempTab);
+                sforce.console.openSubtab(interactionTabId, '/apex/MSD_CORE_CustomerSearch?caseId='+caseId+'&phone='+phone+'&customerNumber='+customerNumber+'&employeeNumber='+employeeNumber+'&isPersonSearch='+isPersonSearch, true, '{!$Label.Account_Search_Tab}', null, closeTempTab);
+            }else{
+                closeTempTab(null);
+            }
+        };
+
+        var closeTempTab = function closeTempTab(result){
+            sforce.console.closeTab(tempTabId);
+        }
+    </script>
+    <apex:pageMessages />
+</apex:page>

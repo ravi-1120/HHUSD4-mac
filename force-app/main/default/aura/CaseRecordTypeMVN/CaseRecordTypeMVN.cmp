@@ -1,0 +1,220 @@
+<aura:component controller="CaseRecordTypeControllerMVN" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="rec" type="Object" description="The record object to be displayed"/>
+    <aura:attribute name="caseRec" type="Object" description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recErr" type="String" description="An error message bound to force:recordData"/>
+    <aura:attribute name="recType" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="disclaimer" type="CaseDataWrapperMVN"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="simpleRecord" type="Case" />
+    <aura:attribute name="recordError" type="String" />
+    <aura:attribute name="userProfile" type="String" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="isAccessiable" type="boolean" default="true"/>
+    
+    <aura:attribute name="hidePQC" type="boolean" default="false"/>
+    <aura:attribute name="hideAE" type="boolean" default="false"/>
+    <aura:attribute name="AECloneRec" type="boolean" default="false"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <aura:handler event="c:refreshRecordTypeMVNEvent" action="{!c.handleRefreshRecordTypeMVN}"/>
+    
+    <div class="slds-card slds-card_boundary forceBaseCard flexipageCard" style="padding: 10px;">
+        <b>
+            <center>
+                <span style="color: #378484; font-size: 18px;">
+                    <aura:if isTrue="{!or(v.disclaimer.cs.RecordType.Name == 'Combo Case Preview',v.disclaimer.cs.RecordType.Name == 'Combo Case')}">
+                        AE &amp; PQC
+                    </aura:if>
+                    <aura:if isTrue="{!v.disclaimer.cs.RecordType.Name == 'Combo Case - Submitted'}">
+                        AE &amp; PQC Case - Submitted
+                    </aura:if>
+                    
+                    <aura:if isTrue="{!v.disclaimer.cs.RecordType.Name == 'Combo Case - Closed'}">
+                        AE &amp; PQC Case - Closed
+                    </aura:if>
+                    <aura:if isTrue="{!v.disclaimer.cs.RecordType.Name != 'Combo Case - Closed'}">
+                        <aura:if isTrue="{!v.disclaimer.cs.RecordType.Name != 'Combo Case - Submitted'}">
+                            <aura:if isTrue="{!v.disclaimer.cs.RecordType.Name != 'Combo Case Preview'}">
+                                <aura:if isTrue="{!v.disclaimer.cs.RecordType.Name != 'Combo Case'}">
+                                    {!v.disclaimer.cs.RecordType.Name}
+                                </aura:if>
+                            </aura:if>
+                        </aura:if>
+                    </aura:if>
+                </span>
+            </center>
+            
+            <aura:if isTrue="{!v.disclaimer.type != 'Other'}">
+                <div class="icondiv">
+                    <lightning:icon iconName="utility:chevrondown" size="small" alternativeText="Show Disclaimer" onclick="{!c.showDisclaimer}"/>
+                </div>
+            </aura:if>
+        </b>
+        
+        <aura:if isTrue="{!v.disclaimer.type != 'Other'}">
+            <div aura:id="recordTypeText">
+                <aura:if isTrue="{!v.disclaimer.type == 'COMBO'}">
+                    
+                    <!--<aura:unescapedHtml value="{!$Label.c.MSD_CORE_AE_PQC_Disclaimer}"/>-->
+                </aura:if>
+                <aura:if isTrue="{!v.disclaimer.type == 'TempExcursion'}">
+                    <aura:unescapedHtml value="{!$Label.c.MSD_CORE_Temp_Excursion_Disclaimer_Not_Supported}"/>
+                    <aura:unescapedHtml value="{!$Label.c.MSD_CORE_Temp_Excursion_Disclaimer_Supported_Part_1}"/>
+                    <aura:unescapedHtml value="{!$Label.c.MSD_CORE_Temp_Excursion_Disclaimer_Supported_Part_2}"/>
+                </aura:if>
+                
+                <br/>
+            </div>
+        </aura:if>
+        
+        <aura:if isTrue="{!(v.disclaimer.cs.MSD_CORE_AE_Hospitalization_or_Prolonged__c == 'Yes' || 
+                         v.disclaimer.cs.MSD_CORE_AE_Sig_Disability_or_Incapacity__c == 'Yes' ||
+                         v.disclaimer.cs.MSD_CORE_AE_Is_Was_AE_Congenital_Anomaly__c == 'Yes' ||
+                         v.disclaimer.cs.MSD_CORE_AE_Is_Was_the_AE_Cancer__c == 'Yes' ||
+                         v.disclaimer.cs.MSD_CORE_AE_Patient_Overdose__c == 'Yes' ||
+                         v.disclaimer.cs.MSD_CORE_AE_Life_Threatening__c == 'Yes' ||
+                         v.disclaimer.cs.MSD_CORE_AE_Intervention_Prevent_Serious__c == 'Yes' ||
+                         v.disclaimer.cs.MSD_CORE_AE_Did_the_Patient_Die__c == 'Yes')}">
+            
+            <aura:if isTrue="{!v.disclaimer.cs.Status == 'Open'}">
+                <h2 class="warningTxt">Since you have answered "yes" to a serious criteria question, check for an MDCP product to determine if product should be held for possible return</h2>
+            </aura:if>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.disclaimer.type == 'COMBO'}">
+            <div class="slds-grid slds-wrap slds-align_absolute-center" style="margin: 10px 0px;">
+                <div class="slds-col slds-size_2-of-3">
+                    <article class="slds-card slds-card_boundary">
+                        <div class="slds-card__body" style="padding: 0px 3px 0px; margin-bottom: 0;">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col">
+                                    <img class="imgicon" style="margin-top: 5px;" src="{!$Resource.GlobalAssetsMVN+'/Icons/adverseEvent.png'}"/>
+                                    <label style="font-size: 14px;margin-top: 5px;float: left;" class="slds-p-left_medium" for="select-01">Adverse Event Type</label>
+                                </div>
+                                <div class="slds-col ddtype">
+                                    <aura:if isTrue="{!and(v.disclaimer.cs.Status == 'Open', v.isAccessiable)}">
+                                        <lightning:recordEditForm aura:id="recordViewForm"
+                                                                  recordId="{!v.recordId}"
+                                                                  recordTypeId="{!v.disclaimer.cs.RecordTypeId}"
+                                                                  objectApiName="Case">
+                                            <lightning:messages />
+                                            <!--Other fields here-->
+                                            <!--start CEF2F-18174-->
+                                            <aura:if isTrue="{!v.AECloneRec}">
+                                               <lightning:inputField aura:id="csType" fieldName="Type" disabled= 'true'/> 
+                                                <aura:set attribute="else">
+                                                <lightning:inputField aura:id="csType" fieldName="Type" onchange="{!c.aeChange}" disabled="{!v.hideAE}"/>
+                                            <lightning:inputField fieldName="Status" class="toggle"/>
+                                              </aura:set>
+                                            </aura:if>
+                                           
+                                        </lightning:recordEditForm>
+                                    </aura:if>
+                                    <aura:if isTrue="{!!v.isAccessiable || v.disclaimer.cs.Status == 'Closed' || v.disclaimer.cs.Status == 'Submitted'}">
+                                        <label style="padding: 5px 0 13px 0;float: right;font-size: 14px;">{!v.disclaimer.cs.Type}</label>
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="slds-col slds-p-left_large slds-size_1-of-3" style="padding-left: 5px;">
+                    <article class="slds-card slds-card_boundary">
+                        <div class="slds-card__body" style="overflow: hidden;padding: 2px 5px 15px; margin-bottom: 0;">
+                            <div class="slds-col">
+                                <img class="imgicon" style="margin-top: 3px;" src="{!$Resource.GlobalAssetsMVN+'/Icons/pqc.png'}"/>
+                                <label style="font-size: 14px;float: left;margin-top: 4px;" class="slds-p-left_medium" for="select-01">Product Complaint</label>
+                            </div>
+                            
+                            <div class="slds-col">
+                                
+                                <aura:if isTrue="{!v.disclaimer.cs.Status == 'Open'}">
+                                    <aura:if isTrue="{!v.userProfile !='MSD_CORE Contact Center - Read Only User'}">
+                                        
+                                        <lightning:input type="checkbox" label="Disabled option" aura:id="pqcCheckbox" 
+                                                         onchange="{!c.updateCase}" name="input3" 
+                                                         style="float: right;width: 25px; height: 20px; margin-top: 2px;" 
+                                                         checked="{!or(v.disclaimer.cs.RecordType.Name == 'Combo Case', v.disclaimer.cs.RecordType.Name == 'Product Complaint')}"
+                                                         disabled="{!v.hidePQC}"/>
+                                        <aura:set attribute="else">
+                                            
+                                            <lightning:input type="checkbox" label="Disabled option" aura:id="pqcCheckbox" 
+                                                             onchange="{!c.updateCase}" name="input3" 
+                                                             style="float: right;width: 25px; height: 20px; margin-top: 2px;" 
+                                                             checked="{!or(v.disclaimer.cs.RecordType.Name == 'Combo Case', v.disclaimer.cs.RecordType.Name == 'Product Complaint')}"
+                                                             disabled="true"/>
+                                        </aura:set>
+                                    </aura:if>
+                                    
+                                </aura:if>
+                                <aura:if isTrue="{!v.disclaimer.cs.Status == 'Closed'}">
+                                    <lightning:input type="checkbox" label="Disabled option" aura:id="pqcCheckbox" onchange="{!c.updateCase}" 
+                                                     name="input3" style="float: right;width: 25px; height: 20px; margin-top: 2px;" 
+                                                     checked="{!or(v.disclaimer.cs.RecordType.Name == 'Combo Case - Closed', v.disclaimer.cs.RecordType.Name == 'Product Complaint - Closed')}" disabled="true"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.disclaimer.cs.Status == 'Submitted'}">
+                                    <lightning:input type="checkbox" label="Disabled option" aura:id="pqcCheckbox" onchange="{!c.updateCase}" 
+                                                     name="input3" style="float: right;width: 25px; height: 20px; margin-top: 2px;" 
+                                                     checked="{!or(v.disclaimer.cs.RecordType.Name == 'Combo Case - Submitted', v.disclaimer.cs.RecordType.Name == 'Product Complaint - Submitted')}" disabled="true"/>
+                                </aura:if>
+                            </div>    
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </aura:if>
+        
+        <c:MSD_CORE_CaseStatus status="{!v.disclaimer.cs.Status}" recordId="{!v.recordId}"/>
+        
+    </div>
+    
+    <!--<aura:if isTrue="{!v.disclaimer.cs.MSD_CORE_Disclaimer_Read__c == false}">
+        <aura:if isTrue="{!v.disclaimer.cs.RecordType.Name != 'Combo Case Preview'}">
+            <aura:if isTrue="{!v.disclaimer.type != 'Other'}">
+                <div id="searchFlashSection" class="slds-hide slds-scrollable animatin" aura:id="searchFlashSection">
+                    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                        <div class="slds-modal__container" aura:id="searchChangeIt" style="display:none; -webkit-transition: all 1s; transition: all 1s;"> 
+                            <header class="slds-modal__header">
+                                <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                                    <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                
+                                <b>
+                                    <center>
+                                        <span style="color: #378484; font-size: 18px;">
+                                            {!v.disclaimer.cs.RecordType.Name}
+                                        </span>
+                                    </center>
+                                </b>
+                            </header>
+
+                            <div class="slds-modal__content slds-grow modal-overflow slds-scrollable_x" id="modal-content-id-1" style="padding: 20px; font-size: 18px;">
+                                <aura:if isTrue="{!v.disclaimer.type == 'COMBO'}">
+                                    <aura:unescapedHtml value="{!$Label.c.MSD_CORE_AE_PQC_Disclaimer}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.disclaimer.type == 'TempExcursion'}">
+                                    <aura:unescapedHtml value="{!$Label.c.MSD_CORE_Temp_Excursion_Disclaimer_Not_Supported}"/>
+                                    <aura:unescapedHtml value="{!$Label.c.MSD_CORE_Temp_Excursion_Disclaimer_Supported_Part_1}"/>
+                                    <aura:unescapedHtml value="{!$Label.c.MSD_CORE_Temp_Excursion_Disclaimer_Supported_Part_2}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.disclaimer.type == 'Other'}">
+                                    
+                                </aura:if>
+                                <br/>
+                            </div>
+                            
+                            <footer class="slds-modal__footer">
+                                <lightning:button label="Disclaimer read to customer" name="Disclaimer read to customer" variant="brand" onclick="{!c.markRead}" />
+                            </footer>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </aura:if>
+        </aura:if>
+    </aura:if> -->
+</aura:component>

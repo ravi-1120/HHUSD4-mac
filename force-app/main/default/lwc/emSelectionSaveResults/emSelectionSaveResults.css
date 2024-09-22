@@ -1,0 +1,52 @@
+:host {
+    --veeva-popover-width: 55vh;
+    --veeva-popover-content-min-height: 0;
+}
+
+h2.slds-m-top_xx-small:first-child {
+    margin-top: 0;
+}
+
+.errors {
+    max-height: 30vh;
+    overflow: auto;
+}
+
+.error-details-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.error-details-link:hover {
+    text-decoration: none;
+}
+
+.error-messages {
+    display: flex;
+    flex-basis: 65%;
+    flex-direction: column;
+}
+
+.error-row {
+    display: flex;
+    gap: var(--lwc-spacingXxSmall, 0.25rem);
+    font-size: 0.875rem;
+}
+
+.error-name {
+    flex-basis: 35%;
+    word-break: normal;
+}
+
+.fade-in {
+    animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

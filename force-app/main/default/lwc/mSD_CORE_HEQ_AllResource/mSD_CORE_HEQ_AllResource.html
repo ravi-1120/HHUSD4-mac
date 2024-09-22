@@ -1,0 +1,195 @@
+<template>
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <div class="breadcrumbs">
+            <div>
+                <span class="breadcrumb1" onclick={redirectToHome}> {label.home} ></span> <span
+                    class="breadcrumb2">{type}</span>
+            </div>
+        </div>
+        <!-- Heading -->
+        <div class="slds-grid slds-grid_align-spread headingcls">
+            <div class="slds-col headertext">
+                {type}
+            </div>
+            <div class="slds-col tilelistview">
+                <div class="slds-grid slds-wrap">
+                    <div class="tileicon" data-name="tile" onclick={handleViewClick}>
+                        <template if:false={isListView}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="41" height="40" viewBox="0 0 41 40"
+                                fill="none">
+                                <rect x="0.855469" width="40.0243" height="40" fill="#00857C" />
+                                <rect x="8.86035" y="8" width="10.5064" height="10.5" fill="white" />
+                                <rect x="22.3687" y="8" width="10.5064" height="10.5" fill="white" />
+                                <rect x="22.3687" y="21.5" width="10.5064" height="10.5" fill="white" />
+                                <rect x="8.86035" y="21.5" width="10.5064" height="10.5" fill="white" />
+                            </svg>
+                        </template>
+                        <template if:true={isListView}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="41" height="40" viewBox="0 0 41 40"
+                                fill="none">
+                                <rect x="0.855469" width="40.0243" height="40" fill="#E7E7E7" />
+                                <rect x="8.86035" y="8" width="10.5064" height="10.5" fill="black" />
+                                <rect x="22.3687" y="8" width="10.5064" height="10.5" fill="black" />
+                                <rect x="22.3687" y="21.5" width="10.5064" height="10.5" fill="black" />
+                                <rect x="8.86035" y="21.5" width="10.5064" height="10.5" fill="black" />
+                            </svg>
+                        </template>
+                    </div>
+                    <div class="listicon" data-name="list" onclick={handleViewClick}>
+                        <template if:false={isListView}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="41" height="40" viewBox="0 0 41 40"
+                                fill="none">
+                                <rect x="0.894531" width="40.0243" height="40" fill="#E7E7E7" />
+                                <rect x="11.5676" y="10.6665" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5676" y="10.6665" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="16" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="16" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="21.333" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="21.333" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="26.6665" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="26.6665" width="18.678" height="2.66667" fill="black" />
+                            </svg>
+                        </template>
+                        <template if:true={isListView}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="41" height="40" viewBox="0 0 41 40"
+                                fill="none">
+                                <rect x="0.894531" width="40.0243" height="40" fill="#00857C" />
+                                <rect x="11.5676" y="10.6665" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5676" y="10.6665" width="18.678" height="2.66667" fill="white" />
+                                <rect x="11.5675" y="16" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="16" width="18.678" height="2.66667" fill="white" />
+                                <rect x="11.5675" y="21.333" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="21.333" width="18.678" height="2.66667" fill="white" />
+                                <rect x="11.5675" y="26.6665" width="18.678" height="2.66667" fill="black" />
+                                <rect x="11.5675" y="26.6665" width="18.678" height="2.66667" fill="white" />
+                            </svg>
+                        </template>
+                    </div>
+                    <div class="lastmodified">
+                        Last modified
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="maincontent">
+            <!-- Search Category -->
+            <div class="sidebar width-sidebar">
+                <c-m-s-d_-c-o-r-e_-h-e-q_-search-category onselectedcategories={handleSelectedCategories}
+                    oncategoriesid={handlecategoriesid} ongetsavedsearch={handleSavedSearch}
+                    onexpandcollapssidebar={handleExpandCollapsSidebar} onselectedfiltersupdate={handleSelectedFilters}
+                    oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}>
+                </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
+            </div>
+            <!-- Tile & Pagination -->
+            <div class="tilepaginationcls">
+                <!-- Pagination -->
+                <div class="">
+                    <template if:true={isPagination}>
+                        <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}
+                            records-per-page-options={recordsPerPageOptions} records-per-page={recordsPerPage} total-pages={totalPages}
+                            onpageoptionchange={handlePageOptionChange} onpagechange={handlePageChange}>
+                        </c-m-s-d_-c-o-r-e_-h-e-q_-pagination>
+                    </template>
+                </div>
+
+                 <div class="slds-m-bottom_medium mainDivCls">
+                    <!-- <h3 class="slds-text-heading_small slds-m-bottom_xx-small">Selected Categories:</h3> -->
+                    <div class="catagoriesCls">
+                        <template for:each={selectedCategoriesArray} for:item="filter">
+                            <span class="filterCls" key={filter}>{filter}                                                        
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" onclick={closeFilter} data-filter={filter}>
+                                        <path
+                                            d="M10.7096 5.54323C10.7096 5.47448 10.6534 5.41823 10.5846 5.41823L9.55337 5.42292L8.00025 7.27448L6.44869 5.42448L5.41588 5.4198C5.34713 5.4198 5.29088 5.47448 5.29088 5.5448C5.29088 5.57448 5.30182 5.60261 5.32057 5.62605L7.35338 8.04792L5.32057 10.4682C5.30169 10.4911 5.29121 10.5198 5.29088 10.5495C5.29088 10.6182 5.34713 10.6745 5.41588 10.6745L6.44869 10.6698L8.00025 8.81823L9.55181 10.6682L10.5831 10.6729C10.6518 10.6729 10.7081 10.6182 10.7081 10.5479C10.7081 10.5182 10.6971 10.4901 10.6784 10.4667L8.64868 8.04636L10.6815 5.62448C10.7002 5.60261 10.7096 5.57292 10.7096 5.54323Z"
+                                            fill="white" />
+                                        <path
+                                        d="M8 1.01562C4.13438 1.01562 1 4.15 1 8.01562C1 11.8813 4.13438 15.0156 8 15.0156C11.8656 15.0156 15 11.8813 15 8.01562C15 4.15 11.8656 1.01562 8 1.01562ZM8 13.8281C4.79063 13.8281 2.1875 11.225 2.1875 8.01562C2.1875 4.80625 4.79063 2.20312 8 2.20312C11.2094 2.20312 13.8125 4.80625 13.8125 8.01562C13.8125 11.225 11.2094 13.8281 8 13.8281Z"
+                                    fill="white" />
+                                </svg>
+                                                                                                                                
+                             </span>
+                        </template>
+                        
+                    </div>
+                    <div class="totalRecords">{totalRecords} Results found</div>
+                </div>
+                <!-- Tile -->
+                <div class="slds-grid slds-wrap tileviewcls">
+                    <template if:true={sections}>
+                        <template if:false={isListView}>
+                            <template for:each={sections} for:item="section">
+                                <template if:true={section.topics}>
+                                    <template for:each={section.topics} for:item="item">
+                                        <div class={item.isSelectedTileColor} key={item}>
+                                            <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item}
+                                                grid-type="grid2" genericview="tile" menu-options={menuOptions}
+                                                category="Expiring Soon" contentdocumentid={item.contentdocumentid}
+                                                onshowmenu={handleShowMenu} onmenuclick={handleMenuClick}
+                                                onselectdocument={handleDocumentSelection}>
+                                            </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:false={section.topics}>
+                                    <div class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small"
+                                        key={section}>
+                                        <div class="cardtitle slds-text-heading_small">No resources found matching your
+                                            criteria. Please try with
+                                            different keywords</div>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+                <!-- List -->
+                <div class="listviewcls">
+                    <template if:true={sections}>
+                        <template if:true={isListView}>
+                            <template for:each={sections} for:item="section">
+                                <template if:true={section.topics}>
+                                    <template for:each={section.topics} for:item="item">
+                                        <div class={item.isSelectedListColor} key={item}>
+                                            <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item}
+                                                grid-type="grid1" genericview="list" menu-options={menuOptions}
+                                                category="Expiring Soon" contentdocumentid={item.contentdocumentid}
+                                                onshowmenu={handleShowMenu} onmenuclick={handleMenuClick}
+                                                onselectdocument={handleDocumentSelection}>
+                                            </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:false={section.topics}>
+                                    <div class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small"
+                                        key={section}>
+                                        <div class="cardtitle slds-text-heading_small">No resources found matching your
+                                            criteria. Please try with
+                                            different keywords</div>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+                <div class="bottompagination">
+                    <template if:true={isPagination}>
+                        <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}
+                            records-per-page-options={recordsPerPageOptions} records-per-page={recordsPerPage}
+                            total-pages={totalPages} onpageoptionchange={handlePageOptionChange}
+                            onpagechange={handlePageChange}></c-m-s-d_-c-o-r-e_-h-e-q_-pagination>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <div if:true={isCollection} class="collectionbtncls slds-var-p-top_medium">
+            <lightning-button label="OK" onclick={handleAdd}></lightning-button>
+            <lightning-button style="margin-left:20px;" label="Cancel" onclick={handleCancel} variant="neutral">
+            </lightning-button>
+        </div>
+    </div>
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
+</template>

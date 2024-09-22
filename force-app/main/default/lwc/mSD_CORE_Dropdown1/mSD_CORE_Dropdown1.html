@@ -1,0 +1,97 @@
+<template>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label labelstyle">{label}</label>
+        <div class="slds-form-element__control" style="width: 30%;">
+            <div class="slds-combobox_container">
+                <div aria-expanded="false" aria-haspopup="listbox"
+                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <input aria-controls="listbox-id-1" auto-complete="off" class="slds-input slds-combobox__input"
+                            data-id="combobox-id-1" onclick={handleClick} role="textbox" value={inputValue} readonly placeholder="Select"
+                            type="text" onblur={handleBlur} style="font-size: 14px;">
+                        <div class="slds-input__icon-group slds-input__icon-group_right">
+                            <lightning-icon class="slds-input__icon slds-input__icon_right" icon-name="utility:down"
+                                size="xx-small"></lightning-icon>
+                        </div>
+                    </div>
+                    <div class="slds-dropdown slds-dropdown_length-10 slds-dropdown_fluid" id="5"
+                        onmouseenter={handleMouseEnter} onmouseleave={handleMouseleave} role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <!-- <template for:each={inputOptions} for:item="option">
+                                <li class="slds-listbox__item" data-selected="false" data-id={option.value}
+                                    data-value={option.value} key={option.value} role="presentation"
+                                    onclick={handleSelection}>
+                                    <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                        role="option">
+                                        <span class="slds-box slds-media__figure checkbox_cls">
+                                            <lightning-icon
+                                                class="slds-button slds-icon-utility-check slds-current-color slds-listbox__icon-selected slds-icon_container"
+                                                icon-name="utility:check" style="border-color: black;line-height: 0px;color:#FFFFFF" size="x-small">
+                                            </lightning-icon>
+                                        </span>
+                                        <span class="slds-media__body" style="padding-left: 5px;">
+                                            <span class="slds-truncate" title={option.label}>{option.label}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template> -->
+                            <template for:each={inputOptions2} for:item="option">
+                                <li class="slds-listbox__item" data-selected="false" data-id={option.value}
+                                    data-value={option.value} key={option.value} role="presentation"
+                                    onclick={handleSelection}>
+                                    <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                        role="option">
+                                        <span class="slds-box slds-media__figure checkbox_cls">
+                                            <lightning-icon
+                                                class="slds-button slds-icon-utility-check slds-current-color slds-listbox__icon-selected slds-icon_container"
+                                                icon-name="utility:check" style="border-color: black;line-height: 0px;color:#FFFFFF" size="x-small">
+                                            </lightning-icon>
+                                        </span>
+                                        <span class="slds-media__body" style="padding-left: 5px;">
+                                            <span class="slds-truncate" title={option.label}>{option.label}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                                <template if:true={option.subdata}>
+                                    <template for:each={option.subdata} for:item="sub">
+                                        <div key={sub.value} class="slds-p-left_small">
+                                            <li class="slds-listbox__item" data-selected="false" data-id={sub.value}
+                                            data-value={sub.value} key={sub.value} role="presentation"
+                                            onclick={handleSelection}>
+                                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                role="option">
+                                                <span class="slds-box slds-media__figure checkbox_cls">
+                                                    <lightning-icon
+                                                        class="slds-button slds-icon-utility-check slds-current-color slds-listbox__icon-selected slds-icon_container"
+                                                        icon-name="utility:check" style="border-color: black;line-height: 0px;color:#FFFFFF" size="x-small">
+                                                    </lightning-icon>
+                                                </span>
+                                                <span class="slds-media__body" style="padding-left: 5px;">
+                                                    <span class="slds-truncate" title={sub.label}>{sub.label}</span>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    </template>
+                                </template>
+                            </template>
+                            <li>
+                                <span onclick={selectall} class="selcls">Select all</span>
+                                <span onclick={clearall} class="clrcls">Clear selection</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <template if:true={selectedvalue}>
+                <ul class="slds-listbox slds-listbox_inline slds-p-top_xxx-small">
+                    <template for:each={selectedvalue} for:item="sel">
+                        <span key={sel} data-value={sel} class="pillcls">{sel} <span><img src={closeicon} data-value={sel} onclick={handleremove} class="slds-p-left_small" style="cursor: pointer"/></span></span>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </div>
+</template>

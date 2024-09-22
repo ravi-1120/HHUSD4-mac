@@ -1,0 +1,16 @@
+.split-expense-selection-row {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  padding-bottom: var(--lwc-spacingMedium,0.75rem);
+}
+
+.split-expense-selection-left-column {
+  text-align: right;
+  align-self: center;
+}
+
+.split-expense-selection-right-column {
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

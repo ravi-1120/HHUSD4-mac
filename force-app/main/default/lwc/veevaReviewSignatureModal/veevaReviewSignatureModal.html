@@ -1,0 +1,20 @@
+<template>
+    <c-veeva-modal if:true={hasLoadedMsg} size="small" onclose={handleCancel}>
+        <div slot="header" title={reviewSigLabel}>{signatureMessageMap.reviewSigLabel}</div>
+        <div slot="content" class="slds-var-m-around_large">
+            <lightning-layout horizontal-align="center" if:true={isLogoAvailable}>
+                <img class="logo-position-review logo-size" src={logoImg}>
+            </lightning-layout>
+            <div class="section-spacing">
+                <lightning-formatted-date-time value={signatureDateValue} year="numeric" day="2-digit" month="long" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+            </div>
+            <img class="image-border" src={signatureViewValue}>
+        </div>
+        <div slot="footer">
+            <lightning-layout horizontal-align="center">
+                <lightning-button  name="Request Again" label={signatureMessageMap.requestAgainLabel} title={signatureMessageMap.requestAgainLabel} onclick={handleRequestAgain}></lightning-button>
+                <lightning-button class="right-button-margins" name="Accept" label={signatureMessageMap.acceptLabel} title={signatureMessageMap.acceptLabel} variant="brand" onclick={handleNext} disabled={signatureController.metadataNotLoaded}></lightning-button>
+            </lightning-layout>
+        </div>
+    </c-veeva-modal>
+</template>

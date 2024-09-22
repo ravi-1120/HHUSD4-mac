@@ -1,0 +1,108 @@
+<template>
+    <div id="waiting" if:false={ready}>
+        <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+    </div>
+    <div id="display" if:true={ready}>
+        <lightning-card title = "Step 2 - Products & Templates" icon-name = "standard:settings" >
+            <div class="tableDiv">
+                
+                <div>
+                    <h2 class="slds-card__header-title"><span class="slds-text-heading_small"> Products</span></h2>
+                    
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col">
+                                    <label class="slds-checkbox">
+                                        <!--input type="checkbox" tabindex="0">
+                                        <span class="slds-checkbox--faux"></span-->
+                                    </label>
+                                </th>
+                                <th class="slds-size_1-of-2 " scope="col">
+                                    <div class="slds-truncate " title="Inquiry Type">Name</div>
+                                </th>
+                                 <th class="slds-size_1-of-2 " scope="col">
+                                    <div class="slds-truncate " title="Order">Order</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={products} for:item="item" for:index="indexVar">
+                                <tr key={item.Name} class="slds-hint-parent">
+                                    <td scope="row">
+                                        <label class="slds-checkbox">
+                                            <lightning-input type="checkbox" id={item.Id} data-index={indexVar} checked={item.prodPreselect} data-id= {item.Id} data-name = {item.Name} value={item.Name} onchange={onProductSelect}  tabindex="0"></lightning-input>
+                                            
+                                        </label>
+                                    </td>
+                                    <td class="slds-size_1-of-2" scope="row">
+                                        {item.Name}
+                                    </td>
+                                    <td class="slds-size_1-of-2" scope="row">
+                                        <input data-id= {item.Id}  type="text" data-index={indexVar} onchange={handleChangeProduct} value={item.order}></input>
+                                    </td>
+                                    
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <br/><br/>
+                <template if:true={templates}>
+                <div>
+                    <h2 class="slds-card__header-title">
+                    <span class="slds-text-heading_small"> Templates</span>
+                    </h2>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col">
+                                    <label class="slds-checkbox">
+                                        <!--input type="checkbox" tabindex="0">
+                                        <span class="slds-checkbox--faux"></span-->
+                                    </label>
+                                </th>
+                                <th class="slds-size_1-of-2 " scope="col">
+                                    <div class="slds-truncate " title="Inquiry Type">Inquiry Type</div>
+                                </th>
+                                <th class="slds-size_1-of-2 " scope="col">
+                                    <div class="slds-truncate " title="Order">Order</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={templates} for:item="item" for:index="indexVar2">
+                                <tr key={item.Name} class="slds-hint-parent">
+                                    <td scope="row">
+                                        
+                                        <label class="slds-checkbox">
+                                            <lightning-input type="checkbox" data-index={indexVar2} id={item.Id} checked={item.preselect} data-id= {item.Id} data-name = {item.Name} value={item.Name} onchange={selectedRow} tabindex="0"></lightning-input>
+                                            
+                                        </label>
+                                    </td>
+                                    <td class="slds-size_1-of-2" scope="row">
+                                        {item.Name}
+                                    </td>
+                                    <td class="slds-size_1-of-2" scope="row">
+                                        <input data-id= {item.Id}  type="text" data-index={indexVar2} onchange={handleChange} value={item.order}></input>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                </template>
+            </div>
+            
+            <div slot="footer">
+                <lightning-button variant="brand" label = "Previous" onclick={handlePrevious}  class="slds-m-left_x-small"></lightning-button>
+                <lightning-button variant="brand" label = "Save & Next"  class="slds-m-left_x-small" onclick={handleNext}></lightning-button>
+
+            </div>
+            
+        </lightning-card>
+    </div>
+</template>

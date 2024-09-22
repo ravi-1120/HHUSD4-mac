@@ -1,0 +1,32 @@
+<template>
+    <c-veeva-popover size="medium" onclick={stopClickPropagation}>
+        <div class="header" slot="header">
+            <h2 class="slds-text-heading_medium slds-align_absolute-center">{msgMap.addFilterLabel}</h2>
+        </div>
+        <div slot="content">
+            <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+            <div if:false={loading} class="slds-p-around_small">
+                <div class="filter-details slds-p-horizontal_medium slds-scrollable_y">
+                    <template if:true={showFilters} for:each={filters} for:item="filterGroup">
+                        <div key={filterGroup.fieldName}>
+                            <div class="slds-text-heading_small">{filterGroup.fieldLabel}</div>
+                            <template for:each={filterGroup.options} for:item="option">
+                                <lightning-input class="slds-m-top_xx-small" type="checkbox" checked={option.checked}
+                                    key={option.value} data-filter-group={filterGroup.fieldName} label={option.label}
+                                    value={option.value} onchange={handleSelection}></lightning-input>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <div slot="footer">
+            <div class="slds-button-group-row  slds-align_absolute-center">
+                <lightning-button class="slds-button-group-item" if:false={loading} label={msgMap.resetLabel}
+                    onclick={reset} variant="neutral"></lightning-button>
+                <lightning-button class="slds-button-group-item" if:false={loading} label={msgMap.applyLabel}
+                    onclick={apply} variant="brand"></lightning-button>
+            </div>
+        </div>
+    </c-veeva-popover>
+</template>

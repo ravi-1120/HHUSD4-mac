@@ -1,0 +1,60 @@
+<template>
+<div class="card slds-p-around_large slds-p-top_medium slds-p-horizontal_medium slds-m-bottom_medium margstyle">
+	<div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+		<div class="slds-grid slds-wrap">
+			<!-- <img class="act-image tpspc" src={docicon}> -->
+			<h4 class="cursorcls upltpad"> Contacts </h4>
+		</div>
+		<!-- <div class="actext cursorcls show-mob-text">Connect wiht your Merck Medical Affairs team. we're ready to answer your questions and help you find informations</div> -->
+	</div>
+		<!-- <div class="actext cursorcls show-web-text">Connect wiht your Merck Medical Affairs team. we're ready to answer your questions and help you find informations</div> -->
+
+		<template for:each={primaryExecutive} for:item="executive" for:index="indexx">
+				<!-- <template if:true={executive.MSD_CORE_Oncology_AE__c}> -->
+				<template if:true={executive}>
+					<div key={executive.id} class="headerAEcls">
+						{executive.typeofAE}
+					</div>
+					<div class={executive.bordercls} data-id={executive.id}  key={executive.id}>
+						<!-- Added class fullphotomob mobile screen -Passed MediumPhotoUrl Mukesh -->
+						<template if:true={executive.isPicturePresent}>
+							<img src={executive.MediumPhotoUrl} width="84px" height="84px"
+								class="fullphotomob photocls" />
+						</template>
+						<template if:false={executive.isPicturePresent}>
+							<img src={noprofile} width="78px" height="84px" class="fullphotomob photoclsone" />
+						</template>
+						<div class="contact_txt slds-p-left_medium">
+							<h1>{executive.FirstName} {executive.LastName}</h1>
+							<p>{executive.Title}</p>
+							<div class="slds-p-top_small slds-grid slds-wrap">
+								<!-- Added class execuphone for mobile screen -->
+								<button class={executive.mycontactbtn} data-id="phone"  > 
+									<!-- <img src={phoneblue} class="slds-p-right_x-small"> -->
+									<img src={executive.phoneiconchange} class="slds-p-right_x-small iconmobcls">
+									<!-- <img src={phonewhite} class="slds-p-right_x-small"> -->
+									<template if:true={executive.isPhoneAvailable}> <!--Mukesh-->
+										<!-- <a class={executive.hyplink} href={executive.formatNumber} >{executive.Phone}</a> -->
+										<a class={executive.hyplink} href="javascript:void(0)" onclick={preventAction} >{executive.Phone}</a>
+									</template>
+									<template if:false={executive.isPhoneAvailable}>
+										{executive.Phone}
+									</template>
+								</button>
+									<!-- Added primaryinfoemail class for mobile screens -->
+								<button class={executive.mycontactbtnemail} data-id="email" > 
+									<img src={executive.messageicon} class="slds-p-right_x-small iconmobcls">
+									<template if:true={executive.isEmailAvailable}> <!--Mukesh-->
+										<a class={executive.hyplink} href={executive.formatEmail}>{executive.primaryemail}</a>
+									</template>
+									<template if:false={executive.isEmailAvailable}>
+										{executive.primaryemail}
+									</template>
+								</button>
+							</div>
+						</div>
+					</div>
+				</template>
+		</template>	
+</div>
+</template>

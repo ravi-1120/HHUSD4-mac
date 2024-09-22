@@ -1,0 +1,29 @@
+<apex:page >
+    <apex:includeLightning />
+    
+    <style>
+        #auraErrorMessage {
+            display:none;
+        }
+    </style>
+    
+    <div id="Con" />
+         <script>
+    
+            var caseId = "{!$CurrentPage.parameters.id}"; 
+            
+            $Lightning.use("c:MSD_CORE_CustomerSearch", function() {
+                $Lightning.createComponent(
+                    "c:MSD_CORE_KnowledgeAttachment",
+                    { 
+                          recordId :     caseId              
+                    },
+                    "Con",
+                    function(cmp) {
+                        console.log("Component is created!");
+                        console.log(cmp);
+                        cmp.set(v.recordId, caseId);
+                    });
+                });
+          </script>    
+</apex:page>

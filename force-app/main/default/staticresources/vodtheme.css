@@ -1,0 +1,304 @@
+:root {
+    --veeva-white-color: #ffffff;
+    --veeva-black-color: #000000;
+
+    --veeva-vod-theme-white: white;
+    --veeva-vod-theme-clear: #F0F0FC;
+    --veeva-vod-theme-light-orange: #FFD280;
+
+    --veeva-vod-theme-red: #E6A1A1;
+    --veeva-vod-theme-0: var(--veeva-vod-theme-red);
+
+    --veeva-vod-theme-orange: #FFB582;
+    --veeva-vod-theme-1: var(--veeva-vod-theme-orange);
+
+    --veeva-vod-theme-peach: #F6DA88;
+    --veeva-vod-theme-2: var(--veeva-vod-theme-peach);
+
+    --veeva-vod-theme-yellow: #F8F88C;
+    --veeva-vod-theme-3: var(--veeva-vod-theme-yellow);
+
+    --veeva-vod-theme-green: #76D16D;
+    --veeva-vod-theme-4: var(--veeva-vod-theme-green);
+
+    --veeva-vod-theme-teal: #9AD9C9;
+    --veeva-vod-theme-5: var(--veeva-vod-theme-teal);
+
+    --veeva-vod-theme-olive: #C4CFB1;
+    --veeva-vod-theme-6: var(--veeva-vod-theme-olive);
+
+    --veeva-vod-theme-blue: #7A9CDF;
+    --veeva-vod-theme-7: var(--veeva-vod-theme-blue);
+
+    --veeva-vod-theme-purple: #B09DE5;
+    --veeva-vod-theme-8: var(--veeva-vod-theme-purple);
+
+    --veeva-vod-theme-maroon: #D9ABBF;
+    --veeva-vod-theme-9: var(--veeva-vod-theme-maroon);
+
+    --veeva-vod-theme-steel: #D5DCDF;
+    --veeva-vod-theme-10: var(--veeva-vod-theme-steel);
+
+    --veeva-vod-theme-dark-steel: #6A788F;
+    --veeva-vod-theme-11: var(--veeva-vod-theme-dark-steel);
+
+    --veeva-vod-theme-gray: #D6D4D8;
+    --veeva-vod-theme-12: var(--veeva-vod-theme-gray);
+
+    --veeva-vod-theme-dark-gray: #B7B8BD;
+    --veeva-vod-theme-13: var(--veeva-vod-theme-dark-gray);
+
+    --veeva-vod-theme-black: #202020;
+    --veeva-vod-theme-14: var(--veeva-vod-theme-black);
+
+    --veeva-vod-theme-dark-red: #BC1925;
+    --veeva-vod-theme-15: var(--veeva-vod-theme-dark-red);
+
+    --veeva-vod-theme-dark-orange: #DB6016;
+    --veeva-vod-theme-16: var(--veeva-vod-theme-dark-orange);
+
+    --veeva-vod-theme-dark-peach: #C39830;
+    --veeva-vod-theme-17: var(--veeva-vod-theme-dark-peach);
+
+    --veeva-vod-theme-dark-yellow: #B7B000;
+    --veeva-vod-theme-18: var(--veeva-vod-theme-dark-yellow);
+
+    --veeva-vod-theme-dark-green: #328B2A;
+    --veeva-vod-theme-19: var(--veeva-vod-theme-dark-green);
+
+    --veeva-vod-theme-dark-teal: #309778;
+    --veeva-vod-theme-20: var(--veeva-vod-theme-dark-teal);
+
+    --veeva-vod-theme-dark-olive: #738846;
+    --veeva-vod-theme-21: var(--veeva-vod-theme-dark-olive);
+
+    --veeva-vod-theme-dark-blue: #2656A0;
+    --veeva-vod-theme-22: var(--veeva-vod-theme-dark-blue);
+
+    --veeva-vod-theme-dark-purple: #5B3B9E;
+    --veeva-vod-theme-23: var(--veeva-vod-theme-dark-purple);
+
+    --veeva-vod-theme-dark-maroon: #90436A;
+    --veeva-vod-theme-24: var(--veeva-vod-theme-dark-maroon);
+}
+
+.vod-White {
+    color: var(--veeva-black-color);
+    background: var(--veeva-vod-theme-white);
+    border-color: white;
+}
+
+.vod-Clear {
+    color: var(--veeva-black-color);
+    border-color: #4B71A2;
+    background: var(--veeva-vod-theme-clear);
+    background:-webkit-gradient (linear, left top, left bottom, from (#FEFEFF) to (#C0D3EA)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#FEFEFF) to (#C0D3EA)) scroll;
+}
+
+.vod-lightOrange {
+    background: var(--veeva-vod-theme-light-orange);
+}
+
+.vod-Red, .vod-0 {
+    color: var(--veeva-black-color);
+    border-color: #86171C;
+    background: var(--veeva-vod-theme-red);
+    background:-webkit-gradient (linear, left top, left bottom, from (#F0B0B1) to (#D88A8A)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#F0B0B1) to (#D88A8A)) scroll;
+}
+
+.vod-Orange, .vod-1 {
+    color: var(--veeva-black-color);
+    border-color: #8B3E0A;
+    background: var(--veeva-vod-theme-orange);
+    background:-webkit-gradient (linear, left top, left bottom, from (#FFCC99) to (#FF9966)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#FFCC99) to (#FF9966)) scroll;
+}
+
+.vod-Peach, .vod-2 {
+    color: var(--veeva-black-color);
+    border-color: #B48002;
+    background: var(--veeva-vod-theme-peach);
+    background:-webkit-gradient (linear, left top, left bottom, from (#FFE7A7) to (#EECC6A)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#FFE7A7) to (#EECC6A)) scroll;
+}
+
+.vod-Yellow, .vod-3 {
+    color: var(--veeva-black-color);
+    border-color: #9A9519;
+    background: var(--veeva-vod-theme-yellow);
+    background:-webkit-gradient (linear, left top, left bottom, from (#FEFDAA) to (#F3F36D)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#FEFDAA) to (#F3F36D)) scroll;
+}
+
+.vod-Green, .vod-4 {
+    color: var(--veeva-black-color);
+    border-color: #2C6524;
+    background: var(--veeva-vod-theme-green);
+    background:-webkit-gradient (linear, left top, left bottom, from (#75D569) to (#78CC74)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#75D569) to (#78CC74)) scroll;
+}
+
+.vod-Teal, .vod-5 {
+    color: var(--veeva-black-color);
+    border-color: #2C7E65;
+    background: var(--veeva-vod-theme-teal);
+    background:-webkit-gradient (linear, left top, left bottom, from (#B8E6DB) to (#76CAB2)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#B8E6DB) to (#76CAB2)) scroll;
+}
+
+.vod-Olive, .vod-6 {
+    color: var(--veeva-black-color);
+    border-color: #64743E;
+    background: var(--veeva-vod-theme-olive);
+    background:-webkit-gradient (linear, left top, left bottom, from (#DBDFC6) to (#A8BC97)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#DBDFC6) to (#A8BC97)) scroll;
+}
+
+.vod-Blue, .vod-7 {
+    color: var(--veeva-black-color);
+    border-color: #28518E;
+    background: var(--veeva-vod-theme-blue);
+    background:-webkit-gradient (linear, left top, left bottom, from (#B2C8EF) to (#779ADE)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#B2C8EF) to (#779ADE)) scroll;
+}
+
+.vod-Purple, .vod-8 {
+    color: var(--veeva-black-color);
+    border-color: #4D318D;
+    background: var(--veeva-vod-theme-purple);
+    background:-webkit-gradient (linear, left top, left bottom, from (#C7B7F6) to (#957DD1)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#C7B7F6) to (#957DD1)) scroll;
+}
+
+.vod-Maroon, .vod-9 {
+    color: var(--veeva-black-color);
+    border-color: #813D5F;
+    background: var(--veeva-vod-theme-maroon);
+    background:-webkit-gradient (linear, left top, left bottom, from (#E2C2CF) to (#CD8EAB)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#E2C2CF) to (#CD8EAB)) scroll;
+}
+
+.vod-Steel, .vod-10 {
+    color: var(--veeva-black-color);
+    border-color: #455677;
+    background: var(--veeva-vod-theme-steel);
+    background:-webkit-gradient (linear, left top, left bottom, from (#E3E9E9) to (#C4CBD3)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#E3E9E9) to (#C4CBD3)) scroll;
+}
+
+.vod-DarkSteel, .vod-11 {
+    color: var(--veeva-white-color);
+    border-color: #455677;
+    background: var(--veeva-vod-theme-dark-steel);
+    background:-webkit-gradient (linear, left top, left bottom, from (#7C8BA0) to (#53617B)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#7C8BA0) to (#53617B)) scroll;
+}
+
+.vod-Gray, .vod-12 {
+    color: var(--veeva-black-color);
+    border-color: #404040;
+    background: var(--veeva-vod-theme-gray);
+    background:-webkit-gradient (linear, left top, left bottom, from (#E8E8E8) to (#C3C0C9)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#E8E8E8) to (#C3C0C9)) scroll;
+}
+
+.vod-DarkGray , .vod-13 {
+    color: var(--veeva-black-color);
+    border-color: #404040;
+    background: var(--veeva-vod-theme-dark-gray);
+    background:-webkit-gradient (linear, left top, left bottom, from (#CDD0D7) to (#A1A1A3)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#CDD0D7) to (#A1A1A3)) scroll;
+}
+
+.vod-Black, .vod-14 {
+    --lwc-colorTextDefault: var(--veeva-white-color);
+    --lwc-colorTextPlaceholder: var(--veeva-white-color);
+    --slds-c-icon-color-foreground-default: var(--veeva-white-color);
+    color: var(--veeva-white-color);
+    border-color: #000000;
+    background: var(--veeva-vod-theme-black);
+    background:-webkit-gradient (linear, left top, left bottom, from (#5B5B5B) to (#070707)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#5B5B5B) to (#070707)) scroll;
+}
+
+.vod-DarkRed, .vod-15 {
+    color: var(--veeva-white-color);
+    border-color: #86171C;
+    background: var(--veeva-vod-theme-dark-red);
+    background:-webkit-gradient (linear, left top, left bottom, from (#D42431) to (#9E0C17)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#D42431) to (#9E0C17)) scroll;
+}
+
+.vod-DarkOrange, .vod-16 {
+    color: var(--veeva-white-color);
+    border-color: #8B3E0A;
+    background: var(--veeva-vod-theme-dark-orange);
+    background:-webkit-gradient (linear, left top, left bottom, from (#E86B28) to (#CC5200)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#E86B28) to (#CC5200)) scroll;
+}
+
+.vod-DarkPeach, .vod-17 {
+    color: var(--veeva-black-color);
+    border-color: #B48002;
+    background: var(--veeva-vod-theme-dark-peach);
+    background:-webkit-gradient (linear, left top, left bottom, from (#D9A842) to (#A9841A)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#D9A842) to (#A9841A)) scroll;
+}
+
+.vod-DarkYellow, .vod-18 {
+    color: var(--veeva-black-color);
+    border-color: #9A9519;
+    background: var(--veeva-vod-theme-dark-yellow);
+    background:-webkit-gradient (linear, left top, left bottom, from (#C9C200) to (#A19B00)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#C9C200) to (#A19B00)) scroll;
+}
+
+.vod-DarkGreen, .vod-19 {
+    color: var(--veeva-white-color);
+    border-color: #2C6524;
+    background: var(--veeva-vod-theme-dark-green);
+    background:-webkit-gradient (linear, left top, left bottom, from (#43A536) to (#1D6C1B)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#43A536) to (#1D6C1B)) scroll;
+}
+
+.vod-DarkTeal, .vod-20 {
+    color: var(--veeva-white-color);
+    border-color: #2C7E65;
+    background: var(--veeva-vod-theme-dark-teal);
+    background:-webkit-gradient (linear, left top, left bottom, from (#3CAE8C) to (#227B5F)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#3CAE8C) to (#227B5F)) scroll;
+}
+
+.vod-DarkOlive, .vod-21 {
+    color: var(--veeva-white-color);
+    border-color: #64743E;
+    background: var(--veeva-vod-theme-dark-olive);
+    background:-webkit-gradient (linear, left top, left bottom, from (#859954) to (#5D7335)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#859954) to (#5D7335)) scroll;
+}
+
+.vod-DarkBlue, .vod-22 {
+    color: var(--veeva-white-color);
+    border-color: #28518E;
+    background: var(--veeva-vod-theme-dark-blue);
+    background:-webkit-gradient (linear, left top, left bottom, from (#3366B9) to (#184586)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#3366B9) to (#184586)) scroll;
+}
+
+.vod-DarkPurple, .vod-23 {
+    color: var(--veeva-white-color);
+    border-color: #4D318D;
+    background: var(--veeva-vod-theme-dark-purple);
+    background:-webkit-gradient (linear, left top, left bottom, from (#6A47AD) to (#482D8C)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#6A47AD) to (#482D8C)) scroll;
+}
+
+.vod-DarkMaroon, .vod-24 {
+    color: var(--veeva-white-color);
+    border-color: #813D5F;
+    background: var(--veeva-vod-theme-dark-maroon);
+    background:-webkit-gradient (linear, left top, left bottom, from (#A25078) to (#7B3359)) scroll;
+    background:-moz-linear-gradient (left top, left bottom, from (#A25078) to (#7B3359)) scroll;
+}

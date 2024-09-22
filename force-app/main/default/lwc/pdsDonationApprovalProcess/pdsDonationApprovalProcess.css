@@ -1,0 +1,63 @@
+.success-container{
+	background: #F5F5F5;
+    display: flex;
+	min-height: 80vh;
+    align-items: center;
+    justify-content: center;
+    padding: 104px 0px;
+}
+.success-screen{
+	background: #fff;
+	padding: 56px;
+	min-width: 40%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.success-header{
+	font-family: 'InventionRg';
+	color: #000000E0;
+	font-size: 16px;
+	line-height: 22px;
+}
+.upload-icon{
+	--slds-c-icon-color-foreground-default: #00857C;
+	margin-bottom: 16px;
+}
+.reject-icon{
+	--slds-c-icon-color-background: #DB1E28;
+	margin-bottom: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+	.success-container{
+		padding: 60px 16px;
+		min-height: 77vh;
+		align-items: flex-start;
+	}
+	.success-screen{
+		text-align: center;
+		padding: 24px;
+		width: 100%;
+	}
+	.success-header{
+		font-size: 16px;
+	}
+}
+
+@media only screen and (min-device-width : 601px) and (max-device-width : 1024px) and (orientation : portrait) {
+	.success-container{
+		padding: 60px 16px;
+		min-height: 87vh;
+		align-items: flex-start;
+	}
+}
+
+@media only screen and (min-device-width : 601px) and (max-device-width : 1024px) and (orientation : landscape) {
+	.success-container{
+		padding: 60px 16px;
+		min-height: 82vh;
+		align-items: flex-start;
+	}
+}

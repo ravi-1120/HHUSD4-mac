@@ -1,0 +1,141 @@
+<aura:component controller="MSD_CORE_CC_AddlCaseConsSearchController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" description="used to display Additional Case Contacts">
+    <!-- component attributes -->
+    <aura:attribute name="caseId" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="relatedRecords" type="Object[]"/>
+    <aura:attribute name="fieldList" type="Map" default="{}"/>
+    
+    <!-- component markup -->
+    <div class="flexipageComponent">
+        <div class="container forceRelatedListSingleContainer">
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                <div class="slds-card__header slds-grid">
+                    <!-- header -->
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="extraSmall forceEntityIcon">
+                                <span class="uiImage"  />
+                                <lightning:icon iconName="standard:customers" size="small" ></lightning:icon>
+                            </div>
+                        </div>
+                        <div class="slds-media__body" >
+                            <h2 id="header">
+                                <a class="slds-card__header-link baseCard__header-title-container" href="javascript:void(0);" onclick="{!c.gotoRelatedList}">
+                                    <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Additional Case Contacts</span>
+                                    <span class="slds-text-heading--small slds-shrink-none slds-m-right--xx-small" >({!v.relatedRecords.length})</span>
+                                </a>
+                            </h2>
+                        </div>
+                    </header>
+                    
+                    <!-- button menu -->
+                    <div class="slds-no-flex">
+                        <div class="actionsContainer">
+                            <ul class="small oneActionsRibbon forceActionsContainer forceDeferredDropDownAction" >
+                                <li class="oneActionsDropDown" >
+                                    <div class="uiMenu" >
+                                        <div class="uiPopupTrigger" >
+                                            <lightning:buttonMenu alternativeText="More options" onselect="{!c.menuAction}" iconSize="x-small" menuAlignment="right">
+                                                <lightning:menuItem label="New" class="menuItemLink" value="New"  />
+                                                <lightning:menuItem label="Search" class="menuItemLink" value="Search"  />
+                                            </lightning:buttonMenu>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- component body -->
+                <div class="slds-card__body" >
+                    <div aura:id="newCaseContactSection" class=" slds-hide slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <aura:iteration items="{!v.fieldList.Fields}" var="f">
+                                <div class="slds-p-around_x-small">
+                                    <lightning:input aura:id="enter-search"
+                                                     name="{!f.placeholder}"
+                                                     value="{!f.value}"
+                                                     label="Search by hitting 'enter' key"
+                                                     isLoading="{! v.issearching }"
+                                                     type="search"
+                                                     variant="label-hidden"
+                                                     placeholder="{!f.placeholder}"
+                                                     />
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <aura:iteration items="{!v.fieldList.Address}" var="f">
+                                <div class="slds-p-around_x-small">
+                                    <lightning:input aura:id="enter-search"
+                                                     name="{!f.placeholder}"
+                                                     value="{!f.value}"
+                                                     label="Search by hitting 'enter' key"
+                                                     isLoading="{! v.issearching }"
+                                                     type="search"
+                                                     variant="label-hidden"
+                                                     placeholder="{!f.placeholder}"
+                                                     />
+                                </div>
+                            </aura:iteration>
+                        </div>
+                       <div class="slds-col">
+                       		<a onclick="{!c.hideNew}">Cancel</a>
+                        </div>
+                    </div>
+
+                    <div class="" >
+                        <div class="previewMode SMALL forceRelatedListPreview" >
+                            <div class="slds-grid_pull-padded slds-card__body_inner" >
+                                <ul class="uiAbstractList slds-has-dividers_bottom-space" >
+                                    <section >
+                                        <!-- iterating through the list to display data -->
+                                        <aura:iteration items="{!v.relatedRecords}" var="caseCon"  indexVar="index" >
+                                            <li class="slds-p-horizontal--small desktop forceImageRelatedListStencil forceRecordLayout" >                                                    
+                                                <div class="forceVirtualActionMarker forceVirtualAction" >
+                                                </div>
+                                                <div class="listItemBody withActions" >
+                                                    <h3 class="primaryField" >
+                                                        <div class="outputLookupContainer forceOutputLookupWithPreview"  >
+                                                            <a class="textUnderline outputLookupLink slds-truncate forceOutputLookup"  data-refid="recordId" data-special-link="true" target="_blank" data-recordid= "{!caseCon.Id}" onclick="{!c.handleRedirect}" rel="noreferrer" title=""  >
+                                                                {!caseCon.Name}
+                                                            </a>
+                                                        </div>
+                                                    </h3>
+                                                    <ul class="itemRows truncate" >
+                                                        <li class="tableRowGroup" >
+                                                            <div class="slds-list--horizontal forceListRecordItem"  >
+                                                                <div class="slds-item--label slds-text-color--weak recordCell">First Name:</div>
+                                                                <div class="slds-item--detail slds-truncate recordCell" >
+                                                                    <span>{!caseCon.MSD_CORE_First_Name__c}</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="tableRowGroup">
+                                                            <div class="slds-list--horizontal forceListRecordItem"  >
+                                                                <div class="slds-item--label slds-text-color--weak slds-truncate recordCell">Last Name:</div>
+                                                                <div class="slds-item--detail slds-truncate recordCell" >
+                                                                    <span >{!caseCon.MSD_CORE_Last_Name__c}</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </aura:iteration>
+                                    </section>
+                                </ul>
+                                <div class="emptyContent hidden" >
+                                    <div class="emptyContentInner slds-text-align--center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</aura:component>

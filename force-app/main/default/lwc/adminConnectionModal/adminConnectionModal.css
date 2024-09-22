@@ -1,0 +1,11 @@
+:host {
+    --veeva-popover-content-min-height: 0;
+}
+
+.textarea-body {
+    --sds-c-textarea-sizing-min-height:10rem;
+}
+
+:host .picklist-label-font-weight {
+    --lwc-fontWeightBold: normal;
+}

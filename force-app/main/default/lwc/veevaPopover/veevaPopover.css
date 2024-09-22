@@ -1,0 +1,46 @@
+.popover-body {
+    word-break: break-word;
+    white-space: normal;
+    min-height: var(--veeva-popover-content-min-height, 10rem);
+    max-height: var(--veeva-popover-content-max-height, none);
+    overflow-y: var(--veeva-popover-content-overflow-y, visible);
+}
+
+.veeva-popover {
+    width: auto;
+}
+
+.veeva-popover_size-hook {
+    width: var(--veeva-popover-width);
+}
+
+.veeva-prompt-top-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: var(--lwc-spacingXSmall, 0.5rem);
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+}
+
+.veeva-popover-panel .veeva-popover-header {
+    padding: var(--lwc-spacingSmall, 0.75rem) var(--lwc-spacingLarge, 1.5rem) var(--lwc-spacingXSmall, 0.5rem);
+}
+
+.slds-nubbin_left:before, .slds-nubbin_left:after {
+    top: var(--selectionDetailsTranslateYDistance, 50%);
+}
+
+.fade-in {
+    animation: fadeIn 0.35s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, 0%);
+     }
+}

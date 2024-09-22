@@ -1,0 +1,24 @@
+<template>
+    <!-- Default/basic -->
+    <div class="slds-p-around_medium lgc-bg">
+        <lightning-card title = "Step 1 - Scheduler Name" icon-name = "standard:settings" >
+            <div class="c-container">
+                <lightning-layout>
+                    <lightning-layout-item padding="around-small">
+                        <lightning-input type="text" label="Scheduler Name" 
+                            placeholder="type here..." required
+                            value = {name}
+                            onchange = {nameChange}
+                            >
+                        </lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+            
+            <div slot="footer">
+                <lightning-button label = "Cancel"  class="slds-m-left_x-small" onclick={handleCancel}></lightning-button>
+                <lightning-button variant="brand" label = "Next"  class="slds-m-left_x-small" onclick={handleNext} ></lightning-button>
+            </div>
+        </lightning-card>
+        </div>
+</template>

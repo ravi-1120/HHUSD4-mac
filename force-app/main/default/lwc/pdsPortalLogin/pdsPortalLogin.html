@@ -1,0 +1,41 @@
+<template>
+	<div class="login-container">
+		<img class="login-cover" alt="Login Cover Image" role="presentation" src={image}/>
+		<div class="login-section">
+			<img class="header-logo" src={merckLogo} alt="Merck Logo"></img>
+			<div class="login-screen">
+				<!-- <h3 class="login-header">{labels.loginHeader}</h3> -->
+				<h3 class="login-header">Sign in to <span style="text-decoration: underline;">M</span>edicine <span style="text-decoration: underline;">E</span>ntry <span style="text-decoration: underline;">D</span>onation <span style="text-decoration: underline;">S</span>ystem</h3>
+				<!-- <template if:true={loginError}>
+					<p class="slds-text-heading_small login-error" role="alert">
+						<lightning-icon style="margin-right:16px;" size="small" icon-name="utility:warning"
+							alternative-text="Warning Icon" title="Warning Icon"></lightning-icon>
+						{loginErrorMessage}
+					</p>
+				</template> -->
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left lt-input-container">
+					<lightning-icon size="x-small"
+						class="iconMargin slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+						icon-name="utility:email"></lightning-icon>
+					<lightning-input class="lt-input" type="email" variant="label-hidden" name="useremail" value=''
+						onchange={handleUserInput} onkeydown={handleUserInput} placeholder={labels.loginEmail}></lightning-input>
+				</div>
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left lt-input-container">
+					<lightning-icon size="x-small"
+						class="iconMargin slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+						icon-name="utility:lock"></lightning-icon>
+					<lightning-input class="lt-input" type="password" variant="label-hidden" onchange={handleUserInput}
+						name="userpwd" onkeydown={handleUserInput} placeholder={labels.loginPassword}></lightning-input>
+				</div>
+				<template if:true={loginError}>
+					<p class="val-error" role="alert">	
+						{loginErrorMessage}
+					</p>
+				</template>
+				<lightning-button role="button" class="lt-button" variant="base" label={labels.signIn} onclick={handleLogin}
+					title={labels.signIn}></lightning-button>
+				<a href="javascript:void(0);" class="login-fpwd" onclick={forgotpassword}>{labels.forgotPwd}</a>
+			</div>
+		</div>
+	</div>
+</template>

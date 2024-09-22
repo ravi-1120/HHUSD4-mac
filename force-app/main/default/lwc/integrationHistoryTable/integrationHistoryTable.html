@@ -1,0 +1,35 @@
+<template>
+    <lightning-card class="slds-card_boundary slds-show">
+        <template if:true={showLoadingSpinner}>
+            <div class="slds-align--absolute-center">
+                <c-veeva-spinner if:true={showLoadingSpinner} class="slds-spinner_container"></c-veeva-spinner>
+            </div>
+        </template>
+        <h2 slot="title">
+            {messageMap.tableTitle}
+            <lightning-button-icon icon-name="utility:refresh" onclick={getTableData} size="medium"   alternative-text="Refresh" class="slds-m-left_xx-small"></lightning-button-icon>
+        </h2>
+        
+        <div slot="actions">
+            <slot name="syncButtons">
+                <lightning-button-group>
+                    <lightning-button if:true={showSyncButton} onclick={sync} label={messageMap.syncButtonLabel}></lightning-button>
+                    <lightning-button if:true={showSyncButton} onclick={fullSync} label={messageMap.fullSyncButtonLabel}></lightning-button>
+                </lightning-button-group>
+            </slot>
+        </div>
+        <div class="lightning-datatable-container slds-is-relative">
+            <c-veeva-datatable
+                    key-field="id"
+                    data={displayedTableData}
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                    class="slds-m-top_small"
+                    min-column-width="100"
+                    hide-checkbox-column=true 
+                    enable-infinite-loading={infiniteLoading}
+                    onloadmore={loadMoreData}>
+            </c-veeva-datatable>
+        </div>
+    </lightning-card>
+</template>

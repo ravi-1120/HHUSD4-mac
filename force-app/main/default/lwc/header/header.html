@@ -1,0 +1,155 @@
+<template>
+    <div class="logo">
+        <!-- class [] added for mobile responsive -->
+        <div class="mob-header-top headerbg" style="display: flex; align-items: center; justify-content: flex-end;">
+            <div if:false={logodisable}> <!-- added this condition to disable the logo if it is on welcome page -->
+                <div if:false={isAccountLocked}>
+                    <a class="" style="position: absolute;left: 0;cursor: pointer;bottom:0;" onclick={navigatedash}>
+                        <img src={logo1} width="163" height="64" style="">
+                    </a>
+                </div>
+                <div if:true={isAccountLocked}>
+                    <a class="" style="position: absolute;left: 0;bottom:0;">
+                        <img src={logo1} width="163" height="64" style="">
+                    </a>
+                </div>
+            </div>
+
+            <div if:true={logodisable}>   <!-- added this condition to disable the logo if it is on welcome page -->
+                <p class="" style="position: absolute;left: 0;bottom:0;">
+                    <img src={logo1} width="163" height="64" style="">
+                </p>
+            </div>
+            
+            <div if:false={isGuestUser}>
+            <div if:true={isAccountLocked}>
+                  <button class="medi_btn">
+                    <!-- Medical &amp; health economic evidence  -->
+                    {mheeheader}
+                    <span style="padding:14.81px;width:16px;height:10px;">
+                        <img src={vmi}>
+                    </span>
+                </button>                  
+            </div>
+           <div if:false={isAccountLocked}>
+                  <button class="medi_btn" onclick ={Showpopup}>
+                    <!-- Medical &amp; health economic evidence  -->
+                    {mheeheader}
+                    <span style="padding:14.81px;width:16px;height:10px;">
+                        <img src={vmi}>
+                    </span>
+                </button>                  
+            </div>
+            </div>
+
+            <!-- Notification Bell Icon -->
+
+            <div if:false={isGuestUser} class="header_left slds-grid slds-wrap">
+                <div class="notification slds-p-right_medium slds-p-left_medium slds-p-bottom_medium">
+                    <!-- <a href="/s/menu/notification"> -->
+                <div if:true={isAccountLocked}>
+                    <a data-name="notification">
+                        <!-- <div class="notBtn" style={getnotificationimage}> -->
+                        <div class="notBtn">
+                            
+                            <div class="number">{noticount}</div>
+                            
+                            <img src={notificationicon} />
+                            
+                        </div>
+                    </a>
+                </div>
+                    <div if:false={isAccountLocked}>
+                     <a data-name="notification" onclick={gotoNotification}>
+                        <!-- <div class="notBtn" style={getnotificationimage}> -->
+                        <div class="notBtn">    
+                            <div class="number">{noticount}</div>
+                            </div>
+                            <img src={notificationicon} />    
+                    </a>  
+                    </div>                 
+                </div>
+                <div class="slds-float slds-grid menucls slds-p-right_medium" data-name="menu" onclick={menuredirect}>
+                    <lightning-icon icon-name="utility:rows" class="menuicon" alternative-text="rows!" title="Menu">
+                    </lightning-icon>
+                    <!-- Menu Text taken into div for mobile responsive -->
+                    <!-- Menu -->
+                    <div class="menu-text">Menu</div>
+                </div>
+            </div>
+            <div if:true={isGuestUser} class="header_left slds-grid slds-wrap"
+                style="padding-top:20px;padding-bottom:20px;">
+                <!-- <lightning-button variant="brand-outline" label="Login"  class="slds-button slds-button_inverse"></lightning-button> -->
+                <div class="slds-p-left_small slds-p-right_small">
+                    <button class="viewall_btn" onclick={login}>Log in</button>
+                </div>
+
+                <div class="slds-float slds-grid menucls slds-p-right_medium" onclick={menuredirect}>
+                    <lightning-icon icon-name="utility:rows" class="menuicon" alternative-text="rows!" title="Menu">
+                    </lightning-icon>
+                    <!-- Menu Text taken into div for mobile responsive -->
+                    <!-- Menu -->
+                    <div class="menu-text">Menu</div>
+                </div>
+            </div>
+            <!-- END Notification Bell Icon -->
+
+            <!-- <div class=""><img src={logo2} width="150" height="150"></div> -->
+        </div>
+        <div if:true={showResponse}>
+			<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+				class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+
+					<div class="slds-modal__header">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_11-of-12">
+								<h1 id="modal-heading-01" class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+									<span style="font-family: 'Invention';font-style: normal;width: 687px;height: 36px;
+                                    font-weight: 700;font-size: 24px;line-height: 36px; color: #000000;"><b> Merck Medical &amp; Health Economic Evidence </b></span>
+								</h1>
+							</div>
+							<div class="slds-col slds-size_1-of-12">
+                                 <button class="slds-button slds-button_neutral " style="color: rgb(0, 133, 124);border-width: 2px !important;border-style: solid !important;border-color: rgb(0, 133, 124);border-image: initial !important;background-color: white;padding-left: 10px;padding-right: 10px;height: 38px;padding-top: 10px;padding-bottom: 10px;"
+                                 data-label="back to screen_X" onclick={closeResponse}><span><img src={cross}> </span></button>
+							</div>
+						</div>
+					</div>
+					<!--<div><p>You have submitted a request for an appointment to view:  Vericiguat Budget Impact Model</p></div>-->
+					<div class="slds-modal__content " id="modal-content-id-2">
+						<div class="slds-align_absolute-center">
+						    <div class="box">
+                                <span class="para1">
+                                    <p class="info1">
+                                        Search the database for available information and submit requests to our Medical Information team.
+                                    </p>
+                                    <br/>
+                                    <p class="info2">
+                                        You are now leaving the Merck Formulary Resources portal.
+                                    </p>
+                                </span>
+							    <div class="slds-align_absolute-center">
+                                    <button class="slds-button slds-button_neutral" style="margin-top:24px; font-family: 'Invention';color:white;  align-items: center;
+                                        text-align: center;background-color:#00857c;font-style: normal;height: 50px;font-size: 14px;letter-spacing: 0.1px;padding: 13px 16px;
+                                        gap: 16px;font-weight: 700;"
+                                        data-name="Continue to Merck Medical &amp; Health Economic Evidence" onclick={handleHealthEconomicEvidence}>
+                                        Continue to Merck Medical &amp; Health Economic Evidence <img src={HeaderArrow}>
+                                    </button>
+                                </div>
+						    </div>
+						</div>
+						
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral " style="font-family: 'Invention';color:#00857c;border-color:#00857c ;
+                            border: 2px solid #00857c !important;background-color:white;height: 32px;font-weight: 700;font-size: 14px;letter-spacing: 0.1px;"
+                            data-label="return to mfr portal" onclick={closeResponse}>Return to Merck Formulary Resources portal</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation">
+                <p class="job">{label.jobcode}</p>
+            </div>
+		</div>
+    </div>
+</template>

@@ -1,0 +1,27 @@
+<template>
+    <lightning-layout multiple-rows="true" class="slds-is-relative">
+        <lightning-layout-item size="12">
+            <div class="slds-text-title_bold slds-p-around_x-small section-title">{title}</div>
+        </lightning-layout-item>
+        <lightning-layout-item class="slds-p-around_x-small upload-content" size="12">
+            <c-veeva-spinner if:true={waiting} class="slds-spinner_container"></c-veeva-spinner> 
+            <div>{helperText}<a class="slds-m-left_x-small" onclick={downloadTemplate}>{downloadTmpMsg}</a></div>
+            <div class="slds-p-around_medium lgc-bg">
+                <div class="slds-text-color_error slds-text-body_small exceed-limit-error" if:true={exceedFileLimit}>{exceedLimitError}</div>
+                <div class="slds-text-color_error slds-text-body_small upload-error" if:true={uploadFailed}>{uploadError}</div>
+                <lightning-input type="file" label="Attachment" accept=".csv" onchange={handleFileChange} data-testid="file-upload-input"></lightning-input>
+                <div class="slds-m-top_x-small slds-text-body_small file-info" if:true={fileName}>{fileName} &nbsp; &nbsp; {fileSize}</div>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item class="slds-p-around_x-small">
+            <lightning-button if:true={fileName}  title={startReassignmentMsg} label={startReassignmentMsg} onclick={doReassignment} class="slds-m-right_x-small"></lightning-button>
+            <lightning-button title={cancelLabel} label={cancelLabel} onclick={cancel}></lightning-button>
+        </lightning-layout-item>
+    </lightning-layout>
+    <c-veeva-confirmation-modal 
+    size="tiny" 
+    show={showDialog} 
+    messages={messages}
+    onconfirm={goToSummary} 
+    oncancel={dialogCancel}></c-veeva-confirmation-modal>
+</template>

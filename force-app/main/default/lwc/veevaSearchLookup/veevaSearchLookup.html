@@ -1,0 +1,16 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item size="6">
+            <div class="slds-form-element slds-form-element_stacked slds-input-has-icon slds-input-has-icon_right">
+                <div if:true={ctrl.label} class="slds-form-element__label slds-no-flex field-label">
+                    <abbr class="slds-required" if:true={ctrl.required}>*</abbr>
+                    <div>{ctrl.label}</div>
+                </div>
+                <lightning-helptext content={ctrl.helpText} if:true={ctrl.helpText} class="helptext-icon"></lightning-helptext>
+                <c-veeva-lookup class="slds-form-element__control field-control" ctrl={ctrl} custom-icons={customIcons}
+                    start-term={startTerm} onsearchmode={startSearch} onlookupselection={handleLookupSelection}
+                    is-object-search-popup={isObjectSearchPopup}></c-veeva-lookup>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

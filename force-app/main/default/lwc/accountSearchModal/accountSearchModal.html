@@ -1,0 +1,16 @@
+<template>
+    <c-veeva-modal if:true={showAccountSearch} onclose={handleCancel} composed=true>
+        <span slot='header'>{msgCallplanAddTo}&nbsp;
+            <lightning-formatted-date-time if:true={showEventDate} value={headerDate} weekday="long" hour="numeric" minute="2-digit"></lightning-formatted-date-time>
+            <lightning-formatted-date-time if:true={showEventWeekDay} value={headerDate} weekday="long" year="numeric" day="numeric" month="long" hour="numeric" minute="2-digit"></lightning-formatted-date-time>
+            &nbsp;
+        </span>
+        <div slot="content" class="content">
+            <c-veeva-account-search ctrl={ctrl} onaccountselected={handleAccountSelected} onsearchcleared={handleSearchCleared}></c-veeva-account-search>
+        </div>
+        <div slot="footer">
+            <lightning-button data-id="accountSearchCancel" name="cancel" label={msgCancel} onclick={handleCancel}></lightning-button>
+            <lightning-button data-id="accountSearchOk" class="account-search-okay" variant="brand" name="ok" label={okBtnLabel} onclick={createEvent} disabled={okButtonDisabled}></lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

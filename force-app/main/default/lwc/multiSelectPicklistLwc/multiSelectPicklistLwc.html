@@ -1,0 +1,53 @@
+<template>
+    <div class="slds-form-element botmarg">
+        <label class="slds-form-element__label labelstyle">{label}</label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div aria-expanded="false" aria-haspopup="listbox"
+                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right dropdwncls" role="none" >
+                        <input aria-controls="listbox-id-1" auto-complete="off" class="slds-input slds-combobox__input inptstl"
+                            data-id="combobox-id-1" onclick={handleClick} role="textbox" value={inputValue} readonly
+                            type="text" onblur={handleBlur} >
+                        <div class="slds-input__icon-group slds-input__icon-group_right">
+                            <lightning-icon class="slds-input__icon slds-input__icon_right iconstyl" icon-name="utility:search"
+                                size="xx-small"></lightning-icon>
+                        </div>
+                    </div> 
+                    <!-- Modified by Sabari for Keytruda Product -->
+                    <div class="slds-dropdown slds-dropdown_fluid dropcls" id="5"
+                        onmouseenter={handleMouseEnter} onmouseleave={handleMouseleave} role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template for:each={inputOptions} for:item="option">
+                                <li class="slds-listbox__item" data-selected="false" data-id={option.value}
+                                    data-value={option.value} key={option.value} role="presentation"
+                                    onclick={handleSelection} onblur={handleBlur2}>
+						            <!-- Modified by Sabari for Keytruda Product -->
+                                    <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small aligncenter"
+                                        role="option" data-value={option.value} key={option.value} data-id={option.value}>
+                                             <span class="slds-box slds-media__figure" style="border-color:#333333;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;padding-top: 0px;border-bottom-width: 1‒;margin-right: 0px;border-right-width: 1px;border-top-width: 0.9094;" > 
+                                                <lightning-icon
+                                                    class="slds-button slds-icon-utility-check slds-current-color slds-listbox__icon-selected slds-icon_container checkin"
+                                                    icon-name="utility:check" style="border-color: #333333;line-height: 0px;" size="x-small">
+                                                </lightning-icon> 
+                                            </span>  
+
+                                            <!-- <input type="checkbox"  class="slds-listbox__item slds-button slds-icon-utility-check slds-current-color slds-listbox__icon-selected slds-icon_container"  key={option.value} data-value={option.value} data-id={option.value} name="options" id="checkbox-unique-id-81"  value="checkbox-unique-id-81" style="width: 24px;height: 24px; accent-color: black;" /> -->
+                                            <!-- <input type="checkbox"  class="slds-listbox__item"  key={option.value} data-value={option.value} data-id={option.value} name="options" id="checkbox-unique-id-81"  value="checkbox-unique-id-81" style="width: 24px;height: 24px; accent-color: black;" /> -->
+                                        
+                                        <span class="slds-media__body" style="padding-left: 12px; font-size: 14px; padding-top: 5px; font-family: invention; color: #333333;"> 
+                                            <!-- Modified by Sabari for Keytruda Product -->
+                                            <span class="" title={option.label}>{option.label}</span>
+                                        </span>
+                                    </div>
+                                    
+                                </li>
+
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

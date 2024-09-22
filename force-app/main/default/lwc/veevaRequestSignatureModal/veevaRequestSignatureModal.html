@@ -1,0 +1,29 @@
+<template>
+    <c-veeva-modal if:true={hasLoadedMsg} size="small" footer-class="hideFooterBar" hide-close-icon={isShareLink} onclose={cancelRequest} title-class="slds-hyphenate">
+        <div slot="header" title={title}>
+            <h1 class="slds-modal__title">{title}</h1>
+            <p class="slds-text-body_regular slds-m-top_x-small" if:false={signatureController.isShareLink}>{signatureMessageMap.scanQrCodeLabel}</p>
+        </div>
+        <div slot="content">
+            <div class="slds-var-m-around_x-large" if:true={signatureController.isShareLink}>
+                <p class="mainMessage">{mainMessage}</p>
+                <c-veeva-spinner size="small" spinner-style={spinnerStyle}></c-veeva-spinner>
+                <p class="shareLinkMessage">{secondMsg}</p>
+                <lightning-input if:true={isSigning} value={signatureController.link} disabled></lightning-input>
+                <textarea class="toCopy">{signatureController.link}</textarea>
+            </div>
+            <div class="slds-var-m-around_x-large qrCodeHeight" if:false={signatureController.isShareLink}>
+                <lightning-layout horizontal-align="center">
+                    <c-veeva-spinner spinner-style="spinner-container" size="large" if:false={signatureController.isQrLoaded}></c-veeva-spinner>
+                    <img src={qrCodeSource}/>
+                </lightning-layout>
+            </div>
+        </div> 
+        <div slot="footer" if:true={signatureController.isShareLink}>
+            <lightning-layout horizontal-align="center">
+                <lightning-button name="Cancel" label={signatureMessageMap.cancelRequestLabel} title={signatureMessageMap.cancelRequestLabel} onclick={cancelRequest}></lightning-button>
+                <lightning-button class="right-button-margins" name="Copy Link" label={signatureMessageMap.copyLinkLabel} title={signatureMessageMap.copyLinkLabel} onclick={copyLinkToClipboard} variant="brand" if:true={isSigning} style="margin-left:12px;"></lightning-button>
+            </lightning-layout>
+        </div>
+    </c-veeva-modal>
+</template>

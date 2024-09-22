@@ -1,0 +1,35 @@
+<template>
+    <div class="row-container">
+        <div class="date-container">
+            <h2 class="slds-text-title">{dueLabel}</h2>
+            <p class="slds-m-top_x-small slds-text-body_regular">
+                <template if:true={dueDate}>
+                    <lightning-formatted-date-time
+                        value={dueDate}
+                        time-zone="UTC"
+                        year="numeric"
+                        month="numeric"
+                        day="numeric">
+                    </lightning-formatted-date-time>
+                </template>
+
+                <template if:false={dueDate}> - </template>
+            </p>
+        </div>
+
+        <template for:each={cycleDates} for:item="cycleDate">
+            <div if:true={cycleDate.date} key={cycleDate.date} class="date-container">
+                <h2 class="slds-text-title">{cycleDate.label}</h2>
+                <p class="slds-m-top_x-small slds-text-body_regular">
+                    <lightning-formatted-date-time
+                        value={cycleDate.date}
+                        time-zone="UTC"
+                        year="numeric"
+                        month="numeric"
+                        day="numeric">
+                    </lightning-formatted-date-time>
+                </p>
+            </div>
+        </template>
+    </div>
+</template>

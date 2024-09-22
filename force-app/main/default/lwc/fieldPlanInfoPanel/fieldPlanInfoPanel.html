@@ -1,0 +1,73 @@
+<template>
+    <c-veeva-side-panel onclose={handleCloseEvent}>
+        <span if:true={header} slot="header" class="slds-p-left_medium slds-p-right_medium">
+            {header}
+        </span>
+
+        <div slot="body" class={panelBodyClass}>
+            <c-geo-change-badges if:true={isGeoChangePanel} geo-info={geoInfo} none-label={messages.noneLabel}></c-geo-change-badges>
+
+            <template if:true={isInfoPanel}>
+                <template if:true={shouldRenderMyInsights}>
+                    <c-feedback-my-insights
+                        html-report-id={htmlReportId}
+                        max-height={htmlReportHeight}
+                        feedback-local-data-service={feedbackLocalDataService}
+                    >
+                    </c-feedback-my-insights>
+
+                    <hr>
+                </template>
+
+                <template if:true={shouldRenderTerritoryModelMetrics}>
+                    <c-feedback-territory-model-metrics
+                        section="challenges"
+                        territory-model-details={territoryModelDetails}
+                        onupdatefilters={handleUpdateFiltersEvent}
+                    >
+                        <h2 slot="header" class="slds-m-bottom_small slds-text-heading_small">{messages.challengesHeader}</h2>
+                    </c-feedback-territory-model-metrics>
+    
+                    <hr>
+    
+                    <c-feedback-territory-model-metrics
+                        section="accounts"
+                        territory-model-details={territoryModelDetails}
+                        onupdatefilters={handleUpdateFiltersEvent}
+                    >
+                        <h2 slot="header" class="slds-m-bottom_small slds-text-heading_small">{messages.accountsHeader}</h2>
+                    </c-feedback-territory-model-metrics>
+    
+                    <hr>
+    
+                    <template if:true={shouldRenderGoalMetrics}>
+                        <c-feedback-territory-model-metrics
+                            section="goals"
+                            territory-model-details={territoryModelDetails}
+                            onupdatefilters={handleUpdateFiltersEvent}
+                        >
+                            <h2 slot="header" class="slds-m-bottom_small slds-text-heading_small">{messages.totalGoalsHeader}</h2>
+                        </c-feedback-territory-model-metrics>
+
+                        <hr>
+                    </template>
+                </template>
+                
+                <template if:true={hasGeoChanges}>
+                    <c-geo-change-badges geo-info={geoInfo} none-label={messages.noneLabel}>
+                        <h2 slot="header" class="slds-m-bottom_small slds-text-heading_small">{messages.geoChangesHeader}</h2>
+                    </c-geo-change-badges>
+
+                    <hr>
+                </template>
+
+                <c-field-plan-dates cycle-dates={cycleDates} due-date={dueDate} due-label={messages.dueLabel}></c-field-plan-dates>
+                
+                <template if:true={instructions}>
+                    <hr>
+                    <c-field-plan-instructions instructions={instructions} instructions-header={messages.instructionsHeader}></c-field-plan-instructions>
+                </template>
+            </template>
+        </div>
+    </c-veeva-side-panel>
+</template>

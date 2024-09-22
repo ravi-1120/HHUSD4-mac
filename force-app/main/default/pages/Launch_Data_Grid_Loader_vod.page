@@ -1,0 +1,13 @@
+<apex:page standardController="Campaign_Target_vod__c" extensions="DataGridLoaderController" recordSetVar="CampaignTarget" standardStylesheets="true">
+    <script type="text/javascript">
+        function launchDataGridLoader() {
+            var url = '{!EngageUrl}?Action=LaunchLoader&ObjectType=Campaign_Target_vod__c&ParentObjectType=Campaign_vod__c&ParentObjectId={!$CurrentPage.parameters.id}&uid={!$User.Id}';
+            window.open(url, '_blank');
+        }
+        // Automatically open the link when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            launchDataGridLoader();
+            history.go(-1);
+        });
+    </script>
+</apex:page>

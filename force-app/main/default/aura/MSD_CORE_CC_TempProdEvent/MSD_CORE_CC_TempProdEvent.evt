@@ -1,0 +1,7 @@
+<aura:event type="COMPONENT">
+    <aura:attribute name="tempProdName" type="String" default=""/>
+    <aura:attribute name="recId" type="String" default=""/>
+    <aura:attribute name="lotName" type="String" default=""/>
+    <aura:attribute name="lotId" type="String" default=""/>
+    <aura:attribute name="wasVaccAdministered" type="String" default=""/>
+</aura:event>

@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="VeevaMedicalEventEditOverride" ref="veevaMedicalEventEditOverride" label="Veeva Medical Event Edit Override">
+		Used to override Medical Event redirects in Lightning.
+	</aura:example>
+</aura:documentation>

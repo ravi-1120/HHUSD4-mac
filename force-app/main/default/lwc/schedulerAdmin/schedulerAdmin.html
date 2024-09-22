@@ -1,0 +1,38 @@
+<template>
+    <lightning-progress-indicator current-step={currentStep} type="path" has-error="true" variant="base">
+        <lightning-progress-step label="Scheduler Name" value="0"></lightning-progress-step>
+        <lightning-progress-step label="Templates" value="1"></lightning-progress-step>
+        <lightning-progress-step label="CSS Styles" value="2"></lightning-progress-step>
+        <lightning-progress-step label="Communication Channels" value="3"></lightning-progress-step>
+        <lightning-progress-step label="Business Rules" value="4"></lightning-progress-step>
+        <lightning-progress-step label="Business hours" value="5"></lightning-progress-step>
+        <lightning-progress-step label="Generate Source Code" value="6"></lightning-progress-step>
+    </lightning-progress-indicator>
+    <template if:true={page0}>
+        <c-scheduler-create new-scheduler = {newScheduler} record-id = {recordId} onnext = {handleNext} counter={page}></c-scheduler-create>
+    </template>
+    <template if:true={page1}>
+        <c-scheduler-templates counter={page} record-id = {recordId} onnext = {handleNext} onprevious = {handlePrevious} is-from-previous={isTemplateFromPrevious}></c-scheduler-templates>
+    </template>
+    <template if:true={page2}>
+        <c-scheduler-styles counter={page} record-id = {recordId} onnext = {handleNext} onprevious = {handlePrevious}></c-scheduler-styles>
+    </template>
+
+    <template if:true={page3}>
+        <c-scheduler-channels counter={page} record-id = {recordId} onnext = {handleNext} onprevious = {handlePrevious}></c-scheduler-channels>
+    </template>
+
+    <template if:true={page4}>
+        <c-scheduler-business-rules counter={page} record-id = {recordId} onnext = {handleNext} onprevious = {handlePrevious}></c-scheduler-business-rules>
+    </template>
+
+    <template if:true={page5}>
+        <c-scheduler-operating-hours counter={page} record-id = {recordId} onnext = {handleNext} onprevious = {handlePrevious}></c-scheduler-operating-hours>
+    </template>
+
+    <template if:true={page6}>
+        <c-scheduler-source-code counter={page} record-id = {recordId} onprevious = {handlePrevious}></c-scheduler-source-code>
+    </template>
+
+
+</template>

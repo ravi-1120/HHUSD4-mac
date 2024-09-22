@@ -1,0 +1,374 @@
+<aura:component controller="AccountSearchControllerMVN" implements="flexipage:availableForRecordHome,force:hasSObjectName,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="typeText" type="String" default="All"/>
+    <aura:attribute name="searchCriteria" type="Map" default="{}"/>
+    <aura:attribute name="type" type="String" default="PersonAccounts"/>
+    <aura:attribute name="whichOne" type="String"/>
+    <aura:attribute name="fieldList" type="Map" default="{}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="searchMsg" type="String" default="" />
+    <aura:attribute name="userCountry" type="String" default="" />
+    <aura:attribute name="sel" type="String" default="" />
+    <aura:attribute name="dataList" type="AccountSearchResultMockMVN[]"/>
+    <aura:attribute name="rerenderAfterSearch" type="boolean" default="true"/>
+    <aura:attribute name="rerenderNewButtons" type="boolean" default="false"/>
+    <aura:attribute name="showNewAccount" type="boolean" default="true"/>
+    <aura:attribute name="showSearch" type="Boolean" default="false"/>
+    <aura:attribute name="showCloseButton" type="Boolean" default="false"/>
+    <aura:handler event="c:MSD_CORE_CC_RefreshCustInfoEvent" action="{!c.clearSearch}"/>
+    
+    <aura:attribute name="recentlyAddedBusiness" type="String"/>
+    <aura:attribute name="recentlyAddedPerson" type="String"/>
+    
+    <aura:handler name="MSD_CORE_CloseModal" event="c:MSD_CORE_CloseModal" action="{!c.closeModal}"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="countryList" type="AccountSearchControllerMVN.SelectWrapper[]"/>
+    <aura:attribute name="stateList" type="String[]"/>
+    
+    <aura:registerEvent name="MSD_CORE_SetSearchValues" type="c:MSD_CORE_SetSearchValues"/>
+    
+    <aura:attribute name="firstName" type="String"/>
+    <aura:attribute name="lastName" type="String"/>
+    <aura:attribute name="name" type="String"/>
+    <aura:attribute name="phone" type="String"/>
+    <aura:attribute name="city" type="String"/>
+    <aura:attribute name="state" type="String"/>
+    <aura:attribute name="country" type="String"/>
+    <aura:attribute name="zip" type="String"/>
+    <aura:attribute name="empNumber" type="String"/>
+    <aura:attribute name="masterId" type="String"/>
+    <aura:attribute name="custNumber" type="String"/>
+    
+    <aura:handler name="change" value="{!v.stateList}" action="{!c.stageChange}"/>
+	<aura:handler name="change" value="{!v.state}" action="{!c.stageChange}"/>
+    
+    <aura:method name="calldoInit" action="{!c.doInit}"/>  
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'All', 'value': 'All'},
+                                                        {'label': 'CONSUMER', 'value': 'CONSUMER'},
+                                                        {'label': 'EMPLOYEE', 'value': 'EMPLOYEE'},
+                                                        {'label': 'HEALTHCARE BUSINESS PROF', 'value': 'HEALTHCARE BUSINESS PROF'},
+                                                        {'label': 'INDIV HEALTHCARE PROF', 'value': 'INDIV HEALTHCARE PROF'}
+                                                        ]"/>
+    <aura:registerEvent name="MSD_CORE_CC_RefreshCustInfoCTI" type="c:MSD_CORE_CC_RefreshCustInfoCTI"/>
+    <aura:registerEvent name="MSD_CORE_AccountQuery" type="c:MSD_CORE_AccountQuery"/>
+    <aura:registerEvent name="MSD_CORE_CC_SearchCriteria" type="c:MSD_CORE_CC_SearchCriteria"/>
+    
+    <div onkeyup="{!c.formPress}">
+        <div class="slds-box slds-theme_default" style="padding: 10px;border-radius: 0;background: #fbfbfb;">          
+            <div class="slds-grid slds-gutters slds-wrap">
+                <aura:if isTrue="{!v.type == 'Person'}" >
+                    <aura:iteration items="{!v.fieldList.Person}" var="f">
+                        <div class="slds-col slds-size_1-of-7"> 
+                            <aura:if isTrue="{!f.placeholder != 'Phone'}" >
+                                <lightning:input aura:id="enter-search"
+                                                 name="enter-search"
+                                                 value="{!f.value}"
+                                                 label="Search by hitting 'enter' key"
+                                                 isLoading="{!v.issearching }"
+                                                 type="search"
+                                                 variant="label-hidden"
+                                                 placeholder="{!f.placeholder}"
+                                                 onchange="{!c.handleCommonValueChange}"
+                                                 />
+                                <aura:set attribute="else">
+                                    <lightning:input aura:id="phoneInput"
+                                                     name="enter-search"
+                                                     value="{!f.value}"
+                                                     label="Search by hitting 'enter' key"
+                                                     isLoading="{!v.issearching }"
+                                                     type="search"
+                                                     variant="label-hidden"
+                                                     placeholder="{!f.placeholder}"
+                                                     
+                                                     onchange="{!c.handleCommonValueChange}"
+                                                     />
+                                    <!--onblur="{!c.formatPhoneNumber}" -->
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </aura:iteration>
+                    <br/><br/>
+                    <aura:iteration items="{!v.fieldList.CommonFields}" var="f">
+                        <div class="slds-col slds-size_1-of-7"> 
+                            <aura:if isTrue="{!and(f.fieldName != 'Country', f.fieldName != 'State')}">
+                                <lightning:input aura:id="enter-search"
+                                                 name="enter-search"
+                                                 value="{!f.value}"
+                                                 label="Search by hitting 'enter' key"
+                                                 isLoading="{!v.issearching }"
+                                                 type="search"
+                                                 variant="label-hidden"
+                                                 onchange="{!c.handleCommonValueChange}"
+                                                 placeholder="{!f.placeholder}"
+                                                 />
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!f.fieldName == 'Country'}">
+                                
+                                <ui:inputSelect  value="{!v.userCountry}" class="slds-input" change="{!c.handleCommonValueChange}">  
+                                    <aura:iteration items="{!v.countryList}" var="item">
+                                        <ui:inputSelectOption text="{!item.value}" label="{!item.label}"/>
+                                    </aura:iteration>
+                                </ui:inputSelect>
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!f.fieldName == 'State'}">
+                                
+                                <ui:inputSelect value="{!f.value}" class="slds-input" change="{!c.handleCommonValueChange}">       
+                                    <ui:inputSelectOption text="" label="--Select State--"/>
+                                    <aura:iteration items="{!v.stateList}" var="item">
+                                        <ui:inputSelectOption text="{!item}" />
+                                    </aura:iteration>
+                                </ui:inputSelect>
+                            </aura:if>
+                        </div>
+                    </aura:iteration>
+                    
+                    <div class="slds-col">
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__legend slds-form-element__label">&nbsp;</legend>
+                            <div class="slds-form-element__control">
+                                <lightning:radioGroup name="radioButtonGroup"
+                                                      label="Radio Button Group"
+                                                      options="{!v.options}"
+                                                      value="{!v.typeText}"
+                                                      type="button"/>
+                            </div>
+                        </fieldset>
+                    </div>
+                    
+                    <div class="slds-col" style="text-align:right;">
+                        <lightning:button variant="brand"
+                                          name="Search"
+                                          label="{!$Label.c.MSD_CORE_Account_Search}"
+                                          iconName="utility:search" 
+                                          onclick="{!c.searchAccountJs}"/>
+                    </div>
+                    <!--
+                    <aura:if isTrue="{!v.showCloseButton}" >
+                        <div class="slds-col" style="text-align:right;">
+                            <lightning:button variant="Neutral"
+                                              name="Close Search"
+                                              label="Close Search"
+                                              iconName="utility:close" 
+                                              onclick="{!c.closeSearchTab}"/>
+                        </div>
+                    </aura:if>
+					-->
+                </aura:if>
+                
+                <aura:if isTrue="{!v.type == 'Business'}" >
+                    <aura:iteration items="{!v.fieldList.Business}" var="f">
+                        <div class="slds-col slds-size_1-of-7"> 
+                            <lightning:input aura:id="enter-search"
+                                             name="enter-search"
+                                             value="{!f.value}"
+                                             label="Search by hitting 'enter' key"
+                                             isLoading="{!v.issearching }"
+                                             type="search"
+                                             variant="label-hidden"
+                                             placeholder="{!f.placeholder}"
+                                             onchange="{!c.handleCommonValueChange}"
+                                             />
+                        </div>
+                    </aura:iteration>
+                    <br/><br/>
+                    <aura:iteration items="{!v.fieldList.CommonFields}" var="f">
+                        <div class="slds-col slds-size_1-of-7"> 
+                            <aura:if isTrue="{!and(f.fieldName != 'Country', f.fieldName != 'State')}">
+                                <lightning:input aura:id="enter-search"
+                                             name="enter-search"
+                                             value="{!f.value}"
+                                             label="Search by hitting 'enter' key"
+                                             isLoading="{!v.issearching }"
+                                             type="search"
+                                             variant="label-hidden"
+                                             placeholder="{!f.placeholder}"
+                                             onchange="{!c.handleCommonValueChange}"
+                                             />
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!f.fieldName == 'Country'}">
+                                <ui:inputSelect  value="{!v.userCountry}" class="slds-input" change="{!c.handleCommonValueChange}">   
+                                    <aura:iteration items="{!v.countryList}" var="item">
+                                        <ui:inputSelectOption text="{!item.value}" label="{!item.label}"/>
+                                    </aura:iteration>
+                                </ui:inputSelect>
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!f.fieldName == 'State'}">
+                                <ui:inputSelect value="{!f.value}" class="slds-input" change="{!c.handleCommonValueChange}">       
+                                    <ui:inputSelectOption text="" label="--Select State--"/>
+                                    <aura:iteration items="{!v.stateList}" var="item">
+                                        <ui:inputSelectOption text="{!item}" />
+                                    </aura:iteration>
+                                </ui:inputSelect>
+                            </aura:if>
+                        </div>
+                    </aura:iteration>
+                    <div class="slds-col" style="text-align:right;">
+                        <lightning:button variant="brand"
+                                          name="Search"
+                                          label="{!$Label.c.MSD_CORE_Account_Search}"
+                                          iconName="utility:search" 
+                                          onclick="{!c.searchAccountJs}"/>
+                    </div>
+                    <!--
+                    <aura:if isTrue="{!v.showCloseButton}" >
+                        <div class="slds-col" style="text-align:right;">
+                            <lightning:button variant="Neutral"
+                                              name="Close Search"
+                                              label="Close Search"
+                                              iconName="utility:close" 
+                                              onclick="{!c.closeSearchTab}"/>
+                        </div>
+                    </aura:if>
+					-->
+                </aura:if>
+            </div>
+        </div>
+        
+        <aura:if isTrue="{!v.rerenderAfterSearch == true}">
+        	<c:MSD_CORE_CaseCustomerInfo recordId="{!v.recordId}" isAccSearch ="true"/>
+        </aura:if>
+        
+        <aura:if isTrue="{!not(empty(v.searchMsg))}">
+            <div class="slds-notify_container slds-is-relative">
+                <div class="{!'slds-notify slds-notify_toast '+if(equals(v.searchMsg,'Searching...'),'slds-theme_info','slds-theme_info')}" role="{!if(equals(v.searchMsg,'Searching...'),'info','alert')}">
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">{!v.searchMsg}</h2>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        
+        <!--<aura:If isTrue="{!v.dataList.length > 0}">-->
+            <div class="slds-box slds-theme_default" style="padding: 10px;border-radius: 0;margin-top: 10px;overflow: auto;">  
+                <b>Results [{!v.dataList.length}]</b>
+                
+                <aura:if isTrue="{!v.rerenderNewButtons == true}">
+                    <aura:if isTrue="{!v.type == 'Person'}">
+                        <div style="float:right; margin-bottom: 10px">
+                            <lightning:button variant="Neutral"
+                                              name="New Customer"
+                                              label="New Customer"
+                                              iconName="utility:add"
+                                              aura:id="Customer"
+                                              onclick="{!c.openModal}"/>
+                            
+                            <lightning:button variant="Neutral"
+                                              name="New Referred By"
+                                              label="New Referred By"
+                                              iconName="utility:add"
+                                              aura:id="Referred"
+                                              onclick="{!c.openModal}"/>
+                        </div>
+                    </aura:if>
+                    
+                    <aura:if isTrue="{!v.type == 'Business'}">
+                        <div style="float:right; margin-bottom: 10px">
+                            <lightning:button variant="Neutral"
+                                              name="New Business"
+                                              label="New Business"
+                                              iconName="utility:add"
+                                              aura:id="Business"
+                                              onclick="{!c.openModal}"/>
+                        </div>
+                    </aura:if>
+                </aura:if>
+                
+                <aura:If isTrue="{!v.dataList.length > 0}">
+                    <div class="slds-col slds-size_1-of-1" style="height: 300px; overflow-y: auto;">
+                        <table class="slds-table slds-table_bordered slds-table_striped" style="border-left: 1px solid rgb(221, 219, 218); border-right: 1px solid rgb(221, 219, 218);">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col"></th> 
+                                    
+                                    <aura:If isTrue="{!v.type == 'Business'}">
+                                        <th scope="col"><span class="slds-truncate">Account Name</span></th> 
+                                    </aura:If>
+                                    
+                                    <aura:If isTrue="{!v.type == 'Person'}">
+                                        <th scope="col"><span class="slds-truncate">Last Name</span></th> 
+                                        <th scope="col"><span class="slds-truncate">First Name</span></th>
+                                        <th scope="col"><span class="slds-truncate">Middle</span></th>
+                                    </aura:If>
+                                    
+                                    <th scope="col"><span class="slds-truncate">Address</span></th>
+                                    <th scope="col"><span class="slds-truncate">City</span></th>
+                                    <th scope="col"><span class="slds-truncate">State</span></th> 
+                                    <th scope="col"><span class="slds-truncate">Zip</span></th>
+                                    <th scope="col"><span class="slds-truncate">Country</span></th>
+                                    <aura:If isTrue="{!v.type == 'Business'}">
+                                        <th scope="col"><span class="slds-truncate">Type</span></th>
+                                    </aura:If>
+                                    <th scope="col"><span class="slds-truncate">Sub-Type</span></th>
+                                    <aura:If isTrue="{!v.type == 'Business'}">
+                                        <th scope="col"><span class="slds-truncate">SAP Ids</span></th>
+                                    </aura:If>
+                                    <th scope="col"><span class="slds-truncate">Master ID</span></th>
+                                    <th scope="col"><span class="slds-truncate">Status</span></th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <aura:iteration items="{!v.dataList}" var="t" indexVar="indx">
+                                    <tr class="slds-hint-parent">
+                                        <aura:If isTrue="{!v.type == 'Person'}">
+                                            <td style="display: flex;">
+                                                <div style="float:left;" id="{!t.theAccount.Id+'-'+t.theAddress.Id}" onclick="{!c.addCustomer}">
+                                                    <lightning:icon style="cursor:pointer" iconName="standard:people" size="small" alternativeText="Add Customer" title="Add Customer"/> &nbsp;
+                                                </div>
+                                                <div style="float:left;" id="{!t.theAccount.Id}" onclick="{!c.addReferredByJS}">
+                                                    <lightning:icon style="cursor:pointer" iconName="standard:team_member" size="small" alternativeText="Add Referred By" title="Add Referred By"/>
+                                                </div>
+                                            </td>
+                                        </aura:If>
+                                        <aura:If isTrue="{!v.type == 'Business'}">
+                                            <td>
+                                                <div id="{!t.theAccount.Id}" onclick="{!c.addBusiness}">
+                                                    <lightning:icon style="cursor:pointer" iconName="standard:account" size="small" alternativeText="Add Business" title="Add Business"/>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0);" data-id="{!t.theAccount.Id}" onclick="{!c.openAccount}">{!t.theAccount.Preferred_Full_Name_MRK__c}</a>
+                                            </td>
+                                        </aura:If>
+                                        <aura:If isTrue="{!v.type == 'Person'}">
+                                            <td><a href="javascript:void(0);" data-id="{!t.theAccount.Id}" onclick="{!c.openAccount}">{!t.theAccount.Preferred_Last_Name_MRK__c}</a></td>
+                                            <td><a href="javascript:void(0);" data-id="{!t.theAccount.Id}" onclick="{!c.openAccount}">{!t.theAccount.Preferred_First_Name_MRK__c}</a></td>
+                                            <td>{!t.theAccount.Preferred_Middle_Name_MRK__c}</td>
+                                        </aura:If>    
+                                        <td>{!t.theAddress.Name} &nbsp; {!t.theAddress.Address_line_2_vod__c}</td>
+                                        <td>{!t.theAddress.City_vod__c}</td>
+                                        <td>{!t.theAddress.State_vod__c}</td>
+                                        <td>{!t.theAddress.Zip_vod__c}</td>
+                                        <td>{!t.theAddress.Country_vod__c}</td>
+                                        <aura:If isTrue="{!v.type == 'Business'}">
+                                            <td>{!t.theAccount.Class_of_Trade_MRK__c}</td>
+                                        </aura:If>    
+                                        <td>{!t.theAccount.Class_of_Trade_Sub_MRK__c}</td>
+                                        <aura:If isTrue="{!v.type == 'Business'}">
+                                            <td>{!t.sapIds}</td>
+                                        </aura:If>
+                                        <td>{!t.theAccount.Merck_ID_MRK__c}</td>
+                                        <td>{!t.theAccount.Status_MRK__c}</td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </aura:If>
+            </div>
+        <!--</aura:If>-->
+     </div>    
+        <div id="createAccountModal" class="{! 'slds-scrollable ' + if(v.showSearch, 'slds-show', 'slds-hide')}" aura:id="createAccountModal" style="position:relative;">
+            <aura:if isTrue="{!v.showNewAccount == true}" >
+                 <c:MSD_CORE_NewAccount aura:id="newAccCmp" type="{!v.type}" isPersonSearch="{!(v.type == 'Person' ? true : false)}"
+                                   firstName="{!v.firstName}" whichOne="{!v.whichOne}"
+                                   recordId="{!v.recordId}"  /> 
+            </aura:if>
+        </div>
+   <!--</div> -->
+</aura:component>

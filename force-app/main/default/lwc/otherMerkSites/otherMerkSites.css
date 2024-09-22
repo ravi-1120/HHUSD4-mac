@@ -1,0 +1,374 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 24px 24px;
+    gap: 40px;
+    position: absolute;
+    width: 1128px;
+    height: 480px;
+    left: 156px;
+    top: 205px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.sitebtn {
+    width: 77px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #FFFFFF;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.res_btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 11px;
+    gap: 16px;
+    width: 141px;
+    height: 35px;
+    background-color: #00857C !important;
+    border-radius: 5px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.box{
+    /* margin-left: 140px;
+    margin-right : 140px; */
+    margin-top: 40px;
+    margin-bottom:40px;
+}
+
+.para1{
+    font-family: 'Invention';
+    font-style: normal;
+    width: 629px;
+    height: 75px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.info1{
+    color: #000;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Invention';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.info2{
+    color: #000;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Invention';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.popupfooter {
+    background: #FFFFFF;
+    box-shadow: none;
+    width: 100%;
+}
+
+.OtherMercksites {
+    width: 297px;
+    height: 45px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    color: #FFFFFF;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.button {
+    justify-content: center;
+    align-items: center;
+    padding: 13px 16px;
+    color: #00857C;
+    background: white;
+    border-radius: 8px;
+    font-family: 'Invention';
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 10px;
+    font-style: normal;
+    border-color: #00857C;
+}
+
+.ban {
+    width: 400px;
+    height: 30px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 36px;
+    color: #000000;
+    margin-left: 70px;
+    margin-top: 4px;
+}
+
+.slds-p-around_large {
+    padding: 0 !important;
+}
+
+.vmicon {
+    position: absolute;
+    left: -7.45%;
+    right: 7.45%;
+    top: 63.26%;
+    bottom: -25.76%;
+    background: #00857C;
+    transform: rotate(-45deg);
+}
+
+.medi_btn {
+    color: #00857C !important;
+    background: white;
+    border-radius: 6px;
+    border-color: rgba(0, 133, 124, 1);
+    margin-right: 16px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 28px;
+    font-family: Invention;
+    border: 2px solid rgb(0, 133, 124) !important;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.861539px;
+    padding: 0px 10px;
+    padding-right: 0px;
+    padding-left: 16px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    position: relative;
+    z-index: 1;
+    width: 80%;
+    margin-top: -5rem !important;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    margin: auto;
+    background: #FFFFFF;
+}
+
+.slds-modal__container {
+    margin: 0 auto;
+    width: 992px;
+    max-width: 992px;
+    min-width: 20rem;
+}
+
+.button_cls {
+    cursor: pointer;
+    /* padding-top: 1rem; */
+    text-decoration: none !important;
+    margin:15px 0 48px 0 ;
+}
+
+.header {
+    width: 257px;
+    height: 32px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.5px;
+    color: #313C3F;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.header-green {
+    width: 257px;
+    height: 32px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.5px;
+    color: #00857C;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.header2 {
+    width: 1080px;
+    height: 36px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.p {
+    width: 1080px;
+    height: 24px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+
+.pbanner {
+    position: relative;
+}
+
+.header-container {
+    width: 80%;
+    margin: auto;
+}
+
+.header_cls {
+    font-family : 'Invention';
+    position: absolute;
+    color: #FFFFFF;
+    z-index: 3;
+    top: 5%;
+    text-align: left;
+    width: 100%;
+}
+
+.header_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    color: #FFFFFF;
+}
+
+.ptext {
+    position: absolute;
+    color: #fff;
+    z-index: 3;
+    top: 20%;
+    text-align: left;
+    font-size: 20px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 24px 24px;
+    gap: 40px;
+    position: absolute;
+    left: 156px;
+    border-radius: 4p
+}
+
+.visitsite {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    color: #FFFFFF;
+}
+.box-height {
+    height: 480px;
+    padding-top: 40px;
+}
+.subheader {
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+.layout{
+    background-color: white;
+}
+.extraheight {
+    gap: 24px;
+    top: -50px;
+    width: 80%;
+    height: 168px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+    background: #FFFFFF;
+}
+.bg_cls{
+	display: block;
+}
+
+
+  /* for mobile screen  */
+
+  @media only screen and (max-width:767px){
+	.bannercls img{
+		height: 170px;
+		object-fit: cover;
+	}
+	.header_cls{
+		top: 2.5%;
+	}
+	.container{
+		margin-top: -65px !important;
+		margin-left: 16px;
+    		margin-right: 16px;
+		width: auto;
+	}
+	.header-container{
+		width: auto;
+		padding: 16px;
+	}
+	.box-height{
+		padding: 16px;
+		height: auto;
+	}
+	.bg_cls{
+		display: block;
+	}
+	.header2, .p{
+		width: auto;
+		height: auto;
+	}
+  }

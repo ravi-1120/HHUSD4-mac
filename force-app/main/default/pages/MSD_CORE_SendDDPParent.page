@@ -1,0 +1,20 @@
+<apex:page sidebar="false" standardStylesheets="false" showHeader="false" lightningStylesheets="false">
+    <script type="text/javascript">
+        window.addEventListener('beforeunload', function (e) {
+            // Cancel the event
+            e.preventDefault();
+            // Chrome requires returnValue to be set
+            e.returnValue = '';
+            
+            window.location.href = 'https://msdlogin--hhusd8.cs65.my.salesforce.com/_ui/core/email/author/EmailAuthor?retURL=%2F5000m000006LWWCAA4&saveURL=%2F5000m000006LWWCAA4&doc_id=0150m000000QEgzAAG&p3_lkid=5000m000006LWWCAA4&p26=0D2U0000000PDXfKAO%3Aservice_center%40merck.com%3AService_Center%40merck.com';
+        });
+        
+        setInterval(function(){
+            //alert(document.getElementById("iframe_id").src);
+        }, 6000);
+    </script>
+    
+    <body onunload="callUnload();">
+        <iframe id="iframe_id" style="border:none; height: 550px; width: 100%;" src="https://msdlogin--hhusd8--c.cs65.visual.force.com/apex/MSD_CORE_SendDDP?url={!$CurrentPage.parameters.url}"></iframe>
+    </body>
+</apex:page>

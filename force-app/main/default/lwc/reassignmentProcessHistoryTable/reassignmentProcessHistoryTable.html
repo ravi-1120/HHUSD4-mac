@@ -1,0 +1,15 @@
+<template>
+    <div class="slds-is-relative">
+        <c-veeva-spinner if:true={waiting} class="slds-spinner_container"></c-veeva-spinner>
+        <c-reassignment-basic-table
+        title={title}
+        table-data-svc={tableDataSvc}
+        table-columns={columns}
+        table-data={data}
+        total-count={totalCount}
+        onloaddata={loadData}
+        onactionclicked={actionHandler}
+        >
+        </c-reassignment-basic-table>
+    </div>
+</template>

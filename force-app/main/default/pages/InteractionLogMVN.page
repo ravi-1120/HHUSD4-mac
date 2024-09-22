@@ -1,0 +1,297 @@
+<apex:page standardController="Case" extensions="InteractionLogControllerMVN" showHeader="false" sidebar="false">
+
+    
+<script>
+function checkLimit(limitField, limitCount, limitNum){
+    if (limitField.value.length > limitNum) {
+        limitField.value = limitField.value.substring(0, limitNum);
+    } else {
+        limitCount.value = limitNum - limitField.value.length;
+    }
+}
+</script>
+
+
+    <style>
+        html, body {
+            height: 100%;
+        }
+        #container {
+            background-color: #DFDFDF;
+            min-height: 100%;
+            width:100%;
+            position: absolute;
+        }
+
+        #titleContainer {
+            padding-top:0px;
+            text-align: center;
+        }
+
+        #buttonContainer {
+            text-align: center;
+            float:left;
+            width:100%;
+        }
+
+        #textArea{
+            padding: 5px;
+        }
+
+        #lastSavedContainer{
+            text-align: center;
+        }
+
+        #saveStatus {
+            position:absolute;
+            left:43%;
+            top:43px;
+            bottom: 1px;
+            height:10px;
+            padding: 0pt 5px;
+            text-align:center;
+        }
+
+        .newLinks {
+            color:black;
+            font-size:11px;
+            white-space:nowrap;
+        }
+        .icon {
+            display:inline-block;
+           /* width:24%;*/
+            text-decoration: none;
+        }
+        .divider {
+            border-right:0px solid #333;
+            margin-right: 1px;
+        }
+        .icon a{
+            text-decoration: none;
+        }
+        .iconLabel{
+            display:block;
+            font-size: 10px;
+            margin-top:2px;
+        }
+
+    </style>
+
+    <apex:includeScript value="/support/console/29.0/integration.js"/>
+
+    <div id="container">
+        <apex:form id="theForm">
+            <apex:outputPanel id="scripts">
+            <script>
+                var parentTabId;
+                var thisWindow;
+
+                window.onload = getTabIds;
+
+                function getTabIds() {
+                    sforce.console.getFocusedPrimaryTabId(assignParentTabId);
+                }
+
+                var assignParentTabId = function assignTabId(result) {
+                    parentTabId = result.id;
+                    thisWindow = window;
+                };
+
+                function openChildRequest(){
+                    var childCaseId = '{!childCase.Id}';
+                    if(childCaseId == '' || childCaseId == 'null' || childCaseId == undefined){
+                        return null;
+                    }
+
+                    sforce.console.openPrimaryTab(null, '/{!childCase.Id}?isdtp=vw', true);
+                    refreshPrimaryTab();
+                }
+
+
+                function openFulfillment(){
+                    var fulfillmentId = '{!fulfillmentId}';
+                    if(fulfillmentId == '' || fulfillmentId == 'null' || fulfillmentId == undefined){
+                        return null;
+                    }
+
+                    sforce.console.openSubtab(parentTabId, '/{!fulfillmentId}', true);
+                    refreshPrimaryTab();
+                }
+
+                function refreshPrimaryTab(){
+                    sforce.console.refreshPrimaryTabById(parentTabId, false);
+                }
+
+                function markChanged() {
+                    sforce.console.getFocusedSubtabId(setUnsaved);
+
+                }
+
+                var setUnsaved = function setUnsaved(result){
+                    sforce.console.setTabUnsavedChanges(true, displayResult,result.id);
+                }
+
+                function markSaved() {
+                    sforce.console.getFocusedSubtabId(setSaved);
+
+                }
+
+                var setSaved = function setSaved(result){
+                    sforce.console.setTabUnsavedChanges(false, displayResult,result.id);
+                }
+
+                var displayResult = function displayResult(result){
+                }
+
+            </script>
+
+            <apex:stylesheet value="{!URLFOR($Resource.GlobalAssetsMVN, 'css/bootstrap.custom-grid.css')}"/>
+            </apex:outputPanel>
+            <apex:outputPanel id="errorMessagePanel">
+                <apex:messages id="errorMessages" style="text-align: left;padding:2px;margin:0px;" styleClass="editListError"/>
+            </apex:outputPanel>
+            <div id="buttonContainer">
+                <apex:actionRegion >
+                    <apex:outputPanel style="padding-top:10px;padding-bottom:10px" rendered="{!!caseIsLocked}" layout="block">
+                    
+                        <div class="row">
+                            <div class="col-xs-12" style="padding-bottom:10px">
+                                <!--New Request button-->
+                                <apex:outputPanel layout="inline" styleClass="icon divider">
+                                    <apex:actionStatus id="new-request-status" >
+                                        <apex:facet name="stop">
+                                            <apex:commandLink title="{!$Label.New_Request_Button}" action="{!createChildCaseFromInteractionLog}" rerender="scripts, errorMessagePanel" oncomplete="openChildRequest();" status="new-request-status" >
+                                                <apex:param name="rqparam" assignTo="{!requestType}" value="RQ" />
+                                                <apex:image value="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/request.png')}" style="display: block;margin-left: auto;margin-right: auto;"/>
+                                                <apex:outputText value="{!$Label.New_Request_Button}" styleClass="iconLabel"/>
+                                            </apex:commandLink>
+                                        </apex:facet>
+                                        <apex:facet name="start">
+                                            <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="18px" width="18px"/>
+                                        </apex:facet>
+                                    </apex:actionStatus>
+                                </apex:outputPanel>
+                            </div>
+
+                             <div class="col-xs-{!gridSizeNumber}" style="display: {!IF(aeEnabled, 'all', 'none')}">
+                            <!-- New AE and PQC button -->
+                                <apex:outputPanel rendered="{!aeEnabled}" layout="inline" styleClass="icon divider">
+                                    <apex:actionStatus id="new-ae-status">
+                                        <apex:facet name="stop">
+                                            <apex:commandLink title="{!$Label.New_Adverse_Event_Button}" action="{!createChildCaseFromInteractionLog}" rerender="scripts, errorMessagePanel" oncomplete="openChildRequest();" status="new-ae-status" >
+                                                <apex:param name="aeparam" assignTo="{!requestType}" value="AE" />
+                                                <apex:image value="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/Combo.PNG')}"/>
+                                                <apex:outputText value="AE & PQC" styleClass="iconLabel"/>
+                                            </apex:commandLink>
+                                        </apex:facet>
+                                        <apex:facet name="start">
+                                            <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="18px" width="18px"/>
+                                        </apex:facet>
+                                    </apex:actionStatus>
+                                </apex:outputPanel>
+                            </div>
+                            <!--  <div class="col-xs-{!gridSizeNumber}" style="display: {!IF(pqcEnabled, 'all', 'none')}">
+                            New PQC button
+                                <apex:outputPanel rendered="{!pqcEnabled}" layout="inline" styleClass="icon divider">
+                                    <apex:actionStatus id="new-pqc-status" >
+                                        <apex:facet name="stop">
+                                            <apex:commandLink title="{!$Label.New_Product_Complaint_Button}" action="{!createChildCaseFromInteractionLog}" rerender="scripts, errorMessagePanel" oncomplete="openChildRequest();" status="new-pqc-status" >
+                                                <apex:param name="pqcparam" assignTo="{!requestType}" value="PQC" />
+                                                <apex:image value="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/pqc.png')}"/>
+                                                <apex:outputText value="Product Complaint" styleClass="iconLabel"/>
+                                            </apex:commandLink>
+                                        </apex:facet>
+                                        <apex:facet name="start">
+                                            <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="18px" width="18px"/>
+                                        </apex:facet>
+                                    </apex:actionStatus>
+                                </apex:outputPanel>
+                            </div>-->
+                            <div class="col-xs-{!gridSizeNumber}" style="display: {!IF(teEnabled, 'all', 'none')}">
+                            <!-- New Temp. Excursion button -->
+                                <apex:outputPanel rendered="{!teEnabled}" layout="inline" styleClass="icon divider">
+                                    <apex:actionStatus id="new-te-status" >
+                                        <apex:facet name="stop">
+                                            <apex:commandLink title="{!$Label.MSD_CORE_New_Temperature_Excursion}" action="{!createChildCaseFromInteractionLog}" rerender="scripts, errorMessagePanel" oncomplete="openChildRequest();" status="new-te-status" >
+                                                <apex:param name="teparam" assignTo="{!requestType}" value="TE" />
+                                                <apex:image value="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/thermometer-2.png')}"/>
+                                                <apex:outputText value="{!$Label.MSD_CORE_New_Temperature_Excursion}" styleClass="iconLabel"/>
+                                            </apex:commandLink>
+                                        </apex:facet>
+                                       <apex:facet name="start">
+                                            <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="18px" width="18px"/>
+                                        </apex:facet>
+                                    </apex:actionStatus>
+                                </apex:outputPanel>
+                            </div>
+                             <div class="col-xs-{!gridSizeNumber}" style="display: {!IF(crEnabled, 'all', 'none')}">
+                             <!-- New Comp. Request button -->
+                                <apex:outputPanel rendered="{!crEnabled}" layout="inline" styleClass="icon divider">
+                                    <apex:actionStatus id="new-cr-status" >
+                                        <apex:facet name="stop">
+                                            <apex:commandLink title="{!$Label.MSD_CORE_New_Compensation_Request}" action="{!createChildCaseFromInteractionLog}" rerender="scripts, errorMessagePanel" oncomplete="openChildRequest();" status="new-cr-status" >
+                                                <apex:param name="crparam" assignTo="{!requestType}" value="CR" />
+                                                <apex:image value="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/money.png')}"/>
+                                                <apex:outputText value="{!$Label.MSD_CORE_New_Compensation_Request}" styleClass="iconLabel"/>
+                                            </apex:commandLink>
+                                        </apex:facet>
+                                        <apex:facet name="start">
+                                            <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="18px" width="18px"/>
+                                        </apex:facet>
+                                    </apex:actionStatus>
+                                </apex:outputPanel>
+                            </div>
+                        </div>
+
+
+
+                        <!--Create Fulfillment button-->
+                        <!--apex:outputPanel layout="inline" styleClass="icon">
+                            <apex:actionStatus id="new-fulfillment-status">
+                                <apex:facet name="stop">
+                                    <apex:commandLink title="{!$Label.New_Fulfillment_Button}" rerender="scripts, errorMessagePanel" action="{!createFulfillment}" oncomplete="openFulfillment();" status="new-fulfillment-status">
+                                        <apex:image value="{!URLFOR($Resource.GlobalAssetsMVN, 'Icons/fulfillment.png')}"/>
+                                        <apex:outputText value="{!$Label.New_Fulfillment_Button}" styleClass="iconLabel"/>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:facet name="start">
+                                    <img src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="18px" width="18px"/>
+                                </apex:facet>
+                            </apex:actionStatus>
+                        </apex:outputPanel-->
+                    </apex:outputPanel>
+                </apex:actionRegion>
+            </div>
+            <hr/>
+            <apex:outputPanel layout="none" rendered="{!!caseIsLocked && notesFieldEnabled}">
+            <div id="titleContainer">
+                <h1>{!$Label.Interaction_Log_Header_Label}</h1>
+            </div>
+
+            </apex:outputPanel>
+            <div id="textArea">
+                <apex:outputPanel rendered="{!notesFieldEnabled}">
+                    <apex:inputTextArea value="{!interactionNotes}" style="width:98%; height:355px; {!IF(disableInteractionLog, 'background-color: whitesmoke; color: gray;', '')}" html-maxlength="32768" disabled="{!disableInteractionLog || !notesFieldEnabled}"   onkeyup="checkLimit(this,this.form.countdown,{!maxNoteSize});" onchange="checkLimit(this,this.form.countdown,{!maxNoteSize});"  >
+                        <apex:actionSupport event="onmouseout" action="{!showStatusMessage}" rerender="lastSavedContainer">
+                            <apex:actionSupport event="oncomplete" action="{!saveInteractionNotes}" rerender="lastSavedContainer, lastSave, errorMessagePanel" oncomplete="markSaved()"/>
+                        </apex:actionSupport>
+                        <apex:actionSupport event="onblur" action="{!showStatusMessage}" rerender="lastSavedContainer">
+                            <apex:actionSupport event="oncomplete" action="{!saveInteractionNotes}" rerender="lastSavedContainer, lastSave, errorMessagePanel" oncomplete="markSaved()"/>
+                        </apex:actionSupport>
+                        <apex:actionSupport event="onkeydown" action="{!setToTrue}" rerender="lastSavedContainer" oncomplete="markChanged()"/>
+                    </apex:inputTextArea>
+                    
+                    <font size="1">(Maximum characters: {!maxNoteSize})<br/>
+                     You have <input readonly="true" type="text" name="countdown" size="3" value="{!noteCharactersRemaining}"/> characters left.
+                    </font>
+
+                </apex:outputPanel>
+            </div>
+            <apex:outputPanel layout="block" id="lastSavedContainer" style="text-align: center;">
+                <apex:outputText id="saveStatusMessage" value="{!IF(isSaving, $Label.Interaction_Log_Save_Status, IF(hasSaveError || needsToBeSaved, $Label.Interaction_Log_Unsaved_Status, IF(attemptedOneSave, $Label.Interaction_Log_Save_Successful, '')))}" styleclass="{!IF(hasSaveError && !isSaving, 'editListError', IF(needsToBeSaved || isSaving, 'inlineEditModified', ''))}" style="font-weight:bold;" />
+                <apex:outputText value="{!$Label.Interaction_Log_Closed_Cases_Locked}" styleclass="errorStyle" rendered="{!IF(caseIsLocked, 'true', 'false')}"/>
+                <apex:outputPanel rendered="{!!hasSaveError}" layout="block"><apex:outputText id="lastSave" value="{!lastSavedDateTime}" style="clear:both;"/></apex:outputPanel>
+            </apex:outputPanel>
+        </apex:form>
+    </div>
+</apex:page>

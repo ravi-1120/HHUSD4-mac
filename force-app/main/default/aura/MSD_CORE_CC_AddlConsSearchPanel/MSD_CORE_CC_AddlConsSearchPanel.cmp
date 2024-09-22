@@ -1,0 +1,58 @@
+<aura:component extends="c:ComponentUtils" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:handler name="MSD_CORE_CC_CloseEvent" event="c:MSD_CORE_CC_CloseEvent"
+    action="{!c.closeModal}"/>
+    <div class="flexipageComponent">
+        <div class="container forceRelatedListSingleContainer">
+            <button style="top: 10px;
+    z-index: 1;
+    float: right;
+    width: 115px;
+    margin-right: 5px;
+    padding: 0;" class="slds-button slds-button_brand" onclick="{!c.searchCaseContacts}">
+                                    <span class="slds-text-heading--small fontadjust slds-truncate slds-m-right--xx-small" >Search</span>
+                                </button>
+        </div>
+    </div>
+    <div aura:id="addlCaseConsSection" class="slds-hide slds-scrollable" style="position:relative;">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container"> 
+                <!-- Header Start-->
+                <header class="slds-modal__header">
+                    <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Additional Case Contact Search</h2>
+                    
+                    <div style="right: 10px; position: absolute; top: 13px;">
+                        <lightning:button label="X" name="Close Search" onclick="{!c.closeModal}"/>
+                    </div>
+                </header>
+                <!-- Header End-->
+                
+                <!-- Body Content Start-->
+                <div class="slds-modal__content modal-overflow" id="modal-content-id-1">
+                    
+                    <div class="slds-col slds-grid slds-grid_vertical">
+                        <div class="slds-theme_shade">
+                            <div class="slds-form-element">
+                                
+                                <div class="slds-form-element__control">
+                                    <div aura:id="addlCaseContactsSearchModal"> </div>
+                                   <!-- <c:MSD_CORE_AdditionalCaseContactsSearch fieldList="{!v.fieldList}" recordId="{!v.recordId}"/> -->
+                                </div>
+                            </div>
+                            <!-- Grid Displaying Products - Ends -->
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer" style="padding:5px;">
+                    <div class="slds-align_absolute-center">
+                        <lightning:button label="Done" variant="brand" name="done" onclick="{!c.closeModal}"/>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

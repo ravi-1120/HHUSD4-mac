@@ -1,0 +1,116 @@
+.dummy{
+	color : black;
+}
+.slds-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.category-icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+    margin-bottom: 8px;
+    margin-left: 92px;
+}
+.custom-box.selected {
+    border: 2px solid #00857C; /* Highlight border color */
+    background-color: #e0f2ff; /* Highlight background color */
+}
+
+.custom-box {
+    background-color: #FFF; /* Light background color */
+    border-radius: 5px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    text-align: center; /* Center the text */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #333; /* Text color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 100%;
+}
+.custom-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.custom-save-button {
+    background-color: #00857C; 
+    color: #ffffff;
+    font-size: 18px;
+    padding: 10px 40px; 
+    border-radius: 5px; 
+    border: none; 
+    width: 54%;
+    text-align: center;
+    cursor: pointer; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-save-button:hover {
+    background-color: #00857C; 
+}
+
+.addmore{
+    border-radius: 4px;
+border: 1px solid #00857C;
+color: #00857C;
+background: var(--Foundation-Gray-Neutral-100, #FFF);
+}
+.closebutton{
+/* padding-right: 24px;
+margin-right: 54px;
+margin-left: auto;
+position: relative;
+bottom: .5rem; */
+right: -35.5rem;
+}
+.button{
+padding-left: 24px;
+}
+.tile-image{
+justify-content: center;
+align-items: center;
+gap: var(--Spacing-8, 8px);
+}
+@media (max-width: 767px) {
+    /* Mobile */
+    .slds-grid .slds-col {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+    .category-icon {
+        margin-left: 103px;
+    }
+}
+@media (min-width: 1024px) {
+    /* Styles for screens 1024px and above */
+    .custom-box {
+        padding: 25px; 
+        font-size: 18px;
+    }
+    .custom-save-button {
+        padding: 12px 50px; 
+    }
+    .category-icon {
+        margin-left: 68px;
+    }
+}
+@media (min-width: 1280px) {
+    /* Styles for screens 1280px and above */
+    .custom-box {
+        padding: 30px; 
+        font-size: 20px;
+    }
+    .custom-save-button {
+        padding: 15px 60px; 
+    }
+    .category-icon {
+        margin-left: 98px;
+        align-content: center;
+    }
+}

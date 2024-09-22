@@ -1,0 +1,84 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_AccountPlanApprovalHistory.page
+* @description - Provides Account Plan Approval History view.
+* @createdate - Mar 25th, 2014
+-->
+
+<!--
+    test URL to execute under brian.pfeil@merck.com.hhusd1 user context
+    /apex/MRK_AccountPlanApprovalHistory?id=a0CZ000000OOoe9
+-->
+
+<apex:page standardController="Account_Plan_vod__c"
+            lightningStylesheets="true"
+                     extensions="MRK_ApprovalHistoryController"
+                     sidebar="true"
+           showHeader="true">
+
+        <apex:pageMessages />
+
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockButtons location="top"
+                rendered="{!showButtons}">
+                <apex:commandButton value="Submit for Approval"
+                    rendered="{!showSubmitForApprovalButton}"
+                    onclick="{!submitForApprovalOnClickJS}">
+                </apex:commandButton>
+                <apex:commandButton value="Recall Approval Request"
+                    rendered="{!showRecallApprovalRequestButton}"
+                    onclick="{!recallApprovalRequestOnClickJS}">
+                </apex:commandButton>
+                <apex:commandButton value="Approve or Reject"
+                    rendered="{!showApproveRejectButton}"
+                    onclick="{!approveRejectOnClickJS}">
+                </apex:commandButton>                           
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockTable value="{!approvalHistoryRecordList}" var="rec" rendered="{!hasApprovalHistoryRecords}">
+
+                    <apex:column >
+                      <apex:facet name="header">Date</apex:facet>
+                        <apex:outputText value="{!rec['Date']}"/>
+                    </apex:column>
+
+                    <apex:column >
+                      <apex:facet name="header">Status</apex:facet>
+                        <apex:outputText value="{!rec['Status']}"/>
+                    </apex:column>
+
+                    <apex:column >
+                      <apex:facet name="header">Assigned To</apex:facet>
+                        <apex:outputText value="{!rec['Assigned To']}"/>
+                    </apex:column>
+
+                    <apex:column >
+                      <apex:facet name="header">Actual Approver</apex:facet>
+                        <apex:outputText value="{!rec['Actual Approver']}"/>
+                    </apex:column>
+
+                    <apex:column >
+                      <apex:facet name="header">Comments</apex:facet>
+                        <apex:outputText value="{!rec['Comments']}"/>
+                    </apex:column>
+
+                    <apex:column >
+                      <apex:facet name="header">Overall Status</apex:facet>
+                        <apex:outputText value="{!rec['Overall Status']}"/>
+                    </apex:column>
+
+
+                </apex:pageBlockTable>
+
+                <apex:pageBlockTable value="{!noRecordsToDisplay}" var="msg" rendered="{!NOT(hasApprovalHistoryRecords)}">
+                    <apex:column >
+                        <apex:facet name="header">No records to display</apex:facet>
+                    </apex:column>              
+                </apex:pageBlockTable>
+
+        </apex:pageBlock>
+    
+    </apex:form>
+
+</apex:page>

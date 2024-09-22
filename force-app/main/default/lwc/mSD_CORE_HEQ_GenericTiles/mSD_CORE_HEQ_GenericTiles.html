@@ -1,0 +1,301 @@
+<template>
+    <template if:false={getListView}>
+        <div key={item.id} class="getItemClass" data-id={item.id}>
+            <div class={item.headerClass}>
+                <div class="headingCls">{item.heading}</div>
+                <div if:false={iscloseicon} class="dropdown">
+                    <div onclick={handleShowMenu} class="threetileDotsCls" data-id={item.id} data-grid-type={gridType}
+                        data-category={category}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M3.57692 7.69238C4.84615 7.69238 5.88461 8.73084 5.88461 10.0001C5.88461 11.2693 4.84615 12.3078 3.57692 12.3078C2.30769 12.3078 1.26923 11.2693 1.26923 10.0001C1.26923 8.73084 2.30769 7.69238 3.57692 7.69238ZM10.5 7.69238C11.7692 7.69238 12.8077 8.73084 12.8077 10.0001C12.8077 11.2693 11.7692 12.3078 10.5 12.3078C9.23076 12.3078 8.1923 11.2693 8.1923 10.0001C8.1923 8.73084 9.23076 7.69238 10.5 7.69238ZM17.4231 7.69238C18.6923 7.69238 19.7308 8.73084 19.7308 10.0001C19.7308 11.2693 18.6923 12.3078 17.4231 12.3078C16.1538 12.3078 15.1154 11.2693 15.1154 10.0001C15.1154 8.73084 16.1538 7.69238 17.4231 7.69238Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div if:true={item.showMenu} class="menu-content" onclick={handleMenuClick}>
+                        <template for:each={menuOptions} for:item="option">
+                            <div key={option.action}>
+                                <template if:true={option.downloadActive}>
+                                    <a href={item.downloadLink} target="_self" download="Download"
+                                        style="text-decoration:none;">
+                                        <div class="menu-item" data-action={option.action} data-id={item.id}
+                                            data-contentdocumentid={item.contentDocumentId} data-category={category}
+                                            style="color:#333;">
+                                            {option.label}
+                                        </div>
+                                    </a>
+                                </template>
+                                <template if:true={option.isModelBox}>
+                                    <div class="menu-item" data-action={option.action} data-id={item.id}
+                                        onclick={modelClick} data-contentdocumentid={item.contentDocumentId}
+                                        data-category={category} data-resourcename={item.boldText}>
+                                        {option.label}
+                                    </div>
+                                </template>
+                                <template if:false={option.downloadActive}>
+                                    <template if:false={option.isModelBox}>
+                                        <div class="menu-item" data-action={option.action} data-id={item.id}
+                                            data-contentdocumentid={item.contentDocumentId} data-category={category}>
+                                            {option.label}
+                                        </div>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div if:true={iscloseicon} class="closeiconcls" onclick={closeResource}>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.46732 17.1673L0.833984 15.534L7.36732 9.00065L0.833984 2.46732L2.46732 0.833984L9.00065 7.36732L15.534 0.833984L17.1673 2.46732L10.634 9.00065L17.1673 15.534L15.534 17.1673L9.00065 10.634L2.46732 17.1673Z" fill="white"/>
+                    </svg>                        
+                </div>
+            </div>
+
+            <div class="imageCls" data-id={item.id} onclick={handleCheck}>
+                <template if:true={item.isNewItem}>
+                    <div class="newItemLayout">
+                        <div class="newItemText">{label.NewItem}</div>
+                    </div>
+                </template>
+                <div class="imageMidCls">
+                    <img src={item.imageUrl} alt={item.heading} class="grid-image">
+                </div>
+            </div>
+            <div class="gridBottomCls">
+                <div class="tooltip-container">
+                    <p class="bold-text truncate" onclick={handleViewDetails} data-id={item.id}>{item.boldText}</p>
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top-left slds-rise-from-ground tooltip"
+                        role="tooltip" id="help">
+                        <div class="slds-popover__body">{item.boldText}</div>
+                    </div>
+                </div>
+                <template if:false={item.notTruncated}>
+                    <div class="normalText truncate-text">{item.normalText}</div>
+                    <div class="normalText1 truncate-text">{item.normalText1}</div>
+                </template>
+                <template if:true={item.notTruncated}>
+                    <div class="normalText">{item.normalText}</div>
+                    <div class="normalText1">{item.normalText1}</div>
+                </template>
+                <div class="codeCls">{item.code}</div>
+                <div if:true={item.expiryDays} class="expiry-text">Expires: {item.expiryDays}</div>
+            </div>
+        </div>
+
+        <!-- <template if:true={showuser}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeEmailModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <c-m-s-d_-c-o-r-e_-h-e-q_-customer main-header="Select customer" footerbtnname="Send"
+                            is-footerbutton=true onclosemodel={closeCustomerModel}
+                            onsharecustomerdata={getSelectedCustomer}></c-m-s-d_-c-o-r-e_-h-e-q_-customer>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template> -->
+
+            <template if:true={showuser}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container filter-modal">
+                <div class="slds-modal__content mainmodel-print">
+                    <div>
+                        <div class="filter-header">
+                            <div class="filter-header-txt">Select Customers</div>
+                            <div class="close-icon">
+                                <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                    class="closeiconclick" title="close" onclick={closeModal}>
+                                </lightning-icon>
+                            </div>
+                        </div>
+                        <div class="print-bd">
+                            <c-m-s-d_-c-o-r-e_-h-e-q_-customer main-header="" footerbtnname="Send" customertype="allcustomers"
+                                feature="edeliver" is-footerbutton=true onclosemodel={closeEmailModal} onsharecustomerdata={handleSendEmail}>
+                            </c-m-s-d_-c-o-r-e_-h-e-q_-customer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+    </template>
+    <template if:true={getListView}>
+        <div class="tileviewcontainer">
+            <div class="slds-grid slds-wrap tileviewshadow">
+                <div class="thumbcls">
+                    <div class={item.headerClasslist}>
+                        <div class="headinglistCls"><span>{item.heading}</span></div>
+                        <div class="listimage" data-id={item.id} onclick={handleCheck}>
+                            <template if:true={item.isNewItem}>
+                                <div class="newItemLayoutcls">
+                                    <div class="newItemText">{label.NewItem}</div>
+                                </div>
+                            </template>
+                            <div class="listimage2">
+                                <img src={item.imageUrl} alt={item.heading} class="listimagecls">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="listcontent">
+                    <div class="tooltip-container">
+                        <p class="boldlist-text truncate-text" onclick={handleViewDetails} data-id={item.id}>
+                            {item.boldText}</p>
+                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top-left slds-rise-from-ground tooltip"
+                            role="tooltip" id="help1">
+                            <div class="slds-popover__body">{item.boldText}</div>
+                        </div>
+                    </div>
+                    <div class="normallistText truncate-text">{item.normalText}</div>
+                    <div class="normallistText truncate-text">{item.normalText1}</div>
+                    <div class="codelistCls">{item.code}</div>
+                    <div class="expirylist-text">Expires: {item.expiryDays}</div>
+                </div>
+                <div class="listdropdown">
+                    <div class="">
+                        <div onclick={handleShowMenu} class="dropdownicon" data-id={item.id} data-grid-type={gridType}
+                            data-category={category}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+                                fill="none">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M3.07698 7.69238C4.34621 7.69238 5.38467 8.73084 5.38467 10.0001C5.38467 11.2693 4.34621 12.3078 3.07698 12.3078C1.80775 12.3078 0.769287 11.2693 0.769287 10.0001C0.769287 8.73084 1.80775 7.69238 3.07698 7.69238ZM10.0001 7.69238C11.2693 7.69238 12.3077 8.73084 12.3077 10.0001C12.3077 11.2693 11.2693 12.3078 10.0001 12.3078C8.73083 12.3078 7.69236 11.2693 7.69236 10.0001C7.69236 8.73084 8.73083 7.69238 10.0001 7.69238ZM16.9231 7.69238C18.1924 7.69238 19.2308 8.73084 19.2308 10.0001C19.2308 11.2693 18.1924 12.3078 16.9231 12.3078C15.6539 12.3078 14.6154 11.2693 14.6154 10.0001C14.6154 8.73084 15.6539 7.69238 16.9231 7.69238Z"
+                                    fill="#A4A4A4" />
+                            </svg>
+                        </div>
+                        <div if:true={item.showMenu} class="menu-content-list" onclick={handleMenuClick}>
+                            <template for:each={menuOptions} for:item="option">
+                                <div key={option.action}>
+                                    <template if:true={option.downloadActive}>
+                                        <a href={item.downloadLink} target="_self" download="Download"
+                                            style="text-decoration:none;">
+                                            <div class="menu-item" data-action={option.action} data-id={item.id}
+                                                data-contentdocumentid={item.contentDocumentId} data-category={category}
+                                                style="color:#333;">
+                                                {option.label}
+                                            </div>
+                                        </a>
+                                    </template>
+                                    <template if:false={option.downloadActive}>
+                                        <div class="menu-item" data-action={option.action} data-id={item.id}
+                                            data-contentdocumentid={item.contentDocumentId} data-category={category}>
+                                            {option.label}
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Collection Model -->
+    <template if:true={isCollectionModel}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content mainmodelcls">
+                    <div>
+                        <div class="collectionheadercls">
+                            <div class="collectionheadertxt">{label.addtocollection}</div>
+                            <div>
+                                <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                    class="closeiconclick" title="close" onclick={handleCloseCollectionModel}>
+                                </lightning-icon>
+                            </div>
+                        </div>
+                        <div class="collectionbodytxt">
+                            {label.collectionbody}
+                        </div>
+                        <div>
+                            <lightning-combobox class="collectionlistcls" name="Collections" label="Collections"
+                                value="" placeholder="My Collection" options={collectionList}
+                                onchange={handleCollectionChange}></lightning-combobox>
+                        </div>
+                    </div>
+                    <div class="collectionfootercls">
+                        <div class="collectionbuttoncls">
+                            <button class="slds-button slds-button_brand" onclick={handlecollectionsubmit}>{label.submit}</button>
+                            <button class="slds-button slds-button_neutral"
+                                onclick={handleCloseCollectionModel}>{label.cancel}</button>
+                        </div>
+                        <div class="createnewtxt" data-id={item.id} onclick={handleCreateNew}>
+                            <span>{label.createNew}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <!-- Confirm Model -->
+    <template if:true={isConfirmModel}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content confirmModel">
+                    <div>
+                        <div class="cnfcollectionheadercls">
+                            <div class="cnfcollectionheadertxt">Added to {selectedCollectionName}</div>
+                            <div>
+                                <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                    class="closeiconclick" title="close" onclick={handleCloseConfirmModel}>
+                                </lightning-icon>
+                            </div>
+                        </div>
+                        <div class="cnfcollectionbodytxt">
+                            with the {selectedResourceName}
+                        </div>
+                    </div>
+                    <div class="collectionfootercls">
+                        <div class="collectionbuttoncls">
+                            <button class="slds-button slds-button_brand" onclick={handleCloseConfirmModel}>Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+    <!-- Customer List -->
+    <template if:true={showPrintUser}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container filter-modal">
+                <div class="slds-modal__content mainmodel-print">
+                    <div>
+                        <div class="filter-header">
+                            <div class="filter-header-txt">Select customer</div>
+                            <div class="close-icon">
+                                <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                    class="closeiconclick" title="close" onclick={closeModal}>
+                                </lightning-icon>
+                            </div>
+                        </div>
+                        <div class="print-bd">
+                            <c-m-s-d_-c-o-r-e_-h-e-q_-customer main-header="" footerbtnname="Add to cart" customertype="registered"
+                                feature="print" is-footerbutton=true onclosemodel={closeModal} onsharecustomerdata={getSelectedCustomer}>
+                            </c-m-s-d_-c-o-r-e_-h-e-q_-customer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <!-- Customer List End-->
+
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
+</template>

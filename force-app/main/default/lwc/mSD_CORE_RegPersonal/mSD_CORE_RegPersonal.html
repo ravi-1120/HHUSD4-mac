@@ -1,0 +1,170 @@
+<template>
+    <div class="toastcls">
+        <c-custom-toast auto-close-time="8000"></c-custom-toast>
+    </div>
+    <div class="maindivcls">
+        <div class="progresssection">
+            <c-m-s-d_-c-o-r-e_-registration-progress page-name={pageName} mobilescreen={mobilescreen}>
+            </c-m-s-d_-c-o-r-e_-registration-progress>
+        </div>
+        <div class="personalmaindiv">
+            <div class="pass_headersec">
+                <h2>Complete your professional information.</h2>
+                <span class="subheadersec1">Please complete the following information attached to your account.</span>
+            </div>
+            <div class="body_personalcls">
+                <div>
+                    <lightning-combobox name="Salutation" label="Salutation (optional)" class="inputboxcls"
+                        value={salutation} placeholder="Salutation (optional)" options={salutatioption}
+                        if:true={salutatioption} data-name="salutation" onchange={handlechange}></lightning-combobox>
+                    <lightning-input type="text" label="First name" placeholder="First name" class="inputcsscls"
+                        value={firstname} data-name="firstname" message-when-value-missing="Please specify."
+                        onchange={handlechange} onclick={handlegaevent} required></lightning-input>
+                    <lightning-input type="text" label="Last Name" placeholder="Last Name" class="inputcsscls"
+                        value={lastname} data-name="lastname" message-when-value-missing="Please specify."
+                        onchange={handlechange} onclick={handlegaevent} required></lightning-input>
+                    <lightning-combobox name="Suffix" label="Suffix (optional)" placeholder="Suffix (optional)"
+                        class="inputboxcls" value={suffix} options={suffixoption} data-name="suffix"
+                        onchange={handlechange}>
+                    </lightning-combobox>
+                    <lightning-combobox name="Disignation" label="Designation or Title" class="inputboxcls"
+                        value={designation} placeholder="Designation or Title" options={designationoption}
+                        data-name="designation" onchange={handlechange}
+                        message-when-value-missing="Please select an option." required>
+                    </lightning-combobox>
+                    <lightning-combobox name="Speciality" label="Specialty" placeholder="Specialty"
+                        data-name="speciality" class="inputboxcls" value={specialty} options={specialityoption}
+                        onchange={handlechange} message-when-value-missing="Please select an option." required>
+                    </lightning-combobox>
+                </div>
+                <div class="licensesection">
+                    <div class="licenseheadingcls">
+                        <h2>License information (optional)</h2>
+                        <p>This information can also be added later under settings.</p>
+                    </div>
+                    <template if:true={licenselist} for:each={licenselist} for:item="lic">
+                        <div class="licensebodysection" key={lic}>
+                            <div>
+                                <div class="licensesubheadingcls">
+                                    <h2>License {lic.value}</h2>
+                                    <img src={closeimg} data-id={lic.id} onclick={removelicensesection} />
+                                </div>
+                                <div if:false={mobilescreen}>
+                                    <div class="licenseinputcls">
+                                        <lightning-input type="text" label="Name on the license"
+                                            class="inputliccsscls marginrightcls" placeholder="Name on the license"
+                                            onchange={handlelicchange} data-id={lic.value} data-key={lic.nameid}
+                                            value={lic.name} data-name='name'
+                                            message-when-value-missing="Please specify." data-lbname='licensename'
+                                            onclick={handlegaevent}>
+                                        </lightning-input>
+                                        <lightning-input type="text" label="License number (optional)"
+                                            class="inputliccsscls" placeholder="License number (optional)"
+                                            value={lic.number} data-name='number' data-id={lic.value} onchange={handlelicchange} data-lbname='licenseno'
+                                            onclick={handlegaevent}>
+                                        </lightning-input>
+                                    </div>
+                                    <div class="licenseinputcls licenseinputcls2">
+                   
+                                            <lightning-combobox name="Licensing state(s)" label="Licensing state(s)"
+                                                class="inputlicboxcls marginrightcls" placeholder="Licensing state(s)"
+                                                options={licensestateoption} value={lic.state}
+                                                data-lbname="Licensing state(s)" data-name='state' data-key={lic.stateid}
+                                                data-id={lic.value}
+                                                message-when-value-missing="Please select an option."
+                                                onchange={handlelicchange}>
+                                                 
+                                            </lightning-combobox>
+                                         
+                                        
+                                            <lightning-combobox name="Type of license" label="Type of license"
+                                                class="inputlicboxcls" placeholder="Type of license"
+                                                options={licensetypeoption} value={lic.type}
+                                                data-lbname="Type of license" data-name='type' data-id={lic.value} data-key={lic.typeid}
+                                                message-when-value-missing="Please select an option."
+                                                onchange={handlelicchange}>
+                                            </lightning-combobox>
+                                        
+                                    </div>
+                                </div>
+                                <div if:true={mobilescreen}>
+                                    <div class="licenseinputcls licenseinputcls2" style="width:100%;">
+                                        <lightning-input type="text" label="Name on the license" class="inputliccsscls"
+                                            placeholder="Name on the license" onchange={handlechange}
+                                            data-id={lic.value} data-key={lic.nameid} data-name='name'
+                                            value={lic.name} message-when-value-missing="Please specify."
+                                            data-lbname='licensename' onclick={handlegaevent}>
+                                        </lightning-input>
+                                    </div>
+                                    <div class="licenseinputcls licenseinputcls2" style="width:100%;">
+                                        <lightning-input type="text" label="License number (optional)"
+                                            class="inputliccsscls" placeholder="License number (optional)"
+                                            value={lic.number} data-name='number' data-id={lic.value} onchange={handlechange} data-lbname='licenseno'
+                                            onclick={handlegaevent}>
+                                        </lightning-input>
+                                    </div>
+                                    <div class="licenseinputcls licenseinputcls2" style="width:100%;">
+                                        <lightning-combobox name="Licensing state(s)" label="Licensing state(s)"
+                                            class="inputlicboxcls " placeholder="Licensing state(s)"
+                                            options={licensestateoption} 
+                                            data-lbname="Licensing state(s)" data-name='state' data-key={lic.stateid}
+                                            data-id={lic.value}
+                                            message-when-value-missing="Please select an option."
+                                            onchange={handlechange}></lightning-combobox>
+                                    </div>
+                                    <div class="licenseinputcls licenseinputcls2" style="width:100%;">
+                                        <lightning-combobox name="Type of license" label="Type of license"
+                                            class="inputlicboxcls" placeholder="Type of license"
+                                            options={licensetypeoption}  value={lic.type}
+                                            data-lbname="Type of license" data-name='type' data-id={lic.value} data-key={lic.typeid}
+                                            message-when-value-missing="Please select an option."
+                                            onchange={handlechange}></lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <div if:false={mobilescreen}>
+                        <div class="addlicensebtn">
+                            <button class="licensebtncls" onclick={addlicensesection}>
+                                <img src={plusimg}>
+                                <span>Add license</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div if:true={mobilescreen}>
+                        <div class="addlicensebtn">
+                            <button class="licensebtncls" onclick={addlicensesection}>
+                                <img src={plusimg}>
+                                <span>Add license</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="privacysectiontext">
+                    <p>We respect your privacy and will never share your information with a third party. For more information about our practices, please read <a href='https://www.msdprivacy.com/us/en/' target="_blank">Merck's Privacy Commitment to Health Care Professionals.</a></span></p>
+                </div>
+
+                <div if:false={mobilescreen}>
+                    <div class="footerbtncls">
+                        <button class="backbtncls" onclick={handlebackclk}><span
+                                class="btn-content">Back</span></button>
+                        <button class="finishbtncls" onclick={handlenextclk}><span
+                                class="btn-content btn-contentfill">Finish registration</span></button>
+                    </div>
+                </div>
+                <div if:true={mobilescreen}>
+                    <div class="footerbtncls">
+                        <button class="backbtncls" onclick={handlebackclk}><span
+                                class="btn-content">Back</span></button>
+                    </div>
+                    <div class="footerbtncls" style="padding-top:8px;">
+                        <button class="finishbtncls" onclick={handlenextclk}><span
+                                class="btn-content btn-contentfill">Finish registration</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

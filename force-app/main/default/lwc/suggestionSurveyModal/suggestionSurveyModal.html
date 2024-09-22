@@ -1,0 +1,19 @@
+<template>
+    <lightning-modal-header label={title}></lightning-modal-header>
+    <lightning-modal-body>
+        <div class="slds-m-around_xx-large">
+            <template for:each={surveyQuestions} for:item="question">
+                <c-survey-question-item key={question.id} question={question} onupdate={handleQuestionUpdate}>
+                </c-survey-question-item>
+            </template>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-layout horizontal-align="center">
+            <lightning-button onclick={handleModalClose} label={cancelLabel}  
+                class="slds-m-horizontal_x-small"></lightning-button>
+            <lightning-button onclick={handleModalSubmitted} label={submitLabel} variant="brand"
+                class="slds-m-horizontal_x-small"></lightning-button>
+        </lightning-layout>
+    </lightning-modal-footer>
+</template>

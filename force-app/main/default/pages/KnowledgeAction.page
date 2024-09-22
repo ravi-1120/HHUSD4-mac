@@ -1,0 +1,5 @@
+<apex:page standardController="Knowledge__kav">
+    <script>
+        window.location.href = '/lightning/cmp/c__MSD_CORE_CC_KnowledgeNewOverride';
+    </script>
+</apex:page>

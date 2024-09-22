@@ -1,0 +1,416 @@
+<template>
+
+	<lightning-layout multiple-rows class="menupage">
+		<lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6"
+			class="menucard">
+			<!-- for mobile use Added Div (main_menu)-->
+			<div class="main_menu" if:true={main_menu}>
+				<lightning-layout multiple-rows class="menucard">
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<div class="heading cursorcls b ">{label.header} <br/> {label.resources}</div>
+					</lightning-layout-item>
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<div class="portal cursorcls b">{label.portal}</div>
+					</lightning-layout-item>
+					<tempalte if:true={isGuestUser}>
+					<lightning-layout-item  size="12" small-device-size="12"
+						medium-device-size="12" large-device-size="12">
+						<a style="text-decoration: none;">
+							<div if:false={prevwelcpg} class="menulist" onclick={navigatetolm} data-id={navigatelogoutconfirm}
+								data-design-module="navigation" data-design-category="top_nav_primary"
+								data-design-label="Home">Home</div>
+								<!-- added this condition to nav to learnmore pg if it landed from welcome page -->
+							<div if:true={prevwelcpg} class="menulist" onclick={navigatetolm} data-id={navigatelogoutconfirm}
+								data-design-module="navigation" data-design-category="top_nav_primary"
+								data-design-label="Home">Home</div> 
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+					<lightning-layout-item  size="12" small-device-size="12"
+						medium-device-size="12" large-device-size="12">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_2-of-3">
+								<a style="text-decoration: none;">
+									<div class="menulistHidden menuhiddenone" data-id='pi'>Product Information</div>
+								</a>
+							</div>
+							<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+								<!-- <lightning-icon class="lock-icon" icon-name="utility:lock" size="xx-small" alternative-text="productInformation" title="productInformation"></lightning-icon> -->
+								<img alt="lock" src={lockicongrey} title="lock" />
+							</div>
+							</div>
+
+							<hr class="solid">
+					</lightning-layout-item>
+					</tempalte>
+					<tempalte if:false={isGuestUser}>
+					<lightning-layout-item if:false={isAccountLocked} size="12" small-device-size="12"
+						medium-device-size="12" large-device-size="12">
+						<a class="menulink" style="text-decoration: none;">
+							<div class="menulist" onclick={onclickhandler} data-id={navigatedashboard}
+								data-design-module="navigation" data-design-category="top_nav_primary"
+								data-design-label={label.dashboard}>{label.dashboard}</div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+					<lightning-layout-item if:true={isAccountLocked} size="12" small-device-size="12"
+						medium-device-size="12" large-device-size="12">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_2-of-3">
+								<a style="text-decoration: none;">
+									<div class="menulistlockedHidden menuhiddenone" data-id='pi'>{label.dashboard}</div>
+								</a>
+							</div>
+							<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+								<img alt="lock" src={lockicongrey} title="lock" />
+							</div>
+							</div>
+						<hr class="solid">
+					</lightning-layout-item>					
+					<lightning-layout-item if:false={isAccountLocked} size="12" small-device-size="12"
+						medium-device-size="12" large-device-size="12">				
+						<a style="text-decoration: none;">
+							<div class="menulist" onclick={onclickhandler} data-id={navigateproduct}
+								data-design-module="navigation" data-design-category="top_nav_primary"
+								data-design-label={label.product}>{label.product}</div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>	
+					<lightning-layout-item if:true={isAccountLocked} size="12" small-device-size="12"
+						medium-device-size="12" large-device-size="12">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_2-of-3">
+								<a style="text-decoration: none;">
+									<div class="menulistlockedHidden menuhiddenone" data-id='pi'>{label.product}</div>
+								</a>
+							</div>
+							<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+								<img alt="lock" src={lockicongrey} title="lock" />
+							</div>
+							</div>
+						<hr class="solid">
+					</lightning-layout-item>				
+					<lightning-layout-item size="12" small-device-size="12"
+						medium-device-size="12" large-device-size="12">
+						<a style="text-decoration: none;">
+							<div class="menulist" onclick={myAccountHanlder}>
+								{label.account}<img align="right" src={arrow} class="menuarrow"></div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+					</tempalte>
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<a style="text-decoration: none;">
+							<div class="menulist" onclick={onclickhandler} data-id={navigateothermercksites}
+								data-design-module="navigation" data-design-category="top_nav_primary"
+								data-design-label={label.other}>{label.other}</div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+					
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<!--<lightning-button class="contactbutton" style="color: #FFFFFF;" variant="base" label="Contact us" title="Contact us" onclick={handleClick}>
+						</lightning-button>-->
+						<button class="contactbutton" label="Contact us" title="Contact us" onclick={onclickhandler} data-id={navigateContacts}
+						data-design-module="navigation" data-design-category="top_nav_primary" data-design-label={label.contact}>{label.contact}</button>
+					</lightning-layout-item>
+					<!-- for mobile screen -->
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+					<div if:false={isAccountLocked}> 
+						<div class="othersite" onclick={Showpopup}>
+							<div class="othersite_p">View Medical &amp; Health Economic Evidence</div>
+							<span>
+								<img src={navarrow}>
+							</span>
+						</div>
+					</div>
+					<div if:true={isAccountLocked}> 
+						<div class="othersite">
+							<div class="othersite_p">View Medical &amp; Health Economic Evidence</div>
+							<span>
+								<img src={navarrow}>
+							</span>
+						</div>
+					</div>
+					</lightning-layout-item>
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<div class="loginCard logincardmobile" if:true={isGuestUser}>
+							<img alt="lock" src={lockiconblack} title="lock" />
+							<div class="menulist cursorcls b mobmenu" data-id={navigatedashboard}>Log in to access and view MFR portal content.</div></a>
+							<button class="loginbutton mobbtn" label="Log in" title="Log in"  onclick={onclickhandler}  data-id={navigatelogin}
+							data-design-module="navigation" data-design-category="top_nav_primary" data-design-label="Login">Log in</button>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+			</div>
+		</lightning-layout-item>
+
+		<lightning-layout-item size="12" small-device-size="3" medium-device-size="6" large-device-size="6">
+			<!-- Added Extra Class for Mobile screen -->
+			<div class="loginCard logincarddesktop" if:true={isGuestUser}>
+				<!-- <lightning-icon icon-name="utility:lock" size="xx-small" alternative-text="productInformation" title="productInformation"></lightning-icon> -->
+				<img alt="lock" src={lockiconblack} title="lock" />
+				<div class="menulist cursorcls b" data-id={navigatedashboard}>Log in to access and view MFR portal content.</div></a>
+				<button class="loginbutton" label="Log in" title="Log in"  onclick={onclickhandler}  data-id={navigatelogin}
+						data-design-module="navigation" data-design-category="top_nav_primary" data-design-label="Login">Log in</button>
+			</div>
+			<template if:true={myAccountflag}>
+				<lightning-layout multiple-rows class="submenu">
+					<lightning-layout-item if:false={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<a style="text-decoration: none;">
+							<div class="menulist" onclick={onclickhandler} data-id={navigatelibrary}
+								data-design-module="navigation" data-design-category="top_nav_secondary"
+								data-design-label={label.library}>{label.library}</div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+					<lightning-layout-item if:true={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_2-of-3">
+								<a style="text-decoration: none;">
+									<div class="menulistlockedHidden menuhiddenone" data-id='pi'>{label.library}</div>
+								</a>
+							</div>
+							<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+								<img alt="lock" src={lockicongrey} title="lock" />
+							</div>
+							</div>
+						<hr class="solid">
+					</lightning-layout-item>
+					<lightning-layout-item if:false={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<a style="text-decoration: none;">
+							<div class="menulist" onclick={onclickhandler} data-id={navigatesetting}
+								data-design-module="navigation" data-design-category="top_nav_secondary"
+								data-design-label={label.settings}>{label.settings}</div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+					<lightning-layout-item if:true={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_2-of-3">
+								<a style="text-decoration: none;">
+									<div class="menulistlockedHidden menuhiddenone" data-id='pi'>{label.settings}</div>
+								</a>
+							</div>
+							<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+								<img alt="lock" src={lockicongrey} title="lock" />
+							</div>
+							</div>
+						<hr class="solid">
+					</lightning-layout-item>
+					<lightning-layout-item if:true={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<a style="text-decoration: none;">
+							<div class="menulist" onclick={onclickhandler} data-id={navigatesettingcomplete}
+								data-design-module="navigation" data-design-category="top_nav_secondary"
+								data-design-label={label.settings} style="width: 456px;">Complete your eligibility profile</div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+					<!--<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" >
+                            <div>Merk single sign-on (SSO) account</div>
+                            <hr class="solid" style="border-color: #D8D8D8;">
+                        </lightning-layout-item>-->
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<!-- <a style="text-decoration: none;"><div class="menulist" onclick={onclickhandler} data-id='logout-confirmation-page'>Log out</div></a> -->
+						<a style="text-decoration: none;">
+							<div class="menulist" onclick={onclickhandlerLogout} data-id='secur/logout.jsp?'
+								data-design-module="navigation" data-design-category="top_nav_secondary"
+								data-design-label="Log out">Log out</div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+				</lightning-layout>
+			</template>
+		</lightning-layout-item>
+
+		<!-- For Mobile Screen -->
+		<lightning-layout-item size="12" small-device-size="3" medium-device-size="6" large-device-size="6">
+			<div class="second_menu_mob">
+				<!-- <div class="loginCard" if:true={isGuestUser} >
+						<img alt="lock" src={lockiconblack} title="lock" />
+						<div class="menulist cursorcls b"  data-id={navigatedashboard} >Log in to view this content</div></a>
+						<button class="loginbutton" label="Log in" title="Log in"  onclick={onclickhandler}  data-id={navigatelogin}>Log in</button>
+				</div> -->
+				<template if:true={myAccountflag_mob}>
+					<lightning-layout multiple-rows class="submenu">
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<div class="heading cursorcls b ">{label.header} <br/> {label.resources}</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<div class="portal cursorcls b">{label.portal}</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<div class="heading cursorcls b return_account" onclick={myAccountHanlder}>
+								<img src={leftarrow}></img>My Account<br/></div>
+						</lightning-layout-item>
+						<lightning-layout-item if:false={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<a style="text-decoration: none;">
+								<div class="menulist" onclick={onclickhandler} data-id={navigatelibrary}
+									data-design-module="navigation" data-design-category="top_nav_secondary"
+									data-design-label={label.library}>{label.library}</div>
+							</a>
+							<hr class="solid">
+						</lightning-layout-item>
+					<lightning-layout-item if:true={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_2-of-3">
+								<a style="text-decoration: none;">
+									<div class="menulistlockedHidden menuhiddenone" data-id='pi'>{label.library}</div>
+								</a>
+							</div>
+							<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+								<img alt="lock" src={lockicongrey} title="lock" />
+							</div>
+							</div>
+						<hr class="solid">
+					</lightning-layout-item>						
+						<lightning-layout-item if:false={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<a style="text-decoration: none;">
+								<div class="menulist" onclick={onclickhandler} data-id={navigatesetting}
+									data-design-module="navigation" data-design-category="top_nav_secondary"
+									data-design-label={label.settings}>{label.settings}</div>
+							</a>
+							<hr class="solid">
+						</lightning-layout-item>
+					<lightning-layout-item if:true={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_2-of-3">
+								<a style="text-decoration: none;">
+									<div class="menulistlockedHidden menuhiddenone" data-id='pi'>{label.settings}</div>
+								</a>
+							</div>
+							<div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+								<img alt="lock" src={lockicongrey} title="lock" />
+							</div>
+							</div>
+						<hr class="solid">
+					</lightning-layout-item>
+					<lightning-layout-item if:true={isAccountLocked} size="12" small-device-size="12" medium-device-size="12"
+						large-device-size="12">
+						<a style="text-decoration: none;">
+							<div class="menulist" onclick={onclickhandler} data-id={navigatesettingcomplete}
+								data-design-module="navigation" data-design-category="top_nav_secondary"
+								data-design-label={label.settings} >Complete your eligibility profile</div>
+						</a>
+						<hr class="solid">
+					</lightning-layout-item>
+						<!--<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" >
+								<div>Merk single sign-on (SSO) account</div>
+								<hr class="solid" style="border-color: #D8D8D8;">
+							</lightning-layout-item>-->
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<!-- <a style="text-decoration: none;"><div class="menulist" onclick={onclickhandler} data-id='logout-confirmation-page'>Log out</div></a> -->
+							<a style="text-decoration: none;">
+								<div class="menulist" onclick={onclickhandlerLogout} data-id='secur/logout.jsp?'
+									data-design-module="navigation" data-design-category="top_nav_secondary"
+									data-design-label="Log out">Log out</div>
+							</a>
+							<hr class="solid">
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<!--<lightning-button class="contactbutton" style="color: #FFFFFF;" variant="base" label="Contact us" title="Contact us" onclick={handleClick}>
+							</lightning-button>-->
+							<button class="contactbutton" label="Contact us" title="Contact us" onclick={onclickhandler} data-id={navigateContacts}
+									data-design-module="navigation" data-design-category="top_nav_primary" data-design-label={label.contact}>{label.contact}</button>
+						</lightning-layout-item>
+
+						<!-- for mobile screen -->
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+						<div if:false={isAccountLocked}>
+							<div class="othersite" onclick={Showpopup}>
+								<div class="othersite_p">View Medical &amp; Health Economic Evidence</div>
+								<span>
+									<img src={navarrow}/>
+								</span>
+							</div>
+						 </div>
+						<div if:true={isAccountLocked}>
+							<div class="othersite">
+								<div class="othersite_p">View Medical &amp; Health Economic Evidence</div>
+								<span>
+									<img src={navarrow}/>
+								</span>
+							</div>
+						 </div>
+						</lightning-layout-item>
+					</lightning-layout>
+				</template>
+			</div>
+		</lightning-layout-item>
+
+		<div if:true={showResponse}>
+			<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+				class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<div class="slds-modal__header medpopup">
+						<div class="slds-grid slds-gutters meddiv">
+							<div class="slds-col slds-size_11-of-12 medtext">
+								<h1 id="modal-heading-01"
+									class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit medpoph1">
+									<span class="popuphead"><b> Medical
+                                            &amp; Health Economic Evidence </b></span>
+								</h1>
+							</div>
+							<div class="slds-col slds-size_1-of-12 closebtndiv">
+								<button class="slds-button slds-button_neutral closebuttn"
+                                    	onclick={closeResponse}><span><img src={cross}> </span></button>
+							</div>
+						</div>
+					</div>
+					<!--<div><p>You have submitted a request for an appointment to view:  Vericiguat Budget Impact Model</p></div>-->
+					<div class="slds-modal__content " id="modal-content-id-2">
+						<div class="slds-align_absolute-center">
+							<div class="box innermed">
+								<br />
+								<span class="para1">
+                                    <p class="innerp1">Search the database for
+                                        available information and submit requests to our Medical team.</p>
+                                    <p class="innerp2"><b>This will take you out of Merck Formulary Resources
+                                            portal.</b></p>
+                                </span>
+								</br>
+								<div class="slds-align_absolute-center">
+									<button class="slds-button slds-button_neutral continuebtn"
+                                        data-name="Continue to Merck Medical &amp; Health Economic Evidence" onclick={handleHealthEconomicEvidence}>Continue to
+                                        Merck Medical &amp; Health Economic Evidence <img src={HeaderArrow}></button>
+								</div>
+							</div>
+						</div>
+
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral returnbtn"
+                                onclick={closeResponse}>Return to Merck Formulary Resources portal</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</div>
+		<!-- End of Mobile Screen -->
+	</lightning-layout>
+	<!-- <br> -->
+	<p class="job">{label.jobcode}</p>
+</template>

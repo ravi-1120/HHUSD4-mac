@@ -1,0 +1,17 @@
+c-veeva-notes-and-attachments-list .slds-assistive-text {
+    display: none;
+}
+
+c-veeva-notes-and-attachments-list .slds-has-error {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+c-veeva-notes-and-attachments-list .slds-form-element__help {
+    margin-right: 1rem;
+}
+
+c-veeva-notes-and-attachments-list .slds-form-element__label {
+    display: none;
+}

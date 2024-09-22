@@ -1,0 +1,59 @@
+<template>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-size_1-of-4">
+            <div class="slds-m-around_medium">
+                <c-m-s-d_-c-o-r-e_-h-e-q_-search-category onselectedcategories={handleSelectedCategories}
+                    oncategoriesid={handlecategoriesid}></c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap slds-gutters slds-size_3-of-4">
+            <template if:true={sections}>
+                <template for:each={sections} for:item="section">
+                    <div key={section.title}
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-around_x-small">
+                        <div class="slds-m-around_medium">
+                            <div
+                                class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small">
+                                <div class="cardtitle slds-text-heading_small">{section.title}</div>
+                                <template if:true={isSearch}>
+                                    <lightning-pill label={searchKeyword} onremove={handleRemovePill}></lightning-pill>
+                                </template>
+                            </div>
+                            <div class="slds-grid slds-wrap slds-grid_align-spread" if:true={section.topics}>
+                                <template for:each={section.topics} for:item="item">
+                                    <div class={item.isSelectedTileColor} key={item.id}>
+                                        <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item}
+                                            grid-type="grid2" menu-options={menuOptions} category="Expiring Soon" contentdocumentid={item.contentdocumentid}
+                                            onshowmenu={handleShowMenu} onmenuclick={handleMenuClick} onselectdocument={handleDocumentSelection}>
+                                        </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                                    </div>
+                                </template>
+                            </div>
+                            <template if:false={section.topics}>
+                                <div
+                                    class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small">
+                                    <div class="cardtitle slds-text-heading_small">No resources found matching your
+                                        criteria. Please try with
+                                        different keywords</div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                </template>
+            </template>
+            <div if:true={isCollection}
+                class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small slds-m-around_medium">
+                <lightning-button label="OK" onclick={handleAdd}></lightning-button>
+                <lightning-button style="margin-left:20px;" label="Cancel" onclick={handleCancel} variant="neutral">
+                </lightning-button>
+            </div>
+            <template if:false={sections}>
+                <p>Loading...</p>
+            </template>
+        </div>
+        <div if:true={showSpinner}>
+            <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+        </div>
+    </div>
+</template>

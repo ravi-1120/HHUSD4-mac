@@ -1,0 +1,97 @@
+.logo {
+  position: relative;  
+}
+
+.cmBannerHeading {
+    font-family: 'Invention';
+position: absolute;
+text-align: center;
+color: white;
+font-weight: 700;
+font-size: 36px;
+line-height: 45px;
+top: 10%;
+left: 26%;
+}
+
+.cmBannerText {
+font-family: 'Invention';
+font-style: normal;
+position: absolute;
+color: #FFFFFF;
+font-weight: 400;
+font-size: 18px;
+line-height: 27px;
+top: 50%;
+left: 26%;
+flex: none;
+order: 1;
+flex-grow: 0;
+}
+
+.logo img {
+    min-height: 220px;
+}
+
+.logo h1 {
+    top: 25% !important;
+    left: 0 !important;
+    right: 0 !important;
+    text-align: center !important;
+}
+
+.logo h2 {
+    left: 0 !important;
+    right: 0 !important;
+    text-align: center !important;
+    top: 46% !important;
+}
+
+.logo .button {
+    top: 64% !important;
+    left: 45% !important;
+}
+
+.cursorcls {
+    cursor: default;
+}
+
+.minfo {
+    position: relative;
+    width: 1800px;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 767px) {
+    .cmBannerHeading {
+        font-family: 'Invention';
+        font-size: 24px;
+        line-height: 36px;
+        top: 15% !important;
+        left: 20px !important;
+        right: 20px !important;
+    }
+
+    .cmBannerText {
+        font-size: 16px;
+        line-height: 24px;
+        left: 20px !important;
+        right: 20px !important;
+        top: 50% !important;
+    }
+
+    .logo h1 {
+        top: 15% !important;
+        left: 20px !important;
+        right: 20px !important;
+    }
+
+    .logo h2 {
+        left: 20px !important;
+        right: 20px !important;
+        top: 50% !important;
+    }
+    .minfo {
+        border-radius: 8px;
+        object-fit: cover;
+    }
+}

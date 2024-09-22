@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION">
+    <aura:attribute name="refreshCustInfo" type="Boolean" default="false"/>
+</aura:event>

@@ -1,0 +1,83 @@
+<template>
+    <div if:true={isShow}>
+        <div class="pipelinesearch">
+            <div class="slds-form-element combobox">
+                <label class="slds-form-element__label pipelinelabel" for="text-input-id-47">Search:</label>
+                <div class="slds-form-element__control pipelineVal">
+                    <input type="text" id="text-input-id-47" placeholder={placeholderText} required=""
+                        class="slds-input searchval" onblur={handleSearch}  onkeypress={handleSearch} onpaste={handleSearch}/>
+                </div>
+            </div>
+            <div class="combo ">
+                <div class="combobox">
+                    <label class="slds-form-element__label pipelinelabel" for="text-input-id-47">Filter theraputic
+                        areas:</label>
+                    <lightning-combobox name="filter" label="Filter theraputic areas:" value=""
+                        placeholder={phaseCountVal} options={filteroptions} onchange={handleTherapeticAreaChange}
+                        class="cboxFilter rtpad" variant="label-hidden">
+                    </lightning-combobox>
+                </div>
+
+                <div class="combobox">
+                    <label class="slds-form-element__label pipelinelabel" for="text-input-id-47">Sort by:</label>
+                    <lightning-combobox name="sort" label="Sort By:" value="" placeholder="Alphabetical"
+                        onchange={handleSort} options={sortoptions} class="cbox"
+                        variant="label-hidden"></lightning-combobox>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase-header">{phaseTypeLabel}</div>
+
+        <div class="status_bar">
+            <div class="positioncls slds-p-around_small">
+                <template if:true={PhaseDetail}>
+                    <template for:each={PhaseDetail} for:item="phase" for:index="index">
+                        <div class={phase.cssStyle} key={phase.id}>
+                            <div class="greencircle"></div>
+                            <div class="box_cls slds-grid">
+                                <div class="descriptioncls">
+                                    <c-m-s-d_-c-o-r-e_-phase-detail
+                                        phase-detail={phase}></c-m-s-d_-c-o-r-e_-phase-detail>
+                                </div>
+                                <!-- Added reqmobdiv class for mobile screen -->
+                                <div class="slds-col_bump-left reqmobdiv">
+                                    <template if:true={phase.MSD_CORE_Tumor__r}>
+                                        <button class="cta" onclick={viewRequest} data-id={phase.Id}
+                                            data-type={phase.MSD_CORE_Therapeutic__c}
+                                            data-typevalue={phase.MSD_CORE_Tumor__r.Name} data-value={phase.Name}>
+                                            Request a presentation
+                                            <img src={arrow} />
+                                        </button>
+                                    </template>
+                                    <template if:false={phase.MSD_CORE_Tumor__r}>
+                                        <button class="cta" onclick={viewRequest} data-id={phase.Id}
+                                            data-type={phase.MSD_CORE_Therapeutic__c} data-value={phase.Name}>
+                                            Request a presentation
+                                            <img src={arrow} />
+                                        </button>
+                                    </template>
+                                </div>
+                                <!--Rusheel-1028-start-->
+                                <!--<div>
+                                    <button class="greenBtncls" data-id={phase.Id} onclick={viewStudy}>
+                                        View study details
+                                        <img src={whitearrow} />
+                                    </button>
+                                </div>-->
+                                <!--Rusheel-1028-end-->
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <div if:true={isLoading} class="exampleHolder">
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+    <div if:false={isShow} class="no-data">
+        No data found
+    </div>
+</template>

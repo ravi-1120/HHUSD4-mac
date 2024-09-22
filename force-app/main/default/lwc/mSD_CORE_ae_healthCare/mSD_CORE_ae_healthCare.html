@@ -1,0 +1,236 @@
+<template>
+  <c-custom-toast auto-close-time="2000"></c-custom-toast>
+  <div class="q-container">
+    <lightning-layout multiple-rows="true" vertical-align="end">
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="12"
+        medium-device-size="8" large-device-size="6">
+        <lightning-combobox name="licensedHCP" label={label.TYPEOFHEALTHCATEPROFESSIONAL} options={HCPOptions}
+          onchange={handleInput} value={inputValues.licensedHCP}>
+        </lightning-combobox>
+      </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout multiple-rows="true" vertical-align="end">
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.FIRSTNAME} name="hcpFirstName" maxlength="50" value={inputValues.hcpFirstName}
+          type="text" onchange={handleInput}></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.LASTNAME} maxlength="50" name="hcpLastName" value={inputValues.hcpLastName}
+          type="text" onchange={handleInput}></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.PHONE} type="text" name="hcpPhone" value={inputValues.hcpPhone} onblur={onBlur}
+          onchange={handleInput} maxlength="30" pattern="^[0-9+\-/\[\]]+$"
+          message-when-pattern-mismatch="Invalid Phone Number"
+          message-when-type-mismatch="Invalid Phone Number"></lightning-input>
+          </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.EMAIL} name="hcpEmail" type="email" value={inputValues.hcpEmail}
+          onchange={handleInput} maxlength="80" pattern=".+\.\w+(\.\w+)?$" onblur={onBlur}
+          message-when-pattern-mismatch="Invalid Email Address"
+          message-when-type-mismatch="Invalid Email Address"></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.Addressline1} maxlength="255" type="text" name="hcpAddress"
+          value={inputValues.hcpAddress} onchange={handleInput}></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.Addressline2} maxlength="255" type="text" name="hcpAddressLine2"
+          value={inputValues.hcpAddressLine2} onchange={handleInput}></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.city} maxlength="255" type="text" value={inputValues.hcpCity} name="hcpCity"
+          onchange={handleInput}></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.zipcode} maxlength="15" type="text" name="hcpZip" value={inputValues.hcpZip}
+          onchange={handleInput}></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <div class="slds-form-element">
+          <lightning-input name="hcpState" label={label.State} maxlength="100" onchange={handleInput} type="search"
+            onfocus={handleFocus} onblur={handleBlur} value={inputValues.hcpState} onkeydown={handleKeydown}
+            autocomplete="off" style="margin-bottom: 0px">
+          </lightning-input>
+          <div if:true={hasStateSearchResults}
+            style="max-height: 7rem;margin-top: 0 !important;margin-bottom: 0 !important;"
+            class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+              <template for:each={filteredResults.state} for:item="searchResult">
+                <!-- Use filtered results for credentials -->
+                <li key={searchResult.value} data-value={searchResult.value} role="presentation" aria-selected="false"
+                  data-field="state" tabindex="0" onmousedown={handleSelectOption} class="slds-listbox__item">
+                  <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                    role="option">
+                    <span class="slds-media__body">
+                      <span class="slds-truncate" title={searchResult.label}>
+                        {searchResult.label}
+                      </span>
+                    </span>
+                  </div>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </div>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-combobox name="hcpCountry" label={label.Country} dropdown-alignment="auto" role="option" tabindex="0"
+          options={CountryOptions} onchange={handleInput} value={inputValues.hcpCountry} style="max-height: calc(10.19rem);"></lightning-combobox>
+      </lightning-layout-item>
+      <template if:true={isHCPType}>
+        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+          medium-device-size="4" large-device-size="3">
+          <lightning-combobox name="HCPType" label={label.TYPEHEALTHCARE} dropdown-alignment="auto" role="option"
+            tabindex="0" options={hcpTypeOptions} onchange={handleInput} value={inputValues.HCPType}>
+          </lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+          medium-device-size="4" large-device-size="3">
+          <div class="slds-form-element">
+            <lightning-input name="hcpCredential" label="Credential" maxlength="100" onchange={handleInput}
+              type="search" onfocus={handleFocus} onblur={handleBlur} value={inputValues.hcpCredential}
+              onkeydown={handleKeydown} autocomplete="off" style="margin-bottom: 0px">
+            </lightning-input>
+            <div if:true={hasCredentialsSearchResults}
+              style="max-height: 7rem;margin-top: 0 !important;margin-bottom: 0 !important;"
+              class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+              <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                <template for:each={filteredResults.credentials} for:item="searchResult">
+                  <!-- Use filtered results for credentials -->
+                  <li key={searchResult.value} data-value={searchResult.value} role="presentation" aria-selected="false"
+                    data-field="credentials" tabindex="0" onmousedown={handleSelectOption} class="slds-listbox__item">
+                    <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                      role="option">
+                      <span class="slds-media__body">
+                        <span class="slds-truncate" title={searchResult.label}>
+                          {searchResult.label}
+                        </span>
+                      </span>
+                    </div>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </div>
+        </lightning-layout-item>
+      </template>
+      <template if:true={isHBPType}>
+        <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+          medium-device-size="4" large-device-size="3">
+          <lightning-combobox name="HBPType" label="Type of Role at the Practice or Facility" dropdown-alignment="auto"
+            role="option" tabindex="0" options={hbpTypeOptions} onchange={handleInput} value={inputValues.HBPType}>
+          </lightning-combobox>
+        </lightning-layout-item>
+      </template>
+      <lightning-layout-item flexibility="auto" padding="horizontal-large" size="12" small-device-size="6"
+        medium-device-size="4" large-device-size="3">
+        <lightning-input label={label.PracticeorFacilityName} maxlength="255" type="text" name="hcpFacilityName"
+          value={inputValues.hcpFacilityName} onchange={handleInput}></lightning-input>
+      </lightning-layout-item>
+    </lightning-layout>
+    <br>
+    <lightning-layout multiple-rows="true" class="slds-m-top_medium">
+      <lightning-layout-item class="slds-p-left_medium">
+        <lightning-radio-group label="Do you have any related documents for the Adverse Event to upload?"
+          name="uploadFile" class="rowFlex" options={uploadFileOptions} value={inputValues.uploadFile} type="radio"
+          onchange={handleInput}>
+        </lightning-radio-group>
+      </lightning-layout-item>
+      <lightning-layout-item class="slds-box" style="padding: 0.4rem;font-size: 12px">
+        <p class="fileCls">{label.ALLFILES}</p>
+        <p class="fileCls">{label.MAXFILES}</p>
+      </lightning-layout-item>
+    </lightning-layout>
+
+    <div lwc:if={showFileUpload} class="success slds-p-left_medium">
+      <lightning-input id="fileUploader" class="success" name="files" type="file" multiple
+        onchange={handleUploadFinished} variant="label-hidden"></lightning-input>
+
+      <div lwc:if={uploadedFileNames} class="success">
+        <!-- {label.FILESUPLOAD}{uploadedFileNames} -->
+
+        <template if:true={uploadedFilesList}>
+          <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover"
+            style="font-size: 12px;">
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="" scope="col" style="width: 55%;">
+                  <div class="slds-truncate tableTitle" title="File Name">{label.FILENAME}</div>
+                </th>
+                <th class="" scope="col" style="width: 15%;">
+                  <div class="slds-truncate tableTitle" title="File Size">{label.FILESIZE}</div>
+                </th>
+                <th class="" scope="col" style="width: 15%;">
+                  <div class="slds-truncate tableTitle" title="Download">{label.DOWNLOAD}</div>
+                </th>
+                <th class="" scope="col" style="width: 15%;">
+                  <div class="slds-truncate tableTitle" title="Delete">{label.DELETE}</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <template for:each={uploadedFilesList} for:item="file">
+                <tr key={file.id} class="slds-hint-parent">
+                  <td data-label="File Name">
+                    <div class="slds-truncate tableTitle">{file.filename}</div>
+                  </td>
+                  <td data-label="File Size">
+                    <div class="slds-truncate tableTitle">{file.size} MB</div>
+                  </td>
+                  <td data-label="Download">
+                    <button data-id={file.id} data-file-name={file.filename} onclick={handleFileDownload}
+                      title="Download" class="slds-button slds-button_icon">
+                      <lightning-icon icon-name="utility:download" size="x-small"
+                        title="Download this file"></lightning-icon>
+                    </button>
+                  </td>
+                  <td data-label="Delete">
+                    <button data-file-id={file.id} data-file-name={file.filename} onclick={handleFileDeletion}
+                      title="Delete this file" class="slds-button slds-button_icon">
+                      <lightning-icon icon-name="utility:delete" size="x-small"
+                        title="Delete this file"></lightning-icon>
+                    </button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </template>
+
+      </div>
+    </div>
+    <br>
+    <br>
+    <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+      <template if:true={showSkipButton}>
+        <lightning-layout-item alignment-bump="left">
+          <button class="slds-button slds-button_brand btnHover skipBtn" name="Skip"
+            onclick={handlePrevNext}>{label.SKIPTOREVIEW}</button>
+        </lightning-layout-item>
+      </template>
+      <template if:false={showSkipButton}>
+        <lightning-layout-item alignment-bump="left">
+          <button class="slds-button slds-button_outline-brand btnCancelHover nextPrevBtn slds-m-right_small"
+            onclick={handlePrevNext} name="Previous">{label.PREVIOUSBUTTON}</button>
+        </lightning-layout-item>
+        <lightning-layout-item>
+          <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext}
+            name="Next">{label.NEXTBUTTON}</button>
+        </lightning-layout-item>
+      </template>
+
+
+    </lightning-layout>
+  </div>
+</template>

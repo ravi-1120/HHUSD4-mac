@@ -1,0 +1,206 @@
+.copy .container {
+    width: auto !important;
+    max-width: none !important;
+    color: #333333;
+}
+
+.ftr .container {
+    width: auto !important;
+    max-width: none !important;
+}
+
+.ftr {
+    background-color: #fff !important;
+    padding: 24px !important; /*RT-SIT_Bug_07*/
+    border-top: 4px solid #00857C;
+}
+
+.ftr h3 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    margin: 0 0 30px;
+    color: #000;
+    line-height: 45px;
+}
+
+.mycontactcls {
+	font-size: 14px;
+	text-decoration: underline !important;
+	color: #00857C !important;
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+  }
+
+.ftrow {
+    display: flex;
+}
+
+.ftcolhalf {
+    padding-right: 48px;
+}
+
+.ftcolhalf ul {
+    display: block;
+    margin: 0 -15px;
+    padding: 0 0 3rem;
+}
+
+.ftcolhalf ul li {
+    padding: 0 15px;
+    display: inline-block;
+    border-right: 1px solid #333333;
+    line-height: 18px;
+}
+
+.ftcolhalf ul li a {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    text-decoration: underline !important;
+    color: #00857C !important;
+}
+
+.ftlogos {
+    display: flex;
+}
+
+.logol {
+    padding-right: 77px !important;
+}
+
+.logor img {
+    padding: 0 10px;
+}
+
+.ftcolhalf ul li:nth-child(5) {
+    border: none !important;
+}
+
+.cntbx h6 {
+    /* margin: 0 0 20px; */
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #000000;
+    margin-bottom: 16px;
+}
+
+.cntbx a {
+    color: #00857C !important;
+    display: inline-block;
+    /* margin: 1rem 0 0; */
+    font-size: 14px;
+}
+
+.copy {
+    border-top: 1px solid #D8D8D8;
+    padding: 40px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.logor img {
+    padding: 0 10px;
+}
+
+.ftlogos {
+    display: flex;
+}
+
+.logol img {
+    max-width: 162px;
+}
+
+.hr.solid {
+    border-top: 3px solid #bbb;
+}
+
+footer {
+    padding: 60px 0 0 !important;
+}
+
+.copy {
+    background: #fff;
+}
+
+.b {
+    text-decoration: none !important;
+    color: black;
+}
+
+.b:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle {
+    color: black;
+    text-decoration: none;
+}
+
+@media only screen and (max-width:767px) {
+
+    .ftr{
+		padding: 24px !important;
+	}
+	.ftrow{
+		display: block;
+	}
+	.ftlogos{
+		display: block;
+	}
+	.ftcolhalf{
+		padding-right: 0;
+		margin-top: 15px;
+		padding-bottom:32.1px;
+	}
+	.ftcolhalf ul{
+		display: grid;
+	}
+	.ftcolhalf ul a li{
+		border: none;
+		margin: 5px 0;
+	}
+	.ftcolhalf ul li{
+		border: none;
+        margin-top: 12px;
+	}
+	.br_tag{
+		display: block;
+	}
+	.logor img{
+		padding-right: 10px;
+		padding-left: 0;
+        display: inherit !important;
+        padding-top: 24px !important;
+	}
+	.logol{
+		margin-bottom: 30px;
+	}
+	.copy{
+		/* margin: 0 24px; */
+        padding-bottom: 50px;
+	}
+	.copy .container{
+		height: auto;
+	}
+    .hoverstyle{
+        margin-top: 12px;
+    }
+    
+}

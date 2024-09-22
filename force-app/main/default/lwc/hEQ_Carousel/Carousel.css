@@ -1,0 +1,51 @@
+.carousel .slds-button--icon-border, .slds-button--icon-border-filled, .slds-button_icon-border, .slds-button_icon-border-filled {
+
+    display: none;
+ }
+
+.carousel .slds-button.slds-button_icon {
+    color: var(--dxp-g-neutral-3);
+    display: none;
+}
+
+.carousel .slds-carousel__content {
+    display: none;
+}
+
+.carousel .slds-modal__content {
+    padding: 1rem;
+}
+
+.carousel .slds-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+.carousel .slds-col {
+    display: flex;
+    align-items: center;
+}
+
+.carousel .slds-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.carousel .slds-checkbox .slds-checkbox_faux {
+    margin-right: 0.5rem;
+}
+
+.carousel .slds-button_brand {
+    background-color: #fff;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.carousel .slds-button_brand:hover {
+    background-color: #fff;
+}

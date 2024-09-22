@@ -1,0 +1,29 @@
+<template>
+    <c-section-template ctrl={ctrl} open>
+        <div class="content slds-is-relative" slot="content">
+            <template if:true={ready}>
+                <div class="header slds-p-bottom_x-small">
+                    <div if:false={noParticipants} class="slds-text-body_regular">{numItems}</div>
+                    <lightning-button-menu if:false={ctrl.isView} class="add-participants" label={labels.addParticipants} menu-alignment="right"
+                        variant="border" onclick={checkExpenseLineActual}>
+                        <template for:each={groups} for:item="group">
+                            <lightning-menu-item key={group.id} label={group.label} data-id={group.id} onclick={addGroup}></lightning-menu-item>
+                        </template>
+                        <lightning-menu-item label={labels.selectParticipants} onclick={openSelectModal}></lightning-menu-item>
+                    </lightning-button-menu>
+                </div>
+                <div if:true={noParticipants} class="no-participants slds-align_absolute-center slds-text-heading_small">
+                    {labels.noParticipants}
+                </div>
+                <div if:false={noParticipants} class="table-container">
+                    <lightning-datatable class="table" columns={columns} data={participantsToDisplay} hide-checkbox-column key-field="Id"
+                        enable-infinite-loading={hasMoreData} onrowaction={handleRowAction} onloadmore={renderMoreParticipants}></lightning-datatable>
+                </div>
+            </template>
+            <div if:false={ready}>
+                <c-veeva-spinner></c-veeva-spinner>
+            </div>
+        </div>
+    </c-section-template>
+    <c-em-select-participants-modal if:true={showSelectModal} page-ctrl={ctrl.pageCtrl} onclose={handleSelectModalClose}></c-em-select-participants-modal>
+</template>

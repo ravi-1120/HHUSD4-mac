@@ -1,0 +1,50 @@
+<template>
+    <lightning-layout style="background-color:  #F8F5F2"> <div class="slds-p-around_xx-large">
+      
+      
+        <div class="form-center">
+      <form >
+        <div class="slds-p-top_x-small"></div>
+      <div class="slds-align_absolute-center" ><b>Log in to</b></div>
+      <div class="slds-align_absolute-center" ><div class="slds-text-heading_large"><b>Merck Formulary Resources Portal</b></div></div>
+      <div class="slds-align_absolute-center" >Merck has a new login experience. On your first time </div>
+      <div class="slds-align_absolute-center" >logging in,you will need to reset your password.</div>
+      <div class="slds-p-around_x-large">
+      <div class="slds-align_absolute-center" ><div class="slds-p-around_x-large">
+       
+        <label for="Email address">Email address  
+        </label>  
+         <div>
+         <input type="text"  name="Email address"  placeholder="Email address" size="40"></div>
+       
+        
+         <label for="Password">Password
+        </label>  
+        <div>
+        <input type="text"  name="Password" size="40" placeholder="Password">
+      
+      <div class="slds-p-bottom_medium"></div>
+  
+       <div class = "slds-align_absolute-center" ><div class ="slds-p-top_small"> 
+        <lightning-button variant="brand-outline" 
+        label="Continue" title="Primary action with lighter look"
+         onclick={handleClick} class="slds-m-left_x-small" >
+        </lightning-button></div>
+      </div></div>
+      <div class="slds-border_bottom"></div>
+      <div class="slds-p-top_x-small"></div>
+      <div class = "slds-align_absolute-center" >New to Merck?</div>
+         <div class = "slds-align_absolute-center" ><a href="https://msdlogin--hhusfocal.sandbox.lightning.force.com/lightning/n/Registration">
+          <lightning-button variant="brand-outline"  label="Register" title={label} onclick={navigateNext}></lightning-button></a></div>
+          
+      
+    </div>
+       
+    </div></div>
+      <div class="slds-p-bottom_medium"></div>
+      
+      <div class="slds-align_absolute-center" ><div class="slds-text-body_small">Please call our technical support service at <b>1-800-489-5119</b></div></div>
+        <div class="slds-align_absolute-center" ><div class="slds-text-body_small">Monday-Friday 8 AM- 7 PM ET</div></div>
+       
+    </form></div></div></div></div></lightning-layout></div></div></div>
+  </template>

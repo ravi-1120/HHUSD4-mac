@@ -1,0 +1,1148 @@
+:host {
+  --sds-c-card-color-background: #a1d6e4;
+}
+.pnon {
+  height: 100%;
+}
+.pnone{
+  display: flex;
+  /* gap: 4px; */
+}
+.btntopmarg{
+  margin-top: 3px;
+  
+}
+.runcardpad{
+  /* padding: 16px 24px !important; */
+}
+/* .cardpadin{
+  padding: 16px 24px !important;
+} */
+.cardpad{
+  padding: 16px !important;
+}
+.infopad{
+  padding-right: 51px;
+}
+.iconclass{
+  width: 24px;
+  height: 24px;
+}
+.nocardpad{
+  /* padding: 0px !important; */
+  padding-left: 9px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  padding-right: 10px !important;
+}
+.shdnopad{
+  /* padding: 0px !important; */
+}
+.slds-card__body{
+  /* margin: 0px !important; */
+}
+.aroundpad{
+  padding: 24px !important;
+}
+.cmsbtmpad{
+  padding-bottom: 8px !important;
+}
+.cmsarwcls{
+  margin-left: 16px;
+  height: 16px;
+  width: 16px;
+}
+ul:not(.browser-default) li {
+  list-style-type: disc;
+}
+
+.body {
+  height: 100%;
+  margin: 0;
+}
+
+.bg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Invention';
+  margin-bottom: 40px;
+  /* padding: 24px;  Rusheel*/
+}
+
+.container {
+  /* margin: 0 auto;    Rusheel*/
+  width: 1170px;
+  margin-left: 156px; /*Rusheel*/
+  margin-right: 156px;
+}
+
+.containermob{
+
+}
+.mfrsf{
+  /*margin-left: 10px;*//*1625:Ramana*/
+  margin-top: 24px;/*1625:Ramana*/
+}
+.nopad{
+  padding-left: 0px !important;
+}
+.descc {
+  padding-bottom: 0px;
+  height: 100%;
+  font-weight: 400;
+  line-height: 21px;
+  display: flex;
+  gap: 8px;
+  width: 80%;
+}
+
+.p_cls,
+.prod_name,
+.prod_desc {
+  font-family: 'Invention';
+  font-style: normal;
+  color: #fff;
+}
+
+.p_cls {
+  font-weight: 400;
+  padding: 0px;		  /* Modified by Sabari - MFRUS-95 */
+}
+
+.p_cls a {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;  /* Modified by Sabari - MFRUS-112 */
+}
+
+.prod_name {
+  font-size: 36px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.prod_desc {
+  font-size: 24px;
+  font-weight: 700;
+  width: 59%;
+}
+
+.live,
+.pdflabelcls {
+  font-family: 'Invention';
+  font-weight: 700;
+  font-size: 14px;
+  display: initial;
+  padding: 2px 8px 2px 8px;
+  /* margin-top: 10px; */
+  color: #000000;
+  border-radius: 4pt;
+  /* height: 22px; */
+  /* line-height: 18px; */
+  margin-bottom: 17;
+}
+
+.live {
+  background: #E5F4E5;
+  width: fit-content;
+
+}
+
+.pdflabelcls {
+  background: #FFE7E6;
+  width: fit-content;
+}
+
+.bt1 {
+  border: 2px solid #FFFFFF;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #fff !important;
+  text-decoration: none !important;
+  line-height: 34px;
+  margin-top: 8px;
+}
+
+.bt2 {
+  padding: 0px 0px; /* Modified by Sabari - MFRUS-112 */
+  margin-top:6px;   /* Modified by Sabari - MFRUS-95 */
+  border: 0px solid #FFFFFF;
+  font-size: 12px;
+  color: #fff !important;
+  text-decoration: none !important;
+  letter-spacing: 0.861539px;
+  line-height: 34px;
+}
+
+.box_cls {
+  border: none !important;
+  /* background: #F7F7F7; */
+  /* box-shadow: 0px 1px 5px rgb(0 0 0 / 20%) !important; */
+  
+  border-radius: 4px;
+  /* margin: 0 0 20px !important; */
+}
+
+.resourceHead {
+  color: black !important;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  font-family: 'Invention';
+  padding-left: 0px !important;
+}
+
+.resourceHead1 {
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 27px;
+  /*padding-bottom: 4px;*/
+  /* add below css */
+  /* padding: 4px; */
+}
+
+.buttongroup a {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 11px 16px;
+  background: #F7F7F7;
+  border-radius: 4px !important;
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000;
+}
+
+.bg_cls {
+  /* background: #F7F7F7; */
+  padding-left: 0px;
+  padding-right: 0px;
+  /* padding: 16px 24px !important; */
+  
+}
+
+.box_cls {
+  /* background: #F7F7F7; */
+  /* padding: 1rem; */
+  /* box-shadow: 0px 1px 5px rgb(0 0 0 / 20%) !important; */
+  box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.25);
+}
+
+.shadow_cls:hover {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  /* box-shadow: 0px 1px 5px rgb(0 0 0 / 20%) !important; */
+}
+
+.buttongroup button {
+  width: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 11px 16px !important;
+  font-family: 'Invention';
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  letter-spacing: 0.861539px !important;
+  background: #F7F7F7 !important;
+  height: 40px !important;
+}
+
+.sche_btn {
+  font-family: 'Invention' !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  color: #00857C !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  text-align: center !important;
+  border: 2px solid #00857C !important;
+  border-radius: 5px !important;
+  padding: 11px 16px !important;
+  letter-spacing: 0.861539px !important;
+  background: none !important;
+}
+
+.res_btn {
+  text-decoration: none !important;
+  color: #FFFFFF !important;
+  background: #00857C !important;
+  font-family: 'Invention' !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  text-align: center !important;
+  border: 2px solid #00857C !important;
+  border-radius: 5px !important;
+  padding: 11px 16px !important;
+  letter-spacing: 0.861539px !important;
+  /* add below css  */
+  height: 40px;
+}
+
+.slds-p-left_medium-unique {
+  /* add below css for icon */
+  height: 16px;
+  width: 14px;
+  margin-left: 17px;
+}
+
+.res_btn:hover,
+.req_acc:hover {
+  text-decoration: none !important;
+}
+
+.req_acc {
+  text-decoration: none !important;
+  /* background: #FFFFFF !important; */
+  color: #00857C !important;
+  font-family: 'Invention' !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  text-align: center !important;
+  border: 2px solid #00857C !important;
+  border-radius: 5px !important;
+  /* edit css below  */
+  padding: 11px 16px !important;
+  letter-spacing: 0.861539px !important;
+}
+
+.res_btn a,
+.req_acc a,
+a:link:not(.slds-button, .slds-dropdown__item>a),
+a:visited:not(.slds-button, .slds-dropdown__item>a) {
+  text-decoration: none !important;
+}
+
+.book_cls {
+  cursor: default;
+  display: flex;
+  justify-content: end;
+}
+
+.book_cls a {
+  text-decoration: none !important;
+}
+
+
+.fixed_cls {
+  position: fixed;
+  bottom: 0;
+  left: 14px;
+  right: 14px;
+  z-index: 9;
+  background: #fff;
+}
+
+.fil1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+
+  width: 1440px;
+  height: 8850.02px;
+
+  background: #FFFFFF;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+
+.fill2 {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: calc(50% - 18px/2 - 0px);
+  top: calc(50% - 18px/2 - 0px);
+
+  /* Primary/Green */
+
+  background: #00857C;
+}
+
+.filterlabel {
+  display: inline-block;
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.filterdesc {
+  font-family: 'Invention';
+  font-style: normal;
+  font-size: 14px;
+}
+
+.b {
+  text-decoration: none;
+  color: black;
+}
+
+.b:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.hoverstyle:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.hoverstyle {
+  color: black;
+  text-decoration: none;
+}
+
+/* ------ START-------E2ESE-911 ----- Partial Bookmark */
+.partialbookmark {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ------ END-------E2ESE-911 ----- Partial Bookmark */
+
+.cursorcls {
+  cursor: default;
+  padding-bottom: 4px;
+}
+
+.mfr_indicationtxt {
+  font-family: 'Invention' !important;
+  color: var(--gray-scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    /* font-family: Invention; */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.optcls {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 9px;
+}
+
+.lgtcls {
+  width: 100%;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.imgds {
+  height: 17px;
+}
+
+.box_cls .slds-card__header {
+  display: none;
+}
+
+.cursorcls p,
+.cursorcls div {
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #000000;
+  padding-bottom: 17px;
+  max-width: 850px;
+}
+
+.box_cls .slds-card {
+  padding: 16px 24px;/*Rusheel-1629*/
+  /* padding: 24px 24px 24px 24px; */
+  min-height: 139px !important;
+  /* background: #F7F7F7; */
+}
+.containercls{
+  margin-left: 156px;   /*Rusheel*/
+  margin-right: 156px;
+}
+.prodcls{
+  margin-left: 156px;   /*Rusheel*/
+  margin-right: 156px;
+}
+.btcls{
+  padding: 7px 16px;
+}
+.leftpad{
+  /*margin-left: 9px;*//*1625:Ramana*/
+  padding-bottom: 0px !important;
+}
+.card_margin { /*1625:Ramana*/
+  margin-bottom: 1rem;
+}
+.catpadn{
+  color: var(--gray-scale-black, #000);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention !important;
+    font-size: 24px !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    line-height: 36px !important;
+    /*padding-left: 10px !important;*//*1625: Ramana*/
+    padding-bottom: 24px !important;
+}
+.slds-icon_xx-small {
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 1;
+}
+.header_des{
+  padding-bottom: 0px;	 
+}
+.title_dev_cls {
+  width: 80%;
+}
+.bookmark_dev_cls {
+  width: 20%;
+}
+.cursorcls_desc_width {
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #000000;
+  padding-bottom: 17px;
+  max-width: none;
+}
+.pnon{
+  display: flex;
+}
+.postcls{
+flex-direction: column;
+gap: 8px;
+}
+
+/* ------------------------------------------------ MOBILE SCREEN CSS ------------------------------------------------ */
+@media all and (min-width:360px) and (max-width: 600px) {
+ 
+  .mob-warp {
+    display: block;
+  }
+
+  .filterlabel{
+    display: inline-block;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    width: 90%;
+  }
+
+  .containermob{
+    margin: 0;
+    width: 100%;
+    padding: 0px 16px;/*Rusheel*/
+  }
+
+  .prod_desc {
+    font-size: 18px;
+    line-height: 27px;
+    font-weight: 700;
+    width: 80%;
+    padding-left: 0;
+    padding-bottom:0;
+  }
+
+  .slds-wrap .bt2 {
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+    padding-top: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    
+  }
+
+  .slds-card__header {
+    visibility: hidden !important;
+    display: none !important;
+    width: 0px !important;
+    height: 0px !important;
+  }
+
+  .box_cls .bg_cls {
+    padding-left: 0px;
+    padding-right: 0px;
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .box_cls{
+    /* margin:16px 0 !important; */
+  }
+  /* .resourceHead1:before {
+    position: absolute;
+    content: '';
+    background-color: #FF0000;
+    border-radius: 50%;
+    opacity: 0.5;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+  } */
+
+  .slds-card__header {
+    padding: 0;
+    margin: 0;
+  }
+
+  .slds-card__body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .slds-gutters {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .book_main_cls {
+    padding-left: 0;
+    padding-right: 0;
+    display: contents;
+  }
+  .bookmark_cls {
+    position: absolute;
+    top: 16px;
+    right: 0px;
+    justify-content: start;
+    padding-right: 26.25px;
+  }
+
+  .bookmark_btn_cls {
+    justify-content: start;
+    margin-top: 16px;
+    min-width: 18rem;
+  }
+
+  .pnon {
+    display: flex;
+    padding: 0 !important;
+  }
+
+  .live {
+    justify-content: center !important;
+    width: fit-content;
+  }
+  .pdflabelcls{
+    width: fit-content;
+  }
+
+  .bt1 {
+    align-items: center !important;
+    padding: 0px 10px !important;
+    height: 31px !important;
+    margin-left: 0px !important;
+    display: flex !important;
+    min-width: 230px !important;
+    justify-content: space-around !important;
+    line-height: 1;
+  }
+
+  .b {
+    width: 100%;
+  }
+  .p_cls{
+    padding:0px;	  /* Modified by Sabari - MFRUS-95 */
+    line-height: 1;
+  }
+  .p_cls p{
+    font-size: 14px;
+  }
+  .prod_name{
+    font-size: 24px;
+    padding-left: 0;
+    line-height: 36px;
+  }
+  .slds-p-top_x-large .container{
+    padding: 0 16px;
+  }
+  .bg{
+    width: 100%;
+    padding: 16px;
+  }
+  .resourceHead{
+    padding-left: 0 !important;
+  }
+  .community_layout-section_section-host{
+    padding: 0 !important;
+  }
+  .cursorcls div {
+    padding-bottom: 6px;
+  }
+
+  .p_cls a{
+    padding-bottom: 0;
+    font-size: 14px;
+  }
+  .lgtcls{
+    padding: 0;
+  }
+  .mob_concls{
+    padding-bottom: 24px;
+  }
+  .cursorcls p{
+    padding-bottom: 8px;
+  }
+  .mob_cursorcls{
+    padding-bottom: 4px;
+  }
+  .header_button{
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+  }
+  .header_des{
+    padding-left: 0px;
+    line-height: 1.2 !important;
+  }
+  .bt1 {
+    margin-top: 0;
+  }
+  .medcls{
+    margin-top: 8px;/*Rusheel-1631*/
+  }
+  .title_dev_cls {
+  width: 80%;
+  }
+  .bookmark_dev_cls {
+    width: 20%;
+  }
+  .cursorcls_desc_width {
+    color: #000;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    max-width: none;
+    width: 295px;
+    padding-bottom: 8px;
+  }
+  .descc {
+    padding-bottom: 0px;
+    height: 100%;
+    font-weight: 400;
+    line-height: 21px;
+    display: flex;
+    gap: 8px;
+    width: 295px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .header_des{
+    padding-left: 0px;/*Rusheel-1631*/
+  }
+}
+@media all and (min-width:600px) and (max-width: 1400px) {
+   .containermob{
+    margin: 0;
+    width: 100%;
+  }
+  .containermob{
+    margin: 0;
+    width: 100%;
+    padding: 32px;
+  }
+
+
+}
+@media all and (min-width:600px) and (max-width: 840px){
+ .postcls{
+   width: 28%;
+ }
+}
+@media all and (min-width:840px) and (max-width: 1050px){
+   .postcls{
+   width: 64%;
+ }
+}
+.slds-p-top_x-large{
+  padding-top: 40px;
+}
+
+.readmore {
+  font-size: 14px;
+  color: #00857C !important;
+  font-family: 'Invention' !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: #00857C !important;
+  margin-left: auto;
+}
+
+.expDate,
+.norDate {
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  /* margin-top: 8px; */
+  /* position: relative;
+  bottom: 14px; */
+
+}
+
+.expDate {
+  color: #DB281A;
+}
+
+.norDate {
+  color: #757575;
+}
+
+.readdotcls {
+  width: 8px;
+  height: 8px;
+  background: #DB281A;
+  border-radius: 30px;
+  margin-left: -13px;
+  margin-right: 5px;
+  margin-top: 8px;
+}
+
+.p {
+  /* add this css  */
+  /* line-height: 21px; */
+  /* font-weight: 400; */
+}
+
+.slds-grid {
+  /* add below css  */
+  padding: 0px;
+}
+
+.slds-card__header {
+  padding-top: 0px;
+}
+/* RM --- 27 Feb 2023 --- Bug_Web_055 */
+.label_main {
+  width: 100%;
+  /* display: contents; */
+ align-items: center; /* Rusheel-cssissue */
+}
+.header_button{
+  padding-bottom: 0px;	 /* Modified by Sabari - MFRUS-95 */
+}
+
+.bgwhite{
+  background-color: #FFFFFF;
+  align-items: center;
+}
+.bggray{
+  background-color: #F7F7F7;
+  align-items: center;
+}
+/* Modified by Sabari - MFRUS-95 */
+@media all and (max-width: 1440px){
+.container {
+    margin-left: 132px;
+    margin-right:132px;
+    width: 100%;
+    max-width: 846px;
+}
+ .bg{
+    width: 100%;
+    padding: 24px;
+    background-position: center;
+  }
+}
+
+@media all and (max-width: 992px ){
+.container {
+    margin:0px;
+    width: 100%;
+}
+ .bg{
+    width: 100%;
+    padding: 24px;
+    background-position: center;
+  }
+}
+
+@media all and (max-width: 375px ){
+.container {
+    margin:0px;
+    width: 100%;
+}
+ .bg{
+    width: 100%;
+    padding: 16px;
+    background-position: center;
+  }
+}
+
+@media all and (min-width: 600px) {
+.header_button{
+  display: flex;
+  padding-bottom: 0px;
+}
+.bt1{
+  line-height: 28px;
+}
+.btcls {
+    padding: 0px 16px;
+    margin-top: 8px;
+    margin-right: 8px; /*Modified by Sabari MFRUS-112 */
+}
+}
+
+@media all and (max-width: 600px ){
+  .bt2 {
+      margin-top:0px;
+  }
+  .bg{
+    padding: 12px 18px !important;
+  }
+}
+
+.webkithyphensnone {
+  -webkit-hyphens: none !important;
+}
+
+.header-modl-title {
+  width: 687px;
+  height: 36px;
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  color: #000000;
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+}
+
+.img-hover {
+  cursor: pointer;
+}
+
+/* Added to Change image Start*/
+.img-hoverspan {
+  border-radius: 4px;
+  border: 2px solid #00857C;
+  padding: 5px;
+  padding-top: 2px !important;
+  cursor: pointer;
+}
+
+.modal-para {
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.modal-para-bold {
+  font-weight: 700;
+  font-size: 16px;
+  color: #000000;
+}
+
+.slds-modal__content {
+  max-height: unset;
+  overflow-y: auto;
+  scroll-behavior: auto;
+  height: calc(100vh - 370px) !important;
+  padding: 40px;
+}
+
+.footermodel {
+  display: inline !important;
+}
+
+.medi-btn-modal {
+  color: #00857C !important;
+  height: 30px;
+  background: white;
+  border-radius: 3px;
+  border-color: rgba(0, 133, 124, 1);
+  margin-right: 4px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 28px;
+  font-family: Invention;
+  border: 1px solid rgb(0, 133, 124) !important;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.861539px;
+  padding: 0px 10px;
+  padding-right: 0px;
+  padding-left: 10px;
+}
+
+.continue-text {
+  width: 50px;
+  height: 33px;
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.861539px;
+}
+
+.slds-backdrop--open, .slds-backdrop_open {
+  background: #58595c;
+  opacity: 0.98;
+}
+
+.accordn {
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 2147483651 !important;
+}
+
+.mzindex {
+  z-index: 2147483650 !important;
+}
+
+.bzindex {
+  z-index: 2147483646 !important;
+}
+
+.footermodel {
+  display: none !important;
+}
+
+.slds-modal__content {
+  border-radius: 0 0 4px 4px;
+}
+
+.slds-modal__container {
+  display: block !important;
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+  .header-modl-title {
+      width: auto !important;
+      font-size: 18px !important;
+      line-height: 16px;
+  }
+  .slds-modal__content {
+    height: calc(100% - 46px) !important;
+  }
+  .modal-para {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+  .medi-btn-modal {
+    width: 100%;
+  }
+  .medi-btn-modal {
+    width: 100%;
+    height: 36px;
+  }
+  .continue-text {
+    width: 100%;
+    display: block;
+    margin-top: 6px;
+    padding: 2px;
+  }
+}
+
+/* Handle 125% and 150% Windows 10 Font Scaling on 96dpi monitors */
+@media (min-resolution: 144dpi) {
+  .modal-para {
+       font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 399px)
+{ 
+  .slds-modal__content {
+    line-height: 17px !important;
+  } 
+}
+
+@media only screen and (min-width: 375px) and (max-width: 767px)
+{ 
+  .slds-modal {
+    margin: 4px !important;
+    padding: 0 !important;
+    height: calc(100% - 135px) !important;
+    z-index: 8;
+  }
+  .slds-modal__container {
+    margin: 0px !important;
+    padding: 0 !important;
+  }
+  .slds-backdrop {
+    z-index: 7;
+  }
+  .header-modl-title {
+    font-family: 'Invention' !important;
+    font-size: 12px !important;
+    font-style: normal !important;
+    line-height: normal;
+    display: block;
+  }
+  .slds-modal__content {
+    font-size: 12px !important;
+    padding: 8px !important;
+    border-radius: 0 0 4px 4px;
+  }
+  .img-hoverspan {
+    border-radius: 4px;
+    border: 2px solid #00857C;
+    padding: 5px;
+    padding-top: 1px !important;
+    cursor: pointer;
+    padding-bottom: 3px !important;
+  }
+  .slds-modal__header {
+    padding: 8px 8px 0px 8px;
+  }
+  .footermodel {
+    display: none !important;
+  }
+  .fixed_cls {
+    left: 4px;
+    right: 4px;
+  }
+}

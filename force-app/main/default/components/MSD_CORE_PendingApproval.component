@@ -1,0 +1,14 @@
+<apex:component controller="MSD_CORE_KnowledgeController" access="global">
+    <apex:attribute name="userId" description="This is color for the text."
+                    type="String" assignTo="{!controllerValue}"/>
+    <apex:attribute name="recId" description="This is color for the text."
+                    type="String" assignTo="{!articleId}"/>
+    
+    <apex:attribute name="recName" description="This is color for the text."
+                    type="String" assignTo="{!articleId}"/>
+                    
+   
+    <apex:variable value="{!URL}" var="x"/>
+    <apex:variable value="{!x+recId}" var="x"/>
+    <a href="{!x}" target="_blank"> {!recName} </a> 
+</apex:component>

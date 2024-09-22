@@ -1,0 +1,23 @@
+.THIS .form-field-border {
+    float: left;
+    width: calc(50% - 15px);
+    margin: 0px 7px;
+}
+.THIS .form-field-bordr {
+    border-bottom: 1px solid rgb(221, 219, 218);
+}
+.THIS .slds-tabs_default__content, .THIS .slds-tabs--default__content {
+    position: relative;
+    padding: 5px 0;
+}
+.THIS .slds-form-element_stacked:not(.slds-form-element_readonly){
+    margin-bottom: 0;
+}
+.THIS .slds-section__title {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}

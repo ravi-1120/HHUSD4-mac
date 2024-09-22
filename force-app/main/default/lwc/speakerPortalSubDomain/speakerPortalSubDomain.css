@@ -1,0 +1,7 @@
+.container-max-width {
+    max-width: 80%;
+}
+
+.subdomain-field {
+    overflow-wrap: break-word;
+}

@@ -1,0 +1,54 @@
+.carouselcls {
+    pointer-events: none;    
+}
+.carouselimgcls {
+    width: 100%;
+}
+.imgcar {
+    min-width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+.imgseccls {
+    flex: 0 0 171px;
+}
+.imgseccls img{
+    cursor: pointer;
+    width: 151px;
+    height: 96px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-right: 20px;
+}
+.scrollingcls {
+    padding-top: 24px;
+    padding-bottom: 81px;
+    overflow: hidden;
+}
+.flexcls {
+    display: flex;
+    overflow-x: auto;
+}
+.bordercls {
+    border: 2px solid #00857C !important;
+}
+
+@media screen and (max-width: 768px) {
+    .scrollingcls {
+        padding-bottom: 32px !important;
+        padding-top: 8px !important;
+    }
+    .imgseccls {
+        flex: 0 0 127px;
+    }
+    .imgseccls img{
+        margin-right: 8px !important;
+        width: 120px;
+        height: 70px;
+    }
+    .imgseccls:last-child {
+        display: contents;
+    }
+    .imgseccls img:last-child{
+        margin-right: 0px !important;
+    }
+}

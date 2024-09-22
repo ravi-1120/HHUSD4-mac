@@ -1,0 +1,15 @@
+.filter-popover {
+    position: fixed;
+    transform: translate(calc(-1 * var(--lwc-squareIconMediumBoundary)), var(--lwc-squareIconMediumBoundary));
+    z-index: 98;
+}
+
+.slds-popover_panel .slds-popover__header .header {
+    padding: var(--lwc-spacingSmall);
+}
+
+.filter-details {
+    display: flex; 
+    justify-content: center;
+    gap: var(--lwc-spacingMedium, 1rem);
+}

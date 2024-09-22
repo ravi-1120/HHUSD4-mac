@@ -1,0 +1,630 @@
+.bannercls {
+    position: relative;
+}
+
+.status_txt{
+    height: 18px;
+}
+
+.bannercls img {
+    width: 100%;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+.header_cls {
+    font-family: 'Invention';
+    color: #FFFFFF;
+    z-index: 3;
+    top: 20%;
+    text-align: left;
+    width: 100%;
+}
+
+.container {
+    max-width: 81%;
+    margin: auto;
+}
+
+.position_cls {
+    max-width: 1128px;
+    position: relative;
+    z-index: 1;
+    margin-top: -6%;
+    margin-bottom: 81px;
+}
+
+.boxshadow_cls {
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09), 0px 3px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 1128px;
+
+}
+
+.breadcrumbs {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: underline !important;
+    color: #00857c !important;
+    padding-right: 8px;
+}
+.breadcrumbsline{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: none !important;
+    color: #00857c !important;
+    padding-right: 8px;   
+}
+.displaynone{
+    display: none;
+}
+
+.breadcrumbsspan {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #00857c !important;
+    padding-right: 8px;
+}
+
+.status_cls {
+    padding-top: 24px;
+}
+
+.pendingbgcls {
+    background-color: #FFAB00;
+}
+
+.closedbgcls {
+    background-color: #008A00;
+}
+
+.schedulebgcls {
+    background-color: #5450E4;
+}
+
+.pending_btncls {
+    display: flex;
+}
+
+.editMain_cls {
+    display: flex;
+    padding-top: 16px;
+    margin-right: 8px;
+}
+
+.buttonMain_cls {
+    display: flex;
+    padding-top: 16px;
+}
+
+.cancel_btn {
+    display: flex;
+    padding: 11px 16px 11px 19px;
+    border: 2px solid #00857c;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit_btn {
+    display: flex;
+    padding: 11px 16px 11px 16px;
+    border: 2px solid #00857c;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #00857C;
+    color: #FFFFFF;
+}
+
+.edit_btn img {
+    width: 16px;
+    height: 16px;
+    margin: auto 16px auto 0;
+}
+
+.edit_btn p {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #FFFFFF;   
+}
+
+.cancel_btn img {
+    width: 10px;
+    height: 10px;
+    margin: auto 19px auto 0;
+}
+
+.cancel_btn p {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #00857C;
+}
+
+.status_cls p {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    margin: auto 0;
+    display: inline;
+}
+
+.header_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    padding-top: 8px;
+}
+
+.req_padding {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    padding-top: 24px;
+}
+
+.selectedval_cls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.selectedval_cls p {
+    padding: 8px;
+    border: 1px solid #D8D8D8;
+    letter-spacing: 0.861539px;
+    color: #333333;
+    background-color: #D8D8D8;
+    border-radius: 4px;
+    margin-right: 8px;
+    margin-top: 8px;
+}
+
+.appheader {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    padding-top: 16px;
+}
+
+.appointment {
+    background: #FFFFFF;
+    border: 1px solid #CFD2D7;
+    border-radius: 4px;
+    display: flex;
+    padding: 16px 16px 16px 17.5px;
+    width: 356px;
+    margin-top: 8px;
+    margin-right: 16px; /*RT-SIT_Bug_06*/
+}
+
+.appimg{
+    height: 24px;
+    width: 21px !important;
+    margin: auto 0;
+}
+
+.imgdiv{
+    background-color: #00857c;
+    border-radius: 20px;
+    width: 28px;
+    height: 28px;
+    margin-top: 4px;
+}
+
+.img{
+    width: 21px;
+    height: 24px;
+    margin: 6px 7px;
+}
+
+.appdate_cls {
+    padding-left: 17.5px;
+}
+
+.meetdate{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;   
+}
+
+.meettime {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.meetpre_cls {
+    padding-top: 16px;
+    display: flex;
+}
+
+.meetpad_cls {
+    margin-right: 74px;
+}
+
+.meetres_cls h1{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.meetres_cls p{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    padding-top: 8px;
+}
+
+.progress_cls {
+    padding-top: 24px;
+    max-width: 1080px;
+}
+
+.progressbox_cls {
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    padding: 24px;   
+}
+
+.reqheader_cls {
+    display: flex;
+}
+
+.reqheader_cls img {
+    width: 14px;
+    height: 16px;
+}
+
+.reqheader_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    padding-left: 8px;
+    margin-bottom: 16px;
+}
+
+.processdata {
+    margin-top: 16px;
+    padding: 16px;
+    display: -webkit-box;
+    flex-direction: column;
+    background-color: #EDEDFC;
+    border-radius: 4px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000;
+}
+/* Rusheel */
+.req_box {
+    box-shadow: 0px 1px 5px rgb(0 0 0 / 20%);
+    background-color: #EDEDFC;
+}
+.requestcontent {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000;
+  /*  margin-bottom: 16px; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: 1032px;
+}
+/* Rusheel */
+.appointmentmain {
+    display: flex;
+}
+.popup_container{
+    padding: 16px;
+}
+.popupheader{ 
+    display: flex;
+    padding-bottom: 0;
+}
+.popupheader_text{
+    margin-top: auto;
+    padding-bottom: 19px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+}
+.popupimgdiv{
+    border: 2px solid #00857C;
+    margin-left: auto;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 12px;
+    margin-bottom: 17px;
+    height: 38px;
+    width: 38px;
+    display: flex;
+    justify-content: center;
+}
+.popupimgdiv img{
+    min-width: 14px;
+    width: 14px;
+    height: 14px;
+}
+.popupbody{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    padding: 59.5px;
+}
+.popupbody p{
+    font-weight: 400;
+    color: #000000;
+}
+
+.popup_reqtops_link{
+    color: #00857C;
+    text-decoration: underline;
+    font-weight: 700;
+}
+.popup_reqtops_link:hover{
+    color: #00857C;
+    text-decoration: underline;
+}
+.popupfooter{
+    display: flex;
+    height: 73px;
+    padding: 16px;
+}
+.popbutton1{
+    font-family: 'Invention';
+    cursor: pointer;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    background: #00857C;
+    border-radius: 5px;
+    color: #FFFFFF;
+    padding: 11px 16px;
+    margin-right: 16px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+
+}
+.popbutton2{
+    font-family: 'Invention';
+    cursor: pointer;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    color: #00857C;
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+}
+.slds-modal__container{
+    min-width: 64rem;
+}
+
+@media screen and (max-width: 768px) {
+    .nonecls{
+        display: none;
+    }
+    .pending_btncls {
+        display: flow-root;
+    }
+    .editMain_cls {
+        padding-top: 8px;
+    }
+    .bannerclsimg{
+        height: 182px;
+        min-width: 400px;
+    }
+    .position_cls{
+        max-width: 343px;
+        margin-top: -141px;
+    }
+    .boxshadow_cls{
+        max-width: 343px;
+        padding: 16px;
+    }
+    .header_cls h1{
+        font-size: 18px;
+        line-height: 27px;
+    }
+    .selectedval_data{
+        width: 100%;
+        margin-right: 0 !important;
+    }
+    .middisplaynone{
+        display: none;
+    }
+    .displaynone{
+        display: inline;
+    }
+    .dispalycase{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 130px;
+    }
+    .buttonMain_cls{
+        padding-top: 8px;
+    }
+    .selectedval_cls{
+        text-align: left;
+    }
+    .appheader{
+        padding-top: 24px;
+    }
+    .appointment{
+        width: 100%;
+    }
+    .meetpre_cls{
+        padding-top: 0;
+        display: grid;
+    }
+    .meetres_cls{
+        padding-top: 24px;
+    }
+    .imgdiv{
+        margin-top:0;
+    }
+    .img{
+        margin: 6px 7px;
+    }
+    .appdate_cls{
+        line-height: normal;
+    }
+    .progressbox_cls{
+        width: 100%;
+        padding: 16px;
+        padding-top: 16.5px;
+    }
+    .reqheader_cls h1{
+        font-size: 18px;
+        line-height: normal;
+        padding-top: 0.5px;
+        margin-bottom: 16.5px;
+    }
+    .progressbar p{ 
+        margin-left: 16px;
+    }
+    .processdata{
+        margin-top: 16.5px;
+        display: -webkit-inline-box;
+        padding: 16px 16px 16px 8px;
+    }
+    .appointmentmain {
+        display: block;
+    }
+    .androidStatus {
+       /* padding-top: 5px !important;
+        padding-bottom: 0 !important; */
+    }
+    .popup_container{
+        margin: auto;
+    }
+    .popupheader_text{
+        font-size: 18px;
+        line-height: 27px;   
+        margin-top: 0;
+        padding-bottom: 28px;
+    }
+    .popupheader {
+        width: auto;
+        display: flex;
+    }
+    .popupbody{
+        text-align: justify;
+        padding: 16px;
+        width: auto;
+    }
+    .popupfooter{
+        display: block;
+        width: auto;
+        padding: 16px;
+        height: auto;
+    }
+    .popbutton1{
+        padding: 11px 16px;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        margin-bottom: 8px ;
+        text-align: center;
+        display: block;
+    }
+    .popbutton2{
+        text-align: center;
+        display: block;
+    }
+    .slds-modal__container{
+        min-width: auto;
+    }
+    /* Rusheel */
+    .requestcontent {
+        padding-left: 24px;
+    }
+    .reqmsgcl{
+        min-height: 42px;
+        line-height: 21px;
+        margin-bottom: 8px;
+        text-indent: -16px;
+        margin-left: 16px;
+    }
+    /* Rusheel */
+}

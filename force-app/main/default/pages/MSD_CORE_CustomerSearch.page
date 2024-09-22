@@ -1,0 +1,230 @@
+<apex:page controller="MSD_CORE_CustomerSearchController" sidebar="false" showHeader="false">
+    <apex:includeLightning />
+    
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/jquery.tablesorter.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/style.css')}" />
+    
+    <!-- KRB 7/25/2017 Rel 10 Added per ProvenWorks manual -Start -->
+    <apex:includeScript value="/soap/ajax/42.0/connection.js" />
+    <!-- <apex:includeScript value="/soap/ajax/27.0/apex.js" /> -->
+    <apex:includeScript value="/apex/pw_ccpro__CountriesJavaScript?core.apexpages.devmode.url=1" />
+    <apex:includeScript value="{!URLFOR($Resource.pw_ccpro__CountryCompleteResources, '/javascript/CountryAutoComplete.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.pw_ccpro__AddressCompleteResources, '/javascript/AddressComplete.js')}" />
+    
+    <script type="text/javascript">
+    sforce.connection.sessionId = '{!$Api.Session_ID}';
+    pw_sessionId = '{!$Api.Session_ID}';
+    </script>
+    <!-- KRB 7/25/2017 Rel 10 Added per ProvenWorks manual -End -->
+    
+    <script type="text/javascript">
+    function setTitle() {
+        sforce.console.setTabTitle('{!$Label.Account_Search_Tab}');
+        getTabId();
+    }
+    
+    var tabId;
+    var thisTabId;
+    
+    function getTabId() {
+        sforce.console.getEnclosingPrimaryTabId(assignTabId);
+        sforce.console.getEnclosingTabId(assignThisTabId);
+    }
+    
+    var assignTabId = function assignTabId(result) {
+        tabId = result.id;
+    };
+    
+    var assignThisTabId = function assignThisTabId(result) {
+        thisTabId = result.id;
+    }
+    
+    function closeTab() {
+        sforce.console.refreshPrimaryTabById(tabId, true, closeSubTab);
+        sforce.console.closeTab(thisTabId);
+    }
+    
+    var closeSubTab = function closeSubTab(result) {
+        //setTimeout('sforce.console.closeTab(thisTabId)', 1);
+    };
+    
+    getTabId();
+    
+    function showAffiliationCreate() {
+        document.getElementById('modalBackground').style.display='block';
+        document.getElementById('createAffiliationModal').style.display='block';
+    }
+    
+    function closeLightbox() {
+        document.getElementById('createAccountModal').style.display='none';
+        document.getElementById('createAffiliationModal').style.display='none';
+        document.getElementById('modalBackground').style.display='none';
+    }
+    </script>
+    
+    <style>
+        #auraErrorMessage{
+        display: none;
+        }
+        .btn{
+        padding: 6px;
+        
+        padding-left: 1rem;
+        padding-right: 1rem;
+        text-align: center;
+        vertical-align: middle;
+        justify-content: center;
+        border: 1px solid rgb(217, 219, 221);
+        transition: border .15s linear;
+        background-color: rgb(0, 112, 210);
+        border-color: rgb(0, 112, 210);
+        color: rgb(255, 255, 255);
+        margin-left: 45%;
+        border-radius: 3px;
+        }
+        .black_overlay {
+        display: none;
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index:1001;
+        -moz-opacity: 0.8;
+        opacity:.80;
+        filter: alpha(opacity=80);
+        }
+        .white_content {
+        display: none;
+        position: absolute;
+        left:40%;
+        top: 40%;
+        /*height: 320px;*/
+        padding: 16px;
+        border: 2px solid #408040;
+        background-color: white;
+        z-index:1002;
+        overflow: auto;
+        }
+    </style>
+    <div id="Con" />
+    <script>
+    
+    var phone = <apex:outputText escape="false" value="'{!phone}'" />;
+    var employeeNumber = <apex:outputText escape="false" value="'{!employeeNumber}'" />;
+    var customerNumber = <apex:outputText escape="false" value="'{!customerNumber}'" />;            
+    var caseId = <apex:outputText escape="false" value="'{!caseId}'" />; 
+    
+    $Lightning.use("c:MSD_CORE_CustomerSearch", function() {
+        $Lightning.createComponent(
+            "c:MSD_CORE_AccSearchMVN",
+            { fieldListPerson : {
+                Person: [
+                    {placeholder:'Last Name',fieldName:"FirstName",value:''},
+                    {placeholder:'First Name',fieldName:"LastName",value:''},
+                    {placeholder:'Phone',fieldName:"City_vod__c",value: phone },
+                    {placeholder:'Employee Number',fieldName:"Zip_vod__c",value: employeeNumber},
+                    {placeholder:'Master ID',fieldName:"Phone",value: customerNumber}
+                ],CommonFields:[
+                    {placeholder:'City',fieldName:"PersonEmail",value:''},
+                    {placeholder:'Zip',fieldName:"Zip",value:''},
+                    {placeholder:'State',fieldName:"State",value:''},
+                    {placeholder:'Country',fieldName:"Country",value:''}
+                ],Business:[
+                    //{placeholder:"Reporter Type",fieldName:"MSD_CORE_Reporter_Type__c",value:''},
+                    {placeholder:'Account Name',fieldName:"FirstName",value:''},
+                    {placeholder:'Phone',fieldName:"LastName",value:phone},
+                    //{placeholder:"Address",fieldName:"Name",value:''},
+                    {placeholder:'Customer Number',fieldName:"City_vod__c",value:''},
+                    {placeholder:'Master ID',fieldName:"Zip_vod__c",value:''}
+                ]
+            },
+              recordId :     caseId,
+             fromNice : true
+            },
+            "Con",
+            function(cmp) {
+                cmp.set(v.recordId, caseId);
+            });
+    });
+    </script>    
+    <!--
+<input type="button" value="Close Search" onclick="closeTab();" rerender="createErrorMessage, searchFields,searchResults, notSearching, addressResults, createAffiliationModalContent, opHelper, displayPanel,closeTabButton, theForm">
+</input>
+-->
+    <apex:form id="testform">
+        <script>
+        function test() {
+            var stringvalue='{!showAffiliationModal}';
+            if(stringvalue != 'false')
+            {
+                document.getElementById('modalBackground').style.display='block';
+                document.getElementById('createAffiliationModal').style.display='block';
+            }
+            else{
+                cancelTab1();
+            }
+        }
+        
+        function cancelTab1() {
+            sforce.console.refreshPrimaryTabById(tabId, true, closeSubTab);
+            sforce.console.closeTab(thisTabId);
+        }
+        </script>
+        <!--<apex:commandButton value="Close Search" action="{!setupAffiliateModal}" oncomplete="if(showAffiliationModal){alert('hi');showAffiliationCreate();} else {closeTab();}" rerender="theForm,closeTabButton,createAffiliationModalContent" style="width:200px;"/>-->
+        <apex:commandButton value="Close Search" action="{!setupAffiliateModal}" oncomplete="test();" style="width:200px;" rerender="testform"/>
+        <apex:outputPanel >
+            <div id="modalBackground" class="black_overlay" />
+            <div id="createAffiliationModal" class="white_content">
+                <apex:outputPanel >
+                    <script>var didAffiliationCreateSucceed = {!didAffiliationCreateSucceed};
+                    function cancelTab() {
+                        sforce.console.refreshPrimaryTabById(tabId, true, closeSubTab);
+                        sforce.console.closeTab(thisTabId);
+                    }
+                    function affiliationComplete(){
+                        var stringvalue='{!didAffiliationCreateSucceed}';
+                        cancelTab();
+                    }
+                    </script>
+                    
+                    <table width="100%">    
+                        <tr>
+                            <td style="text-align: center;" colspan="2">
+                                <font size="2"><apex:outputText value="{!affiliationPrompt}"/></font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <hr width="100%"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <apex:outputLabel for="role" value="{!$ObjectType.Child_Account_vod__c.Fields.Role_MRK__c.label}" style="margin-right: 5px;" />
+                                <apex:inputField id="role" value="{!affiliation.Role_MRK__c}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <apex:outputPanel id="affiliationButtons">
+                                    <br/>                                
+                                    <apex:commandButton value="Create Affiliation" action="{!createAffiliation}" oncomplete="affiliationComplete();" style="width:200px;" rerender="testform"/>
+                                    <input type="button" value="Cancel" onclick="cancelTab();" rerender="createErrorMessage, searchFields,searchResults, notSearching, addressResults, createAffiliationModalContent, opHelper, displayPanel,closeTabButton, theForm">
+                                </input>
+                            </apex:outputPanel>
+                    </td>
+                </tr>
+            </table>
+            
+        </apex:outputPanel>
+    </div>
+</apex:outputPanel>
+</apex:form>
+</apex:page>

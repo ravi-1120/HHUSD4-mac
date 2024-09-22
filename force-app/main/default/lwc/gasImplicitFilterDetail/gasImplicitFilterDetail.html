@@ -1,0 +1,51 @@
+<template>
+    <c-veeva-modal onclose={handleClose} max-height="true" display-overflow="true">
+        <span slot='header'>{gasImplicitFiltersLabel}</span>
+        <div slot="content">
+            <p class="title">{detailsSectionLabel}</p>
+            <lightning-layout vertical-align="center">
+                <lightning-layout-item alignment-bump="left">
+                    <lightning-combobox label={locationFieldLabel} disabled={isEditMode} options={locationOptions}
+                        value={selectedLocation} onchange={updateSelectedLocation} required="true" data-validity>
+                    </lightning-combobox>
+                </lightning-layout-item>
+
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <lightning-combobox label={appliesToFieldLabel} dropdown-alignment="left" disabled={cannotModifyAppliesTo} options={appliesToOptions}
+                        value={selectedAppliesTo} onchange={updateSelectedAppliesTo} required={isAppliesToFieldRequired} data-validity>
+                    </lightning-combobox>
+                </lightning-layout-item>
+
+                <lightning-layout-item padding="around-small" alignment-bump="right">
+                    <lightning-input label={inclusionFieldLabel} type="toggle" message-toggle-active="" message-toggle-inactive=""
+                        disabled={isEditMode} checked={selectedInclusion} onchange={updateSelectedInclusion}>
+                    </lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <p class="title">{filtersSectionLabel}</p>
+            <div if:true={isLoadingImplicitFilterConditions} class="slds-is-relative filters-spinner">
+                <c-veeva-spinner></c-veeva-spinner>
+            </div>
+            <template if:false={isLoadingImplicitFilterConditions} for:each={filters} for:item="filter">
+                <div key={filter.key} class="slds-m-vertical--x-small">
+                    <c-gas-filter-field
+                        object-name={filter.objectApiName}
+                        field-name={filter.fieldApiName}
+                        page-ctrl={filter.pageCtrl}
+                        init-values={filter.initValues} data-validity
+                    ></c-gas-filter-field>
+                </div>
+            </template>
+        </div>
+        <div slot="footer">
+            <lightning-icon if:false={isSelectionValid} class="slds-media__figure" icon-name="utility:warning" size="small" variant="warning"></lightning-icon>
+            <lightning-button class="slds-p-horizontal_x-small" variant="neutral" label={cancelButtonLabel}
+                onclick={hideImplicitFilterDetail}>
+            </lightning-button>
+            <lightning-button class="slds-p-horizontal_x-small" variant="brand" label={saveButtonLabel}
+                onclick={saveImplicitFilter}>
+            </lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

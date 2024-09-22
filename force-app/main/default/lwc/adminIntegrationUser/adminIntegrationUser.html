@@ -1,0 +1,60 @@
+<template>
+    <lightning-card class="slds-card_boundary slds-show">
+        <h2 slot="title">
+            {messageMap.userCardTitle}
+        </h2>
+        <lightning-button-group slot="actions">
+            <lightning-button if:false={hasCredential} onclick={displayNewUserModal} label={messageMap.newButtonLabel}></lightning-button>
+            <lightning-button if:true={hasCredential} onclick={validateUserCredential} label={messageMap.validateButtonLabel}></lightning-button>
+            <lightning-button if:true={hasCredential} onclick={displayEditUserModal} label={messageMap.editButtonLabel}></lightning-button>
+        </lightning-button-group>
+        <c-veeva-spinner if:true={showInitLoadingSpinner}></c-veeva-spinner>
+        <div if:false={showInitLoadingSpinner}>
+            <div if:false={hasCredential} class="slds-text-align--center slds-p-vertical--large">
+                {messageMap.userCardHelpMsg}
+            </div>
+            <div if:true={hasCredential}>
+                <lightning-layout multiple-rows class="container-max-width">
+                    <lightning-layout-item size="4" padding="horizontal-medium">
+                        <div class="slds-text-align_left">{messageMap.userNameFieldLabel}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" padding="horizontal-medium">
+                        <div class="slds-text-align_left">{messageMap.sandboxFieldLabel}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" padding="horizontal-medium">
+                        <div class="slds-text-align_left">{messageMap.lastModFieldLabel}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" padding="horizontal-medium">
+                        <div class="slds-text-align_left">{userData.adminUser}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" padding="horizontal-medium">
+                        <div class="slds-text-align_left">
+                            <lightning-input type="checkbox" disabled="true" checked={userData.isSandbox}> </lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" padding="horizontal-medium">
+                        <div class="slds-text-align_left">
+                            <lightning-formatted-date-time
+                                value={userData.lastModDate}
+                                year="numeric"
+                                month="numeric"
+                                day="numeric"
+                            >
+                            </lightning-formatted-date-time>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </div>
+        <c-admin-integration-user-modal if:true={showUserModal}
+            modal-data-svc={userDataSvc}
+            user-data={userData}
+            modal-title={modalTitle}
+            modal-message-map={messageMap}
+            system-type={systemType}
+            org-id={orgId}
+            onclose={closeUserModal}
+            onsave={saveUserModal}>
+        </c-admin-integration-user-modal>
+    </lightning-card>
+</template>

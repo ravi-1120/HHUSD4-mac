@@ -1,0 +1,137 @@
+<aura:component controller="CaseControllerMVN" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="recordTypeId" type="String"/>
+    <aura:attribute name="recordTypeName" type="String"/>
+    <aura:attribute name="userProfileName" type="String"/>
+    <aura:attribute name="ownerId" type="String"/>
+    <aura:attribute name="casestatus" type="String"/>
+    
+    <aura:attribute name="sectionName" type="String" default="AE Details"/>
+    <aura:attribute name="selTabId" type="String" default="AE Details"/>
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    <aura:attribute name="refreshRL" type="Boolean" default="true" />
+    
+    <aura:attribute name="fielddata" type="CaseControllerMVN.CaseAERequiredFieldWrapper[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showAll" type="Boolean" default="true" />
+    
+    <aura:attribute name="showAETab" type="Boolean" default="true"/>
+    <aura:attribute name="showPQCTab" type="Boolean" default="true"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <aura:registerEvent name="refreshRecordTypeMVNEvent" type="c:refreshRecordTypeMVNEvent"/> 
+    <aura:handler event="c:refreshRecordTypeMVNEvent" action="{!c.handleRefreshRecordTypeMVN}"/>
+    
+    <aura:attribute name="sectionList" type="List" default="['AE Details', 'IRRE Details', 'PQC Details', 'Products', 
+                                                            'CDT Details': 'Case Details']"/>
+    
+    <aura:attribute name="activeSections" type="List" default="['PSP']"/>
+    <aura:attribute name="activeAESections" type="List" default="['PatientInformation','AEDetails']"/>
+    
+    <div class="flexipageComponent">
+        <div class="container forceRelatedListSingleContainer">
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="extraSmall forceEntityIcon">
+                                <span class="uiImage"  />
+                                <lightning:icon iconName="standard:data_integration_hub" size="small" ></lightning:icon>
+                            </div>
+                        </div>
+                        <div class="slds-media__body" >
+                            <h2 id="header">
+                                <a class="slds-card__header-link baseCard__header-title-container" href="javascript:void(0);">
+                                    <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" >System Information</span>
+                                    <span class="slds-text-heading--small slds-shrink-none slds-m-right--xx-small" ></span>
+                                </a>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                
+                <div class="slds-card__body" style="padding: 0px 10px;">
+                    <lightning:recordViewForm 
+                                              recordId="{!v.recordId}" 
+                                              objectApiName="Case">
+                        
+                        <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Combo Case Preview'}">
+                            <article class="slds-car slds-car_boundary" style="padding: 1px; margin-top: 10px;">
+                                <div class="slds-media__body">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="CreatedById"/>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Owner_Role__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Owner_Role__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Attachment_Count__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Attachment_Count__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Attachment_Size__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Attachment_Size__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="OwnerId"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="OwnerId"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <!-- PT start 01-07-2022 -->
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Is_Cloned__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Is_Cloned__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                                                              
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                                                              
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Org_Case_Cloned__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Org_Case_Cloned__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <!-- PT end 01-7-2022 -->
+                                </div>
+                            </article>
+                        </aura:if>
+                    </lightning:recordViewForm>
+                </div>
+            </article>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,102 @@
+<template>
+    <c-veeva-modal onclose={closeModal} size="large">
+        <div slot="header">
+            {title}
+        </div>
+        <div slot="content">
+            <c-selection-page-popover class="details-popover" if:true={detailsPopoverActive} onclose={closePopover} onupdate={handleDetailsPopover} page-ctrl={ctrl} related-list={relatedList} record={popoverRecord} type="details"></c-selection-page-popover>
+            <div>
+                <div>
+                    <div class={searchSectionClass}>
+                        <div>
+                            <lightning-button-icon class="slds-p-right_x-small" data-id="up-hierarchy" icon-name="utility:chevronup" if:true={isHierarchyView}  onclick={backToParent} variant="bare"></lightning-button-icon>
+                        </div>
+                        <div if:true={views.length} class="slds-combobox_object-switcher slds-combobox-addon_start">
+                            <div class="slds-combobox_container">
+                                <c-em-combobox options={views} onselect={handleViewSelect} selected={currentView} width-override=true></c-em-combobox>
+                            </div>
+                        </div>
+                        <div class="slds-combobox_container slds-combobox-addon_end">
+                            <lightning-input class={searchBarClass} variant="label-hidden" min-length="2" onchange={updateTerm} placeholder={searchPlaceholder} type="search" value={searchTerm}></lightning-input>
+                        </div>
+                        <div class="toggle-container slds-m-left_x-small">
+                            <lightning-input checked={toggledOn} class="toggle" disabled={disableToggle} if:true={toggle} label={toggle.label}  message-toggle-active="" message-toggle-inactive="" onchange={handleToggle} type="toggle"></lightning-input>
+                        </div>
+                        <lightning-button if:true={canRemoveAll} label={removeAllLabel} onclick={handleRemoveAll} variant="base"></lightning-button>
+                    </div>
+                    <div class="filter-section slds-p-top_x-small" if:true={hasFilters}>
+                        <div class="slds-is-relative filter-button">
+                            <lightning-button-icon-stateful icon-name="utility:filterList" onclick={toggleFilterPopover} selected={filterPopoverActive} title={filterLabel}></lightning-button-icon-stateful>
+                            <c-selection-page-popover class="filter-popover" page-ctrl={ctrl} if:true={filterPopoverActive} onapply={saveFilters} oncancel={closePopover} selected={selectedFilters} related-list={relatedList} type="filter"></c-selection-page-popover>
+                        </div>
+                        <div class="selected-filters">
+                            <template class="slds-m-left_x-small" for:each={selectedFilters} for:item="pill">
+                                <span class="selection-page-pill" key={pill.value}>
+                                    <c-veeva-pill label={pill.label} value={pill.value} removable={pill.removeable} onremove={handleRemoveFilter}></c-veeva-pill>
+                                </span>
+                            </template>
+                        </div>
+                    </div>
+                    <div if:true={selectedRowsPills.length} class="selected-rows slds-m-top_x-small">
+                        <template for:each={selectedRowsPills} for:item="row">
+                            <span class="selection-page-pill" key={row.id}>
+                                <c-veeva-pill icon={row.icon} style={row.style} icon-shape={row.shape} label={row.label} value={row.id} onremove={handleRemoveSelectedPill} variant="round"></c-veeva-pill>
+                            </span>
+                        </template>
+                    </div>
+                </div>
+                <div class="slds-m-vertical_small">
+                    <div class="result-selection-sort-message">
+                        <div class="truncated-tooltip-icon slds-m-right_xx-small" if:true={showAttendeeResultTruncatedWarning}>
+                            <lightning-icon icon-name="utility:warning" size="x-small" variant="warning"></lightning-icon>
+                            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left slds-theme_warning truncated-results-tooltip">
+                                <div class="slds-popover__body">{attendeeResultTruncatedLabel}</div>
+                            </div>
+                        </div>
+                        <span>
+                            {numResults} {numSelected} {sortedByLabel}
+                        </span>
+                        <lightning-icon if:true={sortDirection} icon-name={sortDirectionIcon} size="xx-small" title="sortIcon"></lightning-icon>
+                    </div>
+                    <div class="slds-p-top_xx-small">
+                        <div class="slds-is-relative slds-border_top slds-border_left slds-border_right slds-border_bottom">
+                            <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+                            <div class="results-data-table">
+                                <c-em-selection-page-datatable
+                                    columns={columns}
+                                    data={data}
+                                    enable-infinite-loading={hasMoreData}
+                                    hide-checkbox-column={hideCheckboxes}
+                                    key-field="Id"
+                                    onhierarchy={drillDownHierarchy}
+                                    onopenpopover={toggleDetailsPopover}
+                                    onrowselection={handleRowSelection}
+                                    oncustomrowselection={handleRowSelection}
+                                    onsort={onHandleSort}
+                                    onloadmore={loadMore}
+                                    selected-rows={selectedRowsIds}
+                                    scroll-listener={closePopover}
+                                    sorted-direction={sortDirection}
+                                    sorted-by={sortedBy}>
+                                </c-em-selection-page-datatable>
+                            </div>
+                            <div class="slds-illustration slds-illustration_small no-results" if:true={noResults}>
+                                <div class="slds-text-longform">
+                                    <h3 class="slds-text-heading_medium">{noResultsLabel}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div slot="footer">
+            <div class="footer-buttons slds-button-group-row">
+                <lightning-button class="slds-button-group-item" data-id="cancelButton" disabled={saving} if:true={cancelLabel} label={cancelLabel}
+                    title={cancelLabel} onclick={closeModal} variant="neutral"></lightning-button>
+                <lightning-button class="slds-button-group-item" data-id="saveButton" disabled={disableSave} if:true={saveLabel} label={saveLabel}
+                    title={saveLabel} onclick={save} variant="brand"></lightning-button>
+            </div>
+        </div>
+    </c-veeva-modal>
+</template>

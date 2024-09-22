@@ -1,0 +1,15 @@
+<template>
+    <lightning-quick-action-panel>
+        <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+        <lightning-layout if:false={loading} horizontal-align="center">
+            <div class="slds-var-m-around_small">
+                <p>{message}</p>
+            </div>
+        </lightning-layout>
+        <div slot="footer">
+            <lightning-button if:false={errorScreen} variant="neutral" label={messageMap.noLabel} onclick={handleCancel}></lightning-button>
+            <lightning-button if:false={errorScreen} variant="brand" label={messageMap.yesLabel} class="slds-m-left_x-small" onclick={handleSubmit}></lightning-button>
+            <lightning-button if:true={errorScreen} variant="brand" label={messageMap.okLabel} class="slds-m-left_x-small" onclick={handleCancel}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>

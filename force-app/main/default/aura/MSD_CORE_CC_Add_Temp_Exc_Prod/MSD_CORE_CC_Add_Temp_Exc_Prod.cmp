@@ -1,0 +1,204 @@
+<aura:component extends="c:ComponentUtils" controller="MSD_CORE_CC_Add_TempExcProdController" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="selectedTabId" type="String" default="1" />
+    <aura:attribute name="showTabs" type="Boolean" default="true" />
+    <aura:attribute name="buttonDisabled" type="Boolean" default="false" />    
+    <aura:attribute name="showLotDetailTabs" type="Boolean" default="false" />
+    <aura:attribute name="showAEPQCDialogbeforeClose" type="Boolean" default="false" />
+    <aura:attribute name="tabs" type="Object[]" />
+    <aura:handler name="MSD_CORE_CC_CloseModalEvt" event="c:MSD_CORE_CC_CloseModalEvt"
+                  action="{!c.closeModal}"/>
+    <aura:handler name="MSD_CORE_CC_TempProdEvent" event="c:MSD_CORE_CC_TempProdEvent"
+                  action="{!c.handleTempProdCmpEvt}"/>
+    <aura:handler name="MSD_CORE_CC_TempProdFormEvent" event="c:MSD_CORE_CC_TempProdFormEvent"
+                  action="{!c.handleSaveAddEvent}"/>
+    <aura:handler name="MSD_CORE_CC_VaccAdministeredEvent" event="c:MSD_CORE_CC_VaccAdministeredEvent"
+                  action="{!c.handleVaccAdminEvent}"/>
+    
+    <aura:handler event="c:MSD_CORE_CC_KnowledgePreviewEvt"
+                  action="{!c.handleKnowledgeSection}"/>
+    
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="caseId" type="String" />
+    <aura:attribute name="TEProd" type="MSD_CORE_Temperature_Excursion_Product__c" />
+    <aura:attribute name="recordLoadError" type="String" />
+    <aura:attribute name="isEdit" type="Boolean" default="false"/>
+    <aura:attribute name="firstPass" type="Boolean" default="true"/>    
+    <aura:attribute name="mode" type="String" default="Add "/> 
+    <aura:attribute name="refreshRequired" type="Boolean" default="false"/>
+    <aura:attribute name="oldVaccAdministeredVal" type="String"/>
+    <aura:attribute name="selectedMainTabId" type="String" default="prods"/>
+    <aura:attribute name="knowledgeArticleId" type="String"/>    
+    <aura:attribute name="showAdd" type="Boolean" default="false"/> 
+    <aura:attribute name="refreshArticleSearch" type="Boolean" default="false"/>     
+    
+    <aura:if isTrue="{!v.isEdit}">
+    	<force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Name, MSD_CORE_Case__c, MSD_CORE_Product__r.Name, MSD_CORE_Was_Vaccine_Administered__c"
+                      targetFields="{!v.TEProd}"
+                      targetError="{!v.recordLoadError}"  
+                      recordUpdated="{!c.handleRecordUpdate}"
+                      mode="VIEW"
+                      />
+   </aura:if>
+    
+    <aura:if isTrue="{!v.showAdd}">
+        <button style="top: 14px; z-index: 1; float: right;width: 60px;margin-right: 15px;padding: 0;" class="slds-button slds-button_brand" onclick="{!c.addProduct}">
+            <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Add</span>
+        </button>
+    </aura:if>
+    
+    <div aura:id="addProduct" class="slds-hide slds-scrollable" style="position:relative;z-index: 200;">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container"> 
+                <!-- Header Start-->
+                <header class="slds-modal__header">
+                   <!-- <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}"> 
+                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                        <span class="slds-assistive-text">Close</span>
+                   </button> -->
+                    <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">{!v.mode} Product</h2>
+                    
+                    <div style="right: 10px; position: absolute; top: 13px;">
+                        <lightning:button label="X" name="Close Search" onclick="{!c.closeModal}"/>
+                    </div>
+                </header>
+                <!-- Header End-->
+                
+                <!-- Body Content Start-->
+                <div class="slds-modal__content modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:auto">
+                    
+                    <div class="slds-col slds-grid slds-grid_vertical slds-scrollable_x ">
+                        <div class="slds-theme_shade">
+                            <div class="slds-form-element" style="min-height:600px;">
+                                        <aura:if isTrue="{!v.showTabs}">
+                                            <lightning:tabset onselect="{! c.handleSelect }"  selectedTabId="{!v.selectedTabId}" variant="vertical">
+                                                <lightning:tab  id="add_prod">
+                                                    <aura:set attribute="label">
+                                                        Add Product 
+                                                    </aura:set>
+                                                    <div>
+                                                    </div>
+                                                </lightning:tab>
+                                                <aura:iteration items="{! v.tabs }" var="tab">
+                                                    <lightning:tab label="{! tab.label }" id="{! tab.id }">
+                                                        <div aura:id="prodForm" class="">
+                                                        	<c:MSD_CORE_CC_Add_Temp_Exc_Prod_Form parentId="{!v.caseId}" recordId="{!tab.recId}" isEdit="{!v.isEdit}" mode="{!tab.mode}" showLotDetailTabs="{!tab.showLotDetailTabs}" lottabs="{!tab.lottabs}"/>
+                                                        </div>
+                                                    </lightning:tab>
+                                                </aura:iteration>
+                                                
+                                                <div aura:id="knowledgePreviewSection" class="slds-hide" style="width:50%;">
+                                                    <lightning:card>
+                                                        <article class="slds-box">
+                                                            <div class="slds-float--right">
+                                                                <lightning:button label="X" name="Close Search" onclick="{!c.handleKnowledgeSection}"/>
+                                                            </div>
+                                                            <header class="slds-media slds-media_center slds-m-bottom_small">
+                                                                <span class="slds-icon_container slds-icon-standard-account slds-media__figure">
+                                                                    <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="standard:knowledge" size="small" alternativeText="knowledge" />
+                                                                </span>
+                                                                <div class="slds-media__body">
+                                                                    <h5 class="slds-text-heading_medium slds-hyphenate" id="panel-heading-id">
+                                                                        Knowledge 
+                                                                    </h5>
+                                                                </div>
+                                                            </header>                                                            
+                                                            <c:MSD_CORE_CC_KnowledgePreview knowledgeArticleId ="{!v.knowledgeArticleId}"/>
+                                                        </article>
+                                                    </lightning:card>
+                                                </div>
+                                                <div aura:id="knowledgeSearch" class="" style="min-width:24%;max-width: 32%;">
+                                                    <aura:if isTrue="{!!v.isEdit}">
+                                                        <aura:if isTrue="{!v.refreshArticleSearch}">
+                                                        	<c:MSD_CORE_QuickArticleSearch recordId="{!v.recordId}" displayOnRecordPage="false"/>
+                                                        </aura:if>
+                                                        <aura:set attribute="else">
+                                                            <aura:if isTrue="{!v.caseId}">
+                                                                <c:MSD_CORE_QuickArticleSearch recordId="{!v.caseId}" displayOnRecordPage="false"/>
+                                                            </aura:if>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                    
+                                                </div> 
+                                            </lightning:tabset> 
+                                        </aura:if>
+                            </div>
+                            <!-- Grid Displaying Products - Ends -->
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer" style="padding: 5px;background: #fff;">
+                    <div class="slds-align_absolute-center" style="padding: 5px;background: #fff;">
+                        <lightning:button label="Done" name="Done" variant="brand" onclick="{!c.closeModal}"/>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    
+    <div id="confirmPop" class="slds-hide slds-scrollable" aura:id="confirmPop" style="position:relative;">
+        <div style="height:640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="width:50%;">
+                    <header class="slds-modal__header">
+                        <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeAEPQCModal}">
+                            <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeAEPQCModal}"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Are you sure?</h2>
+                        
+                        <div style="right: 10px; position: absolute; top: 13px;">
+                            <lightning:button label="X" name="Close Search" onclick="{!c.closeAEPQCModal}"/>
+                        </div>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        Do you want to create AE case with this product?
+                        <div class="slds-float_right">
+                            <lightning:button 
+                                              variant="neutral"
+                                              name="cancel" 
+                                              label="Cancel" onclick="{!c.closeAEPQCModal}" />
+                            <lightning:button 
+                                              variant="brand" 
+                                              type="submit"
+                                              name="create" 
+                                              label="Create" 
+                                              disabled="{!v.buttonDisabled}"
+                                              onclick="{!c.createAEPQC}"/>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </div>
+    
+    <div id="knowledgePop" class="slds-hide slds-scrollable" aura:id="knowledgePop" style="overflow:auto">
+        <div style="height:640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="width:50%;">
+                    <header class="slds-modal__header">
+                        <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeKnowledgePop}">
+                            <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeKnowledgePop}"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Knowledge Preview</h2>
+                        
+                        <div style="right: 10px; position: absolute; top: 13px;">
+                            <lightning:button label="X" name="Close Search" onclick="{!c.closeKnowledgePop}"/>
+                        </div>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        Knowledge Preview goes here
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </div>
+
+    
+</aura:component>

@@ -1,0 +1,33 @@
+<template>
+    <template if:true={isShow}>
+        <div class="vcms__popup">
+            <div class="inner">
+                <div class="header">
+                    <span>{headerText}</span>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        size="small"
+                        alternative-text="Close"
+                        class="close-icon"
+                        onclick={handleClose}>
+                    </lightning-icon>
+                </div>
+                <div class="txt">
+                    <!-- <lightning-input-rich-text>
+                        {contentText}
+                    </lightning-input-rich-text> -->
+                    <lightning-formatted-rich-text value={contentText}></lightning-formatted-rich-text>
+                    <span>{contentText}</span>
+                    <div>
+                        <input type="checkbox" id="acceptTerms" onchange={handleCheckboxChange} /> &nbsp;
+                        <label for="acceptTerms">I accept the terms and conditions</label>
+                    </div>
+                </div>
+                <div class="footer">
+                    <button class="custom-button brand" onclick={handlePopup} disabled={isButtonDisabled}>{footerText}</button>
+                </div>
+                
+            </div>
+        </div>
+    </template>
+</template>

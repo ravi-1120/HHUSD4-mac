@@ -1,0 +1,93 @@
+<template>
+   <!-- modal start -->
+   <template if:true={isShowModal}>
+      <!-- <div class="slds-backdrop slds-backdrop_open" role="presentation"></div> -->
+      <div class="slds-modal__content slds-p-around_medium modalSize" id="modal-content-is-1">
+         <div class="medicalInfoCls" id="medicalInfoId">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+               aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open modalcls">
+               <div class="slds-modal__container">
+                  <!-- modal header start -->
+                  <button class="MedicalBtn slds-button slds-button_icon slds-modal__close slds-button_icon-inverse "
+                     title="Close" style="font-family: 'Invention';color:white;font-size: 16px;left: 82px;
+                        position: relative;" onclick={hideModalBox}> x <span class="slds-assistive-text">Cancel and
+                        close</span>
+                  </button>
+
+                  <!-- modal body start -->
+                  <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                     <div class="medicalInfoBody">{label.medicalInformation}
+                     </div>
+                     <div class="slds-grid slds-wrap medicalInfoFooter">
+                        <div class="slds-align_absolute-center">
+                           <!-- <button class="slds-button slds-button_neutral medicalInfoBtn" 
+                             onclick='redirectMedicalPortal(); return false;'></button> -->
+                           <a id="mmpRedirectId" class="slds-button slds-button_brand medicalInfoBtn"
+                              onclick={redirectMedical}>{label.AMOContinue}</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+         </div>
+      </div>
+   </template>
+   <footer class="hcp-footer">
+      <div class="page-footer page-section"
+         style="
+            border-top: var(--sds-c-card-footer-sizing-border,1px) solid var(--sds-c-card-footer-color-border,#dddbda);">
+         <div class="slds-grid slds-wrap footerCls">
+            <div class="slds-col slds-size_1-of-1" style="border-top: 1px solid #bbb8b8;">
+               <div class="slds-grid slds-wrap">
+                  <div class="slds-col slds-size--1-of-1 slds-medium-size--9-of-12 slds-m-top_medium">
+                     <ul>
+                        <li>
+                           <ul class="slds-list_horizontal footerfont slds-has-dividers_right">
+                              <li class="slds-item footerLinkCls" onclick={showMedical}>{label.MedicalInformationLabel}
+                              </li>
+
+                              <li class="slds-item footerLinkCls" onclick={redirectPrivacy}>{label.PrivacyPolicy}
+                              </li>
+                              <li class="slds-item footerLinkCls" onclick={redirectTermsofUse} data-value=Cookiepolicy>
+                                 {label.TermToUse}</li>
+                              <!-- <li class="slds-item footerLinkCls" onclick={redirectCookiePreferences}>{label.CookiePreferences}</li> -->
+                              <li class="slds-item footerLinkCls" data-value=Privacy><a
+                                    href="javascript:Optanon.ToggleInfoDisplay()"
+                                    style="text-decoration:none">{label.CookiePreferences}</a></li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </div>
+                  <div class="imgdiv slds-col slds-size--1-of-1 slds-medium-size--3-of-12">
+                     <div class="floatcls slds-grid slds-m-top_medium">
+                        <div class="accessibility">
+                           <img src={accessibilityicon} class="accessicon" data-value="Accessibility Icon"
+                              onclick={handleAccessibility}>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="slds-col slds-size--1-of-1 slds-medium-size--8-of-12 slds-m-top_xx-small"
+                     style="text-align: left;">
+                     <div class="informationCls">
+                        {label.AMOFooter}<br>{label.AMOFooterMessage}<br>{label.AMOFooterJobCode}</div>
+                     <!-- <div class="copyrightCls">{label.AMOFooterMessage}</div>
+        <div class="copyrightCls">{label.AMOFooterJobCode}</div> -->
+                  </div>
+                  <div class="imgdiv1 slds-col slds-size--1-of-1 slds-medium-size--4-of-12 slds-m-top_large">
+                     <div class="floatcls slds-grid">
+                        <!-- <div class="img">
+                           <img src={sealTwo} class="footerLinkCls footerImgCls" data-value="Truste APEC Privacy"
+                              onclick={redirectAPECPrivacy}>
+                        </div>
+                        <div class="slds-p-left_small">
+                           <img src={sealOne} class="footerLinkCls footerImgCls" style="margin-left: 0px;"
+                              data-value="Truste Verified Privacy" onclick={redirectVerifiedPrivacy}>
+                        </div> -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </footer>
+</template>

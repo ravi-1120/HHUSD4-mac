@@ -1,0 +1,43 @@
+<template>
+    <lightning-card>
+        <div>
+            <div>
+                <h1>{topicTitle}</h1>
+            </div>
+        </div>
+        <template if:true={displayedFields}>
+            <div class="slds-grid" style="margin: 0 5%;border: 1px solid black; padding: 15px;">
+                <div class="thumbnail-wrapper slds-size_1-of-4">
+                    <div class="thumbnail-container" style={containerStyle}>
+                        <img src={imageUrl} class="thumbnail" style={thumbnailStyle} alt="Thumbnail" />
+                        <div if:true={showMinusButton} class="zoom-percentage">{zoomPercentage}%</div>
+                    </div>
+                    <div class="controls">
+                        <lightning-icon onclick={zoomIn} size="x-small" class="zoom-button" disabled={isPlusDisabled} icon-name="utility:zoomin" alternative-text="zoomin" title="zoomin"></lightning-icon>
+                        <lightning-icon onclick={zoomOut} size="x-small" class="zoom-button" disabled={isMinusDisabled} icon-name="utility:zoomout" alternative-text="zoomout" title="zoomout"></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <template for:each={displayedFields} for:item="fields">
+                        <div key={fields.key} class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                            <div class="slds-grid slds-wrap slds-grid_align-spread">
+                                <div class="slds-col slds-size_1-of-4">
+                                    <span class="slds-text-title_bold">{fields.key}</span>
+                                </div>
+                                <div class="slds-col slds-size_3-of-4">
+                                    <span>{fields.value}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <template if:false={displayedFields}>
+            <p>No details available.</p>
+        </template>
+    </lightning-card>
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
+</template>

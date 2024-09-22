@@ -1,0 +1,15 @@
+.THIS .slds-form-element__label:empty {
+    margin: 0;
+    display: none;
+}
+.THIS .slds-file-selector__dropzone {
+    padding: 0;
+}
+.THIS .forceRelatedListSingleContainer.container {
+    position: absolute;
+    z-index: 1;
+    right: 12px;
+    width: 227px;
+    background: #fff;
+    margin-top: 10px;
+}

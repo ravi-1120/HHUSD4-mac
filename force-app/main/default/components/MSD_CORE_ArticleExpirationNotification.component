@@ -1,0 +1,25 @@
+<apex:component controller="MSD_CORE_KnowledgeController" access="global">
+    <apex:attribute name="userId" description="This is color for the text."
+                    type="String" assignTo="{!controllerValue}"/>
+                    
+    <table style="border: 1px solid #ccc;" cellspacing="0" cellpadding="0">
+        <tr>
+            <th style="border: 1px solid #ccc; text-align:left; padding: 0 5px;"> Sr No </th>
+            <th style="border: 1px solid #ccc; text-align:left; padding: 0 5px;"> Title </th>
+        </tr>
+        
+        <apex:variable value="{!1}" var="x"/>
+        <apex:repeat value="{!knowledgeExpirationList}" var="rec">
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 0 5px;"> {!x}.
+                    <apex:variable value="{!x+1}" var="x"/>
+                </td>
+                <td style="border: 1px solid #ccc; padding: 0 5px;">
+                    <a href="{!MailURL}" target="_blank"> {!rec.Title} </a> 
+                </td>
+            </tr>
+        </apex:repeat>
+    </table>
+    
+    <br/><br/>
+</apex:component>

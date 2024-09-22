@@ -1,0 +1,52 @@
+<apex:page controller="PDS_DocGenController" renderAs="pdf" applyHtmlTag="false" showHeader="false" applyBodyTag="false">
+    <html>
+        <head>
+            <style type="text/css" media="print">  
+                @page {
+                margin: 20px;
+                padding:20px;
+                }
+            </style>
+        </head>
+        <body>
+            <div style="margin-bottom:75px;margin-left:75%;">
+                <img src="{!$Resource.PDS_MSD_Logo_Horizontal_Teal_Grey}" width="210" height="100" style="margin-left:-25px;"/> 
+                <p style="margin-top:-25px;text-align:left;margin-left:9px;color:#646464;"><apex:outputText value="{!$Label.PDS_MerckAddress}" escape="false" style="font-size:14px;"/></p>                       
+            </div>
+            <div>
+                <p style="margin-bottom: 45px; font-family:'Arial,Sans-Serif'; font-size:18px;">
+                    {! MONTH(TODAY()) }/{! DAY(TODAY()) }/{! YEAR(TODAY()) }
+                </p>
+                <p style="font-size:18px;font-family:'Arial,Sans-Serif';">{!$Label.PDS_Cert_Header}</p>
+                <!--<apex:outputText value="{!certBody}" escape="false"></apex:outputText>-->
+                <p style="font-size:18px;font-family:'Arial,Sans-Serif';">
+                    {!certBodyAA} :    
+                </p> 
+                <table border="1" style="width:500px;font-size:18px;font-family:'Arial,Sans-Serif';border-collapse: collapse;border-block-end-style: none;">
+                    <thead>
+                        <tr>
+                            <th style="background-color: #f2f2f2;width:400px;">Product</th>
+                            <th style="background-color: #f2f2f2;width:400px;">Country</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:repeat value="{!productLineItems}" var="item">
+                            <tr style="width:300px;">
+                                <td style="width:400px;">{!item.PDS_Product__r.Name}</td>
+                                <td style="width:400px;">{!item.PDS_Country__c}</td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                
+                <p style="font-size:18px;font-family:'Arial,Sans-Serif';">{!$Label.PDS_AACertSalutation}</p><br/>
+                
+            </div>
+            <p style="font-size:18px;font-family:'Arial,Sans-Serif';">{!$Label.PDS_Cert_Salutation}</p><br/>
+            <p>	
+                <apex:outputText value="{!authNumContent}" escape="false" style="font-size:18px;font-family:'Arial,Sans-Serif';"/>  
+            </p> 
+            
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,55 @@
+.content-heder{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    height: 27px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+.content-bottom{
+    height: 18px;
+    /* Button/Button */
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #8E541F;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    
+}
+.content-bottom-div{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2px 8px;
+    gap: 10px;
+    height: 22px;
+    border-radius: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    background: #F9E57F;
+    vertical-align: middle;
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+    
+    .content-heder{
+        height: auto !important;
+    }
+    .content-bottom-div{
+        width: fit-content !important;
+    }
+}

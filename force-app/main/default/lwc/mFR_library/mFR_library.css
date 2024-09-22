@@ -1,0 +1,646 @@
+.p1 {
+    /* width: 69px; */
+    height: 21px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration-line: underline !important;
+    color: #00857C !important;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.p2 {
+    /* width: 6px; */
+    height: 12px;
+    flex: none; 
+    order: 1;
+    flex-grow: 0;
+    padding: 0 5px;
+    text-decoration: none;
+    color: #00857C !important;
+}
+
+.p2:hover {
+    text-decoration: none;
+}
+
+.p3 {
+    /* width: 46px; */
+    height: 21px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #00857C;
+    text-decoration: none;
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.p3:hover {
+    text-decoration: none;
+}
+
+.p4 {
+    /* width: 121px; */
+    height: 45px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    color: #000000;
+    background: white;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 10px 0;
+}
+
+.para {
+    /* width: 700px; */
+    height: 48px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    background: white;
+    line-height: 24px;
+    color: #333333;
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+.img {
+     margin: 0 0 0 10px;
+}
+
+.button {
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    float: left;
+    padding: 8px;
+    gap: 1px;
+    width: 95px;
+    height: 62px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0 0 0 15px;
+}
+
+.bottomP{
+		padding-bottom: 24px;
+}
+
+.box{
+		border-radius: 4px;
+		background: #FFF;
+		box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.20);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		align-self: stretch;
+}
+
+.norecords{
+		padding-top:24px;
+		padding-bottom:16px;
+		color: var(--neutral-light-text, #757575);
+		text-align: center;
+		font-feature-settings: 'clig' off, 'liga' off;
+		font-family: Invention;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 24px; /* 150% */
+}
+
+.b1 {
+    width: 19px;
+    height: 27px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    color: #00857C;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.b1.space::after {
+    content: ' ';
+    white-space: pre;
+}
+
+.b2 {
+    width: 8px;
+    height: 8px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.b3 {
+    width: 100%;
+    height: 18px;
+    left: 12px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.button1 {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    float: left;
+    padding: 8px;
+    gap: 1px;
+    width: 95px;
+    height: 62px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.arrclass{
+		max-width: 16px;
+		height: 16px;
+}
+
+.buttonPP{
+		display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: #FFFFFF;
+    background: #00857C;
+    border-radius: 5px !important;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    width: auto;
+    height: 32px !important;
+    border-color: #00857C;
+    border: none !important;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    line-height: 18px;
+    letter-spacing: 0.862px;
+		padding: 7px 16px;
+}
+.b4 {
+    width: 11px;
+    height: 27px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #00857C;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.b5 {
+    width: 79px;
+    height: 18px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.spnname {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Invention';
+    font-style: normal;
+    color: #333333;
+}
+
+.button2 {
+    box-sizing: border-box;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;  */
+    padding: 8px;
+    gap: 1px;
+    width: 95px;
+    height: 62px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    text-align: center;
+    /* flex: none; 
+    flex-grow: 0; margin: 0 15px 0 0; */
+}
+
+.b6 {
+    width: 100%;
+    /* height: 27px; */
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    /* display: flex; */
+    align-items: center;
+    text-align: center;
+    color: #00857C;
+    /* flex: none;
+    order: 0;
+    flex-grow: 0; */
+}
+
+.b7 {
+    width: 100%;
+    height: 18px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    display: block;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.button3 {
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 18.75%;
+    bottom: 18.75%;
+
+}
+
+.arrowstyle {
+    background-color: white;
+    border: 2px solid #00857C !important;
+    border-radius: 5px !important;
+    padding: 11px 8px;
+    max-width: 180% !important;
+    height: auto !important;
+}
+
+.prodheading {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #333333;
+    text-decoration: none;
+}
+
+.b {
+    text-decoration: none;
+    color: #333333;
+}
+
+.b:hover {
+    color: #333333;
+    text-decoration: none;
+    }
+
+.hoverstyle:hover {
+    color: #333333;
+    text-decoration: none;
+}    
+
+.hoverstyle {
+        color: #333333;
+        text-decoration: none;
+    }
+
+.c-container {
+    margin: 0 0 30px;
+}
+
+.panel-right {
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.center-aligned {
+        align-items: center;
+    text-align: center;
+    }
+
+.slds-wrap {
+    align-items: center;
+}
+
+.pdflinks {
+    padding-top: 10px;
+}
+
+.pinfotext {
+    padding-right: 20px;
+    padding-left: 5px;
+    height: 21px;
+}
+
+.b3 img {
+    margin-right: 5px;
+    position: relative;
+    top: -2px;
+    ;
+}
+
+.main-content.dxp_content_layout-blockContentRegion_blockContentRegion {
+    box-shadow: 0px 5px 10px rgb(0 0 0 / 9%), 0px 3px 14px rgb(0 0 0 / 10%);
+    border-radius: 8px !important;
+}
+ 
+p.slds-p-left_large {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    padding: 0 !important;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.reddot {
+    width: 8px;
+    height: 8px;
+    background: #DB281A;
+    flex: none;
+    /* //order: 0; */
+    flex-grow: 3;
+    DISPLAY: inline-block;
+    border-radius: 90%;
+}
+
+
+.tab_cls {
+    cursor: pointer !important;
+}
+
+.b {
+    text-decoration: none;
+    color: #333333;
+}
+
+.b {
+    text-decoration: none;
+    color: black;
+}
+
+.b:hover {
+    color: black;
+    text-decoration: none;
+    }
+
+.hoverstyle:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle {
+    color: black;
+    text-decoration: none;
+}
+
+.cursorcls {
+    cursor: default;
+}
+
+.cursorcls:hover {
+    text-decoration: none;
+}
+
+.browsing {
+    color: #00857C;
+}
+
+.librarycard {
+    background-color: white;
+    width: 100%;
+    display: block;
+}
+
+.libraryhead {
+    background-color: white;
+    width: 100%;
+}
+
+
+.patinfo a {
+    text-decoration: underline;
+    font-family: 'Invention';
+    font-size: 14px;
+    color: #333333;
+}
+
+.piinfocls a {
+     text-decoration: underline;
+     font-family: 'Invention';
+     font-size: 14px;
+     color: #333333;
+}
+
+.ptinfocls a {
+    text-decoration: underline;
+    font-family: 'Invention';
+    font-size: 14px;
+    color: #333333;
+}
+
+.pinfcls {
+     text-decoration: underline;
+     font-family: 'Invention';
+     font-size: 14px;
+     color: #333333 !important;
+}
+
+.patinfocls a {
+    text-decoration: underline;
+    font-family: 'Invention';
+    font-size: 14px;
+    color: #333333 !important;
+}
+
+.pinfo a {
+    text-decoration: underline;
+    font-family: 'Invention';
+    font-size: 14px;
+    color: #333333 !important;
+}
+
+.p3o:hover {
+    text-decoration: none;
+}
+
+.browsing:hover {
+    text-decoration: none;
+}
+
+.p5:hover {
+    text-decoration: none;
+}
+
+
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+    .container{
+        padding: 0 !important;
+    }
+    .p4 {
+        width: auto;
+    }
+
+    .para {
+        width: auto;
+    }
+
+    .mob-card {
+        display: block;
+    }
+
+    .mob-card-box {
+        width: 100% !important;
+        margin-top: 12px;
+    }
+
+    .img {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+    }
+
+    .arrowstyle {
+        padding: 5px 5px;
+    }
+
+    .mob_description {
+        display: block;
+    }
+    .panel-right{
+        justify-content: start;
+    }
+    .mob-prod-description{
+        margin-top: 10px;
+    }
+    .slds-card__body{
+        margin: 0 16px 16px 16px !important;
+        padding: 0 !important;
+    }
+    .slds-card__header.slds-grid{
+        margin: 0 !important;
+        padding-top: 0 !important;
+        padding: 0 !important;
+    }
+    .my-card-child{
+        padding: 0 !important;
+    }
+    .librarypg .slds-grid{
+        padding : 0px !important;
+        margin: 0px !important;
+    }
+
+    .librarypg .slds-card {
+        padding: 16px !important;
+    }
+    .mob-saved-btn {
+        height: 62px;
+        margin-right: 8px !important;
+        width: 84px !important;
+    }
+    .mob-requests-btn {
+        height: 62px;
+        margin-right: 0 !important;
+        width: 84px !important;
+    }
+    .mob-appointments-btn {
+        height: 62px;        
+        margin-right: 8px !important;
+        width: max-content !important;
+    }
+
+    .main-content.dxp_content_layout-blockContentRegion_blockContentRegion{
+        padding: 16px !important;
+    }
+    .dxp_content_layout-blockContentRegion_blockContentRegion.slds-grid.height-full.main-content-container{
+        padding: 16px !important;
+    }
+}
+
+@media only screen and (max-width:460px){
+    .c-container{
+        margin: 0 0 60px;
+    }
+    .panel-right{
+        /* justify-content: space-around; */
+        justify-content: space-between;
+    }
+}
+/* @media only screen and (max-width:376px){
+    .mob-saved-btn {
+        height: 62px;
+        width: max-content !important;
+    }
+    .mob-requests-btn {
+        height: 62px;
+        width: max-content !important;
+    }
+    .mob-appointments-btn {
+        height: 62px;
+        width: max-content !important;
+    }
+} */
+
+/* Mobile Screen */

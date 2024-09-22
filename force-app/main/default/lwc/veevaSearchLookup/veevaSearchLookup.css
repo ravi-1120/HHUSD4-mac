@@ -1,0 +1,13 @@
+.field-label {
+    /* Unsets float set by Salesforce CSS form selectors to make sure that the field label stacks on top of the next element */
+    float: unset;
+    /* Unsets max-width set by Salesforce CSS form selectors to prevent the field label text from wrapping "early" */
+    max-width: unset;
+    display: flex;
+    flex-direction: row;
+}
+
+.field-control {
+    /* Unsets padding set by Salesforce CSS form selectors to make sure that our control and label are stacked without extra padding */
+    padding: unset;
+}

@@ -1,0 +1,20 @@
+<template>
+    <c-veeva-modal if:true={show} size={size} onclose={handleModalCancel} hide-header={hasHeader}>
+        <div slot="header" if:true={title}>{title}</div>
+        <div slot="content">
+            <lightning-layout horizontal-align={messageHorizontalAlign}>
+                <div if:true={messages} class="slds-var-m-around_medium">
+                    <template for:each={messages} for:item="message">
+                        <p class="modal-content-message" key={message}>{message}</p>
+                    </template>
+                </div>
+            </lightning-layout>
+        </div>
+        <div slot="footer">
+            <lightning-button variant={cancelButtonVariant} data-id="confirm-modal-cancel-button" class="slds-button" label={cancelButtonLabel}
+                disabled={disableButtons} onclick={handleModalCancel}></lightning-button>
+            <lightning-button variant={okayButtonVariant} data-id="confirm-modal-ok-button" class="slds-button" label={confirmButtonLabel}
+                disabled={disableButtons} onclick={handleModalConfirm}></lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

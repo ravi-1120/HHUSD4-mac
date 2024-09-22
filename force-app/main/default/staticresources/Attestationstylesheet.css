@@ -1,0 +1,53 @@
+.slds-radio .slds-form-element__label {
+    
+    color: var(--Gray-Scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+	
+}
+/*.raderrcls .slds-form-element.slds-radio [type=radio]+.slds-radio__label .slds-radio_faux {
+		margin-right: .5rem;
+		width: 24px !important;
+		height: 24px !important;
+		border-color: #D32F2F;
+}*/
+.slds-radio [type=radio]+.slds-radio__label .slds-radio_faux {
+		margin-right: .5rem;
+		width: 24px !important;
+		height: 24px !important;
+		/*border-color: #D32F2F;*/
+	}
+	
+.slds-form-element__control .slds-radio {
+    display: block;
+    margin-bottom: 24px;
+}
+
+@media only screen and (max-width: 767px) {
+   .slds-radio .slds-form-element__label {
+    
+		color: var(--Gray-Scale-text-dark, #333);
+		font-feature-settings: 'clig' off, 'liga' off;
+		font-family: Invention;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 24px;
+		display: contents;
+	
+	}
+	.slds-radio [type=radio]+.slds-radio__label .slds-radio_faux {
+		margin-right: .5rem;
+		width: 24px !important;
+		height: 24px !important;
+		border-color: #D32F2F;
+	}
+	.slds-form-element__control .slds-radio {
+		display: block;
+		margin-bottom: 24px;
+	}
+}

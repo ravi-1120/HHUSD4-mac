@@ -1,0 +1,83 @@
+<template>
+    <div class="container">
+        <div if:true={existingCustomer}>
+            <div class="closebtnmain">
+                <a class="closeiconcls" href={siteName.logoutcconfirmationpage} onclick={handlecloseevent}>
+                    <img src={CloseIcon} />
+                </a>
+            </div>
+            <div class="mainbody">
+                <h2>Looks like an account for that email already exists.</h2>
+                <p class="acctxt">It looks like an account for that email already exists. Please log in below, or if
+                    you’ve forgotten your password, <a href={siteName.forgotpassword} onclick={forgotpassclick}>click here</a>.</p>
+                <div class="btnmain">
+                    <a href={siteName.login} onclick={loginbtnclick}>Log in to the MFR portal</a>
+                </div>
+                <p class="supportlkn">If you think a mistake has been made, <a href={siteName.MyContacts} onclick={contactclick}>contact Merck
+                        Support</a>. </p>
+            </div>
+        </div>
+        <div class="" if:true={expiredInvitation}>
+
+            <div class="closebtnmain">
+                <a class="closeiconcls" href={siteName.logoutcconfirmationpage}>
+                    <img src={CloseIcon} />
+                </a>
+            </div>
+                <div class="bodycls">
+                    <div if:false={resendnext}>
+                        <div class="boxcls" >
+                        <p class="invitetextcls">Sorry, this registration invitation has expired. </p>
+                        <p class="invitetexttwocls">Registration links expire after <b>72 hours.</b> However, you can request a new invitation below.   </p>
+                            <button class="slds-button btncls" onclick={handleresend}>Resend invitation</button>
+                        </div>
+                    <p class="contactcls">Questions? Contact <a href={contactpageurl} onclick={handleGA}>your Merck account team</a> for further assistance.</p> 
+                    </div>
+                     <div if:true={resendnext}>
+                        <div class="boxclstwo" >
+                        <p class="slds-align_absolute-center invitetextclsone">We’ve sent a new invitation to register. </p>
+                        <p class="invitetexttwo">Please check your email. The registration link will be open for <b>72 hours.</b></p>
+                        </div> 
+                        <p class="contactcls">Questions? Contact <a href={siteName.MyContacts} onclick={handleGAE}>your Merck account team</a> for further assistance.</p> 
+                    </div>                        
+                    </div>                        
+                </div>     
+        </div>
+        <div if:true={userNotExist}>
+            <div class="closebtnmain">
+                <a class="closeiconcls" href={siteName.logoutcconfirmationpage} onclick={handlecloseevent}>
+                    <img src={CloseIcon} />
+                </a>
+            </div>
+            <div class="mainbody">
+                <h2 class="text-center">Sorry, this Link is not Valid.</h2>
+                <p class="acctxt">Please check your email to see if you’ve received any status updates. If you have any questions, please <a href={siteName.MyContacts} onclick={handleGAE}>contact Merck Support</a>.</p>
+            </div>
+        </div>
+        <div if:true={invalidLink}>
+            <div class="closebtnmain">
+                <a class="closeiconcls" href={siteName.logoutcconfirmationpage} onclick={handlecloseevent}>
+                    <img src={CloseIcon} />
+                </a>
+            </div>
+            <div class="mainbody">
+                <h2 class="text-center">Sorry, this Link is not Valid.</h2>
+                <p class="acctxt">Please check your email to see if you’ve received any status updates. If you have any questions, please <a href={siteName.MyContacts} onclick={handleGAE}>contact Merck Support</a>.</p>
+            </div>
+        </div>
+        <div if:true={pendingReq}>
+            <!-- <p>This request is already submitted</p> -->
+            <div class="closebtnmain">
+                <a class="closeiconcls" href={siteName.logoutcconfirmationpage} onclick={handlecloseevent}>
+                    <img src={CloseIcon} />
+                </a>
+            </div>
+            <div class="mainbody">
+                <h2 class="text-center">Looks like you’ve already registered.</h2>
+                <p class="acctxt">Please check your email to see if you’ve received any status updates. If you have any questions, please <a href={siteName.MyContacts} onclick={handleGAE}>contact Merck Support</a>.</p>
+                <div class="btnmain">
+                    <a href={siteName.login} onclick={loginbtnclick}>Log in to the MFR portal</a>
+                </div>
+            </div>
+        </div>
+</template>

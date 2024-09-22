@@ -1,0 +1,17 @@
+.slds-modal__container{
+    width: 90% !important;
+    max-width: 90% !important;
+}
+.uiModal--medium .modal-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 480px;
+}
+.slds-docked-form-footer{
+    padding-right: 10px;
+    justify-content: end;
+}
+.slds-table_header-fixed_container{
+    background-color: #fff;
+    min-height: 198px;
+}

@@ -1,0 +1,29 @@
+.footer-spacing {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+.logo-border {
+    position: relative;
+    text-align: center;
+    border: 1px dashed #dddbda;
+    border-radius: 4px;
+    padding: 5%;
+}
+.section-spacing {
+    padding-top: 24px;
+    padding-bottom: 5px;
+}
+.section-secondary-label {
+    padding-top: 4px;
+    padding-bottom: 5px;
+}
+.right-button-margins {
+    margin-left: 12px;
+}
+.header-align {
+    text-align: left;
+}
+.logo-size {
+    max-width: 700px;
+    max-height: 300px;
+}

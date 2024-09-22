@@ -1,0 +1,81 @@
+<template>
+    <div>
+        <div class="pbanner">
+            <img class="pbanner_img" src={bannerLogo}>
+        </div>
+        <div class="container">
+            <div class="left-panel">
+                <div class="img-container deskimage">
+                    <img src={Welcomelogo} />
+                </div>
+                <div class="img-container mobimage">
+                    <img src={Loginnewmoblogo} />
+                </div>
+                <div class="learnmore learnmob">
+                    <p class="learnhead">
+                        Learn more
+                    </p>
+                    <p class="learnmatr">
+                        Discover data and resources to help support formulary decisions and connect with your Merck account team. 
+                        <br/> 
+                        <br/>
+                        <a href="javascript:void(0);" onclick={learnmoreClick}><u>Learn more</u></a>&nbsp;about the MFR portal.
+                    </p>
+                </div>
+            </div>
+            <div class="right-panel">
+                <div>
+                    <p class="welcls">
+                           Log in
+                    </p>
+                    <p class="welclsmatr">
+                           to the Merck Formulary Resources portal
+                    </p>
+
+                    <label class="field-label" if:true={showEmailLabel}>Email</label>
+                    <input type="email" value={emailinp} onkeyup={handleChange} onchange={handleChange} placeholder="Email" class={emailclass} />
+
+                    <div class={passwordclass}>
+                        <label class="field-label" if:true={showPasswordLabel}>Password</label>
+                        <input type={inputType} value={password} onkeyup={handlepasword} onchange={handlepasword} placeholder="Password" />
+                        <div class="eye-icon" onclick={togglePasswordVisibility}>
+                            <lightning-icon class="eyeclass" icon-name={eyeIcon} alternative-text="Toggle Password Visibility"></lightning-icon>
+                        </div>                        
+                    </div>
+                    <div class="chkdivcls">
+                        <!-- <input type="checkbox" id="checkbox1" name="checkbox1" value={checkval} class="checkclass" onchange={handlecheckbox} />
+                        <label for="checkbox1" class="checklabcls">Remember me</label> -->
+                        <lightning-input type="checkbox" label="Remember me" checked={subscribe} onchange={handleCheckboxChange} class="checkclass" ></lightning-input>
+                    </div>
+                    <div if:true={iserror} class="warndiv">
+                        <p class="warnmtr">
+                            The email and password combination you have entered does not match our records. Please try again.
+                        </p>
+                    </div>
+                    <button class="loginbtn" data-name="loginbtn" onclick={handlelogin}>
+                            Log in
+                    </button>
+                    <div class="hyperlink">
+                        <p class="fgtquestionClas"><a href="javascript:void(0);" onclick={forgotpasswordClick} class="frgcls"><u>Forgot password</u></a>?</p>
+                    </div>
+                    <div class="hyperlink">
+                        <p class="linktext">Don't have an account?&nbsp;<a href="javascript:void(0);" onclick={signupClick} class="signupcls">Sign up</a>.</p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="learnmore learnmob1">
+                <p class="learnhead">
+                    Learn more
+                </p>
+                <p class="learnmatr">
+                    Discover data and resources to help support formulary decisions and connect with your Merck account team. 
+                    <br/> 
+                    <br/>
+                    <!-- <a href={navigatelearnmore}><u>Learn more</u></a>&nbsp;about the MFR portal. -->
+                    <a href="javascript:void(0);" onclick={learnmoreClick}><u>Learn more</u></a>&nbsp;about the MFR portal.
+                </p>
+            </div>
+        </div>
+    </div>
+</template>

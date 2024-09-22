@@ -1,0 +1,300 @@
+<template>
+      <!-- <div class="q-container"> -->
+        <h2 class=" headingCls slds-m-top_medium slds-m-left_medium slds-text-heading_small">
+            Please review details of the Competitive Information reported below:</h2>
+        <!-- <div class="scrollable"> -->
+        <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+          <lightning-accordion-section name="1" label="Representatives Information">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                  medium-device-size="6" large-device-size="4">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">Rep Name</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage1.RepName}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                  medium-device-size="6" large-device-size="4">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">Representative's CTL</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage1.RepCTL}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+            </lightning-layout>
+          </lightning-accordion-section>
+          <lightning-accordion-section name="2" label="Product & Competitive Source">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                  medium-device-size="6" large-device-size="6">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">Select Product</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage2.Product}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item lwc:if={ProductCatalog} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Product Indication</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.ProductCatalog}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                  medium-device-size="6" large-device-size="6">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">Select Original Competitive Source</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage2.CompetitiveSource}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              <lightning-layout-item lwc:if={showOtherDetails} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Other Details</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage2.OtherDetails}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+            </lightning-layout>
+          </lightning-accordion-section>
+          <lightning-accordion-section name="3" label="Type of Information received">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                  medium-device-size="6" large-device-size="6">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">Type of Information Received</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.typeOfInformation}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item lwc:if={isVerbal} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">When and how did you hear this information?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.InfoTiming}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+                <lightning-layout-item lwc:if={isVerbal} flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                  medium-device-size="6" large-device-size="6">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">What exactly was the info/what is the main message?</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.MainMessage}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              <lightning-layout-item lwc:if={isDetailPiece} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Where and when did you hear about the item or how did you receive the item?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.ItemTiming}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={isDetailPiece} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Did you get permission to copy, photograph, or take any hardcopy item or forward any electronic item?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.PermissionGranted}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={showPermissionFields} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Who gave permission?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.WhoGavePermission}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={showPermissionFields} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">What is their role?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.RoleOfPermissionGiver}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={showPermissionFields} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">What is the name/title or theme of the item?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.titleOfItem}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={showPermissionFields} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Can you forward the original or copy to the MNSC?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.uploadFile}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <template if:true={hasUploadedFiles}>
+                <table
+                  class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover">
+                  <thead>
+                    <tr class="slds-line-height_reset">
+                      <th class="" scope="col" style="width: 70%;">
+                        <div class="slds-truncate" title="File Name">{label.FILENAME}</div>
+                      </th>
+                      <th class="" scope="col" style="width: 15%;">
+                        <div class="slds-truncate" title="File Size">{label.FILESIZE}</div>
+                      </th>
+                      <th class="" scope="col" style="width: 15%;">
+                        <div class="slds-truncate" title="Download">{label.DOWNLOAD}</div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <template for:each={uploadedFilesList} for:item="file">
+                      <tr key={file.id} class="slds-hint-parent">
+                        <td data-label="File Name">
+                          <div class="slds-truncate">{file.filename}</div>
+                        </td>
+                        <td data-label="File Size">
+                          <div class="slds-truncate">{file.size} MB</div>
+                        </td>
+                        <td data-label="Download">
+                          <button data-id={file.id} data-file-name={file.filename} onclick={handleFileDownload}
+                            title="Download" class="slds-button slds-button_icon">
+                            <lightning-icon icon-name="utility:download" size="x-small"
+                              title="Download this file"></lightning-icon>
+                          </button>
+                        </td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </template>
+              <lightning-layout-item lwc:if={isEducational} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">What is the main topic of the program?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.ProgramTopic}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+                <lightning-layout-item lwc:if={isEducational} flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                  medium-device-size="6" large-device-size="6">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">Where and when did (will) the program take place?</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.ProgramTiming}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              <lightning-layout-item lwc:if={isEducational} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Who sponsored the program?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.ProgramSponsor}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={isEducational} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">What is the name of the Company?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.CompanyName}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={isEducational} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Who is invited and/or attending the program?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.ProgramAttendees}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={isSalesforce} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">How many employees are/were involved?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.EmployeeCount}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={isSalesforce} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">In what region is it concentrated?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.Region}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={isVaccines} flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                  medium-device-size="6" large-device-size="6">
+                  <div class="slds-form-element">
+                    <span class="slds-form-element__label ">How did you obtain the information?</span>
+                    <div class="slds-form-element__control">
+                      <span class="slds-form-element__static">{stage3.VaccineInfo}</span>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              <lightning-layout-item lwc:if={isVaccines} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Is there a specific competitor or competitor product involved?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.VaccineCompetitor}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={isVaccines} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Was a specific customer or practice named or named?(ie: is the information specific to an individual customer/practice) or do you believe it to apply to other practices as well?</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.VaccineCustomer}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item lwc:if={isOther} flexibility="auto" padding="horizontal-medium" size="12"
+                small-device-size="6" medium-device-size="6" large-device-size="6">
+                <div class="slds-form-element">
+                  <span class="slds-form-element__label ">Other Type of Information Received.</span>
+                  <div class="slds-form-element__control">
+                    <span class="slds-form-element__static">{stage3.OtherInfo}</span>
+                  </div>
+                </div>
+              </lightning-layout-item>
+            </lightning-layout>
+          </lightning-accordion-section>
+  
+          </lightning-accordion>  
+          <!-- </div> -->
+        <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+          <lightning-layout-item alignment-bump="left">
+            <button class="slds-button slds-button_brand btnHover submitBtn" onclick={handleSubmit}
+              name="Submit">Submit</button>
+          </lightning-layout-item>
+        </lightning-layout>
+      <!-- </div> -->
+  </template>

@@ -1,0 +1,25 @@
+div:hover > button.edit-button, div:hover > button.lock-button {
+    visibility: visible;
+    opacity: 0.5;
+}
+
+div:focus > button.edit-button, div:focus-visible > button.edit-button {
+    visibility: visible;
+    opacity: 1;
+}
+
+div:focus > button.lock-button, div:focus-visible > button.lock-button {
+    visibility: visible;
+    opacity: 0.5;
+}
+
+button.edit-button, button.lock-button {
+    visibility: hidden;
+}
+
+.text-container {
+    display: flex;
+    gap: var(--lwc-spacingXxSmall, 0.25rem);
+    justify-content: flex-start;
+    align-items: center;
+}

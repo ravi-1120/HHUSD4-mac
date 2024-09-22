@@ -1,0 +1,16 @@
+<template>
+  <label class="slds-form-element__label" for="boolean-button-group-01">{label}</label>
+  <div class="slds-form-element__control">
+      <lightning-button-group id="boolean-button-group-01">
+        <template for:each={options} for:item="option">
+          <lightning-button
+              key={option.key}
+              data-key={option.key}
+              label={option.label}
+              variant={option.variant}
+              onclick={handleSelected}
+          ></lightning-button>
+        </template>
+      </lightning-button-group>
+  </div>
+</template>

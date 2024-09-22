@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <isExposed>true</isExposed>
+  <masterLabel>RequestSignature</masterLabel>
+  <description>This is the request signature modal</description>
+  <targets>
+      <target>lightning__FlowScreen</target>
+  </targets>
+  <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="errorEncounteredValue" type="Boolean"/>
+            <property name="exitRequestValue" type="Boolean"/>
+            <property name="reqSignatureFailed" type="Boolean"/>
+            <property name="recordIdValue" type="String"/>
+            <property name="accountNameValue" type="String"/>
+            <property name="accountIdValue" type="String"/>
+            <property name="groupIdValue" type="String"/>
+            <property name="objectApiNameValue" type="String"/>
+            <property name="messageInvalidSignatureValue" type="String"/>
+            <property name="disclaimerValue" type="String"/>
+            <property name="disclaimerHeaderValue" type="String"/>
+            <property name="signatureImgValue" type="String"/>
+            <property name="signatureDateValue" type="String"/>
+            <property name="signInIdValue" type="String"/>
+            <property name="channelIdValue" type="String"/>
+            <property name="recordTypeValue" type="String"/>
+            <property name="selectedMethodValue" type="String"/>
+            <property name="linkValue" type="String"/>
+        </targetConfig>
+  </targetConfigs>
+</LightningComponentBundle>

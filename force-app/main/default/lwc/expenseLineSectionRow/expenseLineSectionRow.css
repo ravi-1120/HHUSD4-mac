@@ -1,0 +1,18 @@
+:host {
+    display: contents;
+}
+
+.field-cell {
+    vertical-align: top;
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+}
+
+.field-item-container {
+    display: flex;
+}
+
+.field-item {
+    flex-basis: 100%;
+    min-width: 0;
+}

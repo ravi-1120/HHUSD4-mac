@@ -1,0 +1,197 @@
+::root{
+    --slds-c-input-radius-border:0px;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.slds-listbox {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    max-height: 10rem;
+    overflow-y: auto;
+}
+
+.slds-listbox__item {
+    cursor: pointer;
+    font-family: 'InventionRg';
+    padding:0px 24px;
+    font-size: 14px;
+    line-height: 22px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.hover-cls:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.slds-listbox__option {
+    padding: 0.5rem;
+}
+
+.slds-listbox__option_entity .slds-media__figure {
+    margin-right: 0.5rem;
+}
+.slds-modal__container{
+    max-width: 684px;
+    min-height: 652px;
+    display: flex;
+    align-items: center;
+}
+.slds-dropdown{
+	border-radius: 0;
+}
+.slds-listbox{
+	padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 0px;
+}
+.new-btn{
+	padding-left: 16px;
+    display: flex;
+    gap: 8px;
+	cursor: pointer;
+    margin-bottom: 8px;
+}
+.slds-hyphenate{
+    margin-bottom: 16px;
+    font-family: 'InventionBd';
+}
+.slds-modal__content{
+    padding: 32px;
+    padding-bottom: 24px;
+    overflow-y: auto;
+    min-height: 620px;
+}
+.footer{
+    border-top:#FFFFFF;
+    background-color:#FFFFFF;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+.modal-content{
+  display: flex;  
+  gap: 24px;
+}
+.inpt-cls{
+width: 50%;
+border-radius: 0px;
+}
+.cancel-btn{
+    font-family: 'InventionBd';
+	color: #04313B;
+    background: #FFFFFF;
+    border: 1px solid #D0D5DD;
+    border-radius: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 16px;
+    font-size: 14px;
+    height: 32px;
+    width: 75px;
+    line-height: 22px;
+}
+.add-btn{
+    background: #00857C;
+    border: 1px solid #00857C;
+    color: #fff;
+    max-width: 59px;
+    height: 32px;
+    border-radius: 0px;
+    font-family: 'InventionBd';
+    font-size: 14px;
+    padding: 0px 16px;
+    line-height: 22px;
+}
+.input-cls{
+    width: 190.7px;
+    font-family: 'InventionRg';
+}
+.name-cls{
+  font-family: 'InventionRg';  
+}
+.address-div{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.address-secondiv{
+    display: flex;
+    gap: 24px;
+    width: 100%;
+}
+.add-cls{
+    width: 50%;
+    font-family: 'InventionRg';
+}
+.dropdown-val{
+    padding: 8px;
+    cursor:pointer;
+}
+.listbox-cls{
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+.create-cls{
+    padding:0px 24px;
+    font-size: 14px;
+    line-height: 22px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+.create-cls :hover{
+    background-color: rgba(0, 0, 0, 0.06);
+}
+.dr-form{
+    position: relative;
+}
+.dr-form-dropdown{
+    position: absolute !important;
+    z-index: 1111 !important;
+    max-width: 960px !important;
+    width: 100% !important;
+    min-height: 250px !important;
+    top: 65px !important;
+}
+.dr-form-dropdown .dropdown-cls{
+    position: absolute !important;
+    z-index: 1113 !important;
+}
+.cancel-btn:hover{
+	color: #FFFFFF;
+    background: #00857C;
+	border: 1px solid #00857C;
+}
+.add-btn:hover{
+	color: #FFFFFF;
+    background: #00857C;
+	border: 1px solid #00857C;
+}
+@media only screen and (max-width: 600px) {
+    .slds-modal__content {
+        width: 100%;
+    }
+    .address-secondiv{
+        display: block;
+        width: 100%;
+    }
+    .add-cls {
+        width: 100%;
+    }
+    .modal-content{
+        display: block;
+    }
+    .input-cls{
+        width: 100%;
+    }
+}

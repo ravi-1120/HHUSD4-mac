@@ -1,0 +1,62 @@
+<template>
+    <lightning-card class="slds-card_boundary slds-show">
+        <h2 slot="title">
+            {messageMap.connectionCardTitle}
+        </h2>
+        <lightning-button slot="actions" onclick={displayNewConnectionModal} label={messageMap.newButtonLabel}></lightning-button>
+        <div class="lightning-datatable-container">
+            <c-veeva-spinner if:true={showSpinner} class="slds-spinner_container"></c-veeva-spinner>
+            <c-veeva-datatable key-field="sfId" class='slds-m-top_small'
+                data={connectionData} 
+                columns={connectionColumns}
+                max-row-selection=1
+                min-column-width="100" 
+                selected-rows={selectedRows} 
+                wrap-text-max-lines="3" 
+                onrowaction={handleRowAction}
+                onrowselection={handleRowSelection}
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={onHandleSort}
+            >
+            </c-veeva-datatable>
+        </div>
+        <div class='slds-m-top_small'>
+            <c-admin-mapping selected-connection={rowSelection}
+            admin-mappping-data-svc={connectionDataSvc}
+            ctrl={ctrl.fieldMappingController}></c-admin-mapping>
+        </div>
+        <c-admin-connection-modal if:true={showConnectionModal}
+            modal-data-svc={connectionDataSvc}
+            connection-data={actionRow}
+            is-edit={isEdit}
+            modal-message-map={messageMap}
+            system-type={systemType}
+            record-type-id={recordTypeId}
+            ctrl={ctrl}
+            sync-settings-picklist-values={syncSettingsPicklistValues}
+            onclose={closeConnectionModal}
+            onsave={saveConnectionModal}
+            onsavenew={saveAndNewConnection}>
+        </c-admin-connection-modal>
+        <c-veeva-confirmation-modal show={showDeleteConnection} 
+            size="veeva-small" 
+            title={messageMap.deleteConnectionTitle}
+            messages={deleteConfirmation} 
+            confirm-label={messageMap.deleteButtonLabel} 
+            cancel-label={messageMap.cancelButtonLabel}
+            onconfirm={deleteConnection} 
+            oncancel={cancelDelete}>
+        </c-veeva-confirmation-modal>
+        <c-validate-mappings-modal if:true={showValidateMappings}
+            size="veeva-smaller" 
+            modal-message-map={messageMap}
+            onclose={closeValidateMappings}
+            ondownload={downloadReport}
+            show-download-report={showDownloadReport}
+            mapping-to-validate={mappingToValidate}
+            ctrl={ctrl}>
+        </c-validate-mappings-modal>
+    </lightning-card>
+</template>

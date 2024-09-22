@@ -1,0 +1,9 @@
+@media only screen and (max-width: 767px) {
+    .slds-truncate{
+        line-height: revert;
+    }
+}
+.slds-form-element__label{
+   font-size: 14px !important;
+    font-family: Invention;
+}

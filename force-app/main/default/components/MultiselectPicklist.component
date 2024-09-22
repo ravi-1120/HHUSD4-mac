@@ -1,0 +1,239 @@
+<!--
+The MultiselectPicklist component implements a multiselect picklist similar
+to that seen when adding tabs to a Force.com application.
+
+HTML elements use the same classes as the native multiselect picklist, to
+keep visual consistency in the UI.
+
+In addition to the visible elements, the component contains two hidden input
+elements, the purpose of which is to hold a string representation of the
+contents of each listbox. As options are added, removed or moved within the
+listboxes, the content of the hidden elements is synchronized to the content
+of the listboxes. When the Visualforce page is submitted, the 
+MultiselectController updates its SelectOption[] variables from these hidden 
+elements.
+-->
+<apex:component controller="MultiselectController" allowDML="true">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+        .slds-scope .slds-button_neutral, .slds-scope .slds-button--neutral {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    </style>
+    
+    <apex:attribute name="leftLabel" description="Label on left listbox."
+                    type="String" required="true" />
+    <apex:attribute name="rightLabel" description="Label on right listbox."
+                    type="String" required="true" />
+    <apex:attribute name="size" description="Size of listboxes."
+                    type="Integer" required="true" />
+    <apex:attribute name="width" description="Width of listboxes."
+                    type="String" required="true" />
+    <apex:attribute name="showUpDownButtons" description="Should Up/Down buttons be displayed or not."
+                    type="Boolean" required="false" default="true"/>
+                    
+    <apex:attribute name="kList"
+                    description="Options list for left listbox." type="Id[]"
+                    required="true" assignTo="{!memIds}" />
+    
+    <apex:form id="frm">
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:actionFunction name="moveToRightJS" action="{!moveToRight}" reRender="frm">
+            <apex:param name="arg1" value="" assignTo="{!selectedOp}"/>
+        </apex:actionFunction>
+        
+        <apex:actionFunction name="moveToLeftJS" action="{!moveToLeft}" reRender="frm">
+            <apex:param name="arg1" value="" assignTo="{!selectedOp}"/>
+        </apex:actionFunction>
+        
+        <apex:actionFunction name="submitAndProcessApproval" action="{!submitAndProcessApprovalRequest}" reRender="frm" oncomplete="goBack();">
+        </apex:actionFunction>
+       
+        <article class="{!IF($CurrentPage.parameters.singleArticle != 'yes','slds-card','')}">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-account" title="account">
+                            <span class="slds-assistive-text">Select Approvers</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                 <span>Select Approvers</span>
+                            </a>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-card__body_inner">
+                
+                    <apex:outputPanel id="multiselectPanel" layout="block" styleClass="duelingListBox" style="width:500px;">
+                        <table class="layout">
+                            <tbody>
+                                <tr>
+                                    <td class="selectCell">
+                                        <apex:outputPanel layout="block" styleClass="selectTitle">
+                                            <apex:outputLabel value="{!leftLabel}" 
+                                                              for="multiselectPanel:leftList" />
+                                        </apex:outputPanel>
+                                        <select id="{!$Component.multiselectPanel}:leftList" 
+                                                class="multilist slds-select leftList" multiple="multiple" size="{!size}" 
+                                                style="width: {!width};">
+                                            <apex:repeat value="{!leftOptions}" var="option">
+                                                <option value="{!option.value}">{!option.label}</option>
+                                            </apex:repeat>
+                                        </select>
+                                    </td>
+                                    <td class="buttonCell">
+                                        <apex:outputPanel layout="block" styleClass="text">Add</apex:outputPanel>
+                                        
+                                        <apex:outputPanel layout="block" styleClass="text">
+                                            <apex:commandButton value=">"
+                                                                id="btnRight"
+                                                                styleClass="slds-button slds-button_neutral"
+                                                                onclick="moveToRight(); return false;">
+                                            </apex:commandButton>
+                                        </apex:outputPanel>
+                                        
+                                        <apex:outputPanel layout="block" styleClass="text">
+                                            <apex:commandButton value="<"
+                                                                id="btnLeft"
+                                                                styleClass="slds-button slds-button_neutral"
+                                                                onclick="moveToLeft(); return false;"
+                                                                style="margin-top: 5px;">
+                                            </apex:commandButton>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel layout="block" styleClass="duelingText">Remove</apex:outputPanel>
+                                    </td>
+                                    
+                                    <td class="selectCell">
+                                        <apex:outputPanel layout="block" styleClass="selectTitle">
+                                            <apex:outputLabel value="{!rightLabel}" for="multiselectPanel:rightList" />
+                                        </apex:outputPanel>
+                                        <select id="{!$Component.multiselectPanel}:rightList" 
+                                                class="multilist slds-select rightList" multiple="multiple" size="{!size}" 
+                                                style="width: {!width};">
+                                            <apex:repeat value="{!rightOptions}" var="option">
+                                                <option value="{!option.value}">{!option.label}</option>
+                                            </apex:repeat>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </apex:outputPanel>
+                
+            </div>
+            
+            <footer class="slds-card__footer">
+                
+            </footer>
+        </article>
+                                                                                   
+    
+        <article class="{!IF($CurrentPage.parameters.singleArticle != 'yes','slds-card','')}">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-account" title="account">
+                            <span class="slds-assistive-text">Comments</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                <span>Comments</span>
+                            </a>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-card__body_inner">
+                <apex:inputTextarea value="{!comment}" styleClass="slds-input"/>
+            </div>
+            <footer class="slds-card__footer">
+                <button class="slds-button slds-button_brand" onclick="submitAndProcessApproval(); return false;">Submit</button>
+                <button class="slds-button slds-button_neutral" onclick="goBack(); return false;">Cancel</button>
+            </footer>
+        </article>
+    </apex:form>
+               
+    <apex:includeScript value="/support/console/43.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/jquery.tablesorter.min.js')}" />
+    
+    <script>
+        function goBack(){
+            var singleRecord = '{!$CurrentPage.parameters.singleArticle}';
+            
+            if(singleRecord == 'yes')
+            {
+                closeTab();
+            }
+            else
+            {
+                var url = "/lightning/o/Knowledge__kav/list";
+                window.top.location.href = url; 
+            }
+        }
+        
+        function moveToRight(){
+            var vl = $('.leftList').val();
+            vl = vl.join('-');
+            moveToRightJS(vl);
+        }
+        
+        function moveToLeft(){
+            var vl = $('.rightList').val();
+            vl = vl.join('-');
+            moveToLeftJS(vl);
+        }
+        
+        var tabId;
+        var thisTabId;
+        var didSaveSucceed;
+        var isATab;
+
+        function initialize() {
+            isATab = false;
+            sforce.console.setTabTitle('{!$Label.MSD_CORE_DCR_Account_Edit_Title}');
+            getTabId();
+        }
+
+        function getTabId()
+        {
+            sforce.console.getEnclosingPrimaryTabId(assignTabId);
+            sforce.console.getEnclosingTabId(assignThisTabId);
+        }
+        function closeTab() 
+        {
+            console.log("entered close tab");
+            console.log(thisTabId,tabId);
+            sforce.console.refreshPrimaryTabById(tabId, false, sforce.console.closeTab(thisTabId));
+        }
+      
+        var assignTabId = function assignTabId(result)
+        {
+            tabId = result.id;
+        };
+        var assignThisTabId = function assignThisTabId(result)
+        {
+            console.log("tabs"+JSON.stringify(result));
+            thisTabId = result.id;
+            isATab = true;
+            document.getElementById('{!$Component.DCRForm.isATab}').value = isATab;
+        };
+      
+
+        var closeSubTab = function closeSubTab(result) {
+             console.log("entered close sub tab");
+            console.log(thisTabId);
+            setTimeout('sforce.console.closeTab(thisTabId)', 1);
+        };
+        
+        window.onload = initialize;
+    </script>
+</apex:component>

@@ -1,0 +1,9 @@
+.counter-input {
+    padding: 0;
+    width: 2em;
+    font-size: 14px;
+}
+
+.counter-container {
+    padding: var(--lwc-spacingXSmall, 8px) 0;
+}

@@ -1,0 +1,71 @@
+<aura:component extends="c:ComponentUtils" controller="MSD_CORE_CC_Add_TempExcProdController" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <!-- Attributes -->
+    <aura:attribute name="parentId" type="String" />
+    <aura:attribute name="lotNumId" type="String" default=""/>
+    <aura:attribute name="mode" type="String" default="NEW" />
+    <aura:attribute name="recId" type="String" default="" />
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    <aura:attribute name="buttonClicked" type="String"/>
+    <aura:registerEvent name="MSD_CORE_CC_TE_LotDetailsFormEvent" type="c:MSD_CORE_CC_TE_LotDetailsFormEvent"/>
+    <aura:registerEvent name="MSD_CORE_CC_TE_LotDetailsEvent" type="c:MSD_CORE_CC_TE_LotDetailsEvent"/>
+    <aura:attribute name="showLotDetailTabs" type="Boolean" default="false" />
+    <aura:attribute name="selectedLotTabId" type="String" default="1" />
+    <aura:attribute name="lottabs" type="Object[]" />
+    <aura:attribute name="lotNum" type="String" />
+    <aura:attribute name="expDate" type="Date"/>
+    <aura:attribute name="lotFields" type="String[]" default="Name,MSD_CORE_Expiration_Date__c"/>
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>   
+    
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <aura:if isTrue="{!v.mode !='VIEW'}">
+        <lightning:layout>
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:input aura:id="field" name="lotNum" value="{!v.lotNum}" label="Lot Number"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:input type="date" name="expDate" label="Expiration Date" value="{!v.expDate}" />
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+        <aura:set attribute="else">
+            <lightning:recordForm recordId="{!v.recordId}" columns="2" mode="view" fields="{!v.lotFields}" objectApiName="MSD_CORE_TE_Product_Lot_Details__c">
+                <lightning:layout>
+                    <lightning:layoutItem flexibility="auto" padding="around-small">
+                        <span style="color:red;">* </span><label for="Product" class="slds-form-element__label">Lot Number</label>
+                        <lightning:outputField aura:id="required" fieldName="Name" variant="label-hidden"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" padding="around-small">
+                        <label for="Product Formulation" class="slds-form-element__label">Expiration Date</label>
+                        <lightning:outputField fieldName="MSD_CORE_Expiration_Date__c" variant="label-hidden"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" padding="around-small">
+                        <span style="color:red;">* </span><label for="Product Formulation" class="slds-form-element__label">Temp Excursion Product</label>
+                        <lightning:outputField fieldName="MSD_CORE_Temp_Excursion_Product__c" value="{!v.parentId}" variant="label-hidden"  disabled="true"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:recordForm>            
+        </aura:set>
+    </aura:if>
+    <aura:if isTrue="{!v.mode !='VIEW'}">
+        <div class="slds-align_absolute-center">
+            <lightning:button 
+                              variant="neutral" 
+                              type="submit"
+                              name="saveAdd" 
+                              label="Save &amp; New" 
+                              onclick="{!c.handleSaveAdd}"/>
+            <lightning:button 
+                              variant="brand" 
+                              type="submit"
+                              name="save" 
+                              label="Save" 
+                              onclick="{!c.handleSave}"/>
+        </div>
+    </aura:if>
+</aura:component>

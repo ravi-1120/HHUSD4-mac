@@ -1,0 +1,32 @@
+<template>
+  <c-veeva-alert-modal 
+    size="tiny" 
+    show={showAccountSelectionErrorModal}
+    title={messageMap.selfAffiliationAccount}
+    onclose={closeAlertDialog}>
+  </c-veeva-alert-modal>
+  <c-stakeholder-navigator-account-search-modal
+    lwc:if={showAccountSearch}
+    ctrl={ctrl}
+    from-account-id={fromAccountId}
+    oncancel={handleModalCancel}
+    onaccountselection={handleAccountSelection}
+    oninvalidselection={handleInvalidSelection}
+  ></c-stakeholder-navigator-account-search-modal>
+  <div class="stakeholder-nav-disable-scroll">  
+    <c-stakeholder-navigator-header 
+      lwc:if={includeHeader}
+      root-id={recordId} 
+      sn-message={messageMap.pageName}
+      num-acct-loaded={numberOfAccountsLoaded}
+      should-show-account-count={shouldShowAccountCount}
+    ></c-stakeholder-navigator-header>
+    <iframe 
+      class={iframeClass} 
+      style={iframeStyle}
+      src={staticResourceURL} 
+      frameborder="0"
+    >
+    </iframe>
+  </div>
+</template>

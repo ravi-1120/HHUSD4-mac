@@ -1,0 +1,82 @@
+.librarytab_cls li a {
+    color: #00857C !important;
+}
+.librarytab_cls li a:hover {
+    color: #00857C !important;
+    text-decoration: none !important;
+}
+.librarytab_cls .slds-tabs_default__nav {
+    border-bottom: 1px solid #A4A4A4;
+}
+
+.librarytab_cls .slds-tabs--default__item:hover:after, .slds-tabs_default__item:hover:after {
+    background: none !important;
+}
+
+.librarytab_cls .slds-tabs_default__item.slds-is-active:after {
+    background-color: #00857C !important;
+}
+
+.librarytab_cls a:focus:not(.slds-button,.slds-dropdown__item>a) {
+    text-decoration: none !important;
+}
+
+.librarytab_cls .slds-:hover:after {
+    background-color: #00857C !important;
+}
+
+.librarytab_cls .slds-tabs_default__item {
+    position: relative;
+    padding: 0 1.5rem;
+}
+
+
+/* .librarytab_cls .slds-is-active:after {
+    background-color: #00857C !important;
+    top: 100% !important;
+    width: 100% !important;
+    border-radius: 20px !important;
+    border: solid 1px #00857C !important;
+    left: 0 !important;
+} */
+
+/* .librarytab_cls .slds-tabs_default__item:after { */
+.act li[data-tab-value="1"]:after,
+.sav li[data-tab-value="2"]:after,
+.app li[data-tab-value="3"]:after,
+.clo li[data-tab-value="5"]:after {
+    position: absolute;
+    top: 5px;
+    width: 1px;
+    background-color: #bf1f1f !important;
+    border-radius: 20px;
+    border: solid 1px #c93a3a;
+    left: 95%;
+    padding: 1px;
+}
+
+.header_left .menucls .menuicon .slds-icon{
+    fill: white;
+    height: 20px;
+    width: 30px;
+    margin-top: 5px;
+}
+
+.slds-tabs--default__item:hover:after, .slds-tabs_default__item:hover:after {
+    height: calc(var(--slds-c-tabs-list-sizing-border,var(--sds-c-tabs-list-sizing-border,1px)) + 2px) !important;
+}
+
+.uname .slds-form-element__control input, .pwd .slds-form-element__control input  {
+    border-color: #D9D9D6 !important;
+}
+.main-content.lwc-2e9p45m2o16 {
+    border-radius: 8px;
+    box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.25);
+    max-width: 1128px;
+}
+@media screen and (max-width: 767px) {
+
+    .slds-combobox__input{
+        padding: 9px 16px 10px 12px;
+    }
+}

@@ -1,0 +1,133 @@
+<template>
+    <div style="margin-bottom: 5px; margin-left: 5px;">
+        <lightning-button label={label.SaveSearch} onclick={openSaveSearchModal}></lightning-button>
+    </div>
+    <div style="margin-left: 5px;">
+        <lightning-button label={label.ViewSaved} onclick={openViewSavedModal}></lightning-button>
+    </div>
+
+
+    <!-- Modal for saving search -->
+    <template if:true={isSaveModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse " title={label.Close} onclick={closeSaveModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" style=" position: absolute; top: 3rem; right: 1rem; border: none;" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">{label.Close}</span>
+                        </button>
+                    <h2 class="slds-text-heading_medium">{label.SaveSearch}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input label={label.NewName} value={searchName} onchange={handleNameChange}>
+                    </lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label={label.cancel} onclick={closeSaveModal}
+                        style="padding-right: 5px;"></lightning-button>
+                    <lightning-button variant="brand" label={label.Save} onclick={handleSaveSearch}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Modal for viewing saved searches -->
+    <template if:true={isViewSavedModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={label.Close} onclick={closeViewSavedModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" style=" position: absolute; top: 3rem; right: 1rem; border: none;" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">{label.Close}</span>
+                        </button>
+                    <h2 class="slds-text-heading_medium">{label.SavedSearch}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template if:true={savedSearches.length}>
+                        <template for:each={savedSearches} for:item="savedSearch">
+                            <div key={savedSearch.Id} class="saved-search-item">
+                                <a href="javascript:void(0);" class="saved-search-name" data-id={savedSearch.Id}
+                                    onclick={handleViewSavedSearch}>
+                                    {savedSearch.MSD_CORE_Search_Name__c}
+                                </a>
+                                <div class="icon-buttons">
+                                    <button class="icon-button" data-id={savedSearch.Id} onclick={handleRenameSavedSearch}>
+                                            <lightning-icon icon-name="utility:edit" size="small"></lightning-icon>
+                                        </button>
+                                    <button class="icon-button" data-id={savedSearch.Id} onclick={handleDeleteSavedSearch}>
+                                            <lightning-icon icon-name="utility:delete" size="small"></lightning-icon>
+                                        </button>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={savedSearches.length}>
+                        <p>No results found.</p>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label={label.Close} onclick={closeViewSavedModal}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Delete Confirmation Modal -->
+    <template if:true={isDeleteModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <lightning-card class="slds-card_modal">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={label.Close} onclick={closeDeleteModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" style=" position: absolute; top: 1rem; right: 1rem; border: none;" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">{label.Close}</span>
+                        </button>
+                        <h2 class="slds-text-heading_medium">{label.ConfirmDelete}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <p>{label.warningmsg1}</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="neutral" label="No" onclick={closeDeleteModal}
+                            style="padding-right: 5px;"></lightning-button>
+                        <lightning-button variant="destructive" label="Yes" onclick={confirmDelete}></lightning-button>
+                    </footer>
+                </lightning-card>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Rename Saved Search Modal -->
+    <template if:true={isRenameModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <lightning-card class="slds-card_modal">
+                    <header class="slds-modal__header ">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={label.Close} onclick={closeRenameModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" style=" position: absolute; top: 1rem; right: 1rem; border: none;" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">{label.Close}</span>
+                        </button>
+                        <h2 class="slds-text-heading_medium">{label.Rename}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-input label={label.EditName} value={newSearchName} onchange={handleNewNameChange}>
+                        </lightning-input>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="neutral" label={label.cancel} onclick={closeRenameModal}
+                            style="padding-right: 5px;"></lightning-button>
+                        <lightning-button variant="brand" label={label.Save} onclick={saveNewName}></lightning-button>
+                    </footer>
+                </lightning-card>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <c-m-s-d_-c-o-r-e_-h-e-q_-view-all-resources onselectedfilters={handleSelectedFilters}>
+    </c-m-s-d_-c-o-r-e_-h-e-q_-view-all-resources>
+</template>

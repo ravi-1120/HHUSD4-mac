@@ -1,0 +1,218 @@
+<apex:page title="New Product" standardController="MSD_CORE_AE_Product__c" extensions="CaseProductControllerMVN"  sidebar="false">
+    <apex:includeScript value="/support/console/31.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    
+    <style>
+        .column {
+            width: 15%;
+            float: left;
+        }
+        .column label{
+            float: left;
+            font-weight: bold;
+            font-size: 10px;
+            color: #666;
+            padding: 0px 0px 0px 5px;
+        }
+        .column span{
+            float: right;
+            padding-right: 15px;
+            font-weight: bold;
+            font-size: 10px;
+            color: #555;
+        }
+        .row{
+            float: left;
+            width: 100%;
+            padding: 2px 0px;
+        }
+        .column img{
+            float: left;
+        }
+    </style>
+    
+    <script>
+        $(document).ready(function(){
+            var relatedTo = '{!product.MSD_CORE_Related_to__c}';
+            
+            if(relatedTo.indexOf('AE') != -1)
+                $('#adverseEvent').prop('checked', true);
+            
+            if(relatedTo.indexOf('PQC') != -1)
+                $('#productComplaint').prop('checked', true);
+                
+            var productId = '{!MSD_CORE_AE_Product__c.Id}';
+            if(productId == '')
+                $('[id$="primaryProduct"]').prop('checked', true);
+                
+            setTimeout(function(){
+                $('.savebtn').focus();
+                
+                $(document).keypress(function (e) {
+                    var key = e.which;
+                    if(key == 13)  // the enter key code
+                    {
+                        $('.savebtn').click();
+                        return false;  
+                    }
+                });   
+            }, 500);
+        });
+        
+        function updateCaseJS(ct)
+        {
+            var adverseEvent = $('#adverseEvent').prop('checked');
+            var productComplaint = $('#productComplaint').prop('checked');
+            
+            if(ct == 'PQC')
+            {
+                if(productComplaint)
+                    $('[id$="primaryProduct"]').prop('checked', true);
+                else
+                    $('[id$="primaryProduct"]').prop('checked', false);
+            }
+                
+            if(adverseEvent && productComplaint)
+                $('[id$="relatedTo"]').val('AE and PQC');
+            else if(adverseEvent)
+                $('[id$="relatedTo"]').val('AE');
+            else if(productComplaint)
+                $('[id$="relatedTo"]').val('PQC');
+            else
+                $('[id$="relatedTo"]').val('');
+        }
+        
+        function refreshPTab(isSave) {
+            var isError = $('[id$="isError"]').val();
+            var productId = $('[id$="productId"]').val();
+            var errorM3 = $('.errorM3').html();
+            
+            //First find the ID of the current tab to close it
+            if(isError == 'false' && (errorM3 == undefined || errorM3.trim().length == 0))
+            {
+                sforce.console.getPrimaryTabIds(closeSubtab);
+                if(isSave)
+                {
+                    navigateToUrl('/'+productId + '?inline=1', '_self');
+                    closeTab();
+                }
+                else
+                    window.location.reload();
+            }
+            else
+            {
+                $('.savebtn').val('Save');
+                $('.snew').val('Save & New');
+                $('.cncl').val('Cancel');
+                $('.butn').removeClass('btnDisabled').addClass('btn');
+                $('.butn').prop('disabled', false);
+            }
+        }
+        
+        function closeTab() {
+            //First find the ID of the current tab to close it
+            sforce.console.getEnclosingTabId(clseSubtab);
+        }
+        
+        var clseSubtab = function clseSubtab(result) {
+            //Now that we have the tab ID, we can close it
+            var tabId = result.id;
+            sforce.console.closeTab(tabId);
+        };
+        
+        var closeSubtab = function closeSubtab(result) {
+            //Now that we have the tab ID, we can close it
+            var tabId = result.ids;
+            
+            for(var i=0; i < tabId.length; i++)
+            {
+                sforce.console.refreshPrimaryTabById(tabId[i], true, refreshSuccess);
+            }
+        };
+        
+        var refreshSuccess = function refreshSuccess(result) {
+            
+        };
+        
+        function disableButn()
+        {
+            $('.butn').val('Saving...');
+            $('.butn').addClass('btnDisabled').removeClass('btn');
+            $('.butn').prop('disabled', true);
+        }
+    </script>
+    
+    <apex:form id="frm">
+        <apex:actionFunction name="updateCase" action="{!updateRelatedTo}" reRender="pnl">
+            <apex:param value="" name="arg1" assignTo="{!pdctRecordTypeName}"/>
+        </apex:actionFunction>
+        
+        <apex:outputPanel id="pnl"></apex:outputPanel>
+        
+        <apex:sectionHeader title="Product Edit" subtitle="New Product"/>
+        
+        <apex:pageBlock title="Product Edit" mode="edit">
+            <apex:pageBlockButtons >
+                <apex:outputPanel id="btnPanel">
+                    <apex:commandButton styleClass="savebtn butn" value="Save" action="{!saveCase}" onclick="disableButn();" reRender="errorPanel, btnPanel" oncomplete="refreshPTab(true);"/>
+                    <apex:commandButton styleClass="snew butn" value="Save & New" action="{!saveCaseNew}" onclick="disableButn();" reRender="errorPanel, btnPanel" oncomplete="refreshPTab(false);"/>
+                    <apex:commandButton styleClass="cncl butn" value="Cancel" onclick="closeTab(); return false;"/>
+                </apex:outputPanel>
+            </apex:pageBlockButtons>
+            
+            <apex:outputPanel id="errorPanel">
+                <apex:pageMessages escape="false"></apex:pageMessages>
+        
+                <apex:inputHidden id="isError" value="{!isError}"/>
+                <apex:inputHidden id="productId" value="{!productId}"/>        
+            </apex:outputPanel>
+            
+            <apex:pageBlockSection title="Information">
+                <apex:inputField value="{!product.MSD_CORE_Product_Lookup__c}" taborderhint="1"/>
+                <apex:inputField value="{!product.MSD_CORE_Product_Circular__c}" required="true" taborderhint="2"/>
+                
+                <apex:inputField value="{!product.MSD_CORE_Other_Company_Product__c}" taborderhint="1"/>
+                <apex:inputField value="{!product.MSD_CORE_Unique_Identifier__c}" required="true" taborderhint="2"/>
+                
+                <apex:inputField value="{!product.MSD_CORE_Dose_Frequency__c}" required="true" taborderhint="1"/>
+                <apex:inputField value="{!product.MSD_CORE_Model_Number__c}" required="true" taborderhint="2"/>
+                
+                <apex:inputField value="{!product.MSD_CORE_Lot_Number__c}" required="true" taborderhint="1"/>
+                <apex:inputField value="{!product.MSD_CORE_Catalog_Number__c}" required="true" taborderhint="2"/>
+                
+                <apex:inputField value="{!product.MSD_CORE_Expiration_Date__c}" required="true" taborderhint="1"/>
+                <apex:inputField value="{!product.MSD_CORE_Serial_Number__c}" required="true" taborderhint="2"/>
+                
+                <div class="row">
+                    <div class="column" style="width: 36%;">
+                        <span>Related to</span>
+                    </div>
+                    <div class="column">
+                        <input type="checkbox" style="margin: 2px 0px;" name="case" id="adverseEvent" onchange="updateCaseJS('AE');" tabindex="10"/>
+                        <label class="labelCol">AE</label>
+                    </div>
+                    <div class="column">
+                        <input type="checkbox" style="margin: 2px 0px;" name="case" id="productComplaint" label="PQC" onchange="updateCaseJS('PQC');" tabindex="10"/>
+                        <label class="labelCol">PQC</label>
+                    </div>
+                </div>
+                <apex:inputField value="{!product.MSD_CORE_Hazardous_Product__c}" taborderhint="2"/>
+                
+                <apex:inputField id="primaryProduct" value="{!product.MSD_CORE_Primary_Product__c}" taborderhint="1"/>
+                <apex:inputField value="{!product.MSD_CORE_Obtain__c}" taborderhint="2"/>
+                
+                <apex:inputField value="{!product.MSD_CORE_Product_Qty__c}" taborderhint="1"/>
+                <apex:inputField value="{!product.MSD_CORE_Product_Return_Date__c}" taborderhint="2"/>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="System Information">
+                <span></span>
+                <apex:outputField value="{!product.MSD_CORE_Adverse_Event__c}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <span style="display:none;">
+            <apex:inputText style="display:none;" id="relatedTo" value="{!product.MSD_CORE_Related_to__c}"/>
+        </span>
+            
+    </apex:form>    
+</apex:page>

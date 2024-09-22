@@ -1,0 +1,34 @@
+<template>
+    <tr if:true={record.rowError}>
+        <td class="slds-cell-wrap" colspan={record.columns.length}>
+            <div class="slds-text-color_error">
+                {record.rowError}
+            </div>
+        </td>
+    </tr>
+    <tr class={rowClass}>
+        <template for:each={record.columns} for:item="column">
+            <td class="slds-cell-wrap field-cell slds-is-editing" key={column.apiName}>
+                <div class="field-item-container">
+                    <c-veeva-field-generic if:true={column.isName} ctrl={nameCtrl} label-hidden="true">
+                        <div slot="readonlyText">
+                            <lightning-formatted-url value={record.url} label={record.record.name}></lightning-formatted-url>
+                        </div>
+                    </c-veeva-field-generic>
+                    <c-veeva-item if:false={column.isName} data-veeva-item-id={column.apiName} item-key={column.apiName} item={column}
+                    page-ctrl={record.pageCtrl} record={record.record} record-update-flag={linesUpdatedFlag} class="field-item">
+                    </c-veeva-item>
+                </div>
+            </td>
+        </template>
+        <td>
+            <lightning-button-menu if:true={record.actions.length} variant="border-filled" icon-size="x-small"
+                menu-alignment={menuAlign} data-id={record.id} onselect={handleMenuAction}>
+                <template for:each={record.actions} for:item="action">
+                    <lightning-menu-item key={action.name} value={action.name}
+                        label={action.label}></lightning-menu-item>
+                </template>
+            </lightning-button-menu>
+        </td>
+    </tr>
+</template>

@@ -1,0 +1,30 @@
+<apex:page controller="MSD_CORE_NAW_RecordType_Controller" lightningStylesheets="true"  showheader="false">
+ <apex:form >
+   <apex:pageBlock title="Select Account Record Type" >
+    <apex:pageblockSection >
+        <center><b>Record Type :</b> </center>
+        <apex:selectList required="true" size="1" value="{!selRT}" Id="RecType">
+                <apex:selectOptions Value="{!RT}" />   
+        </apex:selectList>   
+     </apex:pageblockSection>
+     <br/>      
+     <center>
+        <apex:commandButton action="{!cont}" value="Continue"/>
+        <apex:commandButton action="{!Cancel}" value="Cancel"/>
+     </center>      
+  </apex:pageBlock>
+  
+   <apex:pageBlock title="Available Account Record Types" >
+     <apex:pageBlockSection title="Definition"  collapsible="true">
+        <apex:pageBlockTable value="{!NAW_Settings}" var="RTli">
+                 <apex:column headerValue="Record Type Name">
+                        <apex:outputField value="{!RTli.Name}"/>
+                 </apex:column>
+                 <apex:column headerValue="Description">
+                        <apex:outputField value="{!RTli.Description__c}"/>
+                 </apex:column>
+         </apex:pageBlockTable>
+      </apex:pageBlockSection>
+    </apex:pageBlock> 
+ </apex:form>
+</apex:page>

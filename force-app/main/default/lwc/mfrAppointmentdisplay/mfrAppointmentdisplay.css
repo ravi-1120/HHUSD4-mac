@@ -1,0 +1,437 @@
+.dummy {
+    color: black;
+}
+
+.b4 {
+    width: 11px;
+    height: 27px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #00857C;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.b5 {
+    width: 79px;
+    height: 18px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+
+}
+
+.showmore {
+    text-align: center;
+    text-decoration: underline;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    color: #555555;
+}
+
+.dateval {
+    /* Date */
+
+
+    /*width: 62px;*/
+    height: 28px;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    align-items: center;
+    text-align: center;
+
+    /* Neutral/Dark Text */
+
+    color: #333333;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.timeValue {
+    /* Time */
+
+
+    /*width: 62px;*/
+    height: 14px;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* or 150% */
+
+    /*display: flex;*/
+    align-items: center;
+    text-align: center;
+
+    /* Neutral/Dark Text */
+
+    color: #333333;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.presentationHeading {
+    /* Title */
+
+    /* width: 410px; */
+    width: 100%;
+    /*height: 24px;*/
+    min-height: 24px;
+    max-height: fit-content;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+
+    color: #00877C;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.invitesstyle {
+    /* Details */
+
+
+    /* width: 410px; */
+    width: 100%;
+    /*height: 18px;*/
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+
+    /* Neutral/Black */
+
+    color: #000000;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+
+
+}
+
+.horiLine {
+    /* Rule */
+
+
+    /* width: 507px;
+    height: 0.5px; */
+    margin: 12px 0 16px 0;
+
+    background: #CFD2D7;
+    border-top: none;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.paddingval {
+    padding: 8px;
+}
+
+.submitterstyle {
+
+    /* Submitted February 15, 2020 at 3:35 p.m. */
+
+
+    /*width: 226px;*/
+    /* width: 410px; */
+    width: 100%;
+    height: 18px;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    /* Neutral/Light Text */
+
+    color: #757575;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+
+
+}
+
+.boxvalue {
+    /* Calendar Element */
+
+    text-transform: uppercase;
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+
+    width: 78px;
+    height: 84px;
+
+    /* Neutral/White */
+
+    background: #FFFFFF;
+    /* Tertiary/Gray */
+
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.singleRowData {
+    /* Rule */
+
+
+    /* width: 504px; */
+    width: 100%;
+    height: 0.5px;
+
+    background: #CFD2D7;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.homeAppointmentlist {
+    /* Dashboard Components */
+
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 24px;
+
+    width: 552px;
+    height: 516.5px;
+
+    /* Neutral/White */
+
+    background: #FFFFFF;
+    /* L3 Shadow */
+
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09), 0px 3px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.monthtext {
+    /* Month */
+
+
+    /*width: 62px;*/
+    height: 14px;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* or 150% */
+
+    /*display: flex;*/
+    align-items: center;
+    text-align: center;
+
+    /* Neutral/Dark Text */
+
+    color: #333333;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+
+.hr.solid {
+    border-top: 3px solid #bbb;
+}
+
+.b {
+    text-decoration: none;
+    color: black;
+}
+
+.b:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle {
+    color: black;
+    text-decoration: none;
+}
+
+.bc_box {
+    text-align: center;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* //text-decoration-line: underline; */
+}
+
+.btext {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #757575;
+    padding: 40px 0 15px;
+    line-height: 24px;
+}
+
+.cta1 {
+    font-family: 'Invention';
+    font-style: normal;
+    padding-bottom: 100px;
+    font-weight: 700;
+    border: 2px solid #00857C !important;
+    border-radius: 5px !important;
+    padding: 11px 16px !important;
+    font-size: 14px !important;
+    color: #00857C !important;
+    line-height: 18px !important;
+    background: none;
+}
+
+.cta1 span {
+    padding-left: 10px;
+}
+
+
+
+
+
+/* Start Mobile Screen */
+
+/* For Small Mobile */
+@media only screen and (min-width: 300px) {}
+
+/* Mobile Screen */
+@media screen and (max-width: 767px) {
+    /*RT 23-02-3023 Bug_Mbl_028*/
+    .mob-ht{
+        min-height: 113px;
+    }
+    /*RT 23-02-3023 Bug_Mbl_028*/
+    .submitterstyle {
+        /* width: 100% !important; */
+        width: auto !important;
+        /*position:absolute !important;*/
+    }
+
+    .presentationHeading {
+        width: 100% !important;
+    }
+
+    .invitesstyle {
+        width: 100% !important;
+    }
+    .paddingval {
+        padding:0 8px;
+    }
+    .mob-formattime{
+        position: relative !important;
+    }
+}
+
+/* End Mobile Screen */

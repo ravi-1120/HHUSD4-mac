@@ -1,0 +1,243 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_Communications.page
+* @description - Displays list of communications for user
+* @createdate - July 8th, 2013
+-->
+<apex:page showHeader="true" sidebar="true" lightningStylesheets="true" controller="MRK_CommunicationsController">
+
+        <style>
+        .placeholder { color: #aaa; }
+        .unread {
+            font-weight: bold;
+        }
+
+        span.muted {
+            color: #777;
+        }
+
+        span.itemTitle {
+            /* color: #015ba7; */
+            color: black;
+        }
+
+        .itemList th.sortable {
+            cursor: pointer;
+        }
+
+        tr.odd {
+            background-color: #f9f9f9;
+        }
+
+        .itemRow:hover {
+            background-color: rgb(227, 243, 255);
+        }
+
+        .itemCell {
+            cursor: pointer;
+        }
+
+        .alert {
+            font-size: 110%;
+            padding: 8px 35px 8px 14px;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+            background-color: #fcf8e3;
+            border: 1px solid #fbeed5;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+        .alert-info {
+            color: #3a87ad;
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+        }       
+        </style>
+
+    <apex:pageBlock title="Communications">
+    
+        <apex:outputPanel id="functionality-not-available-container" layout="block" rendered="{!NOT(functionalityEnabled)}">
+            <apex:pageBlockSection columns="1">
+                <apex:outputText value="{!settings['functionality not available message']}" escape="false"/>
+            </apex:pageBlockSection>
+        </apex:outputPanel>
+
+        <apex:outputPanel id="communications-container" layout="block" rendered="{!functionalityEnabled}">
+
+    <div class="ng-app:items" id="ng-app">
+
+      <div ng-controller="ItemsCntrl">
+
+            <div class="bPageBlock brandSecondaryBrd apexDefaultPageBlock secondaryPalette">
+                        <div class="pbBody">
+                                <table>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                <h2 style="font-size: 1.3em">
+                                                                        <!-- Notifications -->
+                                                                </h2>
+                                                        </td>
+                                                        <td>
+
+                                                                <span style="float: right">
+                                                                    <input ng-model="search" type="text" placeholder="search"></input>
+                                                                    <input type="button" ng-click="search = ''" value="clear"></input>
+                                                                </span>
+
+                                                                <span style="color: #015BA7; text-decoration: none; font-size: 11px; margin-right: 5px;">View:</span>
+                                                                <select size="1"  ng-model="itemFilter" ng-change="filterChanged()" ng-options="v for v in itemListViews">
+                                                                </select> &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" ng-disabled="!itemSelected()" ng-click="markAsRead()" value="Mark as read"></input><input type="button" ng-disabled="!itemSelected()" ng-click="markAsUnread()" value="Mark as unread"></input>                                                              
+                                                                
+
+
+    <!--
+                                <span style="float: right; color: #015BA7; text-decoration: none; font-size: 11px; margin-right: 5px;"><select>
+                                        <option>
+                                                All Communications
+                                        </option>
+                                        <option>
+                                                All Data Stewardship Requests
+                                        </option>
+                                </select> <button><span style="float: right; color: #015BA7; text-decoration: none; font-size: 11px; margin-right: 5px;">Go</span></button></span>
+
+                            -->
+
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                                <table class="list itemList" border="0" cellpadding="0" cellspacing="0">
+                                        <colgroup span="8"></colgroup>
+                                        <thead class="rich-table-thead">
+                                                <tr class="headerRow">
+                                                        <th class="headerRow" scope="col" colspan="1"><input type="checkbox" ng-change="toggleSelectAll()" ng-model="allSelected"></input></th>
+                                                        <th class="headerRow" scope="col" colspan="1">
+                                                        </th>
+                                                        <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'name'; reverse=!reverse">
+                                                                <div>
+                                                                    <a href="#">ID</a>
+                                                                    <img ng-src="{{images.sortTransparent}}" ng-show="predicate != 'name'"></img>
+                                                                    <img ng-src="{{images.sortAsc}}" ng-show="predicate == 'name' && !reverse"></img>
+                                                                    <img ng-src="{{images.sortDesc}}" ng-show="predicate == 'name' && reverse"></img>
+                                                                </div>
+                                                        </th>                                                       
+                                                        <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'date'; reverse=!reverse">
+                                                                <div>
+                                                                    <a href="#">Date</a>
+                                                                    <img ng-src="{{images.sortTransparent}}" ng-show="predicate != 'date'"></img>
+                                                                    <img ng-src="{{images.sortAsc}}" ng-show="predicate == 'date' && !reverse"></img>
+                                                                    <img ng-src="{{images.sortDesc}}" ng-show="predicate == 'date' && reverse"></img>
+                                                                </div>
+                                                        </th>
+                                                        <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'title'; reverse=!reverse">
+                                                                <div>
+                                                                    <a href="#">Title</a>
+                                                                    <img ng-src="{{images.sortTransparent}}" ng-show="predicate != 'title'"></img>
+                                                                    <img ng-src="{{images.sortAsc}}" ng-show="predicate == 'title' && !reverse"></img>
+                                                                    <img ng-src="{{images.sortDesc}}" ng-show="predicate == 'title' && reverse"></img>
+                                                                </div>
+                                                        </th>
+
+                                                        <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'summary'; reverse=!reverse">
+                                                                <div>
+                                                                    <a href="#">Summary</a>
+                                                                    <img ng-src="{{images.sortTransparent}}" ng-show="predicate != 'summary'"></img>
+                                                                    <img ng-src="{{images.sortAsc}}" ng-show="predicate == 'summary' && !reverse"></img>
+                                                                    <img ng-src="{{images.sortDesc}}" ng-show="predicate == 'summary' && reverse"></img>                                    
+                                                                </div>
+                                                        </th>
+
+                                                        <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'source'; reverse=!reverse">
+                                                                <div>
+                                                                    <a href="#">Source</a>
+                                                                    <img ng-src="{{images.sortTransparent}}" ng-show="predicate != 'source'"></img>
+                                                                    <img ng-src="{{images.sortAsc}}" ng-show="predicate == 'source' && !reverse"></img>
+                                                                    <img ng-src="{{images.sortDesc}}" ng-show="predicate == 'source' && reverse"></img>                                 
+                                                                </div>
+                                                        </th>
+
+                                                        <th class="headerRow sortable" scope="col" colspan="1" ng-click="predicate = 'category'; reverse=!reverse">
+                                                                <div>
+                                                                    <a href="#">Category</a>
+                                                                    <img ng-src="{{images.sortTransparent}}" ng-show="predicate != 'category'"></img>
+                                                                    <img ng-src="{{images.sortAsc}}" ng-show="predicate == 'category' && !reverse"></img>
+                                                                    <img ng-src="{{images.sortDesc}}" ng-show="predicate == 'category' && reverse"></img>                                   
+                                                                </div>
+                                                        </th>
+
+                                                </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr ng-repeat="item in items | filter:search | orderBy:predicate:reverse" ng-class="{'unread': item.read != 'read', 'dataRow': true, 'itemRow': true, 'odd': ($index%2 == 1), 'even': ($index%2 == 0), 'first': $first, 'last': $last}">
+                                                        <td class="dataCell" colspan="1" width="1">
+                                                                <input type="checkbox" ng-model="item.selected"></input>
+                                                        </td>
+                                                        <td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+                                                            <img ng-src="{{item.audienceImageURL}}" title="{{item.audience}}"></img>
+                                                        </td>
+                                                        <td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+                                                                <span>{{item.name}}</span>
+                                                        </td>                                                       
+                                                        <td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+                                                                <span>{{item.date | date:'MM/dd/yyyy'}}</span>
+                                                        </td>
+                                                        <td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+                                                                <span class="itemTitle">{{item.title}}</span>
+                                                        </td>
+
+                                                        <td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+                                                                <span class="muted" ng-bind-html="item.summary"></span>
+                                                        </td>
+
+                                                        <td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+                                                                <span>{{item.source}}</span>
+                                                        </td>
+                                                        <td class="dataCell itemCell" colspan="1" ng-click="itemClicked(item)">
+                                                                <span>{{item.category}}</span>
+                                                        </td>                                                       
+                                                </tr>
+                                        </tbody>
+                                </table>
+                        </div>
+
+                        <!--
+                        <div class="pbFooter secondaryPalette">
+                                <div class="bg"></div>
+                        </div>
+                    -->
+                </div>   
+
+      </div>
+    </div>
+
+    <script>
+    // setup environment
+    window.mrk = window.mrk || {};
+    window.mrk.cfg = {
+        sfdcSessionId: '{!$Api.Session_ID}',
+        userid: '{!$User.ID}',
+        view: 'communications',
+        viewList: ['All', 'Unread', 'Read', 'All Action', 'Unread Action', 'All Background', 'Unread Background'],
+        defaultView: 'All',
+        apexrestItemsSourceURLPrefix: '/mrk/communication/',
+        baseResourceURL: '{!baseResourceURL}'       
+    };
+
+    // satisfy IE
+    window.console = window.console || {
+        log: function() {}
+    }
+    </script>
+
+        <script src="{!URLFOR($Resource.mrk_comms, '/lib/libs.js')}"></script>
+        <script src="{!URLFOR($Resource.mrk_comms, '/lib/app.js')}"></script>
+
+        </apex:outputPanel>
+
+    </apex:pageBlock>
+
+</apex:page>

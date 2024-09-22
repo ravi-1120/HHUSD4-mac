@@ -1,0 +1,66 @@
+<template>
+    <!-- <hr style="clear: both;margin: 20px 0px 10px 0;" /> -->
+    <div class="userFormCls">
+
+        <div class="userFormHeaderCls">
+            {label.userFormHeader}</div>
+        <div class="indicationLabelCls">{label.indicationLabel}
+        </div>
+        <div class="userInfoLabelCls">{label.userInfoLabel}
+            <!-- <span>{label.userPhoneInfoLabel}</span> -->
+        </div>
+        <div class="slds-p-bottom_medium">
+            <lightning-input class=" inputFieldCls" type="text" variant="label-hidden" placeholder="First name*"
+                data-value="FirstName" label="FirstName" name="FirstName" maxlength="80" data-field='FirstName'
+                onclick={handleDataLayerEvent} onchange={handleUserFormChange} required="true">
+            </lightning-input>
+        </div>
+        <div class="slds-p-bottom_medium">
+            <lightning-input class=" inputFieldCls" type="text" variant="label-hidden" placeholder="Last name*"
+                data-value="LastName" label="LastName" name="LastName" maxlength="80" data-field='LastName'
+                onclick={handleDataLayerEvent} onchange={handleUserFormChange} required="true">
+            </lightning-input>
+        </div>
+        <div class="slds-p-bottom_medium userPhoneLabelCls">
+            {label.userPhoneLabel}
+        </div>
+        <div class="slds-grid slds-wrap slds-gutters phoneFieldDivCls slds-p-bottom_medium">
+            <div class="slds-col slds-size_1-of-2 ">
+                <lightning-input class="Phone PhoneFieldCls" variant="label-hidden" placeholder="Phone number*"
+                    type="tel" label="Phone" style="" name="Phone" data-value='Phone' maxlength="10" pattern="\d*"
+                    onchange={handleUserFormChange} onclick={handleDataLayerEvent} required="true">
+                </lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-2 ">
+                <lightning-input class="PhoneFieldCls" variant="label-hidden" placeholder="Extension" type="tel"
+                    label="Extension" name="Extension" style="" data-value='Extension' maxlength="10" pattern="\d*"
+                    onchange={handleUserFormChange} onclick={handleDataLayerEvent}>
+                </lightning-input>
+            </div>
+        </div>
+        <!-- <div class="slds-p-top_xx-small slds-p-bottom_medium userPhoneInfoCls">{label.userPhoneInfoLabel}
+        </div> -->
+        <!-- <template if:false={isCallMeNow}> -->
+        <div class="slds-p-bottom_medium userEmailLabelCls">
+            <template if:false={isCallMeNow}> {label.userEmailLabel} </template>
+            <template if:true={isCallMeNow}> {label.userEmailLabelCallMeNow} </template>
+        </div>
+        <div class="slds-p-bottom_small">
+            <lightning-input class="email  inputFieldCls" type="email" variant="label-hidden"
+                placeholder="Email address" data-value="Email" maxlength="80" label="Email" name="Email"
+                data-field='Email' onchange={handleUserFormChange} onclick={handleDataLayerEvent}>
+            </lightning-input>
+        </div>
+        <!-- </template> -->
+        <!-- <p style="color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">{userFormFooter}</p> -->
+        <div class="slds-p-top_large footerMessageCls">
+            <!-- <lightning-formatted-rich-text value={label.messageHeader}></lightning-formatted-rich-text> -->
+            <lightning-formatted-rich-text value={label.messageFooter}></lightning-formatted-rich-text>
+        </div>
+        <div class="slds-p-top_medium">
+            <button class="slds-button slds-button_neutral " style="font-family: 'Invention';color:white;
+            background-color:#00857c;height: 48px;width: 103px;font-size: 16px;letter-spacing: 0.1px;"
+                onclick={handleSubmit} disabled={disableSubmit}>Submit</button>
+        </div>
+    </div>
+</template>

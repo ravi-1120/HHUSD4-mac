@@ -1,0 +1,20 @@
+.page-container {
+  background-color: var(--lwc-colorBackground, rgb(243, 243, 243));
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.flex-grid {
+  flex: 1 1 auto;
+}
+
+.full-container {
+  height: 100%;
+}
+
+.my-accounts-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

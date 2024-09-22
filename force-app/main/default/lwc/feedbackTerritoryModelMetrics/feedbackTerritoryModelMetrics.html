@@ -1,0 +1,29 @@
+<template>
+  <slot name="header"></slot>
+
+  <lightning-layout multiple-rows>
+    <template for:each={rows} for:item="row">
+      <lightning-layout-item key={row.key} size="12" class="row">
+        <div class="row-container">
+          <template for:each={row.items} for:item="metric">
+            <div class="metric-container" key={metric.id}>
+              <div class={metric.labelCSS}>
+                {metric.label}
+              </div>
+              <div>
+                <c-feedback-button-with-styling
+                  text={metric.value}
+                  disabled={metric.disabled}
+                  button-value={metric.id}
+                  is-numeric={metric.isNumeric}
+                  click-handler={handleMetricClick}
+                  onupdatefilters={handleUpdateFiltersEvent}
+                ></c-feedback-button-with-styling>
+              </div>
+            </div>
+          </template>
+        </div>
+      </lightning-layout-item>
+    </template>
+  </lightning-layout>
+</template>

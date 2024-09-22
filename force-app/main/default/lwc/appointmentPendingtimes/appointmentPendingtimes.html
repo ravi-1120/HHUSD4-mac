@@ -1,0 +1,17 @@
+<template>
+    <template if:false={labelval}>
+        <template if:true={displaytime}>
+            <template if:true={meetingtimes}>
+                <template for:each={meetingtimes} for:item="meettime">
+                    <span class="appointment-content" key={meettime.Id}>
+                        {meettime.formattedDate}, {meettime.MSD_CORE_Time_Slot__c}<br />
+                    </span>
+                </template>
+            </template>
+        </template>
+    </template>
+
+    <template if:true={labelval}>
+        <span class="appointment-content-title">Preferred appointment times:</span>
+    </template>
+</template>

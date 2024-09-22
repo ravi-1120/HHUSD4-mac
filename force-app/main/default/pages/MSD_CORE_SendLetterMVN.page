@@ -1,0 +1,21 @@
+<apex:page standardController="Case">
+    <apex:includeScript value="/soap/ajax/26.0/connection.js"/>
+    <apex:includeScript value="/support/console/26.0/integration.js"/>
+    
+    <script>
+        var redirectUrl = "/apex/loop__looplus?sessionId={!$Api.Session_ID}&eid={!Case.Id}&accountId={!Case.AccountId}&header=false&hidecontact=true&filter=AE"; 
+        if (sforce && sforce.console && sforce.console.isInConsole()) { 
+            sforce.console.getEnclosingTabId(function(enclosingResult){ 
+                sforce.console.getEnclosingPrimaryTabId(function(primaryResult){ 
+                    if (primaryResult && primaryResult.success) 
+                        sforce.console.openSubtab(primaryResult.id, redirectUrl+'&previousTabId='+enclosingResult.id+'&isSubTab=true', true, '', null); 
+                    else 
+                        sforce.console.openPrimaryTab(null, redirectUrl+'&isSubTab=true', true, '', null); 
+                }); 
+            }); 
+        } 
+        else { 
+            window.location.href = redirectUrl; 
+        }
+    </script>
+</apex:page>

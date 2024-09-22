@@ -1,0 +1,283 @@
+<template>
+    <div class="" if:true={isGuestUser} style="overflow-x: hidden;">
+        <div class="pbanner"><img class="pbanner_img" src={bannerLogo}>
+            <div class="slds-p-top_x-small">
+                <div class="container" if:true={showForm}>
+                    <div class="left-panel"> 
+                        <div class="img-container">
+                            <img src={signupHeroLogo} />
+                        </div>
+                        <div class="data-privacy-container">
+                            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                                <div style="align-self: stretch; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
+                                    <div style="flex: 1 1 0; color: #333333; font-size: 18px; font-family: Invention; font-weight: 700; line-height: 27px; word-wrap: break-word">Data privacy</div>
+                                </div>
+                                <div style="align-self: stretch"><span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">We’re committed to privacy. See our </span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; text-decoration: underline; line-height: 21px; word-wrap: break-word;cursor:pointer;" onclick={privacyPolicy}>Privacy Policy</span><span style="color: #005C56; font-size: 14px; font-family: Invention; font-weight: 700; line-height: 21px; word-wrap: break-word"> </span><span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word"> to learn more about how we use data.</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-panel">
+                        <div class="secondary-button" style="width: 140px; margin-bottom: 25px;" onclick={goToSignUp}>
+                            <img class="left-icon" src={consultancyInfoBackArrow} />
+                            <div class="button-text">Go back</div>
+                        </div>
+
+                        <div class="sign-up">Consultancy information</div>
+
+                        <div style="left: 654px; top: 108px; flex-direction: column; justify-content: center; align-items: center; gap: 24px; display: inline-flex">
+                            
+                            <div class="field-box">
+                                <label class="field-label" if:true={fields.ConsultancyAgency.showLabel}>Consultancy agency</label>
+                                <input required type="text"
+                                        class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                        placeholder="Consultancy agency" onblur={handleInputFocus} onfocus={handleInputFocus} onchange={handleInputChange} data-id="ConsultancyAgency"/>
+                                <div  class="error-block" if:true={fields.ConsultancyAgency.error}>
+                                    <div class="error-text">{fields.ConsultancyAgency.errorMessage}</div>
+                                </div>
+                            </div>
+
+                            <div class="field-box">
+                                <label class="field-label" if:true={fields.AgencyEmail.showLabel}>Agency email</label>
+                                <input required type="text"
+                                    class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                    placeholder="Agency email" onblur={handleInputFocus} onfocus={handleInputFocus} onchange={handleInputChange} data-id="AgencyEmail"/>
+    
+                                <div  class="error-block" if:true={fields.AgencyEmail.error}>
+                                <div class="error-text">{fields.AgencyEmail.errorMessage}</div>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-component-items-title">
+                                <div class="lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-mattis-condimentum-at-molestie-eros-netus-et"
+                                >
+                                  Additional health care decision making organization(s) you are working on
+                                  behalf of:
+                                </div>
+                            </div>
+
+                            <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+                                <!-- Organization Name -->
+                                <div class="slds-form-element" style="margin-bottom: 0px;" onmouseleave={handleDefaults}>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container">
+                                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                            data-labelname="Organization" onclick={handleDropdown}>
+                                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                    role="none" style=" width: 100%; box-sizing: border-box;">
+            
+                                                    <label class="field-label" if:true={fields.Organization.showLabel}>Organization</label>
+            
+                                                    <input type="text" data-inputno="1" 
+                                                    class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt validate"
+                                                    required value={orginput} onchange={handleOrgChange}
+                                                    aria-autocomplete="list" aria-controls="listbox-id-9" aria-expanded="false"
+                                                    aria-haspopup="listbox" role="combobox" placeholder="Organization"
+                                                    style="width: 100%;" data-id="Organization"
+                                                    onfocus={handleInputFocus}/>
+            
+                                                    <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                                    <lightning-icon class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                        icon-name="utility:search" size="x-small" alternative-text="Search"
+                                                        title="search"></lightning-icon>
+                                                    </span>
+                                                </div>
+        
+                                                <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"
+                                                    tabindex="0" aria-busy="false">
+                                                    <ul for:each={orglist} for:item="org" key={org} class="slds-listbox slds-listbox_vertical"
+                                                    role="presentation">
+                                                    <li role="presentation" class="slds-listbox__item" data-id={org.Id} value={org.Name}
+                                                        onclick={handleOrg}>
+                                                        <div key={org}
+                                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                        role="option">
+                                                        <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                                        <span class="slds-media__body">
+                                                            <span class="slds-truncate">{org.Name}</span>
+                                                        </span>
+                                                        </div>
+                                                    </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+  
+                                    <div  class="error-block" if:true={fields.Organization.error}>
+                                    <div class="error-text">{fields.Organization.errorMessage}</div>
+                                    </div>
+                                </div>
+                                <!-- End Organization Name -->
+                            </div>
+
+                            <div class="field-box">
+                                <label class="field-label" if:true={fields.OrganizationEmail.showLabel}>Organization email</label>
+                                <input required type="text"
+                                    class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                    placeholder="Organization email" onblur={handleInputFocus} onfocus={handleInputFocus}  onchange={handleInputChange} data-id="OrganizationEmail"/>
+    
+                                <div  class="error-block" if:true={fields.OrganizationEmail.error}>
+                                    <div class="error-text">{fields.OrganizationEmail.errorMessage}</div>
+                                </div>
+                            </div>
+                        
+                            <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+                                <label class="field-label" if:true={fields.OrganizationType.showLabel}>Organization type</label>
+                                
+                                <select  onblur={handleInputFocus} onfocus={handleInputFocus} onchange={handleInputChange} data-id="OrganizationType" class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt input-select">
+                                    <option value="">Organization type</option>
+                                    <template for:each={orgtypelist} for:item="ot">
+                                        <option value={ot} key={ot}>{ot}</option>
+                                    </template>
+                                </select>
+
+                                <div  class="error-block" if:true={fields.OrganizationType.error}>
+                                    <div class="error-text">{fields.OrganizationType.errorMessage}</div>
+                                </div>
+                            </div>
+
+                            <template for:each={organizations} for:item="rec" for:index="index">
+                                <div key={rec} class="block-div">
+                                    <div class="line-1"></div>
+
+                                    <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+                                        <!-- Organization Name -->
+                                        <div class="slds-form-element" style="margin-bottom: 0px;" onmouseleave={handleDefaults}>
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-combobox_container">
+                                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                                    data-labelname="Organization" onclick={handleDropdown}>
+                                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                            role="none" style=" width: 100%; box-sizing: border-box;">
+                    
+                                                            <label class="field-label" if:true={rec.Organization.showLabel}>Organization</label>
+                    
+                                                            <input type="text" data-inputno="1"
+                                                            class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt validate"
+                                                            required value={rec.Organization.fieldValue}
+                                                            aria-autocomplete="list" aria-controls="listbox-id-9" aria-expanded="false"
+                                                            aria-haspopup="listbox" role="combobox" placeholder="Organization"
+                                                            style="width: 100%;" data-id="Organization" data-index={index}
+                                                            onfocus={handleInputFocus} onchange={handleOrgInputChange}/>
+                    
+                                                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                                            <lightning-icon class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                                icon-name="utility:search" size="x-small" alternative-text="Search"
+                                                                title="search"></lightning-icon>
+                                                            </span>
+                                                        </div>
+                
+                                                        <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"
+                                                            tabindex="0" aria-busy="false">
+                                                            <ul for:each={orglist} for:item="org" key={org} class="slds-listbox slds-listbox_vertical"
+                                                            role="presentation">
+                                                            <li role="presentation" class="slds-listbox__item" data-id={org.Id} value={org.Name} data-index={index}
+                                                                onclick={handleOrgClick}>
+                                                                <div key={org}
+                                                                class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                                role="option">
+                                                                <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                                                <span class="slds-media__body">
+                                                                    <span class="slds-truncate">{org.Name}</span>
+                                                                </span>
+                                                                </div>
+                                                            </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+        
+                                            <div  class="error-block" if:true={rec.Organization.error}>
+                                            <div class="error-text">{rec.Organization.errorMessage}</div>
+                                            </div>
+                                        </div>
+                                        <!-- End Organization Name -->
+                                    </div>
+        
+                                    <div class="field-box">
+                                        <input required type="text"
+                                            class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                            placeholder="Organization email" onchange={handleOrgInputChange} 
+                                            data-id="OrganizationEmail" data-index={index}/>
+            
+                                        <div  class="error-block" if:true={rec.OrganizationEmail.error}>
+                                        <div class="error-text">{rec.OrganizationEmail.errorMessage}</div>
+                                        </div>
+                                    </div>
+                                
+                                    <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+                                        <select onchange={handleOrgInputChange} data-id="OrganizationType" data-index={index}
+                                            class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt input-select">
+                                            <option value="">Organization type</option>
+                                            <template for:each={orgtypelist} for:item="ot">
+                                                <option value={ot} key={ot}>{ot}</option>
+                                            </template>
+                                        </select>
+                                        <div  class="error-block" if:true={rec.OrganizationType.error}>
+                                        <div class="error-text">{rec.OrganizationType.errorMessage}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="remove-button" data-id={index} onclick={removeOrganization}>
+                                        <img class="left-icon" src={learnMoreMinus}/>
+                                        <div class="button-text">Remove</div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <div class="secondary-button add-button" onclick={addOrganization}>
+                                <img class="left-icon" src={learnMorePlus}/>
+                                <div class="button-text">Add organization</div>
+                            </div>
+
+                            <div style="align-self: stretch; flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+                                <div style="align-self: stretch; padding-top: 8px; padding-bottom: 8px; justify-content: flex-start; align-items: flex-start; gap: 12px; display: inline-flex">
+                                <div style="justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+                                    <label class="checkbox-container">
+                                    <input type="checkbox" onchange={handleChange}/>
+                                    <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div style="flex: 1 1 0; height: 63px; justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+                                    <div style="flex: 1 1 0; color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">I acknowledge that the professional and organizational information displayed above is up-to-date and accurate.</div>
+                                </div>
+                                </div>
+                            </div>
+
+                            <div if:true={showError} style="height: 48px; padding: 9px; background: #FFE7E6; border-radius: 5px; justify-content: center; align-items: center; gap: 10px;">
+                                <div style="flex: 1 1 0; color: #DB281A; font-size: 12px; font-family: Invention; font-weight: 400; word-wrap: break-word">Looks like you missed something. Please complete all required fields with valid information. </div>
+                            </div>
+
+                            <div class="sign-up-btn" style="height: 50px; padding: 16px; background: #00857C; border-radius: 5px; justify-content: center; align-items: center; gap: 20px; display: inline-flex" onclick={handleSignUp}>
+                                <div style="text-align: center; color: white; font-size: 14px; font-family: Invention; font-weight: 700; line-height: 18px; letter-spacing: 0.86px; word-wrap: break-word">{buttonText}</div>
+                            </div>
+
+                            <!--<div style="text-align: center"><span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">Already registered?</span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word"> </span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; text-decoration: underline; line-height: 21px; word-wrap: break-word" onclick={goToLogin}>Log in</span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">.</span></div>-->
+                            <div style="text-align: center">
+                                <span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">Already registered?</span>
+                                <span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word"> </span>
+                                <a href="javascript:void(0);" style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; text-decoration: underline; line-height: 21px; word-wrap: break-word" onclick={goToLogin}>Log in</a>
+                                <span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">.</span>
+                            </div>
+
+                        </div>                      
+                    </div>
+
+                    <div class="data-privacy-container-mobile">
+                        <div class="data-privacy">
+                            <div style="align-self: stretch; border-radius: 8px; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+                            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                                <div style="align-self: stretch; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
+                                <div style="flex: 1 1 0; color: #333333; font-size: 18px; font-family: Invention; font-weight: 700; line-height: 27px; word-wrap: break-word">Data privacy</div>
+                                </div>
+                                <div style="align-self: stretch"><span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">We’re committed to privacy. See our </span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; text-decoration: underline; line-height: 21px; word-wrap: break-word" onclick={privacyPolicy}>Privacy Policy</span><span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word"> to learn more about how we use data.</span></div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

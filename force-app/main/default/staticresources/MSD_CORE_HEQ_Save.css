@@ -1,0 +1,5 @@
+.saved-search-name a,
+a:link:not(.slds-button,.slds-dropdown__item>a),
+a:visited:not(.slds-button,.slds-dropdown__item>a) {
+    color: #202020;
+}

@@ -1,0 +1,44 @@
+<apex:page sidebar="false" controller="MRK_Call_Unlock">
+   <apex:form id="formid">
+     <apex:pageMessages ></apex:pageMessages>
+       <apex:pageBlock >
+          <apex:pageBlock title="Unlock the call">
+             <apex:pageBlockSection title="Call Unlock" collapsible="true">
+           
+      <h1> Call Name </h1><apex:inputText value="{!CallName}" id="CallName" required="true"/>
+        <!--<h1> Medical Event ID </h1><apex:inputText value="{!RFMId}" id="RFMId" required="true"/>-->
+      <!--  <h2 style="background-color:Tomato;">
+WARNING!!!! Please Enter the Call name Which starts With "C0"
+</h2> -->
+
+ </apex:pageBlockSection>
+     </apex:pageBlock>
+ 
+ <apex:pageBlockButtons location="bottom">
+     <apex:commandButton action="{!Search}" value="Search call" reRender="SK,formid"/>
+           
+
+      
+  </apex:pageBlockButtons>
+     </apex:pageBlock>
+     
+    
+     <apex:pageBlock id="SK" rendered="{!enableblock}" >
+        <apex:pageBlockTable value="{!searchresult}" var="v">
+          <apex:column value="{!v.name}"/>
+            <apex:column value="{!v.Call_Type_vod__c}"/>
+            <apex:column value="{!v.RecordType.name}"/>
+            <apex:column value="{!v.Status_vod__c }"/>
+               <apex:column value="{!v.id}"/>
+      <apex:column value="{!v.Is_Sampled_Call_vod__c}"/>
+      
+      
+      
+      </apex:pageBlockTable>
+        <apex:pageBlockButtons location="bottom">
+          <apex:commandButton action="{!Unlock}" value="Call Unlock" rendered="{!enableblock}" /> 
+            </apex:pageBlockButtons>
+               </apex:pageBlock>
+      
+   </apex:form>
+</apex:page>

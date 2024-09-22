@@ -1,0 +1,15 @@
+c-em-expense-line-section .field-cell .slds-dropdown_fluid, 
+c-em-expense-line-section .field-cell .slds-dropdown--fluid {
+    max-width: 20rem;
+    width: max-content;
+    max-height: 10rem;
+}
+
+c-em-expense-line-section .field-cell .slds-dropdown .slds-truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-line;
+    -webkit-line-clamp: 2;
+}

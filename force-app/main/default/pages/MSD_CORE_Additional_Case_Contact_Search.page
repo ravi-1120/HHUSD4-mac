@@ -1,0 +1,127 @@
+<apex:page standardController="Case" extensions="MSD_CORE_AE_Case_Con_Search_Extension" lightningStylesheets="true">
+
+    <!--  
+         KRB Release 11.0   - 1/9/2018-  for the Additional AE Case Contact Search Form 
+    -->
+    
+   <apex:includeScript value="/support/console/42.0/integration.js"/>
+
+    <script>
+        function setFocusOnLoad() {}
+    </script>
+    
+    <script type="text/javascript">
+        
+      /*Refresh this subtab*/
+      function refreshTab(){
+          //alert(hasMessages);
+          
+          if(hasMessages == 'false'){
+              sforce.console.getEnclosingTabId(refreshTabId);
+          }
+      }
+
+      var refreshTabId = function refreshTabId(result){
+         sforce.console.refreshSubtabById(result.id, true);
+      }
+            
+      //Open the Additional Case contact Detail Page:
+      function openAdditionCaseContactDetailPage(){
+          
+          //alert(newAECaseContactID);
+          //alert(hasMessages);
+          if(hasMessages == 'false'){
+              //
+              //alert(hasMessages);
+              sforce.console.getEnclosingPrimaryTabId(openSubtab);
+              sforce.console.getEnclosingTabId(refreshTabId);
+              //alert(hasMessages);
+          }
+      }
+      
+      // Use the results primary tab id and open a new subtab
+      var openSubtab = function(result)
+      {      
+         // This alerted id is itself primary tab id.
+          //alert(result.id);
+         sforce.console.openSubtab(result.id, '/' + newAECaseContactID + '?isdtp=vw&', true, 'Additional Case contact Edit: New Additional Case contact', null);    
+      };
+
+      /*
+      var openContactSubtab = function openContactSubtab(result) {
+            var subtabId = result.id;
+            sforce.console.openSubtab(subtabId, '/' + newAECaseContactID + '?isdtp=vw&', true);
+     */ 
+      
+     </script> 
+      
+     <apex:outPutPanel id="script-block">
+        <script>
+            var hasMessages = '{!hasError}';
+            var newAECaseContactID = '{!additionalCaseContactId}';
+        </script>
+    </apex:outPutPanel>   
+      
+    <apex:outputPanel > 
+        <apex:pageMessages id="messages"/>
+   </apex:outputPanel>
+   
+   <apex:outputPanel rendered="{!refreshPage}">
+   </apex:outputPanel> 
+      
+   <apex:form id="searchForm">
+        
+      <apex:actionFunction action="{!create}" name="applySelected" 
+         oncomplete="refreshTab();" reRender="script-block,messages"/>
+       
+      <apex:actionFunction action="{!createNew}" name="createNew" 
+         oncomplete="openAdditionCaseContactDetailPage();" reRender="script-block,messages"/>
+  
+      <apex:pageBlock > 
+         <apex:pageBlockSection columns="2">
+            <apex:pageblocksection columns="1">
+               <apex:inputText label="First Name" value="{!firstName}">
+                  <!-- <apex:actionSupport event="onchange" reRender="theComp" /> -->
+               </apex:inputText>
+               <apex:inputText label="Last Name" value="{!lastName}">
+                  <!--   <apex:actionSupport event="onchange" reRender="theComp" /> -->
+               </apex:inputText>  
+            </apex:pageblocksection>
+            <apex:pageblocksection columns="1">
+               <apex:inputText label="Phone" value="{!phone}">
+                  <!--   <apex:actionSupport event="onchange" reRender="theComp" /> -->
+               </apex:inputText>
+               <apex:inputText label="City" value="{!city}">
+               </apex:inputText> 
+               <apex:inputText label="Zip" value="{!zip}">
+                  <!--   <apex:actionSupport event="onchange" reRender="theComp" /> -->
+               </apex:inputText>   
+
+            </apex:pageblocksection>
+        </apex:pageBlockSection> 
+          
+        <apex:selectRadio value="{!accountType}">
+           <apex:selectOptions value="{!items}"/>
+        </apex:selectRadio>
+  
+          
+          
+     </apex:pageBlock>
+     
+      <apex:commandButton title="Save Selected" value="Save Selected" 
+          onclick="applySelected(); return false;"/>
+      <apex:commandButton title="Create New" value="Create New" 
+          onclick="createNew(); return false;"/>
+         
+      <!-- KRB Great Article on the Error Message Display and Freshing the console 
+           https://salesforce.stackexchange.com/questions/194830/how-to-stop-firing-oncomplete-if-save-action-has-errors
+      -->
+
+     <!-- KRB: Old Way!
+      <apex:commandButton action="{!createNew}" value="Create New v2" oncomplete="refreshTab();" rerender="script-block,messages"/>
+      <apex:commandButton title="Reset Form" value="Reset Form" onclick="refreshTab(); return false;"/>
+     -->
+      <c:MSD_CORE_Record_Selector acctType="{!accountType}"  phn="{!phone}" fName="{!firstName}" lName="{!lastName}" zipCode="{!zip}" addressCity="{!city}" ctrl="{!cont}" id="theComp"/>
+
+    </apex:form>
+</apex:page>

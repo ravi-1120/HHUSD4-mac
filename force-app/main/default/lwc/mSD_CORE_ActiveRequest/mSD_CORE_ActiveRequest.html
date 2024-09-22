@@ -1,0 +1,159 @@
+<template>
+    <div class="bgstyle">
+
+        <div>
+            <!--class="container"-->
+            <div class="slds-grid slds-wrap mob-container">
+                <div class="slds-col slds-size_2-of-2 mob-container2">
+                    <!-- Upcoming appoinments -->
+
+                    <!--  Upcoming appoinments End -->
+
+                    <!-- Active Requests -->
+                    <div
+                        class="card slds-p-around_large slds-p-top_medium slds-p-horizontal_medium slds-m-bottom_medium margstyle">
+                        <div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+                            <div class="slds-grid slds-wrap">
+                                <img class="act-image" src={logo7}>
+                                <h4 class="slds-p-left_medium cursorcls leftpad"> Active requests </h4>
+                            </div>
+                            <div class="actext cursorcls show-mob-text">View and track all of your resource requests
+                                here. </div>
+                            <!-- Ravi Modi --- 21 March --- 1014 -->
+                            <template if:false={nodata}>
+                                <div class="mob-btncls">
+                                    <button class="viewall_btn" data-name="RequestAppointment" onclick={navigatepage}>View
+                                        all</button>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="actext cursorcls hide-mob-text">View and track all of your resource requests here.
+                        </div>
+                        <template if:true={actprod}>
+                            <template for:each={actprod} for:item="prods" for:index="indexx">
+                                <lightning-layout-item key={prods.Name}>
+                                    <div
+                                        class="slds-grid slds-wrap slds-border_bottom slds-p-top_small slds-m-top_xx-small slds-p-bottom_small slds-align_absolute-center titlepad">
+                                        <div class="slds-col slds-size_12-of-12">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_10-of-12">
+                                                    <p class="presentationHeading">{prods.MHEE_Name__c}:
+                                                        {prods.ScheduleFilter__c}</p>
+                                                </div>
+                                                <div class="slds-col slds-size_2-of-12 bpad">
+                                                    <div data-id={prods.Id} data-name="Request" onclick={navigatepage} data-contname={prods.ScheduleFilter__c}>
+                                                        <a class="hoverstyle"><img class="arrowstyle" src={logo8} /></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="slds-grid slds-gutters">
+                                                <div class="slds-col">
+                                                    <p class="restyp">
+                                                        Resource Type :</p>
+                                                    <p class="rType"> {prods.MSD_CORE_Resource_Type__c} </p>
+                                                </div>
+                                                <!--<div >
+                                                    <p>
+                                                        <b>Requested attendes :</b>
+                                                        <br>{prods.MSD_CORE_attendee__c}</br>
+                                                    </p>
+                                                </div>-->
+                                            </div>
+                                            <!--RT 24-02-2023 Bug_Web_053-->
+                                            <p class="submitterstyle">Submitted&nbsp;<lightning-formatted-date-time
+                                                    value={prods.CreatedDate} class="mob-formattime" year="numeric"
+                                                    day="2-digit" month="long" time-zone="America/New_York">
+                                                </lightning-formatted-date-time>&nbsp;at&nbsp;
+                                                <lightning-formatted-date-time value={prods.CreatedDate} hour="2-digit"
+                                                    minute="2-digit" time-zone="America/New_York">
+                                                </lightning-formatted-date-time>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={showmoredisp1}>
+                                <template if:false={showmore1}>
+                                    <div class="bcbox slds-p-top_medium">
+                                        <!-- <a href="url" style="color: #555555;">Show more</a>&nbsp; <img src={logo10}> -->
+                                        <p class="showmore" onclick={showmoreclk1}>Show more <img src={logo10}
+                                                class="showpad"></p>
+                                    </div>
+                                </template>
+                                <template if:true={showmore1}>
+                                    <template for:each={actprod2} for:item="pro">
+                                        <lightning-layout-item key={pro.Name}>
+                                            <div
+                                                class="slds-grid slds-wrap slds-border_bottom slds-p-top_small slds-m-top_xx-small slds-p-bottom_small slds-align_absolute-center">
+                                                <div class="slds-col slds-size_12-of-12">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_10-of-12">
+                                                            <p class="presentationHeading">{pro.MHEE_Name__c}:
+                                                                {pro.ScheduleFilter__c}</p>
+                                                        </div>
+                                                        <div class="slds-col slds-size_2-of-12 bpad">
+                                                            <div data-id={pro.Id} data-name="Request" data-contname={pro.ScheduleFilter__c}
+                                                                onclick={navigatepage}>
+                                                                <a class="hoverstyle"><img class="arrowstyle"
+                                                                        src={logo8} /></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="slds-grid slds-gutters">
+                                                        <div class="slds-col">
+                                                            <p class="restyp">Resource Type :</p>
+                                                            <p class="rType"> {pro.MSD_CORE_Resource_Type__c} </p>
+                                                        </div>
+                                                        <!--<div >
+                                                            <p>
+                                                                <b>Requested attendes :</b>
+                                                                <br>{pro.MSD_CORE_attendee__c}</br>
+                                                            </p>
+                                                        </div>-->
+                                                    </div>
+                                                    <!--RT 24-02-2023 Bug_Web_053-->
+                                                    <p class="submitterstyle">
+                                                        Submitted&nbsp;<lightning-formatted-date-time
+                                                            value={pro.CreatedDate} class="mob-formattime"
+                                                            year="numeric" day="2-digit" month="long"
+                                                            time-zone="America/New_York">
+                                                        </lightning-formatted-date-time>&nbsp;at&nbsp;
+                                                        <lightning-formatted-date-time value={pro.CreatedDate}
+                                                            hour="2-digit" minute="2-digit"
+                                                            time-zone="America/New_York">
+                                                        </lightning-formatted-date-time>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <div class="bcbox slds-p-top_medium">
+                                        <!-- <a href="url" style="color: #555555;">Show more</a>&nbsp; <img src={logo10}> -->
+                                        <p class="showmore" onclick={showlessclk1}>Show less
+                                            <img src={uparrowimg} class="showpad">
+                                        </p>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+                        <!-- Ravi Modi --- 21 March --- 1014 -->
+                        <template if:true={nodata}>
+                            <div class="emptystate">
+                                <p>Browse pipeline information to discover presentations you would like to schedule.</p>
+                                <button class="slds-grid slds-wrap" onclick={navigatetopipeline}>
+                                    <span>
+                                        Browse pipeline information
+                                    </span>
+                                    <img src={logo8}>
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                    <!--  Active Requests End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

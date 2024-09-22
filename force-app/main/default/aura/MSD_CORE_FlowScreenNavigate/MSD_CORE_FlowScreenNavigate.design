@@ -1,0 +1,6 @@
+<design:component>
+    <design:attribute name="recordId" label="Current Record ID" placeholder="" required="true"/>
+    <design:attribute name="objectAPIName" label="Cone Object API Name" placeholder="" required="true"/>
+    <design:attribute name="isDeepClone" label="Is Deep Clone" placeholder="" required="true" default = "false" description ="Value can be either true or false"/>
+    <design:attribute name="fieldSetName" label="Field Set Name" placeholder="" required="false"/>
+</design:component>

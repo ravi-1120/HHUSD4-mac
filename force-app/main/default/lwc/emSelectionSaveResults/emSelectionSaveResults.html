@@ -1,0 +1,51 @@
+<template>
+    <c-veeva-popover fade-in="true" type="prompt" show-close-button="true" onclose={close}>
+        <div slot="content">
+            <div class="slds-media">
+                <div class="slds-media__body">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name={icon}></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-text-heading_small slds-m-top_xx-small" data-id="insertSuccesses" if:true={insertSuccesses}>{insertSuccesses}</h2>
+                            <h2 class="slds-text-heading_small slds-m-top_xx-small" data-id="deleteSuccesses" if:true={deleteSuccesses}>{deleteSuccesses}</h2>
+                            <h2 class="slds-text-heading_small slds-m-top_xx-small" data-id="insertFails" if:true={hasInsertErrors}>{failedInsertMessage1}<span class="error-details-link" data-id="insertFails" onclick={toggleDetails}>{insertErrorObjectLabel}</span>{failedInsertMessage2}</h2>
+                            <div class="errors slds-m-top_xxx-small slds-m-bottom_xxx-small fade-in" if:false={hideInsertErrors}>
+                                <div class="error-row" if:true={insertErrorMessageDetails}>{insertErrorMessageDetails}</div>
+                                <div if:true={insertErrors}>
+                                    <template for:each={insertErrors} for:item="error">
+                                        <div key={error.name} class="error-row slds-m-top_xx-small">
+                                            <div class="error-name">{error.name}:</div>
+                                            <div class="error-messages">
+                                                <template for:each={error.messages} for:item="message">
+                                                    <div key={message}>{message}</div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            <h2 class="slds-text-heading_small slds-m-top_xx-small" data-id="deleteFails" if:true={hasDeleteErrors}>{failedDeleteMessage1}<span class="error-details-link" data-id="deleteFails" onclick={toggleDetails}>{deleteErrorObjectLabel}</span>{failedDeleteMessage2}</h2>
+                            <div class="errors slds-m-top_xxx-small fade-in" if:false={hideDeleteErrors}>
+                                <div class="error-row" if:true={deleteErrorMessageDetails}>{deleteErrorMessageDetails}</div>
+                                <div if:true={deleteErrors}>
+                                    <template for:each={deleteErrors} for:item="error">
+                                        <div key={error.name} class="error-row slds-m-top_xx-small">
+                                            <div class="error-name">{error.name}:</div>
+                                            <div class="error-messages">
+                                                <template for:each={error.messages} for:item="message">
+                                                    <div key={message}>{message}</div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c-veeva-popover>
+</template>

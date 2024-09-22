@@ -1,0 +1,51 @@
+<!-- Currently not used for the Merck implementation -->
+<apex:page standardController="Fulfillment_MVN__c" extensions="AttachmentsListControllerMVN" lightningStylesheets="true">
+	<apex:includeScript value="/support/console/28.0/integration.js"/>
+	<script type="text/javascript">
+		var primaryTabId;
+        var linkURL;
+
+        function openLinkInTab(result) {
+            linkURL = result;
+            sforce.console.getEnclosingPrimaryTabId(openLinkSubtab);
+        }
+
+        var openLinkSubtab = function openContactSubtab(result) {
+            var tabId = result.id;
+            sforce.console.openSubtab(tabId, '/' + linkURL, true);
+        }
+
+        function refreshTab(){
+            sforce.console.getEnclosingTabId(refreshTabId);
+        }
+
+        function refreshTabId(result){
+            sforce.console.refreshSubtabById(result.id, true);
+        }
+	</script>
+
+	<apex:form id="form" style="text-align:center">
+		<apex:pageMessages />
+		<apex:actionFunction action="{!deleteAttachment}" name="deleteAttachment" 
+			oncomplete="refreshTab();" reRender="">
+			<apex:param name="attachID" value="" assignTo="{!selectedAttachment}"/>
+		</apex:actionFunction>
+		<apex:pageBlock >
+			<apex:pageBlockTable value="{!attachmentlist}" var="doc" style="text-align:left">
+				<apex:column >
+					<apex:outputLink value="{!URLFOR($Action.Attachment.Download, doc.Id)}" target="_blank">{!$Label.Download_Link}</apex:outputLink>
+					<apex:outputPanel rendered="{!!Fulfillment_MVN__c.Is_Closed_MVN__c && !userHasNoAccess}" layout="none">
+						<apex:outputText value=" | "/>
+						<a href="javascript:if (window.confirm('{!$Label.Delete_Confirmation}')) deleteAttachment('{!doc.Id}');">{!$Label.Delete_Link}</a>
+					</apex:outputPanel>
+				</apex:column>
+				<apex:column headerValue="{!$ObjectType.Attachment.Fields.Name.label}" value="{!doc.Name}"/>
+				<apex:column headerValue="{!$ObjectType.Attachment.Fields.CreatedDate.label}" value="{!doc.CreatedDate}"/>
+				<apex:column headerValue="{!$ObjectType.User.Fields.Name.label}">
+					<a href="#" onClick="openLinkInTab('{!doc.CreatedById}');">{!doc.CreatedBy.Name}</a>
+				</apex:column>
+			</apex:pageBlockTable>
+			<apex:outputText value="<br/>{!$Label.No_Records_Found}" rendered="{!noAttachments}" escape="false"/>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

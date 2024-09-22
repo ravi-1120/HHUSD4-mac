@@ -1,0 +1,93 @@
+<template>
+    <!-- <lightning-combobox variant="label-hidden" name="Time Slots"
+            label="Time Slots" options={options} value="8:00"
+            onchange={selectionChangeHandler}></lightning-combobox>  -->
+
+
+    <div class="slds-tabs_default">
+        <ul class="slds-tabs_default__nav" role="tablist">
+            <template if:true={showSpinner}>
+                <div class="slds-is-relative">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template if:true={showMorningSlots}>
+                <li class="slds-tabs_default__item slds-is-active" title="Morning" role="presentation">
+                    <a class="slds-tabs_default__link" role="tab" tabindex="0" aria-selected="true"
+                        aria-controls="tab-default-1" data-value="Morning" id="tab-default-1__item"
+                        style="font-size: 12.5px;" onclick={handleTab}>Morning</a>
+                </li>
+            </template>
+            <template if:true={showAfterNoonSlots}>
+                <li class="slds-tabs_default__item" title="Afternoon" role="presentation">
+                    <a class="slds-tabs_default__link" role="tab" tabindex="-1" aria-selected="false"
+                        aria-controls="tab-default-2" data-value="Afternoon" id="tab-default-2__item"
+                        style="font-size: 12.5px;" onclick={handleTab}>Afternoon</a>
+                </li>
+            </template>
+            <template if:true={showEveningSlots}>
+                <li class="slds-tabs_default__item" title="Evening" role="presentation">
+                    <a class="slds-tabs_default__link" role="tab" tabindex="-1" aria-selected="false"
+                        aria-controls="tab-default-3" data-value="Evening" id="tab-default-3__item"
+                        style="font-size: 12.5px;" onclick={handleTab}>Evening</a>
+                </li>
+            </template>
+        </ul>
+        <template if:true={showMorningSlots}>
+            <div if:true={isMorningTabActive} id="tab-default-1" class="slds-tabs_default__content" role="tabpanel"
+                aria-labelledby="tab-default-1__item">
+                <div class="slds-grid slds-gutters slds-wrap slds-scrollable slds-p-horizontal_xx-small"
+                    style="height: 100%; color:#032D60;">
+                    <template for:each={morningSlots} for:item="slotTime" for:index="index">
+                        <template if:true={slotTime.timeSlotAvialable}>
+                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3 slds-p-bottom_medium no-flex"
+                                key={slotTime.value}>
+                                <button class="slds-button slds-button_neutral timeSlotButton" key={slotTime.value}
+                                    data-value={slotTime.value}
+                                    style="color:#00857c;background-color:white;border-color: #00857c;width: 100%; font-size: 13.5px;font-weight: 400;"
+                                    onclick={handleSelectedSlot}>{slotTime.label}</button>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <template if:true={showAfterNoonSlots}>
+            <div if:true={isAfternoonTabActive} id="tab-default-2" class="slds-tabs_default__content" role="tabpanel"
+                aria-labelledby="tab-default-2__item">
+                <div class="slds-grid slds-wrap slds-scrollable"
+                    style="height: 100%; width:100% ; background-color:white;">
+                    <template for:each={afternoonSlots} for:item="slotTime" for:index="index">
+                        <template if:true={slotTime.timeSlotAvialable}>
+                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3 slds-p-bottom_medium no-flex"
+                                key={slotTime.value}>
+                                <button class="slds-button slds-button_neutral timeSlotButton" key={slotTime.value}
+                                    data-value={slotTime.value} style="color:#00857c;background-color:white;border-color: #00857c;width: 100%; font-size: 13.5px;
+                                    font-weight: 400;" onclick={handleSelectedSlot}>{slotTime.label}</button>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <template if:true={showEveningSlots}>
+            <div if:true={isEveningTabActive} id="tab-default-3" class="slds-tabs_default__content" role="tabpanel"
+                aria-labelledby="tab-default-3__item">
+                <div class="slds-grid slds-wrap slds-scrollable"
+                    style="height: 100%; width:100% ; background-color:white;">
+                    <template for:each={evengSlots} for:item="slotTime" for:index="index">
+                        <template if:true={slotTime.timeSlotAvialable}>
+                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3 slds-p-bottom_medium no-flex"
+                                key={slotTime.value}>
+                                <button class="slds-button slds-button_neutral timeSlotButton" key={slotTime.value}
+                                    data-value={slotTime.value} style="color:#00857c;background-color:white;border-color: #00857c;width: 100%; font-size: 13.5px;
+                                    font-weight: 400;" onclick={handleSelectedSlot}>{slotTime.label}</button>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+    </div>
+</template>

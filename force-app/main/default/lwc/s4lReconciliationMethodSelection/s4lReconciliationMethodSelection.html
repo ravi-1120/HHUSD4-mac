@@ -1,0 +1,38 @@
+<template>
+    <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+    <div if:false={loading}>
+        <div class="slds-modal__header">
+            <h1 class="slds-modal__title slds-hyphenate">{labels.convertToCall}</h1>
+        </div>
+        <div class="slds-modal__content slds-p-horizontal_large slds-p-vertical_medium v-s4l-modal-content">
+            <!-- creates custom boxes for radio option per reconciliation method -->
+            <fieldset class="slds-form-element">
+                <div class="slds-form-element__control slds-grid slds-gutters slds-wrap">
+                    <template for:each={reconciliationMethods} for:item="recMethod">
+                        <div key={recMethod.value} class="slds-radio slds-col slds-size_1-of-2 slds-p-around_medium">
+                            <!-- creates option boxes with radio button at the top left corner and icon + label at the center -->
+                            <div class="slds-box">
+                                <input type="radio" id={recMethod.value} value={recMethod.value} name="reconciliationMethod" checked={recMethod.defaultChecked} />
+                                <label class="slds-radio__label" for={recMethod.value}>
+                                    <span class="slds-radio_faux"></span>
+                                    <div class="slds-p-around_x-small">
+                                        <div class="slds-align_absolute-center slds-p-bottom_small">
+                                            <lightning-icon icon-name={recMethod.iconName} size="small" style="border-radius: unset"></lightning-icon>
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <p class="slds-text-color_weak">{recMethod.label}</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </template>
+                  </div>
+            </fieldset>
+        </div>
+        <div class="slds-modal__footer">
+            <lightning-button label={labels.cancel} title={labels.cancel} onclick={handleCancel} variant="neutral"></lightning-button>
+            <lightning-button label={labels.next} title={labels.next} onclick={handleNext} variant="brand" class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </div>
+</template>

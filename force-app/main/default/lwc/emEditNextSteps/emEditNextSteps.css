@@ -1,0 +1,30 @@
+.sidebar-panel {
+    overflow-y: inherit;
+    width: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+:host {
+    --veeva-sidebar-height: 2.7rem;
+}
+
+.sidebar-header {
+    display: flex;
+    overflow-wrap: anywhere;
+}
+
+.sidebar-body {
+    display: flex;
+}
+
+.veeva-wrap-text {
+    overflow-x: auto;
+}
+
+.htmlContainer ul, .htmlContainer ol {
+    list-style: revert;
+    margin: revert;
+    padding: revert;
+}

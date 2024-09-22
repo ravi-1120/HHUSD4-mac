@@ -1,0 +1,428 @@
+<template>
+    <div   class="eligibilitybackground">
+        <div class="eligibilitycard">
+            <div class="slds-form-element orgnamecls" onmouseleave={handleDefaults}>
+                <label class="slds-form-element__label combo-label" for="combobox-id-59" >Organization name</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container" >
+                        <div tabindex="0" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" data-labelname="Organization name" onclick={handleDropdown} >
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <input type="text" class="slds-input_faux slds-combobox__input  elig-placeholder combo elig-org inputcsscls" required value={orginput} oninput={handleSeachKeyChangeDebounced}  aria-autocomplete="list" aria-controls="listbox-id-9" aria-expanded="false" aria-haspopup="listbox"  role="combobox" placeholder="Search for your organization" />
+                                <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                    <lightning-icon class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" icon-name="utility:search" size="x-small" alternative-text="Search" title="search" ></lightning-icon>
+                                </span>
+                            </div>
+                            <div if:false={orginputValid} class="elig-validation">
+                                Please specify.
+                            </div>
+                            <div  class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"  tabindex="0" aria-busy="false">
+                                <ul for:each={orglist} for:item="org" key={org} class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <li role="presentation" class="slds-listbox__item" data-id={org.Id} value={org.Name} onclick={handleOrg} >
+                                        <div key={org} class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate " title="Accounts"  >{org.Name}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form-element orgtypecls" onmouseleave={handleDefaults}>
+                <label class="slds-form-element__label combo-label" for="combobox-id-59" >Organization type</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container" >
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" data-labelname="Organization type" onclick={handleDropdown} >
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <div role="combobox" tabindex="0" required class="slds-input_faux slds-combobox__input  combo orgtype1" aria-labelledby="combobox-label-id-133 combobox-id-59-selected-value"  aria-controls="listbox-id-29" aria-expanded="false" aria-haspopup="listbox">
+                                    <span class="slds-truncate elig-placeholder" >{orgTypeinput}</span>
+                                </div> 
+                                <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                    <c-m-s-d_-c-o-r-e_-dropdown-symbol></c-m-s-d_-c-o-r-e_-dropdown-symbol>
+                                </span>
+                            </div>
+                            <div if:false={orgTypeinputValid} class="elig-validation">
+                                Please select an option.
+                            </div>
+                            <div  class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"  tabindex="0" aria-busy="false">
+                                <ul for:each={orgtypelist} for:item="orgtype" key={orgtype} class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <li role="presentation" class="slds-listbox__item" value={orgtype} onclick={handleOrgType} >
+                                        <div key={orgtype} class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate" title="Accounts"  >{orgtype}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="elig-content4 roleInfo" >Which one of the following roles most closely represents your role within your organization?</p>
+            <div class="slds-form-element roleInfo1" onmouseleave={handleDefaults}>
+                <label class="slds-form-element__label combo-label" for="combobox-id-59" >Please select one best answer after reviewing all options.</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" data-labelname='role' data-input={roleinput} onclick={handleDropdown} >
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <div role="combobox" tabindex="0" required class="slds-input_faux slds-combobox__input combo orgtype1" aria-labelledby="combobox-label-id-133 combobox-id-59-selected-value"  aria-controls="listbox-id-29" aria-expanded="false" aria-haspopup="listbox">
+                                    <span class="slds-truncate elig-placeholder" >{roleinput}</span>
+                                </div>
+                                <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                    <c-m-s-d_-c-o-r-e_-dropdown-symbol></c-m-s-d_-c-o-r-e_-dropdown-symbol>
+                                </span>
+                            </div>
+                            <div if:false={roleinputValid} class="elig-validation">
+                                Please select an option.
+                            </div>
+                            <div if:false={roleinputValidtion} class="elig-validation">
+                                Please select an option.
+                            </div>
+                            <div  class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"  tabindex="0" aria-busy="false">
+                                <ul for:each={rolelist} for:item="roleval" key={roleval} class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <li role="presentation" class="slds-listbox__item" value={roleval} onclick={handleRole} >
+                                        <div key={roleval} class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate" title="Accounts" >{roleval}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div if:true={consultant}  class="cons-container">
+                <p class="conslutantlabel">Consultant Information</p>
+                <p class="consultantlabelone">Healthcare Decision Making Organization(s) you are working on behalf of:</p>
+                <template for:each={consultantlist} for:item="cons">
+                    <div if:true={cons.isactive} key={cons} class="con-subcontainer">
+                        <div class="con-orgs" onmouseleave={handleDefaults}>
+                            <div key={cons} class="con-org-field">
+                                <div class="">
+                                    <label class="slds-form-element__label combo-label" for="combobox-id-59">Organization(s)</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container" >
+                                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" data-labelname='orgs' onclick={handleDropdown} >
+                                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right srchOrg" role="none">
+                                                    <input data-id={cons.id} required type="text" class="slds-input_faux slds-combobox__input  elig-placeholder combo elig-org" value={cons.orgname} oninput={handleSeachKeyChangeDebounced}  aria-autocomplete="list" aria-controls="listbox-id-9" aria-expanded="false" aria-haspopup="listbox"  role="combobox" placeholder="Search for your organization" />
+                                                    <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                                        <lightning-icon class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" icon-name="utility:search" size="x-small" alternative-text="Search" title="search" ></lightning-icon>
+                                                    </span>
+                                                </div>
+                                                <span if:true={selectedNext}>
+                                                    <span if:false={cons.orgIdValid} class="elig-validation">Please select an option.</span>
+                                                </span>
+                                                <div  class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"  tabindex="0" aria-busy="false">
+                                                    <ul for:each={orglist} for:item="org" key={org} class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <li data-id={cons.id} role="presentation" class="slds-listbox__item" data-orgid={org.Id} value={org.Name} onclick={handleOrgConsultant} >
+                                                            <div key={org} class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                                <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                                                <span class="slds-media__body">
+                                                                    <span class="slds-truncate " title="Accounts">{org.Name}</span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div key={cons}>
+                                <template if:false={disableOrgCross}>
+                                    <lightning-icon class="elig-close slds-current-color" data-id={cons.id} onclick={removeOrg} icon-name="utility:close" size="xx-small" alternative-text="Close" title="Close" style="cursor: pointer;"></lightning-icon>
+                                </template>
+                                <template if:true={disableOrgCross}>
+                                    <lightning-icon class="elig-close slds-current-color" data-id={cons.id}  icon-name="utility:close" size="xx-small" alternative-text="Close" title="Close" style="cursor: default;"></lightning-icon>
+                                </template>
+                            </div>
+                        </div>
+                        <div key={cons}>
+                            <!-- <p></p> -->
+                            <fieldset class="slds-form-element" style="margin-bottom:0px">
+                                <legend class="indicationcls" style="">Please indicate email to be used for this organization’s inbox notifications</legend>
+                                <div class="slds-form-element__control">
+                                    <span if:true={selectedNext}>
+                                        <span if:false={cons.emailchoiceValid}   class="elig-validation">
+                                            Please select an option.
+                                        </span>
+                                    </span>
+                                    <span class="slds-radio radiomarg" >
+                                        <input type="radio" required id={cons.myemailId} class="elig-radio" data-id={cons.id} value="myemail" name={cons.id} checked={cons.myemail}  onchange={handleRadio} /> 
+                                        <label class="slds-radio__label" for={cons.myemailId} >
+                                            <span class="slds-radio_faux radiofx"></span>
+                                            <span class="slds-form-element__label radiolabl" >Use my default email address</span>
+                                        </label>
+                                    </span>
+                                    <span class="slds-radio radiomarg1">
+                                        <input type="radio" id={cons.diffemailId} class="elig-radio" data-id={cons.id} value="diffemail" name={cons.id} checked={cons.diffemail} onchange={handleRadio} />
+                                        <label class="slds-radio__label" for={cons.diffemailId}  >
+                                            <span class="slds-radio_faux radiofx"></span>
+                                            <span class="slds-form-element__label radiolabl">Use different email address</span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </fieldset> 
+                        </div>
+                        <div key={cons}>
+                            <div class="slds-form-element emailmarg">
+                                <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr  title="required"></abbr>Email</label>
+                                <div class="slds-form-element__control ">
+                                    <input type="text" required data-id={cons.id}  name="email" placeholder="Email" value={cons.diffemailAddress} class="slds-input elig-placeholder inputcls" oninput={handleEmailConsultant}  disabled={cons.disableEmail} />
+                                </div>
+                                <span if:true={selectedNext}>
+                                    <span if:false={cons.diffemailAddressValid} class="elig-validation">
+                                        Please enter a valid email address.
+                                    </span>
+                                </span>
+                            </div> 
+                        </div>
+                        <div key={cons} onmouseleave={handleDefaults}>
+                            <div class="slds-form-element" style="margin-bottom: 15px;" >
+                                <label class="slds-form-element__label combo-label" for="combobox-id-59" >Organization type</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container" >
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" onclick={handleDropdown} >
+                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                                <div  role="combobox" required tabindex="0" class="slds-input_faux slds-combobox__input  combo orgParnt" aria-labelledby="combobox-label-id-133 combobox-id-59-selected-value"  aria-controls="listbox-id-29" aria-expanded="false" aria-haspopup="listbox">
+                                                    <span  class="slds-truncate elig-placeholder" >{cons.orgtype}</span>
+                                                </div> 
+                                                <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right arowCls">
+                                                    <c-m-s-d_-c-o-r-e_-dropdown-symbol></c-m-s-d_-c-o-r-e_-dropdown-symbol>
+                                                </span>
+                                            </div>
+                                            <span if:true={selectedNext}>
+                                                <span if:false={cons.orgtypeValid}  class="elig-validation">
+                                                    Please select an option.
+                                                </span>
+                                            </span>
+                                            <div  class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"  tabindex="0" aria-busy="false">
+                                                <ul for:each={orgtypelist} for:item="orgtype" key={orgtype} class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                    <li data-id={cons.id} role="presentation" class="slds-listbox__item" value={orgtype} onclick={handleOrgTypeConsultant} >
+                                                        <div key={orgtype} class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                            <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                                            <span class="slds-media__body">
+                                                                <span class="slds-truncate" title="Accounts"  >{orgtype}</span>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <div key={cons}>
+                    <!-- <button class="slds-button elig-button"  onclick={addOrganization} >
+                        <span class="elig-plus"> <c-m-s-d_-c-o-r-e_-plus_-icon> </c-m-s-d_-c-o-r-e_-plus_-icon></span> 
+                        <span class="btn-content" style="padding: 7px 16px 7px 18px;">Add Organization</span>
+                    </button> -->
+                    <button class="slds-button elig-button"  onclick={addOrganization} >
+                        <span class="elig-plus"><img src={plusicon}> </span>
+                        <span class="btn-content" style="padding: 7px 16px 7px 16px;">Add Organization</span>
+                    </button>
+                </div>
+            </div>
+
+            <div if:true={ptProcess} class="elig-pt">
+                <p class="combo-label">P&T Process</p>
+                <p class="elig-content5">Do you participate in or support the P&T process at your organization?</p>
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div class="slds-col" style="display: flex;accent-color:black;">
+                            <input type="checkbox" name="options" id="checkbox-unique-id-81" checked={ptProcessVal} value="checkbox-unique-id-81" onclick={handlePT} style="width: 24px;height: 24px;" />
+                            <label class="slds-checkbox__label" for="checkbox-unique-id-81">
+                                <span class="slds-checkbox_faux" style="margin-right: 13px; width: 22px; height: 22px; vertical-align: top;"></span>
+                                <span class="slds-form-element__label elig-content6">Yes</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div if:false={ptProcessValValid} class="elig-validation">
+                        Please select an option.
+                    </div>
+                </div>
+            </div>
+            <div if:true={showOther} class="elig-pt">
+                <div class="slds-form-element" style="margin-bottom: 0px;width:100%">
+                    <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr class="slds-required" title="required"></abbr>Please specify.</label>
+                    <div class="slds-form-element__control">
+                        <input type="text" name="otherrole" value={otherRole}  placeholder="Please specify" required="" class="slds-input elig-placeholder slds-required" style="padding: 9px 12px 10px 12px;" data-labelname='specify' oninput={handleInput} />
+                    </div>
+                </div>
+                <div if:false={otherroleValid} class="elig-validation">
+                    Please specify.
+                </div>
+            </div>
+            <div class="slds-form-element" style="">
+                <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr class="slds-required"  title="required"></abbr>Work street address</label>
+                <div class="slds-form-element__control">
+                    <input type="text" name="workstreetAddr" placeholder="Work street address" required="" value={workstreetAddrVal} class="slds-input elig-placeholder slds-required inputcls workCls zeropad"  data-labelname='Work street address' onclick={handlegaevent} oninput={handleInput} />
+                </div>
+                <div if:false={workstreetAddrValValid} class="elig-validation">
+                    Please specify.
+                </div>
+            </div>
+                
+            <div class="slds-form-element">
+                <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr  title="required"></abbr>Unit, suite, building (optional)</label>
+                <div class="slds-form-element__control">
+                    <input type="text" name="unitsuit"  placeholder="Unit, suite, building" required="" value={unitsuitVal} class="slds-input elig-placeholder inputcls buildOpt" data-labelname='Unit' onclick={handlegaevent} oninput={handleInput} />
+                </div>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr class="slds-required" title="required"></abbr>City</label>
+                <div class="slds-form-element__control">
+                    <input type="text"  name="city" placeholder="City" value={cityVal} required class="slds-input elig-placeholder slds-required inputcls cityCls zeropad" data-labelname='City' onclick={handlegaevent} oninput={handleInput} />
+                </div>
+                <div if:false={cityValValid} class="elig-validation">
+                    Please specify.
+                </div>
+            </div>
+            <div class="slds-grid stateCls">
+                <div class="slds-form-element elig-col stateCls1" onmouseleave={handleDefaults}>
+                <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr class="slds-required" title="required"></abbr>State</label>
+                <div class="slds-form-element__control stateCls2" >
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" data-labelname="state" onclick={handleDropdown} >
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <div role="combobox" required tabindex="0" class="slds-input_faux slds-combobox__input combo" aria-labelledby="combobox-label-id-133 combobox-id-59-selected-value"  aria-controls="listbox-id-29" aria-expanded="false" aria-haspopup="listbox">
+                                    <span class="slds-truncate elig-placeholder" >{stateinput}</span>
+                                </div>
+                                <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                    <c-m-s-d_-c-o-r-e_-dropdown-symbol></c-m-s-d_-c-o-r-e_-dropdown-symbol>
+                                </span>
+                            </div>
+                            <div if:false={stateValValid} class="elig-validation">
+                                Please select an option.
+                            </div>
+                            <div  class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"  tabindex="0" aria-busy="false">
+                                <ul for:each={statelist} for:item="stateval" key={stateval} class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <li role="presentation" class="slds-listbox__item" value={stateval} onclick={handleState} >
+                                        <div key={stateval} class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate" title="Accounts" >{stateval}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form-element elig-col">
+                <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr class="slds-required" title="required"></abbr>Zip</label>
+                <div class="slds-form-element__control zipCls">
+                    <input type="text" name="zip" placeholder="Zip" required="" value={zipVal} class="slds-input elig-placeholder slds-required inputcls zipCls1 zeropad" data-labelname='Zip' onclick={handlegaevent} oninput={handleInput} />
+                </div>
+                <div if:false={zipValValid} class="elig-validation">Please specify.</div>
+            </div>
+        </div>
+        <div class="slds-grid workPhn" >
+            <div class="slds-form-element elig-col workphn3">
+                <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr class="slds-required"  title="required"></abbr>Work phone</label>
+                <div class="slds-form-element__control workPhn1">
+                    <input type="text" name="workphone" placeholder="Work phone" required="" value={formatPhoneNumber} class="slds-input elig-placeholder slds-required inputcls workPhn2 zeropad"  data-labelname='Work phone' onclick={handlegaevent} oninput={handleInput}/>
+                </div>
+                <div if:false={workPhoneValValid} class="elig-validation">
+                    Please specify.
+                </div>
+            </div>
+
+            <div class="slds-form-element elig-col" style="margin-bottom: 0px;">
+                <label class="slds-form-element__label combo-label" for="text-input-id-47"><abbr class="slds-required"  title="required"></abbr>Extension (optional)</label>
+                <div class="slds-form-element__control extOpt">
+                    <input type="text" name="ext"  placeholder="Extension" required="" value={extVal} class="slds-input elig-placeholder inputcls extOpt1"  data-labelname='Extension' onclick={handlegaevent} oninput={handleInput} />
+                </div>
+            </div>
+        </div>
+        <p class="elig-head2" style="margin-top:40px;">Attestations</p>
+        <p class="elig-content3 " style="margin-top:8px;">Please confirm the following attestations to validate your eligibility.</p>
+        <div class="elig-terms">
+            <div>
+                <div class="elig-ack">
+                    <span class="elig-cbox">
+                        <input type="checkbox" checked={healthdecisionmaker} class="elig-checkbox" name="healthdecisionmaker" onclick={handleAcknowledge}/>
+                    </span>
+                    <p class="elig-head3" style="padding-bottom: 24px;">Yes, I am a health care decision maker.</p>
+                </div>
+                <p class="elig-content3 infopad">Merck Formulary Resources content access is restricted to individuals carrying out their responsibilities for the selection of drugs for coverage or reimbursement as members of a payor, formulary committee, or other similar entity with knowledge and expertise in the area of health care economic analysis. To obtain access, you attest that you have such responsibilities and are viewing this content in furtherance thereof. This content is not meant to be viewed by representatives from other industries, such as pharmaceutical, biotechnology, or medical device manufacturers.</p>
+            </div>
+                <div class="elig-ack eligack1">
+                    <span class="elig-cbox"> 
+                        <input type="checkbox" class="elig-checkbox" name="infocorrect" onclick={handleAcknowledge}/>
+                    </span>
+                    <p class="elig-head3">I acknowledge that the professional and organizational information displayed above is up-to-date and accurate.</p>
+                </div>
+            </div>
+            <div if:false={acknowledged} class="elig-validation">
+                You must acknowledge that you are a decision maker and that the information above is accurate.
+            </div>
+            <div class="slds-grid slds-grid_align-end btncls">
+                <div class="">
+                    <button class="cancelbtn" data-name="cacelbtn" onclick={handleCancel}>Cancel</button>
+                </div>
+                <div class="">
+                    <button class="slds-button submitbtn" onclick={handleSubmit}>Submit for review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--success popup-->
+    <div if:true={isSuccesspop} >
+         <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+				
+				             <div class="slds-modal__container maincontainer">
+                                <div class="slds-modal__content slds-p-around_medium bodymaincls" id="modal-content-id-2">
+                                    <div class="eligibility">
+                                        <div class="cross closebtnmain">
+                                            <a class="closeiconcls" data-name="crossbtn" onclick={handleCancel} >
+                                               <img src={CloseIcon} />
+                                            </a>
+                                        </div>
+                                        <div class="reg_password">
+                                            <div class="eligibilitybackgroundpop">
+                                                <div class="eligibilitycardpop">
+                                                    <div class="elig-container">
+                                                        <div class="elig-form">
+                                                            <div class="iconclassone">
+                                                                <img src={successicon} class="iconclass"/>
+                                                            </div>
+                                                            <h1 class="hone">Your eligibility information has been submitted.</h1>
+                                                            <p class="pone ptwo">Your Merck account team will validate your eligibility information.</p>
+                                                            <p class="pone pthree">If you have any questions,  <a href={siteName.contactmanager} data-name="contactlink" onclick={handleCancel}> <span class="linkclass">contact your Merck account team</span><span class="dotcls">.</span></a>  </p>
+                                                            <div class="buttonmarg">
+                                                            <button class="finishbtncls" onclick={handleBacksetng} ><span class="btn-content btn-contentfill">Back to settings</span></button>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+		 </section>
+		<div class="slds-backdrop slds-backdrop_open bacdrop" role="presentation">
+            <p class="job">{label.jobcode}</p>
+        </div>   
+    </div>
+</template>

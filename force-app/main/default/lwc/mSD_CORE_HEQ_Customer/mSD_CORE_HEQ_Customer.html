@@ -1,0 +1,335 @@
+<template>
+    <!-- <div if:false={filterLayout} class="container">
+        <div>
+            <div class="headercls slds-var-p-around_medium">
+                <h2 if:true={mainHeader}>{mainHeader}</h2>
+                <h2 if:false={mainHeader}>My Customer</h2>
+            </div>
+
+            <div class="headercls">My Customer</div>
+            <div class="">
+                <template if:true={isPagination}>
+                    <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}
+                        records-per-page-options={recordsPageOptions} records-per-page={recordsPerPage}
+                        total-pages={totalPages} onpageoptionchange={handlePageOptionChange}
+                        onpagechange={handlePageChange}>
+                    </c-m-s-d_-c-o-r-e_-h-e-q_-pagination>
+                </template>
+            </div>
+
+            <div class="tabs-container" if:false={isRegisterUserOnly}>
+                <button class={registerTabClass} onclick={handleTabClick} data-tab="register">Registerd</button>
+                <button class={unregisterTabClass} onclick={handleTabClick} data-tab="unregister">UnRegistered</button>
+            </div>
+
+            <div class="tab-content">
+                <lightning-input value={searchKey} variant="label-hidden" onchange={handleSearchKeyChange}
+                    placeholder="Search Customers by Name or Email.">
+                </lightning-input>
+                <template if:true={isCustomer}>
+                    <template if:true={isRegisterActive}>
+                        <div if:false={noRegisteredRecords}>
+
+                            <div class="pagination-controls">
+                                <div class="slds-grid">
+                                    <div class="slds-col slds-size_3-of-4">
+                                        Showing {currentPageRegistered} of {totalPagesRegistered}
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4 slds-text-align_right">
+                                        <label for="recordsPerPageRegistered">Records per page:</label>
+                                        <lightning-combobox name="recordsPerPageRegistered" label=""
+                                            value={recordsPerPageRegistered} placeholder="Select"
+                                            options={recordsPerPageOptions}
+                                            onchange={handleRecordsPerPageRegisteredChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <table>
+                                <tr>
+                                    <th></th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Accepted T &amp; C</th>
+                                    <th>Last Login Date</th>
+                                </tr>
+                                <template for:each={paginatedRegisteredCustomers} for:item="mycustomer">
+                                    <tr key={mycustomer.Id}>
+                                        <td><input type="checkbox" value={mycustomer.Id} onchange={handleCheckbox}/>
+                                        </td>
+                                        <td>{mycustomer.FirstName}</td>
+                                        <td>{mycustomer.LastName}</td>
+                                        <td>{mycustomer.Email}</td>
+                                        <td></td>
+                                        <td>
+                                            <lightning-formatted-date-time value={mycustomer.LastLoginDate}
+                                                year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                minute="2-digit" time-zone="UTC" time-zone-name="short" hour12={ampm}>
+                                            </lightning-formatted-date-time>
+                                        </td>
+                                    </tr>
+                                </template>
+
+                            </table>
+
+                            <div class="pagination-buttons slds-grid slds-grid_align-spread slds-var-p-vertical_medium">
+                                <lightning-button variant="neutral" label="Previous"
+                                    onclick={handlePreviousPageRegistered} disabled={isFirstPageRegistered}>
+                                </lightning-button>
+                                <div class="page-numbers">
+                                    <template for:each={pagesRegistered} for:item="page">
+                                        <lightning-button key={page} label={page} onclick={handlePageChangeRegistered}
+                                            data-id={page}></lightning-button>
+                                    </template>
+                                </div>
+                                <lightning-button variant="neutral" label="Next" onclick={handleNextPageRegistered}
+                                    disabled={isLastPageRegistered}></lightning-button>
+                            </div>
+                        </div>
+
+                        <div if:true={noRegisteredRecords} class="slds-p-top_medium">
+                            {norecordfound}
+                        </div>
+                    </template>
+                    <template if:true={isUnregisterActive}>
+                        <div if:false={noUnregisteredRecords}>
+                            <div class="pagination-controls">
+                                <div class="slds-grid">
+                                    <div class="slds-col slds-size_3-of-4">
+                                        Showing {currentPageUnregistered} of {totalPagesUnregistered}
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4 slds-text-align_right">
+                                        <label for="recordsPerPageUnregistered">Records per page:</label>
+                                        <lightning-combobox name="recordsPerPageUnregistered" label=""
+                                            value={recordsPerPageUnregistered} placeholder="Select"
+                                            options={recordsPerPageOptions}
+                                            onchange={handleRecordsPerPageUnregisteredChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <table>
+                                <tr>
+                                    <th></th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th></th>
+                                </tr>
+                                <template for:each={paginatedUnregisteredCustomers} for:item="mycustomer">
+                                    <tr key={mycustomer.Id}>
+                                        <td><input type="checkbox" value={mycustomer.Id} /></td>
+                                        <td>{mycustomer.FirstName}</td>
+                                        <td>{mycustomer.LastName}</td>
+                                        <td>{mycustomer.Email}</td>
+                                        <td>
+                                            <template if:false={mycustomer.isInvited}>
+                                                <lightning-button variant="brand" label="Send Invite"
+                                                    onclick={sendInvite} data-id={mycustomer.Id}>
+                                                </lightning-button>
+                                            </template>
+                                            <template if:true={mycustomer.isInvited}>
+                                                <lightning-button variant="brand" label="Resend Invite"
+                                                    onclick={sendInvite} data-id={mycustomer.Id}>
+                                                </lightning-button>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </template>
+
+                            </table>
+                            <div class="pagination-buttons slds-grid slds-grid_align-spread slds-var-p-vertical_medium">
+                                <lightning-button variant="neutral" label="Previous"
+                                    onclick={handlePreviousPageUnregistered} disabled={isFirstPageUnregistered}>
+                                </lightning-button>
+                                <div class="page-numbers">
+                                    <template for:each={pagesUnregistered} for:item="page">
+                                        <lightning-button key={page} label={page} onclick={handlePageChangeUnregistered}
+                                            data-id={page}></lightning-button>
+                                    </template>
+                                </div>
+                                <lightning-button variant="neutral" label="Next" onclick={handleNextPageUnregistered}
+                                    disabled={isLastPageUnregistered}></lightning-button>
+                            </div>
+                        </div>
+
+                        <div if:true={noUnregisteredRecords} class="slds-p-top_medium">
+                            {norecordfound}
+                        </div>
+                    </template>
+                </template>
+                <div if:false={isCustomer}>
+                    No Customer Mapped to the Account
+                </div>
+
+                <div if:true={isFooterbutton} class="slds-var-p-top_medium slds-float_right">
+                    <lightning-button variant="brand" label="Cancel" onclick={showCancelModal}
+                        class="slds-var-m-right_medium"></lightning-button>
+                    <lightning-button variant="brand" label={footerbtnname} onclick={handleShareClick}>
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div if:true={filterLayout}>
+        <div class="filter-container">
+            <div class="grid-container mb-display">
+                <div class="grid-header checkbox"></div>
+                <div class="grid-header">First Name</div>
+                <div class="grid-header">Last Name</div>
+                <div class="grid-header">Email</div>
+                <div class="grid-header">Last Login Date</div>
+
+                <template for:each={paginatedRegisteredCustomers} for:item="mycustomer">
+                    <div key={mycustomer.Id} class="grid-item checkbox">
+                        <lightning-input type="checkbox" value={mycustomer.Id} onchange={handleCheckbox}>
+                        </lightning-input>
+                    </div>
+                    <div key={mycustomer.Id} class="grid-item"> {mycustomer.FirstName} </div>
+                    <div key={mycustomer.Id} class="grid-item">{mycustomer.LastName}</div>
+                    <div key={mycustomer.Id} class="grid-item">{mycustomer.Email}</div>
+                    <div key={mycustomer.Id} class="grid-item">
+                        <lightning-formatted-date-time value={mycustomer.LastLoginDate} year="numeric" month="numeric"
+                            day="numeric" hour="2-digit" minute="2-digit" time-zone="UTC" time-zone-name="short"
+                            hour12={ampm}>
+                        </lightning-formatted-date-time>
+                    </div>
+                </template>
+            </div>
+
+            <div class="grid-container mbl-display">
+                <template for:each={paginatedRegisteredCustomers} for:item="mycustomer">
+                    <div key={mycustomer.Id} class="mbl-filter-container">
+                        <div class="checkbox">
+                            <lightning-input type="checkbox" value={mycustomer.Id} onchange={handleCheckbox}>
+                            </lightning-input>
+                        </div>
+                        <div>
+                            <div> {mycustomer.FirstName} {mycustomer.LastName}</div>
+                            <div>{mycustomer.Email}</div>
+                            <div class="dt-container">
+                                <div class="grid-header">Last login date: &nbsp;</div>
+                                <lightning-formatted-date-time value={mycustomer.LastLoginDate} year="numeric"
+                                    month="numeric" day="numeric" hour="2-digit" minute="2-digit" time-zone="UTC"
+                                    time-zone-name="short" hour12={ampm}>
+                                </lightning-formatted-date-time>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+
+            <div class="filter-norecords" if:false={isCustomer}>
+                No Customer Mapped to the Account
+            </div>
+        </div>
+        <div if:true={isFooterbutton} class="dr-form_btnGroup slds-float_right">
+            <lightning-button role="button" class="lt-button cancel" variant="base" label="Cancel" title="Cancel"
+                onclick={showCancelModal}>
+            </lightning-button>
+            <lightning-button role="button" class="lt-button" variant="base" label={footerbtnname} title={footerbtnname}
+                onclick={handleShareClick}>
+            </lightning-button>
+        </div>
+    </div>
+    <div if:true={unfilterLayout}>
+        <div class="filter-container">
+            <div class="grid-container mb-display">
+                <div class="grid-header checkbox"></div>
+                <div class="grid-header">First Name</div>
+                <div class="grid-header">Last Name</div>
+                <div class="grid-header">Email</div>
+                <div class="grid-header">Last Login Date</div>
+
+                <template for:each={allCustomers} for:item="mycustomer">
+                    <div key={mycustomer.Id} class="grid-item checkbox">
+                        <lightning-input type="checkbox" value={mycustomer.Id} onchange={handleCheckbox}>
+                        </lightning-input>
+                    </div>
+                    <div key={mycustomer.Id} class="grid-item"> {mycustomer.FirstName} </div>
+                    <div key={mycustomer.Id} class="grid-item">{mycustomer.LastName}</div>
+                    <div key={mycustomer.Id} class="grid-item">{mycustomer.Email}</div>
+                    <div key={mycustomer.Id} class="grid-item">
+                        <lightning-formatted-date-time value={mycustomer.LastLoginDate} year="numeric" month="numeric"
+                            day="numeric" hour="2-digit" minute="2-digit" time-zone="UTC" time-zone-name="short"
+                            hour12={ampm}>
+                        </lightning-formatted-date-time>
+                    </div>
+                </template>
+                <template for:each={newRecipients} for:item="newRecipient">
+                    <div key={newRecipient.Id} class="grid-item checkbox">
+                        <lightning-input type="checkbox" name="selectRecipient" data-id={newRecipient.Id}
+                            onchange={handleCheckbox}> </lightning-input>
+                    </div>
+                    <div key={newRecipient.Id} class="grid-item">
+                        <input type="text" class="inputcls" name="FirstName" data-id={newRecipient.Id} value={newRecipient.FirstName}
+                placeholder="First Name" required oninput={handleRecipient} />
+                        <template if:true={newRecipient.firstNameError}>
+                            <div class="error-message">First Name is required.</div>
+                        </template>
+                    </div>
+                    <div key={newRecipient.Id} class="grid-item">
+                        <input type="text" class="inputcls" name="LastName" data-id={newRecipient.Id} value={newRecipient.LastName}
+                placeholder="Last Name" required oninput={handleRecipient} />
+                        <template if:true={newRecipient.lastNameError}>
+                            <div class="error-message">Last Name is required.</div>
+                        </template>
+                    </div>
+                    <div key={newRecipient.Id} class="grid-item">
+                        <input type="email" class="inputemailcls" name="Email" data-id={newRecipient.Id} value={newRecipient.Email}
+                placeholder="Email" oninput={handleRecipient} />
+                        <template if:true={newRecipient.emailError}>
+                            <div class="error-message">Invalid email format.</div>
+                        </template>
+                    </div>
+                    <div key={newRecipient.Id} class="grid-item">
+                        <a data-id={newRecipient.Id} class="remove-recipient" onclick={removeRecipient}>
+                            Remove
+                        </a>
+                    </div>
+                </template>
+            </div>
+
+            <div class="grid-container mbl-display">
+                <template for:each={allCustomers} for:item="mycustomer">
+                    <div key={mycustomer.Id} class="mbl-filter-container">
+                        <div class="checkbox">
+                            <lightning-input type="checkbox" value={mycustomer.Id} onchange={handleCheckbox}>
+                            </lightning-input>
+                        </div>
+                        <div>
+                            <div> {mycustomer.FirstName} {mycustomer.LastName}</div>
+                            <div>{mycustomer.Email}</div>
+                            <div class="dt-container">
+                                <div class="grid-header">Last login date: &nbsp;</div>
+                                <lightning-formatted-date-time value={mycustomer.LastLoginDate} year="numeric"
+                                    month="numeric" day="numeric" hour="2-digit" minute="2-digit" time-zone="UTC"
+                                    time-zone-name="short" hour12={ampm}>
+                                </lightning-formatted-date-time>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="filter-norecords" if:false={isCustomer}>
+                No Customer Mapped to the Account
+            </div>
+        </div>
+        <div if:true={isFooterbutton} class="dr-form_btnGroup slds-float_right">
+            <a class="add-recipient" onclick={addRecipient}>Add Recipient</a>
+            <lightning-button role="button" class="lt-button cancel" variant="base" label="Cancel" title="Cancel"
+                onclick={showCancelModal}>
+            </lightning-button>
+            <lightning-button role="button" class="lt-button" variant="base" label={footerbtnname} title={footerbtnname}
+                onclick={handleShareClick}>
+            </lightning-button>
+        </div>
+    </div>
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
+    <c-custom-toast auto-close-time="6000"></c-custom-toast>
+</template>

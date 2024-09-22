@@ -1,0 +1,266 @@
+<template>
+    <div class="q-container">
+
+        <div class="productLengthCls slds-align_absolute-center slds-box">
+            <abbr class="slds-required" title="required">*</abbr>{label.PRODUCTS} [{savedProductSets.length}]
+            <button class="slds-button slds-button_brand btnHover slds-m-left_x-large" title={label.ADDPRODUCTBUTTON}
+                onclick={addProductSet}>{label.ADDPRODUCTBUTTON}</button>
+        </div>
+        <div class="slds-m-top_large slds-m-bottom_large slds-scrollable--y" style="height: 161px;">
+            <template lwc:if={savedProductSets.length}>
+                <table
+                    class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover"
+                    role="presentation">
+                    <thead style="font-size: 12px;">
+                        <tr class="slds-line-height_reset">
+                            <!-- <th scope="col" style="width: 8%;">
+                                <div class="slds-truncate" title="Edit"></div>
+                            </th> -->
+                            <th scope="col" style="width: 30%;">
+                                <div class="slds-truncate" title={label.PRODUCTNAME}>{label.PRODUCTNAME}</div>
+                            </th>
+                            
+                            <th scope="col" style="width: 18%;">
+                                <div class="slds-truncate" title={label.DOSEFREQUENCY}>{label.DOSEFREQUENCY}</div>
+                            </th>
+                            <th scope="col" style="width: 18%;">
+                                <div class="slds-truncate" title={label.LOTNUMBER}>{label.LOTNUMBER}</div>
+                            </th>
+                            <th scope="col" style="width: 18%;">
+                                <div class="slds-truncate" title={label.EXPIRATIONDATE}>{label.EXPIRATIONDATE}</div>
+                            </th>
+                            <th scope="col" style="width: 8%;padding-left: 0.5rem">
+                                <div class="slds-truncate" title="Delete"></div>
+                            </th>
+                            <!-- <th>{label.WHOADMINISTEREDTHEPRODUCT}</th>
+                            <th>{label.UNIQUEIDENTIFIER}</th>
+                            <th>{label.MODELNUMBER}</th>
+                            <th>{label.CATALOGNUMBER}</th>
+                            <th>{label.SERIALNUMBER}</th> -->
+                        </tr>
+                    </thead>
+                    <tbody style="font-size: 14px;">
+                        <template for:each={savedProductSets} for:item="savedProd">
+                            <tr key={savedProd.id} style="padding-left: 0.5rem">
+                                <!-- <td data-label="Edit">
+                                    <button data-id={savedProd.id} onclick={handleProductEdit} title="Edit"
+                                        class="slds-button slds-button_icon">
+                                        <lightning-icon icon-name="utility:edit" size="x-small"
+                                            title="Edit"></lightning-icon>
+                                    </button>
+                                </td> -->
+
+                                <td>
+                                    <div class="slds-truncate product-link" onclick={handleProductEdit} data-id={savedProd.id}>
+                                        {savedProd.values.Product}
+                                    </div>
+                                    <!-- <div class="slds-truncate">{savedProd.values.Product}</div> -->
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{savedProd.values.DoseFrequency}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{savedProd.values.LotNumber}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{savedProd.values.formattedDate}</div>
+                                </td>
+                                <!-- <td>{savedProd.values.OperatorOfDevice}</td>
+                                <td>{savedProd.values.UniqueIdentifier}</td>
+                                <td>{savedProd.values.ModelNumber}</td>
+                                <td>{savedProd.values.CatalogNumber}</td>
+                                <td>{savedProd.values.SerialNumber}</td> -->
+                                <td data-label="Delete">
+                                    <button data-id={savedProd.id} onclick={handleProductDelete} title="Delete"
+                                        class="slds-button slds-button_icon">
+                                        <lightning-icon icon-name="utility:delete" size="x-small"
+                                            title="Delete"></lightning-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+        </div>
+
+        <template lwc:if={showModal}>
+
+            <section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true" tabindex="0"
+                data-id="popup-modal" class="slds-modal slds-modal_medium slds-fade-in-open backColor"
+                style="z-index: 1000000;">
+                <div class="slds-modal__container">
+                    <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse closeHover" title="Close"
+                        onclick={handleModalCancel} style="font-size: 20px">x</button> -->
+
+                    <div class="slds-modal__content" id="modal-content-id-1"
+                        style="border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">
+
+                        <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+                            <lightning-accordion-section name="1" label="Product Information">
+                                <lightning-layout multiple-rows="true" vertical-align="end">
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="6">
+                                        <div class="slds-form-element">
+                                            <lightning-input name="Product" label={label.SELECTPRODUCT} max-length="100" class="requiredField"
+                                                onchange={handleInput} onblur={blurEvent} type="search"
+                                                onfocus={handleFocus} value={searchTerm} required="true" onkeydown={handleKeydown}
+                                                autocomplete="off" style="margin-bottom: 0px">
+                                            </lightning-input>
+                                            <div lwc:if={searchResults}
+                                                style="max-height: 7rem;margin-top: 0 !important;margin-bottom: 0 !important;"
+                                                class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                                                role="listbox">
+                                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                    <template for:each={searchResults} for:item="searchResult">
+                                                        <li key={searchResult.value} data-value={searchResult.value}
+                                                            role="presentation" aria-selected="false" tabindex="0" onmousedown={handleSelectSearch}
+                                                            class="slds-listbox__item">
+                                                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small "
+                                                                role="option">
+                                                                <span class="slds-media__body">
+                                                                    <span class="slds-truncate"
+                                                                        title={searchResult.label}>
+                                                                        {searchResult.label}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="6">
+                                        <lightning-input name="DoseFrequency" type="text" label={label.DOSEFREQUENCY}
+                                            value={currentProduct.values.DoseFrequency} max-length="100"
+                                            placeholder="e.g. 1 injection every 3 weeks"
+                                            onchange={handleInput}></lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                                        <lightning-input name="LotNumber" label={label.LOTNUMBER} type="text" max-length="100"
+                                            value={currentProduct.values.LotNumber} title={label.LOTNUMBER}
+                                            onchange={handleInput}></lightning-input>
+                                    </lightning-layout-item>
+                                    <!-- <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                                        <lightning-input name="ExpirationDate" label={label.EXPIRATIONDATE} type="Date"
+                                            value={currentProduct.values.ExpirationDate} placeholder="mm/dd/yyyy" title={label.EXPIRATIONDATE}
+                                            field-level-help="Ensure date is entered in MM/DD/YYYY format or select it from the calendar for accuracy."
+                                            onchange={handleInput} onblur={handleExpDateChange}></lightning-input>
+                                            <input name="ExpirationDate" label="Expiration Date" type="date"  field-level-help="Ensure date is entered in MM/DD/YYYY format or select it from the calendar for accuracy." value={currentProduct.values.ExpirationDate} placeholder="mm/dd/yyyy"  title="Expiration Date" onchange={handleInput} onblur={handleExpDateChange}>
+                                    </lightning-layout-item> -->
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12" medium-device-size="6" large-device-size="4">
+                                       <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="expiration-date-input"> Expiration Date </label>
+                                            <div class="slds-form-element__control">
+                                                <input id="expiration-date-input" name="ExpirationDate" type="date"
+                                                    class="slds-input" 
+                                                    value={currentProduct.values.ExpirationDate} 
+                                                    title="Expiration Date" 
+                                                    onchange={handleInput} onblur={handleExpDateChange}>
+                                            </div>
+                                            <!-- <div class="slds-form-element__help">
+                                                Ensure date is entered in MM/DD/YYYY format or select it from the calendar for accuracy.
+                                            </div> -->
+                                        </div>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="4">
+                                        <label class="slds-form-element__label">
+                                            <span class="slds-p-right_x-small">{label.WHOADMINISTEREDTHEPRODUCT}</span>
+                                            <lightning-helptext class="helpCls" content="This is the individual who administered the product at the time of the suspected AE [e.g. Healthcare Professional is operator of device if administering the prefilled syringe to patient]"></lightning-helptext>
+                                        </label>
+                                        <lightning-combobox options={operatorOptions} value={currentProduct.values.OperatorOfDevice}
+                                            variant="label-hidden" name="OperatorOfDevice" onchange={handleInput}></lightning-combobox> 
+                                        <!-- <lightning-combobox label={label.WHOADMINISTEREDTHEPRODUCT}
+                                            options={operatorOptions} value={currentProduct.values.OperatorOfDevice}
+                                            field-level-help="This is the individual who administered the product at the time of the suspected AE [e.g. Healthcare Professional is operator of device if administering the prefilled syringe to patient]"
+                                            name="OperatorOfDevice" onchange={handleInput}></lightning-combobox> -->
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-accordion-section>
+                            
+                            <lightning-accordion-section name="2" label="Additional Product Information (if known)">
+                                <lightning-layout multiple-rows="true" vertical-align="end">
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="3">
+                                        <lightning-input field-level-help={label.helpText} type="text"
+                                            value={currentProduct.values.UniqueIdentifier} name='UniqueIdentifier' max-length="50"
+                                            onchange={handleInput} label={label.UNIQUEIDENTIFIER}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="3">
+                                        <lightning-input label={label.MODELNUMBER} type="text" name="ModelNumber" max-length="50"
+                                            value={currentProduct.values.ModelNumber} field-level-help={label.helpText}
+                                            onchange={handleInput}></lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="3">
+                                        <lightning-input label={label.CATALOGNUMBER} type="text" name="CatalogNumber" max-length="50"
+                                            value={currentProduct.values.CatalogNumber}
+                                            field-level-help={label.helpText} onchange={handleInput}></lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"
+                                        small-device-size="12" medium-device-size="6" large-device-size="3">
+                                        <lightning-input name="SerialNumber" label={label.SERIALNUMBER} type="text" max-length="50"
+                                            value={currentProduct.values.SerialNumber}
+                                            field-level-help="Added for Medical Device Combination Product (MDCP) Products, if this information was not provided or unknown, then please type “Unknown” or “Not Applicable” in these fields"
+                                            onchange={handleInput}></lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-accordion-section>
+                        </lightning-accordion>
+
+                        <lightning-layout class="slds-m-bottom_small slds-align_absolute-center" multiple-rows="true">
+                            <button class="slds-m-bottom_x-small slds-button slds-button_outline-brand btnCancelHover slds-m-right_x-small" title={label.CANCELBUTTON}
+                                onclick={handleModalCancel}>{label.CANCELBUTTON}</button>
+                            <button class="slds-m-bottom_x-small slds-button slds-button_brand btnHover slds-m-right_x-small" title={label.SAVEBUTTON}
+                                onclick={handleModalSave}>{label.SAVEBUTTON}</button>
+                            <button class="slds-m-bottom_x-small slds-button slds-button_brand btnHover" title={label.SAVEANDNEWADDITIONALPRODUCT}
+                                onclick={handleModalSaveAndNew}>{label.SAVEANDNEWADDITIONALPRODUCT}</button>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+            <template if:true={showErrorMessage}>
+                <template if:false={savedProductSets.length}>
+                    <div>
+                        <span class="exclamation-icon">⚠️</span>
+                        <span class="warning-text">{label.WARNINGMESSAGE}</span>
+                    </div>
+                </template>
+            </template>
+
+            <template if:true={showSkipButton}>
+                <lightning-layout-item alignment-bump="left">
+                    <button class="slds-button slds-button_brand btnHover skipBtn" name="Skip" onclick={handlePrevNext}>
+                        {label.SKIPTOREVIEW}</button>
+                </lightning-layout-item>
+            </template>
+            <template if:false={showSkipButton}>
+                <lightning-layout-item alignment-bump="left">
+                    <button class="slds-button slds-button_outline-brand btnCancelHover nextPrevBtn slds-m-right_small" onclick={handlePrevNext}
+                        name="Previous">{label.PREVIOUSBUTTON}</button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext}
+                        name="Next">{label.NEXTBUTTON}</button>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+
+    </div>
+</template>

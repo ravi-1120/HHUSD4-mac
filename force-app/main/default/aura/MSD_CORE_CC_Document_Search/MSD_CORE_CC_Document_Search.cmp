@@ -1,0 +1,45 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" extends="c:ComponentUtils">
+	<div id="section2" class="slds-show slds-scrollable" aura:id="section2">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container" style="height:85%;top:86px;"> 
+                <lightning:spinner aura:id="mySpinner-Tiers" class="slds-show" variant="brand" style="bottom:100px;top:86px;"/>
+                <!-- Header Start-->
+                <header class="slds-modal__header">
+                    <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.cancelFlow}">
+                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.cancelFlow}"/>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Search Articles</h2>
+                </header>
+                <!-- Header End-->
+                <!-- Body Content Start-->
+                <div class="slds-modal__content slds-grow modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:auto">
+                    
+                    <div class="slds-col slds-grid slds-grid_vertical slds-scrollable_x ">
+                        <div class="slds-p-vertical_x-small slds-p-horizontal_large slds-theme_shade">
+                            <div class="slds-form-element">
+                                
+                                <div class="slds-form-element__control">
+                                    
+                                   Test pop up
+                                </div>
+                                </div>
+                        <!-- Grid Displaying Products - Ends -->
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <div class="slds-float--left">
+                        
+                        <lightning:button label="Close Search" name="Close Search"/>
+                    </div>
+                    <div class="slds-float--right">
+                            <lightning:button label="Save" name="Save" variant="brand" />
+                    </div>
+                    
+                </footer>
+            </div>
+                    </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

@@ -1,0 +1,14 @@
+<apex:page controller="MSD_CORE_NAW_Confirmation_Controller"  lightningStylesheets="true"  showheader="false">
+  <br/> <br/>  <br/>
+  <center><h1>Thanks</h1></center>
+  <br/> <br/>  <br/> 
+  <center>Your request for New Account has been submitted for Approval. </center>
+  <br/>  <br/> 
+  <center>DCR Number of the Submitted Request is <b>  <apex:outputLink value="/{!DCRId}" >{!DCRName}</apex:outputLink></b> </center>
+  
+ 
+  <br/>   <br/> 
+  <center><apex:form >
+   <apex:commandButton action="{!Ok}" value="OK"/>
+   </apex:form></center>
+</apex:page>

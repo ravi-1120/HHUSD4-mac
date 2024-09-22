@@ -1,0 +1,331 @@
+.tableHeadCls{
+    background: #00857C;
+    display: flex;
+    /* padding: 8px 0px 8px 16px; */
+    align-items: flex-start;
+    gap: 139px;
+
+}
+
+
+.headercls {
+    width: 100%;
+    height: 66px;
+    color: #0B0000;
+    font-family: 'Invention';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.inputcls{
+    display: flex;
+    width: 173px;
+    padding: 9.5px 12px;
+    align-items: center;
+    gap: 8px;
+    border-radius: var(--Corner-Radius, 4px);
+    border: var(--Size-Line-Width-lineWidth, 1px) solid var(--Colors-Neutral-colorTextBase, #000);
+    background: var(--Neutral-White, #FFF);
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.inputemailcls{
+    display: flex;
+    width: 244px;
+    padding: 9.5px 12px;
+    align-items: center;
+    gap: 8px;
+    border-radius: var(--Corner-Radius, 4px);
+    border: var(--Size-Line-Width-lineWidth, 1px) solid var(--Colors-Neutral-colorTextBase, #000);
+    background: var(--Neutral-White, #FFF);
+}
+
+
+.searchCls{
+    height: 41px;
+}
+/* .searchCls{
+    
+    border-radius: 5px;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid var(--Colors-Neutral-colorTextBase, #000);
+    background: var(--Neutral-White, #FFF);
+    display: flex;
+    width: 100%;
+    height: 41px;
+    padding: 8.5px 12px 8.5px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+
+} */
+
+.resultsCls {
+    color: var(--Colors-Neutral-colorTextBase, #000);
+    font-variant-numeric: lining-nums tabular-nums;
+    font-family: invention;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    /* 19.6px */
+    text-transform: capitalize;
+}
+
+.headCls {
+    /* display: flex; */
+    background: #00857C;
+    /* padding: 8px 0px 8px 16px; */
+    align-items: flex-start;
+    /* gap: 150px; */
+}
+
+.slds-text {
+    background: #00857C;
+    color: #fff;
+    font-family: 'Invention';
+}
+
+.slds-truncate{
+    color: #fff;
+}
+
+
+.container {
+    height: 100%;
+}
+
+.tabs-container {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid #d8dde6;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background: none;
+    border: 1px solid transparent;
+    padding: 10px;
+    cursor: pointer;
+    font-family: 'Invention';
+    border-bottom: none;
+}
+
+.tab-button.active {
+    border: 1px solid #d8dde6;
+    border-bottom: 1px solid #ffffff;
+    font-weight: bold;
+}
+
+.tab-content {
+    padding: 10px;
+}
+
+.filter-container{
+    height: 416px;
+    overflow-y: scroll;
+}
+
+.filter-norecords{
+    text-align: center;
+    padding: 24px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 0fr 2.5fr 2.5fr 4.5fr 3.5fr;
+    gap: 0;
+    border: 1px solid #d8dde6;
+    align-items: stretch;
+}
+
+.grid-header {
+    border-bottom: 2px solid #d8dde6;
+    padding: 12px;
+    background-color: #FFFFFF;
+    color: #202020;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.grid-item {
+    padding: 12px;
+    min-height: 74px;
+    border: none;
+    color: #202020;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-container input[type="checkbox"] {
+    margin: 0 auto;
+    border-radius: 2px;
+    border: 1px solid #555;
+    background: #FFF;
+    width: 24.338px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.dr-form_btnGroup{
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+    margin-top: 3rem;
+	justify-content: flex-start;
+	align-items: left;
+}
+
+.mbl-display {
+    display: none;
+}
+
+/* Smartphones (portrait) */
+@media only screen and (max-width: 480px) {
+    .dr-form_btnGroup {
+        width: 100%;
+        position: absolute;
+        min-height: 56px;
+        margin-top: 0px;
+        background: #FFF;
+        box-shadow: 0px -1px 2px 0px rgba(0, 0, 0, 0.08);
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 0%;
+    }
+
+    .mbl-display {
+        display: block;
+    }
+
+    .mb-display {
+        display: none !important;
+    }
+
+    .grid-container {
+        display: flex;
+        border: none;
+        flex-direction: row;
+    }
+
+    .mbl-filter-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+        gap: 15.54px;
+        padding: 19px 24px 24px 24px;
+    }
+
+    .grid-header {
+        color: #202020;
+        font-family: 'Invention';
+        background: transparent;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 0px;
+        border: none;
+        line-height: 1.6;
+    }
+
+    .dt-container{
+        display: flex;
+    }
+
+    .lt-button{
+        width: 155px;
+    }
+    
+    .mbl-filter-container:nth-child(odd) {
+        background-color: #F9F9F9;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
+    }
+
+    .mbl-filter-container:nth-child(even) {
+        background-color: #FFFFFF;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
+    }
+}
+
+/* Smartphones (landscape) */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    .dr-form_btnGroup {
+        width: 100%;
+        position: absolute;
+        bottom: 13px;
+        display: flex;
+        justify-content: center;
+        left: 0%;
+    }
+
+    .mbl-display {
+        display: block;
+    }
+
+    .mb-display {
+        display: none !important;
+    }
+
+    .grid-container {
+        display: flex;
+        border: none;
+    }
+
+    .mbl-filter-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 15.54px;
+        padding: 19px 0px 24px 0px;
+    }
+
+    .grid-header {
+        color: #202020;
+        font-family: 'Invention';
+        font-size: 14px;
+        font-weight: 700;
+        padding: 0px;
+        border: none;
+        line-height: 1.6;
+    }
+
+    .dt-container{
+        display: flex;
+    }
+}
+
+/* Tablets (portrait) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+
+}
+
+/* Tablets (landscape) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+}

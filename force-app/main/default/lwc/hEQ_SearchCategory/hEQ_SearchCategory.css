@@ -1,0 +1,39 @@
+.slds-section__content {
+    padding: 0 1rem;
+}
+
+.slds-section__title {
+    display: block;
+    padding: 0.5rem;
+    background-color: #f4f6f9;
+    border: 1px solid #d8dde6;
+    cursor: pointer;
+}
+
+.slds-section__title:hover {
+    background-color: #eceff4;
+}
+
+.slds-section {
+    margin-bottom: 1rem;
+}
+
+.folder-item {
+    display: flex;
+    align-items: center;
+    font-family: 'Invention';
+    font-size: 13px;
+}
+
+.folder-item button {
+    margin-right: 0.5rem;
+}
+
+.checkboxcls {
+	margin-bottom: 0px !important;
+}
+
+.iconToggle {
+    cursor: pointer;
+    padding: 4px;
+}

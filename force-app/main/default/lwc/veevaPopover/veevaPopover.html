@@ -1,0 +1,18 @@
+<template>
+    <div class={popoverClass}>
+        <button if:true={showCloseButton}
+            class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close"
+            title="Close dialog" onclick={close}>
+            <lightning-icon icon-name="utility:close" variant={closeButtonVariant} size="x-small"></lightning-icon>
+        </button>
+        <header class={headerSlotClass}>
+            <slot onslotchange={handleHeaderSlotChange} name="header"></slot>
+        </header>
+        <div class="popover-body slds-popover__body">
+            <slot name="content"></slot>
+        </div>
+        <footer class={footerSlotClass}>
+            <slot onslotchange={handleFooterSlotChange} name="footer"></slot>
+        </footer>
+    </div>
+</template>

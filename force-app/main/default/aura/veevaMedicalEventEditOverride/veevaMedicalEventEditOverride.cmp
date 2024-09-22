@@ -1,0 +1,5 @@
+<aura:component implements="force:hasRecordId,lightning:actionOverride,lightning:isUrlAddressable,lightning:availableForFlowScreens" controller="EMRedirectController">    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.onPageReferenceChange}"/>
+    <lightning:navigation aura:id="navService"/>
+</aura:component>

@@ -1,0 +1,66 @@
+<template>
+
+	<div class="card slds-p-around_medium slds-m-bottom_medium notificationContainer">
+		<div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+			<h1 class="notificationTitle"> Notifications </h1>
+		</div>
+
+		<template for:each={products} for:item="prods" for:index="indexx">
+			<lightning-layout-item key={prods.key}>
+				<div class="slds-grid slds-wrap">
+					<!-- EXtra class added for Mobile screen -->
+					<div class="prodmaincls slds-col slds-size_10-of-12">
+					<!-- <div class="slds-col slds-size_10-of-12"> -->
+                        <div>
+                            <h4 class="prodname"> {prods.value.prodname}
+                            </h4>
+                            <p class="slds-p-left_none proddesc"> {prods.value.prodgen} {prods.value.proddos} </p>
+							 <!-- Modified by Sabari - : [MFRUS-117] Prescribing Information link update -->
+                            <h5 class="slds-p-left_none proddos activeprods" data-value={prods.value.proddesc}> {prods.value.proddesc} </h5>
+                        </div>
+    
+                        <div class="slds-grid buttongroup">
+                            <template for:each={prods.value.aggresult} for:item="noti">
+                                <div class="tab_main slds-grid slds-wrap slds-p-right_medium" key={noti}>
+                                    <div class="button2 tab_cls" data-name={noti.lb} data-id={prods.key}
+                                        onclick={redirectpage} data-prod={prods.value.prodname}>
+                                        <div class="b6">
+                                            {noti.expr0}
+                                        </div>
+                                        <div>
+                                            <span class="b3"><img src={Ellipse}><span>{noti.lb}</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="slds-col slds-size_2-of-12 slds-p-left_xx-large prod_url">
+						<div data-id={prods.key} data-name="Librarydetail" data-prod={prods.value.prodname} onclick={navigatepage} >
+							<img class="arrowstyle" src={logo8} />
+						</div>
+					</div>
+
+					<div class="slds-col slds-size_12-of-12 notifdiv">
+						<hr class="hrline"/>
+					</div>
+
+				</div>
+
+			</lightning-layout-item>
+		</template>
+
+		<template if:true={norecord}>
+			<div class="noNotification noOne">
+				You don't have any notifications at this time
+				<div class="bc_box">
+					<button class="cta1 btOne" data-name="ProductList" onclick={navigatepage}> Browse catalog <span> <img
+						src={logo8}> </span> </button>
+				    </div>
+			</div>
+		</template>
+	</div>
+	<br>
+		<p class="job">{label.jobcode}</p>
+</template>

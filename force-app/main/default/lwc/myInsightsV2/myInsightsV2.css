@@ -1,0 +1,18 @@
+.spinner-large {
+    height: 2.75rem; /* large spinner height */
+}
+
+.tabset-container {
+    background-color: white;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+:host {
+    --slds-c-card-header-spacing-block-start: 0px;
+    --slds-c-card-header-spacing-block-end: 0px;
+    --slds-c-card-body-spacing-block-start: 0px;
+    --slds-c-card-body-spacing-block-end: 0px;
+}

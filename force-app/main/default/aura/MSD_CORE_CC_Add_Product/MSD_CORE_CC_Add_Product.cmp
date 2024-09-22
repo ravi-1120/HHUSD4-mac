@@ -1,0 +1,45 @@
+<aura:component extends="c:ComponentUtils" controller="CaseControllerMVN" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId" access="global" description="Used to override Product New/Edit/View Screens.">
+    <!-- Component Attributes  -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="objCase" type="Object" />
+     <aura:attribute name="pageReference" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="userProfile" type="String"/>
+    <aura:attribute name="caseStatus" type="String"/>   
+    <lightning:navigation aura:id="navService"/>
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="RecordTypeId, RecordType.Name"
+                      targetFields="{!v.objCase}"
+                      targetError="{!v.recordLoadError}"
+                      mode="VIEW"
+                      />
+    
+    <!-- Event handlers -->
+    <aura:handler name="MSD_CORE_CC_CloseModalEvt" event="c:MSD_CORE_CC_CloseModalEvt"
+                  action="{!c.handleCloseEvent}"/>
+    <!-- Component markup -->
+    
+    
+    <aura:if isTrue="{!v.userProfile !='MSD_CORE Contact Center - Read Only User'}">
+        <aura:if isTrue="{!v.userProfile !='MSD_CORE Contact Center - Read Only User Non-SSO'}">            	
+            <aura:if isTrue="{!v.caseStatus =='Open'}">
+                <button  style="{!v.objCase.RecordType.Name == 'Request' ? '    top: 12px;
+                               z-index: 1;
+                               float: right;
+                               width: 60px;
+                               margin-right: 10px;
+                               padding: 2px;' : 'top: -272px;
+    z-index: 1;
+    float: right;
+    width: 60px;
+    margin-right: 30px;
+    padding: 2px;'}" class="slds-button slds-button_brand" onclick="{!c.addProduct}">
+                    <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Add</span>
+                </button>
+            </aura:if>
+        </aura:if>
+    </aura:if>   
+    
+  
+</aura:component>

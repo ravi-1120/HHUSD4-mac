@@ -1,0 +1,10 @@
+<template>
+    <c-veeva-spinner if:true={loading} class="slds-spinner_container"></c-veeva-spinner>
+    
+    <c-business-calendar-scheduler
+        if:true={areMessagesLoaded}
+        messages={messages}
+        events={eventData}
+        onfirstrender={handleFirstRender}>
+    </c-business-calendar-scheduler>
+</template>

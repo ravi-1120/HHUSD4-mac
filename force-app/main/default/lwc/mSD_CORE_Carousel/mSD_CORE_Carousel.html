@@ -1,0 +1,19 @@
+<template>
+    <div class="carouselimgcls">
+        <lightning-carousel disable-auto-scroll class="carouselcls">
+            <template for:each={caroselimg} for:item="cimg">
+                <img src={cimg.CarouselImg} class="imgcar" key={cimg.Order}>
+            </template>
+        </lightning-carousel>
+    </div>
+    <div class="scrollingcls">
+        <div class="flexcls">
+            <template for:each={caroselimg} for:item="cimg">
+                <div class="imgseccls" key={cimg.Order}>
+                    <img src={cimg.CarouselImg} data-transform={cimg.Transform} class="imgcls"
+                        onclick={handleImageClick}>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

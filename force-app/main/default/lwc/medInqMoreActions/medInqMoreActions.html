@@ -1,0 +1,10 @@
+<template>
+    <c-veeva-button-menu menu-alignment={controller.alignment} title={titleMsg} if:true={hasLoadedMsg} overflow-length="10">
+        <div slot="buttons">
+            <template iterator:it={controller.moreActions}>
+                <lightning-menu-item key={it.value.name} value={it.value.name} label={it.value.label} onclick={onClick}></lightning-menu-item>
+            </template>
+        </div>
+    </c-veeva-button-menu>
+    <div class="slds-backdrop slds-backdrop_open" if:true={flowStarted}></div>
+</template>

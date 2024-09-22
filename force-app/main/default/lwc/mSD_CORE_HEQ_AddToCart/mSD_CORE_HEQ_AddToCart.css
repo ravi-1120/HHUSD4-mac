@@ -1,0 +1,353 @@
+.headertext {
+    font-family: 'Invention';
+    font-size: 16px;
+    font-weight: 700;
+}
+.fileheading {
+    font-family: 'Invention';
+    font-size: 14px;
+    font-weight: 700;
+    padding-right: 16px;
+    width: 30%;
+}
+.filecontent {
+    font-family: 'Invention';
+    font-size: 14px;
+    word-wrap: break-word;
+    width: 70%;
+}
+.bodycontainer {
+    height: 100vh;
+}
+.imgcontainer {
+    height: 100%;
+}
+.errormsg {
+    height: 50vh;
+    text-align: center;
+    font-family: 'Invention';
+    color: red;
+    font-size: 16px;
+    font-weight: 700;
+    padding-top: 25%;
+}
+
+
+*{
+    font-family: 'Invention';
+}
+
+.custom-container{
+	color : black;
+}
+
+.thumbnail-container1 {
+    /* width: 20%; */
+    height: 250px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.thumbnail-wrapper1{
+    width: 200px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+}
+
+.thumbnail1 {
+    /* width: 50%;
+    height: 50%;
+    object-fit: contain;
+    transition: transform 0.3s;
+    transform-origin: top left; */
+    width: 250px;
+    height: 200px;
+    padding-right: 20px;
+}
+
+.zoom-percentage {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 6px;
+}
+
+.zoom-button {
+    --slds-c-icon-color-foreground-default: #5450e4;
+    cursor: pointer;
+}
+
+.zoom-button:disabled {
+    --slds-c-icon-color-foreground-default: #9f9f9f;
+    cursor: not-allowed
+}
+
+.thumbnail-container.scroll-enabled::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.thumbnail-container.scroll-enabled::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+.thumbnail-container.scroll-enabled::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.popup{
+    width:100%;
+    height:100%;
+}
+
+.selected-customers {
+    background-color: #f3f6f9; 
+    border: 1px solid #d8dde6;
+    border-radius: 5px; 
+}
+
+.slds-text-heading_small {
+    font-size: 1rem; 
+    font-weight: 500; 
+}
+
+.slds-list_dotted {
+    list-style-type: disc; 
+    padding-left: 1.5rem; 
+}
+
+.slds-list__item {
+    padding: 0.5rem 0; 
+}
+
+/* Custom POPup CSS */
+
+.custom-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.custom-modal-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    max-width: 600px;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.custom-modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    background: #f4f6f9;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.custom-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    margin-left: auto;
+}
+
+
+.custom-modal-content {
+    padding: 1rem;
+}
+
+.thumbnail-details-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.thumbnail-section {
+    flex: 1;
+    padding-right: 1rem;
+}
+
+.details-section {
+    flex: 1;
+    padding-left: 1rem;
+}
+
+.custom-form {
+    margin-bottom: 1rem;
+}
+
+.custom-form-element {
+    margin-bottom: 1rem;
+}
+
+.custom-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-button.neutral {
+    background: #ddd;
+    color: #333;
+    margin-right: 5px;
+}
+
+.custom-button.brand {
+    background: #00857C;
+    color: #fff;
+}
+
+.custom-modal-footer {
+    padding: 1rem;
+    border-top: 1px solid #ddd;
+    text-align: right;
+    background: #f4f6f9;
+    border-radius: 0 0 8px 8px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+.selected-customers .customer-list {
+    max-height: 150px; /* Set a max height for the scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-top: 0.5rem; /* Add some spacing between the heading and the list */
+}
+
+.selected-customers .slds-list__item {
+    padding: 0.5rem 0;
+    border-bottom: 1px dotted #ddd;
+}
+
+.selected-customers .slds-list__item:last-child {
+    border-bottom: none; /* Remove border from the last item */
+}
+
+
+.custom-popup-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.custom-popup-container {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.custom-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f4f6f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.custom-popup-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.custom-popup-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.custom-popup-content {
+    padding: 1rem;
+    overflow-y: auto;
+    flex-grow: 1; /* Allow content area to grow and shrink */
+}
+
+.customer-table-container {
+    max-height: 300px; /* Adjust this value as needed */
+    overflow-y: auto;
+    margin-top: 1rem;
+}
+
+.custom-popup-footer {
+    padding: 1rem;
+    background-color: #f4f6f9;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.no-record-message,
+.no-customer-message {
+    margin-top: 1rem;
+    font-style: italic;
+    color: #888;
+}
+.modCls{
+    width: 70em;
+    max-width: 100%;
+}

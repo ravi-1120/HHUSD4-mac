@@ -1,0 +1,30 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-is-open {
+    display: block;
+    margin: 0;
+}
+.THIS .slds-is-close {
+    display: none;
+    margin: 0;
+}
+.THIS .requiredField .slds-form-element__label:before { 
+   /* content:"* ";
+    color:red; */
+}
+.THIS .frame {
+    width: 100%;
+    margin: 3px 0 0;
+    border: 1px solid #eee;
+    background: #fbfbfb;
+    border-radius: 3px;
+}
+.THIS .slds-form-element {
+    position: inherit;
+}
+.THIS .slds-dropdown_length-with-icon-10, .THIS .slds-dropdown--length-with-icon-10 {
+    width: 40%;
+    top: 249px;
+    left: 35px;
+}

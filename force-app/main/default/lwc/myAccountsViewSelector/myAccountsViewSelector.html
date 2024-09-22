@@ -1,0 +1,34 @@
+<template>
+  <div class="flex-row">
+    <lightning-icon if:true={selectedHasColor} class="center-icon slds-shrink slds-var-p-right_xx-small"
+      alternative-text={selectedLabel} icon-name="utility:record" size="xx-small" style={selectedStyle}>
+    </lightning-icon>
+    <lightning-button-menu class="selector-label" variant="bare" title={selectedLabel} label={selectedLabel}
+      menu-alignment="left" disabled={disabled} onselect={handleViewSelection} onclick={setFocus}>
+      <lightning-menu-subheader if:true={hasViews} label={labels.accountViewLabel}></lightning-menu-subheader>
+      <template for:each={views} for:item="option">
+        <div key={option.value}>
+          <lightning-menu-item checked={option.checked} title={option.label} label={option.label} value={option.value} data-id={option.value}>
+          </lightning-menu-item>
+        </div>
+      </template>
+      <lightning-menu-subheader if:true={hasChildAccountViews} label={labels.childAccountViewLabel}></lightning-menu-subheader>
+      <template for:each={childAccountViews} for:item="option">
+        <div key={option.value}>
+          <lightning-menu-item checked={option.checked} title={option.label} label={option.label} value={option.value}>
+          </lightning-menu-item>
+        </div>
+      </template>
+      <lightning-menu-subheader if:true={hasAccountLists} label={labels.accountListsLabel}></lightning-menu-subheader>
+      <template for:each={accountLists} for:item="option">
+        <div class="flex-row account-list-option" key={option.value}>
+          <lightning-menu-item class="slds-grow slds-truncate" checked={option.checked} title={option.label}
+            label={option.label} value={option.value} data-id={option.value}>
+          </lightning-menu-item>
+          <lightning-icon class="slds-shrink center-icon" alternative-text={option.label} icon-name="utility:record"
+            size="xx-small" style={option.style}></lightning-icon>
+        </div>
+      </template>
+    </lightning-button-menu>
+  </div>
+</template>

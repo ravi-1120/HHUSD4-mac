@@ -1,0 +1,17 @@
+<aura:component extends="c:ComponentUtils" implements="lightning:isUrlAddressable">
+    <aura:attribute name="firstname" type="String" />
+    <aura:attribute name="caseId" type="String" />
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="simpleRecord" type="Object" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    Please wait...
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <force:recordData aura:id="recordEditor" 
+          recordId="{!v.caseId}"
+          layoutType="FULL"
+          targetRecord ="{!v.record}"
+          targetFields ="{!v.simpleRecord}"
+          mode="EDIT"/>
+    
+    
+</aura:component>

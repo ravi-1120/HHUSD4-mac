@@ -1,0 +1,10 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .demo-only {
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fafafa;
+    padding: 5px;
+}

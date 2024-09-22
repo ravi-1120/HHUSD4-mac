@@ -1,0 +1,10 @@
+.slds-popover_panel .slds-popover__header .header {
+    padding: var(--lwc-spacingSmall);
+}
+
+.filter-details {
+    display: flex; 
+    justify-content: center;
+    gap: var(--lwc-spacingMedium, 1rem);
+    max-height: 40vh;
+}

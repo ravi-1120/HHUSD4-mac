@@ -1,0 +1,660 @@
+<apex:page standardStylesheets="true" showHeader="false" lightningStyleSheets="true" title="{!$Label.AMO_Meta_Title}"  language="{!$CurrentPage.parameters.lang}" controller="AMOHCPSchdulerController">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
+    <meta name="Keywords" content="{!$Label.AMO_Meta_Keywords}" />
+    <meta name="description" content="{!$Label.AMO_Meta_Description}" />
+    <link rel="canonical" href="{!$Label.AMO_Site_Link}" />
+    <!-- <link rel="shortcut icon" href="{!$Resource.AMO_FavIcon}"  type="img/x-icon"/> -->
+    <apex:slds />
+    <apex:includeLightning />
+
+    <!-- Tealium script -->
+    <!-- <script type="text/javascript"> 
+        (function (a, b, c, d) { a = 'https://tags.tiqcdn.com/utag/mrk-usa/askmerckoncology.com/prod/utag.js'; b = document; c = 'script'; d = b.createElement(c); d.src = a; d.type = 'text/java' + c; d.async = true; a = b.getElementsByTagName(c)[0]; a.parentNode.insertBefore(d, a); }
+        )();
+    </script> -->
+
+    <!-- Google Tag Manager -->
+        <script>
+         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-MZQS5PH');
+        </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- START tag – askmerck.com --> 
+        <script src="//cdn.voice-of-customers.com/fe942749-b63f-4a04-a041-86ad7eaacc3e/kc.js"></script>
+    <!-- END tag – askmerck.com --> 
+
+
+    <!-- Google Tag Manager (noscript) --> 
+        <noscript><iframe src=" Link https://www.googletagmanager.com/ns.html?id=GTM-MZQS5PH" 
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> 
+    <!-- End Google Tag Manager (noscript) -->
+
+    <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" type="text/javascript" charset="UTF-8" data-domain-script="96aed68e-44b1-42cd-ac03-66436fb97aa6-test"></script>
+    <script type="text/javascript">
+
+        function OptanonWrapper() { }
+
+    </script>
+
+    <script type="application/ld+json">{"@context":"http://schema.org/","url":"https://www.askmerck.com/","@type":"MedicalWebPage","name":"Ask Merck","description":"Merck is committed to helping you get answers to your questions. Connect with a Merck Associate now. This service is for US health care professionals."}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org/","url":"https://www.askmerck.com/","@type":"MedicalAudience","audienceType":"health care professionals","geographicArea":"This site is intended for health care professionals of the United States, its territories, and Puerto Rico."}</script>
+
+    <div id="LightningAppDivId">
+        <!-- LWC will be included here. -->
+    </div>
+
+    <script type="text/javascript">
+        $Lightning.use(
+            "c:HCPSchedulerApp",
+            function () {
+                $Lightning.createComponent(
+                    "c:hcpScheduler",
+                    {}, // attribute parameters
+                    "LightningAppDivId"
+                );
+            });
+            document.addEventListener("datalayerevent", function(event){
+             var evt = event.detail;
+             console.log('vfpage evt-->'+JSON.stringify(evt));
+             //window.dataLayer = window.dataLayer || [];
+             window.dataLayer.push({'event':'gaevent', 'event_category':evt.event_category, 'event_action': evt.event_action, 'event_label': evt.event_label});
+           // utag.link({"event_category": evt.event_category,"event_label":evt.event_label,"event_action":evt.event_action},null,[5]);
+          });
+    </script>
+    <style>
+        .footerCls {
+            background-color: #FFFF;
+            display: -webkit-box !important;
+            width: 100%;
+            font-size: .875rem;
+            line-height: 1.7rem;
+            position: initial;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            top: 0;
+            color: #757575;
+            margin-bottom: 8px;
+        }
+
+        .hcp-footer {
+            padding-left: 150px;
+            padding-right: 150px;
+            bottom: 0px !important;
+            padding-top: 50px;
+            position: static;
+        }
+
+        .slds-button_neutral,
+        .slds-button_outline-brand,
+        .slds-button:hover,
+        .slds-button_outline-brand:hover,
+        .slds-button:focus,
+        .slds-button_outline-brand:focus,
+        .slds-button:active,
+        .slds-button_outline-brand:active {
+            border-color: #00857c;
+            color: #00857c;
+        }
+
+        .slds-button,
+        .slds-button_neutral,
+        .slds-button_outline-brand {
+            color: #00857c;
+        }
+
+        .slds-button_brand,
+        .slds-button_brand:hover,
+        .slds-button_brand:focus,
+        .slds-button_brand:active {
+            background-color: #00857c;
+            color: #fff;
+        }
+
+        .footerImgCls {
+            width: 6rem;
+        }
+
+        .footeraccCls {
+            width: 18%;
+        }
+
+        .imageDivCls {
+            margin-left: 5rem !important;
+        }
+
+        .footerLinkCls {
+            cursor: pointer;
+            /* font-family: 'InventionRg'; */
+            font-family: 'InventionRg';
+        }
+
+        .footerCls a {
+            color: #000;
+        }
+
+        .slds-list_horizontal,
+        .slds-list--horizontal {
+            flex-wrap: wrap;
+        }
+
+        .slds-item {
+            color: #000000;
+        }
+
+        .footerPopupCls {
+            -webkit-box-shadow: 0 0.375rem 0.375rem 0 rgb(0 0 0 / 40%);
+            box-shadow: 0 0.375rem 0.375rem 0 rgb(0 0 0 / 40%) !important;
+            text-align: left;
+            padding: 2rem;
+            /* margin-top: 8rem; */
+            margin-bottom: 2rem;
+        }
+
+        .footerPrefePopupCls {
+            height: 23%;
+            min-height: 22rem;
+            max-height: 25rem;
+            border-radius: 0 !important;
+        }
+
+        .footerheadcls {
+            border-bottom-style: none;
+            border-radius: 0 !important;
+        }
+
+        .footerContainerCls {
+            border-radius: 0 !important;
+            position: relative;
+            width: 580px;
+        }
+
+        .backColor {
+            background-color: rgba(0, 0, 0, .3);
+        }
+
+        .footerPopupCls p,
+        .footerPrefePopupCls p {
+            font-family: 'InventionRg';
+            line-height: 1.75rem !important;
+            font-size: 0.875rem !important;
+            color: #000000;
+            margin: 0 0 1rem 0 !important;
+            max-width: 32.25rem !important;
+            text-align: left !important;
+        }
+
+        .footerPopupCls {
+            margin-top: -5rem;
+            border-radius: 0 !important;
+        }
+
+        .slds-button_outline-brand:hover,
+        .slds-button_outline-brand:active,
+        .slds-button_outline-brand:focus {
+            color: #fff;
+            line-height: 1.15;
+        }
+
+        .slds-backdrop {
+            opacity: 0;
+        }
+
+        .footerPrefePopupCls {
+            min-height: 22rem;
+        }
+
+        .footerPopupCls button,
+        .footerPrefePopupCls button {
+            width: 15rem;
+            height: auto;
+            padding: 1rem 1.5rem;
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: bold;
+            line-height: 1;
+            text-align: center;
+            z-index: 1;
+            border-radius: var(--dimenBorderRadius);
+            margin: 0 1rem;
+            border-color: #005c55;
+        }
+
+        .popupHeaderCls {
+            font-size: 1.5rem !important;
+            line-height: 2.5rem !important;
+            font-weight: 600 !important;
+            font-family: headerFont;
+            color: #00857c;
+        }
+
+        .popupTitleCls {
+            font-size: 1.875rem !important;
+            line-height: 2.5rem !important;
+            font-weight: 300 !important;
+            font-family: headerTitle;
+            color: #000000;
+            margin-bottom: 1.8rem;
+        }
+
+        .btnHover::after,
+        .btnHover::before {
+            background: #005c55;
+            content: '';
+            position: absolute;
+            z-index: -1;
+        }
+
+        .btnCancelHover::after,
+        .btnCancelHover::before {
+            background: #005c55;
+            opacity: 1;
+            content: '';
+            position: absolute;
+            z-index: -1;
+            color: #00857c !important;
+        }
+
+        .btnHover,
+        .btnHover::after,
+        .btnCancelHover,
+        .btnCancelHover::after {
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+
+        .btnHover,
+        .btnCancelHover {
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btnHover::after,
+        .btnCancelHover::after {
+            height: 103%;
+            left: 0;
+            top: -1px;
+            width: 0;
+        }
+
+        .btnHover:hover:after,
+        .btnCancelHover:hover:after {
+            width: 100%;
+        }
+
+        .footerLinkCls::after {
+            height: 4px !important;
+            width: 4px !important;
+        }
+
+        .AEMessageCls{
+            font-family: 'InventionRg' !important;
+            padding-bottom: 50px;
+            max-width: 478px;
+        }
+
+        .medicalInfoBody{
+            font-family: 'InventionLt' !important;
+            font-size: 16px;
+            color: black; 
+            padding: 0 16px 15px 16px !important;
+        }
+
+        .medicalInfoHeader{
+            font-size: 20px;
+            font-family: 'Invention'  !important;
+            color: black;
+        }
+        
+        .medicalInfoBtn{
+            font-family: 'Invention' !important;
+            color:white !important;
+                background: linear-gradient(to left, #00857C 50%, #035A53 50%) right !important;
+                background-size: 200% !important;
+                transition: .3s ease-out !important;
+        width: 160px !important; //230
+                 font-size: 16px !important; 
+                 letter-spacing: 0.1px !important;
+        }
+        .medicalInfoBtn:hover {
+            background-position: left !important;
+        }
+        .medicalInfoFooter{
+            padding: 0 52px 15px 52px !important;
+        }
+
+        @font-face {
+            font-family: 'Invention';
+            src: url("{!URLFOR($Resource.AMO_Fonts, '/fonts/Invention_W_Bd.woff')}") format('woff');
+        }
+
+        @font-face {
+            font-family: 'InventionRg';
+            src: url("{!URLFOR($Resource.AMO_Fonts, '/fonts/Invention_W_Rg.woff')}") format('woff');
+        }
+
+        @font-face {
+            font-family: 'InventionLt';
+            src: url("{!URLFOR($Resource.AMO_Fonts, '/fonts/Invention_W_Lt.woff')}") format('woff');
+        }
+
+        @font-face {
+            font-family: 'InventionBdLt';
+            src: url("{!URLFOR($Resource.AMO_Fonts, '/fonts/Invention_W_Bdlt.woff2')}") format('woff2');
+        }
+
+        @font-face {
+            font-family: 'InventionJPRG';
+            src: url("{!URLFOR($Resource.AMO_Fonts, '/fonts/InventionJP_W_Rg.woff')}") format('woff');
+        }
+
+
+        .copyrightCls,
+        .informationCls {
+            /* height: 96px; */
+            /* width: 870px; */
+            color: #747474;
+            font-family: 'InventionRg';
+            font-size: 14px;
+            letter-spacing: 0.2px;
+            line-height: 24px;
+        }
+
+        .copyrightCls {
+            padding-top: 5px;
+        }
+
+        .footerfont {
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .accessibility {
+            margin-right: 12px;
+        }
+
+        .mobileaccessibility {
+            display: none;
+        }
+
+        .accessicon {
+            cursor: pointer;
+        }
+
+        .floatcls {
+            float: right;
+        }
+
+        @media only screen and (min-device-width: 640px) and (max-device-width: 1024px) and (orientation: portrait) {
+            .imgdiv {
+                width: 100%;
+            }
+            .floatcls {
+                float: left;
+            }
+            .popupTitleCls {
+                font-size: 1.5rem !important;
+            }
+            .footerContainerCls {
+                margin-top: -10rem !important;
+                width: 77%!important;
+            }
+            .alignTxt {
+                padding-right: 1.5rem;
+            }
+        }
+
+        @media only screen and (min-device-width: 640px) and (max-device-width: 1024px) and (orientation: landscape) {
+            .imgdiv {
+                margin-left: -6px;
+            }
+            .popupTitleCls {
+                font-size: 1.5rem !important;
+            }
+            .alignTxt {
+                padding-right: 1.5rem;
+            }
+        }
+
+        @media screen and ( max-width: 768px) {
+            .img {
+                margin-left: 0px;
+            }
+            .floatcls {
+                float: left;
+            }
+            .footerContainerCls {
+                width: 85%;
+            }
+            .popupTitleCls {
+                font-size: 1.2rem !important;
+                line-height: 0 !important;
+            }
+            .mobview {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .accessibility {
+                margin-right: 12px;
+                display: none
+            }
+
+            .mobileaccessibility {
+                display: block;
+            }
+            .hcp-footer {
+                width: 100%;
+                max-width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .AEMessageCls{
+                padding-bottom: 50px;
+                width: 100%;
+                max-width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+
+            }
+        }
+
+        @media only screen and (min-device-width: 1366px) and (max-device-width: 1919px) {
+            .footerLinkCls::after {
+                margin-left: 20px !important;
+            }
+            .footerLinkCls {
+                padding-right: 1%;
+            }
+            .alignTxt {
+                padding-right: 1.5rem;
+            }
+        }
+
+        @media only screen and (min-device-width: 1920px) {
+            .copyrightCls,
+            .informationCls {
+                font-size: 14px;
+            }
+            .footerLinkCls {
+                padding-right: 1%;
+            }
+            .footerLinkCls::after {
+                margin-left: 20px !important;
+            }
+            .footerContainerCls {
+                /* width:30.5% !important; */
+                margin-top: -7rem !important;
+            }
+            .popupTitleCls {
+                margin-bottom: 1.75rem;
+            }
+            .alignTxt {
+                padding-right: 1.5rem;
+            }
+        }
+
+        #auraErrorMessage {
+            display: none;
+        }
+    </style>
+<div class="medicalInfoCls" id="medicalInfoId" style="display:none">
+<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+     <!-- modal header start -->
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" style="font-family: 'Invention';color:white;font-size: 16px;"
+           onclick='handleClose(); return false;'> x <span class="slds-assistive-text">Cancel and close</span>
+        </button>
+   
+       <!-- modal body start -->
+       <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+             <div class="medicalInfoBody">{!$Label.Medical_Information} 
+                </div>
+                <div class="slds-grid slds-wrap medicalInfoFooter">
+                    <div class="slds-align_absolute-center" style="">
+               <!-- <button class="slds-button slds-button_neutral medicalInfoBtn" 
+               onclick='redirectMedicalPortal(); return false;'></button> -->
+               <a id="mmpRedirectId" href="#" target="_blank" rel="noopener" class="slds-button slds-button_brand medicalInfoBtn" onclick='redirectMedicalPortal()'>{!$Label.AMO_Continue}</a>
+               </div>
+               <!-- <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2" style="">
+                <button class="slds-button slds-button_neutral medicalInfoBtn" 
+            onclick='handleClose(); return false;'>{!$Label.AMO_US_NOT_HCP}</button>
+            </div> -->
+            </div>
+       </div>
+
+    
+    </div>
+ </section>
+ <div class="slds-backdrop slds-backdrop_open"></div>
+</div>
+   <footer class="hcp-footer">
+       
+        <div class="page-footer page-section" style="
+        border-top: var(--sds-c-card-footer-sizing-border,1px) solid var(--sds-c-card-footer-color-border,#dddbda);">
+            <div class="slds-grid slds-wrap footerCls">
+                <div class="slds-col slds-size_1-of-1" style="">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size--1-of-1 slds-medium-size--9-of-12 slds-m-top_medium" style="">
+                            <ul>
+                                <li>
+                                    <ul class="slds-list_horizontal footerfont slds-has-dividers_right">
+                                        <li class="slds-item footerLinkCls" onclick='handleMedicalInformation(); return false;' >Medical Information</li>
+                                        <li class="slds-item footerLinkCls" onclick='redirectPrivacy(); return false;'>{!$Label.Privacy_Policy_Label}
+                                        </li>
+                                        <li class="slds-item footerLinkCls" onclick='redirectTermsofUse(); return false;'>{!$Label.Terms_of_Use_Label}</li>
+                                        <li class="slds-item footerLinkCls ot-sdk-show-settings">{!$Label.Cookie_Settings}
+                                            
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="imgdiv slds-col slds-size--1-of-1 slds-medium-size--3-of-12" style="">
+                            <div class="floatcls slds-grid slds-m-top_medium">
+                                <div class="accessibility">
+                                    <img src="{!URLFOR($Resource.HCPFooterImages,'HCPFooterImages/accessibility.png')}" class="accessicon" alt="eSSENTIAL Accessibility"
+                                        onclick='handleAccessibility(); return false;' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size--1-of-1 slds-medium-size--8-of-12 slds-m-top_xx-small" style="text-align: left;">
+                            <div class="informationCls">
+                                <apex:outputText escape="false" value="{!$Label.HCP_Copy_Rights_Footer_Message}"></apex:outputText>
+                            </div>
+
+                           
+                        </div>
+
+
+                        <div class="imgdiv slds-col slds-size--1-of-1 slds-medium-size--4-of-12 slds-m-top_large" style="">
+                            <div class="floatcls slds-grid">
+                                <div class="img">
+                                    <img src="{!URLFOR($Resource.HCPFooterImages,'HCPFooterImages/seal1.svg')}" alt="TRUSTe APEC Privacy" class="footerLinkCls footerImgCls"
+                                        onclick='redirectAPECPrivacy(); return false;' />
+                                </div>
+                                <div class="slds-p-left_small">
+                                    <img src="{!URLFOR($Resource.HCPFooterImages,'HCPFooterImages/seal.svg')}" alt="TRUSTe Verified Privacy" class="footerLinkCls footerImgCls"
+                                        style="margin-left: 0px;" onclick='redirectVerifiedPrivacy(); return false;' />
+                                </div>
+                                <div class="slds-p-left_small mobileaccessibility">
+                                    <img src="{!URLFOR($Resource.HCPFooterImages,'HCPFooterImages/accessibility.png')}" alt="eSSENTIAL Accessibility" class="accessicon"
+                                        onclick='handleAccessibility(); return false;' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+         const medicalInfoDiv = document.getElementById("medicalInfoId");
+         var redirectURL;
+        function redirectPrivacy() {
+            window.open("{!$Label.Privacy_Policy_Link}");
+        }
+        function redirectTermsofUse() {
+            window.open("{!$Label.Terms_of_Use_Link}");
+        }
+
+        function handleAccessibility() {
+            window.open("{!$Label.Accessibility_Link}");
+        }
+
+        function redirectAPECPrivacy() {
+            window.open("{!$Label.APEC_Privacy_Link}");
+        }
+
+        function redirectVerifiedPrivacy() {
+            window.open("{!$Label.Trustee_Privacy_Link}");
+        }
+
+        function handleMedicalInformation(){
+            console.log('handleMedicalInformation-->');
+            medicalInfoDiv.style.display = "block";
+            AMOHCPSchdulerController.getHCPAttestaion(true,function(result,event){
+            if(event.status) { 
+                console.log('reslut-->'+result);
+               redirectURL = result;
+               var a = document.getElementById("mmpRedirectId"); 
+               a.href = result;
+            }
+            console.log('reslut1-->'+result);
+           });  
+            if(medicalInfoDiv.style.display != "block"){
+                alert("{!$Label.AMO_Pop_up_Blocked_Alert}");
+            }
+            window.dataLayer.push({'event':'gaevent', 'event_category':'Medical Information', 'event_action': 'click', 'event_label': 'askmerck.com'});
+        }
+
+        function handleClose(){
+            medicalInfoDiv.style.display = "none";
+        }
+
+        function redirectMedicalPortal(){
+          // window.open("https://www.merckmedicalportal.com/s/medical-information");
+         /*  var mmp = window.open("https://gmsad3-gmsa.cs201.force.com/merckmedicalportal/s/medical-information");
+           setTimeout(() => {
+            mmp.postMessage("IamaHealthcareProfessional", "https://gmsad3-gmsa.cs201.force.com/merckmedicalportal/s/medical-information");
+           }, 4000);   */
+          /* AMOHCPSchdulerController.getHCPAttestaion(true,function(result,event){
+            if(event.status) { 
+                console.log('reslut-->'+result);
+               var mmpRedirect =  window.open(result);
+               if (!mmpRedirect || mmpRedirect.closed || typeof mmpRedirect.closed == 'undefined'){
+                    alert("{!$Label.AMO_Pop_up_Blocked_Alert}");
+               } */
+          /*  }
+            console.log('reslut1-->'+result);
+           });    */
+           window.dataLayer.push({'event':'gaevent', 'event_category':'Merck Medical Portal redirect continue', 'event_action': 'click', 'event_label': 'askmerck.com'});
+           medicalInfoDiv.style.display = "none";
+        }
+    </script>
+
+</apex:page>

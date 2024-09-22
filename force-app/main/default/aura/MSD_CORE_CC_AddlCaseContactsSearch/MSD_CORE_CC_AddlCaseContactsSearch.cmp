@@ -1,0 +1,124 @@
+<aura:component extends="c:ComponentUtils" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="MSD_CORE_AE_Contact_Record_Selector_Cont" description="Used for Additional Case Contacts functionality">
+    <!-- Component Attributes -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="caseContacts" type="List" />
+    <aura:attribute name="fieldList" type="Map" default="{}"/>
+    <aura:attribute name="radioOptions" type="List" default="[
+                                                             {'label': 'All', 'value': 'All'},
+                                                             {'label': 'CONSUMER', 'value': 'CONSUMER'},
+                                                             {'label': 'EMPLOYEE', 'value': 'EMPLOYEE'},
+                                                             {'label': 'HEALTHCARE BUSINESS PROF', 'value': 'HEALTHCARE BUSINESS PROF'},
+                                                             {'label': 'INDIV HEALTHCARE PROF', 'value': 'INDIV HEALTHCARE PROF'},
+                                                             ]"/>
+    <aura:attribute name="selectedRadioOption" type="String" default="All"/>
+    
+    <!-- Component Markup -->
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="extraSmall forceEntityIcon">
+                        <span class="uiImage"  />
+                        <lightning:icon iconName="standard:customers" size="small" ></lightning:icon>
+                    </div>
+                </div>
+                <div class="slds-media__body" >
+                    <h2 id="header">
+                        <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Additional Case Contact Search</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body">
+            <div style="padding: 0px 10px;">          
+                <div class="slds-section slds-is-open">
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <aura:iteration items="{!v.fieldList.Fields}" var="f">
+                                <div class="slds-p-around_x-small">
+                                    <lightning:input aura:id="enter-search"
+                                                     name="{!f.placeholder}"
+                                                     value="{!f.value}"
+                                                     label="Search by hitting 'enter' key"
+                                                     isLoading="{! v.issearching }"
+                                                     type="search"
+                                                     variant="label-hidden"
+                                                     placeholder="{!f.placeholder}"
+                                                     />
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <aura:iteration items="{!v.fieldList.Address}" var="f">
+                                <div class="slds-p-around_x-small">
+                                    <lightning:input aura:id="enter-search"
+                                                     name="{!f.placeholder}"
+                                                     value="{!f.value}"
+                                                     label="Search by hitting 'enter' key"
+                                                     isLoading="{! v.issearching }"
+                                                     type="search"
+                                                     variant="label-hidden"
+                                                     placeholder="{!f.placeholder}"
+                                                     />
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                            <lightning:radioGroup
+                                                  aura:id="mygroup"
+                                                  name="radioButtonGroup"
+                                                  options="{! v.fieldList.RadioOptions }"
+                                                  value="{! v.selectedRadioOption }"                    
+                                                  class="customRadioCls"/>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                            <lightning:button label="Search" class="slds-button slds-button_brand" onclick="{!c.searchCaseContacts }"/>
+                            <lightning:button label="Create New" onclick="{!c.createNew}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div aura:id="addlCaseConsSection" class="slds-hide slds-scrollable" style="position:relative;">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container"> 
+                <!-- Header Start-->
+                <header class="slds-modal__header">
+                    <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Additional Case Contacs Search</h2>
+                    
+                    <div style="right: 10px; position: absolute; top: 13px;">
+                        <lightning:button label="X" name="Close Search" onclick="{!c.closeModal}"/>
+                    </div>
+                </header>
+                <!-- Header End-->
+                
+                <!-- Body Content Start-->
+                <div class="slds-modal__content modal-overflow" id="modal-content-id-1">
+                    
+                    <div class="slds-col slds-grid slds-grid_vertical">
+                        <div class="slds-theme_shade">
+                            <div class="slds-form-element">
+                                
+                                <div class="slds-form-element__control">
+                                    <div aura:id="addlCaseContactsSearchModal"> </div>
+                                </div>
+                            </div>
+                            <!-- Grid Displaying Products - Ends -->
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

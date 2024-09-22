@@ -1,0 +1,22 @@
+.elig{
+	display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: stretch;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+	color: #000000;
+    font-family: 'Invention';
+    font-size: 18px;
+	margin-top: 8px;
+}
+
+.subtitle{
+	color: #000000;
+    font-family: 'Invention';
+    font-size: 16px;
+	font-weight: 700;
+}

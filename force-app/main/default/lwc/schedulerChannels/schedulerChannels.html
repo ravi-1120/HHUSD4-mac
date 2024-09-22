@@ -1,0 +1,28 @@
+<template>
+    <div id="waiting" if:false={ready}>
+        <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+    </div>
+
+    <div id="display" if:true={ready} class="slds-p-around_medium lgc-bg">
+    <lightning-card title = "Step 4 - Communication Channels" icon-name = "standard:settings" >
+        <template if:true={channelsPicklist.data}>
+
+            <template for:each={updatedChannels} for:item="item">
+                <lightning-input name="Origin" key={item.value}
+                    label={item.label} data-value={item.value} type="checkbox" class="slds-m-left_xx-large"
+                    onchange = {channelsChange} checked={item.salect}
+                    ></lightning-input>
+            </template>
+        </template>    
+        <template if:true={channelsPicklist.error}>
+            {channelsPicklist.error}
+        </template>
+        <div slot="footer">
+            <lightning-button variant="brand" label = "Previous" onclick={handlePrevious}  class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label = "Next" onclick={handleNext} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </lightning-card>
+    </div>
+</template>

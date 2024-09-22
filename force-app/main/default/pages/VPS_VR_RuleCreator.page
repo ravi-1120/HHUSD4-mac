@@ -1,0 +1,20 @@
+<apex:page standardController="Visibility_Rule_MRK__c" extensions="VPS_VR_Extension">
+   <apex:pageBlock >
+      <apex:pageMessages />
+   </apex:pageBlock>
+      <apex:outputPanel rendered="{!refreshPage}">
+       
+      <script>
+         window.top.location='/{!rule.id}';
+      </script>
+</apex:outputPanel>
+    <apex:form >
+        <apex:selectList value="{!obj}" multiselect="false" size="1">
+            <apex:selectOptions value="{!objects}"/>
+            <apex:actionSupport event="onchange" reRender="theComp" />
+        </apex:selectList>
+       <apex:commandButton action="{!create}" value="Create" />
+       
+        <c:VPS_Object_Selector sObjectName="{!obj}" ctrl="{!cont}" id="theComp"/>
+    </apex:form>
+</apex:page>

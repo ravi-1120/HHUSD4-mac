@@ -1,0 +1,12 @@
+<template>
+    <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+    <div if:true={showSelector}>
+        <lightning-combobox
+            value={selected} label={locationNameLabel}
+            placeholder={labels.selectAnOption}
+            options={options}
+            onchange={handleChange}
+            dropdown-alignment="auto">
+        </lightning-combobox>
+    </div>
+</template>

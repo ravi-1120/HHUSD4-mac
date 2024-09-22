@@ -1,0 +1,129 @@
+<aura:component extends="c:ComponentUtils" controller="MSD_CORE_CC_CaseConsController" implements="force:hasRecordId" access="global" description="used to display Case Contact Edit form">
+    
+    <!-- Component Attributes -->
+    <aura:attribute name="objCC" type="Object" />
+    <aura:attribute name="recordLoadError" type="String"/>
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="MSD_CORE_Adverse_Event__c"
+                      targetFields="{!v.objCC}"
+                      targetError="{!v.recordLoadError}"
+                      mode="VIEW"
+                      />
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="buttonClicked" type="String"/>
+    <aura:attribute name="parentId" type="String" default=""/>
+    <aura:attribute name="recTypeId" type="String" default=""/>
+    <aura:attribute name="reloadForm" type="Boolean" default="true"/>
+    <aura:attribute name="selectedValue" type="String" default="" />
+    <aura:attribute name="showTextField" type="Boolean" default="false" />
+
+    
+    <aura:if isTrue="{!v.reloadForm}">
+    <lightning:recordEditForm aura:id ="ccForm"
+                              onload="{!c.handleLoad}"
+                              onsubmit="{!c.handleSubmit}"
+                              onsuccess="{!c.handleSuccess}"
+                              recordId="{!v.recordId}"
+                              objectApiName="MSD_CORE_AE_Contact__c">
+        
+        <lightning:card>
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner />
+            </aura:if>
+            <!-- the messages component is for error messages -->
+            <lightning:messages />
+            <div onkeyup="{!c.handleKeyPress}">
+            <div class="slds-section slds-is-open">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate" title="Section Title" style="font-size:14px;padding: 2px 10px;">Contact Information</span>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem padding="horizontal-small" size="6">
+                            <lightning:inputField fieldName="MSD_CORE_Contact_Related_To__c" />
+                            <lightning:inputField required="true" fieldName="MSD_CORE_First_Name__c"/>
+                            <lightning:inputField required="true" fieldName="MSD_CORE_Last_Name__c"/>
+                            <lightning:inputField fieldName="MSD_CORE_Credentials__c"/>
+                            <lightning:inputField fieldName="MSD_CORE_Type__c" value="{!v.selectedValue}" onchange="{!c.handlePicklistChange}"/>
+                            <aura:if isTrue="{!v.selectedValue == 'Employee'}">
+    							<lightning:inputField fieldName="MSD_CORE_Employee_ID_WIN__c" />
+  							</aura:if>
+                            
+                        </lightning:layoutItem>
+                        <lightning:layoutItem padding="horizontal-small" size="6">
+                            <lightning:inputField fieldName="MSD_CORE_Primary_Contact__c" />
+                            <lightning:inputField fieldName="MSD_CORE_Correspondence_Contact__c"/>
+                            <lightning:inputField fieldName="MSD_CORE_Permission_to_Contact__c"/>
+                            <lightning:inputField fieldName="MSD_CORE_Insertion_HCP__c" />
+                            <lightning:inputField fieldName="MSD_CORE_Removal_HCP__c" /> 
+                            <lightning:inputField fieldName="MSD_CORE_PracBusNm__c" /> 
+                            
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </div>
+            
+            <div class="slds-section slds-is-open">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate" title="Section Title" style="font-size:14px;padding: 2px 10px;">Address Information</span>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem padding="horizontal-small" size="6">
+                            <lightning:inputField fieldName="MSD_CORE_Address_Line_1__c" />
+                            <lightning:inputField fieldName="MSD_CORE_Address_Line_2__c"/>
+                            <lightning:inputField fieldName="MSD_CORE_City__c"/>
+                            <lightning:inputField fieldName="MSD_CORE_State_Province__c"/>
+                            <lightning:inputField fieldName="MSD_CORE_Postal_Code__c"/>
+                            <lightning:inputField fieldName="MSD_CORE_Country__c" /> 
+                            
+                        </lightning:layoutItem>
+                        <lightning:layoutItem padding="horizontal-small" size="6">
+                            <lightning:inputField fieldName="MSD_CORE_Phone__c" />
+                            <lightning:inputField fieldName="MSD_CORE_Fax__c"/> 
+                            <lightning:inputField fieldName="MSD_Core_Email__c"/>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </div>
+            
+            <div class="slds-section slds-is-open">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate" title="Section Title" style="font-size:14px;padding: 2px 10px;">System Information</span>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem padding="horizontal-small" size="6">
+                            <lightning:outputField fieldName="Name" />                            
+                        </lightning:layoutItem>
+                        <lightning:layoutItem padding="horizontal-small" size="6">
+                            <lightning:inputField fieldName="MSD_CORE_Adverse_Event__c" aura:id="MSD_CORE_Adverse_Event__c" value="{!v.parentId}" disabled="true"/> 
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </div>
+            <br/>
+            <div class="slds-align_absolute-center">
+                        <lightning:button 
+                                          variant="neutral"
+                                          name="cancel" 
+                                          label="Cancel" onclick="{!c.closeFocusedTab}" />
+                         <lightning:button 
+                                              variant="neutral" 
+                                              type="submit"
+                                              name="saveAndNew" 
+                                              label="Save &amp; New" 
+                                              onclick="{!c.handleSaveNew}"/>
+                        <lightning:button 
+                                          variant="brand" 
+                                          type="submit"
+                                          name="save" 
+                                          label="Save" 
+                                          onclick="{!c.handleSave}"/>
+                    </div>
+            </div>
+        </lightning:card>
+    </lightning:recordEditForm>
+    </aura:if>
+</aura:component>

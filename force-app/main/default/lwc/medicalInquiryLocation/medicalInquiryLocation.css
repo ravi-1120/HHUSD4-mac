@@ -1,0 +1,33 @@
+.slds-popover {
+    min-width: 100%;
+    width: auto;
+    position: absolute;
+    max-width: 100%;
+}
+
+.slds-listbox__option-meta_entity  {
+    color: #a6a6a6;
+}
+
+.truncate-two-lines {
+    display: -webkit-box;
+    max-width: 100%;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 0;
+}
+
+.truncate-one-line {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-top: 0;
+}
+
+.open-upward {
+    bottom: 3em;
+}

@@ -1,0 +1,144 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-01-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    
+
+    <!-- <div class="">
+        <div class="pbanner"><img src={logo5}>
+            <div class="ptext">
+                <div class="OtherMercksites">
+                    <p class="OtherMercksites"> Other Merck sites</p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div>
+        <div class="bannercls">
+            <img src={logo5}>
+            <div class="header_cls">
+                <div class="header-container">
+                    <h1>Other Merck sites</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="slds-p-top_x-small">
+        <div class="b">
+            <div class="body_cls">
+                <div class="container">
+                    <div class="slds-p-horizontal_large slds-p-top_large box-height">
+                    <template if:true={OtherMercksites}>
+                        <template for:each={OtherMercksites} for:item="site" for:index="index">
+                            <!--style="background-color: #faf7ed; position: absolute;top:5%;right:5%"-->
+                            <lightning-layout key={site.Id} padding="around-small"
+                                 class="layout">
+                                <div class="box_cls">
+                                    <div class="slds-grid slds-gutters slds-wrap slds-p-horizontal_medium bg_cls">
+                                        <div class="slds-size_11-of-12">
+                                            <span class="header">{site.MSD_CORE_Header1__c}</span><span
+                                                class="header-green">{site.MSD_CORE_Header1_Index1__c}</span><span
+                                                class="header">{site.MSD_CORE_Header1_Index2__c}</span>
+
+                                        </div>
+                                        <div class="slds-size_11-of-12 subheader">
+                                            <h3 class="header2">{site.MSD_CORE_Header2__c}</h3>
+                                        </div>
+                                        <div class="slds-size_11-of-12">
+                                            <p class="p">{site.MSD_CORE_Description__c }</p>
+                                        </div>
+                                        <!-- <div class="button_cls slds-p-bottom_xx-large" data-id={site.Id}
+                                            onclick={handleVisitSite}>
+                                            <div class="res_btn" variant="brand-outline" title="VISIT SITE"
+                                                label="VISIT SITE" style="margin-top: 6px;">
+                                                <span class="visitsite"> VISIT SITE </span>
+                                                <img src={box}>
+                                            </div>
+                                        </div> -->
+                                        <!-- <a href={site.MSD_CORE_Site__c} class="button_cls "
+                                            target="_blank">
+                                            <div class="res_btn button_cls slds-p-bottom_xx-large" variant="brand-outline" title="VISIT SITE"
+                                                label="VISIT SITE" style="margin-top: 6px;"> -->
+                                                <a class="button_cls res_btn" onclick={navigatePopup} data-id={site.MSD_CORE_Site__c}>
+                                                    <span class="visitsite" onclick={visitsite} data-headname={site.MSD_CORE_Header2__c} > VISIT SITE </span>
+                                                    <img src={box}>
+                                                </a>
+                                            <!-- </div>
+                                        </a> -->
+                                    </div>
+                                </div>
+                            </lightning-layout>
+                        </template>
+                    </template>
+                </div>
+                </div>
+            </div>
+
+            <template if:true={error}>
+                {error}
+            </template>
+        </div>
+    </div>
+    <div class="extraheight container1"></div>
+
+
+
+    <div if:true={naigateToExternalSite}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_11-of-12">
+                            <h1 id="modal-heading-01" class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+                                <span style="font-family: 'Invention';font-style: normal;width: 992px;height: 36px;
+                                font-weight: 700;font-size: 24px;line-height: 36px; color: #000000;"><b> You are leaving the Merck Formulary Resources portal </b></span>
+                            </h1>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12">
+                             <button class="slds-button slds-button_neutral " style="color: rgb(0, 133, 124);border-width: 2px !important;border-style: solid !important;border-color: rgb(0, 133, 124);border-image: initial !important;background-color: white;padding-left: 10px;padding-right: 10px;height: 38px;padding-top: 10px;padding-bottom: 10px;"
+                             data-label="back to screen_X" onclick={closeResponse}><span><img src={cross}> </span></button>
+                        </div>
+                    </div>
+                </div>
+                <!--<div><p>You have submitted a request for an appointment to view: Vericiguat Budget Impact Model</p></div>-->
+                <div class="slds-modal__content " id="modal-content-id-2">
+                    <div class="slds-align_absolute-center">
+                        <div class="box">
+                            <span class="para1">
+                                <p class="info1">
+                                    You are now leaving the Merck Formulary Resources portal.
+                                </p>
+                            </span>
+                            <div class="slds-align_absolute-center">
+                                <a href={MerckSite} target="_blank">
+                                <button class="slds-button slds-button_neutral" style="margin-top:24px; font-family: 'Invention';color:white;  align-items: center;
+                                    text-align: center;background-color:#00857c;font-style: normal;height: 50px;font-size: 14px;letter-spacing: 0.1px;padding: 13px 16px;
+                                    gap: 16px;font-weight: 700;"
+                                    data-name="Continue to Merck Medical &amp; Health Economic Evidence">
+                                    Continue <img src={HeaderArrow}>
+                                </button>
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-modal__footer popupfooter">
+                        <button class="slds-button slds-button_neutral " style="font-family: 'Invention';color:#00857c;border-color:#00857c ;
+                        border: 2px solid #00857c !important;background-color:white;height: 32px;font-weight: 700;font-size: 14px;letter-spacing: 0.1px;"
+                        data-label="return to mfr portal" onclick={closeResponse}>Return to Merck Formulary Resources portal</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation">
+            <p class="job">{label.jobcode}</p>
+        </div>
+    </div>
+</template>

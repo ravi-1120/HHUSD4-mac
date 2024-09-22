@@ -1,0 +1,40 @@
+.popover-body {
+    word-break: break-word;
+    white-space: normal;
+    min-height: var(--veeva-em-popover-content-min-height, 10rem);
+}
+
+.em-popover {
+    width: auto;
+}
+
+.em-popover_size-hook {
+    width: var(--veeva-em-popover-width);
+}
+
+.em-prompt-top-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: var(--lwc-spacingXSmall, 0.5rem);
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+}
+
+.slds-nubbin_left:before, .slds-nubbin_left:after {
+    top: var(--selectionDetailsTranslateYDistance, 50%);
+}
+
+.fade-in {
+    animation: fadeIn 0.35s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, 0%);
+     }
+}

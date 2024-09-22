@@ -1,0 +1,888 @@
+.no-data {
+    text-align: center;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #00857C;
+}
+
+.viewrequest{
+    height:32px;
+}
+
+.subrow1{
+        padding-left: 8px;
+    }
+
+.row1{
+    display: flex;
+    flex-wrap: wrap;
+}
+.mobWidth
+{
+    padding-left: 0px !important;
+    padding-right: 0px !important; 
+}
+
+.search-card {
+    margin-left: 0px;
+    width: 1070px;
+    padding-bottom: 24px;
+}
+
+.no-padding {
+    padding: 0px;
+}
+
+.pad-pref-time {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 4px;
+    padding-top: 0px;
+}
+
+.pad-from-calendar {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.pad-left-from-calendar {
+    padding-left: 16px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.pad-from-status {
+    padding-left: 8px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.search-input {
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 9px 12px 10px;
+    gap: 10px;
+
+    width: 410px;
+    height: 40px;
+
+    /* Secondary/Neutral/White */
+    color: #333333;
+    background: #FFFFFF;
+    /* Secondary/Neutral/Dark Text */
+
+    border: 1px solid #333333;
+    border-radius: 4px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.combo-sort {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 9px 12px 10px;
+    gap: 10px;
+    isolation: isolate;
+    width: 184px;
+    height: 40px;
+    background: #FFFFFF;
+    border: 1px solid #333333;
+    border-radius: 4px;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.pipelineVal{
+    width: 410px;
+}
+
+.pipelinelabel {
+    width: 49px;
+    height: 21px;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height, or 150% */
+
+
+    /* Neutral/Dark Text */
+
+    color: #333333;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin-bottom: 8px;
+}
+
+.pipelinesearch {
+    display: flex;
+}
+
+.combo {
+    display: flex;
+}
+
+.slds-truncate {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height, or 150% */
+
+
+    /* Neutral/Dark Text */
+
+    color: #333333;
+}
+
+.combobox {
+    padding-left: 83.5px;
+}
+
+.schedule-appointment__Scheduled-Approved {
+    /* display: flex;*/
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2px 8px;
+    gap: 10px;
+    /* width: 95px; */
+    height: 22px;
+    background: #5450E4;
+    border-radius: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.ps-mobile-div
+{
+    display:none;
+}
+
+.status-title {
+    /* width: 60px; */
+    height: 18px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    /*display: flex;*/
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #FFFFFF;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    /*added for change 2/4/*/
+   /* padding: 2px 8px; */
+    /* width: 76px; */
+    font-weight:700;
+    display: table-cell;
+    font-family:Invention;
+}
+
+.request-card {
+    margin-left: 0px;
+    width: 1070px;
+}
+
+.h2-viewrequest {
+    padding-right: 0px;
+    padding-left: 16px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.h2-viewrequest-header {
+    /*width: 100px;*/
+        min-width: 70%;
+    height: 18px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.61539px;
+    color: #00857C;
+   /* padding: 7px 16px; */
+}
+
+.mdate {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+    /*padding-top: 8px;
+width: 88px;*/
+    height: 72px;
+}
+
+.schedule-appointment__Scheduled-Pending {
+    /*  display: flex;*/
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2px 8px;
+    gap: 10px;
+
+    /* width: 85px; */
+    height: 22px;
+    background: #FFAB00;
+    border-radius: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+
+
+.schedule-appointment__Scheduled-Rejected {
+    /*display: flex;*/
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2px 8px;
+    gap: 10px;
+
+    /* width: 85px; */
+    height: 22px;
+    background: #008A00;
+    border-radius: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+a.schedule-appointment__Scheduled-Rejected:hover {
+    text-decoration: none;
+}
+
+.button2 {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+
+    width: 88px;
+    height: 84px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    flex: none;
+    flex-grow: 0;
+    font-family: 'Invention';
+    order: 0;
+
+
+}
+
+.button-multip-appointment[c-mSD_CORE_RequestCard_mSD_CORE_RequestCard] {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    width: 86px;
+    height: 84px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    flex: none;
+    flex-grow: 0;
+    margin: 0 15px 0 0;
+    font-family: 'Invention';
+    order: 0;
+}
+
+.b4 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    flex-grow: 0;
+    line-height: 36px;
+}
+
+.b5 {
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    flex-grow: 0;
+    line-height: 18px;
+}
+
+.appointment-title {
+    color: #00857C;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+   /* padding-left: 8px;*/
+
+}
+
+.appointment-title-name {
+    color: #00857C;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    padding-left: 0px;
+}
+
+.appointment-content-title {
+
+    font-family: 'Invention';
+
+    text-align: left;
+    padding-left: 0px;
+
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    color: #757575;
+}
+
+.appointment-content {
+    word-break: break-all;
+    overflow-y: -webkit-paged-y;
+    padding-left: 0px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #333333;
+}
+
+.appointment-content-small {
+    color: #757575;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    padding-left: 0px;
+    padding-top: 14px;
+
+}
+
+.cta {
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 7px 15px; 
+	/* fixed based on the issue Reported in Release R5  */
+    gap: 16px;
+    min-width: 159px;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+}
+
+.slds-box-dark {
+    border: 2px solid silver;
+    display: block;
+
+}
+
+.top-margin {
+    margin-top: 10px;
+    padding: 0px;
+}
+
+.boxshadow_cls {
+    box-shadow: 0px 1px 5px rgb(0 0 0 / 20%);
+
+}
+
+.boxshadow_cls:hover {
+    box-shadow: 0 0px 7px #c7c7c7 !important;
+
+}
+
+.bsbobx {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+    margin-bottom: 16px;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.viewr {
+    padding: 0px !important;
+    justify-content: flex-end;
+    display: flex;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.mar-lr-mob {
+    display: none !important;
+}
+
+.emptystate {
+    display: flex;
+    flex-direction: column;
+}
+
+.emptystate p{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #757575;
+    margin: auto;
+}
+
+.emptystate button {
+    margin: auto;
+    margin-top: 16px;
+    padding: 11px 16px;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    background: white;
+    justify-content: center;
+    flex-direction: row;
+    gap: 16px;
+    box-sizing: border-box;
+}
+
+.emptystate button span {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    color: #00857C;
+}
+
+.emptystate button img {
+    width: 16px;
+}
+
+.search-input[disabled] {
+    cursor: not-allowed !important;
+}
+
+
+/* ===================== Mobile Screen ===================== */
+
+/* Start Mobile Screen */
+.cta {
+    background: white !important;
+}
+
+.ps-mobile-div {
+    display: none;
+}
+
+.appointmentCSS {
+    width: 1150px;
+    max-width: 1150px;
+}
+
+.pagination-position {
+    left: 290px;
+    top: 10px;
+}
+
+.slds-card {
+    left: 290px;
+    top: 10px;
+}
+
+/* Mobile Screen */
+@media screen and (max-width:391px) {
+   
+
+    .h2-viewrequest {
+      /*  padding-right: 16px; */
+        padding-left: 16px;
+    }
+
+    .cta {
+      /*  font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px !important;
+        line-height: 18px !important;
+        display: flex;
+        align-items: center;
+        text-align: right;
+        letter-spacing: 0.861539px;
+        border: 2px solid #00857C !important;
+        border-radius: 5px !important;
+        color: #00857C !important;
+        background-color: white;
+        padding: 6px; */
+    }
+
+    .appointment-title {
+        color: #00857C;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 27px;
+        padding-left: 0px;
+
+    }
+
+
+    .appointment-content-title {
+        color: grey;
+        font-family: 'Invention';
+        font-size: 14px;
+        font-weight: 700;
+        text-align: left;
+        padding-left: 0px;
+    }
+
+    .appointment-content {
+        color: black;
+        font-family: 'Invention';
+        font-size: 14px;
+        word-break: break-all;
+        overflow-y: -webkit-paged-y;
+        padding-left: 0px;
+    }
+
+    .appointment-content-small {
+        color: gray;
+        font-family: 'Invention';
+        ;
+        font-size: 12px;
+        padding-left: 0px;
+        padding-top: 0px;
+    }
+
+    .mobmargin {
+        margin-bottom: 16px !important;
+    }
+}
+
+@media screen and (max-width:394px) {
+
+    
+}
+
+@media screen and (max-width: 767px) {
+  .ps-desktop-div
+{
+   display:none; 
+}
+    .cta {
+      /*  font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px !important;
+        line-height: 18px !important;
+        display: flex;
+        align-items: center;
+        text-align: right;
+        letter-spacing: 0.861539px;
+        border: 2px solid #00857C !important;
+        border-radius: 5px !important;
+        color: #00857C !important;
+        background-color: white;
+        padding: 6px; */
+    }
+
+    .appointment-title {
+        color: #00857C;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 27px;
+        padding-left: 0px;
+
+    }
+
+
+    .appointment-content-title {
+        color: grey;
+        font-family: 'Invention';
+        font-size: 14px;
+        font-weight: 700;
+        text-align: left;
+        padding-left: 0px;
+    }
+
+    .appointment-content {
+        color: black;
+        font-family: 'Invention';
+        font-size: 14px;
+        word-break: break-all;
+        overflow-y: -webkit-paged-y;
+        padding-left: 0px;
+    }
+
+    .appointment-content-small {
+        color: gray;
+        font-family: 'Invention';
+        ;
+        font-size: 12px;
+        padding-left: 0px;
+        padding-top: 0px;
+    }
+
+    .mbl-dsn {
+        display: none;
+    }
+
+
+    .mar-2 {
+        margin-top: 2%;
+        margin-bottom: 2%;
+        /* padding-left: 0px !important; */
+
+    }
+
+    .mar-lr-2 {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    .cta {
+        background: white !important;
+    }
+
+
+    .ps-mobile-div {
+        display: block;
+        /* margin: 0px; */
+        margin: 0px 0px 16px 0px;
+    }
+
+    .ps-top-sub {
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        min-height: 128px;
+        width: 100%;
+    }
+
+    .ps-sts-dt {
+        width: 40%;
+    }
+
+    .ps-sts {
+        padding: 2px 8px;
+        font-family: Invention;
+        font-size: 14px;
+        font-weight: 700;
+        padding-left: 0px;
+        padding-right: 8px;
+    }
+
+    .ps-top-dsc {
+        text-align: left;
+        min-height: 128px;
+    }
+
+    /* .slds-gutters {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    } */
+    .slds-scope.slds-gutters.slds-col {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    .mobWidth
+    {
+          padding-left: 0px !important;
+        padding-right: 0px !important; 
+    }
+
+    a.schedule-appointment__Scheduled-Rejected {
+        max-width: 88px;
+    }
+
+    .statusclass {
+        margin: auto;
+    }
+
+    .schedule-appointment__Scheduled-Pending {
+      /*  padding: 3px 18px; */
+    }
+
+    .schedule-appointment__Scheduled-Rejected {
+       /* padding: 3px 24px; */
+    }
+
+    .mar-lr-mob {
+        display: block !important;
+        padding-left: 0px !important;
+    }
+
+    .moblr {
+        display: none !important;
+    }
+
+    .bsbobx {
+        padding: 16px !important;
+    }
+    /* Rusheel-Jira-1047&1048 */
+    .emptystate p{
+        width: 279px;
+        max-height: 48px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #757575;
+        flex: none;
+        order: 0;
+        align-self: stretch;
+        flex-grow: 0;
+    }
+    .emptymob button{
+        min-width: 271px;
+        min-height: 40px; 
+    }
+    .emptymob button span {
+        max-width: 207px;
+        max-height: 18px;
+        align-items: center;
+    }
+    .emptymob p {
+        width: 279px;
+        max-height: 72px;
+    }
+
+    .con{
+        width: 100%;
+    }
+    .search-card{
+        display: flex;
+        flex-wrap: wrap;
+        padding-bottom: 24px;
+
+    }
+
+    .combobox{
+        padding: 0px;
+        /*Added for monbile*/
+         padding-top: 24px;
+
+    }
+    .pipelinelabel {
+
+    line-height: 21px;
+    }
+
+    .search-input{
+        width: 100%;
+    }
+
+    .pipelineVal{
+        width: 100%;
+    }
+
+    .request-appointment-header{
+        width: 100%;
+    }
+
+    .search-card{
+        width: 100%;
+    }
+
+    .bsbobx{
+        width: 100%;
+    }
+
+    .row1{
+        display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    }
+
+    .slds-col{
+        flex: revert;
+    }
+
+    .h2-viewrequest-header{
+       /* padding: 7px 0px; */
+        /*width: 100%;*/
+       min-width: 60%;
+        height: 100%;
+       /* height: 28px; */
+       
+    }
+
+    .cta{
+        padding: 7px 16px;
+      /*  width: 70%; */
+    }
+    /* Rusheel-Jira-1047&1048 */
+}

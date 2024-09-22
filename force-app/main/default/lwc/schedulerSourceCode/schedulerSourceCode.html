@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title = "Step 7 - Source Code" icon-name = "doctype:html" >
+
+        <div style="width: 300px;" class="slds-m-left_xx-large">
+            <lightning-combobox
+            name="codeformat"
+            label="Code Format"
+            value={value}
+            placeholder="Select Progress"
+            options={options}
+            onchange={handleChange}>
+            </lightning-combobox>
+        </div>
+       
+        <div class="slds-p-around_medium">
+            <p>{iframeUrl}</p>
+            <p><lightning-formatted-url value={expCloudUrl} label={expCloudUrl} target="_blank" ></lightning-formatted-url></p>
+        </div>
+
+        <div slot="footer">
+            <lightning-button variant="brand" label = "Previous" onclick={handlePrevious}  class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label = "Generate Code" onclick={handleCode} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label = "Close" onclick={handleClose} class="slds-m-left_x-small"></lightning-button>
+        </div>
+        
+    </lightning-card>
+</template>

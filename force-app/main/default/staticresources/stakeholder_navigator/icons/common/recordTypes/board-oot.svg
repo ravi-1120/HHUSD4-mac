@@ -1,0 +1,38 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="50%" y1="-53.99%" x2="50%" y2="54.012%" id="b">
+            <stop stop-color="#CDCDCD" offset="0%"/>
+            <stop stop-color="#FFF" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="-222.472%" y1="49.985%" x2="69.663%" y2="49.985%" id="d">
+            <stop stop-color="#A0A0A0" offset="0%"/>
+            <stop stop-color="#E0E0E0" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="2.661%" y1="50.112%" x2="102.384%" y2="50.112%" id="e">
+            <stop stop-color="#EAEAEA" offset="0%"/>
+            <stop stop-color="#CDCDCD" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="106.837%" y1="50.019%" x2="6.627%" y2="50.019%" id="f">
+            <stop stop-color="#EAEAEA" offset="0%"/>
+            <stop stop-color="#CDCDCD" offset="100%"/>
+        </linearGradient>
+        <radialGradient cx="-78.807%" cy="50.918%" fx="-78.807%" fy="50.918%" r="134.368%" id="a">
+            <stop stop-color="#CDCDCD" offset="0%"/>
+            <stop stop-color="#FFF" offset="100%"/>
+        </radialGradient>
+        <radialGradient cx="-78.841%" cy="50.942%" fx="-78.841%" fy="50.942%" r="134.384%" id="c">
+            <stop stop-color="#CDCDCD" offset="0%"/>
+            <stop stop-color="#EAEAEA" offset="100%"/>
+        </radialGradient>
+    </defs>
+    <g fill-rule="nonzero" fill="none">
+        <circle fill="#666" cx="32" cy="32" r="32"/>
+        <circle fill="url(#a)" cx="31.84" cy="25.35" r="9.26"/>
+        <path d="M32 58.25a26.145 26.145 0 0 0 18.175-7.32 18.53 18.53 0 0 0-13.43-15.36 11.12 11.12 0 0 1-9.81 0 18.5 18.5 0 0 0-13.39 15.095A26.165 26.165 0 0 0 32 58.25z" fill="url(#b)"/>
+        <circle fill="url(#c)" cx="50.04" cy="27.795" r="6.9"/>
+        <circle fill="#EAEAEA" cx="13.95" cy="27.475" r="6.9"/>
+        <path fill="url(#d)" d="M32 55.685 28.885 52.4 32 39.44l3.115 12.96z"/>
+        <path d="M13.95 36a8.275 8.275 0 0 1-3.655-.85 13.585 13.585 0 0 0-4.055 1.875A26.16 26.16 0 0 0 11.605 48.5a21.1 21.1 0 0 1 9.105-12.055 13.78 13.78 0 0 0-3.105-1.285 8.305 8.305 0 0 1-3.655.84z" fill="url(#e)"/>
+        <path d="M57.71 37.325a13.855 13.855 0 0 0-4-1.85 8.285 8.285 0 0 1-7.31 0 13.725 13.725 0 0 0-2.95 1.2 21.08 21.08 0 0 1 8.81 12.035 26.2 26.2 0 0 0 5.45-11.385z" fill="url(#f)"/>
+    </g>
+</svg>

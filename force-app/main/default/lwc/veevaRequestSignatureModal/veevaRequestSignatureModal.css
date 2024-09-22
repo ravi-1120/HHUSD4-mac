@@ -1,0 +1,18 @@
+.mainMessage {
+    padding-bottom: 20px;
+    text-align: center;
+}
+.shareLinkMessage {
+    padding-top: 16px;
+    text-align: center;
+}
+.right-button-margins {
+    margin-left: 12px;
+}
+.toCopy {
+    opacity: 0;
+    position: fixed;
+}
+.qrCodeHeight {
+    height: 600px;
+}

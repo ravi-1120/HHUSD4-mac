@@ -1,0 +1,29 @@
+.section-title {
+    color: #000;
+}
+
+:host {
+    --sds-c-button-text-color: #262426;
+}
+
+.detail-process-container {
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.remind-msg {
+  color: #666;
+}
+
+.result-type{
+    color: #262426;
+}
+
+.selected {
+    font-weight: 600;
+    border-bottom: 2px solid #4194f9;
+}
+
+.table-border-top {
+    border-top: 1px solid #eae8ec;
+}

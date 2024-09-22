@@ -1,0 +1,183 @@
+/* .wrapper {
+  height: 100%;
+  margin: 0px;
+  line-height: 18px;
+  font-size: 14px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  text-rendering: optimizelegibility;
+  background: #ebeef0;
+} */
+
+.wrapper{
+  display: none;
+}
+
+@media all and (min-width: 1080px){
+  .wrapper{
+    display: block !important;
+  }
+}
+
+.wrapper {
+  width: 100%;
+  /* min-width: 950px; */
+  height: 100%;
+  margin: 0px auto;
+  overflow: auto;
+}
+
+.left-section {
+  height: 100%;
+  width: 100%;
+  background: #F7F7F7;
+  float: left;
+  color: black;
+}
+
+.right-section {
+  width: calc(100% - 250px);
+  float: right;
+}
+
+.nav {
+  background: #F7F7F7;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  overflow: hidden;
+  list-style: none;
+  box-shadow: none repeat scroll 0% 0% #2b3136;
+  box-sizing: border-box;
+  min-height: 1196px;
+}
+
+.logo button{
+	border: 0px !important
+}
+
+.collapse{
+	width: fit-content !important;
+}
+.collapse svg{
+	margin-right: 0px !important;
+}
+
+.collapse .menu-item{
+	padding: 15px 28px !important;
+}
+
+.menu-item {
+	text-decoration: none;
+	padding: 15px 25px;
+	width: 100%;
+	    display: flex;
+    align-items: center;
+	-webkit-transition-duration: 0.15s; /* Safari */
+	transition-duration: 0.15s;
+	color: #000 !important;
+	font-family: 'Invention';
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	min-height: 22px !important;
+}
+
+.menu-item svg{
+	margin-right: 10px;
+}
+
+.ftm {
+  margin-right: 10px;
+}
+
+.fa-icon-lg {
+  font-size: 400%;
+  display: block;
+  margin: 5px 0px 30px 35px;
+}
+
+.menu-item:hover svg{
+	margin-left: -4px !important;
+}
+
+.menu-item:hover {
+	border-left: 4px solid #00857C;
+	background: rgba(0, 133, 124, 0.10);
+  color: black;
+  text-decoration: none !important;
+  /* border-left: 3px solid #50b7e0; */
+}
+
+.arrow {
+  float: right;
+}
+
+.logo {
+  padding: 20px 0px 20px 20px;
+  /* border-bottom: 1px solid #222; */
+  display: flex;
+justify-content: flex-end;
+padding-right: 17px;
+}
+
+.top {
+  top: 0px;
+  width: 100%;
+  background: #fff;
+  padding: 15px 25px;
+  height: 50px;
+  margin-right: 0px;
+  line-height: 50px;
+}
+
+.name {
+  margin: 0px;
+}
+
+.btn {
+  background: #fcfcfc;
+
+  border: 1px solid #e3e3e3;
+  vertical-align: middle;
+  -moz-user-select: none;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: nowrap;
+  text-transform: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  height: 32px;
+  line-height: 30px;
+  padding: 0px 9px;
+}
+
+.btn:hover {
+  background: #f2f2f2;
+}
+
+.inner-container-left {
+  width: calc(100% - 700px);
+  margin: 25px 0px 0px 25px;
+  padding: 25px;
+  background: #fff;
+  -webkit-box-shadow: 2px 2px 8px 0px rgba(50, 50, 50, 0.26);
+  -moz-box-shadow:    2px 2px 8px 0px rgba(50, 50, 50, 0.26);
+  box-shadow:         2px 2px 8px 0px rgba(50, 50, 50, 0.26);
+  float: left;
+}
+
+.inner-container-right {
+  width: 250px;
+  /*width: calc(100% - 50px);*/
+  margin: 25px;
+  padding: 25px;
+  background: #fff;
+  -webkit-box-shadow: 2px 2px 8px 0px rgba(50, 50, 50, 0.26);
+  -moz-box-shadow:    2px 2px 8px 0px rgba(50, 50, 50, 0.26);
+  box-shadow:         2px 2px 8px 0px rgba(50, 50, 50, 0.26);
+  float: left;
+}
+
+.clear {clear: both;}

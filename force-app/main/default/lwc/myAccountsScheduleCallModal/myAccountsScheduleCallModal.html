@@ -1,0 +1,38 @@
+<template>
+  <lightning-modal-header label={labels.scheduleCallLabel}></lightning-modal-header>
+  <lightning-modal-body>
+    <lightning-layout class="slds-var-p-around_small" vertical-align="center">
+      <lightning-layout-item size="2" style="height:45px">
+        <div class="slds-text-align_center">{labels.startDateLabel}</div>
+      </lightning-layout-item>
+      <lightning-layout-item size="4" style="height:55px" >
+        <lightning-input data-id="start-date" type="date" date-style="short" variant="label-hidden" value={todaysDate} onchange={checkCallsPerDay}></lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item size="2" style="height:45px">
+        <div class="slds-text-align_center">{labels.callsPerDayLabel}</div>
+      </lightning-layout-item>
+      <lightning-layout-item size="4" style="height:55px">
+        <div class="slds-form-element__control">
+          <lightning-button-icon class="slds-input__button_decrement" icon-name="utility:ban" variant="bare" onclick={handleDecrement}></lightning-button-icon>
+          <input class="slds-input slds-input_counter input-border" type="number" aria-readonly="true" readonly value={callsPerDay}/>
+          <lightning-button-icon class="slds-input__button_increment" icon-name="utility:new" variant="bare" onclick={handleIncrement}></lightning-button-icon>
+        </div>
+      </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item>
+            <span data-id="scheduleNote" if:true={showScheduleNote}>{scheduleNote}</span>
+        </lightning-layout-item>
+    </lightning-layout>
+  </lightning-modal-body>
+  <lightning-modal-footer>
+    <lightning-layout horizontal-align="center">
+      <lightning-button class="slds-var-p-horizontal_xxx-small" label={labels.cancelLabel} onclick={handleCancel}>
+      </lightning-button>
+      <lightning-button data-id="schedule" class="slds-var-p-horizontal_xxx-small" variant="brand" label={labels.scheduleBtn} onclick={handleScheduleCall}>
+      </lightning-button>
+    </lightning-layout>
+  </lightning-modal-footer>
+  <c-veeva-spinner if:true={loading} is-blocking=true></c-veeva-spinner>
+  <c-my-accounts-modal-dispatch></c-my-accounts-modal-dispatch>
+</template>

@@ -1,0 +1,10 @@
+<template>
+    <div if:true={errorsPresent} class="iconWrapper">
+        <button class="slds-button slds-button_icon" onclick={handleClick}>
+            <lightning-icon icon-name="utility:error" size="small" alternative-text="Error!" variant="error"
+                title={defaultErrorLabel}></lightning-icon>
+        </button>
+        <c-veeva-error-popover onclose={handleClose} if:true={showPopoverWrapper} record-errors={recordErrors} field-errors={fieldErrors}>
+        </c-veeva-error-popover>
+    </div>
+</template>

@@ -1,0 +1,807 @@
+* {
+  font-family: 'Invention';
+}
+
+.linksCls {
+  display: flex;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.iconCls{
+    line-height: unset !important;
+    margin-top: 3px;
+    
+}
+
+.dropdown{
+  position: absolute;
+    top: 100%;
+    left: 20%;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid rgba(0, 0, 0, 0.30);
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    padding: 12px 50px 12px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.dropdownCls{
+    position: absolute;
+    top: 100%;
+    left: 34%;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid rgba(0, 0, 0, 0.30);
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    padding: 12px 50px 12px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.dropdownCls ul { 
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 13px;
+    color: #00857C;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.dropdown ul { 
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 13px;
+    color: #00857C;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.header-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 19px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  position: relative;
+  z-index: 10;
+}
+
+.logo-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu-ls-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-ls-container img {
+  height: 24px !important;
+}
+
+.logo {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+  padding-right: 48px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.logo img {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+  width: 169px;
+  height: 37px;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-family: 'Invention';
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+a:not(:disabled):active,
+a:not(:disabled):hover {
+  background: none !important;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+  color: #00857C;
+  text-decoration: underline #00857C;
+  outline: none;
+}
+
+.nav-svg-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.header-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* 
+.search-box {
+    flex-grow: 1;
+    max-width: 300px;
+} */
+
+.profile-icon {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding-left: 4px;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.profile-icon .username {
+  margin-left: 3px;
+  color: #000;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.profile-icon .dropdown-arrow {
+  margin-left: 5px;
+}
+
+.chevron-icon {
+  --slds-c-icon-color-foreground-default: #000;
+}
+
+.profile-icon-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  letter-spacing: 1px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 96px;
+  background: rgba(0, 0, 0, 0.45);
+  font-family: 'Invention';
+  font-size: 16px;
+  color: #FFF;
+  font-weight: 700;
+}
+
+.cart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #ccc;
+  cursor: pointer;
+  padding: 0px 24px;
+  box-shadow: 3px 1px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  position: relative;
+  z-index: 10;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 150%;
+  right: -24.5px;
+  background: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.30);
+  box-shadow: inset 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
+  width: 205px;
+  z-index: 10;
+  display: inline-flex;
+  padding: 12px 25px 12px 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu li {
+  padding: 10px 0px;
+}
+
+/* .dropdown-menu li:hover,
+.dropdown-menu li:focus {
+  background-color: #f2f2f2;
+} */
+
+.dropdown-menu a {
+  text-decoration: none;
+  display: block;
+  color: #00857C;
+  font-family: 'Invention';
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu a:focus {
+  text-decoration: 1.1px underline;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  color: #555;
+  justify-content: center;
+}
+
+.search-container {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  background: #FFF;
+  display: flex;
+  height: 41px;
+  width:460px;
+  padding: 8.5px 12px 8.5px 20px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 52px;
+}
+
+.custom-search-input {
+  border: none;
+  outline: none;
+  font-family: 'Invention';
+  color: #555555;
+  flex-grow: 1;
+  margin-bottom: 0px;
+  padding-right: 40px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.custom-search-input::placeholder {
+    font-style: normal;
+}
+
+.search-icon-container {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.search-icon {
+  color: #555;
+}
+
+.custom-search-input::placeholder {
+  text-align: left;
+  font-family: 'Invention';
+  color: #555;
+}
+
+.menu-section-mb {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-family: 'Invention';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.search-box-mb {
+  display: none;
+  padding: 8px 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  background: #F4F4F4;
+}
+
+.menu-section {
+    position: absolute;
+    top: 63px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 63px);
+    background-color: #FFF;
+    padding: 32px 16px 0px 16px;
+    display: flex;
+    justify-content: normal;
+    align-items: flex-start;
+    z-index: 5;
+    flex-direction: column;
+    box-shadow: inset 0px 3px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.menu{
+  width:100%;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.menu li {
+    position: relative;
+    color: #333;
+    font-family: 'Invention';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    padding-bottom: 16px;
+}
+
+.menu li a {
+    color: #333 !important;
+}
+
+.menu li a:hover,
+.menu li a:focus {
+  color: #00857C !important;
+  text-decoration: underline #00857C;
+  outline: none;
+}
+
+.no-scroll {
+    overflow: hidden;
+    height: 100%;
+}
+
+.menu li:not(:last-child)::after {
+    content: "";
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.dropdown-mb {
+    right: -2.5px !important;
+    box-shadow: inset 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (max-width: 1430px) {
+
+  .dropdown{
+  position: absolute;
+    top: 100%;
+    left: 24%;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid rgba(0, 0, 0, 0.30);
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    padding: 12px 50px 12px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.dropdownCls{
+    position: absolute;
+    top: 100%;
+    left: 41%;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid rgba(0, 0, 0, 0.30);
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    padding: 12px 50px 12px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+
+}
+
+@media only screen and (max-width: 1350px) {
+
+  .dropdown{
+  position: absolute;
+    top: 100%;
+    left: 25%;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid rgba(0, 0, 0, 0.30);
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    padding: 12px 50px 12px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.dropdownCls{
+    position: absolute;
+    top: 100%;
+    left: 44%;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid rgba(0, 0, 0, 0.30);
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    padding: 12px 50px 12px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+}
+
+@media only screen and (max-width: 1280px) {
+
+  .dropdown{
+  position: absolute;
+    top: 100%;
+    left: 26%;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid rgba(0, 0, 0, 0.30);
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    padding: 12px 50px 12px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.dropdownCls{
+    position: absolute;
+    top: 100%;
+    left: 46%;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid rgba(0, 0, 0, 0.30);
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    padding: 12px 50px 12px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+}
+
+/* Smartphones (portrait) */
+@media only screen and (max-width: 480px) {
+
+  .dropdownCls{
+    display: none;
+  }
+  .dropdown{
+    display: none;
+  }
+
+  .menu-section-mb {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .profile-icon .username {
+    display: none;
+  }
+
+  .chevron-icon {
+    display: none;
+  }
+
+  .search-box {
+    display: none;
+  }
+
+  .header-container {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    padding: 10px 12px;
+    align-items: center;
+    box-shadow: none;
+    gap: 12px;
+    align-self: stretch;
+  }
+
+  .logo img {
+    width: 109px;
+    height: 24px;
+  }
+
+  .logo {
+    padding-right: 0px;
+  }
+
+  .profile-icon-container {
+    width: 24px;
+    height: 24px;
+    padding: 0px 4px;
+    border-radius: 96px;
+    font-size: 12px;
+  }
+
+  .cart {
+    padding: 0px 12px;
+    box-shadow: none;
+  }
+
+  .menu-section-mb {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .search-box-mb {
+    display: flex;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-container {
+    width: 351px;
+  }
+
+  .dropdown-menu{
+    top: 187%;
+    right: -12.5px;
+  }
+
+    .iconCls {
+      display: none;
+    }
+}
+
+/* Smartphones (landscape) */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+
+  .dropdownCls{
+    display: none;
+  }
+  .dropdown{
+    display: none;
+  }
+
+  .iconCls {
+      display: none;
+    }
+  .menu-section-mb {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .profile-icon .username {
+    display: none;
+  }
+
+  .chevron-icon {
+    display: none;
+  }
+
+  .dropdown-menu{
+    top: 145%;
+    right: -12.5px;
+  }
+
+  .search-box {
+    display: none;
+  }
+
+  .header-container {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    padding: 10px 12px;
+    align-items: center;
+    box-shadow: none;
+    gap: 12px;
+    align-self: stretch;
+  }
+
+  .logo img {
+    width: 109px;
+    height: 24px;
+  }
+
+  .logo {
+    padding-right: 0px;
+  }
+
+  .profile-icon-container {
+    width: 24px;
+    height: 24px;
+    padding: 0px 4px;
+    border-radius: 96px;
+    font-size: 12px;
+  }
+
+  .cart {
+    padding: 0px 12px;
+    box-shadow: none;
+  }
+
+  .menu-section-mb {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .search-box-mb {
+    display: flex;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-container {
+    width: 351px;
+  }
+
+  .dropdown-menu{
+    top: 187%;
+    right: -12.5px;
+  }
+}
+
+/* Tablets (portrait) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .dropdownCls{
+    display: none;
+  }
+  .dropdown{
+    display: none;
+  }
+
+  .iconCls {
+      display: none;
+  }
+
+  .menu-section-mb {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .profile-icon .username {
+    display: none;
+  }
+
+  .chevron-icon {
+    display: none;
+  }
+
+  .dropdown-menu{
+    top: 176%;
+    right: -23.5px;
+  }
+
+  .menu-section{
+    top: 78px;
+    height: calc(100vh - 78px);
+  }
+
+  .header-container {
+    padding: 15.5px 24px;
+  }
+
+  .profile-icon-container {
+    width: 32px;
+    height: 32px;
+    padding: 3px;
+    font-size: 14px;
+  }
+  
+  .search-container {
+    width: auto;
+  }
+}
+
+/* Tablets (landscape) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  .dropdownCls{
+    display: none;
+  }
+  .dropdown{
+    display: none;
+  }
+
+  .iconCls {
+      display: none;
+  }
+
+  .dropdown-menu {
+    top: 162%;
+    right: -24.5px;
+  }
+
+  .menu-section{
+    top: 78px;
+    height: calc(100vh - 78px);
+  }
+
+  .header-container {
+    padding: 15.5px 24px;
+  }
+
+  .profile-icon-container {
+    width: 32px;
+    height: 32px;
+    padding: 3px;
+    font-size: 14px;
+  }
+  
+  .search-container {
+    width: auto;
+  }
+}

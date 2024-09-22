@@ -1,0 +1,61 @@
+<template>
+    <div id="waiting" if:false={ready}>
+        <lightning-spinner alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+    </div>
+
+    <div id="display" if:true={ready} class="slds-p-around_medium lgc-bg">
+        <lightning-card title="Step 5 - Business Rules" icon-name="standard:settings">
+
+            <!-- call the dynamic rules engine  -->
+            <lightning-button if:true={templateNames} label="Generate Routing Logic by Rules"
+                onclick={handleDynamicRoutingLogic} disabled={disableGetRouting}>
+            </lightning-button>
+            <template if:true={showRoutingResponse}>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="slds-size_4-of-12 " scope="col">
+                                <div class="slds-truncate " title="Products">Products</div>
+                            </th>
+                            <th class="slds-size_4-of-12 " scope="col">
+                                <div class="slds-truncate " title="Template Name">Appointment Templates</div>
+                            </th>
+                            <th class="slds-size_4-of-12 " scope="col">
+                                <div class="slds-truncate " title="Designations">Designations</div>
+                            </th>
+                            <th class="slds-size_4-of-12 " scope="col">
+                                <div class="slds-truncate " title="Scheduling Group">Scheduling Groups</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={routingResponse.assignmentGroups} for:item="responseItem" for:index="index">
+                            <template for:each={responseItem.routingGroup} for:item="routingGroup" for:index="index">
+                                <template for:each={routingGroup.professionalDesignation} for:item="pd"
+                                    for:index="index">
+                                    <tr key={responseItem.groupId} class="slds-hint-parent">
+                                        <td scope="row" key={routingGroup.product}>
+                                            {routingGroup.product}</td>
+                                        <td scope="row" key={routingGroup.appointmentTemplate}>
+                                            {routingGroup.appointmentTemplate}</td>
+                                        <td scope="row" key={routingGroup.appointmentTemplate}>{pd}</td>
+                                        <td scope="row" key={routingGroup.appointmentTemplate}>{responseItem.groupName}
+                                        </td>
+                                    </tr>
+                                </template>
+                            </template>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+
+            <div slot="footer">
+                <lightning-button variant="brand" label="Previous" onclick={handlePrevious} class="slds-m-left_x-small">
+                </lightning-button>
+                <lightning-button variant="brand" label="Next" onclick={handleNext} class="slds-m-left_x-small">
+                </lightning-button>
+            </div>
+        </lightning-card>
+    </div>
+</template>

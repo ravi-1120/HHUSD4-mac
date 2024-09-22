@@ -1,0 +1,145 @@
+<!doctype html>
+<html xmlns:ng="http://angularjs.org">
+  <head>
+
+  	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="styles.css">
+  	<script src="https://localhost:35729/livereload.js"></script>
+    <script>
+    // sssl script loader - https://gist.github.com/aFarkas/936413
+(function(){var d=document.getElementsByTagName("script")[0],f=d.parentNode,g=/ded|co/,e=function(b,c){var a=document.createElement("script");a.onload=a.onreadystatechange=function(){if(!this.readyState||g.test(this.readyState)){a.onload=a.onreadystatechange=null;c&&c(a);a=null}};a.async=true;a.src=b;f.insertBefore(a,d)};window.sssl=function(b,c){if(typeof b=="string")e(b,c);else{var a=b.shift();e(a,function(){if(b.length)window.sssl(b,c);else c&&c()})}}})();
+
+  sssl(['libs.js'], function() {
+
+// for IE
+if (typeof console === "undefined" || typeof console.log === "undefined") {
+  console = {};
+  console.log = function() {};
+ }  
+
+var app = angular
+  .module('app', ['ngRoute', 'ngResource', 'ngCookies', 'ngSanitize', 'ngTouch', 'ui.bootstrap', 'ngGrid', 'templates-main'])
+  .config(function ($routeProvider) {
+    $routeProvider
+      .when('/', {
+        templateUrl: 'partials/scratch.html',
+        controller: 'ScratchCtrl'
+      })
+      .otherwise({
+        redirectTo: '/'
+      });
+  });
+
+app.factory('ForceTKClient', ['$http', '$q', function($http, $q) {
+
+  var defaults = {
+    loginUrl: 'https://salesforce-rest-api-proxy.herokuapp.com/api.php/login',
+    proxyUrl: 'https://salesforce-rest-api-proxy.herokuapp.com/proxy.php',
+    host: 'login.salesforce.com',
+    api: 'v29.0'
+  };
+
+
+  return {
+    login: function(options) {
+
+      _.defaults(options, defaults);
+
+      var delay = $q.defer();
+
+      console.log('calling $.post for login');
+      // $.ajaxSetup({crossDomain: true});
+      // $.support.cors = true;
+      $.post(options.loginUrl, options)
+      .success(function(result) {
+        if (result.sessionId) {
+          var c = new forcetk.Client(null, null, options.proxyUrl);
+          var instanceUrl = result.serverUrl.substring(0, result.serverUrl.indexOf(".salesforce.com") + ".salesforce.com".length);
+          c.setSessionToken( result.sessionId, options.api, instanceUrl);
+          c.useCache();            
+          delay.resolve(c);
+        } else {
+          delay.reject('login failed: ' + JSON.stringify(result));
+        }
+        
+      })
+      .error(function(error) {
+        console.log('errored on $.post for login');
+        delay.reject(error);
+      });
+
+      return delay.promise;
+    }
+  };
+
+
+}]);
+
+app.controller('ScratchCtrl', ['$scope', '$location', 'ForceTKClient', function($scope, $location, ForceTKClient){
+  $scope.items = [
+    {
+      SurveyName: 'Brian'
+    },
+    {
+      SurveyName: 'Tricia'
+    }
+  ];
+
+      var errorFn = function(err) {
+      console.log(JSON.stringify(err));  
+    };
+
+
+ForceTKClient.login({
+      host: 'test.salesforce.com',
+      username: 'brian.pfeil@merck.com.hhusd1',
+      password: 'ji7shmyt3'
+    }).then(function(c) {
+
+      var salesUserUserid = '005U0000000XMVTIA4';
+
+      c.surveyTargetsFlattenedForAllUsersAccounts(salesUserUserid, function(result) {
+        console.log('Survey Targets');
+        console.log(JSON.stringify(result));
+        $scope.items = result;
+      }, errorFn);
+
+    }, function(err) {
+      errorFn(err);
+    });
+
+
+}]);
+
+angular.element(document).ready(function() {
+
+  /*
+    $('html')
+      .attr('xmlns:ng', 'http://angularjs.org')
+      .attr('id', 'ng-app')
+      .attr('ng-app', 'app');            
+
+    var $appContainer = $('body').append($('<div></div>')).find('div');
+    $appContainer
+      .attr('id', 'ng-app')
+      .attr('ng-app', '')
+      .attr('ng-view', '')
+      .addClass('ng-app:app');
+  */
+
+    setTimeout(function() {
+      //angular.bootstrap($appContainer.get(0), ['app']);
+      console.log('executing: angular.bootstrap');
+      angular.bootstrap(document, ['app']);
+    }, 500);
+});
+
+
+  });
+
+    </script>
+  </head>
+  <body class="container">
+    <div ng-view=''></div>
+  </body>
+</html>

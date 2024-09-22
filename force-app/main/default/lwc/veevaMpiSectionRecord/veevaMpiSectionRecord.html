@@ -1,0 +1,41 @@
+<template>
+  <lightning-layout
+    vertical-align="start"
+    class="slds-border_top slds-p-top_x-small slds-m-horizontal_x-small"
+  >
+    <lightning-layout-item>
+      <lightning-button-group>
+        <lightning-button
+          label={labelCopy}
+          variant="base"
+          class="slds-m-right_x-small"
+          onclick={copyInquiry}
+          value={record.id}
+          if:true={displayAddSectionCopy}
+        >
+        </lightning-button>
+        <lightning-button
+          label={labelDel}
+          variant="base"
+          class="slds-m-right_x-small"
+          onclick={deleteInquiry}
+          value={record.id}
+          if:true={displayDeleteLink}
+        >
+        </lightning-button>
+      </lightning-button-group>
+    </lightning-layout-item>
+    <lightning-layout-item flexibility="auto" class="slds-m-top_xxx-small slds-has-flexi-truncate">
+      <template iterator:row={ctrl.meta.layoutRows}>
+        <c-veeva-row
+          data-veeva-row-id={row.value.key}
+          row-key={row.value.key}
+          row={row.value}
+          key={row.value.key}
+          page-ctrl={ctrl.pageCtrl}
+          record={record}
+        ></c-veeva-row>
+      </template>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

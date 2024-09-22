@@ -1,0 +1,92 @@
+<template>
+    <div class="search-container">
+        <div class="pipelinesearch">
+            <div class="search-container">
+                <div class="search-header">
+                    <div class="search-icon"></div>
+                </div>
+                <div class="slds-form-element search-details combobox">
+                    <div class="slds-form-element__control pipelineVal">
+                        <input 
+                            type="text" 
+                            placeholder={placeholderText} 
+                            class="slds-input searchval" 
+                            onblur={handleSearch}  
+                            onkeypress={handleSearch} 
+                            onpaste={handleSearch} 
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="select3">
+                <div class="select2">
+                    <select onchange={handleSort} value="" placeholder="Sort By" class="cbox input">
+                        <option value="">Sort By</option>
+                        <template for:each={sortoptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="dossiers-parent">
+            <template if:true={dossiers}>
+                <template for:each={dossiers} for:item="dossier">
+                    <div key={dossier.Id} class="dossier-item">
+                        <div class="dossier-image">
+                            <img class="dossier-image" src={dossierresource} />
+                        </div>
+                        <div class="dossier-content">
+                            <div class="dossier-title">{dossier.Name}</div>
+                            <div class="dossier-tags">
+                                <div class="dossier-tag">{dossier.MSD_CORE_Therapeutic__c}</div>
+                            </div>
+                        </div>
+                        <div class="bookmark-container">
+                            <div class="bookmark-image-container">
+                                <img class="bookmark-image" src={mheebookmark} />
+                            </div>
+                            <div class="tag-expiration-cta">
+                                <div class="primary-button">
+                                    <div class="buttton-master">
+                                        <div class="button-text">Open</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div key={dossier.Id} class="line"></div>
+                </template>
+            </template>
+            <div class="pagination" if:true={showPagination}>
+                <div class="pagination-button" onclick={goToPreviousPage}>
+                    <div class="buttton-master2">
+                        <div class="left-icon">
+                            <img class="icon6" src={leftarrowicon} />
+                        </div>
+                        <div class="button-text2">Previous</div>
+                    </div>
+                </div>
+                <div class="numbers">
+                    <template for:each={pageArray} for:item="page">
+                        <div class="pagination-button2" key={page} data-pagenumber={page} onclick={goToPage}>
+                            <div class="button-text3">{page}</div>
+                        </div>
+                    </template>
+                </div>
+                <div class="pagination-button4" onclick={goToNextPage}>
+                    <div class="button-text2">Next</div>
+                    <div class="right-icon">
+                        <img class="icon7" src={rightarrowicon} />
+                    </div>
+                </div>
+            </div>
+            <template if:true={errorMessage}>
+                <p class="error-message">{errorMessage}</p>
+            </template>
+        </div>
+        <div class="cantfind-parent"></div>
+    </div>
+</template>

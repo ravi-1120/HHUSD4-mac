@@ -1,0 +1,7 @@
+<aura:component>
+    <aura:attribute name="objectApiName" type="String"/>
+
+    <aura:registerEvent name="pageCtrlFactoryLoadedEvent" type="c:veevaPageControllerFactoryLoaded" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+</aura:component>

@@ -1,0 +1,37 @@
+<template>
+	<div style="min-height:calc( 100vh - 376px )">
+		<template if:true={sections}>
+			<template for:each={sections} for:item="section">
+				<div key={section.title}
+					class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-around_x-small">
+					<div class="slds-box slds-m-around_medium">
+						<div class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small">
+							<div class="cardtitle slds-text-heading_small">{section.title}</div>
+						</div>
+						<template if:true={section.topics}>
+							<template for:each={section.topics} for:item="topic">
+								<c-h-e-q_-generic-tiles key={topic.id} id={topic.id} onhandlebookmark={handleBookmark}
+									onhandleunbookmark={handleUnBookmark} bookmarked={topic.isBookmarked}
+									title={topic.title} subtitle={topic.subtitle}></c-h-e-q_-generic-tiles>
+							</template>
+						</template>
+						<template if:true={topicsError}>
+							<div
+								class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small">
+								<div class="cardtitle slds-text-heading_small">No Saved Items Found</div>
+							</div>
+						</template>
+					</div>
+				</div>
+
+			</template>
+		</template>
+		<template if:false={sections}>
+			<p>No Saved Items Found</p>
+		</template>
+	</div>
+
+	<div if:true={showSpinner}>
+		<c-h-e-q-spinner></c-h-e-q-spinner>
+	</div>
+</template>

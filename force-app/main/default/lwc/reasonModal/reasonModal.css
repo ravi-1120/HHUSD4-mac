@@ -1,0 +1,10 @@
+.veeva_modal-content {
+    width: 35em;
+    min-height: 10em;
+    margin-top: 1em;
+}
+
+.button_group {
+    margin-left: 2em;
+    --slds-c-radio-color-border: #C9C9C9;
+}

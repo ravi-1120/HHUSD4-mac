@@ -1,0 +1,88 @@
+<apex:page standardcontroller="Data_Change_Request_vod__c" extensions="MSD_CORE_GDGS_DCR_Controller" lightningStylesheets="true"  sidebar="false" showHeader="false">
+  <apex:form >
+    <apex:pageBlock title="DCR Approval Screen" >
+        <apex:pageblockSection title="General Information" Id="GenInfo" columns="2" >
+          <apex:outputField value="{!DCRHeader.Name}"/>
+          <apex:outputField value="{!DCRHeader.Type_vod__c}"/>
+          <apex:outputField value="{!DCRHeader.Account_vod__c}"/>
+          <apex:outputField value="{!DCRHeader.Address_vod__c}"/>  
+          <apex:outputField value="{!DCRHeader.MSD_CORE_Master_Id_Formula__c}"/>                           
+         <!-- <apex:outputField value="{!DCRHeader.Master_Id_MRK__c}"/>          
+          <apex:outputField value="{!DCRHeader.Account_External_ID_vod__c}" label="* Master Id"/> 
+          <apex:inputField value="{!DCRHeader.MSD_CORE_Data_Steward_Master_Id__c}" label="Apply to CM Party ID" rendered="{!If(DCRHeader.Type_vod__c == 'New_vod' && modeflg,true,false)}"/>
+          <apex:outputField value="{!DCRHeader.MSD_CORE_Data_Steward_Master_Id__c}" label="Apply to CM Party ID" rendered="{!NOT(modeflg)}"/> -->
+          <apex:outputField value="{!DCRHeader.MSD_CORE_DCR_Status__c}" label="DCR Status"/>          
+          <apex:outputField value="{!DCRHeader.OwnerId}" label="Requested By" />  <!-- Can I make this read only -->
+          <apex:outputField value="{!DCRHeader.Notes_vod__c}" label="Requestor Notes"/>
+          <!-- <apex:outputField value="{!DCRHeader.MSD_CORE_Application_Source__c}" label="Source"/> -->
+           <apex:outputField value="{!DCRHeader.Application_Source__c}" label="Source"/>
+          <apex:inputField value="{!DCRHeader.User__c}" label="Data Steward" required="true" rendered="{!modeflg}" />
+          <apex:outputField value="{!DCRHeader.User__c}" label="Data Steward" rendered="{!NOT(modeflg)}"/>
+          <apex:inputtextarea value="{!DCRHeader.MSD_Core_DataSteward_Notes__c}" label="Approval/Rejection Notes" cols="50" rows="4" rendered="{!modeflg}"/>
+          <apex:outputField value="{!DCRHeader.MSD_Core_DataSteward_Notes__c}" label="Approval/Rejection Notes" rendered="{!NOT(modeflg)}"/>
+          </apex:pageblockSection>
+
+       <apex:pageblockSection title="Customer Information" rendered="{!CustLineItems.size>0}">  
+              <apex:pageBlockTable value="{!CustLineItems}" var="custli" >
+                 <apex:column headerValue="Field Name" width="20%">
+                        <apex:outputField value="{!custli.Field_Name_vod__c}" />
+                 </apex:column>
+                 <apex:column headerValue="Old Value" width="25%">
+                        <apex:outputField value="{!custli.Old_Value_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="New Value" width="30%">
+                        <apex:outputField value="{!custli.New_Value_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="Final Value" width="25%">
+                        <!-- <apex:inputText value="{!custli.Final_Value_vod__c}" required="True" /> -->
+                        <apex:inputField value="{!DCRAcc[custli.Field_API_Name_vod__c]}" required="false" rendered="{!modeflg}"/>
+                         <apex:outputField value="{!DCRAcc[custli.Field_API_Name_vod__c]}"  rendered="{!NOT(modeflg)}" />
+                        
+                        <!--
+                        <apex:inputField value="{!custli.Data_Change_Request_vod__r.Account_vod__r.Class_of_Trade_MRK__c}" rendered="{!custli.Field_Name_vod__c == 'Type'}"/>
+                        <apex:inputField value="{!custli.Data_Change_Request_vod__r.Account_vod__r.Class_of_Trade_Sub_MRK__c}" rendered="{!custli.Field_Name_vod__c == 'Sub-Type'}"/> -->
+                 </apex:column>
+              <!--   <apex:column headerValue="Final Value">
+                        <apex:inputField value="{!custli.Final_Value_vod__c }" rendered="false"/>
+                         <apex:inputField value="{!custli.Final_Value_vod__c }"/>
+                 </apex:column> -->
+         </apex:pageBlockTable>
+            
+           </apex:pageblockSection>  
+        <apex:pageblockSection title="Address Information" rendered="{!AddrLineItems.size>0}" >
+            <apex:pageBlockTable value="{!AddrLineItems}" var="addrli">
+               <apex:column headerValue="Field Name" width="20%">
+                        <apex:outputField value="{!addrli.Field_Name_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="Old Value" width="25%">
+                        <apex:outputField value="{!addrli.Old_Value_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="New Value" width="30%">
+                        <apex:outputField value="{!addrli.New_Value_vod__c}"/>
+                 </apex:column>
+                  <apex:column headerValue="Final Value" width="25%">
+                         <apex:inputField value="{!DCRAdd[addrli.Field_API_Name_vod__c]}" required="false" rendered="{!modeflg}"/>
+                         <apex:outputField value="{!DCRAdd[addrli.Field_API_Name_vod__c]}" rendered="{!NOT(modeflg)}"/>
+                  </apex:column>
+            
+            </apex:pageBlockTable>
+          
+        </apex:pageblockSection>
+      <!--  <apex:pageblockSection title="HQ Use Only">
+        </apex:pageblockSection>  -->
+        
+        <apex:pageBlockButtons id="btns"  >
+        
+               <apex:commandButton action="{!Save}" value="Save"  disabled="false" rendered="{!modeflg}" />
+               <apex:commandButton action="{!Approve}" value="Approve"  disabled="false" rendered="{!modeflg}" onclick="if(!confirm('Are you sure you want to Approve?')){return false; }" />
+               <apex:commandButton action="{!Reject}" value="Reject"  disabled="false" rendered="{!modeflg}" onclick="if(!confirm('Are you sure you want to Reject?')){return false; }"/>
+               <apex:commandButton action="{!DCRTab}" value="Close"  disabled="false" rendered="{!modeflg}" immediate="true"/>               
+    
+             <apex:commandButton action="{!DCRTab}" value="Close"  disabled="false" rendered="{!NOT(modeflg)}"/>
+          </apex:pageBlockButtons>
+        
+     </apex:pageBlock>
+     
+  </apex:form>
+  
+</apex:page>

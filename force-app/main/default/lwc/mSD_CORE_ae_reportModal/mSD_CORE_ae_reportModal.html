@@ -1,0 +1,35 @@
+<template>
+  <template if:true={isChildModal}>
+      <section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true" tabindex="0" data-id="popup-modal" onkeydown={handleKeystroke}
+        class="slds-modal slds-fade-in-open backColor" style="z-index: 1000000;">
+        <div class="slds-modal__container modelwidth">
+          <div class="slds-modal__content slds-grid slds-wrap contentHeight"  id="modal-content-id-1" style="border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">
+            <div class="slds-col slds-size_1-of-1 ">
+  
+              <lightning-layout class="slds-grid slds-wrap slds-scrollable_none ConsentPadding"> 
+                <lightning-layout-item class="slds-align_absolute-center mainfont">
+                  <p id="modal-heading-01">{label.REPORTISSUE}</p>
+                </lightning-layout-item>
+  
+                <lightning-layout-item class="ptagcls">
+                  <p>{label.REPORTISSUESTATEMENT1}</p>
+                  <p style="color: red;">{label.REPORTISSUESTATEMENT2}&nbsp;
+                  </p>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" large-device-size="12" medium-device-size="12" small-device-size="12">
+                  <div class="slds-grid slds-wrap btnAlingment hcp-popup">
+                    <button class="btnsize firstbtn slds-button slds-m-right_large slds-button_brand ButtonEmp btnHover" data-value="Cancel" onclick={closepopup} onkeydown={handleKeystroke} data-id="hcp-btn1" title="Cancel" style="padding-top:1%; padding-bottom:1%; text-align:center">Cancel</button>
+                  <button data-id="hcp-btn2" onkeydown={handleKeystroke} data-value="Continue"
+                    class="btnsize secbtn slds-button slds-m-left_large slds-button_brand btnHover"
+                    onclick={toggleModal} title={Continue}>{label.CONTINUE}</button>
+                </div>
+              </lightning-layout-item>
+              </lightning-layout>
+            </div>
+          </div>
+        </div>
+  
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template> 
+  </template>

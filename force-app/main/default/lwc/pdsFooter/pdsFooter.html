@@ -1,0 +1,31 @@
+<template>
+	<div class="footer">
+		<div class="container">
+			<!-- <ul>
+                <li class="CookieCls" size="12" large-device-size="11" medium-device-size="11" small-device-size="12"><a href="javascript:Optanon.ToggleInfoDisplay()"
+                              style="color: #FFFFFF;">
+                                 Cookie Preferences</a>
+                </li>
+            </ul> -->
+
+			<lightning-layout-item class="CookieCls" size="12" large-device-size="11" medium-device-size="11"
+				small-device-size="12"><a href="javascript:Optanon.ToggleInfoDisplay()"
+					style="text-decoration:none;color: #FFFFFF;">
+					Cookie Preferences</a>
+			</lightning-layout-item>
+			<lightning-layout vertical-align="center" multiple-rows="false" class="layout-cls">
+				<div class="footerCls">
+					<lightning-layout-item class="bmargin" size="12" large-device-size="1" medium-device-size="1"
+						small-device-size="12">
+						<img class="mercklogo" src={msdLogo} alt="Merck"></img>
+					</lightning-layout-item>
+					<lightning-layout-item class="text-cls" size="12" large-device-size="11" medium-device-size="11"
+						small-device-size="12">
+						{copyright}
+					</lightning-layout-item>
+				</div>
+
+			</lightning-layout>
+		</div>
+	</div>
+</template>

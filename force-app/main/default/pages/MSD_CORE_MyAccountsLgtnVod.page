@@ -1,0 +1,25 @@
+<apex:page standardController="Account" tabStyle="MyAccounts__tab">
+    <apex:composition template="{!$Page.RedirectLgtnVod}"/>
+    <script>
+    var userTheme = "{! $User.UIThemeDisplayed }";
+    var myqueryparms = "&nau=";
+    if (userTheme.includes("Theme4")) {
+        // The user is using the lighting theme
+        myqueryparms += encodeURIComponent("/apex/searchAccts?sfdc.tabName=01rd0000000IQ88");
+    } else {
+        myqueryparms += encodeURIComponent("/apex/searchAccts?sfdc.tabName=01rd0000000IQ88") + "&taburl=" + encodeURIComponent("{!$CurrentPage.URL}");
+    }
+    var vwid = "{!$CurrentPage.parameters.vwid}";
+    if (vwid != '') {
+        myqueryparms += "&vwid=" + vwid;
+    }
+
+    var terrid = "{!$CurrentPage.parameters.terrid}";
+    if (terrid != '') {
+        myqueryparms += "&terrid=" + terrid;
+    }
+    myqueryparms += "&lgtvf=true";
+    myqueryparms += "&minframeheight=1510";
+    com.vod309.redirect.redirect("myaccounts", myqueryparms);
+    </script>
+</apex:page>

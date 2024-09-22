@@ -1,0 +1,41 @@
+<template>
+    <c-veeva-spinner if:false={page.layout}></c-veeva-spinner>
+    <c-veeva-modal size={modalSize} composed=true if:true={page.layout} onclose={handleClose}>
+        <div data-veeva-id="modal_header" slot="header">
+            <span>{page.title}</span>
+            <lightning-button-icon icon-name="utility:toggle_panel_right" variant={sideBarButtonVariant} onclick={toggleSideBar} if:true={sideBarCtrl.hasContent} class="side-bar-toggle"></lightning-button-icon>
+        </div>
+        <div data-veeva-id="modal_content" slot="content" class='veeva_modal-content'>
+            <div class={gridClass}>
+                <div class={detailGridPage}>
+                    <template if:true={page.layout.sections}>
+                        <div if:true={hasRequiredFieldInLayout} class="required-field-msg">
+                          <abbr class="slds-required">*</abbr> 
+                          = {messageMap.requiredFieldMessage}
+                        </div>
+                        <template iterator:it={page.layout.sections}>
+                            <c-veeva-section data-veeva-section-id={it.value.key} section-key={it.value.key}
+                                section={it.value} page-ctrl={pageCtrl} key={it.value.key} first={it.first}
+                                record-update-flag={recordUpdateFlag} open>
+                            </c-veeva-section>
+                        </template>
+                    </template>
+                </div>
+                <div class={sideBarGridPage}>
+                    <c-veeva-side-bar side-bar-ctrl={sideBarCtrl} if:true={showSideBar} onclosesidebar={handleCloseSideBar}></c-veeva-side-bar>
+                </div>
+            </div>
+        </div>
+        <c-veeva-spinner if:true={page.requests.length} slot="spinner"></c-veeva-spinner>
+        <div data-veeva-id="modal_footer" slot="footer">
+            <ul if:true={page.modalButtons} class="slds-button-group-row slds-align_absolute-center modal-button-group-row">
+                <c-veeva-error-popover-container onerrorclicked={handleErrorPopup} field-errors={fieldErrors} record-errors={recordErrors} class="slds-m-right_small"></c-veeva-error-popover-container>
+                <template for:each={page.modalButtons} for:item="btn">
+                    <li key={btn.name} class="slds-button-group-item">
+                        <c-veeva-button button={btn} page-ctrl={pageCtrl} disable-button={isSaving}></c-veeva-button>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </c-veeva-modal>
+</template>

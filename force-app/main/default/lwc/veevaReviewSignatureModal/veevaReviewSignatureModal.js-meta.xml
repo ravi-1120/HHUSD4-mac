@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>ReviewSignature</masterLabel>
+  <description>This is the review signature modal.</description>
+  <targets>
+      <target>lightning__FlowScreen</target>
+  </targets>
+  <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="requestAgainValue" type="Boolean"/>
+            <property name="cancelReviewValue" type="Boolean"/>
+            <property name="signatureFailedValue" type="Boolean"/>
+            <property name="signatureViewValue" type="String"/>
+            <property name="signatureDateValue" type="String"/>
+            <property name="selectedMethodValue" type="String"/>
+            <property name="accountIdValue" type="String"/>
+            <property name="groupIdValue" type="String"/>
+            <property name="objectApiValue" type="String"/>
+            <property name="recordIdValue" type="String"/>
+            <property name="disclaimerValue" type="String"/>
+            <property name="childIdsValue" type="String"/>
+        </targetConfig>
+  </targetConfigs>
+</LightningComponentBundle>

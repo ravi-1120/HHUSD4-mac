@@ -1,0 +1,9 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-modal__close .slds-icon-text-default{
+    fill: #fff;
+}
+.THIS .slds-modal__header{
+    padding: 10px;
+}

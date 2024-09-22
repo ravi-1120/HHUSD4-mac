@@ -1,0 +1,43 @@
+<aura:component controller="MSD_CORE_CC_EditAccount" extends="c:ComponentUtils" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:attribute name="mode" type="String" default="NEW" />
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    
+    <!--KRB DGF-223 -->
+    <aura:attribute name="isDCRProcessingRequired" type="Boolean" default="false" />   
+    
+    <aura:attribute name="parentRT" type="String" />
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="simpleRecord" type="Object" />    
+    <aura:attribute name="record" type="Object" />
+    <force:recordData aura:id="recordLoader"
+            recordId="{!v.recordId}"
+            fields="RecordTypeId, RecordType.Name"
+            layoutType="FULL"
+            targetRecord ="{!v.record}"
+            targetFields ="{!v.simpleRecord}"
+            mode="EDIT"
+            />
+
+    <!--KRB DGF-223 -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:registerEvent name="MSD_CORE_CC_CloseModalEvt" type="c:MSD_CORE_CC_CloseModalEvt"/>
+    
+    <aura:attribute name="primary" type="Boolean"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+    <article class="slds-card">
+                <button style="top: -60px;
+    z-index: 10;
+    float: right;
+    width: 150px;
+    margin-right: 5px;
+    padding: 0;" class="slds-button slds-button_brand" onclick="{!c.handleEdit}">
+                                    <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Edit Account</span>
+                                </button>
+        
+    </article>
+</aura:component>

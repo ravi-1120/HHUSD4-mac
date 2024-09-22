@@ -1,0 +1,14 @@
+<template>
+    <div class="slds-panel sidebar-panel" aria-hidden="false">
+        <div class="slds-panel__header sidebar-header">
+            <h2 class="slds-panel__header-title slds-text-heading_small" title="Panel Header">
+                {nextStepsTitle}</h2>
+            <lightning-button-icon icon-name="utility:close" variant="bare" onclick={closeSideBar}></lightning-button-icon>
+        </div>
+        <div class="slds-scrollable sidebar-body">
+            <div class="slds-panel__body veeva-wrap-text">
+                <div class="htmlContainer" ishtmlcontainer="true" lwc:dom="manual"></div>
+            </div>
+        </div>
+    </div>
+</template>

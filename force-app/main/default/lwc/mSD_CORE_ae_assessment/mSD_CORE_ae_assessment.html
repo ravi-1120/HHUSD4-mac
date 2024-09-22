@@ -1,0 +1,50 @@
+<template>
+  <!-- Display main content only when showWarning is false -->
+  <template lwc:if={showMainContent}>
+    <div class="assesmentCont">
+      <fieldset class="clsFieldSet">
+        <legend class="clsLegend assesmentTitle">{label.ASSESSMENT_QUESTION} &nbsp;
+          <span style="color:#960F0F">*</span>
+        </legend>
+        <ul class="slds-list_dotted assesmentTitle">
+          <!-- <li>{label.ASSESSMENT_DUPLICATE_AE}</li> -->
+          <li>{label.ASSESSMENT_QUALITY_COMPLAINT}</li>
+          <li>{label.ASSESSMENT_LEGAL_ISSUE}</li>
+          <li>{label.ASSESSMENT_PRODUCT_QUESTION}</li>
+          <li>{label.AssesmentReportIndividuals}</li>
+        </ul>
+        <!-- <div class="buttons"> -->
+          <div class="slds-form-element__control slds-m-top_medium"
+            style="display: flex; flex-direction:row; align-items:center;">
+            <span class="slds-radio">
+              <input type="radio" id="radio-43" data-id="radio-A1" value="Yes" name="radioGroup"
+                aria-label={label.GMSA_TS_RadioGroup_Yes} data-val="Yes" onclick={handleradioInput} />
+              <label class="slds-radio__label" for="radio-43" title={label.GMSA_TS_RadioGroup_Yes}>
+                <span class="slds-radio_faux radioCls"></span>
+                <span class="slds-form-element__label assesmentSubtext"
+                  style="font-size: 13px;">{label.RADIOGROUP_YES}</span>
+              </label>
+            </span>
+            <span class="slds-radio slds-m-left_large">
+              <input type="radio" id="radio-44" value="No" name="radioGroup" data-val="No"
+                aria-label={label.GMSA_TS_RadioGroup_No} onclick={handleradioInput} />
+              <label class="slds-radio__label" for="radio-44" title={label.GMSA_TS_RadioGroup_No}>
+                <span class="slds-radio_faux radioCls"></span>
+                <span class="slds-form-element__label assesmentSubtext"
+                  style="font-size: 13px;">{label.RADIOGROUP_NO}</span>
+              </label>
+            </span>
+          </div>
+        <!-- </div> -->
+        <div id="error_01" class="slds-form-element__help"></div>
+      </fieldset>
+    </div>
+  </template>
+
+  <!-- Display the warning message component when showWarning is true -->
+  <template lwc:elseif={showWarning}>
+    <c-m-s-d_-c-o-r-e_ae_warning-msg onshowmaincontent={handleShowMainContent}></c-m-s-d_-c-o-r-e_ae_warning-msg>
+
+  </template>
+
+</template>

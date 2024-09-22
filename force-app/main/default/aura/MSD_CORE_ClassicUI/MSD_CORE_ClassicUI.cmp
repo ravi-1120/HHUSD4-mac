@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="url" type="String" default=""/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <iframe src="{!v.url}" style="    height: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
+                                  border:none;"></iframe>
+</aura:component>

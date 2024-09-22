@@ -1,0 +1,18 @@
+.dummy{
+	color : black;
+}
+.appointment-content {
+    color: black;
+    font-family: 'Invention';
+    font-size: 12px;
+    padding-left: 0px;
+    word-break: break-all;
+}
+
+.appointment-content-title {
+    color: grey;
+    font-family: 'Invention';
+    font-size: 12px;
+    font-weight: 550;
+    text-align: left;
+}

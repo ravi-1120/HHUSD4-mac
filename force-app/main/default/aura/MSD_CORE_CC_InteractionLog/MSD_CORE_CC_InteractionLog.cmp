@@ -1,0 +1,112 @@
+<aura:component controller="InteractionLogControllerMVN" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >	
+    <aura:attribute name="interactionLogVal" type="String" default=""/>
+    <aura:attribute name="remainingChars" type="String" default="50"/>
+    <aura:attribute name="newCase" type="Object" access="private"/>
+    <aura:attribute name="simpleNewCase" type="Object" access="private"/>
+    <aura:attribute name="newCaseError" type="String" access="private"/>
+    <aura:attribute name="message" type="String" default=""/>
+    <aura:attribute name="timeStamp" type="String" default=""/>
+    <aura:attribute name="needSaving" type="Boolean" default="false"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="customer" type="String"/>
+    <aura:attribute name="desc" type="String"/>
+    <aura:attribute name="userProfile" type="String"/>
+    
+    <aura:handler event="c:MSD_CORE_CC_RefreshCustInfoEvent" action="{!c.doInit}"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <force:recordData aura:id="caseRecordCreator"
+                      recordId="{!v.recordId}"              
+                      layoutType="FULL"
+                      targetRecord="{!v.newCase}"
+                      targetFields="{!v.simpleNewCase}"
+                      targetError="{!v.newCaseError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      fields="Interaction_Notes_MVN__c, MSD_CORE_AE_Description__c"
+                      mode="EDIT"
+                      />
+    
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <div class="slds-card slds-card_boundary interactionicons" style="z-index: 2;width: 500px;float: right;border: none;box-shadow: none;margin-right: 7px;margin-top: -70px;">
+        <lightning:spinner aura:id="spinner" class="slds-hide" variant="brand"/>
+        <div style="text-align:center">
+            <div class="slds-grid slds-wrap slds-align_absolute-center">
+                <div class="slds-col" style="box-shadow: 0px 2px 2px #ddd;padding: 2px 0px;margin-left: 5px;border-radius: 3px;">
+                    <a class="slds-text-link" target="_blank" data-attriVal="RQ" onclick="{!c.handleClick}">
+                        <img src="{!$Resource.GlobalAssetsMVN+'/Icons/request.png'}"/>
+                        <br/>
+                        {!$Label.c.New_Request_Button}
+                    </a>
+                </div>
+                 <aura:if isTrue= "{!and(v.userProfile != 'MSD_CORE Contact Center - MVCC Agent',v.userProfile != 'MSD_CORE Contact Center - MVCC Agent Non-SSO')}" >
+                
+                <div class="slds-col" style="box-shadow: 0px 2px 2px #ddd;padding: 2px 0px;margin-left: 5px;border-radius: 3px;">
+                    <a class="slds-text-link" target="_blank" data-attriVal="Combo" onclick="{!c.handleClick}">
+                        <img src="{!$Resource.GlobalAssetsMVN+'/Icons/Combo.PNG'}"/>
+                        <br/>
+                        AE &amp; PQC
+                    </a>
+                </div>
+                </aura:if>
+                <aura:if isTrue= "{!and(v.userProfile != 'MSD_CORE Contact Center - PCC Agent',v.userProfile != 'MSD_CORE Contact Center - PCC Agent Non-SSO')}" >
+                  <aura:if isTrue = "{!and(v.userProfile != 'MSD_CORE Contact Center - MVCC Agent',v.userProfile != 'MSD_CORE Contact Center - MVCC Agent Non-SSO')}">
+                  
+                    <div class="slds-col" style="box-shadow: 0px 2px 2px #ddd;padding: 2px 0px;margin-left: 5px;border-radius: 3px;">
+                        <a class="slds-text-link" target="_blank" data-attriVal="TE" onclick="{!c.handleClick}">
+                            <img src="{!$Resource.GlobalAssetsMVN+'/Icons/thermometer-2.png'}"/>
+                            <br/>
+                            {!$Label.c.MSD_CORE_New_Temperature_Excursion}
+                        </a>
+                    </div>
+    </aura:if>
+                
+                    <div class="slds-col" style="box-shadow: 0px 2px 2px #ddd;padding: 2px 0px;margin-left: 5px;border-radius: 3px;">
+                        <a class="slds-text-link" target="_blank" data-attriVal="CR" onclick="{!c.handleClick}">
+                            <img src="{!$Resource.GlobalAssetsMVN+'/Icons/money.png'}"/>
+                            <br/>
+                            {!$Label.c.MSD_CORE_New_Compensation_Request}
+                        </a>
+                    </div>
+				
+                </aura:if>
+                <!--
+                <div class="slds-col" style="box-shadow: 0px 2px 2px #ddd;padding: 7px 0px;margin-left: 5px;border-radius: 3px;">
+                    <c:MSD_CORE_Account_Search_MVN recordId="{!v.recordId}"></c:MSD_CORE_Account_Search_MVN>
+                </div>
+				-->
+            </div>
+        </div>
+        <!--<div class="slds-border_top slds-var-p-around_x-small">
+            <div id="textArea">
+                <lightning:textarea label="{!$Label.c.Interaction_Log_Header_Label+' (Maximum characters: 50)'}" name="input1" maxlength="50" value="{!v.interactionLogVal}" onchange="{!c.remainingChars}" onmouseout="{!c.saveInteration}"/>
+            </div>
+            <lightning:layout >
+                <lightning:layoutItem class="slds-p-around_x-small">
+                    You have 
+                </lightning:layoutItem>
+                <lightning:layoutItem>
+                    <div style="width:3rem;">
+                        <ui:inputText disabled="true" value="{!v.remainingChars}"/> 
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-p-around_x-small">
+                    characters left. 
+                </lightning:layoutItem>
+            </lightning:layout>
+            <br/>
+            <aura:if isTrue="{!and(v.message != '',v.message != 'Saved')}">
+                <div class="slds-align_absolute-center slds-box slds-box_xx-small slds-theme_shade slds-theme_alert-texture slds-size_1-of-3">
+                    <strong>{!v.message}</strong>
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-align_absolute-center">
+                        <strong>{!v.message}</strong>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <div class="slds-align_absolute-center">
+                <strong>{!v.timeStamp}</strong>
+            </div>
+        </div>-->
+    </div>
+</aura:component>

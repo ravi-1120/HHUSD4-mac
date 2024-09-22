@@ -1,0 +1,16 @@
+<template>
+    <c-section-template ctrl={ctrl} open>
+        <div class="content slds-is-relative" slot="content">
+            <div if:true={pageReady}>
+                <template iterator:it={expenseLineCtrl.page.layout.sections}>
+                    <c-veeva-section data-veeva-section-id={it.value.key} section-key={it.value.key} section={it.value} page-ctrl={expenseLineCtrl}
+                        key={it.value.key} first={it.first} record-update-flag={combinedRecordUpdateFlag} open>
+                    </c-veeva-section>
+                </template>
+            </div>
+            <div if:true={loading}>
+                <c-veeva-spinner></c-veeva-spinner>
+            </div>
+        </div>
+    </c-section-template>
+</template>

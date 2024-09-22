@@ -1,0 +1,16 @@
+:host {
+    --veeva-popover-width: clamp(40rem, 50rem, 60rem);
+}
+
+.popover-header {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap: 0.5rem;
+}
+
+.sections {
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

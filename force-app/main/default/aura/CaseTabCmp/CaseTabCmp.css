@@ -1,0 +1,107 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-table_header-fixed_container, .THIS .slds-table--header-fixed_container {
+    background: #fff;
+}
+.THIS .slds-button_neutral, .THIS .slds-button--neutral {
+    padding: 0 10px;
+}
+.THIS .error-msg {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+.THIS .slds-popover__header{
+	padding: .2rem .2rem;
+    font-size: 1rem !important;
+}
+.THIS .hoverpop {
+   /* position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 4444;
+    top: -40px;
+    left: 100%;
+    width: 870px;
+    box-shadow: 0 5px 5px #aaa;
+    max-height: 450px;
+    overflow-y: auto; */
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 6000;
+    /*width: 15rem;
+    height: 10rem;*/
+    width: 100%;
+    left: -2%;
+}
+
+.THIS .hoverpopProdPage{
+    /* position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 4444;
+    top: -40px;
+    left: 100%;
+    width: 870px;
+    box-shadow: 0 5px 5px #aaa;
+    max-height: 450px;
+    overflow-y: auto; */
+    /*position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 6000;
+    /*width: 15rem;
+    height: 10rem;*/
+    /*width: 100%;
+    left: -2%;*/
+    
+    right: 98%;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 6000;
+    width: 100%;
+}
+
+.THIS .formhoverpop {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 6000;
+    width: 100%;
+    left: -300px;
+    top: -30px;
+}
+.THIS .custom-popover_header {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    font-size: 1em !important;
+    font-weight: 550 !important;
+}
+
+.THIS .custom-popover_body {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    
+}
+
+.THIS .custom-popover_body > table{
+    width:auto !important;
+}
+
+.THIS .selected{
+    color:orange;
+}

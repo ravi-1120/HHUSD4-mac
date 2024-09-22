@@ -1,0 +1,8 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName">
+    <aura:if isTrue="{!equals(v.sObjectName, 'EM_Event_vod__c')}">
+        <c:attendeeReconciliationPage recordId="{!v.recordId}"></c:attendeeReconciliationPage>
+        <c:eventActionDialog recordId="{!v.recordId}" objectApiName="{!v.sObjectName}"></c:eventActionDialog>
+        <c:emPrintTemplatePage recordId="{!v.recordId}"></c:emPrintTemplatePage>
+    </aura:if>
+    <c:emFlowLauncher></c:emFlowLauncher>
+</aura:component>

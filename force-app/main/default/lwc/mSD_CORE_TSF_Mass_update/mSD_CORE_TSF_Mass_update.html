@@ -1,0 +1,28 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..." variant="brand" size="large">
+            </lightning-spinner>
+        </template>
+    </div>
+    <lightning-card title="Roster Maintenance" icon-name="custom:custom63">
+        <div>
+            <h1 style="color:Tomato;"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checking <b>My Target</b> indicates that your
+                full roster list and any changes made have been approved.</h1>
+        </div>
+        <div class="slds-m-around_medium">
+            <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label="Search Account"
+                value={searchKey}></lightning-input>
+            <lightning-datatable key-field="Id" data={data} columns={columns} onsave={handleSave}
+                draft-values={draftValues} sorted-by={sortedBy} sorted-direction={sortedDirection} onsort={sortColumns}>
+
+            </lightning-datatable>
+        </div>
+        <div class="slds-m-around_medium">
+            <p class="slds-m-vertical_medium content">
+                Displaying {startingRecord} to {endingRecord} of {totalRecountCount} records.
+                Page {page} of {totalPage}. </p>
+            <c-pagination onprevious={previousHandler} onnext={nextHandler}></c-pagination>
+        </div>
+    </lightning-card>
+</template>

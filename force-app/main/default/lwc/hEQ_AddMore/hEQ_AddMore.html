@@ -1,0 +1,35 @@
+<template>
+    <c-custom-toast auto-close-time="3000"></c-custom-toast>
+    <div class="button">
+        <button class="slds-button slds-button_neutral addmore" onclick={openModal}>
+            <img src={HEQ_Icon_1} alt="Tile Image" class="tile-image"/>
+            Add More
+        </button>
+    </div>
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" >
+                    <button class="slds-modal__close slds-button slds-button_icon closebutton" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small" class="slds-modal__close-icon"></lightning-icon>
+                    </button>
+                    <br> 
+                    <div class="slds-grid slds-wrap slds-gutters">  
+                        <template for:each={heqCategoriesOptions} for:item="category">
+                            <div key={category.value} class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                <button onclick={handleCategoryClick} class="slds-box slds-box_x-small custom-box" data-value={category.value}>
+                                    <img src={category.icon} alt={category.label} class="category-icon"/>
+                                    <span class="slds-form-element__label">{category.label}</span>
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="custom-footer">
+                        <button class="slds-button custom-save-button" onclick={handleSave}>Save</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

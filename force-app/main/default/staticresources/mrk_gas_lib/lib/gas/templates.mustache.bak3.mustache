@@ -1,0 +1,323 @@
+base.mustache:
+    
+<div id='container'>
+
+    <div id="main" data-role="page"> 
+        <div data-role="header" data-theme="c">
+            <a href="/home/home.jsp" rel="external" data-theme="c" data-icon="home">Home</a>                    
+            <h1>Global Account Search</h1>
+            <a id="search-btn" href="#" data-theme="b" data-icon="search" class="ui-btn-right">Search</a>
+            <div data-role="navbar">
+                <ul>
+                    <li><a id='search-individuals' href="#" class="ui-btn-active ui-state-persist">Search Person Accounts</a></li>
+                    <li><a id='search-organizations' href="#">Search Business Accounts</a></li>
+
+                </ul>
+            </div>
+
+        </div>
+
+        <div data-role="content">
+
+            <div id="user-messages" style="display: none"></div>
+
+            <!--
+            <div style="text-align: center;" data-role="controlgroup" data-type="horizontal" data-mini="false" data-inline="true">
+                <a id="search-individuals" href="#" class="ui-btn-active ui-state-persist" data-role="button" data-inline="true">Search Individuals</a>
+                <a id="search-organizations" href="#" data-role="button" data-inline="true">Search Organizations</a>
+            </div>                    
+            -->
+            
+            <form id="search-form">
+                <a href="/apex/searchAccts?sfdc.tabName=01rU0000000Ir4W" rel="external" data-theme="c" class="ui-btn-right" data-icon="reset">Reset</a> 
+                <fieldset class="organization-fields">
+                
+                        <select data-mini="true" data-inline="true">
+                            <option value="Contains">Contains</option>
+                           <option value="Starts With">Starts With</option>
+                           <option value="Exact Match">Exact Match</option>
+                        </select>
+
+                        <input type="text" name="username" id="Account-Name" value="" placeholder="Preferred Name"/>                    
+                </fieldset>    
+
+                <fieldset class="individual-fields ui-grid-a">
+                    <div class="ui-block-a">
+                        <select data-mini="true" data-inline="true">
+                            <option value="Contains">Contains</option>
+                           <option value="Starts With">Starts With</option>
+                           <option value="Exact Match">Exact Match</option>
+                        </select>
+
+                        <input type="text" name="username" id="Account-FirstName" value="" placeholder="First Name"/>
+                    </div>
+                    <div class="ui-block-b">
+                        <select data-mini="true" data-inline="true">
+                            <option value="Contains">Contains</option>
+                           <option value="Starts With">Starts With</option>
+                           <option value="Exact Match">Exact Match</option>
+                        </select>
+
+                        <input type="text" name="username" id="Account-LastName" value="" placeholder="Last Name"/>
+                    </div>                          
+                </fieldset>
+                
+                              
+                <div class="ui-grid-b">
+                    
+                    
+                    <div>
+                        <select data-mini="true" data-inline="true">
+                            <option value="Contains">Contains</option>
+                           <option value="Starts With">Starts With</option>
+                           <option value="Exact Match">Exact Match</option>
+                        </select>
+                    <input type="text" name="username" id="Address_vod__c-Name" value="" placeholder="Address Line 1"/>                            
+                   </div>                      
+
+                    <div class="ui-block-a">
+                        <input type="text" name="username" id="Address_vod__c-City_vod__c" value="" placeholder="City"/>                          
+                    </div>
+                    <div class="ui-block-b">
+                        
+                        <select name="select-choice-0" id="Address_vod__c-State_vod__c">
+                            <option value="standard">State</option>
+                           <option value="PA">PA</option>
+                           <option value="rush">AK</option>
+                           <option value="express">AS</option>
+                           <option value="overnight">AZ</option>
+                        </select>
+                    </div>
+                    <div class="ui-block-c">
+                        <input type="text" id="Address_vod__c-Zip_vod__c" value="" placeholder="Zip"/>                                                           
+                    </div>
+		
+                </div>
+				<div class="ui-grid-c">
+				  <div class="ui-block-a">
+				    <input type="text" name="Address_vod__c-Phone_vod__c" id="Address_vod__c-Phone_vod__c" value="" placeholder="Phone"/>
+				  </div>
+				  <div class="ui-block-b">
+				    <input type="text" name="username" id="Account-Searchable_Id_MRK__c" value="" placeholder="Ids (Master ID, DDD, NPI, AOA, IMS ID, MED ED, SAP ID)" style="width: 650px;"/>
+					</div>
+				</div>             
+            
+                <div data-role="collapsible">
+                   <h3>Advanced</h3>
+                    <div>
+                        <fieldset class="organization-fields">
+                           <select data-mini="true" data-inline="true">
+                               <option value="Contains">Contains</option>
+                               <option value="Starts With">Starts With</option>
+                               <option value="Exact Match">Exact Match</option>
+                           </select>
+
+                           <input name="username" id="Account-Official_Name_MRK__c" value="" placeholder="Official Name"/>                           
+                        </fieldset>
+                    </div>
+
+                    <div>
+                       <fieldset class="individual-fields">
+
+                            <select data-mini="true" data-inline="true">
+                                <option value="Contains">Contains</option>
+                                <option value="Starts With">Starts With</option>
+                                <option value="Exact Match">Exact Match</option>
+                            </select>
+
+                            <input type="text" id="Account-Official_Formatted_Name_MRK__c"  value="" placeholder="Official Formatted Name"/>                 
+                        
+                       </fieldset>
+                    </div>
+                    
+                    <fieldset class="ui-grid-b">
+                        <div class="ui-block-a">
+                    
+                            <select name="select-choice-0" id="Account-Class_of_Trade_MRK__c">
+                                <option value="standard">Account Type</option>
+                               <option value="standard">Prospect</option>
+                               <option value="rush">Customer - Direct</option>
+                                <option value="express">Channel Partner / Reseller</option>
+                               <option value="overnight">Installation Partner</option>
+                            </select>
+                            
+                        </div>
+
+                        <div class="ui-block-b">
+                            <select name="select-choice-0" id="Account-Class_of_Trade_Sub_MRK__c">
+                                <option value="standard">Sub-Type</option>
+                               <option value="standard">COMPANY/CORPORATION</option>
+                               <option value="rush">EMPLOYER COALITION</option>
+                                <option value="express">EMPLOYER HEALTH PLAN</option>
+                               <option value="overnight">MEDICAL GROUP MANAGEMENT</option>
+                            </select>
+                        </div>
+                        
+						<div>
+						  <select data-mini="true" data-inline="true">
+                                <option value="Contains">Contains</option>
+                                <option value="Starts With">Starts With</option>
+                                <option value="Exact Match">Exact Match</option>
+                            </select>
+						
+						  <input type="text" id="Child_Account_vod__c-Name"  value="" placeholder="Parent Account"/>   
+						</div>
+                    </fieldset>
+                    
+                    
+                    <div>
+                       <fieldset class="individual-fields">
+
+                            <select name="select-choice-0" id="Account-IMS_Specialty_MRK__c">
+                                <option value="standard">Account Type</option>
+                               <option value="standard">Prospect</option>
+                               <option value="rush">Customer - Direct</option>
+                                <option value="express">Channel Partner / Reseller</option>
+                               <option value="overnight">Installation Partner</option>
+                            </select>
+                       
+                       </fieldset>
+                    </div>
+                   
+                    <fieldset class="organization-fields">
+							<!--
+                            <select data-mini="true" data-inline="true">
+                                <option value="Contains">Contains</option>
+                                <option value="Starts With">Starts With</option>
+                                <option value="Exact Match">Exact Match</option>
+                            </select>
+							-->
+                                          
+                        
+                    </fieldset>
+
+                    
+                    <fieldset class="individual-fields ui-grid-a">
+						<select data-mini="true" data-inline="true">
+                                <option value="Contains">Contains</option>
+                                <option value="Starts With">Starts With</option>
+                                <option value="Exact Match">Exact Match</option>
+                            </select>
+
+                        <div class="ui-block-a">
+                            <input type="text" name="username" id="Address_vod__c-License_vod__c" value="" placeholder="License #"/>                                                         
+                        </div>
+                                              
+                        
+                    </fieldset>
+                    
+                </div>
+            </form>
+            
+            <div id="results-section" style="display: none">
+                <h2 id="begin-search-results">Results</h2>
+                
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <fieldset data-role="fieldcontain">                 
+                            <strong>Sort by:  </strong>
+                            <select id="sort-by-field" data-inline="true" name="sort-field" id="sort-field">
+                                <option>Preferred Name</option>
+                                <option>Official Name</option>
+                                <option>Merck ID</option>
+                                <option>Address line 1</option>
+                                <option>City</option>
+                                <option>State</option>
+                                <option>Zip</option>
+                            </select>
+                            <a id='sort-direction' href="#" data-sort-direction="asc" data-role="button" data-inline="true" data-icon="arrow-u">ascending</a>
+                        </fieldset>
+                    </div>
+                    <div class="ui-block-b">
+                        <a id="request-new-account" rel="external" href="/apex/MSD_Core_NAW_RecordType_Selection_VF" style="float: right" data-role="button" data-inline="true" data-mini="true" data-theme="b">Request a New Account</a>
+                    </div>             
+                </div>
+                                    
+                <div id="search-results-container">
+                </div>
+            </div>            
+        </div> 
+        
+    </div> 
+
+
+    
+    <div id="align-account-dialog" data-role="dialog">
+
+        <div data-role="header" data-theme="d">
+            <h1>Align Account</h1>
+        </div>
+
+        <div data-role="content" data-theme="c">
+            <h2>Align Account</h2>
+			<a id="request-oneday-alignment" href="#" data-role="button" data-theme="b">Request One Day Alignment</a>
+			<a id="request-temporary-alignment" href="#" data-role="button" data-theme="b">Request Temporary Alignment</a>
+            <a id="request-permanent-alignment" href="#" data-role="button" data-theme="b">Request Permanent Alignment</a>
+
+			<a href="#" data-role="button" data-rel="back" data-theme="c">Cancel</a>
+        </div>
+
+    </div>
+
+</div>
+
+account.row.mustache:
+<div class="ui-corner-all ui-grid-b ui-bar-c">
+
+    <div class="ui-block-a">
+        <h3><a href="/{{acctId}}" rel="external" target="_blank">{{key}} {{Credentials_vod__c}}</a></h3>
+        <p><span class="label">Official Formatted Name:</span> <strong>{{Official_Formatted_Name_MRK__c}}</strong></p>
+        <p><span class="label">Parent Account:</span> <strong>{{Pri_Parent_Preferred_Formatted_Name_MRK__c}}</strong></p>
+        <p><span class="label">Type:</span> <strong>{{Class_of_Trade_MRK__c}}</strong></p>
+        <p><span class="label">Sub-Type:</span> <strong>{{Class_of_Trade_Sub_MRK__c}}</strong></p>
+        <p><span class="label">Specialty:</span> <strong>{{IMS_Sub_Specialty_MRK__c}}</strong></p>
+    </div>                          
+    
+    <div class="ui-block-b">
+        <!-- <h3>Address(es)</h3> -->
+        <p>
+            {{ADD_Name}}<br/>
+            {{ADD_City_vod__c}}, {{ADD_State_vod__c}} {{ADD_Zip_vod__c}}
+        </p>
+
+        {{#otherAddrs}}
+        <p>
+            {{ADD_Name}}<br/>
+            {{ADD_City_vod__c}}, {{ADD_State_vod__c}} {{ADD_Zip_vod__c}}
+        </p>
+        {{/otherAddrs}}
+    </div>
+                                    
+    <div class="ui-block-c">
+        <a style="float: right" class="align-account" data-account-id="{{acctId}}" data-account-name="{{key}}" href="#" data-role="button" data-inline="true" data-theme="b" data-mini="true">Align</a>
+        <p><span class="label">Master ID:</span> <strong>{{Merck_ID_MRK__c}}</strong></p>
+        <p><span class="label">License #:</span> <strong>{{ADD_License_vod__c}}</strong></p>
+        <p><span class="label">MED ED #:</span> <strong>{{MED_ED_MRK__c}}</strong></p>
+        <p><span class="label">NPI #:</span> <strong>{{NPI_vod__c}}</strong></p>
+        <p><span class="label">DDD ID:</span> <strong>{{DDD_ID_MRK__c}}</strong></p>
+		<p><span class="label">SAP ID:</span> <strong>{{SAPID_MRK__c}}</strong></p>
+		<p><span class="label">Status:</span> <strong>{{Status_MRK__c}}</strong></p>
+        <p><span class="label">Status Reason:</span> <strong>{{Status_Reason_MRK__c}}</strong></p>
+		<!-- <p><span class="label">In Call Deck:</span> <strong>{{InCallDeck_MRK__c}}</strong></p> -->
+    </div>
+    
+</div>
+
+dialog.information.mustache:
+<div data-role="dialog">
+    <div data-role="header" data-theme="d">
+        <h1>{{title}}</h1>
+    </div>
+    
+    <div data-role="content" data-theme="c">
+        <p>{{message}}</p>
+        <a class="dialog-information" href="#" data-role="button" data-rel="back" data-theme="b">OK</a>
+    </div>
+
+</div>
+
+
+question.number.mustache:
+
+question.picklist.mustache:
+    

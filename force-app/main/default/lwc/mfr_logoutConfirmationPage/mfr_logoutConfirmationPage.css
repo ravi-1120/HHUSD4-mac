@@ -1,0 +1,517 @@
+.header-main{
+    display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 24px;
+gap: 24px;
+width: 1128px;
+height: 189px;
+background: #FFFFFF;
+box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+border-radius: 5px;
+flex: none;
+order: 0;
+flex-grow: 0;
+}
+.button {
+    justify-content: center;
+    align-items: center;
+    padding: 13px 16px;
+    color: #00857C;
+    background: white;
+    border-radius: 8px;
+    font-family: 'Invention';
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 10px;
+    font-style: normal;
+    border-color: #00857C;
+}
+
+.ban {
+    width: 400px;
+    height: 30px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 36px;
+    color: #000000;
+    margin-left: 70px;
+    margin-top: 4px;
+}
+
+.slds-p-around_large {
+    padding: 0 !important;
+}
+
+.vmicon {
+    position: absolute;
+    left: -7.45%;
+    right: 7.45%;
+    top: 63.26%;
+    bottom: -25.76%;
+    background: #00857C;
+    transform: rotate(-45deg);
+}
+
+.medi_btn {
+    color: #00857C !important;
+    background: white;
+    border-radius: 6px;
+    border-color: rgba(0, 133, 124, 1);
+    margin-right: 16px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 28px;
+    font-family: Invention;
+    border: 2px solid rgb(0, 133, 124) !important;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.861539px;
+    padding: 0px 10px;
+    padding-right: 0px;
+    padding-left: 16px;
+}
+
+.ptext {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    gap: 24px;
+    width: 1128px;
+    height: 189px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    width: 297px;
+    height: 45px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    color: #FFFFFF;
+
+}
+
+.container {
+    top: -50px;
+    padding: 40px 24px 24px;
+    gap: 24px;
+    width: 1128px;
+    height: 189px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    margin-top: -100px !important;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    margin: auto;
+    background: #FFFFFF;
+}
+
+.text6 {
+    width: 385px;
+    height: 36px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    flex: none;
+    position: relative;
+    flex-grow: 0;
+}
+
+.text {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+ 
+
+}
+.text1{
+   
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+
+}
+
+.text2 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.text3 {
+    width: 516px;
+    height: 27px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.text5 {
+    font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+display: flex;
+align-items: center;
+
+color: #000000;
+}
+.container-mainHeader{
+    background: #00857C;
+    height: 58px;
+}
+.box1{
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 18px 30px;
+gap: 24px;
+width: 228px;
+height: 64px;
+background: #00857C;
+}
+.menu{
+width: 48px;
+height: 23px;
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 27px;
+color: #FFFFFF;
+flex: none;
+order: 1;
+flex-grow: 0;
+margin-top:20px;
+padding: 20px;
+}
+.cta {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    height: 18px;
+    width: 40px;
+    font-size: 14px !important;
+    line-height: 18px !important;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    border: 0px solid  #00857C !important;
+    border-radius: 5px !important;
+    color: #ffffff!important;
+    background-color: #00857C;
+    padding: 10px;
+    margin-top: 10px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.container1 {
+    gap: 24px;
+    top: -50px;
+    width: 1128px;
+    height: 259px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+    background: #FFFFFF;
+}
+.container-bottom {
+    top: -30px;
+    gap: 24px;
+    width: 1128px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+    color: #00857C;
+    background: white;
+    border-radius: 5px;
+}
+/* .container2{
+    width: 1128px;
+    background: #F1F9F9;
+    border: 1px solid #005C56;
+    border-radius: 5px;
+    box-sizing: border-box;
+} */
+.text4{
+    font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 27px;
+/* identical to box height, or 150% */
+
+display: flex;
+align-items: center;
+
+color: #000000;
+}
+.button1 {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 16px;
+    font-size: 14px;
+    gap: 16px;
+    border: 1px solid;
+    width: auto;
+    height: 40px;
+    color:  #FFFFFF;
+    background: #00857C;
+    border-radius: 5px;
+    border-color:#00857C ;
+    flex: none;
+    order: 1;
+}
+
+.imgtext1 {
+    display: inline-flex;
+    width: 358px;
+    height: 20px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    text-align: center;
+    align-items: center;
+    color: #FFFFFF;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin-top: 10px;
+}
+
+.imgtext2 {
+    width: 771px;
+    height: 10px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.button2{
+    display: inline-flex;
+    flex-direction: row;
+    margin-right: 50px;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 5px;
+    font-size: 14px;
+    gap: 16px;
+    width: 180px;
+    height: 40px;
+    color:  #FFFFFF;
+    border: 1px solid;
+    /* background: #00857C; */
+    border-radius: 4px;
+    border-color:white ;
+    flex: none;
+    order: 1;
+    background-color: transparent;
+    font-family: 'Invention';
+}
+    .ptextimg{
+        padding-top: 10em;
+        position: absolute;
+        color: #fff;
+        z-index: 3;
+        top: 10%;
+        text-align: center;
+        font-size: 20px;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 24px 24px;
+        gap: 40px;
+        left: 90px;
+        border-radius: 5px;
+    }
+
+.headone{
+    border: 1px solid #005C56;
+     border-radius: 5px;
+     background: #F1F9F9;
+     box-sizing: border-box;
+    display: flex;flex-direction: column;
+     padding: 15px;
+      width: 536px;
+      height: 139px;
+      margin-right: 8px;
+}
+.labelone{
+    border: 1px solid #005C56;
+     border-radius: 5px;
+     background: #F1F9F9;
+     box-sizing: border-box;
+     display: flex;flex-direction: column;
+     padding: 15px; 
+     width: 536;
+    height: 139px;
+    margin-left: 8px
+}
+.imgone{
+    border-radius:5px ;
+    height:240px;
+}
+/* header*/
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+    .container{
+        top: 0;
+        padding: 14px;
+        width: auto;
+        height: auto;
+        text-align: start;
+        justify-content: start;
+        margin: 16px;
+        gap: 12px;
+    }
+    .dis-none{
+        display: none;
+    }
+
+    .pbanner_img{
+        height: 140px !important;
+        object-fit: cover;
+    }
+    .container1{
+            top: 0;
+    width: auto;
+    height: auto;
+    gap: 0;
+    }
+    .container2{
+        margin: 16px;
+        width: auto;
+            background: none;
+    border: 0px solid #005C56;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0 !important;
+
+    }
+    .text_start{
+        text-align: start !important;
+    }
+    .headone{
+            min-width: 343px;
+    padding: 14px;
+    height: auto;
+        width: fit-content;
+        margin: 10px 0;
+    }
+
+    .labelone{
+            height: auto;
+    min-width: 343px;
+    padding: 14px;
+    margin: 0;
+    margin-top: 15px;
+    }
+    .container-bottom{
+            min-width: 343px;
+    top: 0;
+    margin: 16px;
+    bottom: 0;
+    height: auto;
+    width: auto;
+    }
+    .button2{
+        margin: 20px 0;
+    }
+    .imgtext1{
+        height: auto;
+        width: auto;
+        margin-top: 0;
+        align-self: flex-start;
+        font-size: 24px;
+        line-height: 36px;
+    }
+    .imgtext2{
+        width: auto;
+        height: auto;
+        text-align: start;
+        margin: 15px 0;
+    }
+    .ptextimg{
+        padding: 0;
+        left: auto;
+        top: 0;
+        text-align: start;
+        gap: 0;
+        margin: 34px;
+    }
+    .text6{
+            height: 30px;
+    width: 30px;
+    }
+    .imgone{
+        height: 270px;
+        object-fit: cover;
+    }
+    .text{
+        font-size: 24px;
+        line-height: 36px;
+    }
+    .text1{
+        line-height: 24px;
+    }
+}

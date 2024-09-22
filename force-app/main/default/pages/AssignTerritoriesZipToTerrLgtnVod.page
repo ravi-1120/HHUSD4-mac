@@ -1,0 +1,37 @@
+<apex:page standardController="Zip_to_Terr_vod__c" recordSetVar="Zips" extensions="VOD_GetRecordIds,VODRedirectController">
+    <apex:composition template="{!$Page.RedirectLgtnVod}"/>
+
+        <apex:includeScript value="{!VodUrl}/js/vendor/alertify.min.js" />
+        <apex:stylesheet value="{!VodUrl}/css/vendor/alertify.core.css" />
+        <apex:stylesheet value="{!VodUrl}/css/vendor/alertify.default.css" />
+
+    <script>
+
+        //preload alert OK and Cancel messages
+        alertify.set({
+            labels: {
+                ok: "{!TranslatedOk}",
+                cancel: "{!TranslatedCancel}"
+            }
+        });
+        
+        var zipCodes = '{!selectedRecordIds}';
+
+        var params = '&lgtvf=true';
+        var error;
+
+        if (zipCodes.length > 0)  {
+            params += "&zipCodes=" + zipCodes;
+        } else {
+            error = "You must select at least one record to process.";
+        }
+
+        if (!error) {
+            com.vod309.redirect.redirect("assignterritory", params);
+        } else {
+            alertify.alert(error, function() {
+             history.go(-1);
+            });
+        }
+    </script>
+</apex:page>

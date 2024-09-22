@@ -1,0 +1,54 @@
+<apex:page controller="MSD_CORE_Addr_Confirmation_Controller" showheader="false" lightningStylesheets="true">
+     <apex:includeScript value="/support/console/43.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/jquery.tablesorter.min.js')}" />
+    <script>
+        var j$ = jQuery.noConflict();
+
+        var tabId;
+        var thisTabId;
+        var didSaveSucceed;
+        var isATab;
+
+        function initialize() {
+            isATab = false;
+            //sforce.console.setTabTitle('{!$Label.MSD_CORE_DCR_Account_Edit_Title}');
+            getTabId();
+        }
+
+        function getTabId()
+        {
+            sforce.console.getEnclosingPrimaryTabId(assignTabId);
+            sforce.console.getEnclosingTabId(assignThisTabId);
+        }
+        function closeTab() 
+        {
+            console.log("entered close tab");
+            console.log(thisTabId,tabId);
+            sforce.console.refreshPrimaryTabById(tabId, false, sforce.console.closeTab(thisTabId));
+        }
+      
+        var assignTabId = function assignTabId(result)
+        {
+            tabId = result.id;
+        };
+        var assignThisTabId = function assignThisTabId(result)
+        {
+            console.log("tabs"+JSON.stringify(result));
+            thisTabId = result.id;
+        };
+        window.onload = initialize;
+    </script>
+
+  <br/> <br/>  <br/>
+  <center><h1>Thanks</h1></center>
+  <br/> <br/>  <br/> 
+  <center>Your request for New Address has been submitted for Approval. </center>
+  <br/>  <br/> 
+  <center>DCR Number of the Submitted Request is <b>  <apex:outputLink value="/{!DCRId}" >{!DCRName}</apex:outputLink></b> </center>
+  
+ 
+  <br/>   <br/> 
+  <center><apex:form >
+   <apex:commandButton action="{!Ok}" value="OK"/>
+   </apex:form></center></apex:page>

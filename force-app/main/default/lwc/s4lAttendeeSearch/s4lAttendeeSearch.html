@@ -1,0 +1,118 @@
+<template>
+    <c-veeva-modal size="large" onclose={closeAddAttendeeModal}>
+        <div slot="header">{modalTitle}</div>
+        <div slot="content" class="slds-scrollable_y" style="height: 400px;">
+            <div class="slds-grid slds-p-horizontal_x-large slds-p-top_small">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_10-of-12">
+                    <lightning-input variant="label-hidden" type="search" value={searchTerm}
+                                     placeholder={labels.searchAccounts} onchange={handleSearchTermChange}>
+                        <lightning-icon icon-name="utility:search"></lightning-icon>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_2-of-12 slds-p-left_x-small">
+                    <lightning-button label={labels.search} title={labels.search} onclick={search}></lightning-button>
+                </div>
+            </div>
+            <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+            <div class="slds-p-horizontal_x-large">
+                <!-- child call account selection -->
+                <div if:true={displayChildCallAccounts} class="slds-m-vertical_medium">
+                    <div class="slds-p-bottom_x-small">
+                        <span>{labels.accountsOnCall}</span>
+                        <span class="slds-p-left_x-small">
+                                <a target="_blank" if:false={isAllAccountsOnCallSelected} onclick={selectAllChildCallAccounts}>{labels.selectAll}</a>
+                                <a target="_blank" if:true={isAllAccountsOnCallSelected} onclick={deselectAllChildCallAccounts}>{labels.deselectAll}</a>
+                            </span>
+                    </div>
+                    <div class="slds-grid slds-grid_vertical">
+                        <template for:each={childCallAccounts} for:item="childCallAccount">
+                            <div key={childCallAccount.id} class="slds-col slds-p-around_xx-small">
+                                <div class="slds-media slds-media_center">
+                                    <div class="slds-media__figure slds-p-top_xx-small">
+                                        <input type="checkbox" name={childCallAccount.id} value={childCallAccount.id} checked={childCallAccount.checked} onclick={handleSelect} disabled={childCallAccount.hasSignatureError}></input>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <label for={childCallAccount.id}>
+                                            <p class={childCallAccount.childCallAttendeeClass}>{childCallAccount.formattedName}</p>
+                                            <p if:false={childCallAccount.hasSignatureError} class="slds-text-title">{childCallAccount.supplementalInfo}</p>
+                                            <p if:true={childCallAccount.hasSignatureError} class="slds-text-title has-signature-disable">{hasSignatureErrorMessage}</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <!-- recommended account selection -->
+                <div if:true={displayRecommendedAccounts} class="slds-m-vertical_medium">
+                    <div class="slds-p-bottom_x-small">
+                        <span>{labels.recommendedAccounts}</span>
+                        <span class="slds-p-left_x-small">
+                                <a target="_blank" if:false={isAllRecommendedSelected} onclick={selectAllRecommended}>{labels.selectAll}</a>
+                                <a target="_blank" if:true={isAllRecommendedSelected} onclick={deselectAllRecommended}>{labels.deselectAll}</a>
+                            </span>
+                    </div>
+                    <div class="slds-grid slds-grid_vertical">
+                        <template for:each={recommendedAttendees} for:item="recommendedAttendee">
+                            <div key={recommendedAttendee.id} class="slds-col slds-p-around_xx-small">
+                                <div class="slds-media slds-media_center">
+                                    <div class="slds-media__figure slds-p-top_xx-small">
+                                        <input type="checkbox" name={recommendedAttendee.id} value={recommendedAttendee.id} checked={recommendedAttendee.checked} onclick={handleSelect}></input>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <label for={recommendedAttendee.id}>
+                                            <p class="slds-text-body_regular">{recommendedAttendee.formattedName}</p>
+                                            <p class="slds-text-title">{recommendedAttendee.supplementalInfo}</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <!-- seach result selection -->
+                <div if:true={displaySearchResult} class="slds-m-vertical_medium">
+                    <div class="slds-grid slds-grid_vertical">
+                        <template for:each={searchResultAttendees} for:item="searchResultAttendee">
+                            <div key={searchResultAttendee.id} class="slds-col slds-p-around_xx-small">
+                                <div class="slds-media slds-media_center">
+                                    <div class="slds-media__figure slds-p-top_xx-small">
+                                        <input type="checkbox" name={searchResultAttendee.id} value={searchResultAttendee.id} checked={searchResultAttendee.checked} onclick={handleSelect} disabled={searchResultAttendee.hasSignatureError}></input>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <label for={searchResultAttendee.id}>
+                                            <p class={searchResultAttendee.childCallAttendeeClass}>{searchResultAttendee.formattedName}</p>
+                                            <p if:false={searchResultAttendee.hasSignatureError} class="slds-text-title">{searchResultAttendee.supplementalInfo}</p>
+                                            <p if:true={searchResultAttendee.hasSignatureError} class="slds-text-title has-signature-disable">{searchResultAttendee.supplementalInfo}</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- alert window when the number of attendees added by the user exceeds the maximum limit (100) -->
+            <c-veeva-alert-modal if:true={showLimitationReachedAlert} show={showLimitationReachedAlert}
+                title={labels.attendeeLimitReached} messages={limitationMessage}
+                okay-label={labels.close} button-style="neutral" onclose={closeLimitationReachedAlert} >
+            </c-veeva-alert-modal>
+
+            <!-- alert window when user click 'Add' and at least one selected attendees have violation against product/ segment -->
+            <!-- 'Cancel' button just closes the alert window, user changes persist -->
+            <!-- 'Continue' button closes the alert window and the add attendee modal, also adding the valid attendees to the list -->
+            <c-s4l-bulleted-list-alert if:true={showAttendeeViolationAlert}
+                title={labels.attendeeRestriction} message={attendeeViolationMessage} list-items={violatedAttendeeNames}
+                cancel-label={labels.cancel} oncancel={closeAttendeeViolationAlert}
+                continue-label={labels.continue} oncontinue={saveValidSelectedAttendees}
+                onclose={closeAttendeeViolationAlert}>
+            </c-s4l-bulleted-list-alert>
+
+        </div> <!-- content body end -->
+        <div slot="footer">
+            <lightning-button label={labels.cancel} title={labels.cancel} onclick={closeAddAttendeeModal} variant="neutral"></lightning-button>
+            <lightning-button label={saveBtnLabel} title={saveBtnLabel} onclick={saveAddedAttendees} variant="brand" class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

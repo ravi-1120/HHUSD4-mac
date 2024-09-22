@@ -1,0 +1,81 @@
+<apex:page standardController="Case" extensions="MSD_CORE_AttachmentUploadController" standardStylesheets="false" showHeader="false" lightningStylesheets="true">
+    <apex:slds />
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    <style>
+        .errorM3{
+            color: var(--lwc-colorTextError,rgb(194, 57, 52));
+            font-size: 12px;
+        }
+        .inputfle {
+            display: none;
+        }
+        .img {
+            width: 240px; 
+            height: 40px !important;
+            cursor: pointer;
+        }
+        .slds-text-color_error, .slds-text-color--error {
+            color: var(--lwc-colorTextError,rgb(194, 57, 52));
+        }
+        .slds-scope .upload, .uploading {
+            display: none;
+        }
+        body .message h4, .slds-vf-scope .message h4 {
+            margin: 0;
+            display: none;
+        }
+        body .message, .slds-vf-scope .message {
+            margin: 0px !important;
+            border-radius: 3px;
+        }
+    </style>
+    
+    <script>
+        $(document).ready(function(){
+            $('.img').unbind('click');
+            $('.img').click(function(){
+                $('.inputfle').click();
+            });
+            
+            $('.inputfle').unbind('change');
+            $('.inputfle').change(function(e){
+                $('.upload').show();
+                var fileName = e.target.files[0].name;
+                $('.msg').text(fileName);
+            });
+            
+            setTimeout(function(){
+                $('.confirmM3').fadeOut();
+            }, 3000);
+                   sendToLC();
+        });
+        function uploadJS(){
+            $('.upload').hide();
+            $('.uploading').show();
+            uploadCall();
+        }
+        
+    var lexOrigin =  'https://{!$CurrentPage.parameters.url}';
+        
+        function sendToLC() {
+                var message = {
+                    name: "com.merck.fileupload",
+                    payload: "SUCCESS"
+                };
+                parent.postMessage(message, lexOrigin);
+        }
+    </script>
+       <apex:form >
+		    <apex:actionFunction id="fileUpload"  name="uploadCall" action="{!upload}"/>
+
+           <apex:image url="{!$Resource.MSD_CORE_UploadImage}" styleClass="img"/>
+           <apex:inputFile style="display: none;" styleclass="inputfle" value="{!attachment.body}" filename="{!attachment.name}" contentType="{!attachment.contentType}" id="file" /><br/>
+            <div class="slds-text-body_small slds-text-color_error msg" data-aura-rendered-by="1881:0">No File Selected..</div>
+        <apex:pageMessages escape="false"></apex:pageMessages><br/>
+        	<apex:commandButton id="uploadBtn" onclick="uploadJS(); return false;" value="Upload" styleClass="slds-button slds-button_brand upload" />
+        <div class="slds-text-body_small slds-text-color_error uploading">Uploading... 
+           <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>'
+        </div>     
+       
+  	</apex:form>
+</apex:page>

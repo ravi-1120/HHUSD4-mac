@@ -1,0 +1,72 @@
+<template>
+    <c-m-s-d_-c-o-r-e_ci_header></c-m-s-d_-c-o-r-e_ci_header>
+    <c-custom-toast auto-close-time="2000"></c-custom-toast>
+    <div size="12" style="margin-bottom: 2%;">
+        <div class="parentclass">
+            <div class="MainformCls MainFormClip">
+                <div class="formCls formClip">
+                    <div multiple-rows="true" class="heightdiv">
+                        <div size="10" class="divisionCls"> 
+                            <div class="imptext">
+                                {stageName} <!-- Dynamically display the stage name -->
+                            </div>
+                        </div>
+                    </div>
+                    <template if:false={showQuestionnaire}>
+                        <c-m-s-d_-c-o-r-e_ci_emp-validation
+                            onshowtoast={handleShowToast}
+                            onvalidationcomplete={handleValidationComplete}>
+                        </c-m-s-d_-c-o-r-e_ci_emp-validation>
+                    </template>
+                    
+                    <template if:true={showQuestionnaire}>
+                        <!-- Your progress bar component -->
+                        <div class="slds-grid content-wrapper">
+                            <div class="progress-container">
+                                <!-- Steps are rendered here -->
+                                <template for:each={steps} for:item="step">
+                                    <div class={step.className} key={step.id}
+                                        data-step={step.id} onclick={setStep}>
+                                        <!--  -->
+                                        <span class="progress-icon slds-icon_container" data-key={step.icon}>
+                                            <lightning-icon icon-name={step.icon} alternative-text="Step Icon" size="small"></lightning-icon>
+                                        </span>
+                                        <span class="progress-label">{step.label}</span>
+                                    </div>
+                                </template>
+                            </div>
+                            <lightning-card class="stagecard">
+                                <span class="information">* Required Field</span>
+                                <br>
+                                <div class="scrollable">
+                                    <br>
+                            <template if:true={isStep1}>
+                                <c-m-s-d_-c-o-r-e_ci_policymodal modal={modal} onmodalchange={handleModalChange}></c-m-s-d_-c-o-r-e_ci_policymodal>
+                                <c-m-s-d_-c-o-r-e_ci_questionnaire portal-setting={portalSetting} case-details={caseDetails} onshowtoast={handleShowToast} onstagedetails={handlePrevNext}></c-m-s-d_-c-o-r-e_ci_questionnaire>
+                            </template>
+                            <template if:true={isStep2}>
+                                <c-m-s-d_-c-o-r-e_ci_product portal-setting={portalSetting} case-details={caseDetails} onshowtoast={handleShowToast} onstagedetails={handlePrevNext}></c-m-s-d_-c-o-r-e_ci_product>
+                            </template>
+                            <template if:true={isStep3}>
+                                <c-m-s-d_-c-o-r-e_ci_typeofinfo portal-setting={portalSetting} case-details={caseDetails} onshowtoast={handleShowToast} onstagedetails={handlePrevNext}></c-m-s-d_-c-o-r-e_ci_typeofinfo>
+                            </template>
+                           <template if:true={isStep4}>
+                                <c-m-s-d_-c-o-r-e_ci_reviewand-conf case-details={caseDetails} onshowtoast={handleShowToast}></c-m-s-d_-c-o-r-e_ci_reviewand-conf>
+                            </template>
+                             <!-- <template if:true={isStep5}>
+                                <c-step-five-component></c-step-five-component> 
+                            </template>-->
+                        </div>
+                        </lightning-card>
+                        </div> 
+                    
+                        </template>
+                   
+                </div>
+            
+            </div>
+            <div class="Triangle"></div>
+        </div>
+    </div>
+    <!-- <c-m-s-d_-c-o-r-e_merckcontactcenterfooter></c-m-s-d_-c-o-r-e_merckcontactcenterfooter> -->
+</template>

@@ -1,0 +1,151 @@
+.container {
+    /* max-width: 1170px; */
+    max-width: 81%;
+    margin: auto;
+}
+
+.bannercls {
+    position: relative;
+}
+
+.bannercls img {
+    width: 100vw;
+    height: 221px;
+}
+
+.header_cls {
+    font-family: 'Invention';
+    position: absolute;
+    color: #FFFFFF;
+    z-index: 3;
+    top: 10%;
+    text-align: left;
+    width: 100%;
+}
+
+.header_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    color: #FFFFFF;
+}
+
+.header_cls p {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    color: #FFFFFF;
+    font-size: 18px;
+    line-height: 27px;
+
+}
+
+.breadcrumbs {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: underline !important;
+    color: #FFFFFF !important;
+}
+
+.boxshadow_cls {
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09), 0px 3px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.cntheader_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+}
+
+.cntheader_cls p {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+}
+
+.maincls {
+    width: 100%;
+}
+
+.buttoncls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #00857C;
+    background: #FFFFFF;
+    border: 1px solid #00857c;
+    border-radius: 4px;
+}
+
+.appoitment_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #000000;
+}
+
+.appoitment_cls h2 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.combobox_cls {
+    /* width: 30%; */
+}
+
+.box_width_cls {
+    min-width: 15rem;
+}
+
+.close_cls {
+    margin-top: 25px;
+    padding-left: 15px;
+}
+
+.submitbtn_cls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #FFFFFF;
+    background: #00857C;
+    border: 1px solid #00857c;
+    border-radius: 4px;
+}
+
+.datecls {
+    margin-bottom: 0 !important;
+}

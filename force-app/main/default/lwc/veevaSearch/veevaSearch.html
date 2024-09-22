@@ -1,0 +1,21 @@
+<template>
+    <c-veeva-modal if:true={showDefault} size={modalSize} close='searchclose' max-height=true composed=true>
+        <span slot="header">
+            {label}
+        </span>
+        <c-veeva-search-results slot="content" message-svc={ctrl.pageCtrl.messageSvc} search-records={records}
+                columns={columns} result-title={resultTitle} enable-infinite-loading={enableInfiniteLoading}
+                onrowselection={handleRowSelection} onloadmoredata={handleLoadMoreData} hide-checkbox={hideCheckbox} search-term={searchTerm}>
+            <lightning-layout-item size="12" slot="lookup" class="slds-m-vertical_small">
+                <c-veeva-search-lookup-template ctrl={ctrl} custom-icons={customIcons} start-term={searchTerm} onsearchmode={startSearch}
+                    onlookupselection={handleLookupSelection} is-object-search-popup={isObjectSearchPopup}>
+                </c-veeva-search-lookup-template>
+            </lightning-layout-item>
+            <c-veeva-spinner if:true={loading} slot="results-content"></c-veeva-spinner>
+        </c-veeva-search-results>
+        <div slot="footer">
+            <lightning-button variant="neutral" label={labelCancel} onclick={handleClose}>
+            </lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

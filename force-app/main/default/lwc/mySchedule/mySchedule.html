@@ -1,0 +1,16 @@
+<template>
+    <div class="calendar" lwc:dom="manual" style="display:flex"></div>
+    <c-veeva-alert-modal show={showError} title={msgError} messages={errorMessage} onclose={handleErrorModalClose} minimize-width={minimizeWidth}></c-veeva-alert-modal>
+    <c-account-search-modal ctrl={ctrl} if:true={calendarFullyLoaded} onhandlecalendarevent={handleCalendarEvent} oncreatecallerror={handleCreateCallError} onnewrecordtoast={newRecordToast} oncreatecallcycleentry={handleCreateCallCycleEntry} onfocusnewevent={handleEventFocusNewEvent}></c-account-search-modal>
+    <c-convert-to-call></c-convert-to-call>
+    <c-veeva-confirmation-modal show={confirmationModalConfig.show} 
+        size={confirmationModalConfig.size} 
+        title={confirmationModalConfig.title} 
+        messages={confirmationModalConfig.messages} 
+        cancel-label={confirmationModalConfig.cancelLabel}
+        confirm-label={confirmationModalConfig.confirmLabel}>
+    </c-veeva-confirmation-modal>
+    <c-my-schedule-record-type-selector if:true={showRecordTypeModal} object-api-name={newRecordObject} onnewrecordmodalclose={handleNewRecordModalClose} onnewrecordmodalopen={handleNewRecordType}></c-my-schedule-record-type-selector>
+    <c-my-schedule-new-record-page if:true={showNewRecordModal} onclose={handleNewRecordModalClose} onnewrecordmodalclose={handleNewRecordModalClose} object-name={newRecordObject} record-type-id={selectedRtId} settings={settings} weekend-days={myScheduleCalendar.clm.weekendDays}></c-my-schedule-new-record-page>
+    <c-reason-modal if:true={showReason} message-svc={ctrl.pageCtrl.messageSvc} ui-api={ctrl.pageCtrl.uiApi} title={reasonConfig.title} skip-button={reasonConfig.skipButton} onclose={closeReasonModal} call-back-fn={reasonConfig.callBackFn} record-type={reasonConfig.recordType}></c-reason-modal>
+</template>

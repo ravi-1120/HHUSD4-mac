@@ -1,0 +1,398 @@
+.container {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(Blur.png);
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.maindivcls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    background: #F4F4F4;
+}
+
+.personalmaindiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    gap: 32px;
+    background: #FFFFFF;
+    border-radius: 8px;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.pass_headersec h2 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    padding-bottom: 16px;
+}
+
+.subheadersec1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    color: #333333;
+    width: 100%;
+    display: block;
+}
+
+.subheadersec2 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    color: #333333;
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
+.hyperlinkcls {
+    color:#00857C !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.body_personalcls {
+    width: 100%;
+}
+
+.licensesection .licensebodysection:first-child {
+    margin-top: 0px !important;
+} 
+
+.licensebodysection {
+    background: #F7F7F7;
+    padding: 24px;
+    margin: 16px 0;
+}
+
+.licenseheadingcls {
+    padding-bottom: 16px;
+}
+
+.licenseheadingcls h2{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #000000;
+}
+
+.liecenceheadingcls p{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.licensesubheadingcls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+.licensesubheadingcls img {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.inputcsscls, .inputliccsscls, .inputboxcls, .inputlicboxcls {
+    margin-bottom: 19px;
+}
+
+.licenseinputcls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.licenseinputcls .slds-form-element{
+    width: 260px;
+    margin-top: 16px;
+    margin-bottom: 0px;
+}
+
+.licenseinputcls2 .slds-form-element{
+    margin-top: 24px;
+}
+
+.marginrightcls {
+    margin-right: 16px;
+}
+
+.licensebtncls {
+    padding: 11px 16px 11px 16px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    color: #00857C;
+    background: #FFFFFF;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+}
+
+.licensebtncls img {
+    padding-right: 18px;
+}
+
+.backbtncls, .finishbtncls {
+    padding: 16px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    width: auto;
+}
+
+.backbtncls {
+    color: #00857C;
+    background: #FFFFFF;
+    width: 67px;
+}
+
+.finishbtncls {
+    color: #FFFFFF;
+    background: #00857C;
+}
+
+.footerbtncls {
+    display: flex;
+    justify-content: space-between;
+    /* width: 250px; */
+    flex-direction: row;
+    padding-top: 32px;
+}
+
+.privacysectiontext p {
+    color: #333;
+    font-family: 'Invention';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+    padding-top: 32px;
+}
+
+.privacysectiontext p a { 
+    color:#00857C;
+    font-family: 'Invention';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+    text-decoration-line: underline !important;
+}
+
+@media only screen and (max-width: 767px) {
+    .container{
+         background: #00000040;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 10px;
+        background: var(--neutral-ultralight-gray, #F4F4F4);
+    }
+
+    .progresssection{
+        width: auto;
+    }
+
+    .personalmaindiv {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0px;
+        align-self: stretch;
+        border-radius: 8px;
+        width: auto;
+    }
+    
+    .pass_headersec h2{
+        color: #000;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 27px;
+        text-align: left;
+        display: block;
+    }
+
+    .subheadersec1{
+        color: var(--neutral-dark-text, #333);
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: left;
+    }
+    
+    .subheadersec2{
+        color: var(--neutral-dark-text, #333);
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: left;
+        padding-bottom: 32px;
+    }
+
+    .body_personalcls {
+        width: 100%;
+    }
+
+    .inputcsscls, .inputliccsscls, .inputboxcls, .inputlicboxcls {
+        margin-bottom: 16px;
+    }
+
+    .licensesection{
+        width: auto;
+        padding-top: 16px;
+    }
+
+    .licenseheadingcls h2{
+        color: #000;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 24px;
+        width: auto;
+        padding-right: 16px;
+        text-align: left;
+    }
+
+    .liecenceheadingcls p{
+        color: #000;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+    }
+
+    .licensebodysection{
+        border-radius: 8px;
+        background: var(--secondary-gray, #F7F7F7);
+        width: 100%;
+        padding-bottom: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 16px;
+        margin-bottom: 0px;
+    }
+
+    .licensesubheadingcls{
+        padding-bottom: 8px;
+        padding-left: 0px;
+        padding-right: 16px;
+        width: auto;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        align-self: stretch;
+    }
+
+    .licenseinputcls .slds-form-element{
+        width: 100%;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .licenseinputcls2 .slds-form-element{
+        margin-top: 16px;
+    }
+
+    .addlicensebtn{
+        padding-top: 16px;
+        width: 100%;
+    }
+
+    .footerbtncls {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .licensebtncls {
+        display: flex;
+        height: 40px;
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
+        width: 100%;
+        padding: 11px 16px 11px 16px;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.861539px;
+        color: #00857C;
+        background: #FFFFFF;
+        border: 2px solid #00857C;
+        border-radius: 5px;
+    }
+
+    .licensebtncls img {
+        padding-right: 16px;
+    }
+
+    .backbtncls, .finishbtncls {
+        padding: 16px;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.861539px;
+        border: 2px solid #00857C;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+}

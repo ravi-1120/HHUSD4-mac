@@ -1,0 +1,336 @@
+<template>
+    <div class="">
+        <div>
+            <div>
+                <div class="bannercls">
+                    <img src={bannerimg}>
+                    <!-- <div class="header_cls">
+                        <div class="container ">
+                            <h1> Medical & Health Economic Evidence</h1>
+                            <p>portal</p>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="container position_cls ">
+                <!-- Added class mobboxshadow for mobile screen -->
+                <!-- <div class=" boxshadow_cls slds-grid slds-wrap slds-p-around_large mobboxshadow">
+                     Added class pipeinfodiv for mobile screen -->
+                    <!-- <div class="slds-size_8-of-12 pipeinfodiv">
+                        <div class="slds-grid slds-wrap">
+                             <img src={book} class="imgback"> -->
+                            <!-- <img src={book} class="img-wdt">
+                            <div class="titletxt_cls slds-p-left_x-small">Pipeline information</div>
+                        </div>
+                        <div>
+                            <div class="subtitle_cls slds-p-top_x-small">Navigate dashboard below or view menu option to
+                                see other information and <br /> resources available to you.</div>
+                        </div>
+                    </div>
+                  Added class brwspipemob for mobile screen -->
+                    <!-- <div class="slds-size_4-of-12 slds-clearfix brwspipemob">
+                        <button class="button_cls slds-float_right " onclick={navigation}>
+                            Browse pipeline information
+                            <img src={warrow} class="slds-p-left_medium bppad">
+                        </button>
+                    </div>
+                </div> --> 
+                
+                <div class=" boxshadow_cls slds-grid slds-wrap slds-p-around_large mobboxshadow expcls">
+                    <div class="expdiv1">
+                        <p class="expdivpar1">Explore</p>
+                        <p class="expdivpar2">Explore the types of content available on the Merck Medical & Health Economic Evidence portal.</p>
+                    </div>
+                    <div class="expdiv2 webexplr">
+                        <template for:each={configurations} for:item="config">
+                            <div key={config.id} class="exptab">
+                                <img src={config.imagelink} class="contactimgcls1">
+                                <div class="pipeimg1">
+                                    <div class="expheader">
+                                        {config.MSD_Core_MHEE_Explore_header__c}
+                                    </div>
+                                    <div class="expdescp">
+                                        {config.MSD_Core_MHEE_Description__c}
+                                    </div>
+                                </div>
+                                <div class="overlay1">
+                                    <div class="expheader">
+                                        {config.MSD_Core_MHEE_Explore_header__c}
+                                    </div>
+                                    <div class="expdescp">
+                                        {config.MSD_Core_MHEE_Detailed_Description__c}
+                                    </div>
+                                    <div class="expdescplink">
+                                         <a class="exphyplink" data-name={config.MSD_Core_MHEE_Explore_header__c} onclick={handleViewresource} >View resources</a>
+                                    </div>
+                                </div>
+                            </div> 
+                        </template>
+                    </div>
+
+                    <!--for mobile view-->
+                     <div class="expdiv2 mobexplr">
+                        <template for:each={configurations} for:item="config">
+                            <div key={config.id} class="exptabmob">
+                                <img src={config.imagelink} class="contactimgcls">
+                                <div class="pipeimg1" data-name={config.MSD_Core_MHEE_Explore_header__c} onclick={handleViewresource}>
+                                        <div class="expheader">
+                                            {config.MSD_Core_MHEE_Explore_header__c}
+                                        </div>
+                                        <div class="expdescp"> 
+                                            {config.MSD_Core_MHEE_Description__c}
+                                        </div>
+                                </div>
+                            </div> 
+                        </template>
+                    </div>
+                    <!--mobile view end-->
+
+                    <div class="emptystate">
+                        <button class="slds-grid slds-wrap" onclick={onallresources}>
+                            <span class="btncls">
+                                Browse all resources
+                            </span>
+                            <!-- <img class="btncls" src={mheeearrowexp}> -->
+                            <span class="btncls arrowcls">
+                                >
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-wrap  slds-m-vertical_medium toppads">
+                    <div class="leftpannel">
+                        <!-- <div class="slds-col slds-size_1-of-2 mob-container2 padstyle actwidth" >
+                            <c-m-s-d_-c-o-r-e_-active-request></c-m-s-d_-c-o-r-e_-active-request>
+                        </div> -->
+                        <div class="appointments">
+                            <p class="appointments1">
+                                Appointments
+                            </p>
+                            <p class="appointments2">
+                                Manage upcoming appointments for live resource presentations with your Merck account team.
+                            </p>
+
+                            <template if:true={hasData}>
+                                
+                                <template for:each={listOne} for:item="appoinments">
+                                    <div key={appoinments.Id} class="temphead">
+                                        {appoinments.appointmentHeading}
+                                    </div>
+                                <template for:each={appoinments.appointmentDetails} for:item="record">
+                                    <div key={record.recordid} class="detailscls" onclick={tabclick} data-recordid={record.recordid}>
+                                        <!-- <div onclick={tabclick} data-id={record.Id}> -->
+                                            <div class={appoinments.todaydatecls}>
+                                                <div class="datecls">
+                                                    <div class="moncls">
+                                                    {record.month}
+                                                    </div>
+                                                    <div class="daycls">
+                                                    {record.day} 
+                                                    </div>
+                                                    <div class="timecls">
+                                                    {record.time}
+                                                    </div>
+                                                    <!-- {record.CreatedDate} -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class={appoinments.detailsbackclass}> -->
+                                            <div class={appoinments.blueback}>
+                                                <div class="resourcesectn">
+                                                    <div class={appoinments.resourcecls}>
+                                                        {record.restitle}
+                                                    </div>
+                                                    <div class={appoinments.aecls}>
+                                                        {record.description1}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <!-- </div> -->
+                                    </div>
+                                 </template>
+                                </template>
+                            </template>
+
+                            <template if:true={currentmontlist}>
+                                <div class="temphead">
+                                    February
+                                </div>
+                                <template for:each={listTwo} for:item="record">
+                                    <div key={record.Id} class="detailscls">
+                                        <div class="datecls">
+                                            <div class="moncls">
+                                                FEB
+                                            </div>
+                                            <div class="daycls">
+                                                15
+                                            </div>
+                                            <div class="timecls">
+                                                10:30 AM
+                                            </div>
+                                            <!-- {record.CreatedDate} -->
+                                        </div>
+                                        <div class="backseccls">
+                                            <div class="resourcesectn">
+                                                <div class="resourcecls">
+                                                    {record.ScheduleFilter__c  }
+                                                </div>
+                                                <div class="aecls">
+                                                    {record.aenames}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                                    <div class="allresrclink" onclick={onviewappslink}>
+                                        View all appointments
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="rightpannel">
+                        <div>
+                            <img src={Mheecontactbanner} class="contactimgcls">
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 mob-container2 mob-containerupa apmwidth" >
+                            <!-- Upcoming appoinments -->
+                           <c-m-s-d_-c-o-r-e_-upcoming-appointment></c-m-s-d_-c-o-r-e_-upcoming-appointment>
+                            <!--  Upcoming appoinments End -->
+                        </div>
+                    </div>
+                </div>
+
+                    <div>  
+                        <!-- <c-m-s-d-core-mhee-recently-added></c-m-s-d-core-mhee-recently-added>-->
+                        <c-m-s-d_-c-o-r-e_-m-h-e-e_-recently_-added></c-m-s-d_-c-o-r-e_-m-h-e-e_-recently_-added>
+                    </div>
+            
+                    <header>
+                        <div class="">
+                            <div class="pbanner">
+                                <img src={logo5}>
+                                <div class="ptext">
+                                    <div class="container1">
+                                        <p class="headertxt_cls cursorcls"> Looking for more?</p>
+                                        <p class="subheadertxt_cls cursorcls">Check out <span class="boldmfr">Merck Formulary Resources</span> for our products, clinical data, resources and more!</p>
+                                    </div>
+                                    <div class="buttndiv">
+                                        <button class="slds-grid slds-wrap buttonfst" onclick={ongetstarted}>
+                                            <span>
+                                                Get Started
+                                            </span>
+                                        </button>
+                                        <button class="slds-grid slds-wrap buttonscnd" onclick={onlearnmore}>
+                                            <span calss="scndbtn">
+                                                Learn More
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+            </div>
+        </div>
+        <!--popup web starts-->
+        <div if:true={showResponse} class="webpopup">
+			<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+				class="slds-modal slds-fade-in-open backgroundbg">
+				<div class="slds-modal__container">
+
+					<div class="slds-modal__header">
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col slds-size_11-of-12">
+								<h1 id="modal-heading-01" class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+									<span style="font-family: 'Invention';font-style: normal;width: 687px;height: 36px;
+                                    font-weight: 700;font-size: 24px;line-height: 36px; color: #000000;"><b> Merck Formulary Resources </b></span>
+								</h1>
+							</div>
+							<div class="slds-col slds-size_1-of-12">
+                                 <button class="slds-button slds-button_neutral " style="color: rgb(0, 133, 124);border-width: 2px !important;border-style: solid !important;border-color: rgb(0, 133, 124);border-image: initial !important;background-color: white;padding-left: 10px;padding-right: 10px;height: 38px;padding-top: 10px;padding-bottom: 10px;"
+                                 data-label="back to screen_X" onclick={closeResponse}><span><img src={cross}> </span></button>
+							</div>
+						</div>
+					</div>
+					<div class="slds-modal__content " id="modal-content-id-2">
+						<div class="slds-align_absolute-center">
+						    <div class="box">
+                                <span class="para1">
+                                    <p class="info1">
+                                        Connect with your Merck account team, request information, and save resources in a personalized library.
+                                    </p>
+                                    <br/>
+                                    <p class="info2">
+                                        You are now leaving the Merck Medical & Health Economic Evidence.
+                                    </p>
+                                </span>
+							    <div class="slds-align_absolute-center">
+                                    <button class="slds-button slds-button_neutral" style="margin-top:24px; font-family: 'Invention';color:white;  align-items: center;
+                                        text-align: center;background-color:#00857c;font-style: normal;height: 50px;font-size: 14px;letter-spacing: 0.1px;padding: 13px 16px;
+                                        gap: 16px;font-weight: 700;"
+                                        data-name="Continue to  Merck Formulary &amp; Resources" onclick={handleHealthEconomicEvidence}>
+                                        Continue to  Merck Formulary Resources <img src={HeaderArrow}>
+                                    </button>
+                                </div>
+						    </div>
+						</div>
+						
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral " style="font-family: 'Invention';color:#00857c;border-color:#00857c ;
+                            border: 2px solid #00857c !important;background-color:white;height: 32px;font-weight: 700;font-size: 14px;letter-spacing: 0.1px;"
+                            data-label="return to mfr portal" onclick={closeResponse}>Return to Merck Medical & Health Economic Evidence</button>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+        <div if:true={showResponse} class="mobilepopup">
+			<section role="dialog" tabindex="-1" aria-modal="true" 
+				class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<div class="slds-modal__header medpopup">
+						<div class="slds-grid meddiv">
+							<div class="slds-col slds-size_11-of-12 medtext">
+								<h1
+									class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit medpoph1">
+									<span class="popuphead"><b> Merck Formulary Resources </b></span>
+								</h1>
+							</div>
+							<div class="slds-col slds-size_1-of-12 closebtndiv">
+								<button class="slds-button slds-button_neutral closebuttn"
+                                    	onclick={closeResponse}><span><img src={cross}> </span></button>
+							</div>
+						</div>
+					</div>
+					<!--<div><p>You have submitted a request for an appointment to view:  Vericiguat Budget Impact Model</p></div>-->
+					<div class="slds-modal__content ">
+						<div class="slds-align_absolute-center">
+							<div class="box innermed">
+								<br />
+								<span class="para1">
+                                    <p class="innerp1">Search the database for
+                                        available information and submit requests to our Medical team.</p>
+                                    <p class="innerp2"><b>This will take you out of Medical & Health Economic Evidence
+                                            portal.</b></p>
+                                </span>
+								</br>
+								<div class="slds-align_absolute-center">
+									<button class="slds-button slds-button_neutral continuebtn"
+                                        data-name="Continue to Merck Medical &amp; Health Economic Evidence" onclick={handleHealthEconomicEvidence}>Continue to
+                                        Merck Formulary Resources <img src={HeaderArrow}></button>
+								</div>
+							</div>
+						</div>
+
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral returnbtn"
+                                onclick={closeResponse}>Return to Medical & Health Economic Evidence</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</div>
+    </div>
+</template>

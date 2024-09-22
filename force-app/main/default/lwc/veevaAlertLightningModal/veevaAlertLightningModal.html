@@ -1,0 +1,21 @@
+<template>
+    <lightning-modal-header if:true={title} label={title}>
+    </lightning-modal-header>
+    <lightning-modal-body>
+        <lightning-layout horizontal-align={messageHorizontalAlign}>
+            <div if:true={messages} class={messageMarginSize}>
+                <template for:each={messages} for:item="message">
+                    <p class="modal-content-message" key={message}>{message}</p>
+                </template>
+            </div>
+        </lightning-layout>
+        <img if:true={iconLogo} src={iconLogo} class="icon">
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-layout horizontal-align={footerHorizontalAlign}>
+            <lightning-button variant={confirmButtonVariant} data-id="confirm-modal-ok-button"
+                class="slds-m-horizontal_xx-small" label={confirmButtonLabel}
+                onclick={handleModalConfirm}></lightning-button>
+        </lightning-layout>
+    </lightning-modal-footer>
+</template>

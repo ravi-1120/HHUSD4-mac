@@ -1,0 +1,83 @@
+<template>
+    <!-- <hr style="clear: both;margin: 20px 0px 10px 0;" /> -->
+    <div class="scheduleCallbackCls">
+        <div class="slds-p-bottom_small scheduleCallLabelCls">
+            {label.scheduleCallbackLabel}
+        </div>
+        <template if:true={showScheduleCalender}>
+            <template if:true={trackDateList}>
+                <template for:each={trackDateList} for:item="d" for:index="index">
+                    <template if:false={d.showdate}>
+                        <article class="slds-card date-hide-class" key={d.dateValue}>
+                            <div class="slds-card__header slds-grid" style="cursor: no-drop;">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title inActiveDateLabelCls">
+                                            <span>{d.dateLabel}</span>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-no-flex">
+                                        <lightning-icon icon-name="utility:chevrondown"
+                                            style="--sds-c-icon-color-foreground-default:#CCCCCC;"
+                                            data-target-id={index}>
+                                        </lightning-icon>
+                                    </div>
+                                </header>
+                            </div>
+                        </article>
+                    </template>
+                    <template if:true={d.showdate}>
+                        <article class="slds-card date-class" key={d.dateValue}>
+                            <div class="slds-card__header slds-grid" style="cursor: pointer;" data-target-id={index}
+                                onclick={showHideDay}>
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title activeDateLabel">
+                                            <span>{d.dateLabel}</span>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-no-flex">
+                                        <lightning-icon icon-name="utility:chevrondown"
+                                            style="--sds-c-icon-color-foreground-default:#00857c;">
+                                        </lightning-icon>
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-grid slds-wrap slds-gutters" if:true={d.showTimes}>
+
+                                    <c-time-slots-component start-time={startTime} end-time={endTime}
+                                        schedule-date={d.dateValue} scheduling-group={schedulingGroup}
+                                        onselectedtimeslot={showForm}>
+                                    </c-time-slots-component>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                </template>
+            </template>
+            <template if:false={trackDateList}>
+                <div class="slds-is-relative">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <article class="date-footer">
+                <footer class="slds-modal__footer slds-modal__footer_directional" style="background: none;border: none;
+                                                                                box-shadow: none;padding: 0;">
+
+                    <div style="float:left">
+                        <div data-id="Previous Week" style={buttonPreStyle} onclick={goPrev}>{label.previousWeekLabel}
+                        </div>
+                    </div>
+                    <div data-id="Next Week" style={buttonNextStyle} onclick={goNext}>{label.nextWeekLabel}</div>
+                </footer>
+            </article>
+        </template>
+        <template if:false={showScheduleCalender}>
+            <div class="slds-is-relative">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+        </template>
+    </div>
+</template>

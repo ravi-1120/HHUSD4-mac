@@ -1,0 +1,73 @@
+<template>
+    <div class="mobcontainer">
+        <div>
+            <div>
+                <div class="bannercls">
+                    <img src={bannerimg}>
+                </div>
+            </div>
+            <div class="container position_cls">
+                <div class="boxshadow_cls slds-grid slds-wrap slds-p-around_large">
+                    <!-- Added mobDiv class for mobile -->
+                    <div class="slds-size_12-of-12 mobDiv">
+                        <div class="scrolldiv">
+                            <div class="breadcrumbs slds-m-bottom_large">
+                                <div class="container">
+                                    <!-- Added navigationlink class for mobile screens -->
+                                    <p style="margin-bottom: 10px;" class="navigationlink">
+                                        <a href={siteNames.Dashboard} onclick={handlenavigatedashboard}
+                                            class="dashboard-underline"><span
+                                                class="dashboard-underline">Dashboard</span></a>
+                                        <span class="front-slash"> /</span>
+                                        <span class="dashboard-after">Requests &
+                                                appointments</span>
+                                    </p>
+                                    <h1 class="request-appointment-header">Requests & appointments</h1>
+                                    <div class="tabset-pickList">
+                                        <div class="picklist-label">Jump to</div>
+                                        <lightning-combobox name="jumpTO" value={value} placeholder={mobTabvalue} options={tabsetOptions}
+                                             onchange={handlePickListChange} variant="label-hidden" class="jump-to-pickList">
+                                        </lightning-combobox>
+                                    </div>
+                                    <div class="newTabset">
+                                        <div>
+                                            <ul class="slds-tabs_default__nav" role="tablist">
+                                                <li class={tab1CSS} data-name='Appointments' onclick={handleTabClick} data-id="1" style="list-style-type: none;" title="Appointments" role="presentation" data-count={ApprovedCount}>
+                                                  <a class="slds-tabs_default__link " role="tab" tabindex="0" aria-selected="true"
+                                                    aria-controls="tab-default-1"><span class="tab-header-name">Appointments</span> <span class="badge"><span class="badge-content" >{ApprovedCount}</span> </span></a>
+                                                </li>
+                                                <li class={tab2CSS} data-id="2" data-name='Pending requests' onclick={handleTabClick}  style="list-style-type: none;" title="Pending requests" role="presentation" data-count={PendingCount}>
+                                                  <a class="slds-tabs_default__link"  role="tab" tabindex="-1" aria-selected="true"
+                                                    aria-controls="tab-default-2"><span class="tab-header-name">Pending requests</span> <span class="badge"><span class="badge-content">{PendingCount}</span> </span></a>
+                                                </li>
+                                                <li class={tab3CSS} data-id="3" data-name='Closed requests' onclick={handleTabClick}  style="list-style-type: none;" title="Closed requests" role="presentation" data-count={ClosedCount}>
+                                                  <a class="slds-tabs_default__link"  role="tab" tabindex="-1" aria-selected="true"
+                                                    aria-controls="tab-default-3"><span class="tab-header-name">Closed requests</span>  <span class="badge"><span class="badge-content">{ClosedCount}</span></span></a>
+                                                </li>
+                    
+                                              </ul>
+                                              </div>
+                                              </div>
+                                              <div class="reqcard">
+                                              <template if:true={tab1Bool}>
+                                                <c-m-s-d_-c-o-r-e_-request-card request-type="Approved" total-count={ApprovedCount} >
+                                                </c-m-s-d_-c-o-r-e_-request-card>
+                                              </template>
+                                              <template if:true={tab2Bool}>
+                                                <c-m-s-d_-c-o-r-e_-request-card request-type="Pending" total-count={PendingCount} >
+                                                </c-m-s-d_-c-o-r-e_-request-card>
+                                              </template>
+                                              <template if:true={tab3Bool}>
+                                                <c-m-s-d_-c-o-r-e_-request-card request-type="Closed" total-count={ClosedCount} >
+                                                </c-m-s-d_-c-o-r-e_-request-card>
+                                              </template>
+                                              </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

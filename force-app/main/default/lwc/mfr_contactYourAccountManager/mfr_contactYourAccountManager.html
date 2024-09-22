@@ -1,0 +1,110 @@
+<template>
+	<div class="slds-grid slds-wrap mob-card">
+		<div class="slds-p-around_medium mob-card2">
+			<div class="flex_div slds-p-vertical_medium mob-card3">
+				<template if:false={showPrimaryExecutive}>
+					<div class="header-title1">Contact Merck</div>
+					<div class="main-box">
+						<div class="slds-grid slds-wrap slds-col slds-size_11-of-12 margin1">
+							<div class="slds-col slds-small_size slds-size_1-of-12 con-card_img">
+								<img class="mob-act-icn" src={accounticon}/>
+							</div>
+							<!-- <div class="slds-col slds-size_11-of-12 con-card_text">
+									<p class="header-accountmgt-team">&nbsp;&nbsp;&nbsp;&nbsp;Account Management Team</p>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="medi_btn">  <img  src={phoneicon}>&nbsp;&nbsp; <span class="medi-btn-font"> {AE.accountphone} &nbsp; &nbsp;</span></button>
+								<button class="medi_btn">  <img  src={messageicon}>&nbsp;&nbsp; <span class="medi-btn-font"> {AE.accountmail} &nbsp; &nbsp;</span></button>
+							</div> -->
+							<!-- changes for mobile screen -->
+							<!-- class [mob-pl-16] added for mobile responsive -->
+							<div class="slds-col slds-size_11-of-12 con-card_text mob-pl-16">
+								<p class="header-accountmgt-team">Account Management Team</p>
+								<!-- class [mob-phone-div  and  mob-phone-div-icn] added for mobile responsive -->
+								<button class="medi_btn mob-phone-div">  <img class="mob-phone-div-icn" src={phoneicon}>&nbsp;&nbsp; <span class="medi-btn-font"> {AE.accountphone}</span></button>
+								<!-- class [mob-email-div-icn] added for mobile responsive -->
+								<button class="medi_btn"><img class="mob-email-div-icn" src={messageicon}>&nbsp;&nbsp; <span class="medi-btn-font"> {AE.accountmail}</span></button>
+								</div>
+							<!-- changes for mobile screen -->
+								<br/>
+								<div class="draw-line"></div>
+							</div>
+
+						<div class="mob-draw-line"></div>
+							<div class="slds-col slds-size_1-of-12 main-sub-right">
+								<p class="header-contact-tech">Contact tech support</p>
+								<p class="text-contact-tech">For account access issues, you can contact the Merck
+									Formulary Resources support team.</p>
+
+								<p><img  src={phoneiconblack}/> &nbsp;<span class="text-contact-text-phone"> (800) 489-5119 </span>
+								</p>
+							</div>
+						</div>
+
+						<div class="main-bottom-box">
+							<span class="header-adverse-exp-text">Adverse experience reporting</span><br/>
+							<!-- <span class="adverse-exp-text">To report an adverse event with a specific Merck product, please call the Merck National Service Center<br/> at 800.NSC.MERCK (800.627.6372)</span> -->
+							<!-- for used in mobile screen -->
+							<span class="adverse-exp-text">To report an adverse event with a specific Merck product, please call the Merck National Service Center at 800.NSC.MERCK (800.627.6372)</span>
+							<!-- end - for used in mobile screen -->
+						</div>
+
+						<div class="slds-col  mob-main-sub-right">
+							<p class="header-contact-tech">Contact tech support</p>
+							<p class="text-contact-tech">For account access issues, you can contact the Merck
+								Formulary Resources support team.</p>
+
+							<p><img  src={phoneiconblack}/> &nbsp;<span class="text-contact-text-phone"> (800) 489-5119 </span>
+							</p>
+						</div>
+
+						<!--
+					
+					<div key={con} class="amtrow">
+
+						<div key={con} class="amtrowl">
+							<img src={accounticon}>
+          </div>
+							<div class="amtrowr">
+								<div class="accountmanagementbox">
+									<h2 class="primaryname">{AE.accountmanagement}</h2>
+									<div class="atmbnts slds-p-top_medium primarycontact">
+										<button  class="primaryinfo"> <img src={phoneicon}>{AE.accountphone}</button>
+										<button  class="primaryinfo"> <img src={messageicon}>{AE.accountmail}</button>
+									</div>
+								</div>
+							</div>
+						</div>
+-->
+				</template>
+			</div>
+		</div>
+		<!--
+		<div class="slds-col slds-size_4-of-12 slds-p-left_medium">
+			<div class="card">
+				<div class="card-body">
+					<div class="supportTitle">
+						<h4 class="contactheader"> Contact Tech Support </h4>
+					</div>
+					<div class="conBody">
+						<h6 class="contactdesc">For account access issues, you can contact</h6>
+						<h6 class="contactdesc">the Merck Formulary Resources support</h6>
+						<h6 class="contactdesc">team.</h6>
+						<button class="conNumber"> <img style="height:30px" src={phoneiconblack}> <span class="contactdesc"
+                  style="padding-left:5px;height:24px;"> (800) 555-4444 </span>
+                </button>
+					</div>
+				</div>
+			</div>
+		</div>-->
+		<!--
+    <div class="slds-p-left_medium">
+      <div class="copy">
+        <a class="hoverstyle"><span>{label.contactYourAccountManager}</span></a>
+      </div>
+      <div class="container">
+        <a class="hoverstyle"><span>{label.contactYourAccountManager1}</span></a>
+      </div>
+    </div>
+	-->
+	</div>
+</template>

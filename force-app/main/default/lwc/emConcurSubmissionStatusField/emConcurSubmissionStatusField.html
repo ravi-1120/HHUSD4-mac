@@ -1,0 +1,12 @@
+<template>
+    <c-veeva-field-generic ctrl={ctrl}>
+        <div slot="readonlyText">
+            <div class="container">
+                <lightning-icon if:true={statusIcon} icon-name={statusIcon} size="x-small" variant={statusIconVariant}></lightning-icon>
+                <lightning-formatted-text value={label}></lightning-formatted-text>
+                <lightning-helptext if:true={helpText} icon-variant="warning" content={helpText}></lightning-helptext>
+            </div>
+        </div>
+    </c-veeva-field-generic>
+    
+</template>

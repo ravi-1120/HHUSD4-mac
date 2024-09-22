@@ -1,0 +1,122 @@
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+      .inputFieldCls{
+        width: 100% !important;
+    }
+    .userInfoLabelCls{
+        width: 100% !important;
+    }
+    .userEmailLabelCls{
+        width: 100% !important;
+    }
+}
+
+@font-face{
+    font-family : 'Invention';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Bd.woff')  format('woff');
+}
+@font-face {
+    font-family: 'InventionLt';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Lt.woff') format('woff');
+}
+@font-face {
+    font-family: 'InventionBdLt';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Bdlt.woff2') format('woff2');
+}
+@font-face{
+    font-family : 'InventionRg';
+    src:url('resource/AMO_Fonts/fonts/Invention_W_Rg.woff') format('woff');
+}
+@font-face{
+    font-family : 'InventionJPRG';
+    src:url('resource/AMO_Fonts/fonts/InventionJP_W_Rg.woff') format('woff');
+}
+
+
+.userFormHeaderCls{
+    font-weight: 300;
+    color: #000000;
+    font-family: 'InventionLt';
+    /* height: 32px; */
+    font-size: 22px;
+    letter-spacing: 0.1px;
+    line-height: 32px;
+    padding-bottom: 8px;
+}
+
+.indicationLabelCls{
+    font-size:14px;
+    font-family: 'InventionRg';
+    color: #000000;
+    line-height: 24px
+}
+
+.userInfoLabelCls{
+    font-size:14px;
+    font-family: 'InventionRg';
+    color: #000000;
+    padding-bottom:23.5px;
+    line-height: 24px;
+    width: 460px;
+}
+
+.userPhoneLabelCls{
+    color: #000000;
+    font-family: 'InventionRg';
+    font-size: 14px;
+    padding-left:3px;
+}
+
+.userPhoneInfoCls{
+    font-size:14px;
+    font-family: 'InventionRg';
+    color: #000000;
+}
+
+.userEmailLabelCls{
+    color: #000000;
+    font-family: 'InventionRg';
+    font-size: 14px;
+    padding-left:3px;
+    width: 470px;
+}
+
+.submitBtnCls{
+    font-family: 'Invention';
+    color:white;
+    background-color:#00857c;
+    height: 48px;
+    width: 103px;
+    font-size: 16px;
+    letter-spacing: 0.1px;
+}
+
+.footerMessageCls{
+    font-family: 'InventionRg' !important;
+}
+
+.inputFieldCls{
+    font-family: 'InventionLt';
+    width: 414px;
+    /* border: var(--lwc-borderWidthThin,1px) solid var(--slds-c-input-color-border, var(--sds-c-input-color-border, var(--lwc-colorBorderInput,rgb(201, 201, 201))));
+    border-radius: var(--slds-c-input-radius-border, var(--sds-c-input-radius-border, var(--lwc-borderRadiusMedium,0.25rem))); */
+}
+
+.userFormCls{
+    padding-top: 40px;
+}
+
+.phoneFieldDivCls{
+    font-family: 'InventionLt';
+    width: 414px;
+}
+
+.PhoneFieldCls{
+    /* border: var(--lwc-borderWidthThin,1px) solid var(--slds-c-input-color-border, var(--sds-c-input-color-border, var(--lwc-colorBorderInput,rgb(201, 201, 201))));
+    border-radius: var(--slds-c-input-radius-border, var(--sds-c-input-radius-border, var(--lwc-borderRadiusMedium,0.25rem))); */
+}
+
+.slds-form-element__control{
+    border: var(--lwc-borderWidthThin,1px) solid var(--slds-c-input-color-border, var(--sds-c-input-color-border, var(--lwc-colorBorderInput,rgb(201, 201, 201)))) !important;
+    border-radius: var(--slds-c-input-radius-border, var(--sds-c-input-radius-border, var(--lwc-borderRadiusMedium,0.35rem))) !important;
+}

@@ -1,0 +1,22 @@
+<template>
+    <div class="header">
+        <div class="container">
+            <lightning-layout>
+                <lightning-layout-item size="6" class="col1">
+                    <img src={medsLogo} alt="MEDs" class="medsLogo" onclick={navigateToDashboard}></img>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" class="col2">
+                    <div if:false={isGuestUser} class="dropdown">
+                        <img src={avatar} alt="avatar" class="avatarLogo" onclick={toggleDropdown}></img>
+                        <div if:true={dropdownOpen}>
+                            <div class="dropdownClass">
+                                <div class="dropdown-item" onclick={navigateToProfile}>{labels.menuProfile}</div>
+                                <div class="dropdown-item" onclick={navigateToLogin}>{labels.menuLogout}</div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+</template>

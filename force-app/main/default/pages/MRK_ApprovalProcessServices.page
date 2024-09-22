@@ -1,0 +1,25 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_ApprovalProcessServices.page
+* @description - Provides Approval Process services such as recall approval
+*                request.
+* @createdate - Feb 5th, 2014
+-->
+
+<!--
+	test URL to execute under brian.pfeil@merck.com.hhusd1 user context
+	/apex/MRK_ApprovalProcessServices?action=recallApprovalRequest&id=a0CZ000000OOoe9&userid=005Z0000001Z905IAC
+-->
+
+<apex:page controller="MRK_ApprovalProcessServicesController"
+					 action="{!process}"
+					 sidebar="true"
+           showHeader="true">
+
+  <apex:pageBlock >
+		<apex:pageMessages />
+		<apex:form >
+			<apex:commandLink action="{!returnToRecord}" value="{!returnToRecordLabel}"/>
+		</apex:form>
+	</apex:pageBlock>
+</apex:page>

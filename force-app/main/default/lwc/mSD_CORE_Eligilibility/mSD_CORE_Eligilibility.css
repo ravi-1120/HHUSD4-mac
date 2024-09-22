@@ -1,0 +1,749 @@
+.eligibilitybackground{
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(Blur.png);
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+}
+
+.eligibilitycard{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 24px;
+	background: #F4F4F4;
+}
+input[type='radio']:checked:after {
+	background-color: #00857C;	
+}
+
+.closemaincls {
+	float: right;
+}
+
+.orgbutton{
+	max-width: 312px;
+}
+
+.slds-current-color{
+	width: 10px;
+	height: 10px;
+}
+
+.elig-plus{
+	padding-left: 18px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux::after{
+	width: 10px;
+    height: 10px;
+	background-color: #00857C;
+}
+
+span.slds-radio_faux::after{
+	--slds-c-radio-color-background-checked: #00857C;
+	--slds-c-radio-color-border-checked: #00857C;
+	--slds-c-radio-mark-color-foreground:  #00857C;
+	background-color: #00857C;
+}
+.elig-radio{
+	--slds-c-radio-color-background-checked: #00857C;
+	--slds-c-radio-color-border-checked: #00857C;
+	--slds-c-radio-mark-color-foreground:  #00857C;
+	width: 24px;
+	height: 24px;
+}
+
+.slds-radio{
+	accent-color: #00857C;
+}
+
+.elig-validation{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 18px;
+	color: #DB281A;
+	padding-top: 4px;
+}
+
+.slds-dropdown_fluid{
+	margin-top: -2px;
+}
+.elig-close{
+	width: 10px;
+	height: 10px;
+}
+
+.elig-org{
+
+}
+
+.elig-container{
+	/*display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 32px; */
+	padding: 40px;
+	
+
+	/*width: 664px;
+	height: 1728px; */
+
+	/* Neutral/White
+
+	The neutral palette is used for structure and to define spaces within the UI. Text colors are fully accessible against a white background.
+	*/
+	background: #FFFFFF;
+	border-radius: 8px;
+
+	/* Inside auto layout */
+
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.elig-head1{
+	/*width: 584px; */
+    height: 36px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+    padding-bottom: 16px;
+    flex-direction: row-reverse;
+    justify-content: center;
+
+}
+.elig-content1{
+
+/* Body/4. Large Body - 18pt, 27pt */
+
+font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 27px;
+/* or 150% */
+
+/*display: flex; */
+align-items: center;
+text-align: center;
+
+color: #000000;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+padding-bottom: 16px;
+}
+
+.elig-content2{
+
+font-family: 'Invention';
+font-style: italic;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+display: flex;
+align-items: center;
+text-align: center;
+color: #000;
+padding-bottom: 32px;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+}
+
+.combo-label{
+
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 21px;
+	color: #333333;
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+	padding-bottom: 8px;
+	margin-bottom: 0px;
+}
+
+.elig-head2{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 27px;
+	/* identical to box height, or 150% */
+
+
+	/* Neutral/Dark Text */
+
+	color: #333333;
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+}
+
+.elig-content3{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 24px;
+	color: #333333;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.elig-content4 {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 24px;
+	color: #000000;
+	padding-bottom: 8px;
+}
+
+.elig-content5 {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 21px;
+	color: #000000;
+	padding-bottom: 18px;
+}
+
+.elig-content6 {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 21px;
+	color: #333333;
+	margin-bottom: 0px;
+}
+
+.elig-head3{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 24px;
+	color: #333333;
+	order: 0;
+	flex-grow: 1;
+}
+
+.elig-terms{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 34px 24px 32px 24px;
+	gap: 16px;
+	background: #F7F7F7;
+	border-radius: 8px;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.viewinfo{
+	color: #00857C;
+	text-decoration: underline;
+}
+
+.elig-info{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 16px;
+
+	color: #333333;
+}
+
+.elig-placeholder{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 21px;
+	color: #333333;
+	flex: none;
+	order: 0;
+	flex-grow: 1;
+	z-index: 0;
+	/*padding: 9px 12px 10px 12px; */
+	padding-top: 9px;
+	padding-bottom: 10px;
+}
+
+.elig-addr1{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0px;
+	gap: 48px;
+
+
+	/* Inside auto layout */
+
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.elig-col{
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0px;
+
+	width: 46%;
+
+	/* Inside auto layout */
+
+	flex: none;
+	order: 0;
+	align-self: stretch;
+	flex-grow: 0;
+	margin-bottom: 0px;
+}
+
+.combo{
+	border-color: rgb(118, 113, 107);
+}
+
+.elig-checkbox{
+	background: #000000;
+	width: 24px;
+	height: 24px;
+	padding-right: 12px;
+}
+
+.elig-button{
+	color: #00857C;
+	border: 2px solid #00857C;
+    border-radius: 5px;
+}
+
+.elig-btngroup{
+	display: flex;
+	padding-top: 32px;
+	flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.btn-content{
+padding: 16px;
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 18px;
+/* identical to box height, or 129% */
+
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.861539px;
+
+/* Primary/Green */
+
+color: #00857C;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+flex-grow: 0;
+}
+
+.elig-button{
+	
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 18px;
+/* identical to box height, or 129% */
+
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.861539px;
+
+/* Primary/Green */
+
+color: #00857C;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+flex-grow: 0;
+}
+
+.elig-checkbox{
+	padding-right: 12px;
+	accent-color: black;
+}
+
+.elig-ack{
+	display: flex;
+	gap: 12px;
+}
+
+.btn-fill{
+	background-color: #00857C;
+
+}
+.btn-contentfill{
+	color: white;
+}
+
+.search{
+	width: 16px;
+	height: 18px;
+}
+
+.cons-container{
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 16px;
+	/*gap: 16px;*/
+	margin-bottom: 40px;
+	background: #FFFFFF;
+	border: 1px solid #D8D8D8;
+	border-radius: 8px;
+	flex: none;
+	order: 2;
+	align-self: stretch;
+	flex-grow: 0;
+	margin-top: -32px;
+}
+
+.con-orgs{
+	   display: flex;
+    justify-content: space-between;
+}
+
+.confield{
+	width: 100%;
+}
+
+.con-subcontainer{
+	width: 100%;
+	padding: 16px;
+    background: #F7F7F7;
+    border-radius: 8px;
+	margin-bottom: 16px;
+}
+.con-org-field{
+	width: 100%;
+}
+
+.elig-pt{
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 16px;
+	/*gap: 8px;*/
+	background: #FFFFFF;
+	border: 1px solid #D8D8D8;
+	border-radius: 8px;
+	flex: none;
+	order: 2;
+	align-self: stretch;
+	flex-grow: 0;
+	margin-bottom: 40px;
+	margin-top: -24px;
+}
+.privacypolicy {
+	color: #333;
+	font-family: 'Invention';
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 27px;
+	padding-top: 32px;
+}
+.privacypolicy a {
+	color: #00857C;
+	font-family: 'Invention';
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 27px;
+	text-decoration-line: underline;
+}
+
+.hyperlinkcls {
+    color:#00857C !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.radio1{
+	padding-bottom: 20px;
+}
+
+.radio1 label {
+	display: flex;
+}
+
+.radio2 label {
+	display: flex;
+}
+
+.slds-form-element__label {
+	color: #333;
+	font-family: 'Invention';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 21px; /* 150% */
+}
+
+.radio2{
+	padding-bottom: 25px;
+}
+
+.bottom{
+	margin-bottom: 15px;
+}
+
+.btnenablecls {
+	background: #00857C !important;
+}
+
+.btndisable {
+	background: #A4A4A4 !important;
+	border: 2px solid #A4A4A4 !important;
+}
+
+@media only screen and (max-width: 768px) {
+
+.bottom{
+	margin-bottom: 0px;
+}
+
+.radio2{
+	padding-bottom: 16px;
+}
+
+.elig-plus{
+	/*padding-left: 40px; */
+}
+
+.elig-container{
+	display: block;
+	flex-direction: column;
+	align-items: center;
+	gap: 32px;
+	background: #FFFFFF;
+	border-radius: 8px;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+	padding: 16px;
+}
+
+.elig-head1{
+	width: auto;
+	height: auto;
+	text-align: left;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    display: block;
+    align-items: left;
+    color: #000000;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+    padding-bottom: 16px;
+}
+
+.elig-content1{
+
+/* Body/4. Large Body - 18pt, 27pt */
+text-align: left;
+font-family: 'Invention';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+/*display: flex; */
+align-items: center;
+
+color: #000000;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+padding-bottom: 16px;
+}
+
+.elig-content2{
+text-align: left;
+font-family: 'Invention';
+font-style: italic;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+display: flex;
+align-items: center;
+color: #000;
+padding-bottom: 32px;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+}
+
+.elig-addr1{
+	display: flex;
+    flex-direction: column;
+    padding: 0px;
+    gap: 0px;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+    justify-content: center;
+    align-content: flex-end;
+    flex-wrap: nowrap;
+}
+
+
+.elig-placeholder{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 21px;
+	color: #333333;
+	flex: none;
+	order: 0;
+	flex-grow: 1;
+	z-index: 0;
+	/*padding: 9px 12px 10px 12px; */
+	padding-top: 9px;
+	padding-bottom: 10px;
+	width: 3px;
+}
+
+.widthset{
+	width: 100%;
+}
+
+.elig-col{
+	width: 100%;
+}
+.elig-btngroup{
+	    display: flex;
+		/* padding-top: 32px; */
+		/* float: unset; */
+		flex-direction: column;
+		align-items: stretch;
+		gap: 10px;
+}
+.btn-fill{
+	background-color: #00857C;
+	justify-content: center;
+	width: 100%;
+}
+
+.elig-progress{
+	padding-bottom: 16px;
+}
+
+.orgbutton{
+	width: 80%;
+}
+
+.elig-button{
+	
+font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 18px;
+/* identical to box height, or 129% */
+flex-direction: row;
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.861539px;
+
+/* Primary/Green */
+
+color: #00857C;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+flex-grow: 0;
+	margin: 0px;
+}
+
+
+	
+}

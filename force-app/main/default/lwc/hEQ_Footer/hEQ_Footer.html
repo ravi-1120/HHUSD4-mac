@@ -1,0 +1,61 @@
+<template>
+    <div class="container">
+        <!-- Hyperlink -->
+        <template for:each={footermetadata} for:item="footer">
+            <div class="footerlinkcls" key={footer}>
+                <div class="linktext">
+                     <a href={footer.heq_site_map__c} target={footer.heq_site_map_target__c}>{label.HEQ_Site_map}</a>
+                </div>
+                <span class="linecls">|</span>
+                <div class="linktext">
+                    <a href={footer.heq_privacy_policy__c}
+                        target={footer.heq_privacy_policy_target__c}>{label.HEQ_Privacy_policy}</a>
+                </div>
+                <span class="linecls">|</span>
+                <div class="linktext">
+                    <a href={footer.heq_terms_of_use__c}
+                        target={footer.heq_terms_of_use_target__c}>{label.HEQ_Terms_of_use}</a>
+                </div>
+                <span class="linecls">|</span>
+                <div class="linktext">
+                    <a>{label.HEQ_Cookie_preferences}</a>
+                </div>
+                <span class="linecls">|</span>
+                <div class="linktext">
+                    <a href={footer.heq_accessibility__c}
+                        target={footer.heq_accessibility_target__c}>{label.HEQ_Accessibility}</a>
+                </div>
+                <span class="linecls accessibilitylinecls">|</span>
+                <div class="linktext privacychoicelinktext">
+                    <a href={footer.heq_your_privacy_choices__c}
+                        target={footer.heq_your_privacy_choices_target__c}>{label.HEQ_Your_Privacy_Choices}
+                        <img class="privacychoiceimage" src={HEQ_Privacy_Choices} />
+                    </a>
+                </div>
+                <span class="linecls">|</span>
+                <div class="linktext policylinktext">
+                    <a href={footer.heq_consumer_health_data_privacy_policy__c}
+                        target={footer.heq_consumer_health_data_privacy_target__c}>{label.HEQ_Consumer_health_data_privacy_policy}</a>
+                </div>
+            </div>
+        </template>
+        <!-- Merck Logo -->
+        <div class="logocls">
+            <a href={label.HEQ_MerckLogoLink} class="mercklogo" target={label.HEQ_MercklogoTarget}>
+                <img src={HEQ_MerckLogo}>
+            </a>
+            <a href={label.heq_AccessibilityLogoLink} target={label.heq_AccessibilityLogoTarget}>
+                <img src={HEQ_Accessibilitylogo}>
+            </a>
+        </div>
+        <!-- Copyright -->
+        <div>
+            <div class="copyrighttext1">
+                {label.HEQ_Copyright_Text1}
+            </div>
+            <div class="copyrighttext2">
+                {label.HEQ_Copyright_Text2}
+            </div>
+        </div>
+    </div>
+</template>

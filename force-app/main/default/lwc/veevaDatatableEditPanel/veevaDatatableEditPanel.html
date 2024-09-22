@@ -1,0 +1,21 @@
+<template>
+    <c-veeva-popover onkeydown={handleKeyDown} onvaluechange={handleValueChange} onclick={stopClickPropagation}
+        tabindex="0" size="medium">
+        <div slot="content">
+            <slot name="cellTemplate"></slot>
+            <div if:true={multiRowSelect}>
+                <lightning-input class="slds-m-horizontal_xx-small slds-p-bottom_xx-small" type="checkbox"
+                    label={checkboxLabel} onchange={handleCheckboxChange}>
+                </lightning-input>
+            </div>
+        </div>
+        <div if:true={multiRowSelect} slot="footer">
+            <div class="slds-grid slds-grid_align-end">
+                <lightning-button label={cancelLabel} title={cancelLabel} onclick={handleCancel} variant="neutral">
+                </lightning-button>
+                <lightning-button class="slds-p-left_xx-small" label={applyLabel} title={applyLabel}
+                    onclick={handleApply} variant="brand"></lightning-button>
+            </div>
+        </div>
+    </c-veeva-popover>
+</template>

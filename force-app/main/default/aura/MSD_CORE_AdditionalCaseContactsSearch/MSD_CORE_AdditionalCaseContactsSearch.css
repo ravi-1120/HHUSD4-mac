@@ -1,0 +1,18 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .customRadioCls .slds-form-element__control .slds-radio{
+    display : inline-block !important;
+}
+.THIS .slds-form-element__legend {
+    display: none;
+}
+.THIS .box {
+    width: 690px;
+    border: 1px solid #eee;
+    padding: 0 10px;
+    border-radius: 3px;
+}
+.THIS .slds-form-element {
+    margin-bottom: 10px;
+}

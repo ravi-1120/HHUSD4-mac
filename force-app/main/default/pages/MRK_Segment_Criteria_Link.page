@@ -1,0 +1,8 @@
+<apex:page standardController="Account">
+    <p>
+    <br></br>
+    <font size="2" face="verdana" color="blue">
+    <b><a href="https://c.na12.visual.force.com/apex/MRK_Segment_Criteria_Content?sfdc.tabName=01rU0000000JT9j" target="_blank">Segment Criteria / Tactical Plan Information</a></b>
+    </font>
+    </p>
+</apex:page>

@@ -1,0 +1,39 @@
+<template>
+  <c-veeva-popover onclose={dispatchClose} onkeydown={handleKeyDown} class="top-offest-popover" size="medium"
+    show-close-button="true" close-button-variant="inverse" type="error" nubbin="bottom">
+    <div slot="header">
+      <div class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-media__figure">
+          <lightning-icon icon-name="utility:error" alternative-text="Error!" size="x-small" variant="inverse"
+            title="inverse variant">
+          </lightning-icon>
+        </div>
+        <h2 class="slds-truncate slds-text-heading_medium" title={defaultSnagLabel}>{defaultSnagLabel}</h2>
+      </div>
+    </div>
+    <div class="popover-body" slot="content">
+      <div if:true={showRecordErrors}>
+        <strong>{defaultPageErrorsLabel}</strong>
+        <ul if:true={recordErrors} class="slds-list_dotted">
+          <template for:each={recordErrors} for:item="recordError">
+            <li key={recordError}>
+              {recordError}
+            </li>
+          </template>
+        </ul>
+      </div>
+      <div if:true={addGapBetweenSections} class="slds-m-top_small"></div>
+      <div if:true={showFieldErrors}>
+        <strong>{defaultFieldErrorsLabel}</strong>
+        <ul if:true={fieldErrors} class="slds-list_dotted">
+          <template for:each={fieldErrors} for:item="fieldError">
+            <li key={fieldError.index}>
+              <a href="javascript:void(0)" data-index={fieldError.index}
+                onclick={handleClick}>{fieldError.fieldLabel}</a>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </div>
+  </c-veeva-popover>
+</template>

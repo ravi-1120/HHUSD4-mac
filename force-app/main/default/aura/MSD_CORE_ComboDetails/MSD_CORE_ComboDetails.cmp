@@ -1,0 +1,2105 @@
+<aura:component extends="c:ComponentUtils" controller="CaseControllerMVN" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="recordTypeId" type="String"/>
+    <aura:attribute name="recordTypeName" type="String"/>
+    <aura:attribute name="userProfileName" type="String" default="MSD_CORE Contact Center - Read Only User"/>
+    <aura:attribute name="ownerId" type="String"/>
+    <aura:attribute name="casestatus" type="String"/>
+    <aura:attribute name="reloadForm" type="boolean" default="true" />
+    <aura:attribute name="sectionName" type="String" default="AE Details"/>
+    <aura:attribute name="selTabId" type="String" default="AE Details"/>
+    <aura:attribute name="isEdit" type="Boolean" default="false" />
+    <aura:attribute name="isEditForQIR" type="Boolean" default="false" />
+    <aura:attribute name="refreshRL" type="Boolean" default="true" />
+    <aura:attribute name="isChecked" type="Boolean" default="true" />
+    <aura:attribute name="fielddata" type="CaseControllerMVN.CaseAERequiredFieldWrapper[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showAll" type="Boolean" default="true" />
+    
+    <aura:attribute name="showAETab" type="Boolean" default="true"/>
+    <aura:attribute name="showPQCTab" type="Boolean" default="true"/>
+    <aura:attribute name="showAlert" type="Boolean" default="false" />
+    <aura:attribute name="showProductButton" type="Boolean" default="false" />
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <aura:registerEvent name="refreshRecordTypeMVNEvent" type="c:refreshRecordTypeMVNEvent"/> 
+    <aura:handler event="c:refreshRecordTypeMVNEvent" action="{!c.handleRefreshRecordTypeMVN}"/>
+    
+    <aura:attribute name="customActions" type="List" default="[
+                                                              { label: 'Edit', name: 'Edit' }
+                                                              ]"/>
+    
+    <aura:attribute name="contactColumns" type="List" default="[
+                                                               { label: 'Description', fieldName: 'MSD_CORE_Description__c', type: 'url', typeAttributes: {label: { fieldName: 'Name' }, target: '_top'} },
+                                                               { label: 'Transmission Date', fieldName: 'MSD_CORE_Transmission_Date__c', type:'text'},
+                                                               { label: 'Destination/Recipient', fieldName: 'MSD_CORE_Destination_Recipient__c', type: 'text' },
+                                                               { label: 'No. of Attachments', fieldName: 'MSD_CORE_No_of_Attachments__c', type:'text'},
+                                                               { label: 'No. of Notes', fieldName: 'MSD_CORE_No_of_Notes__c', type:'text'},
+                                                               ]"/>
+    
+    <aura:attribute name="productColumns" type="List" default="[
+                                                               { label: 'Product Name', fieldName: 'MSD_CORE_Product_Name__c', type: 'text'},
+                                                               { label: 'Lot Number', fieldName: 'MSD_CORE_Lot_Number__c', type:'text'},
+                                                               { label: 'Expiration Date', fieldName: 'MSD_CORE_Expiration_Date__c', type: 'text' },
+                                                               { label: 'Dose/Frequency', fieldName: 'MSD_CORE_Dose_Frequency__c', type:'text'},
+                                                               { label: 'Hazardous Product?', fieldName: 'MSD_CORE_Hazardous_Product__c', type:'boolean'},
+                                                               { label: 'Product Qty', fieldName: 'MSD_CORE_Product_Qty__c', type:'text'},
+                                                               { label: 'Related to', fieldName: 'MSD_CORE_Related_to__c', type:'text'},
+                                                               { label: 'Primary Product?', fieldName: 'MSD_CORE_Primary_Product__c', type:'text'},
+                                                               { label: 'Obtain', fieldName: 'MSD_CORE_Obtain__c', type:'text'},
+                                                               { label: 'Product Return Date', fieldName: 'MSD_CORE_Product_Return_Date__c', type:'text'}
+                                                               ]"/>
+    
+    <aura:attribute name="casehistoryColumns" type="List" default="[
+                                                                   { label: 'CreatedDateId', fieldName: 'CreatedDateId', type: 'text'},
+                                                                   { label: 'Field', fieldName: 'Field', type:'text'},
+                                                                   { label: 'NewValue', fieldName: 'NewValue', type: 'text' },
+                                                                   { label: 'OldValue', fieldName: 'OldValue', type:'text'}
+                                                                   ]"/>
+    
+    <aura:attribute name="accColumns" type="List" default="[
+                                                           { label: 'Related To', fieldName: 'MSD_CORE_Related_to__c', type: 'text'},
+                                                           { label: 'First Name', fieldName: 'MSD_CORE_First_Name__c', type:'text'},
+                                                           { label: 'Last Name', fieldName: 'MSD_CORE_Last_Name__c', type: 'text' },
+                                                           { label: 'Type', fieldName: 'MSD_CORE_Type__c', type:'text'},
+                                                           { label: 'Primary Contact', fieldName: 'MSD_CORE_Primary_Contact__c', type:'text'},
+                                                           { label: 'Correspondence Contact', fieldName: 'MSD_CORE_Correspondence_Contact__c', type:'text'},
+                                                           { label: 'Permission to Contact?', fieldName: 'MSD_CORE_Permission_to_Contact__c', type:'text'},
+                                                           { label: 'Insertion HCP', fieldName: 'MSD_CORE_Insertion_HCP__c', type:'text'},
+                                                           { label: 'Removal HCP', fieldName: 'MSD_CORE_Removal_HCP__c', type:'text'},
+                                                           { label: 'Contact Number', fieldName: 'Name', type:'text'},
+                                                           ]"/>
+    
+    <aura:attribute name="alertteams" type="List" default="[
+                                                           {'label': 'Select an Option', 'value': ''},
+                                                           {'label': 'Legal', 'value': 'Legal'},
+                                                           {'label': 'Pregnancy', 'value': 'Pregnancy'},
+                                                           {'label': 'Security', 'value': 'Security'},
+                                                           {'label': 'VZV', 'value': 'VZV'}
+                                                           ]"/>
+    
+    <aura:attribute name="sectionList" type="List" default="['AE Details', 'IRRE Details', 'PQC Details', 'Products', 
+                                                            'CDT Details': 'Case Details']"/>
+    
+    <aura:attribute name="activeSections" type="List" default="['PSP']"/>
+    <aura:attribute name="activeAESections" type="List" default="['PatientInformation','AEDetails']"/>
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+    
+    <aura:if isTrue="{!and(v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+        <aura:if isTrue="{!v.isEdit == true}">
+            <lightning:recordEditForm 
+                                      aura:id="recordViewForm" 
+                                      recordId="{!v.recordId}" 
+                                      onsuccess="{!c.handleSuccess}" 
+                                      onsubmit="{!c.handleSubmit}"
+                                      onload="{!c.handleLoad}"
+                                      onerror="{!c.handleError}"
+                                      recordTypeId="{!v.recordTypeId}"
+                                      objectApiName="Case">
+                
+                <lightning:messages />
+                
+                <aura:if isTrue="{!and(v.casestatus == 'Open', v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                    <input type="button" class="slds-button slds-button_brand" 
+                           value="Edit" 
+                           onclick="{!c.doEdit}"
+                           style="position: absolute;
+                                  z-index: 10;
+                                  right: -11px;
+                                  top: -35px;"/>
+                </aura:if>
+                
+                <article class="slds-card slds-card_boundary" style="{!(v.isEdit == false ? 'padding: 1px;' : 'padding: 1px; min-height: 500px;')}">
+                    <div class="slds-media__body">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:inputField fieldName="Status"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small at">
+                                <div class="at">
+                                    <!--<lightning:combobox name="Alert Teams" label="Alert Teams" placeholder="Alert Teams" options="{!v.alertteams}" onchange="{! c.handleChange }"/>
+                                 -->
+                                    <label class="slds-form-element__label" style="padding: 0px;
+                                                                                   margin: 0;
+                                                                                   margin-top: 5px;">Alert Teams</label>
+                                    <div class="slds-combobox_container">
+                                        <div role="combobox" aria-expanded="false" aria-haspopup="listbox" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click">
+                                            <div role="none" class="icondown slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" onclick="{!c.showAlertPopup}">
+                                                <input id="input-724" type="text" role="textbox" autocomplete="off" name="Alert Teams" placeholder="Select Teams" readonly="true" class="slds-input slds-combobox__input"/>
+                                                <div class="slds-input__icon-group slds-input__icon-group_right">
+                                                    <lightning:icon iconName="utility:down" size="small" alternativeText="Approved" />
+                                                </div>
+                                            </div>
+                                            
+                                            <aura:if isTrue="{!v.showAlert}">
+                                                <div onmouseleave="{!c.hideAlertPopup}" style="z-index: 3; display:block; visibility: visible; opacity: 1;" role="listbox" class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-dropdown_length-with-icon-10 slds-dropdown_left">
+                                                    <div class="slds-media slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" aria-selected="false">
+                                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                                            <ui:inputCheckbox aura:id="chkMSD_CORE_Legal_Alert__c" value="{!v.fielddata[0].cs.MSD_CORE_Legal_Alert__c}" change="{!c.setAlertField}"/>
+                                                        </span>
+                                                        <span class="slds-media__body">
+                                                            <span title="Legal" class="slds-truncate">Legal</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="slds-media slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" aria-selected="false">
+                                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                                            <ui:inputCheckbox aura:id="chkMSD_CORE_Alert_Pregnancy__c" value="{!v.fielddata[0].cs.MSD_CORE_Alert_Pregnancy__c}" change="{!c.setAlertField}"/>
+                                                        </span>
+                                                        <span class="slds-media__body">
+                                                            <span title="Pregnancy" class="slds-truncate">Pregnancy</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="slds-media slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" aria-selected="false">
+                                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                                            <ui:inputCheckbox aura:id="chkMSD_CORE_Alert_Security__c" value="{!v.fielddata[0].cs.MSD_CORE_Alert_Security__c}" change="{!c.setAlertField}"/>
+                                                        </span>
+                                                        <span class="slds-media__body">
+                                                            <span title="Security" class="slds-truncate">Security</span>
+                                                        </span>
+                                                    </div>
+                                                    <div id="input-590-0-590" class="slds-media slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" aria-selected="false">
+                                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                                            <ui:inputCheckbox aura:id="chkMSD_CORE_Alert_VZV__c" value="{!v.fielddata[0].cs.MSD_CORE_Alert_VZV__c}" change="{!c.setAlertField}"/>
+                                                        </span>
+                                                        <span class="slds-media__body">
+                                                            <span title="VZV" class="slds-truncate">VZV</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<c:MSD_CORE_MultiSelect infoText="Alert Teams"></c:MSD_CORE_MultiSelect> -->
+                                
+                                <lightning:inputField style="display:none;" aura:id="MSD_CORE_Legal_Alert__c" fieldName="MSD_CORE_Legal_Alert__c"/>
+                                <lightning:inputField style="display:none;" aura:id="MSD_CORE_Alert_Pregnancy__c" fieldName="MSD_CORE_Alert_Pregnancy__c"/>
+                                <lightning:inputField style="display:none;" aura:id="MSD_CORE_Alert_Security__c" fieldName="MSD_CORE_Alert_Security__c"/>
+                                <lightning:inputField style="display:none;" aura:id="MSD_CORE_Alert_VZV__c" fieldName="MSD_CORE_Alert_VZV__c"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:inputField fieldName="AE_Start_Date_MVN__c"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:inputField fieldName="MSD_CORE_AE_PQC_Company_Awareness_Date__c"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:inputField fieldName="Origin"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="OwnerId"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <!-- KRB New Detail Field added 22R2.0 3/3/2022 -->
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:inputField fieldName="MSD_CORE_DHS_Number__c"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                         <!-- PT new check Box Field is created -->
+                        <lightning:layout>                          
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                             <lightning:inputField  fieldName="MSD_Core_Multiple_Patients_Involved__c"  />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Combo Case Preview'}">
+                            <lightning:accordion activeSectionName="PSP" allowMultipleSectionsOpen="true">
+                                <!--activeSectionName="{!v.activeSections}"-->
+                                <lightning:accordionSection name="PSP" label="Patient Support Program (PSP)">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Program_Name__c"/>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Program_Name_Other__c"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Number__c"/>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Number_Other__c"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Company__c"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Company_Other__c"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Agent_Name__c"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:accordionSection>
+                            </lightning:accordion>
+                        </aura:if>
+                    </div>
+                </article>
+                
+                <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Combo Case Preview'}">
+                    <article class="slds-car slds-car_boundary" style="padding: 1px;">
+                        <div class="slds-media__body slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+                            <lightning:tabset selectedTabId="{!v.selTabId}" onselect="{!c.tabSelected}" variant="scoped">
+                                <aura:if isTrue="{!and(v.fielddata[0].cs.RecordType.Name != 'Product Complaint',v.fielddata[0].cs.RecordType.Name != 'Product Complaint - Closed')}">
+                                    <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Product Complaint - Submitted'}">
+                                        <aura:if isTrue="{!v.showAETab == true}">
+                                            <lightning:tab label="AE Details" id="AE Details" onactive="{!c.hidePButton}">
+                                                <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{!v.activeAESections}">
+                                                    <lightning:accordionSection name="PatientInformation" label="Patient Information">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="Patient_First_Name_MVN__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="Patient_Last_Name_MVN__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Date_of_Birth__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Age__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Gender__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Patient_Pregnant__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Pregnancy_Gestation_or_LMP__c"/>
+                                                            </lightning:layoutItem>
+                                                            <aura:if isTrue="{!or(v.userProfileName == 'System Administrator', v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Height__c"/>
+                                                                </lightning:layoutItem>  
+                                                            </aura:if>
+                                                        </lightning:layout>
+                                                        <aura:if isTrue="{!or(v.userProfileName == 'System Administrator', v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Weight__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        </aura:if>
+                                                    </lightning:accordionSection>
+                                                    
+                                                    <lightning:accordionSection name="AEDetails" label="AE Details">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Indication__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Route_of_Administration__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Therapy_Start_Date__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Was_Therapy_Discontinued__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Therapy_End_Date__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Dechallenge__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Rechallenge__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Sought_Medical_Attention__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Was_Treatment_Given_for_AE__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Treatment_Provided__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Present_Status__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Recovery_Date__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Concomitant_Medication__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Pertinent_Medical_History__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Drug_Reactions_Allergies__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Lab_Diagnostics_Studies__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Hospitalization_or_Prolonged__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Life_Threatening__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Sig_Disability_or_Incapacity__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Was_AE_Congenital_Anomaly__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Did_the_Patient_Die__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Cause_of_Death__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Date_of_Death__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Was_the_AE_Cancer__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Overdose__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Intervention_Prevent_Serious__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                    </lightning:accordionSection>
+                                                </lightning:accordion>
+                                            </lightning:tab>
+                                        </aura:if>
+                                         <!-- Comment this below Lightning tab to remove IRRE Details Section CEF2F-8446 -->
+                                         <aura:if isTrue="{!v.userProfileName == 'System Administrator'}">
+                                          <lightning:tab label="IRRE Details" id="IRRE Details" onactive="{!c.hidePButton}">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_IRRE_Reported__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_IRRE_Onset_Date__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Insertion_Date__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Difficulty__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Difficulty_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Multiple_Insertion__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Multiple_Insertion_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Deep_Insertion__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Deep_Insertion_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Incorrect_Insertion__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Location__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Palpable_At_Any_Time__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Broken_Cut__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Bent__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Doubt_About_Presence__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Doubt_Details__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Localization_Problem__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Located_Ultrasound__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Located_by_MRI__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Migration__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Migration_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Partial_Complete_Expulsion__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Expulsion_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Removal_Date__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Procedure_Used_for_Removal__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Problem__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Problem_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Incision_Enlarged__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Under_Anesthesia__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Anesthesia_Removal_Details__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Significant_Fibrosis__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Other_IRRE_Details__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:tab> 
+                                        </aura:if>
+                                    </aura:if>
+                                </aura:if>
+                                <aura:if  isTrue="{!and(and(v.fielddata[0].cs.RecordType.Name != 'Adverse Event',v.fielddata[0].cs.RecordType.Name != 'Adverse Event - Closed'), v.fielddata[0].cs.RecordType.Name != 'Adverse Event - Submitted')}">
+                                    <aura:if isTrue="{!v.showPQCTab}">
+                                        <lightning:tab label="PQC Details" id="PQC Details" onactive="{!c.hidePButton}">
+                                            <lightning:layout>
+                                                <!-- This is removed as part of CEF2F-23512 -->
+                                               <!-- <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Operator_of_Device__c"/>
+                                                </lightning:layoutItem> -->
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly"  fieldName="MSD_CORE_PQC_User_Experience__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_Priority__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <span class="slds-form-element__label">QIR Requested?</span>
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_QIR_Requested__c" variant="label-hidden"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:inputField class="slds-form-element_readonly  " fieldName="MSD_CORE_QIR_Received_Date__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                           
+                                        </lightning:tab>
+                                    </aura:if>
+                                </aura:if>
+                                
+                                <lightning:tab label="Products" id="Products" onactive="{!c.showPButton}">
+                                    <aura:if isTrue="{!v.refreshRL == true}">
+                                        <div style="height: 260px;">
+                                            <c:MSD_CORE_RelatedList recordId="{!v.recordId}" 
+                                                                    sobjectApiName="MSD_CORE_AE_Product__c"
+                                                                    relatedFieldApiName="MSD_CORE_Adverse_Event__c"
+                                                                    sortedBy="MSD_CORE_Product_Name__c"
+                                                                    fields="MSD_CORE_Product_Name__c, 
+                                                                            MSD_CORE_Lot_Number__c, 
+                                                                            MSD_CORE_Expiration_Date__c, 
+                                                                            MSD_CORE_Dose_Frequency__c, 
+                                                                            MSD_CORE_Hazardous_Product__c,
+                                                                            MSD_CORE_Product_Qty__c,
+                                                                            MSD_CORE_Related_to__c,
+                                                                            MSD_CORE_Primary_Product__c,
+                                                                            MSD_CORE_Obtain__c,
+                                                                            MSD_CORE_Product_Return_Date__c"
+                                                                    columns="{!v.productColumns}"
+                                                                    customActions="{!v.customActions}"
+                                                                    showNewButton="false"></c:MSD_CORE_RelatedList>
+                                        </div>
+                                    </aura:if>
+                                </lightning:tab>
+                                
+                                <lightning:tab label="CDT/Feedback" id="CDT/Feedback" onactive="{!c.hidePButton}">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_Feedback__c"/>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_FeedbackClassification__c"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_CDT__c"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                                 <!-- New Tab called MARRS Section CEF2F - 8520-->
+                                  <lightning:tab label="MARRS Details" id="MARRS Details" onactive="{!c.hidePButton}">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_MARRS_Number__c"/>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </article>
+                </aura:if>
+                <aura:if isTrue="{!v.isEdit == true}">
+                    <div style="float: left; width: 100%; padding: 10px; text-align: center; position: fixed; bottom: 45px; right: 8px;">
+                        <lightning:button 
+                                          variant="brand" 
+                                          type="submit"
+                                          name="save" 
+                                          label="Save" 
+                                          onclick="{!c.doSave}"/>
+                        
+                        <lightning:button 
+                                          variant="neutral"
+                                          name="cancel" 
+                                          label="Cancel"
+                                          onclick="{!c.stopEdit}"/>
+                        
+                    </div>
+                </aura:if>
+            </lightning:recordEditForm>
+            <aura:if isTrue="{!v.showProductButton == true}">
+                <c:MSD_CORE_CC_Add_Product recordId="{!v.recordId}" ></c:MSD_CORE_CC_Add_Product>
+            </aura:if>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.isEdit == false}">
+            <lightning:recordEditForm aura:id="recordViewForm"
+                                      recordId="{!v.recordId}" 
+                                      onsuccess="{!c.handleSuccess}" 
+                                      onload="{!c.handleLoad}"
+                                      onerror="{!c.handleError}"
+                                      recordTypeId="{!v.recordTypeId}"
+                                      objectApiName="Case">
+                
+                <lightning:messages />
+                
+                <aura:if isTrue="{!and(v.casestatus == 'Open', v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                    <input type="button" class="slds-button slds-button_brand" 
+                           value="Edit" 
+                           onclick="{!c.doEdit}"
+                           style="position: absolute;
+                                  z-index: 10;
+                                  right: -11px;
+                                  top: -35px;"/>
+                </aura:if>
+                
+                <aura:if isTrue="{!and(v.casestatus == 'Submitted', v.fielddata[0].cs.MSD_CORE_PQC_QIR_Requested__c, v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                    <input type="button" class="slds-button slds-button_brand" 
+                           value="Edit" 
+                           onclick="{!c.doEditForQIR}"
+                           style="position: absolute;
+                                  z-index: 10;
+                                  right: -11px;
+                                  top: -35px;"/>
+                </aura:if>
+                
+                <article class="slds-card slds-card_boundary" style="{!(v.isEdit == false ? 'padding: 1px;' : 'padding: 1px; min-height: 500px;')}">
+                    <div class="slds-media__body">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="Status"/>
+                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <aura:if isTrue="{!v.isEdit == false}">
+                                    <label class="slds-form-element__label">Alert Teams</label>
+                                    <br/>
+                                    
+                                    <span class="slds-form-element__static">
+                                        <aura:if isTrue="{!v.reloadForm}">
+                                            <aura:if isTrue="{!v.fielddata[0].cs.MSD_CORE_Legal_Alert__c == true}">
+                                                Legal, 
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fielddata[0].cs.MSD_CORE_Alert_Pregnancy__c == true}">
+                                                Pregnancy, 
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fielddata[0].cs.MSD_CORE_Alert_Security__c == true}">
+                                                Security, 
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fielddata[0].cs.MSD_CORE_Alert_VZV__c == true}">
+                                                VZV
+                                            </aura:if>
+                                        </aura:if>
+                                    </span>
+                                </aura:if>
+                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="AE_Start_Date_MVN__c"/>
+                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="MSD_CORE_AE_PQC_Company_Awareness_Date__c"/>
+                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="Origin"/>
+                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="OwnerId"/>
+                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <!-- KRB New Detail Field added 22R2.0 3/3/2022 -->
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="MSD_CORE_DHS_Number__c"/>
+                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                            </lightning:layoutItem>
+                       </lightning:layout>
+                        <!--PT New chekcBox Field is added-->
+                        <lightning:layout>
+                           <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:inputField fieldName="MSD_Core_Multiple_Patients_Involved__c" disabled="true"/>
+                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                                  
+                        <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Combo Case Preview'}">
+                            <lightning:accordion activeSectionName="PSP">
+                                <lightning:accordionSection name="PSP" label="Patient Support Program (PSP)">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Program_Name__c"/>
+                                            <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Program_Name_Other__c"/>
+                                            <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                        </lightning:layoutItem>
+                                        
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Number__c"/>
+                                            <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Number_Other__c"/>
+                                            <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Company__c"/>
+                                            <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Company_Other__c"/>
+                                            <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                        </lightning:layoutItem>
+                                        
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Agent_Name__c"/>
+                                            <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:accordionSection>
+                            </lightning:accordion>
+                        </aura:if>
+                    </div>
+                </article>
+                
+                <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Combo Case Preview'}">
+                    <article class="slds-car slds-car_boundary" style="padding: 1px; margin-top: 10px;">
+                        <div class="slds-media__body slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+                            <lightning:tabset selectedTabId="{!v.selTabId}" onselect="{!c.tabSelected}" variant="scoped">
+                                <aura:if isTrue="{!and(v.fielddata[0].cs.RecordType.Name != 'Product Complaint',v.fielddata[0].cs.RecordType.Name != 'Product Complaint - Closed')}">
+                                    <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Product Complaint - Submitted'}">
+                                        <aura:if isTrue="{!v.showAETab == true}">
+                                            <lightning:tab label="AE Details" id="AE Details" onactive="{!c.hidePButton}">
+                                                <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{!v.activeAESections}">
+                                                    <lightning:accordionSection name="PatientInformation" label="Patient Information">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="Patient_First_Name_MVN__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="Patient_Last_Name_MVN__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Date_of_Birth__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Age__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Gender__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Patient_Pregnant__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Pregnancy_Gestation_or_LMP__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <aura:if isTrue="{!or(v.userProfileName == 'System Administrator', v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Height__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            </aura:if>
+                                                        </lightning:layout>
+                                                        <aura:if isTrue="{!or(v.userProfileName == 'System Administrator', v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Weight__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        </aura:if>
+                                                    </lightning:accordionSection>
+                                                    
+                                                    <lightning:accordionSection name="AEDetails" label="AE Details">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Indication__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Route_of_Administration__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Therapy_Start_Date__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Was_Therapy_Discontinued__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        
+                                                        
+                                                        <lightning:layout>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Therapy_End_Date__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>           
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Dechallenge__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Rechallenge__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Sought_Medical_Attention__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Was_Treatment_Given_for_AE__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Treatment_Provided__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Present_Status__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Recovery_Date__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Concomitant_Medication__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>     
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Pertinent_Medical_History__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            
+                                                            
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Drug_Reactions_Allergies__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Lab_Diagnostics_Studies__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Hospitalization_or_Prolonged__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Life_Threatening__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Sig_Disability_or_Incapacity__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Was_AE_Congenital_Anomaly__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Did_the_Patient_Die__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Cause_of_Death__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Date_of_Death__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Was_the_AE_Cancer__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Overdose__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Intervention_Prevent_Serious__c"/>
+                                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                    </lightning:accordionSection>
+                                                </lightning:accordion>
+                                            </lightning:tab>
+                                        </aura:if>
+                                         <!-- Comment this below Lightning tab to remove IRRE Details Section CEF2F-8446 -->
+                                        <aura:if isTrue="{!v.userProfileName == 'System Administrator'}">
+                                        <lightning:tab label="IRRE Details" id="IRRE Details" onactive="{!c.hidePButton}">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_IRRE_Reported__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_IRRE_Onset_Date__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Insertion_Date__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Difficulty__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Difficulty_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Multiple_Insertion__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Multiple_Insertion_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Deep_Insertion__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Deep_Insertion_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Incorrect_Insertion__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Location__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Palpable_At_Any_Time__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Broken_Cut__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Bent__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Doubt_About_Presence__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Doubt_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Localization_Problem__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Located_Ultrasound__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Located_by_MRI__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Migration__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Migration_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Partial_Complete_Expulsion__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Expulsion_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Removal_Date__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Procedure_Used_for_Removal__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Problem__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Problem_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Incision_Enlarged__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Under_Anesthesia__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Anesthesia_Removal_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Significant_Fibrosis__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Other_IRRE_Details__c"/>
+                                                    <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:tab>
+                                        </aura:if>
+                                    </aura:if>
+                                </aura:if>
+                                
+                                <aura:if  isTrue="{!and(and(v.fielddata[0].cs.RecordType.Name != 'Adverse Event',v.fielddata[0].cs.RecordType.Name != 'Adverse Event - Closed'), v.fielddata[0].cs.RecordType.Name != 'Adverse Event - Submitted')}">
+                                    <aura:if isTrue="{!v.showPQCTab}">
+                                        <lightning:tab label="PQC Details" id="PQC Details" onactive="{!c.hidePButton}">
+                                            <lightning:layout>
+                                                <!--<lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <aura:if isTrue="{!v.isEdit == false}">
+                                                        <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Operator_of_Device__c"/>
+                                                        <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                        <aura:set attribute="else">
+                                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Operator_of_Device__c"/>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </lightning:layoutItem> -->
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <aura:if isTrue="{!v.isEdit == false}">
+                                                        <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_User_Experience__c"/>
+                                                        <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                        <aura:set attribute="else">
+                                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_User_Experience__c"/>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            <!-- Added by Rakesh kumar as part of CEF2F-25941 -->
+                                            <lightning:layout>
+                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    
+                                                        <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_COVE_Veeva_ID__c"/>
+                                                      
+                                                   
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <aura:if isTrue="{!v.isEdit == false}">
+                                                        <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_Priority__c"/>
+                                                        <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                        <aura:set attribute="else">
+                                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_Priority__c"/>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <aura:if isTrue="{!v.isEditForQIR == false}">
+                                                        <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_QIR_Requested__c"/>
+                                                        <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                        <aura:set attribute="else">
+                                                            <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_QIR_Requested__c"/>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <aura:if isTrue="{!v.isEditForQIR == false}">
+                                                        <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_QIR_Received_Date__c"/>
+                                                        <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                        <aura:set attribute="else">
+                                                            <lightning:inputField class="slds-form-element_readonly " fieldName="MSD_CORE_QIR_Received_Date__c"/>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:tab>
+                                    </aura:if>
+                                </aura:if>
+                                
+                                <lightning:tab label="Products" id="Products" onactive="{!c.showPButton}">
+                                    <aura:if isTrue="{!v.refreshRL == true}">
+                                        <div style="height: 260px;">
+                                            <c:MSD_CORE_RelatedList recordId="{!v.recordId}" 
+                                                                    sobjectApiName="MSD_CORE_AE_Product__c"
+                                                                    relatedFieldApiName="MSD_CORE_Adverse_Event__c"
+                                                                    sortedBy="MSD_CORE_Product_Name__c"
+                                                                    fields="MSD_CORE_Product_Name__c, 
+                                                                            MSD_CORE_Lot_Number__c, 
+                                                                            MSD_CORE_Expiration_Date__c, 
+                                                                            MSD_CORE_Dose_Frequency__c, 
+                                                                            MSD_CORE_Hazardous_Product__c,
+                                                                            MSD_CORE_Product_Qty__c,
+                                                                            MSD_CORE_Related_to__c,
+                                                                            MSD_CORE_Primary_Product__c,
+                                                                            MSD_CORE_Obtain__c,
+                                                                            MSD_CORE_Product_Return_Date__c"
+                                                                    columns="{!v.productColumns}"
+                                                                    customActions="{!v.customActions}"
+                                                                    showNewButton="false"></c:MSD_CORE_RelatedList>
+                                        </div>
+                                    </aura:if>
+                                </lightning:tab>
+                                
+                                <lightning:tab label="CDT/Feedback" id="CDT/Feedback" onactive="{!c.hidePButton}">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_Feedback__c"/>
+                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_Feedback__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_FeedbackClassification__c"/>
+                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_FeedbackClassification__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_CDT__c"/>
+                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_CDT__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                                 <!-- New Tab called MARRS Section CEF2F - 8520-->
+                                  <lightning:tab label="MARRS Details" id="MARRS Details" onactive="{!c.hidePButton}">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_MARRS_Number__c"/>
+                                                <lightning:icon iconName="utility:edit" size="small" alternativeText="Edit Status" onclick="{!c.doEdit}"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_MARRS_Number__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </article>
+                </aura:if>
+                <aura:if isTrue="{!v.isEdit == true}">
+                    <div style="float: left; width: 100%; padding: 10px; text-align: center; position: fixed; bottom: 45px; right: 8px;">
+                        <lightning:button 
+                                          variant="brand" 
+                                          type="submit"
+                                          name="save" 
+                                          label="Save" 
+                                          onclick="{!c.doSave}"/>
+                        
+                        <lightning:button 
+                                          variant="neutral"
+                                          name="cancel" 
+                                          label="Cancel"
+                                          onclick="{!c.stopEdit}"/>
+                        
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!v.isEditForQIR == true}">
+                    <div style="float: left; width: 100%; padding: 10px; text-align: center; position: fixed; bottom: 45px; right: 8px;">
+                        <lightning:button 
+                                          variant="brand" 
+                                          type="submit"
+                                          name="save" 
+                                          label="Save" 
+                                          onclick="{!c.doSave}"/>
+                        
+                        <lightning:button 
+                                          variant="neutral"
+                                          name="cancel" 
+                                          label="Cancel"
+                                          onclick="{!c.stopEdit}"/>
+                        
+                    </div>
+                </aura:if>
+            </lightning:recordEditForm>
+            <aura:if isTrue="{!v.showProductButton == true}">
+                <c:MSD_CORE_CC_Add_Product recordId="{!v.recordId}" ></c:MSD_CORE_CC_Add_Product>
+            </aura:if>
+        </aura:if>
+    </aura:if>
+    
+    <aura:if isTrue="{!or(v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+        <lightning:recordViewForm recordId="{!v.recordId}" 
+                                  objectApiName="Case">
+            
+            <lightning:messages />
+            <aura:if isTrue="{!v.reloadForm}">
+                <aura:if isTrue="{!and(v.casestatus == 'Open', v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                    <input type="button" class="slds-button slds-button_brand" 
+                           value="Edit" 
+                           onclick="{!c.doEdit}"
+                           style="float: right; top: -44px;"/>
+                </aura:if>
+                
+                <aura:if isTrue="{!and(v.casestatus == 'Submitted', v.fielddata[0].cs.MSD_CORE_PQC_QIR_Requested__c, v.userProfileName != 'MSD_CORE Contact Center - Read Only User', v.userProfileName != 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                    <input type="button" class="slds-button slds-button_brand" 
+                           value="Edit" 
+                           onclick="{!c.doEditForQIR}"
+                           style="float: right; top: -44px;"/>
+                </aura:if>
+                
+                <article class="slds-card slds-card_boundary" style="{!(v.isEdit == false ? 'padding: 1px;' : 'padding: 1px; min-height: 500px;')}">
+                    <div class="slds-media__body">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="Status"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <aura:if isTrue="{!v.isEdit == false}">
+                                    <label class="slds-form-element__label">Alert Teams</label>
+                                    <br/>
+                                    
+                                    <span class="slds-form-element__static">
+                                        <aura:if isTrue="{!v.reloadForm}">
+                                            <aura:if isTrue="{!v.fielddata[0].cs.MSD_CORE_Legal_Alert__c == true}">
+                                                Legal, 
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fielddata[0].cs.MSD_CORE_Alert_Pregnancy__c == true}">
+                                                Pregnancy, 
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fielddata[0].cs.MSD_CORE_Alert_Security__c == true}">
+                                                Security, 
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fielddata[0].cs.MSD_CORE_Alert_VZV__c == true}">
+                                                VZV
+                                            </aura:if>
+                                        </aura:if>
+                                    </span>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="AE_Start_Date_MVN__c"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="MSD_CORE_AE_PQC_Company_Awareness_Date__c"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="Origin"/>
+                            </lightning:layoutItem>
+                            
+                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                <lightning:outputField fieldName="OwnerId"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Combo Case Preview'}">
+                            <lightning:accordion activeSectionName="PSP">
+                                <lightning:accordionSection name="PSP" label="Patient Support Program (PSP)">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Program_Name__c"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Program_Name_Other__c"/>
+                                        </lightning:layoutItem>
+                                        
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Number__c"/>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Number_Other__c"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Company__c"/>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Company_Other__c"/>
+                                        </lightning:layoutItem>
+                                        
+                                    </lightning:layout>
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PSP_Agent_Name__c"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:accordionSection>
+                            </lightning:accordion>
+                        </aura:if>
+                    </div>
+                </article>
+                
+                <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Combo Case Preview'}">
+                    <article class="slds-car slds-car_boundary" style="padding: 1px; margin-top: 10px;">
+                        <div class="slds-media__body slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+                            <lightning:tabset selectedTabId="{!v.selTabId}" onselect="{!c.tabSelected}" variant="scoped">
+                                <aura:if isTrue="{!and(v.fielddata[0].cs.RecordType.Name != 'Product Complaint',v.fielddata[0].cs.RecordType.Name != 'Product Complaint - Closed')}">
+                                    <aura:if isTrue="{!v.fielddata[0].cs.RecordType.Name != 'Product Complaint - Submitted'}">
+                                        <aura:if isTrue="{!v.showAETab == true}">
+                                            <lightning:tab label="AE Details" id="AE Details" onactive="{!c.hidePButton}">
+                                                <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{!v.activeAESections}">
+                                                    <lightning:accordionSection name="PatientInformation" label="Patient Information">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="Patient_First_Name_MVN__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="Patient_Last_Name_MVN__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Date_of_Birth__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Age__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Gender__c"/>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Patient_Pregnant__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                        </lightning:layout>
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Pregnancy_Gestation_or_LMP__c"/>
+                                                            </lightning:layoutItem>
+                                                            <aura:if isTrue="{!or(v.userProfileName == 'System Administrator', v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Height__c"/>
+                                                            </lightning:layoutItem>
+                                                            </aura:if>
+                                                        </lightning:layout>
+                                                        <aura:if isTrue="{!or(v.userProfileName == 'System Administrator', v.userProfileName == 'MSD_CORE Contact Center - Read Only User', v.userProfileName == 'MSD_CORE Contact Center - Read Only User Non-SSO')}">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Weight__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        </aura:if>
+                                                    </lightning:accordionSection>
+                                                    
+                                                    <lightning:accordionSection name="AEDetails" label="AE Details">
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Indication__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Pertinent_Medical_History__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Route_of_Administration__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Drug_Reactions_Allergies__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Therapy_Start_Date__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Lab_Diagnostics_Studies__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Was_Therapy_Discontinued__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Hospitalization_or_Prolonged__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Therapy_End_Date__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Life_Threatening__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Sought_Medical_Attention__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Sig_Disability_or_Incapacity__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Was_Treatment_Given_for_AE__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Was_AE_Congenital_Anomaly__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Treatment_Provided__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Did_the_Patient_Die__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Present_Status__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Cause_of_Death__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Recovery_Date__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Date_of_Death__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Dechallenge__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Is_Was_the_AE_Cancer__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Rechallenge__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Patient_Overdose__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                        
+                                                        <lightning:layout>
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Concomitant_Medication__c"/>
+                                                            </lightning:layoutItem>
+                                                            
+                                                            <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Intervention_Prevent_Serious__c"/>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                    </lightning:accordionSection>
+                                                </lightning:accordion>
+                                            </lightning:tab>
+                                        </aura:if>
+                                        <!-- Comment this below Lightning tab to remove IRRE Details Section if needed for Read Only user also -->
+                                        <lightning:tab label="IRRE Details" id="IRRE Details" onactive="{!c.hidePButton}">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_IRRE_Reported__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_IRRE_Onset_Date__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Insertion_Date__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Difficulty__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Difficulty_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Multiple_Insertion__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Multiple_Insertion_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Deep_Insertion__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Deep_Insertion_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Incorrect_Insertion__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Insertion_Location__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Palpable_At_Any_Time__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Broken_Cut__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Bent__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Doubt_About_Presence__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Doubt_Details__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Localization_Problem__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Located_Ultrasound__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Located_by_MRI__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Migration__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Migration_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Partial_Complete_Expulsion__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Expulsion_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Implant_Removal_Date__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Procedure_Used_for_Removal__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Problem__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Problem_Details__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Incision_Enlarged__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Removal_Under_Anesthesia__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Anesthesia_Removal_Details__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Significant_Fibrosis__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_AE_Other_IRRE_Details__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:tab>
+                                    </aura:if>
+                                </aura:if>
+                                
+                                
+                                
+                                <aura:if  isTrue="{!and(and(v.fielddata[0].cs.RecordType.Name != 'Adverse Event',v.fielddata[0].cs.RecordType.Name != 'Adverse Event - Closed'), v.fielddata[0].cs.RecordType.Name != 'Adverse Event - Submitted')}">
+                                    <aura:if isTrue="{!v.showPQCTab}">
+                                        <lightning:tab label="PQC Details" id="PQC Details" onactive="{!c.hidePButton}">
+                                            <lightning:layout>
+                                              <!--  <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Operator_of_Device__c"/>
+                                                </lightning:layoutItem> -->
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_User_Experience__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_Priority__c"/>
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_PQC_QIR_Requested__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_QIR_Received_Date__c"/>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:tab>
+                                    </aura:if>
+                                </aura:if>
+                                
+                                <lightning:tab label="Products" id="Products" onactive="{!c.showPButton}">
+                                    <aura:if isTrue="{!v.refreshRL == true}">
+                                        <div style="height: 260px;">
+                                            <c:MSD_CORE_RelatedList recordId="{!v.recordId}" 
+                                                                    sobjectApiName="MSD_CORE_AE_Product__c"
+                                                                    relatedFieldApiName="MSD_CORE_Adverse_Event__c"
+                                                                    sortedBy="MSD_CORE_Product_Name__c"
+                                                                    fields="MSD_CORE_Product_Name__c, 
+                                                                            MSD_CORE_Lot_Number__c, 
+                                                                            MSD_CORE_Expiration_Date__c, 
+                                                                            MSD_CORE_Dose_Frequency__c, 
+                                                                            MSD_CORE_Hazardous_Product__c,
+                                                                            MSD_CORE_Product_Qty__c,
+                                                                            MSD_CORE_Related_to__c,
+                                                                            MSD_CORE_Primary_Product__c,
+                                                                            MSD_CORE_Obtain__c,
+                                                                            MSD_CORE_Product_Return_Date__c"
+                                                                    columns="{!v.productColumns}"
+                                                                    customActions="{!v.customActions}"
+                                                                    showNewButton="false"></c:MSD_CORE_RelatedList>
+                                        </div>
+                                    </aura:if>
+                                </lightning:tab>
+                                
+                                <lightning:tab label="CDT/Feedback" id="CDT/Feedback" onactive="{!c.hidePButton}">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_Feedback__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_Feedback__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_FeedbackClassification__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_Customer_FeedbackClassification__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_CDT__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_CDT__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                                
+                                <!-- New Tab called MARRS Section CEF2F - 8520-->
+                                  <lightning:tab label="MARRS Details" id="MARRS Details" onactive="{!c.hidePButton}">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            <aura:if isTrue="{!v.isEdit == false}">
+                                                <lightning:outputField class="slds-form-element_readonly" fieldName="MSD_CORE_MARRS_Number__c"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField class="slds-form-element_readonly" fieldName="MSD_CORE_MARRS_Number__c"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="6" class="slds-p-left_small">
+                                            
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </article>
+                </aura:if>
+            </aura:if>
+        </lightning:recordViewForm>
+        <aura:if isTrue="{!v.showProductButton == true}">
+            <c:MSD_CORE_CC_Add_Product recordId="{!v.recordId}" ></c:MSD_CORE_CC_Add_Product>
+        </aura:if>
+    </aura:if>   
+    <!--<div class="slds-backdrop slds-backdrop_open"></div>-->
+    <br/>
+    <br/>
+    <br/>
+</aura:component>

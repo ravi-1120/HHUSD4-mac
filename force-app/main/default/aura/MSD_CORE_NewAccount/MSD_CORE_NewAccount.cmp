@@ -1,0 +1,252 @@
+<aura:component controller="CaseControllerMVN" extends="c:ComponentUtils" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="type" type="String" default="PersonAccounts"/>
+    <aura:attribute name="isPrescriber" type="Boolean"/>
+    <aura:attribute name="HCPType" type="Boolean" default="false"/>
+    <aura:attribute name="isPersonSearch" type="Boolean"/>
+    <aura:attribute name="prescriberType" type="String" default="{!$Label.c.MSD_CORE_Prescriber_Type_Suffix}"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="whichOne" type="String"/>
+    <aura:attribute name="recordTypeId" type="String"/>
+    <aura:attribute name="classOfTrade" type="String"/>
+    <aura:attribute name="typeNewSelectOptions" type="String[]"/>
+    <aura:attribute name="settings" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="firstName" type="String"/>
+    <aura:attribute name="lastName" type="String"/>
+    <aura:attribute name="name" type="String"/>
+    <aura:attribute name="phone" type="String"/>
+    <aura:attribute name="city" type="String"/>
+    <aura:attribute name="state" type="String"/>
+    <aura:attribute name="country" type="String"/>
+    <aura:attribute name="zip" type="String"/>
+    <aura:attribute name="empNumber" type="String"/>
+    <aura:attribute name="masterId" type="String"/>
+    <aura:attribute name="custNumber" type="String"/>
+    <aura:attribute name="showAlert" type="Boolean" default="false" />
+    <aura:attribute name="zipcodeList" type="Object[]"/>
+    
+    <aura:registerEvent name="MSD_CORE_CloseModal" type="c:MSD_CORE_CloseModal"/>
+    <!--<aura:handler name="change" value="{!v.classOfTrade}" action="{!c.handleTradeChange}"/>-->
+    <aura:method name="callTypeChange" action="{!c.cltypeSelected}"/>
+   
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container" style="height: 100%; top: 0%; width: 100%;"> 
+            <!-- Header Start-->
+            <header class="slds-modal__header">
+                <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.callClosePopupEvent}">
+                    <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium"><aura:unescapedHtml value="{!$Label.c.Create_New_Account_Prompt}"/></h2>
+            </header>
+            <!-- Header End-->
+            <!-- Body Content Start-->
+            <div class="slds-modal__content slds-grow modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:inherit; padding: 15px;background: #f9f9f9;" onkeyup="{!c.formPress}">
+                <lightning:recordEditForm aura:id="recordViewForm" 
+                                          objectApiName="Account" 
+                                          recordTypeId="{!v.recordTypeId}"
+                                          onsuccess="{!c.saveAddress}"
+                                          onerror="{!c.handleError}">
+                    
+                    <lightning:messages/>
+                    
+                    <aura:if isTrue="{!v.showSpinner}">
+                        <lightning:spinner />
+                    </aura:if>
+                    
+                    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header">
+                        <div class="slds-card__body" style="padding: 0px 10px;">
+                            <lightning:layout>
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                  <lightning:select name="select1" aura:id="classOfTrade" label="Type" value="{!v.classOfTrade}"  onchange="{!c.cltypeSelected2}" required="true"> 
+                                      <aura:iteration items="{!v.typeNewSelectOptions}" var="et">
+                                             <option value="{!et}">{!et}</option> 
+                                      </aura:iteration>
+                                    </lightning:select>
+                                </lightning:layoutItem>
+                                
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <aura:if isTrue="{!and(v.classOfTrade != '', v.classOfTrade != v.settings.MSD_CORE_Employee_Type__c)}" > 
+                                        <aura:if isTrue="{!and(v.classOfTrade != 'Select', v.classOfTrade != v.settings.MSD_CORE_Consumer_Type__c)}" > 
+                                           <lightning:inputField id="subTypeList" aura:id="Class_of_Trade_Sub_MRK__c" fieldName="Class_of_Trade_Sub_MRK__c" required="true"/>
+                                       </aura:if>
+                                    </aura:if>
+                                </lightning:layoutItem>
+                                
+                                <lightning:layoutItem size="2" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="typeList" id="subTypeList" style="display:none;" fieldName="Class_of_Trade_MRK__c" />
+                                    <lightning:inputField aura:id="Status_MRK__c" style="display:none;" fieldName="Status_MRK__c" value="{!v.settings.MSD_CORE_Account_Status_Need_More_Info__c}"/>
+                                    <lightning:inputField style="display:none;" fieldName="RecordTypeId" value="{!v.recordTypeId}"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </article>
+                    
+                    <aura:if isTrue="{!v.type == 'Person'}" >
+                        <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header">
+                            <div class="slds-card__body" style="padding: 0px 10px;" >
+                                <lightning:layout>
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="Preferred_Salutation_MRK__c" fieldName="Preferred_Salutation_MRK__c" />
+                                    </lightning:layoutItem>
+                                    
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="Preferred_First_Name_MRK__c" fieldName="FirstName" />
+                                        <lightning:inputField style="display:none;" aura:id="First_Name_MRK__c" fieldName="Preferred_First_Name_MRK__c" required="true"/>
+                                    </lightning:layoutItem>
+                                    
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="Preferred_Last_Name_MRK__c" fieldName="LastName" required="true"/>
+                                        <lightning:inputField style="display:none;" aura:id="Last_Name_MRK__c" fieldName="Preferred_Last_Name_MRK__c" required="true"/>
+                                    </lightning:layoutItem>
+                                    
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="Preferred_Suffix_MRK__c" fieldName="Preferred_Suffix_MRK__c" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                
+                                <lightning:layout>
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="Preferred_Middle_Name_MRK__c" fieldName="Preferred_Middle_Name_MRK__c" />
+                                    </lightning:layoutItem>
+                                    
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="Phone" fieldName="Phone" />
+                                    </lightning:layoutItem>
+                                    
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="PersonEmail" fieldName="PersonEmail" />
+                                    </lightning:layoutItem>
+                                    
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="Fax" fieldName="Fax" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                
+                                <lightning:layout>     
+                                    <aura:if isTrue="{!or(v.HCPType, v.classOfTrade == v.settings.MSD_CORE_HBP_Type__c)}" > 
+                                        <lightning:layoutItem size="3" class="slds-p-left_small">
+                                            <lightning:inputField aura:id="Credentials_vod__c" fieldName="Credentials_vod__c" />
+                                        </lightning:layoutItem>
+                                    </aura:if>
+                                    
+                                    <div style="{!v.isPrescriber ? 'display:contents;' : 'display:none;'}" > 
+                                        <lightning:layoutItem size="3" class="slds-p-left_small">
+                                            <lightning:inputField aura:id="IMS_Specialty_MRK__c" fieldName="IMS_Specialty_MRK__c" />
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="3" class="slds-p-left_small">
+                                            <lightning:inputField aura:id="IMS_Sub_Specialty_MRK__c" fieldName="IMS_Sub_Specialty_MRK__c" />
+                                        </lightning:layoutItem>
+                                    </div>
+                                </lightning:layout>
+                            </div>
+                        </article>
+                        
+                        <aura:if isTrue="{!v.classOfTrade == 'EMPLOYEE'}" > 
+                            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header">
+                                <div class="slds-card__body" style="padding: 0px 10px;">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="3" class="slds-p-left_small">
+                                            <lightning:inputField aura:id="MSD_CORE_Employee_Company__c" fieldName="MSD_CORE_Employee_Company__c" />
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="3" class="slds-p-left_small">
+                                            <lightning:inputField aura:id="MSD_CORE_Employee_Alias__c" fieldName="MSD_CORE_Employee_Alias__c" />
+                                        </lightning:layoutItem>
+                                        
+                                        <lightning:layoutItem size="3" class="slds-p-left_small">
+                                            <lightning:inputField aura:id="MSD_CORE_Merck_Employee_ID__c" fieldName="MSD_CORE_Merck_Employee_ID__c" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </article>
+                        </aura:if>
+                    </aura:if>
+                    
+                    <aura:if isTrue="{!v.type == 'Business'}" >
+                        <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header">
+                            <div class="slds-card__body" style="padding: 0px 10px;">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="Preferred_Full_Name_MRK__c" fieldName="Preferred_Full_Name_MRK__c" required="true"/>
+                                        <lightning:inputField style="display:none;" aura:id="Name_MRK__c" fieldName="Name" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                        </article>
+                    </aura:if>
+                </lightning:recordEditForm>
+                
+                <article style="margin-top: 1rem;" class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header">
+                    <div class="slds-card__body" style="padding: 0px 10px;">
+                        <lightning:recordEditForm aura:id="addressViewForm" 
+                                                  objectApiName="Address_vod__c"
+                                                  onsuccess="{!c.successAddress}">
+                            <lightning:layout>
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="Name" fieldName="Name" required="{!v.type == 'Business' ? true : false}"/>
+                                </lightning:layoutItem>
+                                
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="Address_line_2_vod__c" fieldName="Address_line_2_vod__c"/>
+                                </lightning:layoutItem>
+                                
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="City_vod__c" fieldName="City_vod__c" required="{!v.type == 'Business' ? true : false}"/>
+                                </lightning:layoutItem>
+                                
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="State_vod__c" fieldName="State_vod__c"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <lightning:layout>
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="Zip_vod__c" fieldName="Zip_vod__c" required="{!v.type == 'Business' ? true : false}" onchange="{!c.queryZip}"/>
+                                	
+                                    <aura:if isTrue="{!v.showAlert}">
+                                        <div onmouseleave="{!c.hideAlertPopup}" style="z-index: 3; display:block; visibility: visible; opacity: 1;" role="listbox" class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-dropdown_length-with-icon-10 slds-dropdown_left">
+                                            <aura:iteration items="{!v.zipcodeList}" var="item">
+                                                <div class="slds-media slds-listbox__option slds-media_center slds-media_small slds-listbox__option_plain" aria-selected="false" id="{!item.Id}" onclick="{!c.fillAddressFields}">
+                                                    <span class="slds-media__body">
+                                                        <span title="{!item.pw_ccpro__City__c}" class="slds-truncate">{!item.pw_ccpro__City__c}</span>
+                                                    </span>
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </aura:if>
+                                </lightning:layoutItem>
+                                
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="Country_vod__c" fieldName="Country_vod__c" required="{!v.type == 'Business' ? true : false}"/>
+                                </lightning:layoutItem>
+                                
+                                <aura:if isTrue="{!v.HCPType}" > 
+                                    <lightning:layoutItem size="3" class="slds-p-left_small">
+                                        <lightning:inputField aura:id="License_vod__c" fieldName="License_vod__c" />
+                                    </lightning:layoutItem>
+                                </aura:if>
+                                
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="MSD_CORE_Rep_Notes__c" fieldName="MSD_CORE_Rep_Notes__c" required="{!v.type == 'Business' ? true : false}"/>
+                                </lightning:layoutItem>
+                                
+                                <lightning:layoutItem size="3" class="slds-p-left_small">
+                                    <lightning:inputField aura:id="Account_vod__c" fieldName="Account_vod__c" style="display:none;"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:recordEditForm>
+                    </div>
+                </article>
+                
+                <div class="slds-form-element__control" style="text-align: right; margin-top: 10px;">
+                    <lightning:button variant="brand" label="Create" title="Create" onclick="{!c.saveRecords}"/>
+                    <lightning:button label="Cancel" title="Cancel" onclick="{!c.callClosePopupEvent}"/>
+                </div>
+            </div>
+        </div>
+    </section>
+      
+</aura:component>

@@ -1,0 +1,50 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <div class="slds-modal__header">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_11-of-12">
+                            <h1 id="modal-heading-01"
+                                class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+                                <span> Your Request has been submitted </span>
+                            </h1>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12">
+                            <lightning-button-icon-stateful class="greenIcon "
+                                icon-name="utility:close" alternative-text="Close" title="Close">
+                            </lightning-button-icon-stateful>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-modal__content " id="modal-content-id-2">
+                    <div class="slds-align_absolute-center">
+                        <div class="slds-box box">
+                            <div class="detailpopUp">
+                                <h2>You have submitted a request for an appointment to view and discuss the following clinical trials:</h2>
+                                <p> Schizophrenia MK-8189, NASH MK-3655, HIV-1 Infection Islatravir MK-8507 MK-8591B2, and HIV-1 Infection Adult Islatravir
+                                </br>Lenacapavir MK-8591D1 </p>
+                            </div>
+                            <a href="#"  onclick={viewRequest} class="slds-button viewrequest"><span>View request<img
+                                        style="margin-left: 16px;" src={sidearrow}> </span></a>
+                        </div>
+                    </div>
+                    <p class="questions">Questions? Contact your Merck Account Team for further assistance</p>
+                    <div class="slds-modal__footer popupfooter">
+                        <button class="slds-button slds-button_neutral" style="font-family: 'Invention';color:white;
+								background-color:#00857c;height: 32px;font-size: 14px;letter-spacing: 0.1px;" data-name="Dashboard"
+                            onclick={navigatepage}>Go to Dashboard</button>
+
+                        <button class="slds-button slds-button_neutral " style="font-family: 'Invention';color:#00857c;
+								background-color:white;height: 32px;font-size: 14px;letter-spacing: 0.1px;"
+                            onclick={viewRequest}>Close<span><img style="margin-left: 16px;" src={cross}>
+                            </span></button>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

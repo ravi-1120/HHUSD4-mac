@@ -1,0 +1,22 @@
+
+.slds-truncate {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #333333;
+    line-height: 21px;
+}
+.combobox .slds-combobox__input {
+    
+    border: 1px solid #333333;
+}
+.slds-input_faux {
+    
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 9px 12px 10px !important;
+    gap: 10px !important;
+    isolation: isolate !important;
+}

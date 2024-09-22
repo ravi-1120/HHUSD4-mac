@@ -1,0 +1,100 @@
+* {
+    font-family: 'Invention';
+}
+
+.component-container {
+    margin: 20px;
+}
+
+.title {
+    margin: 0;
+    font-size: 28px;
+    font-family: 'Invention';
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.cl-link{
+    cursor: pointer;
+}
+
+.cl-link:hover{
+    text-decoration: 2px solid #00857c underline !important;
+    cursor: pointer;
+}
+
+hr {
+    border: 0;
+    border-top: 2px solid #d8dde6;
+    margin: 20px 0;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+    column-gap: 10px;
+}
+
+/* .pagination-container lightning-combobox {
+    margin-right: 10px;
+} */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 2fr 2fr 1fr;
+    border: 1px solid #d8dde6;
+    border-collapse: collapse;
+    font-family: 'Invention';
+}
+
+.grid-header,
+.grid-row {
+    display: contents;
+}
+
+.grid-header div,
+.grid-row div {
+    border-bottom: 1px solid #d8dde6;
+    padding: 0.5rem;
+}
+
+.grid-header div {
+    background-color: #f3f6f9;
+    font-weight: bold;
+}
+
+.grid-row:nth-child(even) div {
+    background-color: #f9f9f9;
+}
+
+.image-preview {
+    width: 150px;
+    height: 45px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.no-collection {
+    max-width: 100%;
+    text-align: center;
+}
+
+.icon-border {
+    border: 1px solid #d8dde6;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: white;
+	cursor: pointer;
+}
+.icon-container {
+    display: flex;
+    gap: 10px;
+}

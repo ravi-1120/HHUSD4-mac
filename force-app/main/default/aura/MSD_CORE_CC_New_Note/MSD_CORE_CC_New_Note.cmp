@@ -1,0 +1,25 @@
+<aura:component extends="c:ComponentUtils" controller="MSD_CORE_CC_Notes_UtilityController">
+    <aura:attribute name="caseId" type="String"/>
+    <aura:attribute name="note" type="String"/>
+    <aura:attribute name="error" type="Boolean" default="false"/>
+    <aura:attribute name="saveDisabled" type="Boolean" default="false"/>    
+    <lightning:overlayLibrary aura:id="overlayLib1"/>
+    <div class="slds-p-around_medium">
+        <aura:if isTrue="{!v.error}">
+            <div class="error-msg" id="fileError" style="background-color: #FFBABA;color: #D8000C;border-radius: 3px 3px 3px 3px;">
+                <lightning:icon iconName="utility:close" size="xx-small" alternativeText="Error!" variant="error"/>
+                Please complete this field.
+            </div>
+        </aura:if>
+        <span style="color:red;">* </span><label for="Product Formulation" class="slds-form-element__label">Note</label>
+    	<lightning:textarea label="Note" name="Note" 
+                        value="{!v.note}" variant="label-hidden"/>
+        
+        <div class="slds-align_absolute-center">
+            <lightning:button label="Cancel" variant="neutral" type="submit" onclick="{!c.handleCancel}"/>
+            <lightning:button name="saveNew" label="Save &amp; New" variant="neutral" type="submit" onclick="{!c.saveNote}" disabled="{!v.saveDisabled}"/>
+        	<lightning:button name="Save" label="Save" variant="brand" type="submit" onclick="{!c.saveNote}" disabled="{!v.saveDisabled}"/>
+        </div>
+    </div>
+     
+</aura:component>

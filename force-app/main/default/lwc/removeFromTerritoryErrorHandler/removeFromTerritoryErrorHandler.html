@@ -1,0 +1,6 @@
+<template>
+    <div class="slds-m-top_large slds-m-bottom_large" if:true={error}>
+        <c-veeva-open-road-illustration if:true={showImplicitAccessError} header={error.errorHeader} body={error.errorBody}></c-veeva-open-road-illustration>
+        <c-veeva-no-access-illustration if:true={showNoAccessError} header={error.errorHeader} body={error.errorBody}></c-veeva-no-access-illustration>
+    </div>
+</template>

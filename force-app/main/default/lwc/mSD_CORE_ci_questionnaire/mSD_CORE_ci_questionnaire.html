@@ -1,0 +1,29 @@
+<template>
+  <!-- q-container -->
+    <div class="">
+      <!-- <span class="information">* Required Field</span> -->
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+              small-device-size="8" medium-device-size="8" large-device-size="8">
+              <lightning-input type="text" max-length="255" name="RepName" label="Rep Name" required="true" disabled="true"
+                class="requiredField" value={inputValues.RepName} onchange={handleInput}></lightning-input>
+            </lightning-layout-item>
+          </lightning-layout>
+  
+          <lightning-layout>
+            <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+              small-device-size="8" medium-device-size="8" large-device-size="8">
+              <lightning-input name="RepCTL" label="Representative's CTL" required="true" class="requiredField"
+                value={inputValues.RepCTL} onchange={handleInput}></lightning-input>
+            </lightning-layout-item>
+          </lightning-layout>
+        <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+          <div class="button-container">    
+                <lightning-layout-item alignment-bump="right">  
+              <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext} name="Next">{label.Next}</button>
+              </lightning-layout-item>
+          </div>
+          </lightning-layout>
+      <br>
+    </div>
+</template>

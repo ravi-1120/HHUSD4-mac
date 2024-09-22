@@ -1,0 +1,7 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+                controller="CaseIconChangeController" >
+    <lightning:workspaceAPI aura:id="workspace" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>   
+    <!-- <aura:handler event="force:refreshView" action="{!c.doInit}" /> -->
+</aura:component>

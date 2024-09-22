@@ -1,0 +1,12 @@
+.sticky-header {
+    background: var(--lwc-colorBackgroundAlt, rgb(255, 255, 255));
+    position: sticky;
+    z-index: 1;
+    top: -1rem;
+    margin-top: -1rem;
+}
+
+.checkbox-column {
+    display: grid;
+    grid-template-columns: 1.5rem auto;
+}

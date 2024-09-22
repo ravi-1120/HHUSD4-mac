@@ -1,0 +1,453 @@
+.dummy{
+	color : black;
+}
+.emailcls{
+	padding-right: 30px;
+    /* width: 100%; */
+    width: 386px;
+	height: 56px;
+	/* color: #00000099; */
+	/* border-radius: 5px !important; */
+	border-radius: var(--borderRadius, 4px);
+	border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));	
+	padding-left: 10px;
+	margin-bottom: 24px;
+}
+.emailclserror{
+	padding-right: 30px;
+    /* width: 100%; */
+    width: 386px;
+	height: 56px;
+	/* color: #00000099; */
+	/* border-radius: 5px !important; */
+	border-radius: var(--borderRadius, 4px);
+	border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));	
+	padding-left: 10px;
+	margin-bottom: 24px;
+    border-color: #D32F2F;
+}
+.pbanner {
+    position: relative;
+}
+.pbanner_img{
+    height: 309x !important;
+    object-fit: cover;
+}
+.warndiv{
+    display: flex;
+    width: 386px;
+    height: 48px;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    background: var(--Alerts-warning-light, #FFE7E6);
+    margin-bottom: 24px;
+}
+.mobimage{
+    display: none;
+    }
+.deskimage{
+    display: block;
+}
+.warnmtr{
+    color: var(--System-Error, var(--Alerts-warning-dark, #DB281A));
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.container {
+    top: -20px;
+    width: 1128px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    margin-top: -100px !important;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: auto;
+    background: #FFFFFF;
+    display: flex;
+    margin-bottom: 60px;
+}
+/* Custom styles for the checkbox */
+.checkclass {
+    height: 24px !important;
+    color: #333333 !important;
+    margin-bottom: 0px !important;
+    font-size: 14px !important;
+    font-family: Invention !important;
+    font-weight: 400 !important;
+    line-height: 21px !important;
+    word-wrap: break-word !important;
+}
+
+/* Additional styles to target specific parts of the checkbox, if needed */
+.checkclass .slds-form-element__label {
+    font-size: 14px !important;
+    font-family: Invention !important;
+    font-weight: 400 !important;
+    line-height: 21px !important;
+}
+
+.checkclass .slds-checkbox__label {
+    font-size: 14px !important;
+    font-family: Invention !important;
+    font-weight: 400 !important;
+    line-height: 21px !important;
+}
+
+.chkdivcls{
+	display: flex;
+	margin-bottom: 24px;
+}
+.checklabcls{
+	color: var(--Gray-Scale-text-dark, #333);
+	font-feature-settings: 'clig' off, 'liga' off;
+	/* Body/Small - Regular */
+	font-family: Invention;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 21px; /* 150% */
+	margin-top: 5px;
+}
+.right-panel {
+    width: 562px; 
+    height: 797px; 
+    border-radius: 0 10px 10px 0;
+    padding-top: 176px;
+    padding-right: 88px;
+    padding-left: 88px;
+    /* padding: 48px 88px; */
+    /* display: flex; */
+}
+.left-panel {
+    width: 566px; 
+    height: 797px; 
+    background: #F1F9F9; 
+    border-radius: 10px 0 0 10px;
+}
+.img-container {
+    width: 566px;
+    height: 496px;
+    border-radius: 10px 0 0 0;
+}
+.learnmore{
+	width: 566px;
+    height: 301px;
+    border-radius: 8px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    /* margin: 40px; */
+    /* display: inline-flex; */
+    padding: 40px;
+}
+.learnmarg{
+	margin: 40px;
+	color: black;
+}
+.learnhead{
+	font-family: Invention;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 27px; 
+    color: #333;
+}
+.learnmatr{
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: #333;
+    }
+.learnmatr a {
+    color:#00857C
+}
+.welcls{
+    color: var(--Gray-Scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 8px;
+}   
+.welclsmatr{
+    color: var(--Gray-Scale-text-dark, #333);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 24px;
+} 
+.hyperlink{
+	text-align: center;
+    margin-bottom: 24px;
+	color: #00857C;
+}
+.linktext{
+	color: #333333;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 21px;
+    word-wrap: break-word;
+}
+.frgcls{
+    /*Forgot password*/
+    color: #00857C !important;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 400;
+    text-decoration: underline;
+    line-height: 21px;
+    word-wrap: break-word;
+}
+.fgtquestionClas{
+    /* ?*/
+    color: #333333;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 21px;
+    word-wrap: break-word;
+}
+.signupcls{
+	/*color: #00857C !important;*/
+	text-decoration-line: underline !important;
+    color: #005C56 !important;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 21px;
+    word-wrap: break-word;
+}
+.loginbtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: #FFFFFF;
+    background: #00857C;
+    border-radius: 5px !important;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px !important;
+    width: 389px ;
+    height: 50px !important;
+    letter-spacing: 0.861539px;
+    border-color: #00857C;
+    border: none !important;
+	margin-bottom: 24px;
+}
+.signnbtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: #00857C;
+    background: #FFFFFF;
+    border-radius: 5px !important;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px !important;
+    width: 386px ;
+    height: 50px !important;
+    letter-spacing: 0.861539px;
+    border-color: #00857C;
+    /* border: none !important; */
+    /* border-radius: 5px; */
+    border: 1px solid var(--Brand-primary-green, #00857C); 
+    margin-bottom: 24px;     
+}
+.learnmob1{
+    display: none !important;
+    }
+.input-container {
+    position: relative;
+    width: 386px;
+	height: 56px;
+	margin-bottom: 24px;
+	/* color: #00000099; */
+	
+}
+.input-container1 {
+    position: relative;
+    width: 386px;
+	height: 56px;
+	margin-bottom: 24px;
+	/* color: #00000099; */
+	
+}
+.input-container input {
+    padding-right: 30px;
+    width: 100%;
+	height: 56px;
+	/* color: #00000099; */
+	/* border-radius: 5px !important; */
+	border-radius: var(--borderRadius, 4px);
+	border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));	
+	padding-left: 10px;
+}
+.input-container1 input {
+    padding-right: 30px;
+    width: 100%;
+	height: 56px;
+	/* color: #00000099; */
+	/* border-radius: 5px !important; */
+	border-radius: var(--borderRadius, 4px);
+	border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));	
+	padding-left: 10px;
+	border-color: #D32F2F;
+}
+.input-container .eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+ 	fill: var(--Gray-Scale-text-dark, #333);
+}
+.input-container1 .eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+ 	fill: var(--Gray-Scale-text-dark, #333);
+}
+
+.field-label {
+    color: var(--text-secondary, rgba(0, 0, 0, 0.6));
+    text-align: left;
+    font-family: Invention;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.15px;
+    font-weight: 400;
+    background: #fff;
+    position: absolute;
+    margin-left: 12px;
+    margin-top: -4px;
+    padding: 0 5px;
+}
+
+@media only screen and (max-width: 767px) {
+    .emailcls{
+        padding-right: 30px;
+        width: 100%;
+        /* width: 386px; */
+        height: 56px;
+        /* color: #00000099; */
+        /* border-radius: 5px !important; */
+        border-radius: var(--borderRadius, 4px);
+        border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));	
+        padding-left: 10px;
+        margin-bottom: 24px;
+    }
+    .emailclserror{
+        padding-right: 30px;
+        width: 100%;
+        /* width: 386px; */
+        height: 56px;
+        /* color: #00000099; */
+        /* border-radius: 5px !important; */
+        border-radius: var(--borderRadius, 4px);
+        border: 1px solid var(--components-input-outlined-enabledBorder, rgba(0, 0, 0, 0.23));	
+        padding-left: 10px;
+        margin-bottom: 24px;
+        border-color: #D32F2F;
+    }
+	.input-container {
+		width: 100%;
+	}
+    .warndiv{
+        width: 100%;
+    }
+	.input-container1 {
+		width: 100%;
+	}
+	.pbanner_img{
+        height: 140px !important;
+        object-fit: cover;
+    }
+	.right-panel {
+        width: auto;
+        height: auto;
+        padding: 40px 16px 24px 16px;
+        
+    }
+	.left-panel {
+		 border-radius: 10px 10px 0 0;
+		 width: auto;
+		 height: auto;
+	}
+	.img-container, .img-container img {
+        width: 100%;
+        border-radius: 5px 5px 0 0;
+        height: 100%;
+    }
+    .container {
+        top: -20px;
+        width: auto;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        margin-top: -100px !important;
+        box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        /* margin: auto; */
+        background: #FFFFFF;
+        display: block;
+        margin: 16px;
+    }
+    .learnmore{
+        width: auto;
+        height: auto;
+        border-radius: 8px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        /* margin: 40px; */
+        /* display: inline-flex; */
+        padding: 40px 24px 24px 24px;
+        background: #F1F9F9;
+        margin-bottom: 40px;
+    }
+    .loginbtn{
+        width: 100% !important;
+    }
+    .signnbtn{
+        width: 100% !important;
+    }
+    .learnmob{
+        display: none !important;
+    }
+    .learnmob1{
+        display: block !important;
+    }
+    .welcls{
+        font-size: 24px;
+    }
+    .mobimage{
+        display: block;
+    }
+    .deskimage{
+        display: none;
+    }   
+}

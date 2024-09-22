@@ -1,0 +1,113 @@
+<template>
+    <div style="min-height:calc(100vh - 376px); margin: 0px 20px">
+        <template if:true={isEdit}>
+            <!-- Edit Collection -->
+            <div class="collection_container">
+                <div class="title">Edit Collection</div>
+                <div class="button-container">
+                    <lightning-button variant="brand" label="Save" onclick={handleUpdate}></lightning-button>
+                    <lightning-button variant="neutral" label={labels.cancelBtn} onclick={handleCancel}>
+                    </lightning-button>
+                </div>
+            </div>
+            <hr>
+            <div if:true={collectionData}>
+                <div class="slds-m-around_medium">
+                    <lightning-input label={labels.cllName} data-id="clName" onblur={validateInput} max-length="255"
+                        required="required" placeholder={labels.cllName}
+                        message-when-value-missing={labels.pleaseEnterCLName} value={collectionData.name}
+                        onchange={handleNameChange}></lightning-input>
+                    <template if:true={nameError}>
+                        <div class="name-error">{nameError}</div>
+                    </template>
+                    {labels.bannderHeader} &nbsp;
+                    <lightning-button variant="neutral" label={labels.browseBtn} onclick={openImageModal}>
+                    </lightning-button>
+
+                    <template if:true={isSelectedImage}>
+                        <div class="preview-container">
+                            <div class="image-preview-container">
+                                <img src={selectedImageUrl} alt="Preview" class="image-preview"/>
+                            </div>
+                            <div onclick={handleDeletePreview} class="rm-preview">{labels.removeBtn}</div>
+                        </div>
+                    </template>
+
+                    <template if:true={isThumbnailUrl}>
+                        <div class="preview-container">
+                            <div class="image-preview-container">
+                                <img src={collectionData.ThumbnailUrl} alt="Preview" class="image-preview"/>
+                            </div>
+                            <div onclick={handleDeletePreview} class="rm-preview">{labels.removeBtn}</div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <template if:false={isEdit}>
+            <!-- Create New Collection -->
+            <div class="collection_container">
+                <div class="title">{labels.newCollection}</div>
+                <div class="button-container">
+                    <lightning-button variant="brand" label={labels.createBtn} onclick={handleSubmit}>
+                    </lightning-button>
+                    <lightning-button variant="neutral" label={labels.cancelBtn} onclick={handleCancel}>
+                    </lightning-button>
+                </div>
+            </div>
+            <hr>
+            <div class="slds-m-around_medium">
+                <lightning-input label={labels.cllName} data-id="clName" onblur={validateInput} max-length="255"
+                    required="required" placeholder={labels.cllName}
+                    message-when-value-missing={labels.pleaseEnterCLName} value={collectionName}
+                    onchange={handleNameChange}></lightning-input>
+                <template if:true={nameError}>
+                    <div class="name-error">{nameError}</div>
+                </template>
+                {labels.bannderHeader} &nbsp;
+                <lightning-button variant="neutral" label={labels.browseBtn} onclick={openImageModal}>
+                </lightning-button>
+                <div class="preview-container" if:true={isSelectedImage}>
+                    <div class="image-preview-container">
+                        <img src={selectedImageUrl} alt="Preview" class="image-preview"/>
+                    </div>
+                    <div onclick={handleDeletePreview} class="rm-preview">{labels.removeBtn}</div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-float_right" title={labels.closeBtn} onclick={closeImageModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text={labels.closeBtn} size="small"></lightning-icon>
+                    <span class="slds-assistive-text">{labels.closeBtn}</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">{labels.bannderHeader}</h2>
+                </div>
+                <div class="slds-modal__body slds-scrollable_y dialog-images">
+                    <template if:true={images}>
+                        <template for:each={images} for:item="image">
+                            <div key={image.Id} tabindex="0" class="image-container" onclick={handleImageSelect}
+                                data-id={image.Id} data-imagepreview={image.ThumbnailUrl}>
+                                <img src={image.ThumbnailUrl} alt={image.Title} class="image-item"/>
+                                <div class="image-details">
+                                    <p class="image-name">{image.Title}</p>
+                                    <div class="status">{labels.activeLabel}</div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning-button variant="neutral" label={labels.closeBtn} onclick={closeImageModal}>
+                    </lightning-button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

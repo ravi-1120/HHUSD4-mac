@@ -1,0 +1,1240 @@
+.slds-form-element__control .slds-radio {
+     display: inline;
+}
+.mobview{
+     display: none !important;
+}
+.prescribediv{
+     width: 1200px;
+}
+.slds-radio {
+     padding-top: 18px !important;    /*RT*/
+     padding-bottom: 0px !important;
+ }
+.imgsz{
+     width: 16px;
+     height: 10px;
+}
+.webview{
+     display: flex !important;
+}
+.br-on-mobile {
+     display: none;
+   }
+.col-sm-4{
+     margin-left: 0px;
+}
+.col-sm-4-time{
+     margin-left: 15px
+}
+
+.fixed_cls {
+     position: fixed;
+     bottom: 0;
+     left: 14px;
+     right: 14px;
+     z-index: 9999;
+     background: #fff;
+     /* width: 100%; */
+}
+
+.button1 {
+     --sds-c-button-outline-brand-color-border: #00857C;
+     --sds-c-button-text-color: #00857C;
+}
+
+.dotClass
+{
+    color: #167E71;
+    font-size:60px;
+    width: 16px;
+    margin-top: -5px;
+      margin-left: -5px;
+}
+.dotClasshide
+{
+    color:#D8D8D8;
+    
+    font-size:60px;
+    width: 16px;
+    margin-top: -5px;
+    margin-left: -5px;
+}
+
+.bg {
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+     font-family: 'Invention';
+     color: #FFFFFF;
+     padding: 24px;
+}
+
+.spanclsprod {
+     text-decoration: underline !important;
+     color: #FFFFFF;
+     cursor: pointer;
+}
+
+.container {
+    margin-left: 132px;
+    margin-right:132px;
+    width: 100%;
+    max-width: 846px;
+    padding: 0px;
+}
+
+.cardcontainer {
+     padding: 40px 100px 0 156px;
+     width: 1128px;
+     margin: 0 auto;
+}
+
+
+.slds-spinner_container {
+     background-color: rgba(0, 0, 0, 0.10);
+     margin-top: 200px;
+     margin-bottom: 200px;
+     overflow: hidden;
+     -ms-overflow-style: none;
+     /* for Internet Explorer, Edge */
+     scrollbar-width: none;
+     /* for Firefox */
+     overflow-y: hidden;
+}
+
+.cal {
+     width: 14px;
+     height: 16px;
+     margin-bottom: 4px;
+}
+
+.card {
+     /* display: flex; */
+     /* flex-direction: column; */
+     /* align-items: flex-start; */
+     background: #FFFFFF;
+     flex: none;
+     /* order: 1; */
+     flex-grow: 0;
+     /* padding-top: 40px; */
+}
+
+.slds-p-left_xx-large.card {
+     padding: 0 !important;
+     margin-top: 20px !important;
+     display: block !important;
+}
+.headingcms{
+     padding-bottom: 0px !important;
+}
+.heading1 {
+     font-family: 'Invention' !important;
+     font-style: normal;
+     font-weight: 700 !important;
+     font-size: 24px;
+     line-height: 36px;
+     padding-bottom: 16px;
+     color: #000000;
+     margin-bottom: 0px;
+}
+
+.heading2 {
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 700;
+     font-size: 16px;
+     line-height: 24px;
+     padding-bottom: 16px;
+     color: #000000;
+     margin-bottom: 0px;
+}
+
+.titlecard {
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     padding: 16px;
+     gap: 40px;
+     background: #F7F7F7;
+     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+     border-radius: 4px;
+}
+.p1{
+     font-weight: 700px !important;
+    }
+.prodheader {
+     color: white;
+}
+
+.schedulebody {
+     box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.25);
+     border-radius: 4px;
+}
+
+.innerbody {
+     padding: 24px;
+}
+.titlecard {
+     background: #F7F7F7;
+     box-shadow: 0px 1px 5px rgb(0 0 0 / 20%);
+     border-radius: 4px;
+     width: 1080px;
+     /* height: 114px; */
+     padding: 16px 24px;
+}
+.subtitlewidth {
+     width: 618px !important;
+}
+ @media only screen and (max-width: 768px) {
+     .schedulepg[c-schedule_schedule] .slds-input__icon-group[c-schedule_schedule] {
+          left: 245px;
+          right: 10px;
+          margin-top: -8px;
+      }
+     .titlecard {
+         width: 100%;
+         height: auto;
+     }
+     .cardcontainer{
+          width: 100% !important;
+          padding-top: 0px;
+     }
+     
+     
+ }
+ @media only screen and (max-width: 360px) {
+     .andwdt{
+          width: 360px;
+     }
+ }
+.titlehead {
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 18px;
+     /* padding-bottom: 8px; */
+     color: #000000;
+     line-height: 27px;
+     margin: 0;
+     padding-bottom: 4px;
+}
+
+.ptextone {
+     font-size: 14px;
+     font-weight: 400;
+     line-height: 21px;
+     font-family: Invention;
+     padding: 0 0 8px;
+     margin-bottom: 0px;
+}
+
+.ptextone span {
+     padding: 0 5px;
+}
+
+.ptextone a {
+     text-decoration: underline;
+}
+
+.ptexttwo {
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 36px;
+     padding: 0 0 8px;
+     margin-bottom: 0px;
+     line-height: 36px ;
+}
+
+.ptexthree {
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 24px;
+     line-height: 36px;
+     margin-bottom: 0px;
+}
+
+.adddate button {
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
+     padding: 11px 16px;
+     border: 2px solid #00857C;
+     border-radius: 5px;
+     flex: none;
+     order: 0;
+     flex-grow: 0;
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 700;
+     font-size: 14px;
+     line-height: 18px;
+     letter-spacing: 0.861539px;
+     color: #00857C !important;
+}
+
+
+.bookmarkicon {
+     padding-left: 20px;
+
+}
+
+.description {
+     padding-bottom: 8px;
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 400;
+     font-size: 14px;
+     line-height: 21px;
+     color: #000;
+     margin: 0;
+}
+
+.presentation {
+     font-family: 'Invention';
+     font-weight: 700;
+     font-size: 14px;
+     line-height: 18px;
+     color: #000000;
+     margin: 0;
+}
+
+.presentationcontainer {
+     background: #E5F4E5;
+     border-radius: 4px;
+     padding: 2px 8px;
+     width: 144px;
+     text-align: center;
+ }
+ 
+ .requestcontainer {
+     background: #FFE7E6;
+     border-radius: 4px;
+     padding: 2px 8px;
+     width: 144px;
+     text-align: center;
+ }
+
+.appointmentpreference {
+     padding-top: 32px;
+     padding-bottom: 8px;
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 18px;
+     color: #000000;
+}
+
+
+
+.Date {
+     padding-top: 0px;
+     width: 280px;
+     background: #FFFFFF;
+     font-weight: 700;
+
+}
+
+.appointmenttime {
+     font-family: 'Invention';
+     padding-bottom: 16px;
+     font-weight: 700;
+     font-size: 16px;
+     color: #000000;
+}
+
+.time_cls {
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 400;
+     font-size: 14px;
+     line-height: 21px;
+}
+
+.Time{
+    width: 278px;
+    /* margin-top:4px; */
+    /* padding-left: 10px; */
+}
+
+.datelabel {
+     padding-bottom: 8px;
+}
+
+.additionalattendees {
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 16px;
+     padding-top: 14px;
+     padding-bottom: 16px;
+}
+
+.additionalemail {
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 14px;
+     padding-bottom: 8px;
+}
+
+.submitrequest {
+     /* padding-bottom: 24px; */
+     /* padding-top: 24px; */
+    /* padding: 11px 16px; */
+     gap: 16px;
+     widht: 145px;
+     height: 40px;
+     border-radius: 5px;
+     justify-content: center;
+     display: flex;
+     /* align-items: center; */
+     padding-left: 0px;
+}
+.submi{
+     margin: 32px 0px 24px 0px;
+}
+.descinfo {
+     padding-top: 40px;
+     padding-bottom: 24px;
+     color: #000;
+}
+
+.indication {
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 24px;
+     padding-bottom: 24px;
+}
+
+.verqu {
+     font-family: Invention;
+     font-weight: 400;
+     font-size: 16px;
+     width: 1121px;
+     padding-bottom: 24px;
+}
+
+.lnbtns {
+     display: flex;
+     align-items: center;
+     padding: 8px 0 0 !important;
+}
+
+.prescribeinfo {
+     color: #FFFFFF;
+     text-align: center;
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 14px;
+}
+
+.prescibeimg {
+     /* background-color: #FFFFFF; */
+     height: 14px;
+     /*width: 16px;*/
+}
+
+
+.prescribeimgcontainer {
+     padding-left: 8px;
+}
+
+.bt1 {
+     padding: 0px 10px !important;
+     border: 2px solid #FFFFFF;    
+     border-radius: 5px;
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 700;
+     font-size: 14px;
+     color: #fff !important;
+     text-decoration: none !important;
+     /* letter-spacing: 0.861539px; */
+     line-height: 34px;
+     margin-right: 8px;
+}
+
+.hcp {
+     color: #FFFFFF;
+     text-align: center;
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 12px;
+}
+
+.hcp1 {
+     color: #FFFFFF;
+     text-align: center;
+     font-family: Invention;
+     font-weight: 700;
+     font-size: 12px;
+}
+
+.button1 {
+     display: flex;
+}
+
+.cls_date,
+.cls_add {
+     display: flex;
+}
+
+.cls_date .close_cls {
+     margin: 2.5%;
+     cursor: pointer;
+}
+
+.cls_add .close_cls {
+     margin: 0.3% 2%;
+     cursor: pointer;
+}
+
+.form-group label {
+     /* padding: 2px 0; */
+}
+
+.requestNumber {
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 700;
+     font-size: 24px;
+     line-height: 36px;
+     color: #000000;
+     padding-bottom: 0px;
+     margin-bottom: 25px;
+}
+
+.requestsubmit {
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 700;
+     font-size: 24px;
+     line-height: 36px;
+     color: #000000;
+     margin: 0px;
+}
+
+.detailpopUp {
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 400;
+     font-size: 14px;
+     line-height: 21px;
+     color: #000000;
+}
+.detailpopUp p{
+     margin-bottom: 25px !important;
+}
+.questions {
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 400;
+     font-size: 16px;
+     line-height: 24px;
+     text-align: center;
+     color: #000000;
+     height: 30px;
+     margin-top: 0px;
+     margin-bottom: 0px;
+     padding-bottom: 40px;
+     padding-top: 24px;
+}
+.questions a{
+	text-decoration: underline !important;
+	color: var(--primary-green, #00857C);
+	font-feature-settings: 'clig' off, 'liga' off;
+	font-family: Invention;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	/* text-decoration-line: underline !important; */
+}
+
+.popupfooter {
+     background: #FFFFFF;
+     box-shadow: none;
+     width: 100%;
+     padding: 16px;
+}
+
+.viewrequest {
+     font-weight: 700;
+     border: 2px solid #00857C;
+     border-radius: 5px;
+     color: #00857C;
+     font-family: 'Invention';
+     font-size: 14px;
+     padding: 11px 16px;
+     justify-content: center;
+     align-items: center;
+     width: 159px;
+     height: 40px;
+}
+
+.slds-modal__container {
+     max-width: 55rem;
+     width: 100%;
+}
+
+.slds-box.box {
+     margin-left: 140px;
+     margin-right: 140px;
+}
+.subtitleheder{
+     margin-top: 16px;
+     margin-bottom: 24px;
+     margin-left : 140px;
+     margin-right: 140px;
+}
+.cmssubtitleheder{
+     margin-bottom: 0px !important ;
+}
+.subtitle {
+     font-family: 'Invention';
+     font-style: normal;
+     font-weight: 700;
+     font-size: 16px;
+     line-height: 24px;
+     padding-top: 20px;
+     padding-bottom: 20px;
+     text-align: center;
+     color: #000000;
+
+}
+.subtitle p{
+     margin-bottom: 0;
+}
+.sub{
+     padding-left: 12px;
+}
+
+.sub1 {
+     border-color: #00857c;
+     color: #00857c;
+     border: 2px solid #00857c;
+     background-color: white;
+     box-sizing: border-box;
+     border-radius: 5px;
+     width: 37px;
+     height: 40px;
+     padding-bottom: 6px;
+}
+
+.greenIcon {
+     --sds-c-icon-color-foreground-default: #00857C;
+}
+
+.closeicon {
+     cursor: pointer;
+     border: 1px solid #00857c;
+}
+
+a {
+     text-decoration: none !important;
+}
+
+.schedulepg .slds-input__icon-group {
+     right: 0px;
+     margin-top: -8px;
+}
+
+.b {
+     text-decoration: none;
+     color: black;
+}
+
+.b:hover {
+     color: black;
+     text-decoration: none;
+}
+
+.hoverstyle:hover {
+     color: black;
+     text-decoration: none;
+}
+
+.hoverstyle {
+     color: black;
+     text-decoration: none;
+}
+
+.cursorcls {
+     cursor: default;
+}
+
+.Spinner {
+     background-color: transparent;
+}
+
+.hcp1 {
+     padding-left: 12px;
+     padding-bottom: 5px;
+}
+
+.hcp {
+     padding-left: 0px;
+     padding-bottom: 5px;
+}
+
+.wrap1 {
+     width: 100%;
+     /* height: 114px; */
+     /* width: 1080px; */
+}
+
+.hr {
+     clear: both;
+     margin: 0px 0px 24px;
+}
+
+.subreq {
+     font-family: 'Invention';
+     color: white;
+     background-color: #00857c;
+     height: 40px !important;
+     font-size: 16px;
+     letter-spacing: 0.1px;
+     font-style: normal;
+     font-weight: 700 !important;
+     font-size: 14px !important;
+     line-height: 18px !important;
+     display: flex;
+     align-items: center;
+     text-align: center;
+     color: #fff !important;
+     padding: 11px 16px;
+}
+
+.numberreq {
+     color: #00877c;
+     font-size: 18px;
+     line-height: 27px;
+}
+
+.reqview {
+     margin-left: 16px;
+}
+
+.pop {
+     font-family: 'Invention';
+     color: white;
+     background-color: #00857c;
+     height: 40px;
+     font-size: 14px;
+     letter-spacing: 0.861539px;
+     line-height: 18px;
+     /* width: 151px; */
+     border-radius: 5px;
+     font-weight: 700;
+     border-color: #00857C;
+     padding-bottom: 1px;
+     padding-top: 2px;
+}
+
+.pop1 {
+     font-family: 'Invention';
+     color: #00857c;
+     background-color: white;
+     height: 40px;
+     font-size: 14px;
+     letter-spacing: 0.861539px;
+     line-height: 17px;
+     border-radius: 5px;
+     font-weight: 700;
+     border: 2px solid #00857C;
+}
+.crossbutton {
+     margin-left: 16px;
+}
+
+.loaderstyle {
+     background-color: transparent;
+}
+
+.attendeestyle {
+     width: 307px;
+}
+
+.productstyle {
+     color: #FFFFFF !important;
+     text-decoration: underline !important;
+}
+
+.indicstyle {
+     padding-top: 40px;
+     padding-left: 24px;
+}
+
+.scheduleDateCls {
+     padding-right: 16px;
+}
+
+.mobRemoveDateBtn {
+     display: none;
+}
+
+.mobCloseCls {
+     display: block;
+}
+
+.slds-accordion__summary {
+     padding-bottom: 0;
+}
+.slds-modal__content{
+     /*padding-top:16px ;
+     padding-right:16px ;
+     padding-bottom:16px ;
+     padding-left:16px ;*/
+}
+.reqnuber{
+     padding-top: 0px;/*1625:Ramana updated 16px to 0px*/
+}
+
+@media (min-width: 576px) {
+     .col-sm-4 {
+          flex: 0 0 auto;
+          width: 278px;
+     }
+     .Time{
+          width: 280px;
+          padding-left: 0px;
+     }
+  
+}
+@media screen and (max-width:391px) {
+     .schedulepg[c-schedule_schedule] .slds-input__icon-group[c-schedule_schedule] {
+          left: 245px;
+          right: 10px;
+          margin-top: -8px;
+      }
+     .br-on-mobile {
+       display: inherit;
+     }
+     .popupheight{
+          height: 100vh;
+          margin: 16px;
+     }
+     .col-sm-4-time{
+          margin-left: 0px
+     }
+     .pop {
+          width: 99% !important;
+          position: initial !important;
+          padding: 11px 16px;
+     }
+     .pop1 {
+          width: 99% !important;
+          position: inherit !important;
+          padding: 11px 16px;
+     }
+     .subtitle{
+          font-size: 16px !important;
+     }
+     .subtitleheder{
+          padding: 0 16px;
+     }
+  
+}
+@media screen and (max-width:394px) {
+     .schedulepg[c-schedule_schedule] .slds-input__icon-group[c-schedule_schedule] {
+          left: 245px;
+          right: 10px;
+          margin-top: -8px;
+      }
+     .br-on-mobile {
+       display: inherit;
+     }
+     
+     .popupheight{
+          height: 100vh;
+     }
+     .col-sm-4-time{
+          margin-left: 0px
+     }
+     .pop {
+          margin-top: 0 !important;
+          width: 99% !important;
+          position: initial !important;
+     }
+
+     .pop1 {
+          width: 99% !important;
+          position: inherit !important;
+     }
+     .subtitleheder{
+          padding: 0 16px;
+     }
+
+}
+
+@media only screen and (max-width: 768px) {
+     .schedulepg[c-schedule_schedule] .slds-input__icon-group[c-schedule_schedule] {
+          left: 245px;
+          right: 10px;
+          margin-top: -8px;
+      }
+     .submi{
+          margin: 32px 0px 0px 0px;
+     }
+     .prescribediv{
+          width: auto;
+     }
+     .bcpad{
+          padding-left: 48px;
+     }
+     .hpad{
+          padding-left: 8px;
+     }
+     .slds-input{
+          padding: 9px 12px 10px 12px;
+          width:120%
+     }
+     .col-sm-4-time{
+          margin-left: 0px
+     }
+     .mobbgr{
+          width:154px;
+          background: #E5F4E5;
+     }
+     .mobrequ{
+          width:154px;
+          background: #FFE7E6;
+     }
+     .vursbtn {
+          /* padding-bottom: 24px; */
+          padding-top: 0px !important;
+          margin-top: 32px !important;
+     }
+     .submitrequest{
+          padding: 0px;
+     }
+     /* .titlpad{
+          padding-left: 16px;
+     } */
+     .bg{
+          padding: 16px 0 !important;
+     }
+     .mobview{
+          display: inline-grid !important;
+     }
+     .webview{
+          display: none !important;
+     }
+     .btn-btm-marg{
+          margin-bottom: 8px;
+     }
+     .nopad{
+          padding-left: 0px;
+     }
+     .innerbody{
+          padding: 24px;
+     }
+     .indicstyle{
+          padding-top: 56px;
+     }
+
+     /* For mobile phones: */
+     .ptextone {
+          padding-bottom: 0px;
+          margin-bottom: 8px;
+     }
+     .popupheight{
+          height: 100vh;
+          margin: 0;
+     }
+     .ptexttwo {
+          font-size: 24px;
+          line-height: 36px;
+     }
+
+     .container {
+          width: 100% !important;
+     }
+
+     .ptexthree {
+          width: 100% !important;
+          font-size: 18px;
+          line-height: 27px;
+          margin-bottom: 8px;
+     }
+     .reqview{
+          margin-left: 20px;
+     }
+     .crossbutton{
+          margin-left: 16px;
+     }
+     .lnbtns {
+          display: inline-grid;
+          padding-top: 0px !important;
+     }
+
+     .cls_date {
+          display: inline;
+     }
+     .requestNumber{
+          margin-bottom: 8px !important;
+          font-size: 18px;
+          line-height: 27px;
+          padding-bottom: 0;
+     }
+     .scheduleDateCls {
+          padding-right: 0px;
+     }
+
+     .mobRemoveDateBtn {
+          display: block;
+     }
+
+     .mobCloseCls {
+          display: none;
+     }
+
+     /* for Submit button popup modal */
+
+     .slds-modal__container {
+          margin: 16px;
+          width: auto;
+     }
+     .reqnuber{
+          display: flex;
+     }
+     .popupfooter {
+          align-items: center;
+          justify-content: space-evenly;
+          padding: 16px !important;
+     }
+
+     .questions {
+          font-size: 14px;
+          padding-top: 16px !important;
+          padding-bottom: 0px !important;/*1626: Ramana*/
+          margin: 0px;/*1626: Ramana */
+          /*margin-top: 16px;*//*1626: Ramana */
+          height: auto;
+          justify-content: space-between;
+          text-align: left;
+     }
+
+     .slds-modal__content{
+          /*padding-top:16px ;
+          padding-right:16px ;
+          padding-bottom:16px ;
+          padding-left:16px ;*//*1626:Ramana removing the padding*/
+     }
+     .content_div{
+          padding-top:16px ;
+          padding-right:16px ;
+          padding-bottom:16px ;
+          padding-left:16px ;/*1626:Ramana added the padding*/
+     }
+     .detailpopUp{
+          margin-top: 8px;
+          margin-bottom: 16px;
+     }
+     .subtitleheder{
+          padding-left: 0px;/*1626: Ramana : Removing padding*/
+          padding-right: 0px;
+          margin-bottom: 16px !important;
+          /*padding-top: 16px;*//*1626: Ramana : Removing padding*/
+          margin-left : 0px !important;
+          margin-right: 0px !important;
+          margin-top: 0px !important;
+     }
+     .subtitle {
+          padding-bottom: 0px;
+          padding-top: 0px;
+          margin-bottom: 16px;
+          /*padding-left: 5px;*/
+          text-align: left;
+     }
+     .subtitle p{
+          /* display: contents; */
+          margin-bottom: 0;
+     }
+     .slds-align_absolute-center{
+          padding: 16px;
+     }
+     .slds-box.box {
+          padding: 16px;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+     }
+     .childbody{
+          background-color: #FFFFFF;
+          overflow: scroll;
+     }
+     .viewrequest {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          /* width: 155px; */
+          width: 100%;
+          line-height: 18px;
+          letter-spacing: 0.861539px;
+     }
+
+     .pop {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          padding: 11px 16px;
+          width: 100% !important;
+          position: initial !important;
+          height: 40px;
+          background: #00857C;
+          letter-spacing: 0.861539px;
+          flex: none;
+          order: 0;
+          align-self: stretch;
+          flex-grow: 0;
+     }
+
+     .pop1 {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          /* width: 155px; */
+          width: 100%  !important;
+          height: 40px;
+          padding: 11px 16px;
+          position: inherit  !important;
+          margin-top: 8px;
+          margin-left: 0px !important;/*1626:Ramana : Updated frpm 16px to 0px*/
+          line-height: 18px;
+          letter-spacing: 0.861539px;
+          flex: none;
+          order: 1;
+          flex-grow: 0;
+          border: 2px solid #00857C;
+          border-radius: 5px;
+
+     }
+     .mob-br-dsn {
+          display: none;
+     }
+
+     .mob-rs-popup-hdr {
+          display: flex;
+          align-items: center;
+          margin-left: 0 !important;
+     }
+
+     .mob-rs-popup-hdr .slds-col.slds-size_11-of-12 {
+          width: 80%;
+     }
+
+     .requestsubmit {
+          margin-bottom: 0px;
+          font-size: 18px;
+          line-height: 27px;
+          justify-content: space-between;
+          width: inherit;
+     }
+
+     .mob-rs-popup-hdr .slds-col.slds-size_1-of-12 {
+          padding-right: 12px;
+          width: 20%;
+          flex: auto;
+     }
+
+     /* for Submit button popup modal */
+     .presentationcontainer {
+          width: 154px;
+     }
+
+     .datetimecls .cls_date .datetime .form-control,
+     .slds-input {
+          border: 1px solid black !important;
+     }
+
+     .sub {
+          width: 80%;
+          padding: 0px !important;
+     }
+     .catalog{
+          width: 102%;
+     }
+     .book_cls{
+          width: 24px;
+          height: 24px;
+     }
+}
+
+.fullwidthcal {
+     width: 100%;
+     margin-bottom: 0;
+}
+
+.readmore {
+     font-size: 14px;
+     color: #00857C !important;
+     font-family: 'Invention' !important;
+     font-style: normal !important;
+     font-weight: 600 !important;
+     font-size: 14px !important;
+     cursor: pointer;
+     text-decoration: underline;
+     text-decoration-color: #00857C !important;
+     ;
+}
+
+.slds-input.slds-is-disabled,
+.slds-input[disabled] {
+     background-color: #f3f3f3;
+     border-color: #c9c9c9;
+     color: #444;
+     cursor: auto !important;
+     -webkit-user-select: none;
+     -moz-user-select: none;
+     -ms-user-select: none;
+     user-select: none
+}
+.vursbtn {
+     /* padding-bottom: 24px; */
+     /*padding-top: 32px ;*/
+     margin-top: 32px;
+}
+
+@media all and (max-width: 992px ){
+.container {
+    margin:0px;
+    width: 100%;
+}
+.bg{
+    padding: 24px!important;
+}
+.cardcontainer{
+          width: 100% !important;
+          padding: 0px;
+}
+}
+
+@media all and (min-width: 992px) and (max-width: 1128px){
+.cardcontainer{
+          width: 100% !important;
+          padding: 40px 100px 0 156px;
+}
+.indicstyle{
+   padding-left: 0px;
+}
+.titlecard {
+ width: 100%;
+}
+}
+@media all and (min-width: 1129px){
+.cardcontainer{
+     width: 100%;
+     padding: 0px;
+     padding-top: 40px;
+     padding-left: 156px;
+     padding-right: 100px;
+     margin: 0px;
+}
+.indicstyle{
+   padding-left: 0px;
+}
+.titlecard {
+ width: 100%;
+}
+}

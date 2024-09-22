@@ -1,0 +1,39 @@
+<apex:page sidebar="false" controller="MRK_Call_Delink">
+   <apex:form id="formid">
+     <apex:pageMessages ></apex:pageMessages>
+       <apex:pageBlock >
+          <apex:pageBlock title="Delink Call from the Medical Event/FFM">
+             <apex:pageBlockSection title="Call Delink" collapsible="true">
+           
+      <h1> Call Name </h1><apex:inputText value="{!CallName}" id="CallName" required="true"/>
+        <!--<h1> Medical Event ID </h1><apex:inputText value="{!RFMId}" id="RFMId" required="true"/>-->
+      <!--  <h2 style="background-color:Tomato;">
+WARNING!!!! Please Enter the Call name Which starts With "C0"
+</h2> -->
+
+ </apex:pageBlockSection>
+     </apex:pageBlock>
+ 
+ <apex:pageBlockButtons location="bottom">
+     <apex:commandButton action="{!Search}" value="Search Medical Event" reRender="SK,formid"/>
+           
+  <!--<apex:commandButton action="{!Delink}" value="Call Delink"/> -->
+      
+  </apex:pageBlockButtons>
+     </apex:pageBlock>
+     
+    
+      <apex:pageBlock id="SK" rendered="{!enableblock}" >
+        <apex:pageBlockTable value="{!searchresult}" var="v">
+          <apex:column value="{!v.Medical_Event_vod__r.name}"/>
+            <apex:column value="{!v.Medical_Event_vod__c}"/>
+               <apex:column value="{!v.Medical_Event_vod__r.id}"/>
+      
+      </apex:pageBlockTable>
+        <apex:pageBlockButtons location="bottom">
+          <apex:commandButton action="{!Delink}" value="Call Delink" rendered="{!enableblock}" /> 
+            </apex:pageBlockButtons>
+               </apex:pageBlock>
+      
+   </apex:form>
+</apex:page>

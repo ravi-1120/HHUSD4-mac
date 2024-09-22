@@ -1,0 +1,1037 @@
+.container {
+    /* max-width: 1170px; */
+    max-width: 81%;
+    margin: auto;
+}
+
+.cal {
+    padding-right: 13px;
+}
+
+.crossstyle {
+    margin-left: 21px;
+}
+
+.cardheader{
+    padding-bottom: 19px;
+}
+.radiobtncls{
+    --sds-c-radio-line-height: 19px;
+}
+.slds-form-element__control.slds-radio{
+    padding-top: 19px;
+}
+.THIS label.slds-radio_button__label {
+    padding-top: 19px;
+}
+
+/*RT-1018*/
+.box1 {
+    margin-top: 24px;
+}
+
+/*RT-1018*/
+.decstyl {
+    text-decoration: underline;
+    color: #00857C;
+}
+
+/*RT-1018*/
+.bgclr {
+    background: #FFFFFF;
+}
+
+.imgpad {
+    padding: 12px;
+}
+
+.crossz {
+    width: 38px;
+    height: 38px;
+    padding: 0px;
+}
+
+.containerEdit {
+    max-width: 81%;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    margin-top: -140px;
+    
+}
+
+.slds-input {
+    color: #333333;
+}
+
+.bannercls {
+    position: relative;
+}
+
+.bannercls img {
+    width: 100vw;
+    height: 221px;
+}
+
+.reqtopicstyle {
+        padding-top: 16px;
+    }
+
+.tumorstyle {
+    padding-top: 0px;
+    margin-top: -8px;
+    padding-bottom: 0px;
+    margin-bottom: -6px;
+}
+
+.numberreq {
+    color: #00857c;
+}
+
+.loader {
+    background-color: transparent;
+}
+
+.header_cls {
+    font-family: 'Invention';
+    position: absolute;
+    color: #FFFFFF;
+    z-index: 3;
+    top: 10%;
+    text-align: left;
+    width: 100%;
+}
+
+.header_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    color: #FFFFFF;
+}
+
+.header_cls p {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    color: white;
+    font-size: 18px;
+    line-height: 27px;
+    width: 60%;
+}
+
+.breadcrumbs {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: underline !important;
+    color: #FFFFFF !important;
+}
+
+.boxshadow_cls {
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09), 0px 3px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    margin: 0px 0px 40px;
+    padding: 40px;
+}
+
+.cntheader_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    padding-bottom: 8px;
+}
+
+.cntheader_cls p {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+}
+
+.maincls {
+    width: 100%;
+}
+
+.slds-button.slds-button_icon {
+    color: var(--dxp-g-neutral-3);
+    display: none;
+}
+
+.buttoncls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #00857C;
+    background: #FFFFFF;
+    border: 2px solid #00857c;
+    border-radius: 4px;
+}
+/* .date1{
+    font-family: Invention;
+    font-size: 14px !important;
+}
+.timeop{
+    font-family: Invention;
+    font-size:14px !important;
+
+} */
+.Time {
+    width: 282px;
+    bottom: 25px;
+
+}
+
+.Date {
+    padding-top: 0px;
+    width: 282px;
+    background: #FFFFFF;
+    font-weight: 700;
+
+}
+.appoitment_cls{
+    padding-top: 24px;
+}
+
+.calendarcls {
+    padding-left: 0px;
+}
+
+.appoitment_cls h1 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #000000;
+    padding-bottom: 8px;
+}
+
+@media (min-width: 576px) {
+    .col-sm-4 {
+        flex: 0 0 auto;
+        min-width: 268px;
+        /* padding-right: 10px; */
+    }
+}
+
+.appoitment_cls h2 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.combobox_cls {
+    /* width: 30%; */
+}
+
+.box_width_cls {
+    min-width: 15rem;
+}
+
+.box_width_cls label {
+    font-weight: 700;
+
+}
+
+.box_width_cls {
+    padding-left: 16px;
+    padding-top: 25px;
+    height: 100px;
+}
+
+.close_cls {
+    margin-top: 34px;
+    margin-left: 18px;
+    /* padding-left: 15px; */
+}
+ /*R5 */
+.submitbtn_cls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 11px 13px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #FFFFFF;
+    background: #00857C;
+    border: 2px solid #00857c;
+    border-radius: 4px;
+    max-width: 148px;
+}
+.cls_date{
+    height: 90px;
+}
+.cls_date,
+.cls_add {
+    display: flex;
+}
+
+.cls_date .close_cls {
+    /* margin: 2.5%; */
+    cursor: pointer;
+}
+
+.datecls {
+    margin-bottom: 0 !important;
+    color: #1A1B1E;
+    height: 40px !important;
+}
+
+.time_cls {
+    color: #1A1B1E;
+}
+
+.bordercls {
+    border-bottom: 1px solid #CFD2D7;
+}
+
+.back-btn {
+    margin-bottom: 16px;
+}
+
+.slds-radio_faux {
+    height: 20px !important;
+    width: 20px !important;
+}
+
+.slds-radio {
+    height: 20px !important;
+    width: 20px !important;
+}
+
+.box_width_cls input {
+    border: 1px solid #333333 !important;
+}
+
+.box_width_cls .slds-input {
+    height: 40px !important;
+    border: 1px solid #333333 !important;
+}
+
+.slds-icon {
+    color: #000000 !important;
+    fill: #000000 !important;
+}
+
+.slds-box.box {
+    margin-left: 140px;
+    margin-right: 140px;
+    border: 1px solid #D8D8D8;
+}
+
+.slds-modal__container {
+    max-width: 55rem;
+    width: 100%;
+}
+
+.subtitle {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 24px;
+    text-align: center;
+    line-height: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.requestsubmit {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+}
+
+.greenIcon {
+    --sds-c-icon-color-foreground-default: #00857C;
+}
+
+
+.requestNumber {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+}
+
+.detailpopUp {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    /*padding: 0 40px; */
+}
+
+.detailheader {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+}
+
+.questions {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+    padding-top: 23px;
+    height: 84px; 
+    padding-bottom: 40px;
+    /*padding-bottom: 23px; */
+
+}
+
+.questions2 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+    padding-top: 23px;
+    padding-bottom: 23px; 
+
+}
+
+.popupfooter {
+    background: #FFFFFF;
+    box-shadow: none;
+    width: 100%;
+    float: right;
+    display: inline !important;
+    padding-top: 17px;
+    padding: 17px 16px 16px;
+}
+
+/* Rusheel-Jira-1030-Start */
+.viewrequestcls {
+    display: flex;
+    font-weight: 700;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    color: #00857C;
+    font-family: 'Invention';
+    font-size: 14px;
+    padding: 11px 16px;
+    justify-content: center;
+    align-items: center;
+    width: 159px;
+    height: 40px;
+    gap: 16px;
+    background-color: #FFFFFF;
+    margin-top: 25px;
+}
+
+/* Rusheel-Jira-1030-End */
+
+/* .close_cls {
+     margin: 2.5%;
+} */
+.popfooterone {
+    margin-left: 67%;
+}
+
+/*Added for mobile screen*/
+.mobheadertext {
+    display: none;
+}
+
+.mobTruncateText {
+    display: none;
+}
+
+.mobbreadcrumbs {
+    display: block;
+}
+
+.remove-btn {
+    display: none;
+}
+
+.linkEdit {
+    /*By Tausif 1016*/
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: underline !important;
+    color: #00857C !important;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding-right: 8px;
+}
+
+.link-nonunderline-Edit {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration-line: none;
+    color: #00857C !important;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding-right: 8px;
+}
+
+.barEdit {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #00857c !important;
+    padding-right: 8px;
+}
+
+.status_cls-edit {
+    padding-top: 24px;
+}
+
+.status_txt-edit {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    margin: auto 0;
+    display: inline;
+    background-color: orange;
+}
+
+.disease-name-edit {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+}
+
+.request-topic-edit {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+/*R5 */
+.submitbtn_cls-cancel-edit {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 11px 17px;
+    align-items: center;
+    text-align: center;
+    color: #00857C;
+    background: #FFFFFF;
+    border: 2px solid #00857C;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+
+.pillcls-edit {
+    /* Tausif 1016*/
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #333333;
+    background: #D8D8D8;
+    border-radius: 4px;
+    padding: 5px;
+    margin-left: 0px;
+    margin-right: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.mobTruncate {
+    visibility: visible;
+}
+
+.mobTruncateText {
+    display: none;
+    visibility: visible;
+}
+
+
+.Submitbtn {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 11px 15px;
+    /*display: flex; Tausif-1016*/
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #FFFFFF;
+    background: #00857C;
+    border: 1px solid #00857c;
+    border-radius: 4px;
+}
+
+.submitbtn {
+    display: none;
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
+
+    .Time {
+    width: 343px;
+    bottom: 25px;
+
+    }
+
+.crossstyle {
+    margin-left: 17px;
+}
+
+    
+
+.cls_date{
+        height: 200px;
+    }
+
+.cardheader{
+    padding-bottom: 17px;
+}
+
+.Date {
+    padding-top: 0px;
+    width: 343px;
+    background: #FFFFFF;
+    font-weight: 700;
+
+}
+
+    .newdateicon {
+        top: 55% !important;
+        right: 31px !important;
+
+    }
+
+    .decstyl {
+        text-decoration: none;
+        color: #00857C;
+    }
+
+    .container {
+        max-width: none !important;
+        padding-top: 0 !important;
+    }
+
+    .mobheadertext {
+        display: block !important;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px !important;
+        line-height: 36px !important;
+        margin-top: 8px;
+    }
+
+    .forpayer {
+        display: none;
+    }
+
+    .userview {
+        display: none;
+    }
+
+    .cls_date,
+    .cls_add {
+        display: block !important;
+    }
+
+    .box_width_cls {
+        margin-top: 6px;
+        padding-left: 0px;
+        height: 75px;
+    }
+
+    .datedivmob {
+        padding-right: 0 !important;
+    }
+
+    .time_cls {
+        width: auto !important;
+    }
+
+    .warningdiv {
+        width: auto !important;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 27px;
+    }
+
+    .header_cls {
+        width: auto !important;
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+
+    .mobTruncateText {
+        display: block !important;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        display: inline;
+        visibility: visible;
+        color: #FFFFFF;
+        padding-right: 8px;
+    }
+
+    .mobbreadcrumbs {
+        display: none !important;
+    }
+
+    /* Rusheel-1017-start */
+    .bannercls img {
+        height: 258px !important;
+        width: 100%;
+    }
+
+    .submitbtn_cls {
+        margin-top: 32px !important;
+        width: 148px;
+        height: 40px;
+
+    }
+
+    .boxshadow_cls {
+        margin-top: 0 !important;
+        padding-bottom: 0px;
+        padding-left: 16px;
+        padding-right: 16px;
+
+    }
+
+    /* Rusheel-1017-end */
+    .remove-btn {
+        display: block !important;
+        margin-bottom: 16px;
+    }
+
+    .close_cls {
+        display: none;
+    }
+
+    .schedulesubtxt {
+        margin-top: 8px;
+    }
+    .slds-p-top_large.attendeetxt{
+        padding-top: 33px;
+    }
+    .attendeetxt {
+        font-family: 'Invention';
+        font-weight: 400;
+        line-height: 24px;
+       
+    }
+    
+
+    .subtitle {
+        padding-top: 16px !important;
+        text-align: left !important;
+        font-weight: 700;
+        padding: 16px;
+        line-height: 24px !important;
+    }
+
+    .requestsubmit {
+        margin-left: 16px;
+        width: 90% !important;
+        font-size: 18px !important;
+        line-height: 27px !important;
+    }
+
+    .reqsub {
+        width: 84% !important;
+        padding-left: 0 !important;
+    }
+
+    .crossbtn {
+        /* margin-top: 11px;*/
+        width: auto;
+        padding-left: 0 !important;
+    }
+
+    .mobbr {
+        display: none;
+    }
+
+    .requestNumber {
+        font-size: 18px !important;
+        line-height: 27px !important;
+    }
+
+    .box {
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+        min-width: 279px;
+    }
+
+    .slds-modal__container {
+        width: auto !important;
+        height: auto !important;
+        padding: 3rem 0 5rem 0 !important;
+    }
+
+    .detailpopUp {
+        font-size: 16px !important;
+        line-height: 21px !important;
+        padding: 0px;
+    }
+
+    .questions {
+        margin-left: 16px;
+        height: auto;
+        text-align: left;
+        line-height: 21px !important;
+        padding: 16px;
+        
+    }
+
+    .clsbtn {
+        margin-top: 8px;
+        margin-left: 0 !important;
+    }
+
+    .popupfooter {
+        display: grid !important;
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+
+    .datecls {
+        align-items: center !important;
+        vertical-align: middle !important;
+    }
+
+    /* Rusheel -start*/
+    .Time {
+        top: -50px;
+        max-width: 343px;
+        max-height: 40px;
+    }
+
+    /* Rusheel-end */
+    .slds-truncate {
+        line-height: revert;
+    }
+
+    /* .slds-radio_faux{
+        height: 24px !important;
+        width: 24px !important;
+    }
+    .slds-radio .slds-form-element__label{
+        display: inline-block;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        font-family: 'Invention';    
+        vertical-align: middle;
+    } */
+    /* Rusheel-Jira-1031-Start */
+    .viewrequestcls {
+        display: flex;
+        gap: 20px;
+        width: 279px;
+        height: 40px;
+        margin-top: 16px;
+    }
+
+    /* Rusheel-Jira-1031-End */
+
+    /* Rusheel-1017-start */
+    .disease-name-edit {
+        max-width: 311px;
+        max-height: 54px;
+        font-size: 18px;
+        line-height: 27px;
+    }
+
+    .pillcls-edit {
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-right: 8px;
+        margin-top: 8px;
+        margin-left: 0px;
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    .status_txt-edit {
+        max-width: 76px;
+        max-height: 22px;
+    }
+
+    .removebtn {
+        width: 122px;
+        height: 32px;
+        margin-top: -23px;
+    }
+
+    .cancelbtn {
+        width: 143px;
+        height: 40px;
+        margin-top: 8px;
+    }
+
+    .mobTruncate {
+        /* display: none;
+        visibility: hidden; */
+    }
+
+    .mobTruncateEdit {
+        color: #00857C;
+    }
+
+    .Submitbtn {
+        width: 148px;
+        height: 40px;
+        color: #FFFFFF;
+    }
+
+    .submitbtn_cls-cancel-edit {
+        margin-bottom: 8px;
+        margin-left: 0px;
+        height: 40px;
+    }
+
+    .containerEdit {
+        max-width: 85%;
+        margin: auto;
+        position: relative;
+        z-index: 1;
+        margin-top: -240px;
+        min-width: 390px;
+        margin-left: 0px;
+        padding-left: 16px;
+        margin-right: 16px
+    }
+
+    .buttonWeb {
+        display: none;
+    }
+
+    .submitbtn {
+        display: block;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 11px 16px;
+        align-items: center;
+        text-align: center;
+        color: #FFFFFF;
+        background: #00857C;
+        border: 1px solid #00857c;
+        border-radius: 4px;
+        margin-left: 0px;
+        height: 40px;
+    }
+
+    .status_cls-edit {
+        padding-top: 8px;
+    }
+
+    .slds-p-top_medium {
+        padding-top: 8px;
+    }
+
+    .linkTruncate {
+        display: none;
+    }
+
+    .barTruncate {
+        display: none;
+    }
+
+    /* Rusheel-1017-end */
+
+    /* Ravi Modi SIT_BUG_19 */
+    .slds-modal__content {
+        max-height: 70vh;
+    }
+}

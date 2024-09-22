@@ -1,0 +1,12 @@
+<template>
+    <c-em-page-controller-factory></c-em-page-controller-factory>
+    <c-veeva-modal if:true={loading} hide-header=true hide-footer=true>
+        <div slot="content" class="content-loading">
+            <c-veeva-spinner slot="spinner" class="centered-spinner"></c-veeva-spinner>
+        </div>
+    </c-veeva-modal>
+    <c-veeva-edit-page if:true={showEdit} class="lightning-combobox-override" record-id={recordId} object-api-name={objectApiName}
+                    onloaded={onLoaded} just-dispatch-close={justDispatchClose} onclose={onClose}></c-veeva-edit-page>
+    <c-veeva-new-page if:true={showNew} class="lightning-combobox-override" object-api-name={objectApiName}
+                    onclose={onClose} page-reference={pageReference} just-dispatch-close={justDispatchClose}></c-veeva-new-page>
+</template>

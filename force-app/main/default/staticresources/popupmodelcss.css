@@ -1,0 +1,29 @@
+.slds-modal__container{ 
+     height : auto; width: 80%; max-width: 70vh;
+   } 
+   .modal-body{ 
+     height : 40vh !important; 
+     max-height: 40vh !important; 
+   } 
+   .footermodel { 
+     display: inline !important; 
+   }
+   .slds-dropdown--fluid, .slds-dropdown_fluid{
+    min-width: 100% ;
+    }
+.slds-input_faux:not(.slds-combobox__input-value) {
+    color: #333333;
+    padding: 9px 10px 12px;
+    border: 1px solid #333333;
+}
+.slds-combobox__input:focus {
+    color: #333333;
+    padding: 9px 10px 12px;
+    border: 1px solid #333333;
+}
+.slds-input-has-icon--right .slds-input, .slds-input-has-icon--right .slds-input--bare, .slds-input-has-icon--right .slds-input_bare, .slds-input-has-icon--right .slds-input_faux, .slds-input-has-icon_right .slds-input, .slds-input-has-icon_right .slds-input--bare, .slds-input-has-icon_right .slds-input_bare, .slds-input-has-icon_right .slds-input_faux {
+    
+    color: #333333;
+    padding: 9px 10px 12px;
+    border: 1px solid #333333;
+}

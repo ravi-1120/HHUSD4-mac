@@ -1,0 +1,24 @@
+<template>
+    <div class="container">
+        <div class="image">
+            <img class="imgradius" src={comingsoonbanner} alt="Coming Soon Banner">
+            <div class="overlay-container">
+                <div class="innerdiv">
+                    <div class="sub-div first-div">{cantfind}</div>
+                    <div class="sub-div second-div">
+                        <div class="innertext">{mirDescription}</div>
+                        <div>{mirDatabaseDescription}</div>
+                    </div>
+                    <div class="sub-div third-div">
+                        <button class="slds-grid slds-wrap button" onclick={navigateToMirSearch}>
+                            <span>
+                                {mirRequest}<img class="arrow" src={arrowupperright} alt="Arrow Upper Right">
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="containerbottom"></div>
+</template>

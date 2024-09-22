@@ -1,0 +1,81 @@
+<apex:page standardcontroller="Data_Change_Request_vod__c" extensions="MSD_CORE_GDGS_DCR_Controller" lightningStylesheets="true"   sidebar="false" showHeader="false">
+  <apex:form >
+    <apex:pageBlock title="DCR View" >
+        <apex:pageblockSection title="General Information" columns="2">
+          <apex:outputField value="{!Data_Change_Request_vod__c.Name}"/>
+          <apex:outputField value="{!Data_Change_Request_vod__c.Type_vod__c}"/>
+          <apex:outputField value="{!Data_Change_Request_vod__c.Account_vod__c}"/>
+          <apex:outputField value="{!DCRHeader.MSD_CORE_Request_Type__c}"/>
+          <apex:outputField value="{!Data_Change_Request_vod__c.Address_vod__c}"/>
+         <!-- <apex:outputField value="{!Data_Change_Request_vod__c.Master_Id_MRK__c}"/> -->
+          <apex:outputField value="{!DCRHeader.MSD_CORE_Master_Id_Formula__c}" label="Master Id"/>          
+        <!--  <apex:outputField value="{!Data_Change_Request_vod__c.MSD_CORE_Data_Steward_Master_Id__c}" label="Apply to CM Party ID"/> -->
+          <apex:outputField value="{!Data_Change_Request_vod__c.MSD_CORE_DCR_Status__c}" label="DCR Status"/>          
+         <!-- <apex:outputField value="{!Data_Change_Request_vod__c.OwnerId}" label="Requested By" />  -->
+        <!-- <apex:outputField value="{!Data_Change_Request_vod__c.MSD_CORE_Application_Source__c}" label="Source" />   -->   
+        <apex:outputField value="{!Data_Change_Request_vod__c.Application_Source__c}" label="Source" />   
+          <apex:outputField value="{!Data_Change_Request_vod__c.Notes_vod__c}" label="Requestor Notes"/>
+         <!-- <apex:outputField value="{!Data_Change_Request_vod__c.User__c}" label="Data Steward"/> -->
+          <apex:outputField value="{!Data_Change_Request_vod__c.MSD_Core_DataSteward_Notes__c}" label="Approval/Rejection Notes" />
+           <apex:outputField value="{!Data_Change_Request_vod__c.MSD_CORE_Error__c}" label="Error" />
+          </apex:pageblockSection>
+                   
+       <apex:pageblockSection title="Customer Information" rendered="{!CustLineItems.size>0}">  
+              <apex:pageBlockTable value="{!CustLineItems}" var="custli">
+                 <apex:column headerValue="Field Name" width="800">
+                        <apex:outputField value="{!custli.Field_Name_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="Old Value" width="800">
+                        <apex:outputField value="{!custli.Old_Value_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="New Value" width="800">
+                        <apex:outputField value="{!custli.New_Value_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="Final Value" width="800">
+                        <!-- <apex:inputText value="{!custli.Final_Value_vod__c}" required="True" /> -->
+                        <apex:outputField value="{!custli.Final_Value_vod__c}" />
+                        
+                        <!--
+                        <apex:inputField value="{!custli.Data_Change_Request_vod__r.Account_vod__r.Class_of_Trade_MRK__c}" rendered="{!custli.Field_Name_vod__c == 'Type'}"/>
+                        <apex:inputField value="{!custli.Data_Change_Request_vod__r.Account_vod__r.Class_of_Trade_Sub_MRK__c}" rendered="{!custli.Field_Name_vod__c == 'Sub-Type'}"/> -->
+                 </apex:column>
+              <!--   <apex:column headerValue="Final Value">
+                        <apex:inputField value="{!custli.Final_Value_vod__c }" rendered="false"/>
+                         <apex:inputField value="{!custli.Final_Value_vod__c }"/>
+                 </apex:column> -->
+         </apex:pageBlockTable>
+            
+           </apex:pageblockSection>  
+        <apex:pageblockSection title="Address Information" rendered="{!AddrLineItems.size>0}" >
+            <apex:pageBlockTable value="{!AddrLineItems}" var="addrli">
+               <apex:column headerValue="Field Name" width="800">
+                        <apex:outputField value="{!addrli.Field_Name_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="Old Value" width="800">
+                        <apex:outputField value="{!addrli.Old_Value_vod__c}"/>
+                 </apex:column>
+                 <apex:column headerValue="New Value" width="800">
+                        <apex:outputField value="{!addrli.New_Value_vod__c}"/>
+                 </apex:column>
+                  <apex:column headerValue="Final Value" width="800">
+                         <apex:outputField value="{!addrli.Final_Value_vod__c}"  />
+                  </apex:column>
+            
+            </apex:pageBlockTable>
+          
+        </apex:pageblockSection>
+       
+        
+        <apex:pageBlockButtons id="btns" >
+       
+             
+               <apex:commandButton action="{!cancel}" value="Home"  disabled="false"/>
+               
+
+        </apex:pageBlockButtons> 
+        
+     </apex:pageBlock>
+     
+  </apex:form>
+  
+</apex:page>

@@ -1,0 +1,279 @@
+<template>
+  <c-custom-toast auto-close-time="2000"></c-custom-toast>
+  <div class="q-container">
+    <template lwc:if={isMerckEmployee}>
+      <lightning-layout multiple-rows="true">
+        <lightning-layout-item class="slds-p-left_medium">
+          <lightning-radio-group required="true" label={label.MERCKFIELDBASES} name="FieldBased"
+            class="rowFlex requiredField" options={FieldBasedOptions} type="radio" value={inputValues.FieldBased}
+            onchange={handleInput}>
+          </lightning-radio-group>
+        </lightning-layout-item>
+      </lightning-layout>
+      <template if:true={FieldBased}>
+        <lightning-layout multiple-rows="true">
+          <!-- Input Field -->
+          <lightning-layout-item size="12" flexibility="auto" class="slds-p-left_medium padding-right"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input name="WinId" label={label.EMPLOYEEID} type="search" onchange={handleInput} required="true"
+              class="employee-id-input" value={inputValues.WinId} onkeydown={handleKeydown}></lightning-input>
+          </lightning-layout-item>
+          <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="8" small-device-size="8"
+            medium-device-size="4" large-device-size="3">
+            <lightning-input name="LastName" label={label.LASTNAME} onchange={handleInput} required="true"
+              class="last-name-input" value={inputValues.LastName} onkeydown={handleKeydown}></lightning-input>
+          </lightning-layout-item>
+          <lightning-layout-item size="4" small-device-size="4" medium-device-size="2" large-device-size="2"
+            style="margin-top: 1.65rem;">
+            <span>
+              <button if:true={FieldBased} title={label.VALIDATEBUTTON}
+                class="slds-button slds-button_brand btnHover validateBtn" onclick={validateCounter}
+                disabled={validateBtnDisable}>{label.VALIDATEBUTTON}</button>
+            </span>
+            <span lwc:if={isValidationSuccessful}
+              class="slds-m-left_x-small slds-icon_container slds-input__icon slds-input__icon_right"
+              title="Valid Employee ID">
+              <lightning-icon icon-name="utility:check" variant="success" size="x-small"></lightning-icon>
+            </span>
+          </lightning-layout-item>
+        </lightning-layout>
+        <br>
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input name="MaskedFirstName" label={label.FIRSTNAME} disabled="true"
+              value={inputValues.MaskedFirstName}></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input name="MaskedPhone" label={label.PHONE} disabled="true"
+              value={inputValues.MaskedPhone}></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input name="MaskedEmail" label={label.EMAIL} disabled="true"
+              value={inputValues.MaskedEmail}></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout>
+      </template>
+
+      <template if:true={NonFieldBased}>
+
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input name="NEmployeeId" label={label.EMPLOYEEID} required="true" class="requiredField"
+              onchange={handleInput} value={inputValues.NEmployeeId}></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input name="NFirstName" label={label.FIRSTNAME} required="true" class="requiredField"
+              onchange={handleInput} value={inputValues.NFirstName}></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input name="NName" label={label.LASTNAME} required="true" class="requiredField"
+              onchange={handleInput} value={inputValues.NName}></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input label={label.PHONE} type="tel" name="NempPhone" value={inputValues.NempPhone}
+               onchange={handleInput} maxlength="30" pattern="^[0-9+\-]+$"
+              message-when-pattern-mismatch="Invalid Phone Number" onblur={onBlur}
+              message-when-type-mismatch="Invalid Phone Number"></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input label={label.EMAIL} name="NempEmail" type="email" value={inputValues.NempEmail}
+              required="true" class="requiredField" onchange={handleInput} maxlength="80" pattern=".+\.\w+(\.\w+)?$"
+              message-when-pattern-mismatch="Invalid Email Address" onblur={onBlur}
+              message-when-type-mismatch="Invalid Email Address"></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-combobox name="NempCountry" label={label.Country} dropdown-alignment="auto" role="option"
+              tabindex="0" options={CountryOptions} onchange={handleInput}
+              value={inputValues.NempCountry}></lightning-combobox>
+          </lightning-layout-item>
+        </lightning-layout>
+
+
+        <!-- <lightning-layout>
+          <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="4">
+            <lightning-input name="MaskedFirstName" label={label.FIRSTNAME} 
+              value={inputValues.MaskedFirstName}></lightning-input>
+          </lightning-layout-item>
+        </lightning-layout> -->
+      </template>
+    </template>
+    <template lwc:elseif={isPSP}>
+      <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="horizontal-medium" size="12" small-device-size="12" medium-device-size="6"
+          large-device-size="6">
+          <lightning-combobox name="PSPProgramName" label={label.PSPPROGRAMNAME} options={pspProgramOptions}
+            onchange={handleProgramChange} required="true" class="requiredField"
+            value={inputValues.PSPProgramName}></lightning-combobox>
+        </lightning-layout-item>
+        <!-- <template if:true={isOtherSelected}> -->
+          <lightning-layout-item lwc:if={isProgramOtherFieldDisabled} padding="horizontal-medium" size="12" small-device-size="12" medium-device-size="6"
+            large-device-size="6">
+            <lightning-input name="PSPProgramNameOther" required="true" label={label.PSPPROGRAMNAMEOTHER}
+              maxlength="255" value={inputValues.PSPProgramNameOther} class="requiredField" type="text" onchange={handleInput}></lightning-input>
+          </lightning-layout-item>
+        <!-- </template> -->
+      </lightning-layout>
+      <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="horizontal-medium" size="12" small-device-size="12" medium-device-size="6"
+          large-device-size="6">
+          <lightning-combobox name="PSPCompany" label={label.PSPCOMPANY} options={pspCompanyOptions}
+            value={inputValues.PSPCompany} disabled={dependentDisabled} onchange={handleInput} required="true"
+            class="requiredField"></lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item lwc:if={isCompanyOtherFieldDisabled} padding="horizontal-medium" size="12"
+          small-device-size="12" medium-device-size="6" large-device-size="6">
+          <lightning-input name="PSPCompanyOther" required="true" label={label.PSPCOMPANYOTHER} maxlength="255"
+            value={inputValues.PSPCompanyOther} type="text" class="requiredField"
+            onchange={handleInput}></lightning-input>
+        </lightning-layout-item>
+      </lightning-layout>
+      <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="horizontal-medium" size="12" small-device-size="12" medium-device-size="6"
+          large-device-size="6">
+          <lightning-combobox name="PSPNumber" label={label.PSPNUMBER} options={pspNumberOption}
+            value={inputValues.PSPNumber} disabled={dependentDisabled} onchange={handleInput} required="true"
+            class="requiredField"></lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item lwc:if={isNumberOtherFieldDisabled} padding="horizontal-medium" size="12"
+          small-device-size="12" medium-device-size="6" large-device-size="6">
+          <lightning-input name="PSPNumberOther" required="true" label={label.PSPNUMBEROTHER} maxlength="255"
+            value={inputValues.PSPNumberOther} class="requiredField" type="text"
+            onchange={handleInput}></lightning-input>
+        </lightning-layout-item>
+      </lightning-layout>
+      <lightning-layout>
+        <lightning-layout-item padding="horizontal-medium" size="12" small-device-size="12" medium-device-size="6"
+          large-device-size="6">
+          <lightning-input name="PatientID" label={label.PATIENTID} onchange={handleInput} type="text" max-length="50"
+            value={inputValues.PatientID}></lightning-input>
+        </lightning-layout-item>
+      </lightning-layout>
+      <lightning-layout>
+        <lightning-layout-item padding="horizontal-medium" size="12" small-device-size="12" medium-device-size="6"
+          large-device-size="6">
+          <lightning-input name="Agentname" label={label.NAMEOFAGENT} maxlength="160" onchange={handleInput} type="text"
+            value={inputValues.Agentname}></lightning-input>
+        </lightning-layout-item>
+      </lightning-layout>
+    </template>
+    <lightning-layout multiple-rows="true" class="slds-m-top_medium">
+      <lightning-layout-item class="slds-p-left_medium">
+        <lightning-radio-group label={label.UPLOADDOCUMENTS} name="uploadFile" class="rowFlex"
+          options={uploadFileOptions} value={inputValues.uploadFile} type="radio" onchange={handleInput}>
+        </lightning-radio-group>
+      </lightning-layout-item>
+      <lightning-layout-item class="slds-box" style="padding: 0.4rem;font-size: 12px">
+        <p class="fileCls">{label.ALLFILES}</p>
+        <p class="fileCls">{label.MAXFILES}</p>
+      </lightning-layout-item>
+    </lightning-layout>
+
+    <div lwc:if={showFileUpload} class="success slds-p-left_medium">
+      <lightning-input id="fileUploader" class="success" name="files" type="file" multiple
+        onchange={handleUploadFinished} variant="label-hidden"></lightning-input>
+
+      <div lwc:if={uploadedFileNames} class="success">
+        <!-- {label.FILESUPLOAD}{uploadedFileNames} -->
+
+        <template if:true={uploadedFilesList}>
+          <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover"
+            style="font-size: 12px;">
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="" scope="col" style="width: 55%;">
+                  <div class="slds-truncate tableTitle" title="File Name">{label.FILENAME}</div>
+                </th>
+                <th class="" scope="col" style="width: 15%;">
+                  <div class="slds-truncate tableTitle" title="File Size">{label.FILESIZE}</div>
+                </th>
+                <th class="" scope="col" style="width: 15%;">
+                  <div class="slds-truncate tableTitle" title="Download">{label.DOWNLOAD}</div>
+                </th>
+                <th class="" scope="col" style="width: 15%;">
+                  <div class="slds-truncate tableTitle" title="Delete">{label.DELETE}</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <template for:each={uploadedFilesList} for:item="file">
+                <tr key={file.id} class="slds-hint-parent">
+                  <td data-label="File Name">
+                    <div class="slds-truncate tableTitle">{file.filename}</div>
+                  </td>
+                  <td data-label="File Size">
+                    <div class="slds-truncate tableTitle">{file.size} MB</div>
+                  </td>
+                  <td data-label="Download">
+                    <button data-id={file.id} data-file-name={file.filename} onclick={handleFileDownload}
+                      title="Download" class="slds-button slds-button_icon">
+                      <lightning-icon icon-name="utility:download" size="x-small"
+                        title="Download this file"></lightning-icon>
+                    </button>
+                  </td>
+                  <td data-label="Delete">
+                    <button data-file-id={file.id} data-file-name={file.filename} onclick={handleFileDeletion}
+                      title="Delete this file" class="slds-button slds-button_icon">
+                      <lightning-icon icon-name="utility:delete" size="x-small"
+                        title="Delete this file"></lightning-icon>
+                    </button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </template>
+
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+      <template if:true={showSkipButton}>
+        <lightning-layout-item alignment-bump="left">
+          <button class="slds-button slds-button_brand btnHover skipBtn" name="Skip"
+            onclick={handlePrevNext}>{label.SKIPTOREVIEW}</button>
+        </lightning-layout-item>
+      </template>
+      <template if:false={showSkipButton}>
+        <lightning-layout-item alignment-bump="left">
+          <button class="slds-button slds-button_outline-brand btnCancelHover nextPrevBtn slds-m-right_small"
+            onclick={handlePrevNext} name="Previous">{label.PREVIOUSBUTTON}</button>
+        </lightning-layout-item>
+        <lightning-layout-item>
+          <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext}
+            name="Next">{label.NEXTBUTTON}</button>
+        </lightning-layout-item>
+      </template>
+    </lightning-layout>
+  </div>
+</template>

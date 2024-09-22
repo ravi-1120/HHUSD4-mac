@@ -1,0 +1,85 @@
+.slds-listbox__option {
+    font-family: 'Invention';
+}
+.indicator_pad .slds-progress .slds-progress__list {
+    padding: 0px !important;
+}
+
+.prog_bar .slds-progress__marker {
+    border-color: #00857C !important;
+}
+
+.slds-progress .slds-progress-bar__value {
+    background: #00857C !important;
+}
+
+.slds-progress .slds-progress__marker{
+    color: #00857C !important;
+}
+
+.indicator_pad .slds-progress{
+  max-width: 100%;  
+} 
+.slds-input[readonly]{
+    border: 1px solid black;
+    cursor: pointer;
+    padding-left: 12px;
+}
+@media all and (max-width: 767px) {       
+    .datetimecls .cls_date .datetime .slds-input {
+        
+        margin-right: 0 !important;
+        text-align: left !important;
+        align-items: center !important;
+        vertical-align: middle !important;
+        display: flex !important;
+        /* padding-right: 69% !important; */
+    } 
+    .slds-form-element__control{
+        width: 100%;
+    } 
+    .cls_add{
+        width: 82%;
+    } 
+    .schedulepg .cls_add {
+        margin: 0 0 16px;
+        max-height: 40px;
+        /* height: 44%; */
+    }
+   
+}
+@media only screen and (max-width: 360px) {
+    .slds-form-element__control{
+         width: 117%;
+    }
+    .cls_add{
+        width: 86%;
+    } 
+}
+@media only screen and (max-width: 391px){
+.viewrequest[c-scheduled_scheduled] {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 310px;
+    padding: 8px 16px;
+    margin-top: 0px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    margin-bottom: 10px;
+}}
+@media only screen and (max-width: 394px){
+.viewrequest[c-scheduled_scheduled] {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 310px;
+    padding: 8px 16px;
+    margin-top: 0px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    margin-bottom: 10px;
+}
+}

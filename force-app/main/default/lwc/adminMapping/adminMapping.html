@@ -1,0 +1,68 @@
+<template>
+    <lightning-card title={cardTitle}>
+        <div>
+            <lightning-layout multiple-rows>
+                <lightning-layout-item size="7" padding="horizontal-medium">
+                    <lightning-card>
+                        <div slot="title" class="not-bold">{messageMap.fieldMappingTitle}</div>
+                        <lightning-button if:true={hasConnection} slot="actions" onclick={displayFieldMappingModal} label={messageMap.newLabel}></lightning-button>
+                        <div>
+                            <c-veeva-spinner if:true={fieldMappingLoading} class="slds-spinner_container"></c-veeva-spinner>
+                            <c-veeva-datatable key-field="sfId" class='slds-m-top_small'
+                                data={fieldMappingData} 
+                                columns={fieldMappingColumns}
+                                hide-checkbox-column
+                                selected-rows={selectedRows} 
+                                onrowaction={handleRowAction}
+                                default-sort-direction={defaultSortDirection}
+                                sorted-direction={sortDirection}
+                                sorted-by={sortedBy}
+                                onsort={onHandleFieldMappingSort}
+                            >
+                            </c-veeva-datatable>
+                        </div>
+                    </lightning-card>
+                </lightning-layout-item>
+                <lightning-layout-item size="1">
+                    <div class="align-center">
+                        <lightning-icon icon-name="utility:chevronright" size="small"></lightning-icon>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" padding="horizontal-medium">
+                    <lightning-card>
+                        <div slot="title" class="not-bold">{messageMap.valueMappingTitle}</div>
+                        <lightning-button if:true={showValueMapping} slot="actions" onclick={displayValueMappingModal} label={messageMap.newLabel}></lightning-button>
+                        <div if:true={showValueMapping}> 
+                            <c-veeva-spinner if:true={valueMappingLoading} class="slds-spinner_container"></c-veeva-spinner>
+                            <c-veeva-datatable key-field="sfId" class='slds-m-top_small'
+                                data={valueMappingData} 
+                                columns={valueMappingColumns}
+                                hide-checkbox-column
+                                column-widths-mode="auto"
+                                onrowaction={handleRowAction}
+                                default-sort-direction={defaultSortDirection}
+                                sorted-direction={sortDirection}
+                                sorted-by={sortedBy}
+                                onsort={onHandleValueMappingSort}
+                            >
+                            </c-veeva-datatable>
+                        </div>
+                    </lightning-card>
+                </lightning-layout-item>
+            </lightning-layout>
+            
+        </div>
+        <c-admin-mapping-modal if:true={showFieldMappingModal}
+            modal-message-map={messageMap}
+            ctrl={modalCtrl}
+            record-type-id={modalRecordTypeId}
+            modal-title={modalTitle}
+            crm-field-label={modalCrmLookupFieldLabel}
+            connection-field-label={modalConnectionLookupFieldLabel}
+            crm-lookup-field-placeholder={crmLookupFieldPlaceholder}
+            onclose={closeModal}
+            onsave={saveFieldMapping}
+            onsavenew={saveNewFieldMapping}>
+        </c-admin-mapping-modal>
+    </lightning-card>
+</template>

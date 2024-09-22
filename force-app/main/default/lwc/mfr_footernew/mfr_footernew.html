@@ -1,0 +1,68 @@
+<template>
+    <div class="ftr">
+        <div class="container">
+            <a if:true={newfooter} class="b cursorcls">
+                <h3>Merck Formulary Resources</h3>
+            </a>
+            <div class="ftrow">
+                <div class="ftcolhalf">
+                    <ul>
+                        <a class="hoverstyle">
+                            <li class="slds-item ftcolhalf lione" tabindex="0" data-value='Terms of use'
+                                onclick={redirectTermsofUse}>Terms of Use</li>
+                        </a>
+
+                        <a class="hoverstyle">
+                            <li class="slds-item ftcolhalf lione" tabindex="0" data-value=PrivacyPolicy
+                                onclick={privacyPolicy}>Privacy Policy</li>
+                        </a>
+                        <li><a role="link" aria-label="Cookie Preferences" href="javascript:Optanon.ToggleInfoDisplay()"
+                                class="ot-sdk-show-settings exo" data-design-category="footer_ref_vd" data-value='Cookie Preferences' onclick={CookiePreferences}> Cookie
+                                Preferences</a></li>
+                        <a class="hoverstyle">
+                            <li class="slds-item ftcolhalf lione" tabindex="0" data-value=Accessibility
+                                onclick={accessibility}>Accessibility</li>
+                        </a>
+                        <a class="hoverstyle">
+                            <li class="slds-item ftcolhalf_lst litwo" tabindex="0" data-value='Additional Merck Sites'
+                                onclick={Additional}>Additional Merck Sites</li>
+                        </a>
+                    </ul>
+                    <div class="ftlogos">
+                        <div class="logol">
+                            <img src={logo1}>
+                        </div>
+                        <div class="logor logotwo">
+                            <a href="https://www.levelaccess.com/a/merck/" target="_blank">
+                            <img src={ftlogo1} onclick={Accesibilityicon} data-value='accessibility_icon' ></a><br class="br_tag" />
+                            <!-- <a href="https://privacy.truste.com/privacy-seal/validation?rid=140649f5-9394-46e8-bfe5-b4ea8a8c600e"
+                                target="_blank"><img src={ftlogo2} class="ftlogo"></a>
+                            <a href="https://privacy.truste.com/privacy-seal/validation?rid=11c1aa82-b7e7-4a2f-b02e-ba935e661720"
+                                target="_blank"><img src={ftlogo3} class="ftlogo"></a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ftcolhalf">
+                    <div class="cntbx cursorcls">
+                        <h6 class="contcls">Contact us:</h6>
+                        <a class="b cursorcls btwo">
+                            <p class="phcls">Phone: (800) 489-5119 <br> </p>
+                        </a>
+                        <p><a onclick={myContacts} data-value='More contact options' class="mycontactcls">More contact options </a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copy">
+        <div class="container">
+            <p if:false={organiccomp}>Copyright © {yyyy} Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.
+                <br> This site is intended only for residents of the United States, its territories, and Puerto Rico. {jobcode}
+            </p>
+            <p if:true={organiccomp}>Copyright © {yyyy} Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.
+                <br> This site is intended only for residents of the United States, its territories, and Puerto Rico. US-NON-15147 06/24
+            </p>
+        </div>
+    </div>
+</template>

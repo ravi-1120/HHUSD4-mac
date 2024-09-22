@@ -1,0 +1,224 @@
+<template>
+    <div class="container">
+        <div if:true={isSidebar}>
+            <div class="headerdivcls">
+                <div class="slds-grid slds-grid_align-spread headertxt">
+                    <div class="filtertxtcls">
+                        {label.Filter}
+                    </div>
+                    <div class="doublelefticoncls" onclick={closesidebar}>
+                        <img src={lefticon}>
+                    </div>
+                </div>
+                <div>
+                    <input class="slds-input inputcls" placeholder={label.keywordsearch} type="text">
+                </div>
+                <div>
+                    <button class="slds-button buttoncls1 slds-button_neutral" label={label.SaveSearch}
+                        onclick={openSaveSearchModal}>{label.SaveSearch}</button>
+                </div>
+                <div>
+                    <button class="slds-button buttoncls2 slds-button_neutral" label={label.ViewSaved}
+                        onclick={openViewSavedModal}>{label.ViewSaved}</button>
+                </div>
+            </div>
+            <div class="categorycontainer">
+                <div if:true={searchCategory}>
+                    <template for:each={searchCategory} for:item="category">
+                        <div key={category.id}>
+                            <div class={category.selectedcategorycls}>
+                                <div class="categorycls">
+                                    <lightning-input class="checkboxcls" type="checkbox" checked={category.isChecked}
+                                        data-id={category.id} onchange={handleCheck}></lightning-input>
+                                    <span>{category.name}</span>
+                                </div>
+                                <div class="iconToggle" data-id={category.id} onclick={toggleSection}>
+                                    <lightning-icon icon-name={category.iconName} alternative-text="Toggle"
+                                        size="x-small"></lightning-icon>
+                                </div>
+                            </div>
+                            <template if:true={category.isOpen}>
+                                <div class="slds-var-m-left_large">
+                                    <template for:each={category.childCategories} for:item="childCategory">
+                                        <div key={childCategory.id}>
+                                            <div class="folder-subitem slds-var-m-left_medium">
+                                                <div class="categorycls">
+                                                    <lightning-input class="checkboxcls" type="checkbox"
+                                                        checked={childCategory.isChecked} data-id={childCategory.id}
+                                                        onchange={handleCheck}></lightning-input>
+                                                    <span>{childCategory.name}</span>
+                                                </div>
+                                                <div class="iconToggle" data-id={childCategory.id}
+                                                    onclick={toggleSection} if:true={childCategory.isIconVisible}>
+                                                    <lightning-icon icon-name={childCategory.iconName}
+                                                        alternative-text="Toggle" size="x-small"></lightning-icon>
+                                                </div>
+                                            </div>
+                                            <template if:true={childCategory.isOpen}>
+                                                <div class="slds-var-m-left_xx-large">
+                                                    <template for:each={childCategory.childCategories}
+                                                        for:item="grandChildCategory">
+                                                        <div key={grandChildCategory.id} class="folder-subitem">
+                                                            <div class="categorycls">
+                                                                <lightning-input class="checkboxcls" type="checkbox"
+                                                                    checked={grandChildCategory.isChecked}
+                                                                    data-id={grandChildCategory.id}
+                                                                    onchange={handleCheck}></lightning-input>
+                                                                <span>{grandChildCategory.name}</span>
+                                                            </div>
+                                                            <button class="slds-button slds-button_icon"
+                                                                data-id={grandChildCategory.id} onclick={toggleSection}>
+                                                            </button>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <div class="bottombuttoncls">
+                        <button class="slds-button slds-button_brand" type="button" onclick={handleClear}>
+                            {label.clearall}</button>
+                        <button class="slds-button slds-button_brand" type="button"
+                            onclick={handleSubmit}>{label.submit}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="righticoncls" if:false={isSidebar}>
+            <div class="doublerighticoncls" onclick={opensidebar}>
+                <img src={righticon}>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for saving search -->
+    <template class="slds-backdrop slds-backdrop_open" if:true={isSaveModalOpen}>
+        <section role="dialog" tabindex="-1" class="popup">
+            <div class="header">
+                <div class="popup-header">{label.SaveSearch}</div>
+                <lightning-icon class="closeicon" icon-name="utility:close" alternative-text="close" title={label.Close}
+                    onclick={closeSaveModal} size="small"></lightning-icon>
+                <span class="slds-assistive-text">{label.Close}</span>
+            </div>
+
+            <div class="labelgap">
+                <p class="labelcls">{label.NewName} </p>
+                <input class="inputbox" label={label.NewName} placeholder="New name" placevalue={searchName}
+                    onchange={handleNameChange}>
+            </div>
+            <template if:true={errorMessage}>
+                <div class="slds-text-color_error slds-m-bottom_medium">
+                    {errorMessage}
+                </div>
+            </template>
+            <div class="popup-actions">
+                <button class="slds-button slds-button_brand button" disabled={isSaveButtonDisabled}
+                    onclick={handleSaveSearch}>{label.Save}</button>
+                <button class="slds-button slds-button_neutral button" onclick={closeSaveModal}>{label.cancel}</button>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_"></div>
+    </template>
+
+
+
+    <!-- Modal for viewing saved searches -->
+    <template if:true={isViewSavedModalOpen}>
+        <section role="dialog" tabindex="-1" class="viewpopup slds-backdrop slds-backdrop_open">
+            <div class="header">
+                <div class="popup-header">{label.SavedSearch}</div>
+                <lightning-icon class="closeicon" icon-name="utility:close" alternative-text="close" title={label.Close}
+                    onclick={closeViewSavedModal} size="small"></lightning-icon>
+                <span class="slds-assistive-text">{label.Close}</span>
+            </div>
+
+            <div class="slds-p-around_medium viewlayout">
+                <template if:true={savedSearches.length}>
+                    <template for:each={savedSearches} for:item="savedSearch">
+                        <div key={savedSearch.Id} class="saved-search-item">
+                            <a href="javascript:void(0);" class="saved-search-name" data-id={savedSearch.Id}
+                                onclick={handleViewSavedSearch}>
+                                {savedSearch.MSD_CORE_Search_Name__c}
+                            </a>
+                            <div class="icon-buttons">
+                                <button data-id={savedSearch.Id} class="icon-button" onclick={handleRenameSavedSearch}
+                                    aria-label="Edit">
+                                    <img src={editIcon} alt="Edit Icon">
+                                </button>
+                                <button data-id={savedSearch.Id} class="icon-button" onclick={handleDeleteSavedSearch}
+                                    aria-label="Delete">
+                                    <img src={deleteIcon} alt="Delete Icon">
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <template if:false={savedSearches.length}>
+                    <p>{label.noresultfound}</p>
+                </template>
+            </div>
+            <div class="popup-actions">
+                <button class="slds-button slds-button_neutral button"
+                    onclick={closeViewSavedModal}>{label.Close}</button>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Rename Saved Search Modal -->
+    <template class="slds-backdrop slds-backdrop_open" if:true={isRenameModalOpen}>
+        <section role="dialog" tabindex="-1" class="popup">
+            <div class="header">
+                <div class="popup-header">{label.Rename}</div>
+                <lightning-icon class="closeicon" icon-name="utility:close" alternative-text="close" title={label.Close}
+                    onclick={closeRenameModal} size="small"></lightning-icon>
+                <span class="slds-assistive-text">{label.Close}</span>
+            </div>
+
+            <div class="labelgap">
+                <p class="labelcls">{label.editName} </p>
+                <input class="inputbox" label={label.EditName} value={newSearchName} onchange={handleNewNameChange}>
+            </div>
+            <div class="popup-actions">
+                <button class="slds-button slds-button_brand button" onclick={saveNewName}>{label.Save}</button>
+                <button class="slds-button slds-button_neutral button"
+                    onclick={closeRenameModal}>{label.cancel}</button>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Delete Confirmation Modal -->
+    <template class="slds-backdrop slds-backdrop_open" if:true={isDeleteModalOpen}>
+        <section role="dialog" tabindex="-1" class="deletepopup">
+            <div class="header">
+                <div class="popup-header">{label.ConfirmDelete}</div>
+                <lightning-icon class="closeicon" icon-name="utility:close" alternative-text="close" title={label.Close}
+                    onclick={closeDeleteModal} size="small"></lightning-icon>
+                <span class="slds-assistive-text">{label.Close}</span>
+            </div>
+
+            <div class="labelgap">
+                <p class="deletelabelcls">{label.warningmsg1} </p>
+            </div>
+            <div class="deletepopup-actions">
+                <button class="slds-button slds-button_brand button" onclick={confirmDelete}>Delete</button>
+                <button class="slds-button slds-button_neutral button"
+                    onclick={closeDeleteModal}>{label.cancel}</button>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Spinner -->
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
+    <template if:true={filter}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-all-resource selected-categories-array={selectedCategoriesArray}></c-m-s-d_-c-o-r-e_-h-e-q_-all-resource>
+    </template>
+</template>

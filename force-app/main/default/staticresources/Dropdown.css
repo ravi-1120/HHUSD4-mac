@@ -1,0 +1,48 @@
+.slds-truncate {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #757575;
+}
+
+/*.slds-input-has-icon--right .slds-input, .slds-input-has-icon--right .slds-input--bare, .slds-input-has-icon--right .slds-input_bare, .slds-input-has-icon--right .slds-input_faux, .slds-input-has-icon_right .slds-input, .slds-input-has-icon_right .slds-input--bare, .slds-input-has-icon_right .slds-input_bare, .slds-input-has-icon_right .slds-input_faux {
+    --slds-c-input-spacing-horizontal-end: 2rem;
+    display: flex;
+    padding: 9px 12px 10px 12px;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 4px;
+    border: 1px solid var(--neutral-dark-text, #757575);
+    background: var(--neutral-white, #FFF);
+    flex: 1 0 0;
+    color: var(--neutral-dark-text, #333);
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+}
+.slds-combobox__input .slds-input_faux .fix-slds-input_faux .slds-combobox__input-value{
+	border: 1px solid var(--neutral-dark-text, #757575);
+}*/
+
+.custom-combobox .slds-input-has-icon_right .slds-input_faux {
+	--slds-c-input-spacing-horizontal-end: 2rem;
+    display: flex;
+    padding: 9px 12px 10px 12px;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 4px;
+    border: 1px solid var(--neutral-dark-text, #757575);
+    background: var(--neutral-white, #FFF);
+    flex: 1 0 0;
+    color: var(--neutral-dark-text, #333);
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+}

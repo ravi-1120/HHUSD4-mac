@@ -1,0 +1,1 @@
+public class MRK_AppException extends Exception {}

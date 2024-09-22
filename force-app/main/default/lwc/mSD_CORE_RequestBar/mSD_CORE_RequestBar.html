@@ -1,0 +1,28 @@
+<template>
+    <!-- <lightning-progress-indicator class="progress_bar" current-step="3" type="base" variant="base">
+        <lightning-progress-step label="Request submitted" value="1"></lightning-progress-step>
+        <lightning-progress-step label="Appointment scheduled" value="2"></lightning-progress-step>
+        <lightning-progress-step label="Presentation attended" value="3"></lightning-progress-step>
+        <lightning-progress-step label="Request resolved" value="4"></lightning-progress-step>
+    </lightning-progress-indicator> -->
+    <div class="main-div">
+        <div class="rp-bar-main">
+            <div class={reqsubcls}>
+                <div class={reqsubdotcls}></div>
+                <div class="rp-br-txt">Request submitted</div>
+            </div>
+            <div class={appschcls}>
+                <div class={appschdotcls}></div>
+                <div class="rp-br-txt">Appointment scheduled</div>
+            </div>
+            <div class={presattcls}>
+                <div class={preattdotcls}></div>
+                <div class="rp-br-txt">Presentation attended</div>
+            </div>
+            <div class={reqrescls}>
+                <div class={reqresdotcls}></div>
+                <div class="rp-br-txt">Request resolved</div>
+            </div>
+        </div>
+    </div>
+</template>

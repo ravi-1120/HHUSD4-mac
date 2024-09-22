@@ -1,0 +1,20 @@
+<template>
+    <div if:true={loading} class="spinner-large">
+        <c-veeva-spinner size="large"></c-veeva-spinner>
+    </div>
+    <template if:false={loading}>
+        <div if:true={multReports} class="tabset-container">
+            <lightning-tabset>
+                <template for:each={htmlReports} for:item="currReport">
+                    <lightning-tab label={currReport.Name} key={currReport.Id} id={currReport.Id} value={currReport.Id} class="no-padding">
+                        <c-my-insights html-report={currReport} record-id={recordId} max-height={maxHeight} org-id={orgId}
+                            base-cdn-domain-url={baseCdnDomainUrl} object-api-name={objectApiName} html-reports={htmlReports}
+                            my-insights-uuid={myInsightsUuid}></c-my-insights>
+                    </lightning-tab>
+                </template>
+            </lightning-tabset>
+        </div>
+        <c-my-insights if:true={oneReport} html-report={firstReport} record-id={recordId} max-height={maxHeight} org-id={orgId}
+            base-cdn-domain-url={baseCdnDomainUrl} page-ctrl={existingPageCtrl} object-api-name={objectApiName}></c-my-insights>
+    </template>
+</template>

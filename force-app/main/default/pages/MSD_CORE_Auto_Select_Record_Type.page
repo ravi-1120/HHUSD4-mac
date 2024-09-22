@@ -1,0 +1,1 @@
+<apex:page standardController="MSD_CORE_AE_Product__c" extensions="MSD_CORE_SuspectedProductsController" action="{!url}" />

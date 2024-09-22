@@ -1,0 +1,48 @@
+<apex:page standardController="Address_vod__c" extensions="MSD_Core_NewAddrWiz_Controller" showheader="false" lightningStylesheets="true">
+<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+
+<script type="text/javascript">  
+        function SubmitJS(obj) { 
+            jQuery(".tempClass").attr('disabled','disabled');
+            obj.value = 'Saving...';   
+            SubmitAction(); 
+            document.getElementByClass('btnClass').disabled=disabled;
+                    
+        } 
+        </script> 
+
+  <apex:form >
+   <apex:actionFunction name="SubmitAction" action="{!Submit}" />
+    <apex:pageMessages />
+     <apex:pageBlock title="New Address Form">
+        <apex:pageBlockSection title="Account Information" collapsible="false" columns="2">
+         <apex:outputfield value="{!Acc.Name}"/><!--
+         <apex:outputfield value="{!Acc.Class_of_Trade_MRK__c}"/>
+         <apex:outputfield value="{!Acc.Merck_ID_MRK__c}"/>
+         <apex:outputfield value="{!Acc.Status_MRK__c }"/>-->
+      </apex:pageBlockSection>
+   
+      <apex:pageBlockSection title="Address Information" collapsible="false" columns="1" rendered="{!isActive}">
+      
+      
+         <apex:repeat value="{!addFields}" var="fieldAPIName">
+            <apex:inputfield value="{!Addobj[fieldAPIName]}" label="{!NAWAddFMap[fieldAPIName].Label__c}" required="{!NAWAddFMap[fieldAPIName].Required__c}" />
+         </apex:repeat>  
+         
+         <apex:inputtextarea value="{!Addobj.MSD_CORE_Rep_Notes__c}" label="Notes" cols="40"/>
+        
+      </apex:pageBlockSection>
+     
+      <apex:pageBlockSection title="Error:" collapsible="false" columns="1" rendered="{!showError}">
+          Addresses can only be added to Active Accounts.
+      </apex:pageBlockSection>
+    
+         
+       <apex:pageBlockButtons location="bottom" id="btns" >
+                <apex:commandButton action="{!Submit}" value="Submit" onclick="SubmitJS(this) ;" styleClass="tempClass" rendered="{!isActive}" />  
+                <apex:commandButton action="{!Cancel}" value="Cancel"/>              
+        </apex:pageBlockButtons> 
+      
+     </apex:pageBlock>
+  </apex:form>
+</apex:page>

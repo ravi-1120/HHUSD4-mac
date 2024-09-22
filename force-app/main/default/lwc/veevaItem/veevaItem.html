@@ -1,0 +1,7 @@
+<template>
+    <c-veeva-undo show-undo={showUndo} is-new={pageCtrl.isNew} onundoclick={handleUndoClick}>
+        <div slot="undoElement">
+            <c-veeva-field ctrl={ctrl} onfieldchange={handleFieldChange} data-validity></c-veeva-field>
+        </div>
+    </c-veeva-undo>
+</template>

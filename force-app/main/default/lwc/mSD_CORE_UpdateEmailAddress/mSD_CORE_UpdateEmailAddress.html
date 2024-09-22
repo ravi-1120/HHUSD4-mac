@@ -1,0 +1,131 @@
+<template>
+	<div class="container">
+		<div class="container1">
+			<div class="centercls">
+				<div class="bodymaincls" id="modal-content-id-1">
+					<div class="bodycls">
+						<template if:true={settingpagestatus}>
+							<div class="closebtnmain">
+								<button class="closeiconclss" data-name="cross" onclick={handleClose}>
+                                    <img src={closeIcon} />
+                                </button>
+							</div>
+						</template>
+						<template if:true={emailupdatepage}>
+							<div class="pass_background">
+								<div class="pass_card">
+									<div class="pass_container">
+										<div class="pass_headersec">
+											<h2>Update account email.</h2>
+											<p class="emailmarg">Your current email address is <b>{currentUserEmailId}</b>. Enter the
+												email
+												address you would like to use for the MFR Portal.</p>
+											<p>If you have any questions, please <a href={siteName.MyContacts}
+													style="merckLink" data-name="contact" onclick={handlegaevent}>contact your Merck
+													account team</a>.</p>
+										</div>
+										<div class="pass_bodysec">
+											<div>
+												<!-- pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$" message-when-pattern-mismatch="Email is incorrect. Please enter a valid email." -->
+												<lightning-input type="text" class="password" label="New email address" 
+													data-id="newEmailAddress" data-name="newPayorEmail" value={newEmail} onclick={handlegaevent} onblur={emailValidation} onkeydown={emailValidation} onchange={emailValidation} onpaste={emailValidation} oninput={emailValidation}>
+												</lightning-input>
+
+												<div if:true={oldEmail} class="errormsgcls">
+													Email already in use. Please enter another email address.
+												</div>
+												<!-- pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$" message-when-pattern-mismatch="Please enter a valid email" -->
+												<lightning-input type="text" class="password Conpassword" label="Confirm email address" value={confirmEMail} 
+													data-id="confirmEmailAddress" data-name="confirmPayorEmail" onclick={handlegaevent} onblur={emailValidation} onchange={emailValidation} onkeydown={emailValidation} onpaste={emailValidation} oninput={emailValidation}>
+												</lightning-input>
+
+												<div if:true={oldConfirmEmail} class="errormsgcls">
+													Email already in use. Please enter another email address.
+												</div>
+
+												<div if:true={validateEmails} class="errormsgcls">
+													Email Addresses do not match.
+												</div>
+												<p class="passBodyParagraph">
+													In order to verify your email, we will send a security code to
+													the new email address specified above.
+												</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="btnmainclspass" if:true={settingpagetrue}>
+										<button class="nextbtnclass cancelbu" data-name="cancel" onclick={handleClose}>Cancel</button>
+										<button class={nextbtnclass} disabled={nextbtndisable}
+										onclick={handleClick} data-name="securitycode" >Send security code</button>
+									</div>
+								</div>
+							</div>
+						</template>
+						<template if:true={validateOTPpage}>
+							<div class="pass_background">
+								<div class="pass_card">
+									<div class="pass_container">
+										<div class="pass_headersec">
+											<h2>Enter your one-time password.</h2>
+											<p>Enter the one-time password we sent to <b>{newEmail}.</b></p>
+											<p>If you have any questions, please <a href={siteName.MyContacts}
+													style="merckLink">contact your Merck
+													account team</a>.</p>
+										</div>
+										<div class="pass_bodysec">
+											<div>
+												<lightning-input type="text" pattern="[0-9]{6}"
+													class="password" label="Security code"
+													placeholder="_ _ _ _ _ _" maxlength="6" data-name="enterOTP"
+													value={securityCode} onkeydown={otpValidation}
+													onchange={otpValidation} onpaste={disablePaste}
+													onkeypress={handleEnter}>
+												</lightning-input>
+												<div if:true={invalidCode} class="errormsgcls">
+													Invalid code. Please check the security code and try again.
+												</div>
+											</div>
+										</div>
+										<div class="pass_headersec otppad">
+											<p>Didn’t receive a one-time password? <a onclick={handleClick} style="merckLink">Request a new password.</a></p>
+										</div>
+									</div>
+									<div class="btnmainclspass" if:true={validateOTPpage}>
+										<button class="nextbtnclass cancelbu" onclick={backtoEmail}>Back</button>
+										<button class={nextbtnclass} disabled={updatePwdDisable}
+                                            onclick={handleOTPClick}>Update email</button>
+									</div>
+								</div>
+							</div>
+						</template>
+						<template if:true={closingpagestatus}>
+							<div class="closebtnmain">
+								<button class="closeiconclss" onclick={handleClose1}>
+                                    <img src={closeIcon} />
+                                </button>
+							</div>
+						</template>
+						<template if:true={confirmationpage}>
+							<div class="pass_background">
+								<div class="pass_card">
+									<div class="pass_container">
+										<div class="successpage">
+											<img src={successicon} class="iconclass"/>
+											<h2>Email updated.</h2>
+											<p>For security purposes, you have been logged out. Please use your updated
+												information the next time you log in to the MFR portal.</p>
+											<p class="paddingTop">If you have any questions, please <a onclick={navigateToLogoutPage}
+													style="merckLink">contact your Merck account team</a>.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</template>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p class="job">{label.jobcode}</p>
+</template>

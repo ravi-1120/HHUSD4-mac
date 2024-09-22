@@ -1,0 +1,70 @@
+<apex:page controller="MSD_CORE_CC_AttachmentsController" sidebar="false" showHeader="false">
+    <apex:includeLightning />
+    <style>
+        .errorM3{
+            color: rgb(255, 255, 255);
+            background-color: rgb(194, 57, 52);
+            margin: 0;
+        }
+        .messageTable tr:nth-child(0), .messageCell, .msgIcon{
+            display: none;
+        }
+        .errorM3 li {
+            color: #fff;
+            display:none;
+            list-style: none;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .errorM3 li:first-of-type {
+            color: #fff;
+            display:block;
+        }
+        body button, body .x-btn, body .btn, body .btnDisabled, body .btnCancel, body .menuButton .menuButtonButton {
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            text-align: center;
+            vertical-align: middle;
+            border: none;
+            transition: border .15s linear;
+            background-color: rgba(27, 82, 151, 1);
+            border-color: rgba(27, 82, 151, 1);
+            color: rgb(255, 255, 255);
+            background-image: none;
+            padding: 6px 15px !important;
+            font-size: 12px;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+        #generateLoader {
+            display:none;
+            background:#fff;
+        }
+    </style>
+    
+    <apex:form >
+        <div id="generateLoader">
+            <div style="width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    z-index: 105000;"></div>
+            <div style="top: 35px;
+    text-align: center;
+    position: fixed;
+    background-color: transparent;
+    z-index: 106000;
+    border-radius: 3px;
+    left: 15%;">
+                <img src="/img/loading24.gif" style="vertical-align:middle;float:left;"/>
+                <span class="content" style="float:left;margin-left: 10px;font-size: 12px;margin-top: 4px;color: #474747;">Uploading Attachment</span>
+            </div>
+        </div>
+            
+        <apex:inputFile value="{!document}" filename="{!fileName}" contentType="{!contentType}"/> 
+        <apex:commandButton status="generateLoader" id="uploadAttachment" value="Upload" onclick="document.getElementById('generateLoader').style.display = 'block';" action="{!uploadAttachment}"/>
+        
+        <apex:pageMessages escape="false"></apex:pageMessages>
+    </apex:form>
+</apex:page>

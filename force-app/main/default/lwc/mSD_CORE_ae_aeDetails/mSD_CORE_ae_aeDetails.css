@@ -1,0 +1,108 @@
+:host{
+    --sds-c-textarea-sizing-min-height: 8.3rem !important;
+}
+
+.helpCls{
+    vertical-align: text-bottom;
+}
+
+.char-count {
+    font-size: 0.8em;
+    color: rgb(201, 201, 201);
+}
+
+.q-container {
+    background-color: #fff;
+    width: calc(100% - 166px);
+    min-height: 350px;
+    padding: 18px 18px 18px 18px;
+    margin: 15px 0px 12px 30px;
+}
+
+/*Button CSS*/
+.nextPrevBtn{
+    width: 90px;
+    height: 32px;
+}
+.skipBtn{
+    height: 32px;
+}
+.btnCancelHover{
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    box-shadow: inset 0 0 0 0 #00857C;
+}
+.btnCancelHover:hover{
+    box-shadow: inset 400px 0 0 0 #00857C;
+    color: #fff;
+}
+.btnHover{
+    color: #ffffff;
+    letter-spacing: 0.75px;
+}
+.btnHover:not([disabled]){
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    box-shadow: inset 0 0 0 0 #005C55;
+}
+.btnHover:hover:not([disabled]){
+    box-shadow: inset 400px 0 0 0 #005C55;
+}
+.btnHover:disabled:hover{
+    background: #c9c7c5 !important;
+    border: #c9c7c5 !important;
+}
+/*Button CSS ends*/
+
+/* .button_slide {
+    color: #00857C;
+    border: 1px solid #00857C;
+    background: #FFF;
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 1px;
+    box-shadow: inset 0 0 0 0 #00857C;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    height: 32px;
+    width: 72px;
+    font-family: 'InventionRg';
+}
+
+.rbutton_slide {
+    color: #00857C;
+    border: 1px solid #00857C;
+    background: #FFF;
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 1px;
+    box-shadow: inset 0 0 0 0 #00857C;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    height: 32px;
+    width: 134px;
+    font-family: 'InventionRg';
+} */
+
+/* .slide_right:hover {
+    box-shadow: inset 400px 0 0 0 #00857C;
+    color: #FFF;
+} */
+.requiredField label:after {
+    content: " *";
+    color: red;
+}
+
+
+@media only screen and (max-width: 900px) {
+    .q-container {
+        width: auto;
+        min-height: 279px;
+        padding: 12px 6px 20px 16px;
+        margin: 0 12px 80px 12px !important;
+    }
+}

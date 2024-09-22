@@ -1,0 +1,13 @@
+.gas-search-inputs {
+    margin-right: auto;
+}
+
+.first-row-button {
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.last-row-button {
+    margin-top: 10px;
+    display: inline-block;
+}

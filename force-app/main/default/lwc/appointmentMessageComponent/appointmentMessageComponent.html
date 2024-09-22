@@ -1,0 +1,82 @@
+<template>
+    <div class="message-class">
+        <template if:true={trackisSchedulable}>
+            <div class="header">{headerMessage}</div>
+            <div if:true={trackisCallMeNow} class="scheduleCallFooterCls">{fotter}</div>
+            <div if:false={trackisCallMeNow} class="slds-align_absolute-center scheduleBodyCls">
+                <div class="">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-text-align_center">
+                            <div class="callmeFooterCls">
+                                {fotter}
+                            </div>
+                            <!-- <div if:true={trackisCallMeNow}><b style="color:#00857c;font-size:30px;">1 -2 minutes</b>
+                            </div> -->
+                            <div if:false={trackisCallMeNow} class="appointmentDateCls">
+                                {appointmentDateTime.dateLabel} at {appointmentDateTime.timeSlotLabel}
+                            </div>
+                            <!-- <div if:false={trackisCallMeNow}>
+                                <b style="color:#00857c;font-size:30px;">{appointmentDateTime.timeSlotLabel}</b>
+                            </div> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div if:false={trackisCallMeNow} class="slds-align_absolute-center slds-p-top_small downloadBtnCls">
+                <a class="slds-button slds-button_neutral" style="color:white;background-color:#00857c;
+                    margin-left:5px;height: 48px;width: 278px;font-family: 'Invention'" onclick={handleDownload}
+                    data-id="downloadLink">Download calendar invite (ICS)</a>
+            </div>
+
+        </template>
+        <template if:false={trackisSchedulable}>
+            <template if:true={selectedTemplate.templateMessage}>
+                <div if:true={selectedProduct.productAcessInquiry} class="">
+                    <!-- <lightning-formatted-rich-text value={selectedTemplate.templateMessage}>
+                    </lightning-formatted-rich-text> -->
+                    <!-- <div class="templateMsgClsHeader">
+                        <lightning-formatted-rich-text value={label.Product_Access_Inquiry_Header}>
+                        </lightning-formatted-rich-text>
+                    </div>
+                    <div class="templateMsgClsBody">
+                        <lightning-formatted-rich-text value={label.Product_Access_Inquiry_Body} onclick={handleProductAccessClick}>
+                        </lightning-formatted-rich-text>
+                        <lightning-formatted-rich-text value={label.Product_Access_Inquiry_Footer}>
+                        </lightning-formatted-rich-text>
+                    </div> -->
+                    <div class="templateMsgClsHeader">
+                        <lightning-formatted-rich-text value={selectedProduct.productAcessInquiry.header}>
+                        </lightning-formatted-rich-text>
+                    </div>
+                    <div class="templateMsgClsBody">
+                        <lightning-formatted-rich-text value={selectedProduct.productAcessInquiry.body}
+                            onclick={handleProductAccessClick}>
+                        </lightning-formatted-rich-text>
+                        <lightning-formatted-rich-text value={selectedProduct.productAcessInquiry.footer}>
+                        </lightning-formatted-rich-text>
+                    </div>
+                </div>
+                <div class="" style="padding-top: 24px;">
+                    <button class="slds-button slds-button_neutral" style="color:white; background-color:#00857c;
+                         height: 48px; width: 84px;font-family: 'Invention';" onclick={handleBack}>Back</button>
+                </div>
+            </template>
+        </template>
+        <template if:true={isNICException}>
+            <div class="">
+                <div class="templateMsgClsHeader">
+                    <lightning-formatted-rich-text value={label.exceptionMessage}></lightning-formatted-rich-text>
+                </div>
+                <div class="exceptionMsgClsBody">
+                    <lightning-formatted-rich-text value={label.exceptionMessageBody}></lightning-formatted-rich-text>
+                </div>
+            </div>
+            <div class="slds-p-top_medium">
+                <button class="slds-button slds-button_neutral" style="color:white; background-color:#00857c;
+                    height: 48px; width: 84px;font-family: 'Invention';" onclick={handleBack}>Back</button>
+            </div>
+        </template>
+        <!-- <c-comet-d channel="NIC_Exception__e" onmessage={messageReceived}></c-comet-d> -->
+    </div>
+</template>

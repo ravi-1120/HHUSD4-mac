@@ -1,0 +1,208 @@
+.button-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    text-align: right; /* Align the button to the right */
+}
+.information{
+    color: #960F0F !important;
+    margin-left: 82%;
+  }
+
+.product{
+    font-family: inventionRg;
+}
+.btnCancelHover{
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    box-shadow: inset 0 0 0 0 #00857C;
+}
+.btnCancelHover:hover{
+    box-shadow: inset 400px 0 0 0 #00857C;
+    color: #fff;
+}
+.custom-card {
+    height: 268px;
+    width: 97%;
+    background: #F7F7F7 !important;
+    margin-left: 2%;
+    font-family: InventionRg !important;
+    box-sizing: border-box;
+    overflow: auto;
+    margin-right: 1%;
+    border-radius: 1px;
+    margin-top: 1%;
+}
+
+.policy-text {
+    margin: 0;
+    line-height: 2.0;
+    margin-left: 29px;
+    margin-right: 19px;
+    margin-top: 11px;
+}
+
+.next-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color:#00857C;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.next-button:hover {
+    background-color:#00857C;
+}
+:host{
+    --dxp-s-button-font-size: 14px !important;
+    font-family: InventionRg;
+}
+.slds-medium-show {
+    display: block;
+    font-family: inventionRg;
+}
+:host {
+    --dxp-s-button-font-size: 14px !important;
+}
+
+.requiredField label:after {
+    content: " *";
+    color: red;
+}
+.q-container {
+    background-color: #fff;
+    width: calc(103% - 131px);
+    padding: 18px 18px 18px 18px;
+    margin: 35px 411px 1px 63px;
+    height: 78%;
+    position: relative;
+}
+.scrollable {
+    max-height: 600px;
+    overflow-y: auto;
+    height: 80%;
+}
+
+.slds-table {
+    border: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
+}
+
+.nextPrevBtn{
+    width: 90px;
+    height: 32px;
+}
+.skipBtn{
+    height: 32px;
+}
+.btnCancelHover{
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    box-shadow: inset 0 0 0 0 #00857C;
+}
+.btnCancelHover:hover{
+    box-shadow: inset 400px 0 0 0 #00857C;
+    color: #fff;
+}
+.btnHover{
+    color: #ffffff;
+    letter-spacing: 0.75px;
+}
+.btnHover:not([disabled]){
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    box-shadow: inset 0 0 0 0 #005C55;
+}
+.btnHover:hover:not([disabled]){
+    box-shadow: inset 400px 0 0 0 #005C55;
+}
+.btnHover:disabled:hover{
+    background: #c9c7c5 !important;
+    border: #c9c7c5 !important;
+}
+.dropdown {
+    max-height: 7rem; 
+    background-color: white; 
+    border: 1px solid #ccc;
+}
+
+@media only screen and (min-width: 48em) and (max-width: 64em) {
+  .q-container {
+    width: 94%;
+    min-height: 282px;
+    padding: 0px 10px 0px 0px;
+    margin: 22px 158px 10px -5px !important;
+  }
+    .information {
+        color: #960F0F !important;
+        margin-left: 75%;
+        font-size: 10px;
+    }
+    .slds-form-element__label {
+        font-size: 10px !important;
+        font-family: InventionRg !important;
+        font-weight: bold;
+        color: #303030 !important;
+    }
+    .nextPrevBtn {
+        width: 69px;
+        height: 26px;
+    }
+    .btnHover {
+        color: #ffffff;
+        letter-spacing: 0.75px;
+        font-size: 12px;
+    }
+    .policy-text {
+        margin: 0;
+        line-height: 2.0;
+        margin-left: 29px;
+        margin-right: 19px;
+        margin-top: 11px;
+    }
+    .custom-card{
+        height: 102px;
+        width: 97%;
+        background: #F7F7F7 !important;
+        margin-left: 2%;
+        font-family: InventionRg !important;
+        box-sizing: border-box;
+        overflow: auto;
+        margin-right: 1%;
+        border-radius: 1px;
+        margin-top: 1%;
+        font-size: 10px;
+    }
+}
+
+
+@media only screen and (max-width:767px){
+    .padding-right{
+        padding-right: var(--dxp-g-spacing-medium);
+    }
+    .button-container {
+        right: 28px;
+        bottom: 9px;
+    }
+    .q-container {
+        background-color: #fff;
+        width: 86%;
+        padding: 18px 18px 18px 18px;
+        margin: -13px 0px 72px 25px;
+        position: relative;
+    }
+    .scrollable {
+        max-height: 600px;
+        height: 97%;
+    }
+    .information{
+        color: #960F0F !important;
+        margin-left: 60%;
+        font-size: 10px;
+    }
+}

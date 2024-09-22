@@ -1,0 +1,20 @@
+/* remove white background from flow element */
+.THIS flowruntime-flow {
+    background-color: transparent;
+}
+
+/* hide spinner overlay */
+.THIS flowruntime-spinner-lwc .slds-spinner_container {
+    background-color: transparent;
+}
+
+/* hide spinner between flow screens and after flow finish */
+.THIS.hide-spinner flowruntime-spinner-lwc {
+    display: none;
+}
+
+/* remove padding from flow spinner so the flow component does not take up extra space */
+.THIS flowruntime-spinner-lwc .slds-p-vertical--xx-large {
+    padding-top: 0;
+    padding-bottom: 0;
+}

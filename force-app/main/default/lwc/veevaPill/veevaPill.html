@@ -1,0 +1,11 @@
+<template>
+    <span class={pillClass}>
+        <span if:true={hasIcon} class="slds-pill__icon_container">
+            <lightning-avatar class="pill-icon" size="x-small" src={src} variant={iconShape} fallback-icon-name={icon}></lightning-avatar>
+        </span>
+        <span class="slds-pill__label">{label}</span>
+        <span if:true={canRemove} class="slds-icon_container slds-pill__remove" title="Remove">
+            <lightning-button-icon icon-name="utility:close" onclick={handleRemove} size="small" variant="bare"></lightning-button-icon>
+        </span>
+    </span>
+</template>

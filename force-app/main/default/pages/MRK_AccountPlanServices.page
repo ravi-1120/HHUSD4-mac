@@ -1,0 +1,26 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_AccountPlanServices.page
+* @description - Provides Account Plan services such as validation.
+* @createdate - Feb 5th, 2014
+-->
+
+<!--
+    test URL to execute under brian.pfeil@merck.com.hhusd1 user context
+    /apex/MRK_AccountPlanServices?id=a0CZ000000OOoe9&action=submitForApproval&userid=005Z0000001Z905IAC
+-->
+
+<apex:page standardController="Account_Plan_vod__c"
+                    lightningStylesheets="true"
+                     extensions="MRK_AccountPlanServicesController"
+                     action="{!process}"
+                     sidebar="true"
+           showHeader="true">
+
+  <apex:pageBlock >
+        <apex:pageMessages />
+        <apex:form >
+            <apex:commandButton action="{!returnToAccountPlan}" value="Return to Account Plan"/>
+        </apex:form>
+    </apex:pageBlock>
+</apex:page>

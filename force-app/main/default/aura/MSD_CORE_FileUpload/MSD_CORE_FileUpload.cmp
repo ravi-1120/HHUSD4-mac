@@ -1,0 +1,237 @@
+<aura:component extends="c:ComponentUtils" controller="MSD_CORE_FileUploadController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    
+    <!--KRB 1/8/2020 Defect Fix --> 
+    <aura:attribute name="showUploadButton" type="Boolean" default="true" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="accept" type="List" default="['.csv', '.jpg', '.jpeg', '.pdf', '.png', '.docx', '.pptx']"/>
+    <aura:attribute name="multiple" type="Boolean" default="false"/>
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    <aura:attribute name="showAsTable" type="Boolean" default="false"/>
+    <aura:attribute name="attachmentSize" type="Integer" />
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name="hosturl" type="String" />
+    <aura:attribute name="vfHosturl" type="String" />
+    <aura:attribute name="userProfile" type="String" />
+    <aura:attribute name="attList" type="Object[]"/>
+    <aura:attribute name="attachments" type="MSD_CORE_CC_AttachmentsController.AttachmentWrapper"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.doInit}"/>
+    <aura:handler event="lightning:tabFocused" action="{! c.doInit }"/>
+    <aura:attribute name="attIdList" type="List"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    
+    <aura:method name="resetList" action="{!c.doAction}"/> 
+    
+    <aura:registerEvent name="childAttachEvent" type="c:MSD_CORE_AttachEvent"/>
+    <aura:handler name="refreshAttachments" event="c:MSD_CORE_RefreshAttachments" action="{!c.doInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+    
+    <div class="flexipageComponent">
+        <div class="container forceRelatedListSingleContainer">
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="extraSmall forceEntityIcon">
+                                <span class="uiImage"  />
+                                <lightning:icon iconName="standard:file" size="small" ></lightning:icon>
+                            </div>
+                        </div>
+                        <div class="slds-media__body" >
+                            <h2 id="header">
+                                <!--<a class="slds-card__header-link baseCard__header-title-container" href="javascript:void(0);" onclick="{!c.gotoRelatedList}">
+                                   --><span class="slds-card__header-title slds-truncate slds-m-right--xx-small" >Attachments</span>
+                                <span class="slds-text-heading--small slds-shrink-none slds-m-right--xx-small" ></span>
+                                <!--</a>-->
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body" style="padding: 0px 10px;">
+                    <div class="previewMode SMALL forceRelatedListPreview" >
+
+                       
+                        <div class="slds-grid_pull-padded slds-card__body_inner slds-p-left_medium" > 
+                           <aura:if isTrue="{!v.userProfile != 'MSD_CORE Contact Center - Read Only User'}">
+                                <!--<lightning:input aura:id="fileId" onchange="{!c.handleFilesChange}" type="file" name="file" multiple="false"/>
+                                <div class="slds-text-body_small slds-text-color_error"><aura:unescapedHtml value="{!v.fileName}"/></div>
+                                -->
+                                
+                                <iframe src="{!'/apex/MSD_CORE_AttachmentUpload?id='+v.recordId+'&amp;url='+v.hosturl}" style="border: none;
+                                                                                                         width: 100%;"></iframe>
+                                
+                                <!--use aura:if for show-hide the loading spinner image--> 
+                                <aura:if isTrue="{!v.showLoadingSpinner}">
+                                    <div class="slds-text-body_small slds-text-color_error">Uploading... 
+                                        <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>'
+                                    </div>
+                                </aura:if>
+                                
+                                <!-- KRB 1/8/2020 Defect Fix  showUploadButton-->
+                                <!-- <aura:if isTrue="{!v.fileName != 'No File Selected..'}"> -->
+                                <aura:if isTrue="{!and((v.fileName != 'No File Selected..'),(v.showUploadButton == true))}">
+                                    <button class="slds-button slds-button_brand" onclick="{!c.doSave}">Upload</button>
+                                </aura:if>
+                                
+                                
+                            </aura:if>
+                            
+                            <br/><br/>
+                            
+                            <aura:if isTrue="{!v.showAsTable == false}">
+                                <aura:iteration items="{!v.attachments.attachList}" var="att"  indexVar="index" >
+                                    <li class="slds-p-horizontal--small desktop forceImageRelatedListStencil forceRecordLayout" style="margin-bottom:5px;">
+                                        <div class="listItemBody withActions" >
+                                            <h3 class="primaryField" >
+                                                <div class="slds-size_12-of-12 slds-grid">
+                                                    <div class="slds-size_1-of-12 slds-grid">
+                                                        <div class="slds-align-middle">
+                                                            <span>
+                                                                <lightning:icon iconName="doctype:attachment" size="small" alternativeText="Attachments" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-grid">
+                                                        <div class="slds-show_inline-block slds-float_left slds-p-left--x-small slds-truncate slds-m-right_x-small " data-aura-rendered-by="13370:0">
+                                                            <div class="outputLookupContainer forceOutputLookupWithPreview"  >
+                                                                <a class="outputLookupLink slds-truncate forceOutputLookup"  data-refid="recordId" data-special-link="true" target="_blank" href="{!'/servlet/servlet.FileDownload?file='+att.Id}">
+                                                                    {!att.Name}
+                                                                </a>
+                                                            </div>
+                                                            <p class="slds-m-around--none secondaryFields slds-text-body--small slds-truncate">
+                                                                <span class="seperator" data-aura-class="uiOutputDateTime"> 
+                                                                    <lightning:formattedDateTime value="{!att.CreatedDate}"/>
+                                                                </span>
+                                                                <span class="itemLabel slds-truncate uiOutputText" data-aura-rendered-by="13392:0" data-aura-class="uiOutputText"> - Attachment   </span>
+                                                                
+                                                                <!-- KRB 22R1.0 Fix for Trash Icon Added below Code-->
+                                                                <span data-id="{!att.Id}" onclick="{!c.deleteAttachment}">
+                                                                   <lightning:icon iconName="utility:delete" size="x-small" alternativeText="Delete" />
+                                                                </span>
+                         
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- KRB 22R1.0 Fix for Trash Icon- Removed Below Code -->
+                                                    <!--
+                                                    <div class="slds-size_1-of-12 slds-grid">
+                                                        <div class="slds-align-middle">
+                                                            <span data-id="{!att.Id}" onclick="{!c.deleteAttachment}">
+                                                                <lightning:icon iconName="utility:delete" size="x-small" alternativeText="Delete" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    -->
+                                                </div>
+                                            </h3>
+                                        </div>
+                                    </li>
+                                </aura:iteration>
+                                <aura:iteration items="{!v.attachments.cdocList}" var="att"  indexVar="index" >
+                                    <li class="slds-p-horizontal--small desktop forceImageRelatedListStencil forceRecordLayout " style="margin-bottom:5px;">
+                                        <div class="listItemBody withActions" >
+                                            <h3 class="primaryField" >
+                                                <div class="slds-size_12-of-12 slds-grid" data-aura-rendered-by="13350:0">
+                                                    <div class="slds-size_1-of-12 slds-grid">
+                                                        <div class="slds-align-middle">
+                                                            <span>
+                                                                <lightning:icon iconName="doctype:attachment" size="small" alternativeText="Attachments" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-grid">
+                                                        <div class="slds-show_inline-block slds-float_left slds-p-left--x-small slds-truncate slds-m-right_x-small" data-aura-rendered-by="13370:0">
+                                                            <div class="outputLookupContainer forceOutputLookupWithPreview"  >
+                                                                <a class="textUnderline outputLookupLink slds-truncate forceOutputLookup"  data-refid="recordId" data-special-link="true" target="_blank" data-recordid= "{!att.ContentDocumentId}"  href="{!'/'+att.ContentDocumentId}" rel="noreferrer" title=""  >
+                                                                    {!att.ContentDocument.Title}
+                                                                </a>
+                                                            </div>
+                                                            <p class="slds-m-around--none secondaryFields slds-text-body--small slds-truncate">
+                                                                <span class="seperator" data-aura-class="uiOutputDateTime"> 
+                                                                    <lightning:formattedDateTime value="{!att.ContentDocument.CreatedDate}"/>
+                                                                </span>
+                                                                <span class="itemLabel slds-truncate uiOutputText" data-aura-rendered-by="13392:0" data-aura-class="uiOutputText">{!att.ContentDocument.FileExtension}   </span>
+                                                                
+                                                                <!-- KRB 22R1.0 Added to fix Trash Icon position issue -->
+                                                                <span data-id="{!att.Id}" onclick="{!c.deleteAttachment}">
+                                                                   <lightning:icon iconName="utility:delete" size="x-small" alternativeText="Delete" />
+                                                                </span>
+                                                               
+                                                                
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- KRB 22R1.0 Removed to fix Trash Icon position Issue
+                                                    <div class="slds-size_1-of-12 slds-grid">
+                                                        <div class="slds-align-middle">
+                                                            <span data-id="{!att.Id}" onclick="{!c.deleteAttachment}">
+                                                                <lightning:icon iconName="utility:delete" size="x-small" alternativeText="Delete" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    -->
+                                                </div>
+                                            </h3>
+                                        </div>
+                                    </li>
+                                </aura:iteration>
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!v.showAsTable}">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered ">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="File">File</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Inline">Type</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Size">Size</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Inline">Inline</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!v.attachments.attachList}" var="att"  indexVar="index" >
+                                            <tr class="slds-hint-parent">
+                                                <td data-label="Name">
+                                                    <div class="slds-truncate" title="{!att.Name}">{!att.Name}</div>
+                                                </td>
+                                                <td data-label="Type">
+                                                    <div class="slds-truncate" title="{!att.ContentType}">{!att.ContentType}</div>
+                                                </td>
+                                                <td data-label="Type">
+                                                    <div class="slds-truncate" title="{!att.ContentType}">{!att.BodyLength} bytes</div>
+                                                </td>
+                                                <td>
+                                                    <lightning:input type="checkbox"></lightning:input>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                
+                <!--<aura:if isTrue="{!v.showAsTable == false}">
+                    <a href="javascript:void(0);"  onclick="{!c.gotoRelatedList}">
+                        <div class="slds-card__footer">
+                            <span class="view-all-label">
+                                View All
+                            </span>
+                        </div>
+                    </a>
+                </aura:if>-->
+            </article>
+        </div>
+    </div>
+</aura:component>

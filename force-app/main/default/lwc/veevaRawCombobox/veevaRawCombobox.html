@@ -1,0 +1,38 @@
+<template>
+    <div data-veeva-id={fieldApiName} class="slds-combobox_container">
+        <div class={dropdownClass}>
+            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                <button type="button" class={comboboxButtonClass} onclick={handleDropdown} onblur={handleClose} onkeydown={handleInput} onmousedown={checkDisabled}>
+                    <span class="slds-media__figure" if:true={selectedIcon}>
+                        <lightning-icon icon-name={selectedIcon} alternative-text={selectedLabel} size={iconSize} style={selectedObj.iconStyle}></lightning-icon>
+                    </span>
+                    <lightning-formatted-text class="slds-truncate" value={selectedLabel}></lightning-formatted-text>
+                </button>
+                <span class="slds-icon_container slds-input__icon slds-input__icon_right slds-p-left_xx-small">
+                    <lightning-icon icon-name="utility:down" alternative-text="Expand picklist" size="xx-small"></lightning-icon>
+                </span>
+            </div>
+
+            <lightning-formatted-text if:true={errorMsg} value={errorMsg} class="slds-required slds-form-element__help"></lightning-formatted-text>
+            <div class="slds-dropdown slds-dropdown_length-with-icon-10 slds-dropdown_fluid slds-p-around_none veeva-list-box">
+                <ul class="slds-listbox slds-listbox_vertical">
+                    <template for:each={comboboxOptions} for:item="option">
+                        <li key={option.value} role="presentation" class="slds-listbox__item">
+                            <div aria-disabled={option.disabled} class={comboboxOptionClass} role="option" data-id={option.value} title={option.value} onclick={handleSelection}
+                                onmouseover={handleMouseOver} onmouseout={handleMouseOut} onmousedown={handleMouseDown} onmouseup={handleMouseUp}>
+                                <span class="slds-media__figure">
+                                    <lightning-icon if:false={hideCheckmarks} icon-name={option.selected} size="xx-small" class="slds-p-right_x-small"></lightning-icon>
+                                    <lightning-icon if:true={option.icon} icon-name={option.icon} alternative-text={option.label} size={iconSize} class={option.disabledClass} style={option.iconStyle}></lightning-icon>
+                                </span>
+                                <span class="slds-media__body">
+                                    <p><lightning-formatted-text class="slds-truncate slds-p-left_xx-small" value={option.label}></lightning-formatted-text></p>
+                                    <p if:true={option.subLabel}><lightning-formatted-text class="slds-truncate slds-p-left_xx-small slds-text-color_weak" value={option.subLabel}></lightning-formatted-text></p>
+                                </span>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>

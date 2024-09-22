@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
+    <cacheControl>Public</cacheControl>
+    <contentType>application/zip</contentType>
+    <description>krb 9/18/20 rmoved Home 
+jk 2/20/2014 - added one day alignment
+jk 3/20/2014 - removed temp and perm alignment buttons
+AM 1/23/2014 - Removed In Call Deck Indicator because of Performance Issues
+BMP 2/4/2014 - Prevent duplicate alignment requests</description>
+</StaticResource>

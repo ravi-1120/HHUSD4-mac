@@ -1,0 +1,700 @@
+<apex:page id="SelectedRequester" standardController="Case" extensions="SelectedRequesterControllerMVN" sidebar="false" showHeader="true" standardStylesheets="true" lightningStylesheets="true">
+     <!-- KRB 8/23/2017 Rel 10 Switched the showHeader Attribute from false to true -->
+
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!urlFor($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}" />
+    
+    <!--CH 14/11/2017 Added script to remove focus on load after showHeader="true" is present in page-->
+    <script>
+        function setFocusOnLoad() {}
+    </script>
+    
+    <!-- KRB 8/23/2017 Rel 10 Added per ProvenWorks manual -Start -->
+    <apex:includeScript value="/soap/ajax/42.0/connection.js" />
+    <apex:includeScript value="/soap/ajax/42.0/apex.js" />
+    <apex:includeScript value="/apex/pw_ccpro__CountriesJavaScript?core.apexpages.devmode.url=1" />
+    <apex:includeScript value="{!URLFOR($Resource.pw_ccpro__CountryCompleteResources, '/javascript/CountryAutoComplete.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.pw_ccpro__AddressCompleteResources, '/javascript/AddressComplete.js')}" />
+    
+    <script type="text/javascript">
+       sforce.connection.sessionId = '{!$Api.Session_ID}';
+       pw_sessionId = '{!$Api.Session_ID}';
+    </script>
+    <!-- KRB 8/23/2017 Rel 10 Added per ProvenWorks manual -End -->
+    
+    <script type="text/javascript">
+        var parentTabId;
+        var childTabId;
+        var j$ = jQuery.noConflict();
+
+        var openAndSearch = true;
+        var shouldRenderBusinessSearch = {!shouldRenderBusinessSearch};
+    
+        //KRB 8/23/2017 Rel 10 Per the ProvenWorks Admin Manual - Start
+        function pwRefresh(){
+        
+           //preInit();
+           //preInitCC();
+           
+           sforce.connection.sessionId = '{!$Api.Session_ID}';
+           ProvenWorks.AutoComplete.Init();
+           ProvenWorks.AddressComplete.Init();
+           
+           //ProvenWorks.ZipCodeLookup.enforceValidation('newAddressPostalCode’);
+        }
+        //KRB 8/23/2017 Rel 10 Per the ProvenWorks Admin Manual - End
+
+        function openAccountSearchSubtab(doSearch, renderBusinessSearch) {
+            openAndSearch = doSearch;
+            shouldRenderBusinessSearch = renderBusinessSearch;
+            sforce.console.getEnclosingPrimaryTabId(openSubtab);
+        }
+
+        var openSubtab = function openSubtab(result) {
+            var primaryTabId = result.id;
+            
+
+            var urlString = '{! $Page.AccountSearchMVN }?caseId={! currentCase.Id }';
+
+            if(shouldRenderBusinessSearch) {
+                urlString += '&isPersonSearch=0';
+            }
+
+            if({!ISNULL(currentCase.AccountId)}) {
+                if(shouldRenderBusinessSearch) {
+                    if(j$("input[id$='businessNameSearch']").val()){
+                        urlString += '&name=' + j$("input[id$='businessNameSearch']").val(); 
+                    }
+                    if(j$("input[id$='customerID']").val()){
+                        urlString += '&customerNumber=' + j$("input[id$='customerID']").val();
+                    }
+                }else{
+                    if(j$("input[id$='lastNameSearch']").val()){
+                        urlString += '&lastName=' + j$("input[id$='lastNameSearch']").val();   
+                    }
+                    if(j$("input[id$='firstNameSearch']").val()){
+                        urlString += '&firstName=' + j$("input[id$='firstNameSearch']").val();   
+                    }
+                    if(j$("input[id$='employeeID']").val()){
+                        urlString += '&employeeNumber=' + j$("input[id$='employeeID']").val();   
+                    }
+
+                    urlString += '&isPersonSearch=1';
+                }
+
+                if(j$("input[id$='phoneSearch']").val()){
+                    urlString += '&phone=' + j$("input[id$='phoneSearch']").val();   
+                }
+
+                if(j$("input[id$='citySearch']").val()){
+                    urlString += '&city=' + j$("input[id$='citySearch']").val();   
+                }
+
+                if(j$("input[id$='zipSearch']").val()){
+                    urlString += '&zip=' + j$("input[id$='zipSearch']").val();   
+                }
+
+                if(j$("select[id$='countrySearch']").val()){
+                    urlString += '&country=' + j$("select[id$='countrySearch']").val();   
+
+                    if(j$("select[id$='stateSearch']").val()){
+                        urlString += '&state=' + j$("select[id$='stateSearch']").val();   
+                    }
+                }
+
+                if(urlString == '{! $Page.AccountSearchMVN }?caseId={! currentCase.Id }' && openAndSearch){
+                    urlString += '&lastName=';
+                }
+            }
+            sforce.console.openSubtab(primaryTabId, urlString, true);
+        }
+
+        /*Open Contact in a new tab*/
+        var contactId;
+
+        function openContactRecord(result) {
+            contactId = result;
+            sforce.console.getEnclosingPrimaryTabId(openContactSubtab);
+        }
+
+        var openContactSubtab = function openContactSubtab(result) {
+            var subtabId = result.id;
+            sforce.console.openSubtab(subtabId, '/' + contactId + '?isdtp=vw&', true);
+        }
+
+        /*Refresh this subtab*/
+        function refreshTab(){
+            sforce.console.getEnclosingTabId(refreshTabId);
+        }
+
+        var refreshTabId = function refreshTabId(result){
+            sforce.console.refreshSubtabById(result.id, true);
+        }
+
+        /*Picklist Actions*/
+        function checkFieldValue(fieldValue,type){
+            if(fieldValue != ''){
+                if(fieldValue == 'New'){
+                    eval('createNew' + type + '()');
+                } else {
+                    eval('update' + type + '()');
+                }
+            }
+        }
+        
+        /* Modal Display related functions */
+        function closeLightbox() {
+            document.getElementById('formCreateNewComponentContent').style.display='none';
+            document.getElementById('selectedRequesterDefaultOuterPanel').style.display='block';
+            refreshTab();
+        }
+
+        function showModal(requesterInfoComponent) {
+            document.getElementById('formCreateNewComponentContent').style.display='block';
+            document.getElementById('selectedRequesterDefaultOuterPanel').style.display='none';
+            eval('firstInput_'+requesterInfoComponent.toLowerCase()+'.focus()'); 
+            eval('firstInput_'+requesterInfoComponent.toLowerCase()+'.select()'); 
+            pwRefresh();
+        }
+
+        function keyPressed(e, type){
+            var keyCode;
+            try {
+                keyCode = window.event.keyCode;
+            } catch (ex) {
+                keyCode = e.which;
+            }
+
+            if(keyCode == 13)
+            {
+                try {
+                    window.event.preventDefault();
+                } catch (ex) {
+                    try{
+                        e.preventDefault();
+                    }catch (ex2){
+                        event.returnValue = false;
+                    }
+                }
+
+                if (type == 'address') {
+                    saveNewAddress();
+                } else if (type == 'email') {
+                    saveNewEmail();
+                } else if (type == 'phone') {
+                    saveNewPhone();
+                } else if (type == 'fax') {
+                    saveNewFax();
+                } else if (type == 'business'){
+                    updateBusinessName();
+                } else if (type == 'search') {
+                    openAccountSearchSubtab(true, shouldRenderBusinessSearch);
+                }
+            }
+        }
+        
+        j$(document).ready(function() {
+            var searchPanel = document.getElementById('{!$Component.searchPanel}');
+            j$("div[id*='searchPanel']").addClass('searchPanelColor');
+        });
+    </script>
+    
+
+    <style>
+        body {
+            overflow: hidden;
+            background-color: #e9e9e9;
+        }
+        .accountLabel {
+            font-size: 12px;
+        }
+        a.accountNames {
+            font-size: 12px;
+        }
+        .searchTextInput {
+            width: 90%;
+            max-width: 200px;
+        }
+        .searchInput, .searchLabel {
+            clear:both;
+            text-align: left;
+        }
+        .row{
+            text-align: -webkit-center;
+            margin-top: 3px;
+            margin-right: 140px;
+        }
+        .searchPanelColor {
+            background-color: #e9e9e9 !important;
+        }
+        .nameLink {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .searchPanel {
+            width:100%; 
+            min-width:250px; 
+            display:inline-block; 
+            float:left; 
+            background-color: #e9e9e9;
+            border-radius: 4px;
+        }
+        .searchPanelColor {
+            background-color: #e9e9e9 !important;
+        }
+
+        td{
+            padding:1px;
+        }
+
+        .label { font-size: 12px;}
+        div.requester-info { display: inline-table; }
+        div.requester-info div { display: inline-table; margin: 5px 3px;}
+        div.requester-info div, div.requester-info a, div.requester-info span { font-size: 12px; }
+        div.requester-info div .remove-link { margin-left: 5px; }
+        div.requester-info div.account-group
+        {
+            margin-right: 20px;
+            min-width: 150px;
+        }
+
+        #selectedRequesterDefaultOuterPanel{
+            height: 80px;
+            min-height: 80px;
+            margin-top: 0px;
+        }
+
+        #requesterAndReferrerPanel{
+            height: 80px;
+            min-height: 80px;
+            margin-top: 0px;
+        }
+
+        #requesterInformationPanel{
+            height: 80px;
+            min-height: 80px;
+            margin-bottom:0px;
+        }
+    </style>
+
+    <apex:stylesheet value="{!URLFOR($Resource.GlobalAssetsMVN, 'css/bootstrap.custom-grid.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.GlobalAssetsMVN, 'css/SelectedResourceMVN.css')}"/>
+
+    <apex:form id="formSelectedRequester">
+        <!-- KRB 8/23/2017 Rel 10 added pwRefresh(); call -->
+        <apex:actionFunction name="createNewAddress" action="{! createAddressView }" rerender="formCreateNewComponent" onComplete="showModal('Address');pwRefresh();"/>
+        <apex:actionFunction name="updateAddress" action="{! associateAddress }" rerender="formSelectedRequester" status="updateStatus"/>
+        
+        <!-- KRB 8/23/2017 Rel 10 added pwRefresh(); call -->
+        <apex:actionFunction name="createNewEmail" action="{! createEmailView }" rerender="formCreateNewComponent" onComplete="showModal('Email');pwRefresh();" />
+        <apex:actionFunction name="updateEmail" action="{! associateEmail }" rerender="formSelectedRequester" status="updateStatus"/>
+
+        <!-- KRB 8/23/2017 Rel 10 added pwRefresh(); call -->
+        <apex:actionFunction name="createNewPhone" action="{! createPhoneView }" rerender="formCreateNewComponent" onComplete="showModal('Phone');pwRefresh();" />
+        <apex:actionFunction name="updatePhone" action="{! associatePhone }" rerender="formSelectedRequester" status="updateStatus"/>
+        
+        <!-- KRB 8/23/2017 Rel 10 added pwRefresh(); call -->
+        <apex:actionFunction name="createNewFax" action="{! createFaxView }" rerender="formCreateNewComponent" onComplete="showModal('Fax');pwRefresh();" />
+        <apex:actionFunction name="updateFax" action="{! associateFax }" rerender="formSelectedRequester" status="updateStatus"/> 
+
+        <apex:actionFunction name="updateBusinessName" action="{! updateBusiness}"  rerender="formSelectedRequester" status="updateStatus"/>
+
+        <apex:outputPanel style="background-color: #e9e9e9; margin-top: 15px; min-width: 1085px;" id="searchFields" styleClass="newDataInputPanel" rendered="{! isnull(currentCase.AccountId) && isnull(currentCase.Referred_By_MVN__c) && isnull(currentCase.MSD_CORE_Business__c) && !currentCase.isClosed}">
+            <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="inputLabel">
+                        &nbsp;
+                        <apex:outputLabel for="lastNameSearch" value="{!$ObjectType.Account.Fields.LastName.label}" rendered="{!!shouldRenderBusinessSearch}"/>
+
+                        <apex:outputLabel for="businessNameSearch" value="{!$ObjectType.Case.Fields.MSD_CORE_Business_Name__c.label}" rendered="{!shouldRenderBusinessSearch}"/>
+                        &nbsp;
+                    </div>
+
+                    <div class="inputField">
+                        <apex:inputText id="lastNameSearch" maxlength="80" onkeypress="keyPressed(event, 'search');" value="{!searchAccount.LastName}" styleClass="searchTextInput" tabindex="10" rendered="{!!shouldRenderBusinessSearch}" style="width: 100%;min-width: 110px;"/>
+                            <script>
+                                var text_input = document.getElementById ('{!$Component.lastNameSearch}');
+                                text_input.focus();
+                                text_input.select();
+                            </script>
+
+                         <apex:inputText id="businessNameSearch" maxlength="80" onkeypress="keyPressed(event, 'search');" value="{!searchAccount.Name}" styleClass="searchTextInput" tabindex="10" rendered="{!shouldRenderBusinessSearch}" style="width: 100%;min-width: 110px;"/>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-3" style="width: 25%;">
+                        <div class="inputLabel">
+                            &nbsp;
+                            <apex:outputLabel for="firstNameSearch" value="{!$ObjectType.Account.Fields.FirstName.label}" rendered="{!!shouldRenderBusinessSearch}"/>
+                            
+                            <apex:outputLabel for="customerID" value="{!$Label.MSD_CORE_Customer_Number}" rendered="{!shouldRenderBusinessSearch}"/>
+                            &nbsp;
+                        </div>
+                        <div class="inputField">
+                            <apex:inputText id="firstNameSearch" maxlength="40" onkeypress="keyPressed(event, 'search');" value="{!searchAccount.FirstName}" styleClass="searchTextInput" tabindex="20" rendered="{!!shouldRenderBusinessSearch}" style="width: 100%;min-width: 110px;"/>
+                           
+                            <apex:inputText id="customerID" maxlength="40" onkeypress="keyPressed(event, 'search');" value="{!searchAccount.MSD_CORE_Merck_Employee_ID__c}" styleClass="searchTextInput" tabindex="20" rendered="{!shouldRenderBusinessSearch}" style="width: 100%;min-width: 110px;"/>
+                        </div>
+
+                </div>
+
+                <div class="col-md-2 col-sm-2 col-xs-2">
+                    <div class="inputLabel">
+                        &nbsp;
+                        <apex:outputLabel for="phoneSearch" value="{!$Label.Generic_Phone_Field_Label}"/>
+                        &nbsp;
+                    </div>
+                    <div class="inputField">
+                        <apex:inputField id="phoneSearch" onkeypress="keyPressed(event, 'search');" value="{!searchAccount.Phone}" styleClass="searchTextInput" taborderhint="3" style="width: 100%;min-width: 110px;"/>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                   <div class="inputLabel" style="width: 65%;">
+                        &nbsp;
+                        <apex:outputLabel for="employeeID" value="{!$ObjectType.Account.Fields.MSD_CORE_Merck_Employee_ID__c.label}" rendered="{!!shouldRenderBusinessSearch}"/>
+                        &nbsp;
+                    </div>
+                    <div class="inputField">
+                        <apex:inputField id="employeeID" onkeypress="keyPressed(event, 'search');" value="{!searchAccount.MSD_CORE_Merck_Employee_ID__c}" styleClass="searchTextInput" taborderhint="3" rendered="{!!shouldRenderBusinessSearch}" style="width: 100%;min-width: 70px;"/>
+                    </div>
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="inputLabel">
+                        &nbsp;
+                        <apex:outputLabel for="citySearch" value="{!$ObjectType.Address_vod__c.Fields.City_vod__c.label}"/>
+                        &nbsp;
+                    </div>
+                    <div class="inputField">
+                        <apex:inputField id="citySearch" value="{!searchAddress.City_vod__c}" styleClass="searchTextInput" onkeypress="keyPressed(event, 'search');" taborderhint="4" style="width: 100%;min-width: 110px;"/>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-3" style="width: 25%">
+                    <div class="inputLabel">
+                        &nbsp;
+                        <apex:outputLabel for="zipSearch" value="{!$ObjectType.Address_vod__c.Fields.Zip_vod__c.label}"/>
+                        &nbsp;
+                    </div>
+                    <div class="inputField">
+                        <apex:inputField id="zipSearch" onkeypress="keyPressed(event, 'search');" value="{!searchAddress.Zip_vod__c}" styleClass="searchTextInput" taborderhint="5" style="width: 100%;min-width: 110px;"/>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-2 col-xs-2">
+                    <div class="inputLabel">
+                        &nbsp;
+                        <apex:outputLabel for="stateSearch" value="{!$ObjectType.Address_vod__c.Fields.State_vod__c.label}"/>
+                        &nbsp;
+                    </div>
+                    <div class="inputField">
+                        <apex:inputField id="stateSearch" value="{!searchAddress.State_vod__c}" styleClass="searchTextInput" onkeypress="keyPressed(event, 'search');" taborderhint="6" style="width: 100%;min-width: 110px;"/>
+                    </div>
+                </div>
+
+                 <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="inputLabel" style="width:65%;">
+                        &nbsp;
+                        <apex:outputLabel for="countrySearch" value="{!$ObjectType.Address_vod__c.Fields.Country_vod__c.label}"/>
+                        &nbsp;
+                    </div>
+                    <div class="inputField">
+                        <apex:inputField id="countrySearch" value="{!searchAddress.Country_vod__c}" taborderhint="7" style="width: 100%;min-width: 110px;"/>
+                    </div>
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col-md-7 col-sm-7 col-xs-7" style="text-align: right; margin-top: -5px;">
+                    <apex:actionStatus id="status" >
+                        <apex:facet name="stop">
+                            <apex:commandButton value="{!$Label.Generic_Search_Button}" style="width: 80px; padding: 5px 25px;" onclick="openAccountSearchSubtab(true, shouldRenderBusinessSearch);" rerender="searchFields,searchResults, notSearching, addressResults, createAccountModalContent, opHelper" status="status" tabindex="80"/>
+                        </apex:facet>
+                        <apex:facet name="start">
+                            <apex:commandButton value="{!$Label.Generic_Search_Status}" style="width:70px;" disabled="true" />
+                        </apex:facet>
+                    </apex:actionStatus>
+                    &nbsp;&nbsp;
+                    <apex:commandLink value="{!$Label.Clear_Search_Results_Button}" action="{!clearSearch}"  rerender="formSelectedRequester" tabindex="90"/>
+                </div>
+            </div>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{! not(isnull(currentCase.AccountId)) || not(isnull(currentCase.Referred_By_MVN__c)) || not(isnull(currentCase.MSD_CORE_Business__c)) }" layout="block">
+            <div id="selectedRequesterDefaultOuterPanel" style='height:180px'>
+                <div id="requesterAndReferrerPanel" class="col-md-4 col-sm-4 col-xs-4">
+                    <div style="height: 5px;">&nbsp;</div>
+                    <apex:outputPanel rendered="{!not(isnull(currentCase.AccountId))}">
+                            <div class="col-md-12">
+                            <apex:image alt="{! $Label.Selected_Requester }" styleClass="accountIcon" title="{! $Label.Selected_Requester }"
+                                    url="{! urlfor($Resource.GlobalAssetsMVN, 'Icons/profile24.png') }" />
+
+                            <apex:outputText styleClass="accountLabel" value="{! $Label.Selected_Requester }" />
+
+                            <apex:outputLink id="SelectedRequester" styleClass="accountNames"
+                                onClick="openContactRecord('{!JSENCODE(currentCaseAccount.Id)}');" value="#">
+                                   <apex:outputText value="{!customerPreferedName}" rendered="{! customerPreferedName != null }"/>
+                            </apex:outputLink>
+
+                            <apex:commandLink styleClass="selectedRequesterUpdateLink" onClick="openAccountSearchSubtab(false, false);">
+                                <apex:image alt="{! $Label.Selected_Requester_Update }" title="{! $Label.Selected_Requester_Update }" styleClass="pencilIcon"
+                                        style="visibility:{! if( currentCase.isClosed || ( currentCase.AccountId == null && currentCase.Referred_By_MVN__c == null),'hidden','visible') }"
+                                        url="{! urlfor($Resource.GlobalAssetsMVN, 'Icons/pencil12.gif') }" />
+                            </apex:commandLink>
+                        </div>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{! not(isnull(currentCase.Referred_By_MVN__c)) }">
+                        <div class="col-md-12">
+                            <apex:image alt="{! $Label.Selected_Referrer }" styleClass="accountIcon" title="{! $Label.Selected_Referrer }"
+                                    url="{! urlfor($Resource.GlobalAssetsMVN, 'Icons/people24.png') }" />
+
+                            <apex:outputText styleClass="accountLabel" value="{! $Label.Selected_Referrer }" />
+
+                            <apex:outputLink styleClass="accountNames" onClick="openContactRecord('{!JSENCODE(currentCase.Referred_By_MVN__c)}');" value="#">
+                                 <apex:outputText style="margin-top: 20px;" value="{!referedByPreferedName}" rendered="{! not(isnull(currentCase.Referred_By_MVN__c)) }"/>
+                            </apex:outputLink>
+
+                            <apex:outputLink styleClass="selectedRequesterUpdateLink" onClick="openAccountSearchSubtab(false, false);" value="#">
+                            <apex:image alt="{! $Label.Selected_Referrer_Update }" title="{! $Label.Selected_Referrer_Update }" styleClass="pencilIcon"
+                                    style="visibility:{! if( currentCase.isClosed || ( currentCase.AccountId == null && currentCase.Referred_By_MVN__c == null),'hidden','visible') }"
+                                    url="{! urlfor($Resource.GlobalAssetsMVN, 'Icons/pencil12.gif') }" />
+                            </apex:outputLink>
+                        </div>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{! not(isnull(currentCase.MSD_CORE_Business__c)) }">
+                        <div class="col-md-12">
+                            <apex:image alt="{!$ObjectType.Case.Fields.MSD_CORE_Business__c.label}" styleClass="accountIcon" title="{!$ObjectType.Case.Fields.MSD_CORE_Business__c.label}"
+                                    url="{! urlfor($Resource.GlobalAssetsMVN, 'Icons/business.png') }" />
+
+                            <apex:outputText styleClass="accountLabel" value="{!$ObjectType.Case.Fields.MSD_CORE_Business__c.label}:" />
+      
+                            <apex:outputLink styleClass="accountNames" onClick="openContactRecord('{!JSENCODE(currentCase.MSD_CORE_Business__c)}');" value="#">
+                                 <apex:outputText value="{!currentCase.MSD_CORE_Business__r.Preferred_Full_Name_MRK__c}" rendered="{! not(isnull(currentCase.MSD_CORE_Business__c)) }"/>
+                            </apex:outputLink>
+
+                            <apex:outputLink styleClass="selectedRequesterUpdateLink" onClick="openAccountSearchSubtab(false, true);" value="#">
+                            <apex:image alt="{! $Label.Selected_Referrer_Update }" title="{! $Label.Selected_Referrer_Update }" styleClass="pencilIcon"
+                                    style="visibility:{! if( currentCase.isClosed || ( currentCase.AccountId == null && currentCase.Referred_By_MVN__c == null && currentCase.MSD_CORE_Business__c == null),'hidden','visible') }"
+                                    url="{! urlfor($Resource.GlobalAssetsMVN, 'Icons/pencil12.gif') }" />
+                            </apex:outputLink>
+                        </div>
+                    </apex:outputPanel>
+                </div>
+             <apex:outputPanel rendered="{!not(isnull(currentCase.AccountId))}">
+                <div id="requesterInformationPanel" class="col-md-8 col-sm-8 col-xs-8" style='height:180px'>
+                    <apex:actionStatus id="updateStatus">
+                        <apex:facet name="stop">
+                            <apex:messages style="margin: 0; padding: 0; color: red;"/>
+                        </apex:facet>
+                        <apex:facet name="start">
+                            <apex:outputLabel styleClass="label" value="{!$Label.Updating}"/>
+                        </apex:facet>
+                    </apex:actionStatus>
+                    
+                    <div class="row">
+                        <div id="bnip" class="col-md-1 col-sm-1 col-xs-1 col-md-offset-0">
+                            <apex:outputLabel value="{!$ObjectType.Case.Fields.MSD_CORE_Business__c.label}" styleClass="label"/>
+                        </div>
+                        <div id="bnipf" class="col-md-9 col-sm-9 col-xs-14 col-md-offset-0">
+                            <apex:inputText value="{!currentCase.MSD_CORE_Business_Name__c}" style="width:80%;min-width: 180px;" onblur="updateBusinessName();" onKeyPress="keyPressed(event, 'business');" disabled="{! currentCase.isClosed }">
+                            </apex:inputText>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="requesterAddressInformationPanel" class="col-md-1 col-sm-1 col-xs-1 col-md-offset-0">
+                            <apex:outputLabel value="{! $Label.Generic_Address_Field_Label }" styleClass="label"/>
+
+
+                        </div>
+                        <div id="requesterAddressInformationPanel" class="col-md-9 col-sm-9 col-xs-14 col-md-offset-0">
+                            <apex:selectList id="addressSelect" disabled="{! currentCase.isClosed }"
+                                    value="{!activeAddressId}" multiselect="false" size="1" onchange="checkFieldValue(this.value, 'Address');"
+                                    style="width:80%; font-size:12px; min-width: 180px;">
+                                <apex:selectOption itemValue="" itemLabel="{!$Label.Picklist_Select_Option}"/>
+                                <apex:selectOptions value="{! addresses }"/>
+                                <apex:selectOption itemValue="New" itemLabel="{!$Label.Picklist_New_Option}"/>
+                            </apex:selectList>
+                        </div>
+                        <div id="requesterPhoneInformationPanel" class="col-md-1 col-sm-1 col-xs-1">
+                            <apex:outputLabel for="phoneSelect" value="{! $Label.Generic_Phone_Field_Label }" styleClass="label"/>
+                        </div>
+                        <div id="requesterPhoneInformationPanel" class="col-md-1 col-sm-1 col-xs-13">
+                            <div>
+                                <apex:selectList id="phoneSelect" disabled="{! currentCase.isClosed }" styleClass=" phoneField"
+                                        value="{!accountPhoneText}" multiselect="false" size="1" onchange="checkFieldValue(this.value, 'Phone');"
+                                        style="width:100%; font-size:12px; min-width: 150px;">
+                                    <apex:selectOption itemValue="" itemLabel="{!$Label.Picklist_Select_Option}"/>
+                                    <apex:selectOptions value="{! phoneNumbers }"/>
+                                    <apex:selectOption itemValue="New" itemLabel="{!$Label.Picklist_Change_Option}"/>
+                                </apex:selectList>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="requesterEmailInformationPanel" class="col-md-1 col-sm-1 col-xs-1 col-md-offset-0">
+                            <apex:outputLabel for="emailSelect" value="{! $ObjectType.Account.Fields.PersonEmail.label }" styleClass="label"/>
+                        </div>
+                        <div id="requesterEmailInformationPanel" class="col-md-9 col-sm-9 col-xs-14 col-md-offset-0">
+                                <apex:selectList id="emailSelect" disabled="{!currentCase.isClosed}"
+                                        value="{!accountEmailText}" multiselect="false" size="1" onchange="checkFieldValue(this.value, 'Email');"
+                                        style="width:80%; font-size:12px; min-width: 180px;">
+                                    <apex:selectOption itemValue="" itemLabel="{!$Label.Picklist_Select_Option}"/>
+                                    <apex:selectOptions value="{! emailAddresses }"/>
+                                    <apex:selectOption itemValue="New" itemLabel="{!$Label.Picklist_Change_Option}"/>
+                                </apex:selectList>
+                        </div>
+                        <div id="requesterFaxInformationPanel" class="col-md-1 col-sm-1 col-xs-1">
+                             <apex:outputLabel for="faxSelect" value="{! $Label.Generic_Fax_Field_Label }" styleClass="label"/>
+                        </div>
+                        <div id="requesterFaxInformationPanel" class="col-md-1 col-sm-1 col-xs-13">
+                            <div>
+                                <apex:selectList id="faxSelect" disabled="{!currentCase.isClosed}" styleClass=" phoneField"
+                                        value="{!accountFaxText}" multiselect="false" size="1" onchange="checkFieldValue(this.value, 'Fax');"
+                                        style="width:100%; font-size:12px; min-width: 150px;">
+                                    <apex:selectOption itemValue="" itemLabel="{!$Label.Picklist_Select_Option}"/>
+                                    <apex:selectOptions value="{! faxNumbers }"/>
+                                    <apex:selectOption itemValue="New" itemLabel="{!$Label.Picklist_Change_Option}"/>
+                                </apex:selectList>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </apex:outputPanel>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+    <apex:form id="formCreateNewComponent">
+        <div id="formCreateNewComponentContent" >
+            <apex:actionFunction name="saveNewAddress" action="{! createAddress }" rerender="saveHeader" status="saveStatus"/>
+            <apex:actionFunction name="saveNewEmail" action="{! createEmail }" rerender="saveHeader" status="saveStatus" />
+            <apex:actionFunction name="saveNewPhone" action="{! createPhone }" rerender="saveHeader" status="saveStatus" />
+            <apex:actionFunction name="saveNewFax" action="{! createFax }" rerender="saveHeader" status="saveStatus" />
+
+            <apex:actionStatus id="saveStatus">
+                <apex:facet name="stop">
+                    <apex:outputPanel id="saveHeader">
+                        <apex:outputPanel rendered="{! not(saveSuccess) }">
+                            <apex:outputPanel >
+                                <apex:outputPanel >
+                                    <div style="display:inline-block; margin-right:5px; padding:2px;">
+                                        <apex:messages style="margin: 0; padding: 0; color: red;"/>
+                                    </div>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{! updatingEmail }">
+                                    <apex:commandButton value=" {! $Label.Interaction_Save_New_Email } " styleClass="newComponentButton" onclick="saveNewEmail();" rerender="rerender_nothing" />
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{! updatingPhone }">
+                                    <apex:commandButton value=" {! $Label.Interaction_Save_New_Phone } " styleClass="newComponentButton" onclick="saveNewPhone();" rerender="rerender_nothing"/>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{! updatingFax }">
+                                    <apex:commandButton value=" {! $Label.Interaction_Save_New_Fax } " styleClass="newComponentButton" onclick="saveNewFax();" rerender="rerender_nothing"/>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{! updatingAddress }">
+                                    <apex:commandButton style="width:115px; margin-top: 5px;" rendered="{! updatingAddress }" value=" {! $Label.Interaction_Save_New_Address }" onclick="saveNewAddress();" rerender="saveModal_saving"  tabindex="80"/>
+                                    &nbsp;&nbsp;
+                                </apex:outputPanel>
+                                
+                                <!-- KRB 8/23/2017 Rel 10 added pwRefresh(); call -->
+                                <apex:commandLink value="{! $Label.Selected_Requester_Cancel }" action="{! cancelCreate }"
+                                        rerender="selectedRequesterDefaultOuterPanel"
+                                        onComplete="closeLightbox();pwRefresh();"/>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{! saveSuccess }">
+                            <apex:outputText value="{! $Label.Interaction_Save_Success_Message }" styleClass="saveHeaderMessage" />
+                            <script> refreshTab(); </script>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                </apex:facet>
+
+                <apex:facet name="start">
+                    <apex:outputPanel >
+                        <apex:outputPanel rendered="{! not(hasSaveError) }">
+                            <apex:outputText value="{! $Label.Saving_Interaction_Status_Message }" styleClass="saveHeaderMessage" />
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                </apex:facet>
+            </apex:actionStatus>
+
+            <div id="createNewDataModalPanel">
+                <apex:outputPanel id="newEmail" rendered="{! updatingEmail }" layout="block" styleClass="newDataInputPanel">
+                    <apex:outputLabel for="newEmailText" value="{! $Label.Interaction_New_Email }" styleClass="newDataLabel"/>
+                    <apex:inputField id="newEmailText" value="{! newAccountFields.PersonEmail }" onKeyPress="keyPressed(event, 'email');" style="width: 250px;"/>
+                    <script>firstInput_email = document.getElementById ('{! $Component.newEmailText }');</script>
+                </apex:outputPanel>
+
+                <apex:outputPanel id="newPhone" rendered="{! updatingPhone }" layout="block" styleClass="newDataInputPanel">
+                    <apex:outputLabel for="newPhoneText" value="{! $Label.Interaction_New_Phone }" styleClass="newDataLabel"/>
+                    <apex:inputField id="newPhoneText" value="{! newAccountFields.Phone }" onKeyPress="keyPressed(event, 'phone');" />
+                    <script>firstInput_phone = document.getElementById ('{! $Component.newPhoneText }');</script>
+                </apex:outputPanel>
+
+                <apex:outputPanel id="newFax" rendered="{! updatingFax }" layout="block" styleClass="newDataInputPanel">
+                    <apex:outputLabel for="newFaxText" value="{! $Label.Interaction_New_Fax }" styleClass="newDataLabel"/>
+                    <apex:inputField id="newFaxText" value="{! newAccountFields.Fax }" onKeyPress="keyPressed(event, 'fax');" />
+                    <script>firstInput_fax = document.getElementById ('{! $Component.newFaxText }');</script>
+                </apex:outputPanel>
+
+                <apex:outputPanel id="newAddress" rendered="{!updatingAddress}" layout="block">
+                
+                    <table style="width: 1000px; margin-top: 5px; margin-left:0px;" cellpadding="5px" cellspacing="5px">
+                        <tr>
+                            <td align="right">
+                                <apex:outputLabel for="newAddressLine1" styleClass="newDataLabel" value="{! $ObjectType.Address_vod__c.Fields.Name.Label}  "/>
+                            </td>
+                            <td align="left">
+                                <apex:inputField id="newAddressLine1" value="{! newAddress.Name }" onKeyPress="keyPressed(event, 'address');" taborderhint="1" required="true"/>
+                                <script>firstInput_address = document.getElementById ('{! $Component.newAddressLine1 }');</script>
+                            </td>
+                            <td align="right">
+                                <apex:outputLabel for="newAddressLine2" styleClass="newDataLabel" value="{! $ObjectType.Address_vod__c.Fields.Address_line_2_vod__c.Label }  "/>
+                            </td>
+                            <td align="left">
+                                <apex:inputField id="newAddressLine2" value="{! newAddress.Address_line_2_vod__c }" onKeyPress="keyPressed(event, 'address');" taborderhint="2"/>
+                            </td>
+                            <td align="right">
+                                <apex:outputLabel for="newAddressCity" styleClass="newDataLabel" value="{! $ObjectType.Address_vod__c.Fields.City_vod__c.Label }  "/>
+                            </td>
+                            <td align="left">
+                                <apex:inputField id="newAddressCity" value="{! newAddress.City_vod__c }" onKeyPress="keyPressed(event, 'address');" taborderhint="3" required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <apex:outputLabel for="newAddressState" styleClass="newDataLabel" value="{! $ObjectType.Address_vod__c.Fields.State_vod__c.Label }  "/>
+                            </td>
+                            <td align="left">
+                                <apex:inputField id="newAddressState" value="{! newAddress.State_vod__c }" onKeyPress="keyPressed(event, 'address');" taborderhint="4" required="{!shouldRequireState}"/>
+                            </td>
+                            <td align="right">
+                                <apex:outputLabel for="newAddressPostalCode" styleClass="newDataLabel" value="{! $ObjectType.Address_vod__c.Fields.Zip_vod__c.Label }  "/>
+                            </td>
+                            <td align="left">
+                                <apex:inputField id="newAddressPostalCode" value="{! newAddress.Zip_vod__c }" onKeyPress="keyPressed(event, 'address');" taborderhint="5" required="true"/>
+                            </td>
+                            <td align="right">
+                                <apex:outputLabel for="newAddressPostalCountry" styleClass="newDataLabel" value="{! $ObjectType.Address_vod__c.Fields.Country_vod__c.Label } "/>
+                            </td>
+                            <td align="left">
+                                <apex:actionRegion >
+                                    <apex:inputField id="newAddressPostalCountry" value="{! newAddress.Country_vod__c }" taborderhint="6" required="true">
+                                     <!-- KRB 8/23/2017 Rel 10 Commented out below line. Impacts the ProvenWorks Functionality -->
+                                     <!--  <apex:actionSupport event="onchange" rerender="newAddressState" status="status"/> -->
+                                    </apex:inputField>
+                                </apex:actionRegion>
+                            </td>
+                        </tr>
+                        <tr colspan="6">
+                            <td align="right">
+                                <apex:outputLabel for="newAddressLicense" styleClass="newDataLabel" value="{! $ObjectType.Address_vod__c.Fields.License_vod__c.Label }" rendered="{!shouldShowLicense}"/>
+                            </td>
+                            <td align="left">
+                                <apex:inputField id="newAddressLicense" value="{! newAddress.License_vod__c }" onKeyPress="keyPressed(event, 'address');" taborderhint="7" rendered="{!shouldShowLicense}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </apex:outputPanel>
+            </div>
+        </div>
+    </apex:form>
+</apex:page>

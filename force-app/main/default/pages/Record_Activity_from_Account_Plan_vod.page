@@ -1,0 +1,4 @@
+<apex:page standardController="Account_Plan_vod__c" standardStylesheets="true">
+    <c:VEEVA_CALL_ROUTING veevaModule="call" veevaPage="new-call" objectType="Call2_vod__c" queryParams="&id={!Account_Plan_vod__c.Id}&typ=AccountPlan&{!$CurrentPage.parameters.queryParams}&lgtvf=true"
+        callParams="objectType=Call2_vod__c&Action=Create&AccountPlanId={!Account_Plan_vod__c.Id}"/>
+</apex:page>

@@ -1,0 +1,11 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" showHeader="false" applyBodyTag="false" controller="PDS_DocGenController">
+    <html>
+    <head>
+        <style type="text/css" media="print">
+        </style>
+    </head>
+    <body> 
+   		Approval Invoice for Annual Allotment - MMOP
+    </body>
+    </html>
+</apex:page>

@@ -1,0 +1,116 @@
+<aura:component controller="CaseControllerMVN" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="data" type="CaseControllerMVN.SendEmailWrapper"/>    
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <aura:attribute name="folderId" type="String"/>
+    <aura:attribute name="templateId" type="String" default=""/>    
+    <aura:attribute name="fromEmail" type="String" default=""/> 
+    <aura:attribute name="toEmail" type="String" default=""/>   
+    <aura:attribute name="ccEmail" type="String" default=""/>   
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showSendEmail" type="Boolean" default="false" />
+    <aura:attribute name="showBody" type="Boolean" default="true" />
+    <aura:attribute name="attIdList" type="List"/>
+    <lightning:utilityBarAPI aura:id="utilitybar" />
+
+    
+    <aura:attribute name="showAttachment" type="Boolean" default="true" />
+    
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.doInit}"/>
+    
+    <aura:handler name="childAttachEvent" event="c:MSD_CORE_AttachEvent" action="{!c.fillAttachIds}"/>
+    
+    <article style="{!v.data.isValid ? 'display:block;' : 'display:none;'}" class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner />
+        </aura:if>
+        
+        <div class="slds-card__body" style="overflow-y: auto; padding: 0px 10px; overflow-x: hidden;">
+            <div class="slds-form-element">        
+                <div class="slds-form-element__control">
+                    <lightning:select name="select1" label="From" required="true" value="{!v.fromEmail}">
+                        <aura:iteration items="{!v.data.fromEmailList}" var="item">
+                            <option value="{!item}">{!item}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <label class="slds-form-element__label" for="form-element-01">To</label>
+                <div class="slds-form-element__control custom">
+                    <lightning:recordEditForm aura:id="recordViewForm"
+                                              objectApiName="User">
+                        
+                        <lightning:inputField aura:id="CustomerSignedId" fieldName="ContactId"/>
+                    </lightning:recordEditForm>
+                </div>
+                <label class="slds-form-element__label" for="form-element-01">Related To</label>
+                <div class="slds-form-element__control">
+                    <input type="text" class="slds-input" value="Case" disabled="true" style="width: 40%;"/>
+                    <input type="text" class="slds-input" value="{!v.data.caseNumber}" disabled="true" style="width: 40%; margin-left: 10px;"/>
+                </div>
+                
+                <div class="slds-form-element__control">
+                    <lightning:input label="Additional To" value="{!v.toEmail}"/>
+                </div>
+                
+                <div class="slds-form-element__control">
+                    <lightning:input label="CC" value="{!v.ccEmail}"/>
+                </div>
+                
+                <div class="slds-form-element__control">
+                    <lightning:input label="BCC" value="{!v.data.bccEmail}"/>
+                </div>
+                
+                <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" style="margin-top: 10px;background: #fafafa;">
+                    <div class="slds-card__body" style="overflow-y: auto; padding: 0px 10px; overflow-x: hidden;">
+                        <div class="slds-form-element__control">
+                            <lightning:select name="select1" label="Select Folder" value="{!v.folderId}" onchange="{!c.folderChange}">
+                                <aura:iteration items="{!v.data.folderList}" var="folder">
+                                    <option value="{!folder.Id}">{!folder.Name}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        
+                        <div class="slds-form-element__control">
+                            <lightning:select name="select1" label="Select Email Template" value="{!v.templateId}" onchange="{!c.templateChange}">
+                                <option value="">-Select Email Template-</option>
+                                <aura:iteration items="{!v.data.emailTemplateList}" var="et">
+                                    <option value="{!et.Id}">{!et.Name}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                    </div>
+                </article>
+                
+                <div class="slds-form-element__control">
+                    <lightning:input label="Subject" value="{!v.data.subject}"/>
+                </div>
+                
+                
+                <label class="slds-form-element__label" for="form-element-01">Body</label>
+                <div class="slds-form-element__control">
+                    <lightning:inputRichText formats="['font', 'size', 'bold', 'italic', 'underline',
+                                                      'strike', 'list', 'indent', 'align',
+                                                      'clean', 'table', 'header', 'color', 'link', 'image']" value="{!v.data.body}" label="Body"/>
+                </div>
+                <br/>
+                <br/>
+                
+                <aura:if isTrue="{!v.showAttachment}">
+                    <c:MSD_CORE_FileUpload disabled="false" aura:id="fileUploadComp" recordId="{!v.recordId}" showAsTable="true"></c:MSD_CORE_FileUpload>
+                </aura:if>
+                
+                <div class="slds-form-element__control" style="text-align: right;">
+                    <lightning:button variant="brand" label="Send Email" title="Send Email" onclick="{!c.Send}"/>
+                    <lightning:button label="Cancel" title="Cancel" onclick="{!c.closeUtility}"/>
+                </div> 
+            </div>
+        </div>
+    </article>
+    
+    <div style="{!v.data.isValid ? 'display:none;' : 'display:block;'}">
+        <ui:message severity="info" closable="false">
+            Send Email is not applicable.
+        </ui:message>
+    </div>
+</aura:component>

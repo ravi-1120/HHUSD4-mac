@@ -1,0 +1,51 @@
+<template>
+    <template if:true={modal}>
+        <section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true" tabindex="0" data-id="popup-modal"
+            class="slds-modal slds-modal_small slds-fade-in-open backColor" style="z-index: 1000000;">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-grid slds-wrap" id="modal-content-id-1">
+                    <div class="slds-col slds-size_1-of-1 slds-p-top_large slds-p-bottom_large">
+                        <lightning-layout class="slds-grid slds-wrap slds-scrollable_none slds-p-left_x-large slds-p-right_x-large">
+                            <lightning-layout-item class="ptagcls">
+                                <p class="red-text slds-m-bottom_x-small">{label.PATIENTINFORMATIONGUIDANCE}</p>
+                                <p class="formatted-text">{label.PATIENTINFORMATIONFOURTHINSTRUCTION}</p>
+                                <p class="formatted-text">{label.PATIENTINFORMATIONFIRSTINSTRUCTION}</p>
+                                <p class="formatted-text"> {label.PATIENTINFORMATIONSECONDINSTRUCTION}&nbsp;
+                                    <span class="red-text">[*]</span>&nbsp;
+                                    {label.PATIENTINFORMATIONSECOND2INSTRU}
+                                </p>
+                                <p class="formatted-text">{label.PATIENTINFORMATIONTHIRDINSTRUCTION}</p>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item class="slds-align_absolute-center slds-m-top_large">
+                                <button data-value="Continue" onclick={toggleModal}
+                                    class="slds-button slds-button_brand btnHover"
+                                    title={label.Continue}>{label.CONTINUE}</button>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!-- <div class="slds-modal slds-modal_medium slds-fade-in-open modalCls">
+        <div class="slds-modal__container containerCls">
+            <div class="slds-modal__content slds-p-around_large" style="font-size: 14px;">
+                <p class="red-text">{label.PATIENTINFORMATIONGUIDANCE}</p>
+                <p class="textCls">{label.PATIENTINFORMATIONFIRSTINSTRUCTION}</p>
+                <p class="textCls"> {label.PATIENTINFORMATIONSECONDINSTRUCTION}&nbsp;
+                    <span class="red-text">[*]</span>&nbsp;
+                    {label.PATIENTINFORMATIONSECOND2INSTRU}
+                </p>
+                <p class="textCls">{label.PATIENTINFORMATIONTHIRDINSTRUCTION}</p>
+            </div>
+            <footer class="slds-modal__footer">
+                <div class="slds-align_absolute-center">
+                    <button class="button_slide slide_right" onclick={toggleModal}>{label.CLOSEBUTTON}</button>
+                </div>
+            </footer>
+        </div>
+    </div> -->
+    </template>
+</template>

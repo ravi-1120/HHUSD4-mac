@@ -1,0 +1,149 @@
+a.accountNames {
+    font-size: 11px;
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.accountLabel {
+    font-weight: bold;
+    font-size: 10px;
+    color: #4a4a56;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 10px;
+}
+
+.accountIcon {
+    margin: 0 px 10px 0 px 10px;
+}
+
+.newDataInputPanel {
+    display: inline-block;
+    white-space: nowrap;
+    margin: 0 10px;
+}
+
+.newDataLabel {
+    margin: 10px;
+}
+
+.inputLabel {
+    text-align: right;
+    display: inline-block;
+    width: 50%;
+}
+
+.inputField {
+    text-align: left;
+    display: inline-block;
+    width: 50%;
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    margin-bottom: 10px;
+}
+
+#requesterSearchPanel {
+    text-align: center;
+    background-color: #C3CAE8;
+    min-height: 100px;
+}
+
+#requesterSearchPanel input {
+  margin-top: 35px;
+}
+
+#selectedRequesterDefaultOuterPanel {
+    background-color: #C3CAE8;
+    min-height: 100px;
+}
+
+#requesterInformationPanel {
+    background-color: #E7EAF8;
+    padding: 10px 20px;
+    min-height: 100px;
+}
+
+#requesterInformationPanel .control-label {
+    font-weight: bold;
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #4a4a56;
+    margin-top: 10px;
+}
+
+#requesterPanel {
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+#referrerPanel {
+    padding-left: 15px;
+}
+
+.selectedRequesterUpdateLink {
+    margin: 6px;
+    float: right;
+}
+
+#formCreateNewComponentContent {
+    display: none;
+    text-align: center;
+}
+
+body input.newComponentButton {
+    margin: 10px;
+}
+
+.saveHeaderMessage {
+    margin: 10px;
+}
+
+.black_overlay {
+    display: none;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index:1001;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+.modal_content {
+    display: none;
+    position: fixed;
+    top: 5px;
+    bottom: 5px;
+    left: 5%;
+    width: 90%;
+    border: 2px solid #408040;
+    background-color: white;
+    z-index:1002;
+    overflow: auto;
+}
+.modal_update_content {
+    display: none;
+    position: fixed;
+    top: 25%;
+    left: 30%;
+    width: 40%;
+    height: 50%;
+    border: 2px solid #408040;
+    background-color: white;
+    z-index:1002;
+    overflow: auto;
+}
+.modal_save {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 20%;
+    width: 60%;
+    height: 80%;
+    background-color: gray;
+    z-index: 1003;
+    overflow: auto;
+}
+

@@ -1,0 +1,28 @@
+<template>
+    <div class="slds-grid slds-grid_align-spread slds-p-horizontal_x-small" tabindex="-1">
+        <template if:true={isText}>
+            <div class="text-container">
+                <lightning-icon if:true={icon} icon-name={icon} size="x-small" variant={iconVariant}></lightning-icon>
+                <span class="slds-truncate" title={displayValue}>{displayValue}</span>
+                <lightning-helptext if:true={helptext} icon-variant={helptextVariant} content={helptext}></lightning-helptext>
+            </div>
+        </template>
+        <template if:true={isNumber}>
+            <lightning-formatted-number class="slds-truncate" value={rawValue} minimum-fraction-digits={scale} maximum-fraction-digits={scale}
+                format-style={formatter}></lightning-formatted-number>
+        </template>
+        <template if:true={isLookup}>
+            <a href={recordUrl} onclick={handleLinkClick}>{displayValue}</a>
+        </template>
+        <button if:true={editable}
+        class="edit-button slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1">
+            <lightning-icon class="slds-button__icon slds-button__icon_hint slds-button__icon_edit" aria-hidden="true"
+                icon-name="utility:edit" size="xx-small"></lightning-icon>
+        </button>
+        <button if:true={showLockIcon}
+            class="lock-button slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" disabled="">
+            <lightning-icon class="slds-button__icon slds-button__icon_hint slds-button__icon_small" aria-hidden="true"
+                icon-name="utility:lock" size="xx-small"></lightning-icon>
+        </button>
+    </div>
+</template>

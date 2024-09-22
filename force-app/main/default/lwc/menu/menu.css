@@ -1,0 +1,416 @@
+.heading {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 36px;
+	line-height: 45px;
+	color: #000000;
+}
+
+.portal {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 36px;
+	color: #000000;
+	padding-bottom: 40px;
+}
+
+.job {
+	text-align: end;
+    font-size: 14px;
+    font-family: 'Invention';
+	position: fixed; 
+    bottom:0%;
+    width:100%;
+	padding-right: 24px;
+	padding-bottom: 24px;
+}
+/*RT 27-02-2023 Bug_Mbl_023*/
+.menulist {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 36px;
+	color: #000000;
+	padding-top: 13px;
+	padding-bottom: 15px;
+	display:block; 
+	width:100%;
+	height:auto;
+}
+.slds-align_absolute-center{
+	display: -webkit-inline-box;
+    -webkit-box-pack: end;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    margin: auto;
+}
+.lock-icon {
+    --sds-c-icon-color-foreground-default: #A4A4A4;
+}
+
+.loginCard{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 16px;
+	gap: 8px;
+    text-align: center;
+	position: absolute;
+	width: 456px;
+	height: auto;
+	left: 636px;
+	top: 170px;
+
+	/* Secondary/Gray */
+	background: #F7F7F7;/*Rusheel-Bug_Web_056*/
+}
+
+.loginbutton{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 16px;
+	gap: 20px;
+	color: white;
+	width: 82px;
+	height: 50px;
+
+	/* Primary/Green */
+	background: #00857C;
+	border-radius: 5px;
+
+	/* Inside auto layout */
+	flex: none;
+	order: 2;
+	flex-grow: 0;
+	border: 1px solid transparent;
+}
+
+.menulistHidden {
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 36px;
+	color: #0000006b;
+	padding-top: 13px;
+	padding-bottom: 15px;
+	
+}
+.menulistlockedHidden{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 36px;
+	color: #0000006b;
+	padding-top: 13px;
+    padding-bottom: 15px;
+    width: 100%;
+    height: auto;
+}
+
+.menulist:hover {
+	color: #00857C;
+}
+
+.solid {
+	margin: 0px;
+	width: 456px;
+	border-color: #E4E4E4;
+	/*padding-bottom: 15px;Rusheel-Bug_Web_056*/
+}
+
+.contactbutton {
+	margin-top: 40px;
+	padding: 16px;
+	gap: 20px;
+	width: 312px;
+	height: 50px;
+	background: #00857C;
+	border:1px solid #00857C;
+	border-radius: 5px;
+	
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 18px;
+	text-align: center;
+	letter-spacing: 0.861539px;
+	color: #FFFFFF;
+
+}
+.cursorcls {
+    cursor: default;
+}
+.b:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle:hover{
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle{
+    color: black;
+    text-decoration: none;
+}
+
+.menupage {
+	padding-top: 56px; 
+	padding-left: 156px;
+	padding-bottom: 15px; 
+	background: #FFFFFF;/*Rusheel-Bug_Web_056*/
+}
+
+.menucard {
+	width: 456px;
+}
+
+.menulink {
+	text-decoration: none;
+}
+
+.menuarrow {
+	padding-top: 12px;
+}
+
+.submenu {
+	width: 456px; 
+	margin-top: 150px; 
+	padding-left: 24px;
+}
+/* ====== For Mobile Screen ====== */
+.othersite {
+	display: none;
+}
+
+.second_menu_mob {
+	display: none;
+}
+.logincardmobile {
+	display: none;
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+	/*RT 27-02-2023 Bug_Mbl_023*/
+	.menupage {
+		padding: 16px;
+		margin-top: 30%;
+		display: block !important;
+		background: #FFFFFF;
+	}
+	/*RT 27-02-2023 Bug_Mbl_023*/
+	.mobmenu{
+		font-family: 'Invention';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 24px;
+		line-height: 36px;
+		color: #000000;
+		padding-top: 0px;
+		padding-bottom: 0px; 
+		display: inline;
+		width: auto;
+		height: auto;
+		text-align: center;
+	}
+	/*RT 27-02-2023 Bug_Mbl_023*/
+	.mobbtn{
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 16px;
+		gap: 20px;
+		color: white;
+		width: auto;
+		height: auto;
+		background: #00857C;
+		border-radius: 5px;
+		flex: none;
+		order: 2;
+		flex-grow: 0;
+		border: 1px solid transparent;
+		line-height: 18px;
+		font-size: 14px;
+		font-weight: 700;
+	}
+
+	.menucard {
+		width: auto;
+	}
+
+	.solid {
+		width: auto !important;
+	}
+
+	.othersite {
+		display: flex;
+		font-size: 18px;
+		margin-top: 24px;
+		font-weight: 700;
+		/* padding: 16px 0; */
+		line-height: 27px;
+	}
+
+	.second_menu_mob {
+		display: block;
+	}
+
+	.submenu {
+		margin-top: 0 !important;
+		padding-left: 0;
+		width: auto;
+	}
+
+	.return_account {
+		line-height: 36px;
+		font-size: 24px;
+		font-weight: 400;
+		padding-bottom: 2rem;
+	}
+
+	.return_account img {
+		margin-right: 30px;
+		width: 24px;
+		height: 15px;
+	}
+
+	.othersite span {
+		/* padding: 8.81px 0 8.81px 8.81px;	 */
+	}
+	.othersite_p {
+		font-family: 'Invention';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 18px;
+		line-height: 27px;
+		display: flex;
+		align-items: center;
+		color: #000000;
+		width: 312px;
+	}
+	/*RT 27-02-2023 Bug_Mbl_023*/
+	.logincardmobile {
+		margin-top: 2rem;
+		display: flex;
+		width: auto;
+		height: auto;
+		position: inherit;
+		top: 0;
+		left: 0;
+		padding: 24px 24px 16px 24px;
+	}
+	.logincarddesktop {
+		display: none;
+	}
+
+	.menulist:hover {
+		color: #000000;
+	}
+
+	.medtext{
+        width: 80% !important;
+    }
+    .innermed{
+        width: 90% !important;
+		margin-right: 16px;
+    }
+    .para1{
+        height: auto !important;
+		text-align: center;
+    }
+    .innerp1{
+        width: auto !important;
+        height: auto !important;
+        margin-bottom: 15px;
+		color: #000000;
+    }
+    .continuebtn{
+        height: auto !important;	
+		font-family: 'Invention';
+		color:white;  
+		align-items: center;
+		text-align: center;
+		background-color:#00857c;
+		font-style: normal;
+		height: 50px;
+		font-size: 14px;
+		letter-spacing: 0.1px;
+		padding: 13px 16px		
+    }
+    .popupfooter{
+        margin-top: 16px;
+        height: auto;
+    }
+    .returnbtn{
+        height: auto !important;
+		font-family: 'Invention';
+		color:#00857c;
+		border-color:#00857c ;
+		border: 2px solid #00857c !important;
+		background-color:white;
+		height: 32px;
+		font-weight: 700;
+		font-size: 14px;
+		letter-spacing: 0.1px;
+    }
+    .meddiv{
+        width: auto !important;
+    }
+	.popuphead{
+		font-family: 'Invention';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 24px;
+		line-height: 36px; 
+		color: #000000;
+	}
+
+	.closebtndiv{
+		width: auto !important;
+	}
+	.closebuttn{
+		color:#00857c;
+		border: 2px solid #00857c !important;
+		background-color:white;
+		border-color: #00857c;
+		padding-left: 8px;
+		padding-right: 8px;
+		padding-top: 0px;
+		padding-bottom: 0px;		
+	}
+	.innerp1{
+		height: 40px;
+		width: 680px;
+		font-family: Invention;
+		font-style: normal;
+		font-weight: 400;
+		font-size: 16px;
+		color: rgb(0, 0, 0);
+	}
+	.innerp2{
+		font-family: Invention;
+		font-style: normal;
+		font-size: 16px;
+		color: rgb(0, 0, 0);
+	}	
+	.job{
+		position: inherit !important;
+	}
+	.menuhiddenone{
+		color: #A4A4A4;
+	}
+}

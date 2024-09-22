@@ -1,0 +1,43 @@
+.veeva_modal-content {
+    position: relative;
+    min-height: 6rem;
+    height: 100%;
+}
+
+.modal-button-group-row {
+    justify-content: center;
+    width: 100%;
+}
+
+button.slds-button:hover{
+    background-color: transparent;
+}
+
+.modal-page-grid {
+    height: 100%;
+}
+
+.modal-page-col {
+    height: 100%;
+}
+
+.sidebar {
+    padding-left: 0%;
+    padding-right: 0%;
+}
+
+.detail-content {
+    overflow-y: scroll;
+}
+
+.required-field-msg {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.side-bar-toggle {
+    position: absolute;
+    right: var(--lwc-spacingSmall,0.75rem);
+    top: 50%;
+    transform: translateY(-50%);
+}

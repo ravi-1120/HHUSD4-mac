@@ -1,0 +1,105 @@
+.search {
+    margin-top: var(--lwc-spacingXSmall, 0.75rem);
+    --veeva-em-combobox-width-override: 10rem;
+    align-items: center;
+}
+
+.view-search {
+    --sds-c-input-radius-border: 0 4px 4px 0;
+}
+
+.footer-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.results-data-table {
+    border-radius: 5px;
+    height: clamp(10vh, 45vh, 70vh);
+}
+
+.details-popover {
+    position: fixed;
+    z-index: 99;
+    top: var(--selectionDetailsPopoverYCoord);
+    left: calc(var(--selectionDetailsPopoverXCoord) + 1rem);
+    transform: translateY(calc(-1 * var(--selectionDetailsTranslateYDistance, -50%)));
+}
+
+.result-selection-sort-message {
+    display: flex;
+    align-items: center;
+}
+
+.no-results {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.selected-rows {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.25rem 0.75rem;
+    max-height: 15vh;
+    overflow: auto;
+}
+
+.selected-filters {
+    width: calc(100% - var(--lwc-squareIconMediumBoundary,2rem) - 0.75rem);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.25rem 0.75rem;
+}
+
+.filter-section {
+    display: flex;
+    align-items: end;
+    gap: 0.75rem;
+}
+
+.filter-button {
+    align-self: start;
+}
+
+.selection-page-pill {
+    max-width: 100%;
+}
+
+.filter-popover {
+    position: fixed;
+    z-index: 98;
+}
+
+.toggle-container {
+    flex: 3 3 auto;
+}
+
+.toggle-container > .toggle {
+    width: fit-content;
+}
+
+.toggle[disabled] {
+    --lwc-colorTextLabel: var(--lwc-colorTextPlaceholder, #747474);
+}
+
+.truncated-tooltip-icon {
+    --veeva-tooltip-opacity: 0
+}
+
+.truncated-tooltip-icon:hover {
+    --veeva-tooltip-opacity: 1;
+}
+
+.truncated-results-tooltip {
+    position: absolute;
+    opacity: var(--veeva-tooltip-opacity, 0);
+    pointer-events: none;
+    transition-property: opacity;
+    transition-delay: 0.25s;
+    transition-duration: 0.25s;
+    transform: translate(calc(-1 * var(--lwc-squareIconUtilitySmall,1rem) - 1rem), calc(-100% - 1rem));
+}

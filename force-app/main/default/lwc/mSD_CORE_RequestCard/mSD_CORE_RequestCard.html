@@ -1,0 +1,580 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+    </template>
+
+    <template if:true={recordsToDisplay}>
+        <div class="slds-grid  search-card">
+            <div class="slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 ">
+                <div>
+                    <div>
+                        <label class="pipelinelabel" for="text-input-id-47">
+                            Search:</label>
+                    </div>
+                    <div class="pipelineVal" >
+                        <input type="text" data-id="searchClicnicalTrial"
+                            placeholder="Type a request number or Clinical trial name" required=""
+                            class="search-input" onchange={handleSearch}
+                            title="Minimum character for serach must be 2!" disabled={isNotShow}/>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12">
+
+            </div>
+            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                <div class="combobox">
+                    <label class="pipelinelabel" for="text-input-id-477">
+                        Sort by:</label>
+                    <lightning-combobox label="Sort by:" name="sort" value={selectFieldOption}
+                        placeholder="  Select" options={sortoptions} onchange={handleSortBY}
+                        variant="label-hidden" disabled={isNotShow}></lightning-combobox>
+                </div>
+            </div>
+        </div>
+        <div class="con">
+            <template if:false={isNotShow}>
+                <!-- <template for:each={recordsToDisplay} for:item="req">
+                
+                    <div class="slds-grid slds-gutters slds-wrap slds-box boxshadow_cls bsbobx request-card" key={req.Id}>
+                        <div class="slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12 row1">
+                            <span class={setStatusCSS}>
+                                <span class="status-title">{req.Status}</span>
+                            </span>
+                            <div class="subrow1">
+                            <span class="appointment-title"> {req.MHEE_Name__c}:</span>
+                            <template if:true={req.ScheduleFilter}>
+                                <span class="appointment-title-name"> {req.ScheduleFilter}</span>
+                            </template>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12"> 
+                            <template if:true={req.ScheduleFilter}>
+                                <div class="viewrequest" data-id={req.Id} data-name={req.Name}
+                                    data-mname={req.ScheduleFilter} onclick={viewRequest}>
+                                    <button class="cta">
+                                        <span class="h2-viewrequest-header">View request</span>
+                                        <img src={rightarrow} class="h2-viewrequest">
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                        <template if:false={req.IsMultipleAppointment}>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 top-margin">
+                                <div class="button2">
+                                    <div class="b5">
+                                        {req.Month}
+                                    </div>
+                                    <div class="b4">
+                                        {req.Day}
+                                    </div>
+                                    <div class="b5">
+                                        {req.Time}
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={req.IsMultipleAppointment}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 top-margin">
+                                <div class="button-multip-appointment">
+                                    <p class="mdate">Multiple Dates Preferred</p>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12  top-margin ">
+                            <div class="slds-grid slds-wrap">
+                                <template if:true={pending}>
+                                    <template if:true={req.IsMultipleAppointment}>
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 pad-from-calendar">
+                                            <span class="appointment-content-title pad-pref-time">Meeting location:</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={req.IsMultipleAppointment}>
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-from-calendar">
+                                            <span class="appointment-content-title pad-pref-time">Meeting location:</span>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:true={closed}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 pad-from-calendar">
+                                        <span class="appointment-content-title pad-pref-time">Meeting location:</span>
+                                    </div>
+                                </template>
+                                <template if:true={appointment}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-left-from-calendar">
+                                        <span class="appointment-content-title pad-pref-time">Meeting location:</span>
+                                    </div>
+                                </template>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 mar-lr-mob">
+                                    <span class="appointment-content">{req.MSD_CORE_Meeting_preference__c}</span>
+                                </div>
+                                
+                            
+                                <template if:true={pending}>
+                                    <template if:true={req.Meeting_Times__r}>
+                                        <template if:true={req.IsMultipleAppointment}>
+                                            <div
+                                                class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 pad-pref-time">
+                                                <span class="appointment-content-title">Preferred appointment times:</span>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={req.Meeting_Times__r}>
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                            <span class="appointment-content-title"></span>
+                                        </div>
+                                    </template>
+                                </template>
+
+                                
+                                <template if:true={closed}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 no-padding">
+                                        <span class="appointment-content-title">Resolution:</span>
+                                    </div>
+                                </template>
+                                <template if:true={appointment}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 ">
+                                    </div>
+                                </template>
+                                <template if:true={pending}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 pad-from-calendar">
+                                        <span class="appointment-content">{req.MSD_CORE_Meeting_preference__c}</span>
+                                    </div>
+                                </template>
+                                <template if:true={closed}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 pad-from-calendar ">
+                                        <span class="appointment-content">{req.MSD_CORE_Meeting_preference__c}</span>
+                                    </div>
+                                </template>
+                                <template if:true={appointment}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-left-from-calendar ">
+                                        <span class="appointment-content">{req.MSD_CORE_Meeting_preference__c}</span>
+                                    </div>
+                                </template>
+
+                                <template if:true={pending}>
+                                    <template if:true={req.Meeting_Times__r}>
+                                        <template if:true={req.IsMultipleAppointment}>
+                                            <div
+                                                class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 no-padding">
+                                                <template for:each={req.appointments} for:item="meettime">
+                                                    <span class="appointment-content" key={meettime}>{meettime.value}<br /></span>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={req.Meeting_Times__r}>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        </div>
+                                    </template>
+                                </template>
+
+                    
+                                <template if:true={closed}>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 no-padding">
+                                        <span class="appointment-content">{req.MSD_CORE_Request_Resolution__c}</span>
+                                    </div>
+                                </template>
+                                <template if:true={appointment}>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-left-from-calendar">
+                                        <span class="appointment-content-small">
+                                            {req.SubmittedDate}
+                                        </span>
+                                    </div>
+                                </template>
+                                <template if:false={appointment}>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-from-calendar">
+                                        <span class="appointment-content-small"> {req.SubmittedDate}
+                                        </span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+
+                        </div>
+                    </div>
+                </template>  -->
+            <template   for:each={recordsToDisplay} for:item="req">
+                <!-- to display in Mobile -->
+                <div key={req.Id} class="ps-mobile-div slds-box boxshadow_cls bsbobx request-card">
+                        <div key={req.Id} class="slds-grid slds-gutters  " style="margin-bottom: 8px;">
+                            <div class="slds-col mobWidth">
+                                <div key={req.Id} class="slds-grid slds-grid_vertical ">
+                                    <div class="slds-col slds-p-around_xx-small">
+                                        <span style="" class={setStatusCSS}>
+                                            <span class="status-title">{req.Status}</span>
+                                        </span>
+                                    </div>
+                                    <div i class="slds-col slds-p-top_xx-small">
+                                        <div class="button2" if:false={req.IsMultipleAppointment} >
+                                            <div class="b5">
+                                                {req.Month}
+                                            </div>
+                                            <div class="b4">
+                                                {req.Day}
+                                            </div>
+                                            <div class="b5">
+                                                {req.Time}
+                                            </div>
+                                        </div>
+                                        <div class="button2" if:true={req.IsMultipleAppointment} >
+                                            <div class="">
+                                                <p class="mdate">Multiple Dates Preferred</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col mobWidth" key={req.Id}>
+                                <div class="slds-col slds-p-top_xx-small">
+                                    <span class="appointment-title"> {req.MHEE_Name__c}:</span> 
+                                </div>
+                                <div class="slds-col slds-p-top_xx-small">
+                                    <template if:true={req.ScheduleFilter}>
+                                        <span class="appointment-title-name"> {req.ScheduleFilter}</span>
+                                    </template>
+                                </div>
+                            </div>
+                        </div >
+                        <span key={req.Id} class="appointment-content-small ">
+                            {req.SubmittedDate}
+                        </span>
+        
+                        <div key={req.Id}>
+                            <div key={req.Id} class="slds-grid slds-grid_vertical mobmargin" style="margin-bottom: 16px; margin-top: 16px;">
+                                <div class="slds-col">
+                                    <span class="appointment-content-title pad-pref-time">Resource Type:</span>
+                                </div>
+                                <div class="slds-col">
+                                <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                </div>
+                            </div>
+
+                        </div>  
+                        <div key={req.Id}>
+                            <template if:true={closed}>
+                                <div key={req.Id} class="slds-grid slds-grid_vertical mobmargin" style="margin-bottom: 16px;">
+                                    <div class="slds-col">
+                                        <span class="appointment-content-title">Resolution:</span>
+                                    </div>
+                                    <div class="slds-col">
+                                            <span class="appointment-content">{req.MSD_CORE_Request_Resolution__c}</span>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:true={pending}>
+                                <div key={req.Id} class="slds-grid slds-grid_vertical ">
+                                    <div class="slds-col">
+                                        <template if:true={req.Meeting_Times__r}>
+                                            <template if:true={req.IsMultipleAppointment}>
+                                                <div
+                                                    class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 pad-pref-time">
+                                                    <span class="appointment-content-title">Preferred appointment times:</span>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </div>
+                                    <div class="slds-col">
+                                        <template if:true={req.Meeting_Times__r}>
+                                            <template if:true={req.IsMultipleAppointment}>
+                                                <div
+                                                    class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 no-padding mobmargin" style="magin-bottom: 16px;">
+                                                    <template for:each={req.appointments} for:item="meettime">
+                                                        <span class="appointment-content" key={meettime}>{meettime.value}<br /></span>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <template if:true={req.ScheduleFilter}>
+                            <div class="viewrequest" data-id={req.Id} data-name={req.Name}
+                                data-mname={req.ScheduleFilter} onclick={viewRequest}>
+                                <button class="cta">
+                                    <span class="h2-viewrequest-header">View request</span>
+                                    <img src={rightarrow} class="h2-viewrequest">
+                                </button>
+                            </div>
+                        </template>
+                                
+                    </div>
+                    <!--End to display in Mobile -->
+
+                    <!-- to display in Desktop -->
+                    <div class="ps-desktop-div slds-grid slds-gutters slds-wrap slds-box boxshadow_cls bsbobx request-card" key={req.Id}>
+                        <div class="slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12 row1">
+                            <span class={setStatusCSS}>
+                                <span class="status-title">{req.Status}</span>
+                            </span>
+                            <div class="subrow1">
+                            <span class="appointment-title"> {req.MHEE_Name__c}:</span>
+                            <template if:true={req.ScheduleFilter}>
+                                <span class="appointment-title-name"> {req.ScheduleFilter}</span>
+                            </template>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12"> 
+                            <template if:true={req.ScheduleFilter}>
+                                <div class="viewrequest" data-id={req.Id} data-name={req.Name}
+                                    data-mname={req.ScheduleFilter} onclick={viewRequest}>
+                                    <button class="cta">
+                                        <span class="h2-viewrequest-header">View request</span>
+                                        <img src={rightarrow} class="h2-viewrequest">
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                        <template if:false={req.IsMultipleAppointment}>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 top-margin">
+                                <div class="button2">
+                                    <div class="b5">
+                                        {req.Month}
+                                    </div>
+                                    <div class="b4">
+                                        {req.Day}
+                                    </div>
+                                    <div class="b5">
+                                        {req.Time}
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={req.IsMultipleAppointment}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12 top-margin">
+                                <div class="button-multip-appointment">
+                                    <p class="mdate">Multiple Dates Preferred</p>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12  top-margin ">
+                            <div class="slds-grid slds-wrap">
+                                <template if:true={pending}>
+                                    <template if:true={req.IsMultipleAppointment}>
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 pad-from-calendar">
+                                            <span class="appointment-content-title pad-pref-time">Meeting location:</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={req.IsMultipleAppointment}>
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-from-calendar">
+                                            <span class="appointment-content-title pad-pref-time">Meeting location:</span>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:true={closed}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 pad-from-calendar">
+                                        <span class="appointment-content-title pad-pref-time">Meeting location:</span>
+                                    </div>
+                                </template>
+                                <template if:true={appointment}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-left-from-calendar">
+                                        <span class="appointment-content-title pad-pref-time">Meeting location:</span>
+                                    </div>
+                                </template>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 mar-lr-mob">
+                                    <span class="appointment-content">{req.MSD_CORE_Meeting_preference__c}</span>
+                                    <!--New-->
+                                <!--  <div key={req.Id}>
+                                            <div key={req.Id} class="slds-grid slds-grid_vertical ">
+                                                    <div class="slds-col">
+                                                        <span class="appointment-content-title pad-pref-time">Resource Type:</span>
+                                                    </div>
+                                                    <div class="slds-col">
+                                                    <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                                    </div>
+                                            </div>
+
+                                    </div>  -->
+                                <!--New-->
+                                </div>
+                            
+                            
+                                <template if:true={pending}>
+                                    <template if:true={req.Meeting_Times__r}>
+                                        <template if:true={req.IsMultipleAppointment}>
+                                            <div
+                                                class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 pad-pref-time">
+                                                <span class="appointment-content-title">Preferred appointment times:</span>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={req.Meeting_Times__r}>
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                            <span class="appointment-content-title"></span>
+                                        </div>
+                                    </template>
+                                </template>
+
+                                
+                                <template if:true={closed}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 no-padding">
+                                        <span class="appointment-content-title">Resolution:</span>
+                                    </div>
+                                </template>
+                                <template if:true={appointment}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 ">
+                                    </div>
+                                </template>
+                                <template if:true={pending}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 pad-from-calendar">
+                                        <span class="appointment-content">{req.MSD_CORE_Meeting_preference__c}</span>
+                                <!--New-->
+                                <!-- <div key={req.Id}>
+                                    <div key={req.Id} class="slds-grid slds-grid_vertical ">
+                                        <div>
+                                            <span class="appointment-content-title pad-pref-time">Resource Type:</span>
+                                        </div>
+                                        <div>
+                                        <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                        </div>
+                                    </div>
+
+                                </div>  -->
+                                <!--New-->
+                                    </div>
+                                    
+                                </template>
+                                <template if:true={closed}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 pad-from-calendar ">
+                                        <span class="appointment-content">{req.MSD_CORE_Meeting_preference__c}</span>
+                                    <!--New-->
+                                <!-- <div key={req.Id}>
+                                    <div key={req.Id} class="slds-grid slds-grid_vertical ">
+                                        <div>
+                                            <span class="appointment-content-title pad-pref-time">Resource Type:</span>
+                                        </div>
+                                        <div>
+                                        <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                        </div>
+                                    </div>
+
+                                </div> -->
+                                <!--New-->
+                                    </div>
+                                
+                                </template>
+                                <template if:true={appointment}>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-left-from-calendar ">
+                                        <span class="appointment-content">{req.MSD_CORE_Meeting_preference__c}</span>
+                                        <!--New-->
+                                <!-- <div key={req.Id}>
+                                    <div key={req.Id} class="slds-grid slds-grid_vertical ">
+                                        <div>
+                                            <span class="appointment-content-title pad-pref-time">Resource Type:</span>
+                                        </div>
+                                        <div>
+                                        <span class="appointment-content">{req.MSD_CORE_Resource_Type__c}</span>
+                                        </div>
+                                    </div>
+
+                                </div>  -->
+                                <!--New-->
+                                    </div>
+                                
+                                </template>
+
+                                <template if:true={pending}>
+                                    <template if:true={req.Meeting_Times__r}>
+                                        <template if:true={req.IsMultipleAppointment}>
+                                            <div
+                                                class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 no-padding">
+                                                <template for:each={req.appointments} for:item="meettime">
+                                                    <span class="appointment-content" key={meettime}>{meettime.value}<br /></span>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={req.Meeting_Times__r}>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        </div>
+                                    </template>
+                                </template>
+
+                    
+                                <template if:true={closed}>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 no-padding">
+                                        <span class="appointment-content">{req.MSD_CORE_Request_Resolution__c}</span>
+                                    </div>
+                                </template>
+                                <template if:true={appointment}>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-left-from-calendar">
+                                        <span class="appointment-content-small">
+                                            {req.SubmittedDate}
+                                        </span>
+                                    </div>
+                                </template>
+                                <template if:false={appointment}>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 pad-from-calendar">
+                                        <span class="appointment-content-small"> {req.SubmittedDate}
+                                        </span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+
+                        </div>
+                    </div>
+            
+                </template> 
+            
+            </template>
+        </div>
+        <!-- Added for empty state -->
+        <template if:true={isNotShow}>
+            <div>
+                <div class="emptystate emptymob">
+                    <p>Browse pipeline information to discover presentations you would like to schedule.</p>
+                    <button class="slds-grid slds-wrap" onclick={navigatetopipeline}>
+                        <span>
+                            Browse pipeline information
+                        </span>
+                        <img src={rightarrow}>
+                    </button>
+                </div>
+            </div>
+        </template>
+        <!-- Added for no result state -->
+        <template if:true={forNoResult}>
+            <div>
+                <div class="emptystate">
+                    <p>No results found. Please try a different combination of keywords.</p>
+                </div>
+            </div>
+        </template>
+    </template>
+
+    <template if:true={showPagination}>
+        <div class="pagination-position">
+            <template if:true={total}>
+                <c-do-pagination page-size={pageSize} total-count={total} onmycustomevent={handleCustomEvent}>
+                </c-do-pagination>
+            </template>
+        </div>
+    </template>
+</template>

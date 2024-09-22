@@ -1,0 +1,88 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .slds-size_6-of-12 .slds-icon-utility-edit {
+    position: relative;
+    z-index: 1;
+    float: right;
+    color: #ddd;
+    cursor: pointer;
+    margin-top: -40px;
+    margin-right: 10px;
+}
+.THIS .slds-size_6-of-12 .slds-icon-utility-edit:hover {
+    color: #17b;
+    cursor: pointer;
+}
+.THIS .slds-size_6-of-12 .slds-icon {
+    width: 15px;
+    fill:currentColor;
+}
+.THIS .icondown .slds-icon_small {
+    width: 15px;
+    margin-right: 5px;
+    margin-top: -3px;
+}
+.THIS .at .slds-form-element {
+    position: relative;
+    min-width: 0;
+    float: left;
+    margin-top: 10px;
+    line-height: 1;
+}
+.THIS .form-field-border {
+    float: left;
+    width: calc(50% - 15px);
+    margin: 0px 7px;
+}
+.THIS .form-field-bordr {
+    border-bottom: 1px solid rgb(221, 219, 218);
+}
+.THIS .slds-tabs_default__content, .THIS .slds-tabs--default__content {
+    position: relative;
+    padding: 5px 0;
+}
+.THIS .slds-form-element_stacked:not(.slds-form-element_readonly){
+    margin-bottom: 0;
+}
+.THIS .slds-section__title {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+.THIS .slds-form-element_horizontal .slds-form-element__control, .THIS .slds-form_horizontal .slds-form-element .slds-form-element__control, .THIS .slds-form_stacked .slds-form-element_horizontal .slds-form-element__control {
+    padding-left: 0;
+    clear: left;
+}
+.THIS .slds-form-element_horizontal .slds-form-element__label, .THIS .slds-form_horizontal .slds-form-element .slds-form-element__label, .THIS .slds-form_stacked .slds-form-element_horizontal .slds-form-element__label {
+    max-width: 100%;
+}
+.THIS .slds-accordion__summary-heading {
+    display: flex;
+    flex-grow: 1;
+    font-size: .875rem;
+    line-height: 1.25;
+    background: #eee;
+    padding: 10px;
+    border-radius: 3px;
+}
+.THIS .slds-accordion__section {
+    padding: .5rem;
+}
+.THIS .slds-accordion__list-item {
+    border-top: 0px solid rgb(221, 219, 218);
+}
+.THIS .slds-form-element_readonly {
+    width: 98% !important;
+}
+.THIS .slds-tabs_scoped__item+.slds-tabs_scoped__item {
+    margin-left: -1px;
+    border-right: 1px solid #eee;
+}
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .at .slds-form-element__label {
+    padding: var(--lwc-varSpacingXxSmall,0.25rem) var(--lwc-spacingXxSmall,0.25rem);
+    padding-top: var(--lwc-spacingXxSmall,0.25rem);
+}

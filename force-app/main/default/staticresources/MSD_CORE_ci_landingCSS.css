@@ -1,0 +1,49 @@
+@media only screen and (min-width: 64.0625em) {
+    .stagecard .slds-card{
+       width: 934px;
+       height: 76%;
+       margin-top: 7%;
+       padding: 3%;
+       overflow-y: auto;
+    }
+  }       
+.stagecard .slds-card::-webkit-scrollbar-track {
+   background: #f1f1f1;
+}
+.stagecard  .slds-card::-webkit-scrollbar-thumb {
+   background: #ccc;
+}
+
+.stagecard .slds-card::-webkit-scrollbar-thumb:hover {
+   background: #555;
+}
+.stagecard .slds-card::-webkit-scrollbar {
+   width: 10px;
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1180px) {
+    .stagecard .slds-card {
+        width: 500px;
+        height: 76%;
+        margin-top: 7%;
+        padding: 3%;
+        overflow-y: auto;
+     }
+ }
+  @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {
+  .stagecard .slds-card {
+      width: 647px;
+      height: 76%;
+      margin-top: 7%;
+      padding: 3%;
+      overflow-y: auto;
+  }
+}
+@media only screen and (max-width: 47.99em) {
+   .stagecard .slds-card{
+       height: 124%;
+       margin-bottom: 21%;
+       padding: 1%;
+       margin-left: 3%;
+       overflow-y:auto;
+   }
+}

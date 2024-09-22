@@ -1,0 +1,30 @@
+<template>
+	<div class="slds-box slds-m-bottom_small slds-tile slds-grid slds-grid_align-spread slds-wrap">
+		<div class="slds-tile__detail slds-grid">
+			<template if:true={iscollection}>
+				<lightning-input class="checkboxcls" type="checkbox"  data-id={id} onchange={handleCheck}></lightning-input>
+			</template>
+			<img src={tileImageUrl} alt="Tile Image" class="tile-image"/>
+			<div class="slds-m-left_medium">
+				<div class="slds-tile__title">{title}</div>
+				<div class="slds-text-body_small">{subtitle}</div>
+			</div>
+		</div>
+		<div class="slds-tile__action saction-buttons">
+			<template if:false={isBookmarked}>
+				<lightning-icon size="x-small" data-id={id} data-aid="BK-25" onclick={handleBookmark} tabindex="0" name="Bookmark" role="chekbox"
+					aria-checked="false" class="bookmark_icon slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+					icon-name="utility:bookmark_stroke" onkeydown={handleKeystroke}></lightning-icon>
+			</template>
+			<template if:true={isBookmarked}>
+                <lightning-icon size="x-small" data-id={id} data-aid="BK-26" onclick={handleUnBookmark} tabindex="0" name='Bookmark' role="checkbox"
+				aria-checked="true" class="bookmark_icon slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+				icon-name="utility:bookmark" onkeydown={handleKeystroke}></lightning-icon>
+			</template>
+			<lightning-icon size="x-small" data-id={id} data-aid="BK-26" onclick={handlePreview} tabindex="0" name='Preview' role="checkbox"
+			aria-checked="true" class="preview_icon slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+			icon-name="utility:preview"></lightning-icon>
+			<a class="slds-text-link" onclick={handleViewDetails} data-id={id}>View Details</a>
+		</div>
+	</div>
+</template>

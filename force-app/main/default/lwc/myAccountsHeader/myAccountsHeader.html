@@ -1,0 +1,44 @@
+<template>
+  <div>
+    <c-veeva-page-header icon-name={iconName}>
+      <div slot="title">
+        <div class="slds-page-header__name">
+          <div class="slds-page-header__name-title">
+            <h1>
+              <span>{subtitle}</span>
+              <c-my-accounts-view-selector class="slds-p-around_x-small" disabled={doesNotHaveViews} labels={labels}
+                value={selectedView.id} options={views} onchange={handleViewChange}>
+              </c-my-accounts-view-selector>
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div slot="subhead" class="subhead-container">
+        <span class="slds-text-body--small">{headerMessage}</span>
+        <lightning-icon if:true={shouldShowIcon} icon-name={sortDirection} size="xx-small" title="sortIcon"></lightning-icon>
+      </div>
+      <div slot="buttons">
+        <lightning-layout class="slds-p-vertical--xx-small" vertical-align="center" horizontal-align="end">
+          <slot name="buttons"></slot>
+        </lightning-layout>
+        <lightning-layout class="slds-p-vertical--xx-small" vertical-align="center" horizontal-align="end">
+
+          <!-- Shows Territory Selection-->
+          <lightning-layout-item>
+            <span>{labels.territory}</span>
+          </lightning-layout-item>
+          <lightning-layout-item padding="horizontal-small">
+            <lightning-combobox class="myaccounts-territories-combobox" variant="label-hidden" disabled={doesNotHaveTerritories} label={labels.territory}
+              value={selectedTerritoryId} options={territories} onchange={handleTerritoryChange}>
+            </lightning-combobox>
+          </lightning-layout-item>
+
+          <lightning-layout-item>
+            <slot name="additional-controls"></slot>
+          </lightning-layout-item>
+
+        </lightning-layout>
+      </div>
+    </c-veeva-page-header>
+  </div>
+</template>

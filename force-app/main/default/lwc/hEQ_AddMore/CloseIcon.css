@@ -1,0 +1,8 @@
+.closebutton .slds-modal__close {
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+    position: relative;
+    bottom: .5rem;
+    right: -35.5rem;
+}

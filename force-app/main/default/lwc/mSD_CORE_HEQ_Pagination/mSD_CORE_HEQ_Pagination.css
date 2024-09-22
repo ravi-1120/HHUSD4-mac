@@ -1,0 +1,99 @@
+.maincontainer {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    background: #FFF;
+    height: 66px;
+    padding: 16px;
+    margin-bottom: 10px;
+}
+
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pagination-button {
+    background-color: #F4F4F4;
+    border: 0px;
+    padding: 11px 16px 11px 16px;
+    cursor: pointer;
+    color: black;
+    font-family: 'Invention';
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    justify-content: space-between;
+    display: flex;
+    font-size: 14px;
+    color: black;
+    font-weight: 700;
+    line-height: 21px;
+}
+
+.pagination-button img {
+    margin: auto 0;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 8px;
+}
+
+.pagination-button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.pagination-page {
+    background-color: #F4F4F4;
+    border: 0px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: 'Invention';
+    margin: 0 2px;
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 700;
+}
+
+.pagination-page.active {
+    background-color: #00857C;
+    color: #FFF;
+}
+
+.pagination-ellipsis {
+    margin: 0 5px;
+    font-size: 18px;
+    display: flex;
+}
+
+.pagination-ellipsis span {
+    margin: auto;
+}
+
+.per-page-dropdown {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 21px;
+    font-family: 'Invention';
+    font-weight: 500;
+}
+
+.per-page-dropdown label {
+    margin-right: 8px;
+}
+
+.pagedropdown {
+    background-color: #F4F4F4;
+    font-size: 14px;
+    line-height: 21px;
+    font-family: 'Invention';
+    font-weight: 500;
+    margin-bottom: 0px;
+}

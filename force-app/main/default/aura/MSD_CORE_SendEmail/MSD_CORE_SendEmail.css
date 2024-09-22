@@ -1,0 +1,15 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .h350 {
+    height: 250px;
+}
+.THIS .slds-form-element_horizontal .slds-form-element__control {
+    padding: 0 !important;
+}
+.THIS .custom .slds-form-element__label {
+    display: none !important;
+}
+.THIS .slds-form-element {
+    overflow: hidden;
+}

@@ -1,0 +1,29 @@
+.ptagcls{
+    font-family: 'InventionRg';
+    font-size: 14px;
+    color: #000000 !important;
+}
+.red-text {
+    color: red;
+    font-size:15px;
+}
+.backColor {
+    background-color: rgba(0, 0, 0, .3);
+}
+.slds-button{
+    color: #ffffff;
+}
+.btnHover:not([disabled]){
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    box-shadow: inset 0 0 0 0 #005C55;
+}
+.btnHover:hover:not([disabled]){
+    box-shadow: inset 400px 0 0 0 #005C55;
+}
+.formatted-text {
+    text-indent: -1em; 
+    padding-left: 1em;
+    white-space: pre-line;
+}

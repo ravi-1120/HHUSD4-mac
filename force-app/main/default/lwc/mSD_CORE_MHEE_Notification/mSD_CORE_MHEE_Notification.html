@@ -1,0 +1,94 @@
+<template>
+    <div class="container">
+        <div class="bodycls">
+            <h1 class="header">Notifications</h1>
+            <div class="maindiv" if:false={showemptystate}>
+                
+                <template if:true={notificationdata} for:each={notificationdata} for:item="notification">
+                    <p class="timeslot" key={notification}>{notification.key}</p>
+                    <div class="notification-wrap" key={notification}><div class="notification-bar"  key={notification}></div>
+                    <div class="mainparent" key={notification}>
+                        <template if:true={notification.value} for:each={notification.value} for:item="parentnoti">
+                            <div class="parentnotificationmain" key={parentnoti}>
+                                <p class="bordercircle"></p>
+                                <div class="mainpaddingcls">
+                                    <div class="notification_outer_body">
+                                        <div class="notifiction_main">
+                                            <div class="notifiction_main_body">
+                                                <div class="mainredcircle" if:false={parentnoti.isRead}>
+                                                    <div class="redcircle"></div>
+                                                </div>
+                                                <div class="mainredcircleblank" if:true={parentnoti.isRead}>
+                                                    <div class="redcircle"></div>
+                                                </div>
+                                                <div class="notifiction_body">
+                                                    <div class="notifiction_header">
+                                                        <p class="notifiction_headerdata">
+                                                            <lightning-formatted-rich-text class="notifcls"
+                                                                value={parentnoti.parentNotification.MSD_CORE_Activity__c}></lightning-formatted-rich-text>
+                                                        </p>
+                                                        <p class="timeshowing">{parentnoti.duration}</p>
+                                                    </div>
+                                                    <template if:true={parentnoti.childCount}>
+                                                        <template if:false={showmoredata}>
+                                                            <span class="showdetail" data-btnclk="show"
+                                                                data-id={parentnoti.parentNotification.Id} data-showdetail={parentnoti.parentNotification.Id}
+                                                                onclick={showhidenotification}>Show {parentnoti.childCount}<img class="downuparrow"
+                                                                    src={downarrow}></span>
+                                                        </template>
+                                                    </template>
+                                                </div>
+                                                <div class="rightarrowdiv" data-id={parentnoti.parentNotification.MSD_CORE_Meeting_Request__c} data-name="requestpage" data-notificationid={parentnoti.parentNotification.Id} onclick={navigate}>
+                                                    <img class="rightarrow" src={rightarrow}>
+                                                </div>
+                                            </div>
+                                            <div if:true={parentnoti.childCount} class="childnotificatincls hidechildnotification" data-showid={parentnoti.parentNotification.Id}>
+                                                <template if:true={parentnoti.childNotificationList}
+                                                    for:each={parentnoti.childNotificationList} for:item="childnoti">
+                                                    <div class="subdetails" key={childnoti}>
+                                                        <div class="subbordercircle"></div>
+                                                        <div class="subdetails_body">
+                                                            <p class="subdetailsdata"><lightning-formatted-rich-text
+                                                                    class="notifcls"
+                                                                    value={childnoti.childNotification.MSD_CORE_Activity__c}></lightning-formatted-rich-text>
+                                                            </p>
+                                                            <p class="showdatetime">{childnoti.duration}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <span if:true={parentnoti.childCount} class="hidedetails hideshowmore" data-btnclk="hide" data-hidedetail={parentnoti.parentNotification.Id} data-id={parentnoti.parentNotification.Id}
+                                                    onclick={showhidenotification}>Hide {parentnoti.childCount}<img class="downuparrow"
+                                                        src={uparrow}></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    </div>
+                </template>
+                <template if:true={showPagination}>
+                    <div class="slds-align_absolute-center pagintion-margin">
+                        <c-do-pagination page-size={pageSize} parentname= "mheenotification" total-count={totalCount} onmycustomevent={handleCustomEvent} >
+                        </c-do-pagination>
+                    </div>
+                </template>
+            </div>
+            <div if:true={showemptystate} class="emptynotificationmain">
+                <div class="emptystatetext">
+                    You don’t have any notifications at this time.
+                </div>
+                <div>
+                    <button class="pipelinebtncls" data-name="pipeline" onclick={navigate}> Browse pipeline information 
+                        <span> 
+                            <img src={rightarrow}> 
+                        </span> 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

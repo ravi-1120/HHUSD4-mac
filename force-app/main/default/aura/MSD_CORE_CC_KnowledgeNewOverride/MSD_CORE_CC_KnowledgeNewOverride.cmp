@@ -1,0 +1,47 @@
+<aura:component implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId,flexipage:availableForAllPageTypes" controller="KnowledgeNewContrl" access="global" >
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="lstRecordTypes" type="List" />
+    <aura:attribute name="selectedRTId" type="String" />
+    <aura:attribute name="disableNext" type="Boolean" default="true" />    
+    <aura:attribute name="recParamMap" type="Map" default="{}" />
+    <aura:attribute name="userProfileName" type="String"/>
+    
+     <aura:if isTrue="{!v.userProfileName == 'Knowledge Community User'}">
+        <div class="slds-box slds-box_x-small slds-theme_default slds-align_absolute-center slds-text-heading_small owner_warning_box">
+            <p style="color:red">Approvers are not authorised to create Articles.</p>
+        </div>
+          <aura:set attribute="else">
+    <div style="width: 70%;left :200px;">
+                <lightning:card>
+                    <div class="slds-template__container">
+                        <div class="inlinePanel oneRecordActionWrapper" data-aura-rendered-by="3266:0" data-aura-class="oneRecordActionWrapper" style="padding-bottom: 63.6px;">
+                            <div class="actionBody" data-aura-rendered-by="3267:0">
+                                <!--render facet: 3272:0-->
+                                <div data-aura-rendered-by="3275:0" class="forceChangeRecordType" data-aura-class="forceChangeRecordType">
+                                    <h2 class="inlineTitle slds-p-top--large slds-p-horizontal--medium slds-p-bottom--medium slds-text-heading--medium slds-border_bottom" data-aura-rendered-by="3277:0">New Knowledge</h2>
+                                    <div class="modal__content" data-aura-rendered-by="3325:0">
+                                        <div style="padding:20px;">
+                                            <lightning:radioGroup name="radioGroup"
+                                                                  label="Select a Record type"
+                                                                  onchange="{!c.handlePicklistChange}"
+                                                                  options="{! v.lstRecordTypes }"
+                                                                  value="{! v.selectedRTId }"
+                                                                  type="radio"/> 
+                                        </div>          
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-align_absolute-center">
+                                <lightning:button class="slds-button slds-button--neutral" onclick="{!c.closeModal}">Cancel</lightning:button>
+                                <lightning:button class="slds-button slds-button--brand" onclick="{!c.createRecord}" disabled="{!v.disableNext}">Next</lightning:button>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </lightning:card>
+            </div>
+               </aura:set>
+    </aura:if>          
+</aura:component>

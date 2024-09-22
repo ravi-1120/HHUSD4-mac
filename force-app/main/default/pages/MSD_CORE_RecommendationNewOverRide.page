@@ -1,0 +1,3 @@
+<apex:page standardController="MSD_CORE_Recommendation__c" lightningStylesheets="true">
+     Please use the "New Recommendation" Button on the Clinical Trial Page Detail to add a new Recommendation.
+</apex:page>

@@ -1,0 +1,13 @@
+.THIS .slds-form-element__control{
+	line-height :3;
+}
+
+.THIS .forceBrandBand.slds-brand-band_narrow_view_two{
+    width: 70%;
+    max-width: 1025px;
+}
+
+.THIS .slds-card{
+    width: 70%;
+    left: 350px;
+}

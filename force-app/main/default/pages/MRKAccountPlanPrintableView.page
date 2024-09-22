@@ -1,0 +1,229 @@
+<apex:page standardController="Account_Plan_vod__c"  renderAs="pdf" lightningStylesheets="true" showHeader="false" extensions="MRK_AccountPlanPrintController" > 
+
+         <apex:stylesheet value="{!URLFOR($Resource.mrk_accountplans, 'mrk_printsyles.css')}"/> 
+
+    <apex:PanelGrid columns="1" styleClass="summaryheading" width="100%">
+    <apex:outputText value="{!Account_Plan_vod__c.Name}" styleClass="summaryheading"/>
+    </apex:PanelGrid>
+<div class="footer" align="center"> 
+<img src="{!URLFOR($Resource.mrk_accountplans,'sensitivity.png')}" title="logo" align="right"/>
+</div>
+
+<apex:panelGrid styleclass="swottopborder" width="100%" cellspacing="0" cellpadding="0"/>
+
+    <br/>        
+     <apex:panelGrid columns="1" width="100%" cellpadding="1" cellspacing="1">
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="summarymaintbl" border="1" align="center">
+        <apex:facet name="header">Account Plan Detail</apex:facet>
+        <apex:column >
+        
+            <apex:panelGrid columns="1" width="100%" cellpadding="1" cellspacing="1">
+                <apex:panelGroup ><b>Created By: </b><apex:outputText value="{!plan.CreatedBy.Name}"  styleClass="customerName"/></apex:PanelGroup>
+                <apex:panelGroup ><b>Account: </b><apex:outputText value="{!plan.Account_vod__r.Name}"  styleClass="customerName"/></apex:PanelGroup>
+                <apex:panelGroup ><b>Master ID: </b><apex:outputText value="{!plan.Account_vod__r.Merck_ID_MRK__c}"  styleClass="customerName"/></apex:PanelGroup>
+                <apex:panelGroup > <b>Status: </b><apex:outputField value="{!plan.Status__c}"/></apex:PanelGroup>
+                <apex:panelGroup > <b>Approved Date: </b><apex:outputField value="{!plan.Approval_Approved_Date_MRK__c}"/></apex:PanelGroup>
+                <apex:panelGroup ><b>Active: </b><apex:outputField value="{!plan.Active_vod__c}"/></apex:PanelGroup>
+                <apex:panelGroup ><b>Start Date: </b><apex:outputField value="{!plan.Start_Date_MRK__c}"/></apex:PanelGroup>
+                <apex:panelGroup ><b>End Date: </b><apex:outputField value="{!plan.End_Date_MRK__c}"/></apex:PanelGroup>
+                <apex:panelGroup ><b>Important Information: </b><apex:outputField value="{!plan.Disclaimer_MRK__c}"/></apex:PanelGroup>
+           </apex:panelGrid>        
+        </apex:column>
+         </apex:dataTable>
+     </apex:PanelGrid>
+<!--SWOT Analysis-->
+    <div style="page-break-inside:avoid;">
+   <apex:PanelGrid styleClass="swotheading" width="100%" style="page-break-inside:avoid;">
+    <apex:outputText value="Situation Analysis" styleClass="swotheading"/>
+    <apex:panelGrid styleclass="swottopborder" width="100%" cellspacing="0" cellpadding="0"/>
+    </apex:PanelGrid>
+    <br/>
+    <TABLE BORDER="1" align="center" class="swotmaintbl" style="page-break-inside:avoid;">
+    <TR>
+    <th colspan="2"> Situation Analysis</th>
+    </TR>
+    <TR>    
+    <TD  valign="top" width="50%">
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center" rendered="{!NOT(isnull(Account_Plan_vod__c.Strengths__c))}">
+                <apex:column headerValue="Strengths"><apex:outputField value="{!plan.Strengths__c}"/> </apex:column>
+        </apex:dataTable>
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center" rendered="{!isnull(Account_Plan_vod__c.Strengths__c)}">
+                <apex:column headerValue="Strengths">&nbsp; </apex:column>
+        </apex:dataTable>
+
+    </TD>
+    <TD valign="top" width="50%">
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center"  rendered="{!NOT(isnull(Account_Plan_vod__c.Weaknesses__c))}" >
+                <apex:column headerValue="Weaknesses"><apex:outputField value="{!plan.Weaknesses__c}"/> </apex:column>
+        </apex:dataTable>
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center"  rendered="{!isnull(Account_Plan_vod__c.Weaknesses__c)}">
+                <apex:column headerValue="Weaknesses">&nbsp;</apex:column>
+        </apex:dataTable>
+
+    </TD>
+    </TR>
+
+    <TR>    
+    <TD  valign="top" width="50%">
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center" rendered="{!NOT(isnull(Account_Plan_vod__c.Opportunities__c))}">
+                <apex:column headerValue="Opportunities "><apex:outputField value="{!plan.Opportunities__c}"/> </apex:column>
+        </apex:dataTable>
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center" rendered="{!isnull(Account_Plan_vod__c.Opportunities__c)}">
+                <apex:column headerValue="Opportunities ">&nbsp;</apex:column>
+        </apex:dataTable>
+
+    </TD>
+    <TD valign="top" width="50%">
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center"  rendered="{!NOT(isnull(Account_Plan_vod__c.Threats__c))}"  >
+                <apex:column headerValue="Challenges"><apex:outputField value="{!plan.Threats__c}"/> </apex:column>
+        </apex:dataTable>
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center"   rendered="{!isnull(Account_Plan_vod__c.Threats__c)}">
+                <apex:column headerValue="Challenges">&nbsp;</apex:column>
+        </apex:dataTable>
+
+    </TD>
+    </TR>
+   
+       <TR>    
+    <TD  valign="top" width="50%">
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center"  rendered="{!NOT(isnull(Account_Plan_vod__c.Strategies_MRK__c))}"  >
+                <apex:column headerValue="Organization’s Differentiation Strategy"><apex:outputField value="{!plan.Strategies_MRK__c}"/> </apex:column>
+        </apex:dataTable>
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center"  rendered="{!isnull(Account_Plan_vod__c.Strategies_MRK__c)}"  >
+                <apex:column headerValue="Organization’s Differentiation Strategy">&nbsp;</apex:column>
+        </apex:dataTable>
+
+
+    </TD>
+    <TD valign="top" width="50%">
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center"   rendered="{!NOT(isnull(Account_Plan_vod__c.Tactics_Initiatives_MRK__c))}" >
+                <apex:column headerValue="Organization’s Tactics/Initiatives"><apex:outputField value="{!plan.Tactics_Initiatives_MRK__c}"/> </apex:column>
+        </apex:dataTable>
+        <apex:dataTable value="{!Account_Plan_vod__c}" var="plan" styleClass="swotinnertbl" border="0" align="center" rendered="{!isnull(Account_Plan_vod__c.Tactics_Initiatives_MRK__c)}"  >
+                <apex:column headerValue="Organization’s Tactics/Initiatives">&nbsp;</apex:column>
+        </apex:dataTable>
+
+    </TD>
+    </TR>
+
+    </TABLE>
+</div>
+   <!-- GOST section-->
+<div style="page-break-before:always;"> </div>
+
+<left><apex:outputText value="Customer Organizational Goals, Merck Objectives and Merck Tactics" styleClass="gostheading"/></left>
+
+<apex:panelGrid styleclass="swottopborder" width="100%" cellspacing="0" cellpadding="0"/>
+<br/>
+<!-- MAIN TABLE FOR GOT -->
+
+<table align="center"> 
+<tr class="gostgoalandobj"> 
+    <td width="100%" class="gostgoalandobj" align="center"> <apex:outputText value="Customer Organizational Goals, Merck Objectives and Merck Tactics"/></td>
+</tr>
+
+<!-- repeat-->
+<apex:repeat value="{!GOTList}" var="gots">
+<tr>
+    <td valign="top">
+        <table class="gostinnertbl" cellpadding="2" style="page-break-inside:avoid;">
+                 <tr  class="gostgoalname">
+                                   <td colspan="9" ><b>Customer Organizational Goal: <apex:outputText value="{!gots.goal.Name}"/></b></td>
+                </tr>
+                <tr>
+                <td colspan="9" width="100%">
+                        <table class="goaldetail" width="100%">
+                          <tr> 
+                           <td width="25%" valign="top" align="right"> Org Priority : </td>
+                           <td width="25%" valign="top" align="left" > <apex:outputField value="{!gots.goal.Organization_Priority_MRK__c}"/></td> 
+                           <td width="25%" valign="top" align="right"> Area of Collaboration : </td>
+                           <td width="25%" valign="top" align="left"> <apex:outputField value="{!gots.goal.Area_of_Collaboration_MRK__c}"/></td> 
+                          </tr>
+                          <tr> 
+                           <td width="25%" valign="top" align="right"> Merck Priority : </td> 
+                           <td width="25%" valign="top" align="left"> <apex:outputText value="{!gots.goal.Merck_Priority_MRK__c}"/></td> 
+                           <td width="25%" valign="top" align="right">&nbsp; </td>
+                           <td width="25%" valign="top" align="left">&nbsp;</td> 
+
+                       </tr>
+                       </table>    
+                </td>
+                </tr>
+
+            <apex:repeat value="{!gots.objectives}" var="objWrap">
+
+                 <tr  class="objectiveheader">
+                                   <td colspan="9" ><b>&nbsp;&nbsp;&nbsp;&nbsp;Merck Objective: <apex:outputText value="{!objWrap.objective.Name}"/></b></td>
+                </tr>
+                <tr >
+                <td colspan="9" width="100%">
+                        <table class="goaldetail" width="100%" >
+                          <tr> 
+                           <td width="25%" valign="top" align="right"> Period : </td>
+                           <td width="25%" valign="top" align="left"> <apex:outputText value="{!objWrap.objective.Period_MRK__c}"/></td> 
+                           <td width="25%" valign="top" align="right"> Key Contact : </td>
+                           <td width="25%" valign="top" align="left"> <apex:outputText value="{!objWrap.objective.Contact_MRK__r.Name}"/></td> 
+                          </tr>
+                       </table>    
+                </td>
+                </tr>
+                <tr>    
+                <td colspan="9" width="100%">
+                <apex:dataTable value="{!objWrap.tactics}" var="tacticWrap"  rendered="{!if(objWrap.tactics.size>0,true,false)}" style="page-break-inside:avoid;" width="100%">
+                    <apex:column width="20%"   headerClass="tacticheaderleft" style="vertical-align:top;padding-bottom: .5em;" >
+                         <apex:facet name="header">Merck Tactic</apex:facet>
+                         <apex:outputField value="{!tacticWrap.tactic.Name}"/>
+                     </apex:column>
+                    <apex:column width="20%"   headerClass="tacticheaderleft" styleClass="" style="vertical-align:top;padding-bottom: .5em;" >
+                         <apex:facet name="header">Description</apex:facet>
+                         <apex:outputField value="{!tacticWrap.tactic.Description_vod__c}"/>  
+                   </apex:column>                   
+                    <apex:column width="10%"   headerClass="tacticheadercenter" styleClass="tacticdetailcenter" >
+                         <apex:facet name="header">Priority</apex:facet>
+                         <apex:outputField value="{!tacticWrap.tactic.Priority_MRK__c}"/> 
+                     </apex:column>
+
+                    <apex:column width="10%"  headerClass="tacticheadercenter"  styleClass="tacticdetailcenter" >
+                         <apex:facet name="header">Start Date</apex:facet>
+                         <apex:outputField value="{!tacticWrap.tactic.Start_Date_MRK__c}"/> 
+                   </apex:column>
+
+                    <apex:column width="10%"  headerClass="tacticheadercenter" styleClass="tacticdetailcenter" >
+                         <apex:facet name="header">End Date</apex:facet>
+                         <apex:outputField value="{!tacticWrap.tactic.End_Date_MRK__c}"/> 
+                     </apex:column>
+
+                    <apex:column width="10%"  headerClass="tacticheadercenter" styleClass="tacticdetailcenter" >
+                         <apex:facet name="header">Complete</apex:facet>
+                         <apex:outputField value="{!tacticWrap.tactic.Complete_vod__c}"/> 
+                     </apex:column>
+
+                    <apex:column width="10%"  headerClass="tacticheadercenter"  styleClass="tacticdetailcenter">
+                         <apex:facet name="header">Tactic Owner</apex:facet>
+                          <apex:outputField value="{!tacticWrap.tactic.Tactic_Owner_MRK__r.Name}"/> 
+                     </apex:column>
+
+                    <apex:column width="10%" headerClass="tacticheadercenter"  styleClass="tacticdetailcenter">
+                         <apex:facet name="header" >Key Contact</apex:facet>
+                         <apex:outputField value="{!tacticWrap.tactic.Key_Contact_MRK__r.Name}"/> 
+                     </apex:column>
+                </apex:dataTable>
+                        </td>
+                    </tr>   
+                    
+                    <tr>    
+                    <td colspan="9" width="100%">
+                        <apex:outputpanel layout="inline">
+                             <div class="gostinnertblrow">
+                            </div> 
+                                </apex:outputpanel></td>
+                    </tr>
+
+        </apex:repeat>
+        </table>
+    </td>
+</tr>
+</apex:repeat>  
+</table>
+
+</apex:page>

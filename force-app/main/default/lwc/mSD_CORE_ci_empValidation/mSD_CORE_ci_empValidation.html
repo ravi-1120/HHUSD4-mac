@@ -1,0 +1,28 @@
+<template>
+        <div class="container">
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <!-- <c-custom-toast auto-close-time="2000"></c-custom-toast> -->
+                        <lightning-input
+                            type="text"
+                            label="Employee ID (WIN#)"
+                            value={empNumber}
+                            onchange={handleEmpNumberChange}
+                            required
+                        >
+                        </lightning-input>
+                        <lightning-input
+                            type="text"
+                            label="Last Name"
+                            value={lastName}
+                            onchange={handleLastNameChange}
+                            required
+                        >
+                        </lightning-input>
+                        <button class="button_slide slide_right " onclick={handleValidate}>Validate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+</template>

@@ -1,0 +1,9 @@
+<apex:page standardController="Campaign_vod__c" extensions="CreateAcctList_Controller_MRK" >
+  <apex:sectionHeader title="Campaign Target Account List Create Refresh Process."/>
+  <apex:outputPanel >
+      {!confirmationPageMessage}
+  </apex:outputPanel>
+  <apex:form >
+     <apex:commandButton value="Back" action="{!back}"/>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,41 @@
+<template>
+  <lightning-modal-header label={labels.createNewListLabel}></lightning-modal-header>
+  <div class="slds-modal__content slds-var-p-around_xx-large modal-body">
+    <lightning-layout class="slds-var-p-around_small" vertical-align="center">
+      <lightning-layout-item size="4">
+        <abbr class="slds-required">*</abbr>
+        <lightning-formatted-text value={listNameLabel}></lightning-formatted-text>
+      </lightning-layout-item>
+      <lightning-layout-item size="8">
+        <lightning-input data-validity variant="label-hidden" label={listNameLabel} value={listNameValue} onchange={updateListName} maxlength="80">
+        </lightning-input>
+      </lightning-layout-item>
+    </lightning-layout>
+
+    <lightning-layout class="slds-var-p-around_small" vertical-align="center">
+
+      <lightning-layout-item size="4">
+        <abbr class="slds-required">*</abbr>
+        <lightning-formatted-text value={listIconLabel}></lightning-formatted-text>
+      </lightning-layout-item>
+
+      <lightning-layout-item class="flex-row" size="8">
+        <c-veeva-raw-combobox icon-size="medium" options={options} hide-checkmarks="true" onoptionselection={updateIconName}
+          value={selectedIcon.value} error-msg={iconError}></c-veeva-raw-combobox>
+      </lightning-layout-item>
+
+    </lightning-layout>
+  </div>
+  <lightning-modal-footer>
+    <div class="slds-button-group-row">
+      <c-veeva-error-popover-container field-errors={fieldErrors} record-errors={recordErrors} class="slds-m-right_xx-small slds-m-top_xxx-small"></c-veeva-error-popover-container>
+      <lightning-button class="slds-var-p-horizontal_xxx-small" label={labels.cancelLabel} onclick={handleCancel}>
+      </lightning-button>
+      <lightning-button class="slds-var-p-horizontal_xxx-small" variant="brand" label={labels.okayLabel}
+        disabled={areFieldsNotPopulated} onclick={handleOkay}>
+      </lightning-button>
+    </div>
+  </lightning-modal-footer>
+  <c-veeva-spinner if:true={loading} is-blocking=true></c-veeva-spinner>
+  <c-my-accounts-modal-dispatch></c-my-accounts-modal-dispatch>
+</template>

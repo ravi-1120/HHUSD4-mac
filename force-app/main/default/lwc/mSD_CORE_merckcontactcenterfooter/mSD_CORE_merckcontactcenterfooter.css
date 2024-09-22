@@ -1,0 +1,27 @@
+.footerCls {
+    display: -webkit-box !important;
+    width: 100%;
+    font-size: .875rem;
+    line-height: 1.7rem;
+    position: initial;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    color: #757575;
+    border-top: 1px solid #00857C;
+    font-family : 'InventionRg';
+  }
+  .hcp-footer {
+    padding: 0 4% 0 4% !important;
+    position: static;
+    background-color: white;
+  }
+    
+  .footerLinkCls{
+      color:black;
+      cursor: pointer;
+  } 
+  .footerfont{
+    flex-wrap: wrap;
+  }

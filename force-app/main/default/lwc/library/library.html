@@ -1,0 +1,911 @@
+<template>
+    <!-- <div class="bg">
+
+    <div class="container">
+        <p class="ptextone"> <a href="#">Products</a> <span> / </span> {productName}</p>
+        <h1 class="ptexttwo">{productName}</h1>
+        <p class="ptexthree">{productDescription}</p>
+        <div class="lnbtns">
+            <a href={pdfDownloadLink} class="button bt1"><span>Prescribing Information <img src={logo2}>
+                </span></a>
+            <a href={pdfDownloadLink} class="bt2"><span>HCP site <img src={logo3}> </button></span></a>
+        </div>
+    </div>
+
+</div>-->
+    <div class="container">
+        <!--- <div class="slds-card">-->
+        <div class="slds-tabs_default tabpadding">
+            <div class="scrolldiv">
+                <div class="breadcrumbs slds-m-bottom_large">
+                    <!-- added mobContainer class for mobile screen development -->
+                    <div class="container mobContainer">
+                        <p class="ptextone pto">
+                            <span class="headerAnchorCls">
+                                <a href={NavigateToDashboard} class="dashbread" data-name="Dashboard"
+                                    onclick={handleclickevent}>Dashboard</a>
+                            </span>
+                            <span class="cursorcls curcls"> /</span>
+                            <span class="headercls">
+                                <a href={NavigateToLibrary} class="slds-p-left_x-small" data-name="Library"
+                                    onclick={handleclickevent}>Library</a></span>
+                            <span class="cursorcls curcls"> /</span>
+                            <span class="headerclst">
+                                <a class="cursorcls slds-p-left_x-small mob-txt-dec-none"><span
+                                        class="prodcls pnamecls">{productLabel}</span></a></span>
+                        </p>
+                        <template if:false={showBrandnamewithGenericName}>
+                            <p class="ptexttwo cursorcls cursone">{productName}</p>
+                            <a class="hoverstyle">
+                                <!--  CSS class [ product-dsc ] added in h2 tag for mobile screen -->
+                                <h2 class="slds-col slds-size_9-of-12 cursorcls cursorclst product-dsc">
+                                    <!--{productDescription}--> {productgeneric} {productdosage}
+                                </h2>
+                            </a>
+                        </template>
+                        <template if:true={showBrandnamewithGenericName}>
+                            <p class="ptexttwo cursorcls cursone">{productName} {productgeneric}</p>
+                            <a class="hoverstyle">
+                                <!--  CSS class [ product-dsc ] added in h2 tag for mobile screen -->
+                                <h2 class="slds-col slds-size_9-of-12 cursorcls cursorclst product-dsc">
+                                    <!--{productDescription}-->{productdosage}
+                                </h2>
+                            </a>
+                        </template>
+                        <div class="lnbtns">
+                            <a href={prescribinginfo} target="_blank" class="slds-button buttonone"
+                                data-prodlabel="pi.pdf" onclick={handlepipdf}><span class="btnsSpan">Prescribing
+                                    information<img class="imgcls" style="margin-left: 8px;" src={bookmark1}>
+                                </span></a>
+                            <template if:true={medicalguide}>
+                                <a href={medicalguide} target="_blank" class="slds-button buttonone buttonmed"
+                                    onclick={handlemed}><span class="btnsSpan">
+                                        Medication guide<img class="imgcls" style="margin-left: 8px;" src={bookmark1}>
+                                    </span></a>
+                            </template>
+                            <template if:true={patientinfo}>
+                                <a href={patientinfo} target="_blank" class="slds-button buttonone buttonmed"
+                                    onclick={handlepatinfpdf}><span class="btnsSpan">
+                                        Patient Information<img class="imgcls" style="margin-left: 8px;" src={bookmark1}>
+                                    </span></a>
+                            </template>
+                            <template if:true={instructionforuselink}>
+                                <a href={instructionforuselink} target="_blank" class="slds-button buttonone buttonmed"
+                                    onclick={handleLinkClick}><span class="btnsSpan">
+                                        {instructionforuselabel}<img class="imgcls" style="margin-left: 8px;" src={bookmark1}>
+                                    </span></a>
+                            </template>
+                            
+                            <!-- Added by Sabari - : [E2ESE-1770] Patient Information button -->
+                            <a class="hoverstyle">
+                                <div class="slds-button buttontwo" data-name="ProductList" data-brand={productName} onclick={navigatepage}
+                                    data-prodlabel="browse catalog" target="_self">
+                                    <span class="btnsSpan">Browse catalog<img class="imgone" src={sidearrow}> </span>
+                                </div>
+                            </a>
+                            <a class="slds-button buttonthree hcpsite" href={hcplink} target="_blank" onclick={handlehcp}><span
+                                    class="hone">HCP
+                                    site <img class="htwo" src={logo3}>
+                                    </button></span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Added For Mobile Screen -->
+
+                <div class="tabset-pickList">
+                    <div class="picklist-label">Jump to</div>
+                    <lightning-combobox name="jumpTO" value={value} placeholder={mobTabvalue} options={tabsetOptions}
+                        onchange={handlePickListChange} variant="label-hidden" class="jump-to-pickList">
+                    </lightning-combobox>
+                </div>
+
+                <div class="pick-comp">
+                    <template if:true={isActivityBool}>
+                        <c-mfr_activitytab productname={productName} contentname={productgeneric}></c-mfr_activitytab>
+                    </template>
+
+                    <template if:true={isSavedBool}>
+                        <div class="" role="tabpanel" aria-labelledby="tab-default-2__item">
+                            <lightning-layout>
+                                <template if:true={isproducts}>
+                                    <lightning-layout-item>
+                                        <div class="saved-items">
+                                            <template for:each={products} for:item="prods">
+                                                <div class="saved-items_item slds-grid slds-wrap cardhover"
+                                                    key={prods.Id}>
+                                                    <!-- START ---------- E2ESE-911 ---------- Read Unread Red Dot ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                    <template if:true={prods.isViewImmediately}>
+                                                        <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                            <template if:false={prods.MSD_CORE_Read__c}>
+                                                                <div class="readdotcls">
+                                                                    
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                    </template>
+                                                    <template if:true={prods.isViewUponRequest}>
+                                                        <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                            <template if:false={prods.MSD_CORE_Read__c}>
+                                                                <div class="readdotcls">
+                                                                    
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                    </template>
+                                                    <!-- END ---------- E2ESE-911 ---------- Read Unread Red Dot ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                    <div class="slds-col slds-size_10-of-12 title_width title_width1">
+                                                        <h3 class="cursorcls cursorclshthree">
+                                                            <!-- Commented by Sabari - [MFRUS-116] -->
+                                                            <!-- {productName} &nbsp;
+                                                            <template if:true={prods.MSD_CORE_Product_Payor__r}>
+                                                                <p>
+                                                                    {prods.MSD_CORE_Product_Payor__r.MSD_CORE_Generic_Name__c} &nbsp;
+                                                                </p>
+                                                            </template> -->
+                                                            {prods.MSD_CORE_Resource_Title__c}
+                                                        </h3>
+                                                        <!--
+                                                        <a if:true={prods.isReadMore} class="b cursorcls">
+                                                            <div data-id={prods.catalogDesID} class="pdesc">
+                                                                {prods.shortDescription}.
+                                                                <span class="readmore"
+                                                                    data-id={prods.catalogID}
+                                                                    onclick={handleReadMore}> Read more
+                                                                </span>
+                                                            </div>
+                                                        </a>
+                                                        <a if:false={prods.isReadMore} class="b cursorcls">
+                                                            <p class="pdesc">
+                                                                {prods.MSD_CORE_Description__c} </p>
+                                                        </a>-->
+                                                    </div>
+
+                                                    <div class="slds-col slds-size_2-of-12 bookmark_width1">
+                                                        <template if:true={prods.Libraries__r}>
+                                                            <!-- <a data-id={prods.Id} onclick={handlerBookMarkRemove}
+                                                                style="float:right;"> <img src={bookmarkSelect}> </a> -->
+                                                                <div>
+                                                                    <!-- START ---------- E2ESE-911 ---------- Partial Bookmark (Updated Condition) ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                                    <template if:true={prods.isViewImmediately}>
+                                                                        <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                            <a data-id={prods.Id} onclick={handlerBookMarkRemove} class="partialbookmark" data-cname={prods.Name}
+                                                                                    style="float:right;"> <img src={bookmarkSelect}> </a> 
+                                                                        </template>
+                                                                        <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                            <a data-id={prods.Id} onclick={handlerBookMarkRemove} data-cname={prods.Name}
+                                                                                style="float:right;"> <img src={bookmarkSelect}> </a>
+                                                                        </template>
+                                                                    </template>
+                                                                    <template if:false={prods.isViewImmediately}>
+                                                                        <a data-id={prods.Id} onclick={handlerBookMarkRemove} data-cname={prods.Name}
+                                                                                style="float:right;"> <img src={bookmarkSelect}> </a>
+                                                                    </template>
+                                                                    <!-- END ---------- E2ESE-911 ---------- Partial Bookmark (Updated Condition) ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                                </div>
+                                                        </template>
+                                                        <template if:false={prods.Libraries__r}>
+                                                            <a data-id={prods.Id} onclick={handlerBookMark} data-pname={product.Name} data-name={prods.Name}
+                                                                style="float:right;"> <img src={like}>
+                                                            </a>
+                                                        </template>
+
+                                                        <!-- START ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards(Removing old logic and implement new) ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                        <!--<template if:true={prods.isViewInMeeting}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>-->
+                                                                <!--New Added-->
+                                                                <!--<div data-id={prods.Id} 
+                                                                class="slds-button_outline-brand schedule-appointment__btn"
+                                                                variant="brand-outline" title="Schedule appointment" data-cname={prods.Name} 
+                                                                onclick={scheduleClick} label="Schedule appointment"
+                                                                data-btnname="Schedule appointment">
+                                                                <span>
+                                                                    Schedule appointment </span> <img class="imgschd"
+                                                                    src={cal}>
+                                                                </div>
+                                                            </template>
+                                                        </template>-->
+                                                        <!--<template if:true={prods.isViewImmediately}>
+                                                            <div class="schedule-appointment__btn1"
+                                                                    variant="brand-outline" title="View Resource"
+                                                                    onclick={handleClick} label="View resource"
+                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                    data-id={prods.Id}
+                                                                    data-read={prods.MSD_CORE_Read__c}
+                                                                    data-cname={prods.Name}>
+                                                                    <span>
+                                                                        View resource </span><img class="vres"
+                                                                        src={rarrow}>
+                                                                    </div>
+                                                        </template>-->
+                                                        <!-- Ravi Modi ------ START ------ For View Upon Request ------ -->
+                                                        <!--<template if:true={prods.isViewUponRequest}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>-->
+                                                                <!-- Need to add changes -->
+                                                                <!--<div class="req_acc"
+                                                                    variant="brand-outline" title="Request access"
+                                                                    label="Request access"
+                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                    data-cname={prods.Name}
+                                                                    data-id={prods.Id} onclick={scheduleClick}
+                                                                    data-read={prods.MSD_CORE_Read__c}
+                                                                    data-btnname="Request access">
+                                                                    <span>
+                                                                        Request access </span><img class="vres"
+                                                                        src={lockimage}>
+                                                                    </div>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewUponRequest}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <div class="schedule-appointment__btn1"
+                                                                variant="brand-outline" title="View Resource"
+                                                                onclick={handleClick} label="View resource"
+                                                                data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                data-cname={prods.Name}
+                                                                data-id={prods.Id}
+                                                                data-read={prods.MSD_CORE_Read__c}>
+                                                                <span>
+                                                                    View resource </span><img class="vres"
+                                                                    src={rarrow}>
+                                                                </div>
+                                                            </template>
+                                                        </template>-->
+                                                        <!-- Ravi Modi ------ END ------ For View Upon Request ------ -->
+                                                        <!-- END ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards(Removing old logic and implement new) ------------ Ravi Modi ------------ 12/19/2022  -->
+
+                                                    </div>
+                                                    <div class="slds-col slds-size_12-of-12 desc_width1">
+                                                        <!--
+                                                        <h3 class="cursorcls cursorclshthree">
+                                                            {productName} &nbsp;
+                                                            <template if:true={prods.MSD_CORE_Product_Payor__r}>
+                                                                {prods.MSD_CORE_Product_Payor__r.MSD_CORE_Generic_Name__c}
+                                                                &nbsp;
+                                                            </template>
+                                                            {prods.MSD_CORE_Resource_Title__c}
+                                                        </h3>
+                                                        -->
+                                                        <a if:true={prods.isReadMore} class="b cursorcls">
+                                                            <div  data-id={prods.catalogDesID} data-value={prods.MSD_CORE_Description__c} class="pdesc_tabs updatejobcd">
+                                                                {prods.shortDescription}...
+                                                                 <span class="readmore"
+                                                                    data-id={prods.catalogID}
+                                                                    onclick={handleReadMore}> Read more
+                                                                </span>
+                                                                <!-- /* Added by Sabari to add the new line in Catalog description */ -->
+                                                                <div class="jobid"></div>  
+                                                            </div>
+                                                        </a>
+                                                        <a if:false={prods.isReadMore} class="b cursorcls">
+                                                             <!-- /* Added by Sabari to add the new line in Catalog description */ -->
+                                                            <div class="pdesc_tabs updatedesc" data-value={prods.MSD_CORE_Description__c}> 
+                                                             {prods.MSD_CORE_Description__c} </div>
+                                                        </a>
+                                                    </div>
+                                                    <!-- START ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                    <div class="slds-col slds-size_12-of-12 pnon labelClass btn_div_class">
+
+                                                        <template if:true={prods.isViewInMeeting}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <p class="live_p_class1">Live Presentation </p>
+                                                            </template>
+                                                        </template>
+                                                        <!--<template if:true={prods.isViewImmediately}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <p class="live_p_class1 liveone">Post-presentation materials</p>
+                                                            </template>
+                                                        </template>-->
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <p class="pdflabelcls1 pdftxt">PDF </p>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewUponRequest}>
+                                                            <p class="pdflabelcls1">Request-only PDF</p>
+                                                        </template>
+                                                        <div>
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <p class="live_p_class1 liveone">Post-presentation materials</p>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <template if:true={prods.isExpirationDateIn10Days}>
+                                                                    <p class="expDate">{prods.showFormattedDate}</p>
+                                                                </template>
+                                                                <template if:false={prods.isExpirationDateIn10Days}>
+                                                                    <p class="norDate">{prods.showFormattedDate}</p>
+                                                                </template>
+                                                            </template>
+                                                        </template> 
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size_12-of-12 pnon labelClass1 btn_div_class">
+                                                        <template if:true={prods.isViewInMeeting}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <!--New Added-->
+                                                                <div data-id={prods.Id} 
+                                                                class="slds-button_outline-brand schedule-appointment__btn"
+                                                                variant="brand-outline" title="Schedule appointment" data-cname={prods.Name} 
+                                                                onclick={scheduleClick} label="Schedule appointment"
+                                                                data-btnname="Schedule appointment">
+                                                                <span>
+                                                                    Schedule appointment </span> <img class="imgschd1"
+                                                                    src={cal}>
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <div class="schedule-appointment__btn1 schedule-appointment__btn2"
+                                                                    variant="brand-outline" title="View Resource"
+                                                                    onclick={handleClick} label="View resource"
+                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                    data-id={prods.Id}
+                                                                    data-read={prods.MSD_CORE_Read__c}
+                                                                    data-cname={prods.Name}>
+                                                                    <span>
+                                                                        View resource </span><img class="imgschd1"
+                                                                        src={rarrow}>
+                                                                    </div>
+                                                        </template>
+                                                        <!-- Ravi Modi ------ START ------ For View Upon Request ------ -->
+                                                        <template if:true={prods.isViewUponRequest}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <!-- Need to add changes -->
+                                                                <div class="req_acc"
+                                                                    variant="brand-outline" title="Request access"
+                                                                    label="Request access"
+                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                    data-cname={prods.Name}
+                                                                    data-id={prods.Id} onclick={scheduleClick}
+                                                                    data-read={prods.MSD_CORE_Read__c}
+                                                                    data-btnname="Request access">
+                                                                    <span>
+                                                                        Request access </span><img class="imgschd1"
+                                                                        src={lockimage}>
+                                                                    </div>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewUponRequest}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <div class="schedule-appointment__btn1 schedule-appointment__btn2"
+                                                                variant="brand-outline" title="View Resource"
+                                                                onclick={handleClick} label="View resource"
+                                                                data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                data-cname={prods.Name}
+                                                                data-id={prods.Id}
+                                                                data-read={prods.MSD_CORE_Read__c}>
+                                                                <span>
+                                                                    View resource </span><img class="imgschd1"
+                                                                    src={rarrow}>
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                    </div>
+                                                    <!-- END ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <div>
+                                            <lightning-record-view-form record-id={recordId}
+                                                object-api-name="MSD_CORE_Product_Payor__c">
+                                                <lightning-output-field variant="label-hidden"
+                                                    field-name="MSD_CORE_Information_About_Product__c">
+                                                </lightning-output-field>
+                                            </lightning-record-view-form>
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                                <!-- </div> -->
+                                <template if:false={isproducts}>
+                                    <div class="NoSavedResourcePadding">
+                                        <div class="NoSavedResources">
+                                            You dont have any saved resources at this time.
+                                        </div>
+                                        <div class="slds-button buttontwo" data-name="ProductList" data-brand={productName} onclick={navigatepage}
+                                        data-prodlabel="browse catalog" target="_self">
+                                        <span>Browse Catalog<img class="imgone" src={arrow}> </span>
+                                    </div>
+                                </div>
+                                </template>
+                            </lightning-layout>
+                        </div>
+
+                        <template if:true={showPagination}>
+                            <div class="slds-align_absolute-center">
+                                <c-do-pagination page-size={pageSize} total-count={totalCount}
+                                    product-name={productName} onmycustomevent={handleCustomEvent}>
+                                </c-do-pagination>
+                            </div>
+                        </template>
+
+                    </template>
+
+                    <template if:true={isAppointmentsBool}>
+                        <c-appointments request-type="Approved" total-count={ApprovedCount} prodid={recId}>
+                        </c-appointments>
+                    </template>
+
+                    <template if:true={isPendingRequestBool}>
+                        <div class=" slds-p-top_none" role="tabpanel"
+                            aria-labelledby="tab-default-4__item">
+                            <c-appointments request-type="Pending" total-count={PendingCount} prodid={recId}>
+                            </c-appointments>
+                        </div>
+                    </template>
+
+                    <template if:true={isClosedRequestBool}>
+                        <div class="slds-p-top_none" role="tabpanel"
+                            aria-labelledby="tab-default-5__item">
+                            <c-appointments request-type="Rejected" total-count={RejectedCount} prodid={recId}>
+                            </c-appointments>
+
+                        </div>
+                    </template>
+
+                </div>
+
+                <!-- Added For Mobile Screen -->
+                <!--
+                <ul class="slds-tabs_default__nav" role="tablist">
+                <li class="slds-tabs_default__item" title="Activity" role="presentation" id="tab-default-1__item">
+                    <a class="slds-tabs_default__link" href="#" role="tab" tabindex="0" aria-selected="true"
+                    aria-controls="tab-default-1">Activity <span class="count-badge">7</span></a>
+                </li>
+                <li class="slds-tabs_default__item slds-is-active" title="Saved" role="presentation" id="tab-default-2__item">
+                    <a class="slds-tabs_default__link" href="#" role="tab" tabindex="-1" aria-selected="false"
+                    aria-controls="tab-default-2">Saved <span class="count-badge">3</span></a>
+                </li>
+                <li class="slds-tabs_default__item" title="Appointments" role="presentation" id="tab-default-3__item">
+                    <a class="slds-tabs_default__link" href="#" role="tab" tabindex="-1" aria-selected="false"
+                    aria-controls="tab-default-3">Appointment(s) <span class="count-badge">5</span></a>
+                </li>
+                <li class="slds-tabs_default__item" title="Pending requests" role="presentation" id="tab-default-4__item">
+                    <a class="slds-tabs_default__link" href="#" role="tab" tabindex="-1" aria-selected="false"
+                    aria-controls="tab-default-4">Pending requests <span class="count-badge">11</span></a>
+                </li>
+                <li class="slds-tabs_default__item" title="Closed requests" role="presentation" id="tab-default-5__item">
+                    <a class="slds-tabs_default__link" href="#" role="tab" tabindex="-1" aria-selected="false"
+                    aria-controls="tab-default-5">Closed requests <span class="count-badge">12</span></a>
+                </li>
+                </ul>
+                -->
+                <div class="newTabset">
+                    <div>
+                        <ul class="slds-tabs_default__nav" role="tablist">
+                            <li class={activityCSS} onclick={handleTabClicked} data-id="1" data-name="activity"
+                                style="list-style-type: none;padding: 0px 30px 0px 10px; font-family: 'Invention';"
+                                title="Activity" role="presentation" id="tab-default-1__item">
+                                <span class="slds-tabs_default__link " role="tab" tabindex="0" aria-selected="true"
+                                    aria-controls="tab-default-1">Activity</span>
+                            </li>
+                            <li class={saveCSS} data-id="2" data-name="saved" onclick={handleTabClicked}
+                                style="list-style-type: none;padding: 0px 30px 0px 10px; font-family: 'Invention';"
+                                title="Saved" role="presentation" id="tab-default-2__item">
+                                <a class="slds-tabs_default__link" role="tab" tabindex="-1" aria-selected="true"
+                                    aria-controls="tab-default-2">{tab2Label} &nbsp;<span class="badge"><span
+                                            class="badge-content">{totalCount}</span> </span></a>
+                            </li>
+                            <li class={appointmentCSS} data-id="3" data-name="appointments" onclick={handleTabClicked}
+                                style="list-style-type: none;padding: 0px 30px 0px 10px; font-family: 'Invention';"
+                                title="Appointments" role="presentation" id="tab-default-3__item">
+                                <span class="slds-tabs_default__link" role="tab" tabindex="-1" aria-selected="true"
+                                    aria-controls="tab-default-3">{tab3Label}&nbsp; <span class="badge"><span
+                                            class="badge-content">{ApprovedCount}</span></span></span>
+                            </li>
+                            <li class={pendingCSS} data-id="4" data-name="pending requests" onclick={handleTabClicked}
+                                style="list-style-type: none;padding: 0px 30px 0px 10px; font-family: 'Invention';"
+                                title="Appointments" role="presentation" id="tab-default-34__item">
+                                <span class="slds-tabs_default__link" role="tab" tabindex="-1" aria-selected="true"
+                                    aria-controls="tab-default-3">{tab4Label}&nbsp; <span class="badge"><span
+                                            class="badge-content">{PendingCount}</span></span></span>
+                            </li>
+                            <li class={closedCSS} data-id="5" data-name="closed requests" onclick={handleTabClicked}
+                                style="list-style-type: none;padding: 0px 30px 0px 10px; font-family: 'Invention';"
+                                title="Appointments" role="presentation" id="tab-default-5__item">
+                                <span class="slds-tabs_default__link" role="tab" tabindex="-1" aria-selected="true"
+                                    aria-controls="tab-default-3">{tab5Label} &nbsp;<span class="badge"><span
+                                            class="badge-content">{RejectedCount}</span></span></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <template if:true={tab1Bool}>
+                        <c-mfr_activitytab  productname={productName} contentname={productgeneric}></c-mfr_activitytab>
+                    </template>
+
+                    <template if:true={tab2Bool}>
+                        <div id="tab-default-2" class="slds-tabs_default__content panel_padding" role="tabpanel"
+                            aria-labelledby="tab-default-2__item">
+                            <lightning-layout>
+                                <template if:true={isproducts}>
+                                    <lightning-layout-item size="12">
+                                        <div class="saved-items">
+                                            <template for:each={products} for:item="prods">
+                                                <!--<lightning-layout-item key={prods.Id} class="slds-var-p-around_x-small slds-p-around_x-small">-->
+                                                <div class="saved-items_item slds-grid slds-wrap cardhover"
+                                                    key={prods.Id}>
+                                                    <!-- START ---------- E2ESE-911 ---------- Read Unread Red Dot ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                    <template if:true={prods.isViewImmediately}>
+                                                        <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                            <template if:false={prods.MSD_CORE_Read__c}>
+                                                                <div class="readdotcls">
+                                                                    
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                    </template>
+                                                    <template if:true={prods.isViewUponRequest}>
+                                                        <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                            <template if:false={prods.MSD_CORE_Read__c}>
+                                                                <div class="readdotcls">
+                                                                    
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                    </template>
+                                                    <!-- END ---------- E2ESE-911 ---------- Read Unread Red Dot ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                    <div class="slds-col slds-size_10-of-12 title_width">
+                                                        <h3 class="cursorcls cursorclshthree">
+                                                            <!-- Commented by Sabari - [MFRUS-116] -->
+                                                            <!-- {productName} &nbsp;
+                                                            <template if:true={prods.MSD_CORE_Product_Payor__r}>
+                                                                {prods.MSD_CORE_Product_Payor__r.MSD_CORE_Generic_Name__c}&nbsp;
+                                                            </template> -->
+                                                            {prods.MSD_CORE_Resource_Title__c}
+                                                        </h3>
+
+                                                    </div>
+                                                    <div class="slds-col slds-size_2-of-12 bookmark_width">
+                                                      
+                                                        <template if:true={prods.Libraries__r}>
+                                                            <div>
+                                                                <!-- START ---------- E2ESE-911 ---------- Partial Bookmark (Updated Condition) ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                                <template if:true={prods.isViewImmediately}>
+                                                                    <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                        <a data-id={prods.Id}
+                                                                            onclick={handlerBookMarkRemove}
+                                                                            class="partialbookmark" style="float:right;"
+                                                                            data-cname={prods.Name}> 
+                                                                            <img src={bookmarkSelect}>
+                                                                        </a>
+                                                                    </template>
+                                                                    <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                        <a data-id={prods.Id}
+                                                                            onclick={handlerBookMarkRemove}
+                                                                            style="float:right;"
+                                                                            data-cname={prods.Name}> <img
+                                                                                src={bookmarkSelect}>
+                                                                        </a>
+                                                                    </template>
+                                                                </template>
+                                                                <template if:false={prods.isViewImmediately}>
+                                                                        <a data-id={prods.Id}
+                                                                        onclick={handlerBookMarkRemove}
+                                                                        style="float:right;"
+                                                                        data-cname={prods.Name}> <img
+                                                                            src={bookmarkSelect}>
+                                                                    </a>
+                                                                </template>
+                                                                <!-- END ---------- E2ESE-911 ---------- Partial Bookmark (Updated Condition) ------------ Ravi Modi ------------ 12/20/2022  -->
+                                                            </div>
+                                                        </template>
+                                                        <template if:false={prods.Libraries__r}>
+                                                            <div>
+                                                                <a class="hoverstyle"><img data-id={prods.Id}
+                                                                        data-pname={product.Name} data-name={prods.Name}
+                                                                        src={like} onclick={handlerBookMark}></a>
+                                                            </div>
+                                                        </template>
+                                                        
+                                                        <!-- START ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards(Removing old logic and implement new) ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                       <!-- Ramana START <template if:true={prods.isViewInMeeting}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>-->
+                                                                <!--New Added-->
+                                                                <!--<div data-id={prods.Id}
+                                                                    class="slds-button_outline-brand schedule-appointment__btn"
+                                                                    variant="brand-outline" title="Schedule appointment"
+                                                                    data-cname={prods.Name} onclick={scheduleClick}
+                                                                    label="Schedule appointment"
+                                                                    data-btnname="Schedule appointment">
+                                                                    <span>
+                                                                        Schedule appointment </span> <img
+                                                                        class="imgschd" src={cal}> 
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <div class="schedule-appointment__btn1"
+                                                                variant="brand-outline" title="View Resource"
+                                                                onclick={handleClick} label="View resource"
+                                                                data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                data-cname={prods.Name}
+                                                                data-id={prods.Id}
+                                                                data-read={prods.MSD_CORE_Read__c}>
+                                                                <span>
+                                                                    View resource </span><img class="vres"
+                                                                    src={rarrow}></div>
+                                                        </template>-->
+                                                        <!-- Ravi Modi ------ START ------ For View Upon Request ------ -->
+                                                        <!--<template if:true={prods.isViewUponRequest}>-->
+                                                            <!--<template if:false={prods.MSD_CORE_Post_Presentation__c}>-->
+                                                                <!-- Need to add changes -->
+                                                                <!--<div class="req_acc"
+                                                                    variant="brand-outline" title="Request access"
+                                                                    label="Request access"
+                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                    data-cname={prods.Name}
+                                                                    data-id={prods.Id} onclick={scheduleClick}
+                                                                    data-read={prods.MSD_CORE_Read__c}
+                                                                    data-btnname="Request access"
+                                                                    >
+                                                                    <span>
+                                                                        Request access </span><img class="vres"
+                                                                        src={lockimage}></div>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewUponRequest}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <div class="schedule-appointment__btn1"
+                                                                    variant="brand-outline" title="View Resource"
+                                                                    onclick={handleClick} label="View resource"
+                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                    data-cname={prods.Name}
+                                                                    data-id={prods.Id}
+                                                                    data-read={prods.MSD_CORE_Read__c}>
+                                                                    <span>
+                                                                        View resource </span><img class="vres"
+                                                                        src={rarrow}></div>
+                                                            </template>
+                                                        </template> END Ramana -->
+                                                        <!-- Ravi Modi ------ END ------ For View Upon Request ------ -->
+                                                        <!-- END ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards(Removing old logic and implement new) ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                    </div>
+                                                    <div class="slds-col slds-size_10-of-12 desc_width">
+
+                                                        <a if:true={prods.isReadMore} class="b cursorcls">
+                                                            <div data-id={prods.catalogDesID} data-value={prods.MSD_CORE_Description__c} class="pdesc_tabs updatejobcd">
+                                                                {prods.shortDescription}...
+                                                                 <span class="readmore"
+                                                                    data-id={prods.catalogID}
+                                                                    onclick={handleReadMore}> Read more
+                                                                </span>
+                                                                 <!-- /* Added by Sabari to add the new line in Catalog description */ -->
+                                                                <div class="jobid"></div>  
+                                                            </div>
+                                                        </a>
+                                                        <a if:false={prods.isReadMore} class="b cursorcls">
+                                                             <!-- /* Added by Sabari to add the new line in Catalog description */ -->
+                                                            <div class="pdesc_tabs updatedesc" data-id={prods.catalogDesID} data-value={prods.MSD_CORE_Description__c}> 
+                                                                        {prods.MSD_CORE_Description__c} </div>
+                                                        </a>
+
+                                                    </div>
+
+                                                    <!-- START ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                    <div class="slds-col slds-size_12-of-12 pnon labelClass btn_div_class">
+                                                        
+                                                        <template if:true={prods.isViewInMeeting}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <p class="live_p_class">Live Presentation </p>
+                                                            </template>
+                                                        </template>
+                                                        <!--<template if:true={prods.isViewImmediately}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <p class="live_p_class liveone">Post-presentation materials</p>
+                                                            </template>
+                                                        </template>-->
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <p class="pdflabelcls1">PDF </p>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewUponRequest}>
+                                                            <p class="pdflabelcls1">Request-only PDF</p>
+                                                        </template>
+                                                        <div>
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <p class="live_p_class liveone">Post-presentation materials</p>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <template if:true={prods.isExpirationDateIn10Days}>
+                                                                    <p class="expDate">{prods.showFormattedDate}</p>
+                                                                </template>
+                                                                <template if:false={prods.isExpirationDateIn10Days}>
+                                                                    <p class="norDate">{prods.showFormattedDate}</p>
+                                                                </template>
+                                                            </template>
+                                                        </template>
+                                                        </div>
+                                                        <!--Ramana START #1625: Live Presentation and Schedule meeting in Div -->
+                                                        <template if:true={prods.isViewInMeeting}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <!--New Added-->
+                                                                <div data-id={prods.Id}
+                                                                    class="slds-button_outline-brand schedule-appointment_div__btn "
+                                                                    variant="brand-outline" title="Schedule appointment"
+                                                                    data-cname={prods.Name} onclick={scheduleClick}
+                                                                    label="Schedule appointment"
+                                                                    data-btnname="Schedule appointment">
+                                                                    <span>
+                                                                        Schedule appointment </span> <img
+                                                                        class="imgschd" src={cal}> 
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewImmediately}>
+                                                            <div class="schedule-appointment_div__btn1 viewresource_height"
+                                                                variant="brand-outline" title="View Resource"
+                                                                onclick={handleClick} label="View resource"
+                                                                data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                data-cname={prods.Name}
+                                                                data-id={prods.Id}
+                                                                data-read={prods.MSD_CORE_Read__c}>
+                                                                <span>
+                                                                    View resource </span><img class="vres"
+                                                                    src={rarrow}></div>
+                                                        </template>
+                                                        <!-- Ravi Modi ------ START ------ For View Upon Request ------ -->
+                                                        <template if:true={prods.isViewUponRequest}>
+                                                            <template if:false={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <!-- Need to add changes -->
+                                                                <div class="req_acc"
+                                                                    variant="brand-outline" title="Request access"
+                                                                    label="Request access"
+                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                    data-cname={prods.Name}
+                                                                    data-id={prods.Id} onclick={scheduleClick}
+                                                                    data-read={prods.MSD_CORE_Read__c}
+                                                                    data-btnname="Request access"
+                                                                    >
+                                                                    <span>
+                                                                        Request access </span><img class="vres"
+                                                                        src={lockimage}></div>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={prods.isViewUponRequest}>
+                                                            <template if:true={prods.MSD_CORE_Post_Presentation__c}>
+                                                                <div class="schedule-appointment_div__btn1 viewresource_height"
+                                                                    variant="brand-outline" title="View Resource"
+                                                                    onclick={handleClick} label="View resource"
+                                                                    data-check={prods.MSD_CORE_Post_Presentation__c}
+                                                                    data-name={prods.MSD_CORE_Document_Rendition__c}
+                                                                    data-cname={prods.Name}
+                                                                    data-id={prods.Id}
+                                                                    data-read={prods.MSD_CORE_Read__c}>
+                                                                    <span>
+                                                                        View resource </span><img class="vres"
+                                                                        src={rarrow}></div>
+                                                            </template>
+                                                        </template>
+                                                        <!-- Ramana END #1625 -->
+                                                    </div>
+                                                    <!-- END ---------- E2ESE-910 ---------- Displaying relavant labels in Resource cards ------------ Ravi Modi ------------ 12/19/2022  -->
+                                                </div>
+                                                
+                                                <!-- <lightning-card class="slds-p-around_small">
+                                                    <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+                                                        <div class="slds-col slds-size_9-of-12">
+                                                            <h3  class="resourceHead1">{productName}(Sugammedex): {prods.Name}</h3>
+                                                            <p  class="hedt1" >{prods.Description__c}  </p>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-12">
+                                                            <div class="slds-grid">
+                                                                
+                                                                <template if:true={prods.Libraries__r}>
+                                                                    <div><a data-id={prods.Id} onclick={handlerBookMarkRemove}> <img src={bookmarkSelect}> </a>
+                                                                    </div>
+                                                                </template>
+                                                                <template if:false={prods.Libraries__r}>
+                                                                    <div><a data-id={prods.Id} onclick={handlerBookMark}> <img src={like}> </a>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                            <div class="slds-grid">
+                                                                <template if:true={prods.isViewUponRequest}>
+                                                                    <div >
+                                                                        <a href="#" class="slds-button_outline-brand" variant="brand-outline" title="Schedule appointment" onclick={handleClick} label="Schedule appointment" >  <span> Schedule appointment </span> <img src={cal}> </a>
+                                                                    </div>
+                                                                </template>
+                                                                <template if:true={prods.isViewImmediately}>
+                                                                    <div >
+                                                                        <a href="#" class="slds-button_outline-brand resourcebtn" 
+                                                                        variant="brand-outline" title="View Resource" 
+                                                                        onclick={handleClick} label="View Resource" >  
+                                                                        <span class="resourcebtn"> View Resource </span> <img src={rarrow}> </a>  
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </lightning-card>-->
+                                            </template>
+                                        </div>
+                                        <div>
+                                            <lightning-record-view-form record-id={recordId}
+                                                object-api-name="MSD_CORE_Product_Payor__c">
+                                                <lightning-output-field variant="label-hidden"
+                                                    field-name="MSD_CORE_Information_About_Product__c">
+                                                </lightning-output-field>
+                                            </lightning-record-view-form>
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                                <!-- </div> -->
+                                <template if:false={isproducts}>
+                                    <lightning-layout-item size="12">
+                                    <div class="NoSavedResourcePadding">
+                                    <div class="NoSavedResources">
+                                        You don't have any saved resources at this time.
+                                    </div>
+                                    <div class="slds-button buttonpp" data-name="ProductList" data-brand={productName} onclick={navigatepage}
+                                    data-prodlabel="browse catalog" target="_self">
+                                    <span>Browse catalog<img class="imgone" src={Whitearrow}> </span>
+                                </div>
+                            </div>
+                            </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </div>
+
+                        <template if:true={showPagination}>
+                            <div class="slds-align_absolute-center">
+                                <c-do-pagination page-size={pageSize} total-count={totalCount}
+                                    product-name={productnameforga} onmycustomevent={handleCustomEvent}>
+                                </c-do-pagination>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template if:true={tab3Bool}>
+                        <c-appointments request-type="Approved" total-count={ApprovedCount} prodid={recId}>
+                        </c-appointments>
+                    </template>
+
+                    <template if:true={tab4Bool}>
+                        <div id="tab-default-4" class="slds-tabs_default__content slds-p-top_none" role="tabpanel"
+                            aria-labelledby="tab-default-4__item">
+                            <c-appointments request-type="Pending" total-count={PendingCount} prodid={recId}>
+                            </c-appointments>
+
+                        </div>
+                    </template>
+
+                    <template if:true={tab5Bool}>
+                        <div id="tab-default-5" class="slds-tabs_default__content slds-p-top_none" role="tabpanel"
+                            aria-labelledby="tab-default-5__item">
+                            <c-appointments request-type="Rejected" total-count={RejectedCount} prodid={recId}>
+                            </c-appointments>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            
+            <div class="mfrsf mfrsf1">
+                <c-mfr_-safety product={recId}></c-mfr_-safety>
+            </div>
+        </div>
+        
+        <template if:false={footer}>
+            <div class="fixed_cls">
+                <c-sample></c-sample>
+            </div>
+        </template>
+    </div>
+</template>

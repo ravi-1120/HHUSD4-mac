@@ -1,0 +1,320 @@
+<template>
+	<div class="dr-form_container">
+		<div class="dr-form_section">
+			<div class="btn-container">
+				<div onclick={backClick} class="back-form">
+					<lightning-icon icon-name="utility:back" size="x-small" alternative-text="Back" title="Back" >
+					</lightning-icon>
+					<a href="javascript:void(0);" onclick={backClick} class="dr-form_back">
+						<p>{label.back}</p>
+					</a>
+				</div>
+				<div class="dr-form_btnGroup limit_button">
+
+					<template if:true={reqData.statusCheckMMOP}>
+						<lightning-button role="button" class="lt-button cancel" variant="base" label={label.CANCELREQUEST}
+							onclick={cancelRequest} style="font-size:16px;">
+						</lightning-button>
+						<lightning-button role="button" class="lt-button" variant="base" label={label.editReq}
+							onclick={navigateEdit} style="font-size:16px;">
+						</lightning-button>
+					</template>
+					<template if:true={reqData.statusCheckMDP}>
+						<lightning-button role="button" class="lt-button cancel" variant="base" label={label.CANCELREQUEST}
+							onclick={cancelRequest} style="font-size:16px;">
+						</lightning-button>
+						<lightning-button role="button" class="lt-button" variant="base" label={label.editReq}
+							onclick={navigateEdit} style="font-size:16px;">
+						</lightning-button>
+					</template>
+				</div>
+			</div>
+			<template if:true={reqData.isMDPrectype}>
+				<lightning-layout class="request-container">
+					<div class="reqcontainer-cls">
+						<lightning-layout-item size="3" class="layout-cls">
+							<h4 class="h-four">{reqData.country}</h4>
+							<!-- <p class="num-cls">{reqData.reqName}</p> -->
+						</lightning-layout-item>
+						<lightning-layout-item size="2" class="layout-cls" style="width:auto;">
+							<h6 class="num-cls">Authorization Number</h6>
+							<p class="d-cls">{reqData.reqName}</p>
+						</lightning-layout-item>
+						<lightning-layout-item size="1" class="layout-cls" style="width:auto;">
+							<h6 class="num-cls">{label.donationDate}</h6>
+							<p class="d-cls">{reqData.donationDate}</p>
+						</lightning-layout-item>
+						<lightning-layout-item size="4" class="layout-cls">
+							<h3 class="num-cls" style="width: max-content;">{label.ngo}</h3>
+							<p class="p-name">{reqData.doneeName}</p>
+						</lightning-layout-item>
+					</div>
+					<div class="reqcontainer-icon">
+						<lightning-layout-item size="2" class="layout-cls iconcls" style="width:auto;">
+							<div class={reqData.divlabelStatus}>
+								<lightning-icon icon-name={reqData.iconName} size="xx-small"
+									class={reqData.iconlabelStatus}>
+								</lightning-icon>{reqData.status}
+							</div>
+						</lightning-layout-item>
+					</div>
+				</lightning-layout>
+			</template>
+			<template if:true={reqData.isMMOPrectype}>
+				<lightning-layout class="request-container">
+					<div class="reqcontainer-cls-mmop">
+						<lightning-layout-item size="6" class="layout-cls">
+							<h4 class="h-four">{label.mmop} - {reqData.donationType}</h4>
+							<!-- <p class="num-cls"></p> -->
+						</lightning-layout-item>
+						<lightning-layout-item size="2" class="layout-cls" style="width:auto;">
+							<h6 class="num-cls">Authorization Number</h6>
+							<p class="d-cls">{reqData.reqName}</p>
+						</lightning-layout-item>
+						<lightning-layout-item size="2" class="layout-cls" style="width:auto;">
+							<h6 class="num-cls">{label.donationDate}</h6>
+							<p class="d-cls">{reqData.donationDate}</p>
+						</lightning-layout-item>
+					</div>
+					<div class="reqcontainer-icon">
+						<lightning-layout-item size="2" class="layout-cls iconcls" style="width:auto;">
+							<div class={reqData.divlabelStatus}>
+								<lightning-icon icon-name={reqData.iconName} size="xx-small"
+									class={reqData.iconlabelStatus}>
+								</lightning-icon>{reqData.status}
+							</div>
+						</lightning-layout-item>
+					</div>
+				</lightning-layout>
+			</template>
+			<template if:true={reqData.isMDPrectype}>
+				<lightning-layout class="request-container">
+					<div class="proddt-container">
+						<div class="prodname-title">
+							<template if:true={reqData.coldchain}>
+								<span><lightning-icon icon-name="utility:frozen" size="small" style="margin-right:12px;" class="frozen-icon"></lightning-icon></span></template><span class="prod-Name">{reqData.prodName}</span>
+						</div>
+						<div class="line-item">
+							<lightning-layout-item>
+								<div class="line-items-cls">{label.country} : 
+									<span class="comm-content"> {reqData.country}</span></div>
+							</lightning-layout-item>
+							<lightning-layout-item>
+								<div class="line-items-cls">{label.quantity} : 
+									<span class="comm-content"> {reqData.quantity}</span></div>
+							</lightning-layout-item>
+						</div>
+					</div>
+				</lightning-layout>
+			</template>
+			<template if:true={reqData.isMMOPrectype}>
+				<div class="prod-section">
+					<template for:each={reqData.products} for:item="req">
+						<lightning-layout class="prod-sec-container" key={req.Id}>
+							<div class="proddt-container">
+								<div class="prodname-title">
+									<template if:true={req.coldchains}>
+										<span>
+											<lightning-icon icon-name="utility:frozen" size="small" style="margin-right:12px;" class="frozen-icon">
+											</lightning-icon>
+										</span>
+									</template>
+									<span class="prod-Name">
+										{req.prodNames}
+										</span>
+								</div>
+								<div class="line-item">
+									<lightning-layout-item size="3" class="layout-item-cls">
+										<div class="line-items-cls">{label.country} :  
+											<span class="comm-content"> {req.countries}</span></div>
+									</lightning-layout-item>
+									<lightning-layout-item size="2" class="layout-item-cls">
+										<div class="line-items-cls">{label.quantity} :  
+											<span class="comm-content"> {req.quantities}</span></div>
+									</lightning-layout-item>
+									<lightning-layout-item size="5" class="layout-item-cls">
+										<div class="line-items-cls">{label.localPartner} : 
+											<span class="comm-content"> {req.localpartners}</span></div>
+									</lightning-layout-item>
+								</div>
+								<div class="line-item">
+									<lightning-layout-item>
+										<div class="line-items-cls" size="3">{label.sap} : 
+											<span class="comm-content"> {req.saps}</span></div>
+									</lightning-layout-item>
+									<lightning-layout-item>
+										<div class="line-items-cls" size="3">{label.ndc} : 
+											<span class="comm-content"> {req.ndcnumber}</span></div>
+									</lightning-layout-item>
+									<div if:true={reqData.isExcess} class="is-excess">
+										<lightning-layout-item size="2" class="batch-cls">
+											<div class="line-items-cls">{label.batch} : 
+												<span class="comm-content"> {req.batch}</span></div>
+										</lightning-layout-item>
+										<lightning-layout-item size="2" class="batch-cls">
+											<div class="line-items-cls">{label.exp} : 
+												<span class="comm-content"> {req.exp}</span></div>
+										</lightning-layout-item>
+									</div>
+								</div>
+							</div>
+						</lightning-layout>
+					</template>
+				</div>
+			</template>
+			<template if:true={reqData.isMDPrectype}>
+				<div class="info-container">
+					<p class="title-cls">{label.donationInfo}</p>
+					<lightning-layout multiple-rows class="donation-container">
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.indication}</p>
+								<p class="value-content">{reqData.indication}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.donee}</p>
+								<p class="value-content">{reqData.doneeName}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.dType}</p>
+								<p class="value-content">{reqData.donationType}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.destination}</p>
+								<p class="value-content">{reqData.destination}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.appName}</p>
+								<p class="value-content">{reqData.applicantName}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.appInst}</p>
+								<p class="value-content">{reqData.applicantInst}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.tabReq}</p>
+								<p class="value-content">{reqData.tabletsreq}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.treatmentApp}</p>
+								<p class="value-content">{reqData.treatmentsapp}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.appDate}</p>
+								<p class="value-content">{reqData.approvaldate}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6">
+							<div>
+								<p class="num-cls">{label.taxInclusion}</p>
+								<p class="value-content">{reqData.taxreport}</p>
+							</div>
+						</lightning-layout-item>
+					</lightning-layout>
+				</div>
+			</template>
+			<template if:true={reqData.isMMOPrectype}>
+				<div class="info-container">
+					<p class="title-cls">{label.donationInfo}</p>
+					<lightning-layout multiple-rows class="donation-container">
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.donee}</p>
+								<p class="value-content">{reqData.doneeName}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.dType}</p>
+								<p class="value-content">{reqData.donationType}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.donationDate}</p>
+								<p class="value-content">{reqData.donationDate}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.ponumber}</p>
+								<p class="value-content">{reqData.poNumber}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" class="layitem-cls">
+							<div>
+								<p class="num-cls">{label.appName}</p>
+								<p class="value-content">{reqData.applicantName}</p>
+							</div>
+						</lightning-layout-item>
+					</lightning-layout>
+				</div>
+			</template>
+			<template if:true={reqData.isMDPrectype}>
+				<div class="comment-container">
+					<p class="title-cls">{label.comments}</p>
+					<p class="comm-content">{reqData.comments} </p>
+				</div>
+			</template>
+			<div class="doc-container">
+				<p class="title-cls">{label.docs}</p>
+				<!-- <template for:each={documents} for:item="doc">
+					<p key={doc.Id}>
+						<span><lightning-icon icon-name="utility:attach" alternative-text="Doc image" size="xx-small" style="margin-right:8px;"></lightning-icon></span>
+						<a href="javascript:void(0);" onclick={handleClick} data-id={doc.Id} style="color: #00857C;font-family: 'InventionRg';text-decoration:none;">{doc.Title}.{doc.FileExtension}</a>
+					</p>
+				</template> -->
+				<template if:true={contentDocuments}>
+					<template for:each={contentDocuments} for:item="doc" key={doc.name}>
+						<p key={doc.name}>
+							<span>
+                <lightning-icon icon-name="utility:attach" alternative-text="Doc image" size="xx-small" style="margin-right:8px;"></lightning-icon>
+            </span>
+							<a onclick={openDocument} data-filename={doc.name} data-url={doc.url}
+								data-type={doc.fileType}
+								style="color: #00857C;font-family: 'InventionRg';text-decoration:none;">
+								{doc.name}
+							</a>
+						</p>
+					</template>
+				</template>
+			</div>
+		</div>
+		<template if:true={cancelpop}>
+			<div>
+				<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01">
+					<div class="slds-modal slds-fade-in-open slds-align_absolute-center modalcss">
+						<div class="cancel-popup">
+							<p class="title-cls">{label.CANCELREQUEST}?</p>
+							<p class="comm-content">{label.cancelMsg}</p>
+							<div class="pop-btns">
+								<button class="cancel-btn" onclick={onCancel}>{label.cancelBtn}</button>
+								<button class="cancelReq-btn" onclick={oncancelRequest}>{label.CANCELREQUEST}</button>
+							</div>
+						</div>
+					</div>
+				</section>
+				<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+			</div>
+		</template>
+	</div>
+	<div if:true={showSpinner}>
+		<c-pds-spinner></c-pds-spinner>
+	</div>
+</template>

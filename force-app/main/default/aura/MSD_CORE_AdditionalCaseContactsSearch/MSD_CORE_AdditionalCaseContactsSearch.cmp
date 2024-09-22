@@ -1,0 +1,157 @@
+<aura:component extends="c:ComponentUtils" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="MSD_CORE_AE_Contact_Record_Selector_Cont">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="caseContacts" type="List" />
+    <aura:attribute name="fieldList" type="Map" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="radioOptions" type="List" default="[
+                                                             {'label': 'All', 'value': 'All'},
+                                                             {'label': 'CONSUMER', 'value': 'CONSUMER'},
+                                                             {'label': 'EMPLOYEE', 'value': 'EMPLOYEE'},
+                                                             {'label': 'HEALTHCARE BUSINESS PROF', 'value': 'HEALTHCARE BUSINESS PROF'},
+                                                             {'label': 'INDIV HEALTHCARE PROF', 'value': 'INDIV HEALTHCARE PROF'},
+                                                             ]"/>
+    <aura:attribute name="selectedRadioOption" type="String" default="All"/>
+    <aura:registerEvent name="MSD_CORE_CC_CloseEvent" type="c:MSD_CORE_CC_CloseEvent"/>
+    <article style="margin: 10px;" class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+        <div class="slds-card__body" style="overflow: hidden;" onkeyup="{!c.handleKeyEnter}">
+            <div style="padding: 0px 10px;">          
+                <div class="slds-section slds-is-open box">
+                    <div class="slds-card__header slds-grid" style="padding: 10px 0 0 0;">
+                        
+                        <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                                <div class="extraSmall forceEntityIcon">
+                                    <span class="uiImage"  />
+                                    <lightning:icon iconName="standard:customers" size="small" ></lightning:icon>
+                                </div>
+                            </div>
+                            <div class="slds-media__body" >
+                                <h2 id="header">
+                                    <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Additional Case Contact Search</span>
+                                </h2>
+                            </div>
+                        </header>
+                    </div>
+        
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <aura:iteration items="{!v.fieldList.Fields}" var="f">
+                                <div>
+                                    <lightning:input aura:id="enter-search"
+                                                     name="{!f.placeholder}"
+                                                     value="{!f.value}"
+                                                     label="Search by hitting 'enter' key"
+                                                     isLoading="{! v.issearching }"
+                                                     type="search"
+                                                     variant="label-hidden"
+                                                     placeholder="{!f.placeholder}"
+                                                     />
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <aura:iteration items="{!v.fieldList.Address}" var="f">
+                                <div>
+                                    <lightning:input aura:id="enter-search"
+                                                     name="{!f.placeholder}"
+                                                     value="{!f.value}"
+                                                     label="Search by hitting 'enter' key"
+                                                     isLoading="{! v.issearching }"
+                                                     type="search"
+                                                     variant="label-hidden"
+                                                     placeholder="{!f.placeholder}"
+                                                     />
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_x-small" style="padding-top: 0;">
+                            <lightning:radioGroup
+                                                  aura:id="mygroup"
+                                                  name="radioButtonGroup"
+                                                  options="{! v.fieldList.RadioOptions }"
+                                                  value="{! v.selectedRadioOption }"                    
+                                                  class="customRadioCls"/>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_x-small" style="padding-top: 0;">
+                            <lightning:button label="Search" class="slds-button slds-button_brand" onclick="{!c.searchCaseContacts }"/>
+                            <lightning:button label="Save Selected" onclick="{!c.saveSelected}"/>
+                            <lightning:button label="Create New" onclick="{!c.createNew}"/>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- result table -->
+                <div class="slds-p-around_x-small box" style="width: 100%;padding: 0; ">
+                    <div class="slds-p-top--small" style="padding: 1px;">
+                        <aura:if isTrue="{!v.caseContacts.length > 0}">
+                            <div class="table-overflow">
+                                <table class="slds-table slds-table_bordered slds-table_cell-buffer" role="grid" >
+                                    <thead>
+                                        <tr class="slds-text-title_caps">
+                                            <th scope="col">
+                                                <div class="checkbox" title="Selected"></div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="First Name">First Name</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Last Name">Last Name</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Phone">Phone</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Address Line 1">Address Line 1</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="City">City</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Zip">Zip</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!v.caseContacts}" var="cc" indexVar="index">
+                                            <tr class="slds-border_bottom">
+                                                <td>
+                                                    <label class="slds-checkbox">
+                                                        <ui:inputCheckbox aura:id="checkContact" value="{!cc.include}" text="{!cc.include}"/>
+                                                        <span class="slds-checkbox--faux" />
+                                                        <span class="slds-form-element__label"></span>
+                                                    </label>
+                                                </td>
+                                                <td role="gridcell" class="slds-cell-shrink">
+                                                    {!cc.firstName}
+                                                </td>
+                                                
+                                                <td>
+                                                    {!cc.lastName}
+                                                </td>
+                                                <td>
+                                                    {!cc.phone}
+                                                </td>
+                                                <td>
+                                                    {!cc.addressLine1}
+                                                </td>
+                                                <td>
+                                                    {!cc.city}
+                                                </td>
+                                                <td>
+                                                    {!cc.zip}
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</aura:component>

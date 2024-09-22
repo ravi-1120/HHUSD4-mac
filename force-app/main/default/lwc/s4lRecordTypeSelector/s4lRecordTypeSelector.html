@@ -1,0 +1,18 @@
+<template>
+    <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+    <div if:false={loading}>
+        <div if:false={editable}>
+            <div class="slds-form-element__label">{recordTypeLabel}</div>
+            <div>{defaultRecordTypeLabel}</div>
+        </div>
+        <div if:true={editable}>
+            <lightning-combobox
+                value={selected} label={recordTypeLabel}
+                placeholder={labels.selectAnOption}
+                options={dropdownOptions}
+                onchange={handleChange}
+                dropdown-alignment="auto">
+            </lightning-combobox>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,88 @@
+*{
+	font-family: 'Invention';
+}
+
+.help-links-container {
+	background: #F4F4F4;
+	padding: 60px 24px 9px 24px;
+}
+
+.help-links-header {
+	background-color: #0F233E;
+	border-radius: 5px 5px 0px 0px;
+	color: #FFF;
+	font-family: 'Invention';
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 30px;
+	padding: 10px 21px;
+}
+
+.help-links-list {
+	list-style-type: none;
+	padding: 29px 44px;
+	border-radius: 5px;
+	border: 1px solid #E4E4E4;
+	background: #FFF;
+	box-shadow: 0px 2px 4px 0px rgba(85, 85, 85, 0.15);
+	gap: 19px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(397.27px, 1fr));
+    column-gap: 60px;
+}
+
+.help-link-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+	color: #00857C;
+	font-family: 'Invention';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 21px;
+	text-decoration-line: underline;
+}
+
+a:not(:disabled):active,
+a:not(:disabled):hover {
+  background: none !important;
+}
+
+/* Smartphones (portrait) */
+@media only screen and (max-width: 480px) {
+	.help-links-list{
+		grid-template-columns: 1fr !important;
+		padding: 16px 17px;
+		gap: 15px;
+	}
+	.help-links-header {
+		padding: 10px 17px;
+	}
+	.help-link-item{
+		padding: 0 0 16px 0;
+	}
+	.help-links-container{
+		padding: 50px 22px 26px 22px
+	}
+	.help-link-item:last-child {
+        border-bottom: none;
+    }
+}
+
+/* Tablets (portrait) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+	.help-links-container {
+		padding: 48px 23px 24px 23px;
+	}
+	.help-links-header {
+		padding: 10px 24px;
+	}
+	.help-links-list{
+		padding: 25px 24px;
+		grid-template-columns: 1fr 1fr !important;
+	}
+}

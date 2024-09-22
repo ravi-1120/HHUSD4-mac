@@ -1,0 +1,53 @@
+.mfr_indicationtxt {
+    font-family: 'Invention' !important;
+    /* background-color: white; --->ms Bug_Mbl_030---> */
+    font-weight: 400px;
+    color: #000000;
+}
+.headingcls{
+    background-color: #F7F7F7; 
+} 
+.safety{
+    font-family: 'Invention';
+    font-weight: bold!important;
+    height: 50px;
+    font-size: 24px;
+    line-height: 36px;
+    font-style: normal;
+    color: #000000;
+    margin-top: 24px;
+    padding-bottom: 24px;
+}
+.ind{
+    font-family: 'Invention';
+    font-weight: 700!important;
+    font-size: 24px;
+    line-height: 36px;
+    font-style: normal;
+    color: #000000;
+    margin-bottom: 24px;
+}
+/* ===================== Mobile Screen =====================  */
+
+/* Start Mobile Screen */
+
+/* Mobile Screen */
+@media screen and (max-width: 767px) {
+    .mfr_indicationtxt {
+        line-height: 28px;
+        word-wrap:anywhere !important;
+        /* background-color: white; --->ms Bug_Mbl_030--->   */
+    }
+    .safety{
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+        /* width: 343px; */
+        height: auto; /*RT 1-03-2023 Bug_Mbl_015*/
+        max-width: 343px;/*Rusheel2-03-2023 Bug_Mbl_018*/
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700 !important;
+        font-size: 24px;
+        line-height: 36px; 
+    }
+}

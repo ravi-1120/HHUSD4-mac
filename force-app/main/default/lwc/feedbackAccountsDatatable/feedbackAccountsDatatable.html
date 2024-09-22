@@ -1,0 +1,13 @@
+<template>
+  <c-veeva-bryntum-grid
+    features={features}
+    use-raw-data={useRawData}
+    hide-checkbox-column={hideCheckboxColumn}
+    selected-records={_selectedRecords}
+    onrowaction={handleRowAction}
+    onselectionchange={handleSelectionChange}
+    onbeforesort={handleBeforeSort}
+    onfilter={handleFilter}
+    onrenderrows={handleRenderRows}>
+  </c-veeva-bryntum-grid>
+</template>

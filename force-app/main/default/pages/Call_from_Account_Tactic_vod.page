@@ -1,0 +1,4 @@
+<apex:page standardController="Account_Tactic_vod__c" standardStylesheets="true" extensions="VeevaCommonMessageExtension" title="{!TranslatedNew} {!$ObjectType.Call2_vod__c.Label}">
+    <c:VEEVA_CALL_ROUTING veevaModule="call" veevaPage="new-call" objectType="Call2_vod__c" queryParams="&id={!Account_Tactic_vod__c.Id}&typ=Tactic&{!$CurrentPage.parameters.queryParams}&lgtvf=true"
+       callParams="objectType=Call2_vod__c&Action=Create&AccountId={!Account_Tactic_vod__c.Account_vod__c}"/>
+</apex:page>

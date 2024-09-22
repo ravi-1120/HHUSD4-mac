@@ -1,0 +1,157 @@
+<template>
+	<!--<div class="homeAppointmentlist"> -->
+
+
+	<template if:true={appointment}>
+		<template for:each={appointment} for:item="app">
+
+			<!--<lightning-layout key={app.Id} multiple-rows>  -->
+			<!--<div class="singleRowData">-->
+				<!--/*RT 23-02-3023 Bug_Mbl_028*/-->
+			<lightning-layout class="mob-ht" data-id={app.Id} data-name="Appointment" data-contentname={app.MSD_CORE_Product_Payor__r.MSD_CORE_Generic_Name__c} onclick={navigatepage} key={app.Id} multiple-rows> <!--RT-1053-->
+				<lightning-layout-item  size="3" small-device-size="3" medium-device-size="3" large-device-size="2">
+					<div class="boxvalue">
+						<a class="hoverstyle">
+							<div class="monthtext">
+								<lightning-formatted-date-time time-zone={setDefaultime} value={app.Start_DateTime_vod__c}
+									month="short">
+								</lightning-formatted-date-time>
+							</div>
+							<div class="dateval">
+								<lightning-formatted-date-time time-zone={setDefaultime} value={app.Start_DateTime_vod__c}
+									day="2-digit">
+								</lightning-formatted-date-time>
+							</div>
+							<div class="timeValue">
+								<lightning-formatted-date-time   time-zone={setDefaultime} value={app.Start_DateTime_vod__c}
+									hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+							</div>
+						</a>
+					</div>
+
+				</lightning-layout-item>
+				<lightning-layout-item class="paddingval" size="9" small-device-size="9" medium-device-size="6"
+					large-device-size="10">
+					<!-- <template if:true={app.Product_Payor__r.Name}> -->
+					<a class="hoverstyle">
+						<p class="presentationHeading">Live presentation for {app.MSD_CORE_Product_Payor__r.Name} {app.MSD_CORE_Product_Payor__r.MSD_CORE_Generic_Name__c}
+						</p>
+					</a>
+					<!-- </template> -->
+					<a class="hoverstyle">
+						<p class="invitesstyle"> with {app.Assignee_vod__r.FirstName} {app.Assignee_vod__r.LastName}</p>
+					</a>
+					<a class="hoverstyle">
+						<!--<p class="submitterstyle">Submitted&nbsp;<lightning-formatted-date-time value={app.CreatedDate} class="mob-formattime"
+								year="2-digit" month="short" day="2-digit" hour="numeric" weekday="long"
+								minute="2-digit" time-zone={setDefaultime}>
+							</lightning-formatted-date-time>
+						</p>-->
+						<div class="submitterstyle slds-wrap">Submitted&nbsp;<lightning-formatted-date-time
+							value={app.CreatedDate} class="mob-formattime" year="numeric" day="2-digit"
+							month="long" time-zone={setDefaultime}>
+						</lightning-formatted-date-time>&nbsp;at&nbsp;
+						<lightning-formatted-date-time value={app.CreatedDate} hour="2-digit" minute="2-digit"
+							time-zone={setDefaultime}>
+						</lightning-formatted-date-time>
+						
+					</div>
+					</a>
+
+
+
+
+					<!--</div>-->
+					<!--</lightning-layout> -->
+				</lightning-layout-item>
+				<!--<div class="slds-col slds-size_12-of-12">
+                    <hr class="solid">
+                  </div>-->
+				
+			</lightning-layout>
+			<!--/*RT 23-02-3023 Bug_Mbl_028*/-->
+            <hr class="horiLine" key={app.Id} color="#CFD2D7" size="1" width="100%" />
+		</template>
+		<template if:true={appmore}>
+			
+			<template if:false={showmore}>
+				<div class="bcbox">
+				  <p class="showmore" onclick={showmoreclk}>Show more <img src={logo10} class="slds-p-left_small"></p>
+				</div>
+			</template>
+			<template if:true={showmore}>
+				<template for:each={appointment1} for:item="app1">
+					<template if:true={app1.MSD_CORE_Product_Payor__r}>
+						<!--/*RT 23-02-3023 Bug_Mbl_028*/-->
+					<lightning-layout class="mob-ht" data-id={app1.Id} data-name="Appointment" onclick={navigatepage} key={app1.Id} multiple-rows>
+						<lightning-layout-item size="3" small-device-size="3" medium-device-size="3" large-device-size="2">
+							<div class="boxvalue">
+								<a class="hoverstyle">
+									<div class="monthtext">
+										<lightning-formatted-date-time time-zone={setDefaultime} value={app1.Start_DateTime_vod__c}
+											month="short">
+										</lightning-formatted-date-time>
+									</div>
+									<div class="dateval">
+										<lightning-formatted-date-time time-zone={setDefaultime} value={app1.Start_DateTime_vod__c}
+											day="2-digit">
+										</lightning-formatted-date-time>
+									</div>
+									<div class="timeValue">
+										<lightning-formatted-date-time time-zone={setDefaultime} value={app1.Start_DateTime_vod__c}
+											hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+									</div>
+								</a>
+							</div>
+		
+						</lightning-layout-item>
+						
+							<lightning-layout-item class="paddingval" size="9" small-device-size="9" medium-device-size="6"
+								large-device-size="10">
+								<a class="hoverstyle">
+									<p class="presentationHeading">Live presentation for {app1.MSD_CORE_Product_Payor__r.Name} {app1.MSD_CORE_Product_Payor__r.MSD_CORE_Generic_Name__c}
+									</p>
+								</a>
+								<a class="hoverstyle">
+									<p class="invitesstyle"> with {app1.Assignee_vod__r.FirstName} {app1.Assignee_vod__r.LastName}</p>
+								</a>
+								<a class="hoverstyle">
+									<div class="submitterstyle slds-wrap">Submitted&nbsp;<lightning-formatted-date-time
+										value={app1.CreatedDate} class="mob-formattime" year="numeric" day="2-digit"
+										month="long" time-zone={setDefaultime}>
+									</lightning-formatted-date-time>&nbsp;at&nbsp;
+									<lightning-formatted-date-time value={app1.CreatedDate} hour="2-digit" minute="2-digit"
+										time-zone={setDefaultime}>
+									</lightning-formatted-date-time>
+									
+								</div>
+								</a>
+							</lightning-layout-item>
+							
+					</lightning-layout>
+					<!--/*RT 23-02-3023 Bug_Mbl_028*/-->
+					<hr class="horiLine" key={app1.Id} color="#CFD2D7" size="1" width="100%" />
+				</template>
+				</template>
+				<div class="bcbox">
+				  <p class="showmore" onclick={showlessclk}>Show less <img src={uparrowimg} class="slds-p-left_small"></p>
+				</div>
+			  </template>	
+		</template>
+
+	</template>
+
+	<template if:true={norecord}>
+		<div class="bc_box">
+		  <div class="btext"> Browse the catalog to discover presentations you would like to schedule.</div>
+		  <button class="cta1" data-name="ProductList" onclick={navigatepage}> Browse catalog <span> <img src={logo8}> </span> </button>
+		</div>
+	  </template>
+
+		<!-- <template for:each={appointment} for:item="appointment">
+		<lightning-layout-item key={appointment.Name} class="slds-var-p-around_x-small">
+
+		</lightning-layout-item>
+</template> -->
+		<!--</div>-->
+	</template>

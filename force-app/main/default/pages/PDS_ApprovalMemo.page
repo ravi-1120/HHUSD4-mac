@@ -1,0 +1,67 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" showHeader="false" applyBodyTag="false" controller="PDS_DocGenController">
+    <html>
+    <head>
+        <style type="text/css" media="print">
+            @page {
+                margin: 20px;
+                padding: 30px;
+            }
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+            }  
+            table {
+                width: 100%;
+                height: auto;
+            }
+            td {
+                width: 50%;
+                padding-bottom: 15px;
+            }
+            .content {            
+                margin-top: 70px;             
+            }
+            .footer {
+                margin-top: 85px; 
+            }    
+            .footer td {
+                width: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="position: relative; left:75%">
+            <p><apex:outputText value="{!$Label.PDS_MerckAddress}" escape="false" /></p>
+            <img src="{!$Resource.PDS_Merck_Logo_Horizontal_Teal_Grey}" width="210" height="100" style="margin-left:-30px; margin-top: -30px;"/>
+        </div>   
+        <div style="padding-top:-10px">MEMO<hr/></div>
+        <table>
+            <tr>
+                <td style="padding-top:15px" colspan="12">
+                <apex:outputText value="{!$Label.PDS_TO}" escape="false" /> {!requestRecord.PDS_Approver__r.Name}
+                </td>       
+            </tr>
+            <tr>
+                <td colspan="12">
+                <apex:outputText value="{!$Label.PDS_From}" escape="false" /> {!requestRecord.PDS_Reviewer__r.Name}
+                </td>
+            </tr>
+            <tr>
+                <td><apex:outputText value="{!$Label.PDS_AMemo_Subject}" escape="false" /> {!requestRecord.Name}</td>
+                <td style="text-align: right; text-transform: capitalize;"><span style="font-weight: bold">
+                    <apex:outputText value="{!$Label.PDS_Date}" escape="false" />
+                    </span> {! MONTH(TODAY()) }/{! DAY(TODAY()) }/{! YEAR(TODAY()) }
+                </td>
+            </tr>
+        </table>
+        <div class="content">
+            <apex:outputText value="{!approvalMemoContent}" escape="false" />
+        </div>
+        <div class="footer">
+            <p><apex:outputText value="{!$Label.PDS_Approved}" escape="false" /> {!requestRecord.PDS_Approver__r.Name}</p>
+            <!--<p>{!$Label.PDS_Signature} <span class="placeholder"> _______________</span></p>                              
+            <p>{!$Label.PDS_Date} <span class="placeholder"> _______________</span></p>-->
+        </div>
+    </body>
+    </html>
+</apex:page>

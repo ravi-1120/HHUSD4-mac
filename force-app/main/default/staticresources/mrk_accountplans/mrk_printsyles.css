@@ -1,0 +1,557 @@
+.gosttopborder
+{
+border: 1px;
+border-color:black;
+border-style: solid;
+}
+.gostheading
+{
+text-align:left;
+font-weight: bold; 
+color:#023966;
+}
+.gostmaintbl
+{	
+width:80%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+padding: 0px;
+color: #FFFFFF;
+}
+
+.gostinnertbl
+{
+	
+width:100%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+border-style:solid;
+border-color:#555555;
+padding: 0px;
+}
+.gostinnertbl td
+{
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 10px;
+}
+.gostinnertblrow
+{
+border: 1px;
+border-color:#EEECD1;
+border-style: solid;
+}
+
+.gostgoalname
+{
+background-color:#003F77;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: italic;
+text-align:center;
+color: #ffffff;
+}
+.gostcolcolor
+{
+background-color: #8499A5;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: solid;
+text-align:center;
+color: #FFFFFF;
+}
+.gostgoalandobj
+{
+background-color: #00867B;
+color: #FFFFFF;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 12px;
+font-weight: bold;
+font-style: solid;
+width: 25%;
+}
+.odd
+{
+  background-color: #F3F3EC;
+}	
+.even
+{
+  background-color: #F3F3EC;
+}
+
+.swotmaintbl
+{
+	
+width:80%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+padding: 0px;
+}
+.swotmaintbl td
+{
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 10px;
+	width: 50%;
+}
+.swotmaintbl th
+{
+	background-color: #00877C;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+	width: 25%;
+	text-align:center;
+}
+
+.swotinnertbl
+{
+width:100%;	
+border-spacing: 1px;
+padding: 1px;
+border-color:black;
+}
+
+.swotinnertbl th
+{
+background-color: #E0F0F5;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+text-align:center;
+color: #000000;
+}
+.swotinnertbl td
+{
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 10px;
+	width: 25%;
+}
+.swottopborder
+{
+border: 1px;
+border-color:black;
+border-style: solid;
+}
+.swotheading
+{
+text-align:left;
+font-weight: bold; 
+color:#023966;
+}
+
+
+.summarymaintbl
+{
+	
+width:80%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+padding: 0px;
+}
+
+.summarymaintbl td
+{
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 10px;
+	width:25%;
+}
+.summarymaintbl th
+{
+	background-color: #00877C;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+	width: 25%;
+}
+.summaryinnertbl
+{
+	
+width:100%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+border-style:solid;
+border-color:#555555;
+color: #000000;
+padding: 0px;
+}
+
+.summaryinnertblth1
+{
+white-space:nowrap;
+background-color: #CFCFCF;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: italic;
+text-align:left;
+color: #000000;
+}
+.summaryinnertblth
+{
+background-color: #CFCFCF;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: italic;
+text-align:center;
+color: #000000;
+}
+.summaryinnertbl td
+{
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 10px;
+}
+.summarygostmaintbl
+{
+	
+width:80%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+padding: 0px;
+}
+
+.summarygostmaintbl td
+{
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 10px;
+}
+.summarygostmaintbl th
+{
+	background-color: #00877C;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+
+
+.summarytopborder
+{
+border: 1px;
+border-color:black;
+border-style: solid;
+}
+.summaryheading
+{
+text-align:left;
+font-weight: bold;
+font-size: 16px;
+color:#023966;
+}
+
+
+.gosttopborder
+{
+border: 1px;
+border-color:black;
+border-style: solid;
+}
+.gostheading
+{
+text-align:left;
+font-weight: bold; 
+color:003F77;
+}
+.gostmaintbl
+{	
+width:80%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+padding: 0px;
+color: #FFFFFF;
+}
+
+.gostinnertbl
+{
+	
+width:100%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+border-style:solid;
+border-color:#555555;
+padding: 0px;
+}
+.gostinnertbl td
+{
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 10px;
+}
+.gostinnertblrow
+{
+border: 1px;
+border-color:#EEECD1;
+border-style: solid;
+}
+
+.gostgoalname
+{
+background-color: #003F77;
+color: #FFFFFF;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: italic;
+text-align:left;
+}
+
+
+.gostcolcolor
+{
+background-color: #8499A5;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: solid;
+text-align:center;
+color: #FFFFFF;
+}
+
+.gostgoalandobj
+{
+background-color: #00867B;
+color: #FFFFFF;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 12px;
+font-weight: bold;
+font-style: solid;
+width: 25%;
+}
+
+
+.goaldetail
+{
+background-color: #ffffff;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: solid;
+text-align:right;
+color: #000000;
+}
+
+.objectiveheader
+{
+background-color: #C7DDE5;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: italic;
+text-align:left;
+color: #000000;
+}
+
+
+.objectivedetail
+{
+background-color: #ffffff;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: solid;
+text-align:right;
+color: #000000;
+}
+
+
+.tacticheader
+{
+background-color: #C7CD90;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: italic;
+color: #000000;
+text-align:left;
+}
+
+.tacticheadercenter
+{
+background-color: #C7CD90;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: italic;
+color: #000000;
+text-align:center;
+}
+
+
+.tacticheaderleft
+{
+background-color: #C7CD90;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: italic;
+color: #000000;
+text-align:left;
+}
+
+.tacticdetailleft
+{
+text-align:left;
+vertical-align:top;
+padding-bottom: .5em;
+}
+
+.tacticdetailcenter
+{
+text-align:center;
+vertical-align:top;
+padding-bottom: .5em;
+}
+
+.tacticdetail
+{
+background-color: #ffffff;
+font-family: Arial, Verdana, Sans-serif;
+font-size: 10px;
+font-weight: bold;
+font-style: solid;
+text-align:right;
+color: #FFFFFF;
+}
+
+.approvalmaintbl
+{
+	
+width:80%;
+border:0px;
+border-width:0px;
+border-spacing: 0px;
+padding: 0px;
+}
+.approvalmaintbl td
+{
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 10px;
+}
+.approvalmaintbl th
+{
+	background-color: #00877C;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align:left;
+}
+
+
+
+.odd
+{
+  background-color: #F3F3EC;
+}	
+.even
+{
+  background-color: #F3F3EC;
+}
+
+
+th {
+    text-align: left;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+form {
+    margin:0px;
+    padding:0px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Verdana', 'Geneva', sans-serif;
+    font-size: 100%;
+    margin:0px;
+    display:inline;
+}
+
+textarea {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 100%;
+ }
+
+img { border:0; }
+
+.highlightcol {
+    background-color: #CCCCCC;
+}
+
+.infobox {
+  border: 1px dashed #CCCCCC;
+  font-size: 70%;
+}
+
+.extendedrenewalcol {
+  background-color: #33CCCC;
+}
+
+.tablehead {
+    border: 1px dashed #33CCCC;
+    background-color: #0099FF;
+    font-weight: bold;
+}
+
+.totals {
+    background-color: #0099FF;
+    font-weight: bold;
+}
+
+.infohead {
+  font-size: 70%;
+  font-weight: bold;
+}
+
+.odd {
+ border-bottom: 1px solid #000;
+ padding: 1px 1px 2px 2px;
+}
+
+.even {
+ border-bottom: 1px solid #000;
+ padding: 1px 1px 2px 2px;
+
+}
+
+
+
+@page {
+/* Landscape orientation */
+size:landscape;
+
+/* Put page numbers in the top right corner of each
+   page in the pdf document. */
+@bottom-right {
+ content: "Page " counter(page) " of " counter(pages);
+}
+
+@bottom-left {
+                    content: element(footer);
+ }           
+
+}
+
+
+div.footer {
+ padding:-5px;
+ position: running(footer);                                   
+}
+
+
+.div.footer {
+ padding:-5px;
+ position: running(footer);                                   
+}
+

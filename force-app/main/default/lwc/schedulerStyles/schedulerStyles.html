@@ -1,0 +1,19 @@
+<template>
+    <lightning-card title = "Step 3 - Page Styles" icon-name = "standard:settings" >
+        <lightning-input type="color" name="color1" 
+            label="Background Color" class="slds-m-left_xx-large"
+            value ={color}
+            onchange = {colorChange}
+            >
+        </lightning-input>
+        <lightning-input type="color" name="color2" label="Color"
+         class="slds-m-left_xx-large"
+         value ={bgColor}
+         onchange = {bgcolorChange}
+         ></lightning-input>
+        <div slot="footer">
+            <lightning-button variant="brand" label = "Previous" onclick={handlePrevious}  class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label = "Next"  class="slds-m-left_x-small" onclick={handleNext}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

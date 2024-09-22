@@ -1,0 +1,67 @@
+<aura:component extends="c:ComponentUtils" controller="CaseControllerMVN" implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" description="Used to override Product New/Edit/View Screens.">
+    <!-- Component Attributes -->
+     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="objCase" type="Object" />
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="userProfile" type="String"/>
+    <aura:attribute name="caseStatus" type="String"/>   
+    
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="RecordTypeId, RecordType.Name"
+                      targetFields="{!v.objCase}"
+                      targetError="{!v.recordLoadError}"
+                      mode="VIEW"
+                      />
+    
+    <!-- Event handlers -->
+    <aura:handler name="MSD_CORE_CC_CloseModalEvt" event="c:MSD_CORE_CC_CloseModalEvt"
+                  action="{!c.handleCloseEvent}"/>
+    <!-- Component markup -->
+    
+    
+   
+                <button style="top: 5px; z-index: 1; float: right;width:200px;margin-right: 5px;padding: 0;" class="slds-button slds-button_brand" onclick="{!c.submitApproval}">
+                    <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Submit For Approval</span>
+                </button>  
+    
+    <div aura:id="submitApproval" class="slds-hide slds-scrollable" style="position:relative;z-index: 222222222;">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container"> 
+                <!-- Header Start-->
+                <header class="slds-modal__header">
+                    <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                        <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Submit For Approvoal</h2>
+                    
+                    <div style="right: 10px; position: absolute; top: 13px;">
+                        <lightning:button label="X" name="Close Search" onclick="{!c.closeModal}"/>
+                    </div>
+                </header>
+                <!-- Header End-->
+                
+                <!-- Body Content Start-->
+                <div class="slds-modal__content modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:auto">
+                    
+                    <div class="slds-col slds-grid slds-grid_vertical slds-scrollable_x ">
+                        <div class="slds-theme_shade">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <c:MSD_CORE_KC_Comment_Form parentId="{!v.recordId}" parentRT="{!v.objCase.RecordType.Name}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Body Content Start-->
+                
+                <footer class="slds-modal__footer">
+                    
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

@@ -1,0 +1,14 @@
+<template>
+    <div class="flex-row">
+        <lightning-button-menu class="selector-label" variant="bare" title={selectedLabel} label={selectedLabel}
+        menu-alignment="left" disabled={disabled} onselect={handleViewSelection}>
+            <template for:each={views} for:item="option">
+                <div key={option.key}>
+                    <lightning-menu-subheader if:true={option.subheader} label={option.label}></lightning-menu-subheader>
+                    <lightning-menu-item checked={option.checked} class="view-option" if:false={option.subheader} title={option.label} label={option.label} value={option.value}>
+                    </lightning-menu-item>
+                </div>
+            </template>
+        </lightning-button-menu>
+    </div>
+</template>

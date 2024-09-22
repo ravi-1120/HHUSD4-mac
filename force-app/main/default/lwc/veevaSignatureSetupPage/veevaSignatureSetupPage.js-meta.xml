@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>VeevaSignatureSetup</masterLabel>
+    <description>This is the signature setup modal</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="objectApiNameValue" type="String"/>
+            <property name="recordIdValue" type="String"/>
+            <property name="exitSetupValue" type="Boolean"/>
+            <property name="setupConnectionErrorValue" type="Boolean"/>
+            <property name="shareLinkFlsValue" type="Boolean"/>
+            <property name="qrCodeFlsValue" type="Boolean"/>
+            <property name="groupIdValue" type="String"/>
+            <property name="accountIdValue" type="String"/>
+            <property name="messageInvalidSignatureValue" type="String"/>
+            <property name="disclaimerValue" type="String"/>
+            <property name="disclaimerHeaderValue" type="String"/>
+            <property name="accountNameValue" type="String"/>
+            <property name="selectedMethodValue" type="String"/>
+            <property name="childIdsValue" type="String"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

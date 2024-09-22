@@ -1,0 +1,384 @@
+<apex:page standardController="Case"  showHeader="false" extensions="DocumentSearchControllerMVN" sidebar="false" standardStylesheets="true" lightningStylesheets="true">
+    <apex:includeScript value="/support/console/27.0/integration.js"></apex:includeScript>
+
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/jquery-latest.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/jquery.tablesorter.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQueryMVN, 'JQuery/QTip/jquery.qtip.min.js')}"/>
+
+    <apex:stylesheet value="{!URLFOR($Resource.JQueryMVN, 'JQuery/TableSorter/style.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.JQueryMVN, 'JQuery/QTip/jquery.qtip.min.css')}" />
+
+    <script type="text/javascript">
+        var j$ = jQuery.noConflict();
+    </script>
+
+
+    <script type="text/javascript">
+        /*Console Methods*/
+        var parentTab;
+        var childTab;
+
+        /* Set the title and get ids */
+        function setTitleAndGetIds() {
+            fieldFocus();
+
+            sforce.console.setTabTitle('{!$Label.Document_Search_Title}');
+            sforce.console.getEnclosingPrimaryTabId(assignThisTabId);
+        }
+
+        function assignThisTabId(result){
+            parentTab = result.id;
+            sforce.console.getEnclosingTabId(setChildTabId);
+        }
+
+        function setChildTabId(result){
+            childTab = result.id;
+        }
+
+        function refreshPrimaryTabAndCloseSubtab(){
+            sforce.console.refreshPrimaryTabById(parentTab,true,refreshSuccess);
+        }
+
+        function refreshSuccess(result) {
+            sforce.console.closeTab(childTab);
+        }
+
+        function openTab(url, name){
+            sforce.console.openSubtab(parentTab, url, true, name, null, openSuccess);
+
+            if(parentTab == 'null' || parentTab == null || parentTab == ''){
+                sforce.console.openPrimaryTab(null, url, true, name);
+            }
+        }
+
+        function openURL(url){
+            window.location = url;
+        }
+
+        function openSuccess(result) {};
+
+        /*On Load*/
+        window.onload = setTitleAndGetIds;
+
+        /*****Enter Key*****/
+        function noenter(ev)  {
+            if (window.event && window.event.keyCode == 13 || ev.which == 13) {
+                doSearch();
+                return false;
+            } else {
+                return true;
+            }
+        };
+
+        /*****Focus****/
+        var selectedField;
+
+        function fieldFocus(fieldId) {
+            if (fieldId){
+                document.getElementById('{!$Component.theForm:thePageBlock}' + ':' + fieldId).focus();
+            } else if (selectedField){
+                document.getElementById(selectedField).focus();
+            } else {
+                document.getElementById('{!$Component.theForm:searchPageBlock:documentSearch}').focus();
+            }
+        }
+
+
+        function setUpTooltips(){
+            j$('img[title]').qtip({
+                style: {
+                    classes: 'mavensTooltip'
+                },
+                position: {
+                    my: 'topMiddle',
+                    at: 'bottomMiddle'
+                },
+                hide: {
+                    leave: true,
+                    event: 'click mouseleave unfocus'
+                }
+            });
+        }
+    </script>
+
+    <apex:outputPanel id="opHelper">
+        <script type="text/javascript">
+            /*Table Sorter*/
+            var elResource = document.getElementById('{!$Component.theForm:searchResultsBlock:searchResultsTable}');
+            var elDosResource = document.getElementById('{!$Component.theForm:attachedBlock:attachedResultsTable}');
+            j$(document).ready(function()
+            {
+                j$(elResource).tablesorter({
+                    widgets: ['zebra'],
+                    headers: {
+                        0: { sorter: false },
+                        2: { sorter: false }
+                    }
+                });
+
+                j$(elDosResource).tablesorter({
+                    widgets: ['zebra'],
+                    headers: {
+                        0: { sorter: false }
+                    }
+                });
+            });
+
+            j$(window).load(function(){
+                j$(elDosResource).tablesorter({
+                    widgets: ['zebra'],
+                    headers: {
+                        0: { sorter: false }
+                    }
+                }).delay(100000);
+            });
+
+            function disableAttachLinks(){
+                j$("a[class='attachLink']").each(function(index, element){
+                    j$(element).addClass("disabled");
+                });
+            }
+        </script>
+    </apex:outputPanel>
+
+    <style>
+        img.mavensIcon{
+            width:20px;
+        }
+
+        tr.headerRow.textShadow th{
+            text-shadow: none !important;
+        }
+
+        .mavensTooltip{
+            background-color: #ffffd8;
+            color: black;
+        }
+
+        table.tablesorter thead tr .header div {
+            background-position: center right -6px;
+            padding-right: 15px;
+        }
+
+        .disabled {
+            cursor: not-allowed;
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            filter: grayscale(100%);
+            pointer-events: none;
+        }
+    </style>
+
+    <apex:form id="theForm">
+        <!--Search Criteria pane -->
+        <div style="width:100%; text-align:center; padding:5px;">
+            <apex:commandButton value="{!$Label.Return_to_Request}" onClick="refreshPrimaryTabAndCloseSubtab();" rerender="theForm" style="width:200px;"/>
+        </div>
+        <div style="width:100%;position:absolute;white-space:nowrap;">
+            <apex:outputPanel style="display:inline-block; ">
+                <apex:pageBlock tabStyle="Contact" id="searchPageBlock">
+
+                    <apex:outputPanel layout="searchBlock">
+                    <apex:actionRegion >
+                        <table class="searchTable" width="200px">
+                            <tr>
+                                <td colspan="2">
+                                    <label style="font-weight: bold;">{!$Label.Document_Search_Textbox_Label}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <apex:inputText id="documentSearch" value="{!documentSearchText}" style="width:100%" onkeypress="return noenter(event);"/>
+                                    <script>
+                                        var text_input = document.getElementById ('{!$Component.documentSearch}');
+                                        text_input.focus ();
+                                        text_input.select ();
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <!--apex:pageMessages id="errorMessages" /-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <hr width="100%" />
+                                </td>
+                            </tr>
+                            <!-- Start Additional Search Fields -->
+                            <apex:repeat value="{!documentSearchFields}" var="additionalSearchField">
+                                <apex:outputPanel rendered="{!additionalSearchField.renderField}">
+                                    <tr>
+                                        <td colspan="2">
+                                            <apex:outputText style="font-weight: bold;" value="{!additionalSearchField.fieldLabel}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <apex:inputField value="{!searchDocument[additionalSearchField.fieldAPIName]}"/>
+                                        </td>
+                                    </tr>
+                                </apex:outputPanel>
+                            </apex:repeat>
+                            <!-- End Additional Search Fields -->
+                            <!--tr>
+                                <td colspan="2">
+                                    <label style="font-weight: bold;">{!$ObjectType.Case_Document_MVN__c.Fields.Document_Type_MVN__c.label}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <apex:selectList value="{!searchDocument.Document_Type_MVN__c}" multiselect="false" size="1" style="width:100%">
+                                        <apex:selectOptions value="{!documentTypes}"/>
+                                    </apex:selectList>
+                                </td>
+                            </tr-->
+                            <tr>
+                                <td colspan="2">
+                                    <label style="font-weight: bold;">{!$ObjectType.Product_vod__c.label}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <apex:selectList value="{!productId}" multiselect="false" size="1" style="width:100%">
+                                        <apex:selectOptions value="{!products}"/>
+                                    </apex:selectList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <label style="font-weight: bold;">{!$ObjectType.Case_Document_MVN__c.Fields.Document_Language_MVN__c.label}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <apex:inputField value="{!searchDocument.Document_Language_MVN__c}" required="true" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <label style="font-weight: bold;">{!$ObjectType.Case_Document_MVN__c.Fields.Country_MVN__c.label}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <apex:selectList value="{!searchDocument.Country_MVN__c}" multiselect="false" size="1" style="width:100%;">
+                                        <apex:selectOptions value="{!countries}" />
+                                    </apex:selectList>
+                                </td>
+                            </tr>
+
+                            <!--  KRB Release 10.0 Start  -->
+                            <tr>
+                                <td colspan="2">
+                                    <label style="font-weight: bold;">Article Search For </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <apex:selectList value="{!searchTypeOverride}" multiselect="false" size="1" style="width:100%">
+                                        <apex:selectOptions value="{!searchTypeOverrideTypes}"/>
+                                    </apex:selectList>
+                                </td>
+                            </tr>
+                            <!--  KRB Release 10.0 END   -->
+
+                          <tr>
+                                <td colspan="2">
+                                    <hr width="100%" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <apex:commandButton style="width:100%" value="{!$Label.Generic_Search_Button}" action="{!search}" rerender="documentList, selectedMessage, resultsMessage, errorMessages, searchResultsBlock, opHelper" status="search-status" id="searchButton"/>
+                                    <apex:actionFunction name="doSearch" action="{!search}" rerender="documentList, selectedMessage, resultsMessage, errorMessages, searchResultsBlock, opHelper" status="search-status" />
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:actionRegion>
+                    <apex:actionRegion >
+                        <div style="width: 100%;">
+                            <c:AttachedDocumentsSideComponentMVN id="attachedDocumentsComponent" />
+                            <apex:actionFunction name="rerenderSearch" rerender="searchResultsBlock" action="{!processAttachedDocuments}"/>
+                        </div>
+                    </apex:actionRegion>
+
+                    </apex:outputPanel>
+                </apex:pageBlock>
+                <script>
+                    var searchResultsPanel = document.getElementById('{!$Component.searchPageBlock}');
+
+                    j$(searchResultsPanel).addClass('searchPanelColor');
+                </script>
+            </apex:outputPanel>
+
+            <!--Search Results-->
+            <apex:outputPanel style="width:70%; min-width:500px; display:inline-block; position:absolute;top:0px;white-space:normal;" id="searchResultsOutputPanel">
+                <apex:pageBlock tabStyle="Account" title="{!$Label.Document_Search_Results_Label} [{!IF(ISNULL(documentList), '0', TEXT(documentList.size))}]" id="searchResultsBlock">
+                    <apex:pageMessages id="errorMessages2"/> 
+                    <apex:outputPanel id="searchResults">
+                        <apex:actionstatus id="search-status">
+                            <apex:facet name="start">
+                                <div style="padding-left:40%">
+                                        <img class="waitingImage" src="{!URLFOR($Resource.GlobalAssetsMVN, 'gifs/loading.gif')}" height="20px" width="20px"/>
+                                        <span class="waitingDescription">{!$Label.Generic_Search_Status}</span>
+                                        <a href="/apex/DocumentSearchMVN?id={!Case.Id}"><span class="waitingDescription">{!$Label.Document_Search_Cancel}</span></a>
+                                </div>
+                             </apex:facet>
+                             <apex:facet name="stop">
+                                <apex:outputPanel id="documentList">
+
+                                <!--Results Table -->
+                                    <apex:pageBlockTable headerClass="textShadow" style="border-color: #F8F8F8;" styleClass="tablesorter" value="{!documentList}" var="as" id="searchResultsTable" rendered="{!documentList.size > 0}">
+                                        <apex:column >
+                                            <apex:commandLink status="attach-status" onclick="disableAttachLinks();" rerender="attachedDocumentsComponent,opHelper,searchResultsOutputPanel" action="{!selectDocument}" styleClass="{!IF(as.isAttached, 'disabled', 'attachLink')}">
+                                                <img class="mavensIcon" src="{!URLFor($Resource.GlobalAssetsMVN, 'Icons/File_add.png')}" title="{!$Label.Attach_Article}"/>
+                                                <apex:param name="kId" assignTo="{!selectedDocumentId}" value="{!as.caseDocument.Document_ID_MVN__c}" />
+                                            </apex:commandLink>
+                                        </apex:column>
+                                        <apex:column headerValue="{!$ObjectType.Case_Document_MVN__c.Fields.Document_Title_MVN__c.label}">
+                                            <div style="width:200px;max-width:200px;word-wrap:break-word;overflow:hidden;">
+                                                <apex:outputPanel rendered="true">
+                                                    <apex:commandLink style="color: #3A97C4;text-decoration: none; font-size:11px;" onclick="openTab('{!JSENCODE(as.viewerURL)}', '{!$Label.Document_Search_Article_Tab_Label}');" value="{!as.caseDocument.Document_Title_MVN__c}" rerender="none"/>
+                                                </apex:outputPanel>
+                                            </div>
+                                        </apex:column>
+                                        <apex:column headerValue="{!$Label.Document_Search_Column_Name_Preview}">
+                                            <img style="background-color: FFFFCC;" class="mavensIcon" src="{!URLFor($Resource.GlobalAssetsMVN, 'Icons/Info2.png')}" title="{!as.caseDocument.MSD_CORE_Document_Preview__c}" onclick="openTab('{!JSENCODE(as.viewerURL)}', '{!$Label.Document_Search_Article_Tab_Label}');"/>
+                                        </apex:column>
+
+                                    <!-- Start Additional Result Columns -->
+                                        <apex:repeat value="{!$ObjectType.Case_Document_MVN__c.FieldSets.Case_Document_Search_Result_Fields}" var="resultField">
+                                            <apex:column headerValue="{!resultField.Label}" value="{!as.caseDocument[resultField.fieldPath]}" />
+                                        </apex:repeat>
+                                    <!-- End Additional Result Columns -->
+
+                                    </apex:pageBlockTable>
+                                    <script>
+                                        setTimeout('setUpTooltips()',400);
+                                    </script>
+                                </apex:outputPanel>
+                             </apex:facet>
+                        </apex:actionstatus>
+                    </apex:outputPanel>
+                    <br/>
+                </apex:pageBlock>
+                <script>
+                    var searchResultsPanel = document.getElementById('{!$Component.searchResultsBlock}');
+
+                    j$(searchResultsPanel).addClass('searchResultsColor');
+                </script>
+
+                <!--Attached Documents-->
+                <!-- <c:AttachedDocumentsMVN id="attachedDocumentsComponent" /> -->
+
+                <script>
+                    var searchResultsPanel = document.getElementById('{!$Component.attachedBlock}');
+
+                    j$(searchResultsPanel).addClass('attachedColor');
+                </script>
+            </apex:outputPanel>
+        </div>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,24 @@
+<template>
+    <c-veeva-modal size={size}  hide-footer="true" onclose={closeDialog}>
+        <div slot="header">
+            <div class="slds-text-heading--small">
+                {modalTitle}
+            </div>
+        </div>
+        <div slot="content">
+            <div class="container">
+                <div if:false={showDownloadReport} class="spinner-container">
+                    <lightning-spinner alternative-text='Loading' variant='brand' size='large'></lightning-spinner>
+                </div>
+                <div if:true={showDownloadReport} >
+                    <div class="slds-p-top_x-large slds-align_absolute-center">
+                        <p>{modalMessageMap.downloadPageText}</p>
+                    </div>
+                    <div class="download-container">
+                        <lightning-button label={modalMessageMap.downloadReportTitle} title="Download" icon-name="utility:download" icon-position="right" onclick={handleOnClick}></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c-veeva-modal>
+</template>

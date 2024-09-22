@@ -1,0 +1,26 @@
+<template>
+  <lightning-modal-header label={labels.editListLabel}></lightning-modal-header>
+  <div class="slds-modal__content slds-var-p-around_xx-large">
+    <lightning-layout class="slds-var-p-around_small" vertical-align="center">
+      <lightning-layout-item size="4">
+        <abbr class="slds-required">*</abbr>
+        <lightning-formatted-text value={listNameLabel}></lightning-formatted-text>
+      </lightning-layout-item>
+      <lightning-layout-item size="8">
+        <lightning-input variant="label-hidden" label={listNameLabel} value={listNameValue} maxlength="80" onchange={updateListName}>
+        </lightning-input>
+      </lightning-layout-item>
+    </lightning-layout>
+  </div>
+  <lightning-modal-footer>
+    <lightning-layout horizontal-align="center">
+      <lightning-button class="slds-var-p-horizontal_xxx-small" label={labels.cancelLabel} onclick={handleCancel}>
+      </lightning-button>
+      <lightning-button class="slds-var-p-horizontal_xxx-small" variant="brand" label={labels.okayLabel}
+        disabled={areFieldsNotPopulated} onclick={handleOkay}>
+      </lightning-button>
+    </lightning-layout>
+  </lightning-modal-footer>
+  <c-veeva-spinner if:true={loading} is-blocking=true></c-veeva-spinner>
+  <c-my-accounts-modal-dispatch></c-my-accounts-modal-dispatch>
+</template>

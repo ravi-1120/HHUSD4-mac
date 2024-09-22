@@ -1,0 +1,119 @@
+:host {
+    --veeva-reconciliation-field-width: 25vw;
+    --slds-c-card-header-spacing-block-end: 0;
+    --slds-c-card-header-spacing-block-start: 0;
+    --slds-c-card-body-spacing-block-start: 0;
+}
+
+.walk-in-name {
+    font-weight: initial;
+}
+
+.actions {
+    grid-column-start: 3;
+    justify-self: end;
+    align-self: center;
+}
+
+.container {
+    position: absolute;
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 1px 5px grey;
+    transform: translate(-50%, -50%);
+}
+
+.container-loaded {
+    width: 95%;
+}
+
+.body {
+    min-width: 40vw;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+.badge-dismissed {
+    --slds-c-badge-color-background: #fff03f;
+}
+
+.status-actions {
+    display: grid;
+    width: 100%;
+    padding: var(--lwc-spacingXsmall, 0.5rem) var(--lwc-spacingMedium, 1rem);
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.status-badge {
+    grid-column-start: 2;
+    justify-self: center;
+    align-self: center;
+}
+
+.badge-tooltip {
+    position: absolute;
+    align-self: flex-end;
+    transform: translateX(var(--lwc-spacingXxsmall, 0.25rem));
+}
+
+.read-only-fields {
+    scrollbar-gutter: stable both-edges;
+    max-height: 20vh;
+    overflow: auto;
+}
+
+.input-fields, .read-only-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fields-section {
+    display: flex;
+    width: calc((3*var(--veeva-reconciliation-field-width, 25vw)) + 1rem + (2*var(--lwc-spacingMedium, 1rem)));
+    flex-wrap: wrap;
+    gap: var(--lwc-spacingXxsmall, 0.25rem) var(--lwc-spacingXsmall, 0.5rem);
+    padding: var(--lwc-spacingXsmall, 0.5rem) var(--lwc-spacingMedium, 1rem);
+}
+
+.field {
+    min-width: var(--veeva-reconciliation-field-width, 25vw);
+}
+
+.place-in-line {
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+}
+
+.results-table {
+    height: clamp(25vh, 35vh, 45vh);
+}
+
+.no-results {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.footer-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reconciliation-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.slds-backdrop {
+    z-index: 98;
+}
+
+.account-action {
+    padding-top: var(--lwc-spacingXxsmall, 0.25rem);
+    padding-bottom: var(--lwc-spacingXlarge, 2.5rem);
+}

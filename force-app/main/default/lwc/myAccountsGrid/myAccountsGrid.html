@@ -1,0 +1,17 @@
+<template>
+  <div class="grid-container">
+    <c-veeva-bryntum-grid
+      column-store={gridColumns}
+      row-data-store={rows}
+      model-fields={fields}
+      features={gridFeatures}
+      sensitivity="accent"
+      use-raw-data={useRawData}
+      selected-records={selectedRecords}
+      onselectionchange={handleSelectionChange}
+      onfilter={handleFilterChange}
+      onrowaction={handleRowAction}
+      onsort={handleSort}
+    ></c-veeva-bryntum-grid>
+  </div>
+</template>

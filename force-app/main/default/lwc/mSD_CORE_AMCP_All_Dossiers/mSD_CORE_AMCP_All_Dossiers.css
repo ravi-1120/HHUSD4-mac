@@ -1,0 +1,589 @@
+.main-container {
+    display: flex;
+    width: 1128px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto;
+    height: 151px;
+}
+
+.position_cls {
+    position: relative;
+    z-index: 1;
+    margin-top: 50px;
+    left: 0%;
+}
+
+.pipelinesearch {
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.disaries_image {
+	width: 177px;
+	height: 151px;
+}
+.bookmark-image {
+    width: 24px;
+	height: 24px;
+}
+.search-container{
+    margin-right: auto;
+    height: 56px;
+    margin-bottom: 16px;
+}
+.cantfind-parent {
+	display: flex;
+	padding: 0px 40px;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 10px;
+	align-self: stretch;
+	border-radius: 6px;
+}
+
+.combobox {
+	display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    border-radius: var(--borderRadius, 4px);
+    height: 56px;
+}
+
+.search-deatails{
+    margin-right: auto;
+    height: 56px;
+    width: 348px;
+    margin-bottom: 0px;
+}
+
+.pipelineVal {
+    height: 21px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #333333;
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+    width: 348px;
+}
+
+.searchval {
+	height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 16px 12px;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+    border: 1px solid #333333;
+    border-radius: 4px;
+    max-width: 348px;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 400;
+    line-height: 21px;
+    word-wrap: break-word;
+}
+
+.cbox {
+    --dxp-s-body-font-size: 0.9rem;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: 0px;
+    text-align: left;
+    width: 121PX;
+    height: 56px !important;
+    margin-bottom: 0px;
+}
+
+.combo-height {
+    height: 56px;
+}
+
+.fix-slds-input_faux {
+    line-height: normal; 
+    height: 56px;
+}
+
+.cboxFilter {
+    --dxp-s-body-font-size: 0.9rem;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: 0px;
+    text-align: left;
+    width: 248px;
+    height: 40px;
+}
+
+.dossier-item {
+    width: 1128px;
+    height: 231px;
+    background: white;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative; /* For z-index positioning */
+    overflow: hidden; /* Hide overflow of the item */
+}
+
+/* Hover effect to zoom out */
+.dossier-item:hover {
+    background: #F6F6FE;
+    transform: scale(1.01); /* Zoom out effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    z-index: 10; /* Bring the item to the front */
+}
+
+/* Optional: Maintain transitions for child elements */
+.dossier-item * {
+    transition: transform 0.3s ease; /* Ensure smooth transition for all child elements */
+}
+
+.dossier-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333333;
+}
+
+.dossier-description {
+    font-size: 18px;
+    font-weight: 400;
+    color: #333333;
+}
+
+.dossier-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+
+.dossier-tag {
+    background: #CCEBFD;
+    color: #043E60;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.open-button {
+    background: #5450E4;
+    color: white;
+    padding: 7px 16px;
+    border-radius: 5px;
+}
+
+.dossier-image {
+    width: 177px;
+    height: 151px;
+}
+
+.dossier-content {
+    flex: 1;
+    padding-left: 40px;
+    padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.dossier-title {
+    color: #333333;
+    font-size: 18px;
+    font-family: Invention, sans-serif;
+    font-weight: 700;
+    line-height: 27px;
+    word-wrap: break-word;
+}
+
+.dossier-tags {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.dossier-tag {
+    padding: 2px 8px;
+    background: #CCEBFD;
+    border-radius: 4px;
+    color: #05215B;
+    font-size: 14px;
+    font-family: Invention, sans-serif;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.86px;
+    word-wrap: break-word;
+}
+
+.dossier-footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+}
+
+.open-button {
+    background: #5450E4;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-family: Invention, sans-serif;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.86px;
+    word-wrap: break-word;
+}
+
+.bookmark-container {
+    /*flex: 1;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 16px;
+    width: 70px;
+    height: 72px;
+    font-size: 14px;
+    font-family: Invention;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.86px;
+    word-wrap: break-word;
+}
+
+.bookmark-image-container {
+    align-self: flex-end;
+    height: 24px !important;
+    width: 24px !important;;
+}
+
+.buttoncls{
+	display: flex;
+	padding: 7px 16px;
+	justify-content: center;
+	align-items: center;
+	gap: 16px;
+	border-radius: 5px;
+	background: var(--Primary-Atlernative-Primary, #5450E4);
+	border: none;
+    width: 70px;
+    height: 32px;
+}
+.buttontext{
+	color: var(--Neutral-White, #FFF);
+	text-align: center;
+	font-feature-settings: 'liga' off, 'clig' off;
+	/* Button/Button */
+	font-family: Invention;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 18px; /* 128.571% */
+	letter-spacing: 0.862px;
+    width: 38px;
+    height: 18px;
+}
+.btnwdth{
+    width: 70px;
+    height: 32px;
+    padding-left: 6px;
+    /*padding-right: 16px;*/
+}
+
+.select3 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.select2 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.cbox {
+  padding: 19.6px 7px !important;
+  color: var(--Secondary-Neutral-Dark-Text, var(--Gray-Scale-text-dark, #333)) !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 21px !important;
+}
+
+.input {
+  border-radius: var(--borderradius, 4px);
+  border-style: solid;
+  border-color: var(
+    --components-input-outlined-enabledborder,
+    rgba(0, 0, 0, 0.23)
+  );
+  border-width: 1px;
+  padding: 15px 12px 15px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  font-family: Invention;
+}
+
+.line {
+  margin-top: -1px;
+  border-style: solid;
+  border-color: #c4c4c4;
+  border-width: 1px 0 0 0;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 0px;
+  position: relative;
+}
+.tag-expiration-cta {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.primary-button {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.buttton-master {
+  background: var(--primary-atlernative-primary, #5450e4);
+  border-radius: 5px;
+  padding: 7px 16px 7px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.button-text {
+  color: var(--neutral-white, #ffffff);
+  text-align: center;
+  font-family: var(--button-button-font-family, "Invention-Bold", sans-serif);
+  font-size: var(--button-button-font-size, 14px);
+  line-height: var(--button-button-line-height, 18px);
+  letter-spacing: var(--button-button-letter-spacing, 0.86px);
+  font-weight: var(--button-button-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.pagination-button {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+}
+.buttton-master2 {
+  background: var(--secondary-gray, #f7f7f7);
+  border-radius: 5px;
+  padding: 11px 16px 11px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.left-icon {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon6 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+.button-text2 {
+  color: var(--neutral-dark-text, #333333);
+  text-align: center;
+  font-family: "Invention-Bold", sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.86px;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.numbers {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.pagination-button2 {
+  background: var(--primary-atlernative-primary, #5450e4);
+  border-radius: 4px;
+  padding: 11px 16px 11px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  position: relative;
+  cursor: pointer;
+}
+.button-text3 {
+  color: var(--neutral-white, #ffffff);
+  text-align: center;
+  font-family: "Invention-Bold", sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.86px;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination-button3 {
+  background: var(--secondary-gray, #f7f7f7);
+  border-radius: 4px;
+  padding: 11px 16px 11px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  position: relative;
+  cursor: pointer;
+}
+.pagination-button4 {
+  background: var(--secondary-gray, #f7f7f7);
+  border-radius: 4px;
+  padding: 11px 16px 11px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+}
+.right-icon {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon7 {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: visible;
+}
+
+/* Responsive Design */
+@media only screen and (min-width: 1300px) and (max-width: 1366px) {
+    .slds-modal__content {
+        overflow-y: auto;
+        max-height: unset;
+        scroll-behavior: auto;
+        height: 30rem !important;
+    }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1300px) {
+    .slds-modal__content {
+        overflow-y: auto;
+        max-height: unset;
+        scroll-behavior: auto;
+        height: 26rem !important;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .container {
+        width: 343px;
+        height: 100%;
+        padding: 24px 32px;
+    }
+  
+    
+}

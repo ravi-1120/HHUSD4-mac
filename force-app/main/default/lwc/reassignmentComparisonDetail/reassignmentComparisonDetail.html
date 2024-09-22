@@ -1,0 +1,46 @@
+<template>
+    <lightning-layout multiple-rows="true" class="detail-container slds-is-relative">
+        <c-veeva-spinner if:true={waiting} class="slds-spinner_container"></c-veeva-spinner>
+        <lightning-layout-item size="12">
+            <lightning-layout vertical-align="center">
+                <lightning-layout-item class="slds-p-around_x-small slds-text-title_bold section-title" size="5">
+                    <div>{title}</div>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-text-body_small slds-p-top_x-small" if:true={processSteps} size="5"> 
+                    <lightning-button if:true={inProcessing} title={stopCalculationMsg} label={stopCalculationMsg} onclick={clickStopBtn}></lightning-button>
+                    <lightning-button if:false={inProcessing} title={downloadZipMsg} label={downloadZipMsg} onclick={downloadResult}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+        <lightning-layout-item size="12">
+            <lightning-layout class="slds-m-around_x-small detail-process-container" multiple-rows="true" >
+                <lightning-layout-item size="12">
+                    <c-reassignment-progress-bar progress-steps={processSteps} progress-infos={processInfos}></c-reassignment-progress-bar>
+                </lightning-layout-item>
+                <lightning-layout-item if:true={displayResult} size="12">
+                    <div class="slds-m-bottom_x-small slds-list_horizontal result-type">
+                        <div onclick={selectValidRecord} class={validRecordClass}>{validRecordMsg}</div>
+                        <div onclick={selectWeComDeleteUser} class={weComDeleteUserClass}>{weComDeleteUserMsg}</div>
+                    </div>
+                    <div>
+                        <div class={validResultClass}>
+                            <c-reassignment-valid-record-table 
+                            table-data-svc={detailDataSvc} 
+                            process-id={detailProcessId}></c-reassignment-valid-record-table>
+                        </div>
+                        <div class={weComDeleteUserResultClass}>
+                            <div class="slds-m-bottom_x-small slds-m-left_x-small slds-text-body_small slds-text-align--left remind-msg">{wuserDeleteRemindMsg}</div>
+                            <div class="table-border-top">
+                                <c-reassignment-to-leave-user-table 
+                                table-data-svc={detailDataSvc} 
+                                process-id={detailProcessId}></c-reassignment-to-leave-user-table>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+    <c-veeva-alert-modal size="tiny" show={showAlertDialog} messages={alertMsgs} onclose={closeAlertDialog}></c-veeva-alert-modal>
+    <c-veeva-confirmation-modal size="tiny" show={showConfirmDialog} messages={confirmMsgs} oncancel={closeConfirmDialog} onconfirm={stopCalculation}></c-veeva-confirmation-modal>
+</template>

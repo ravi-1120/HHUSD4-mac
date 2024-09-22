@@ -1,0 +1,6 @@
+<apex:page standardController="Case" showHeader="false" sidebar="false" standardStylesheets="true" lightningStylesheets="true">
+	<apex:form id="theForm">
+		<!--Attached Documents-->
+    	<c:AttachedDocumentsMVN />
+    </apex:form>
+</apex:page>

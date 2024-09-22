@@ -1,0 +1,73 @@
+require 'rubygems'
+require 'rake'
+#require 'net/https'
+#require 'open-uri'
+require 'erb'
+
+def gen_js_template(path)
+	content = File.open(path, 'r').read
+	lines = []
+	content.split("\n").each do |line|
+		lines << line.gsub(%{'}, %{\\\\'})
+	end
+
+	list = lines.collect {|l| %{'#{l}'} }.join(",")
+	"[#{list}].join('\\n')"
+end
+
+def js_combine_and_minify
+
+	gas_javascripts_local = <<-EOL
+	jquery-1.7.2.min.js
+	../jquery-placeholder/jquery.placeholder.min.js
+	console.js
+	mustache-0.5.0-dev.min.js
+	md5.js
+	livereload.js
+	search-result-sample-data.js
+	app.preprocessed.js
+	../jquery.mobile-1.2.0-alpha.1/jquery.mobile-1.2.0-alpha.1.js
+	EOL
+
+	# gas_javascripts_local = <<-EOL
+	# jquery-1.7.2.min.js
+	# ../../../Public/lib/jquery-placeholder/jquery.placeholder.min.js
+	# console.js
+	# mustache-0.5.0-dev.min.js
+	# md5.js
+	# livereload.js
+	# search-result-sample-data.js
+	# app.preprocessed.js
+	# ../../../Public/lib/jquery.mobile-1.2.0-alpha.1/jquery.mobile-1.2.0-alpha.1.js
+	# EOL
+
+
+	gas_javascripts_url = <<-EOL
+	//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+	//dl.dropbox.com/u/298636/lib/jquery-placeholder/jquery.placeholder.min.js
+	//dl.dropbox.com/u/298636/gas/console.js
+	//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.5.0-dev/mustache.min.js
+	//dl.dropbox.com/u/298636/gas/md5.js
+	//dl.dropbox.com/u/298636/gas/livereload.js
+	//dl.dropbox.com/u/298636/gas/search-result-sample-data.js
+	//dl.dropbox.com/u/298636/gas/app.preprocessed.js
+	//dl.dropbox.com/u/298636/lib/jquery.mobile-1.2.0-alpha.1/jquery.mobile-1.2.0-alpha.1.js
+	EOL
+
+	all_js_local = ''
+	gas_javascripts_local.split("\n").each do |path|
+		all_js_local += ((open(path.strip).read) + "\n\n")
+	end
+	File.open('all.js', 'w') {|f| f.write(all_js_local)}
+end
+
+
+task :preprocess do
+	content = File.open('app.js', 'r').read
+	template = ERB.new(content)
+	tmpl = gen_js_template('templates.mustache')
+	processed_content = template.result(binding)
+	puts processed_content
+	File.open('app.preprocessed.js', 'w') {|f| f.write(processed_content)}
+	js_combine_and_minify
+end

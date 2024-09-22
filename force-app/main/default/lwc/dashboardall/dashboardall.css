@@ -1,0 +1,649 @@
+.pbanner {
+    position: relative;
+}
+
+.ptext {
+    position: absolute;
+    color: #fff;
+    z-index: 3;
+    top: 20%;
+    text-align: left;
+    font-size: 20px;
+    left: 0;
+    right: 0;
+}
+
+
+.container {
+    max-width: 1170px;
+    margin: 0 auto;
+}
+
+.subheadertxt_cls {
+    font-size: 24px;
+    font-family:'Invention';
+    font-weight: 400;
+}
+
+.headertxt_cls {
+    font-size: 36px;
+    font-family: 'Invention' ;
+    color: #FFFFFF;
+    line-height: 45px;
+    font-weight: 700;
+}
+
+.bcatalog {
+    position: relative;
+    z-index: 1;
+    margin-top: -25px;
+}
+.eligcard{
+    position: relative;
+    z-index: 1;
+    bottom: 24px;
+}
+
+/* .bcatalog .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: #FFFFFF;
+    background: #00857C;
+    border-radius: 5px !important;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px !important;
+    width: 278px !important;
+    height: 50px !important;
+    letter-spacing: 0.861539px;
+    border-color: #00857C;
+    border: none !important;
+} */
+.bcatalog button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: #FFFFFF;
+    background: #00857C;
+    border-radius: 5px !important;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px !important;
+    width: 278px ;
+    height: 50px !important;
+    letter-spacing: 0.861539px;
+    border-color: #00857C;
+    border: none !important;
+}
+
+.card {
+    width: 100% !important;
+    min-height: auto !important;
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09), 0px 3px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 8px !important;
+}
+
+.viewall_btn {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px !important;
+    line-height: 18px !important;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    background: #ffffff;
+    letter-spacing: 0.861539px;
+    border: 2px solid #00857C !important;
+    border-radius: 5px !important;
+    padding: 7px 16px !important;
+    color: #00857C !important;
+}
+
+.actext {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #333;
+    line-height: 21px;
+    padding: 15px 0 15px;
+}
+.prodname {
+    text-decoration: none;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    color: #333333;
+}
+
+.proddesc {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #333333;
+}
+
+.arrowstyle {
+    background-color: white;
+    border: 2px solid #00857C !important;
+    border-radius: 5px !important;
+    padding: 8px;
+}
+
+.bcbox {
+    text-align: center;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration-line: underline;
+}
+
+.bc_box {
+    text-align: center;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.flex_div  {
+    display: flex;
+}
+
+.con_div h2 {
+    font-weight: 700;
+}
+
+.flex_div button {
+    font-size: 12px;
+    padding: 5px;
+    margin-right: 5px;
+    background: white;
+    border: 2px solid #00857C;
+    border-radius: 3px;
+    color: #00857C !important;
+}
+
+.cbox h3 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    color: #000;
+    font-size: 24px;
+    line-height: 36px;
+}
+.cbox h4 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    color: #000000;
+    font-size: 24px;
+    line-height: 36px;
+}
+
+.cbox h5 {
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+}
+
+.count_cls {
+    padding: 3px 8px;
+    gap: 10px;
+    width: 23px;
+    height: 24px;
+    background: #EDEDFC;
+    border-radius: 4px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    font-family: 'Invention';
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    color: #333333;
+    margin: 5px;
+    vertical-align: middle;
+    padding-top: 7px;
+}
+
+.saved {
+    font-family: 'Invention';
+font-style: normal;
+font-weight: 700;
+font-size: 12px;
+line-height: 18px;
+color: #333333;
+}
+
+.primary {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    color: #000000;
+}
+
+.primarydesg {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #333333;
+}
+
+.primarycontact {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.74px;
+    color: #00857C;
+}
+
+.primaryinfophone{
+    font-family: 'Invention';
+   /* width: 200px;*/
+    overflow-wrap: break-word;
+   /* height: 100%;*/
+   /* text-align: left;*/
+    text-align: start;
+    /*width: 140px;
+    display:flex;*/
+    margin-right:5px;
+
+    padding-top: 6px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    border: 2px solid !important;
+    border-radius: 5px !important;
+}
+
+.primaryinfoemail{
+    font-family: 'Invention';
+    /*width: 200px;*/
+    overflow-wrap: break-word;
+    height: 100%;
+    text-align: left;
+    padding:5px !important;
+   /* padding-right: 5px !important; */
+    border: 2px solid !important;
+    border-radius: 5px !important;
+}
+
+.b{
+    text-decoration: none;
+    color: black;
+}
+.b:hover {
+    color: black;
+    text-decoration: none;
+    }
+
+.hoverstyle:hover{
+    color: black;
+    text-decoration: none;
+}
+.hoverstyle{
+    color: black;
+    text-decoration: none;
+}
+
+.btext{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;color: #757575; 
+    padding:40px 0 15px;
+    line-height: 24px;
+} 
+
+.cta1{
+    font-family: 'Invention';
+    font-style: normal;padding-bottom:100px;
+    font-weight: 700;border: 2px solid #00857C !important;
+    border-radius: 5px !important;padding: 11px 16px !important;
+    font-size: 14px !important;color: #00857C !important;
+    line-height: 18px !important;
+    background:none;
+}
+
+.cta1 span{ padding-left:10px;}
+
+.cursorcls {
+    cursor: default;
+}
+
+.showmore {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    color: #555555;
+}
+
+.bpad {
+    display: flex;
+    justify-content: end;
+}
+
+.browseinfo {
+    font-family: 'Invention';
+    font-weight: 400;
+    font-size: 14px;
+    color: #333333;
+}
+.eliginfor{
+    font-family: 'Invention';
+    font-weight: 400;
+    font-size: 14px;
+    color: #333333;
+    margin-right: 8px;
+}
+
+.viewcss {
+    padding-top:8px;
+}
+
+
+
+.mycontacttext {
+    font-family: 'Invention';
+}
+
+.contact-image {
+    height: 84px;
+    width: 84px;
+}
+
+.cntone{
+    height: 84px;
+    width: 78px;
+}
+.cnttwo{
+    height: 84px;
+    width: 84px; 
+}
+
+.primaryname {
+    font-weight:700 !important; 
+    overflow-wrap:anywhere;
+}
+
+.phoneimg {
+    width:17px;
+    margin-right: 4px !important;
+}
+
+.emailimg {
+    width:15px;
+    margin-right: 4px;
+   
+}
+
+.mycontactdiv-desk {
+    display: block;
+}
+.mycontactdiv-mob{
+    display: none;
+}
+
+.actimage {
+    margin-top: 3px;
+}
+
+.bgstyle {
+    background-color: #F7F7F7;
+}
+
+.margstyle {
+    margin-bottom: 24px !important;
+}
+
+.padstyle {
+    padding-right: 24px !important;
+}
+.component-wrapper-spacer {
+    display: block;
+    margin-bottom: 0px;
+}
+
+.hyplink{
+    color: #00857C !important;
+    }
+
+/* Mobile Screen */
+@media screen and (max-width:391px) {
+    .count_cls {
+        padding: 3px 8px;
+        gap: 10px;
+        width: 23px;
+        height: 24px;
+        background: #EDEDFC;
+        border-radius: 4px;
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+        font-family: 'Invention';
+        font-style: normal;
+        font-size: 12px;
+        font-weight: 700;
+        color: #333333;
+        margin: 5px;
+        vertical-align: middle;
+        padding-top: 3px;
+    }
+}
+.cardcls{
+    margin-bottom: 24px;
+    border-radius: 8px;
+    border: 1px solid var(--tertiary-gray, #D8D8D8);
+    background: var(--system-neutral-light, #EDEDFC);
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 16px;
+}
+.eligcard .updatebtn{
+    display: flex;
+    height: 50px;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 5px;
+    background: var(--primary-green, #00857C);
+    color: #FFFFFF;
+    border-color: #00857C;
+    color: var(--neutral-white, #FFF);
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px; /* 128.571% */
+    letter-spacing: 0.862px;
+    border: none;
+}
+/* Mobile Screen */
+@media only screen and (max-width: 375px) {
+    .pbanner img{
+        height: 160px;
+        object-fit: cover;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .mob-container{
+        display: block !important;
+    }
+
+    .mob-container2{
+        width: 90% ;
+        margin: 0 auto;
+        padding-right: 0 ;
+    }
+
+    .mob-cbox{
+        display: block;
+    }
+
+    .bcatalog{
+        width: 90%;
+    }
+    .eligcard{
+        width: 90%; 
+    }
+    .eligcard button{
+        margin-top: 16px;
+        width: 279px;
+    }
+
+    .ptext{
+        width: 90%;
+        margin: 0 auto;
+    }
+    
+    .pbanner img{
+        height: 150px;
+        object-fit: cover;
+    }
+    .flex_div{
+        display: block;
+    }
+    .mob-texth4, .cbox h4{
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .bcatalog button{
+        width: fit-content !important;
+        padding: 16px;
+        margin:0 auto;
+    }
+
+    .primaryinfoemail{
+        display: flex;
+        align-items: center;
+        min-width: 210px;
+        width: auto !important;
+        justify-content: center;
+        text-align-last:center;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+
+    .headertxt_cls{
+        font-size: 24px;
+        font-weight: 700;
+        font-family: 'Invention';
+    }
+
+    .subheadertxt_cls{
+        font-weight: 400;
+    }
+
+    .act-image  {
+        margin: auto 0 ;
+        height: 28px;
+        width: 28px;
+    }
+
+    .primaryinfophone{
+        justify-content: center;
+        min-width: 210px;
+        width: auto;
+        margin-right: 0;
+        padding: 5px;
+    }
+    /*RT 24-02-2023 Bug_Mbl_020*/
+    .primaryinfophone img, .primaryinfoemail img{
+        margin-right: 8px; 
+        margin-left: 10px;
+
+    }
+    .flex_div button{
+        border-radius: 8px;
+        margin: 3px 0;
+    }
+    .primarycon{
+        height: auto !important;
+        display: flex !important;
+    }
+    .viewall_btn{
+        line-height: 13px !important;
+        padding: 7px 16px !important;
+    }
+    
+    .contact-image{
+        height: 84px;
+        width: 84px;
+    }
+    
+    .arrowcls{
+        padding: 0 !important;
+        justify-content: end !important;
+        text-align-last: end;
+    }
+    .prodname{
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+    }
+    .mycontactdiv-desk {
+        display: none;
+    }
+    .mycontactdiv-mob{
+        display: block;
+    }
+    .viewall_btn{
+        width: 100%;
+        justify-content: center;
+        border-radius: 8px !important;
+    }
+    .mycontactdiv-mob h3{
+        font-size: 18px;
+        line-height: 27px;
+        font-weight: 700;
+
+    }
+/* 
+    .arrclass{
+        margin-left: 5px !important;
+    } */
+    .card{
+        padding: 14px !important;
+    }
+    .con_div{
+        margin-left: 10px;
+        padding: 0 !important;
+    }
+    .padstyle {
+        padding-right: 0px !important;
+    }
+    .cardcls{
+        padding: 16px;
+    }
+    .eligcard .updatebtn{
+        width: 100%;
+    }
+
+}
+/* End Mobile Screen */

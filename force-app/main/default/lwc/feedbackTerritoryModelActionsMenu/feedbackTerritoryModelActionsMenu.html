@@ -1,0 +1,12 @@
+<template>
+  <lightning-button-menu
+    variant="border-filled"
+    icon-name="utility:automate"
+    menu-alignment="auto"
+    onselect={handleTerritoryModelAction}
+  >
+    <template for:each={territoryModelActions} for:item="action">
+        <lightning-menu-item key={action.name} value={action.name} label={action.label}></lightning-menu-item>
+    </template>
+  </lightning-button-menu>
+</template>

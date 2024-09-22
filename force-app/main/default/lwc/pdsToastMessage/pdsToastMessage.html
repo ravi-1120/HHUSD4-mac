@@ -1,0 +1,14 @@
+<template>
+    <template if:true={showToastMsg}>
+        <div class="slds-notify_container top-toast">
+            <div class="toastMain">
+                <div class="toastText">
+                    <b role="status" aria-live="polite">{message}</b>
+                </div>
+                <!-- <div class="slds-notify__close">
+                    <lightning-button-icon icon-name="utility:close" size="medium" style=" width:12px !important; height: 12px !important;" class="slds-button slds-button_icon slds-button_icon-inverse" alternative-text={label.Close} onclick={closeModel} ></lightning-button-icon>
+                </div> -->
+            </div>
+        </div>
+    </template>
+</template>

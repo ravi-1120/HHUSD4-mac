@@ -1,0 +1,11 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_CommunicationEvent.page
+* @description - Redirects a user to the specific event detail page for a
+* specific communication event
+* @createdate - Oct 16th, 2013
+-->
+
+<apex:page showHeader="true" sidebar="true" controller="MRK_CommunicationEventController" action="{!redirectToEventForUser}">
+	<apex:pageMessages />
+</apex:page>

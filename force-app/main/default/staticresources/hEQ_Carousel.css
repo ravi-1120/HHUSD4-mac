@@ -1,0 +1,17 @@
+.carousel .slds-button--icon-border, .slds-button--icon-border-filled, .slds-button_icon-border, .slds-button_icon-border-filled {
+
+    display: none;
+ }
+
+ .slds-button.slds-button_icon {
+    color: var(--dxp-g-neutral-3);
+    display: none;
+}
+.slds-carousel__content {
+    display: none;
+}
+
+.slds-carousel__indicator-action.slds-is-active, .slds-carousel__indicator-action.slds-is-active:hover {
+    background: #00857C;
+    border-color: #00857C;
+}

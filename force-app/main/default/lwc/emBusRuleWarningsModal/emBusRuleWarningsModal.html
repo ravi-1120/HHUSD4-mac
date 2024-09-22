@@ -1,0 +1,23 @@
+<template>
+    <lightning-modal-header if:true={page.header} label={page.header}>
+        <div class="slds-p-top_xx-small">
+            {page.subheader}
+        </div>
+    </lightning-modal-header>
+    <lightning-modal-body class="body">
+        <template if:true={loading}>
+            <c-veeva-spinner></c-veeva-spinner>
+            <div class="disabled-overlay"></div>
+        </template>
+        <div if:true={page.rows} class="slds-m-horizontal_large">
+            <c-em-bus-rule-checkbox-form if:true={page.showCheckbox} page={page}
+                onselectionchange={handleCheckboxSelectionChange}></c-em-bus-rule-checkbox-form>
+            <c-em-bus-rule-comments-form if:false={page.showCheckbox} page={page}></c-em-bus-rule-comments-form>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer if:true={page.messages}>
+        <lightning-layout horizontal-align="center">
+            <lightning-button variant="brand" label={page.messages.CONTINUE} onclick={handleContinue}></lightning-button>
+        </lightning-layout>
+    </lightning-modal-footer>
+</template>

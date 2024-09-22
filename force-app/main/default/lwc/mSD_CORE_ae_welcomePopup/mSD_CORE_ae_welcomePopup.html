@@ -1,0 +1,64 @@
+<template>
+  <!--<template if:true={openModal}>-->
+  <section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true" tabindex="0" data-id="popup-modal"
+    onkeydown={handleKeystroke} class="slds-modal slds-fade-in-open backColor" style="z-index: 1000000;">
+    <div class="slds-modal__container modelwidth">
+      <div class="slds-modal__content slds-grid slds-wrap contentHeight" id="modal-content-id-1"
+        style="border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">
+        <div class="slds-col slds-size_1-of-1 ">
+
+          <lightning-layout class="slds-grid slds-wrap slds-scrollable_none ConsentPadding">
+            <lightning-layout-item class="slds-align_absolute-center mainfont">
+              <p id="modal-heading-01">{label.AEConsentWelcome}<span style="color: #00857c;"
+                  class="slds-p-left_xx-small">
+                  {label.ConsentTitle} </span></p>
+            </lightning-layout-item>
+
+            <lightning-layout-item class="ptagcls">
+              <P>{label.AEWELCOMEBODY}</P><br>
+              <p>{label.AEConsentBodyText1}&nbsp;
+                <a href={merckPrivacyUrl} target="_blank">{merckPrivacyUrl}</a>
+              </p>
+            </lightning-layout-item>
+
+            <lightning-layout-item class="ptagcls1">
+              <p>To get started in reporting the Adverse Event, select from Options below that best describes you.</p>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" large-device-size="12" medium-device-size="12" small-device-size="12">
+              <div class="slds-grid slds-wrap btnAlingment hcp-popup">
+                <!-- Healthcare Professional Button -->
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center" style="padding-bottom: 15px;">
+                  <button class="btnsize firstbtn slds-button slds-button_brand ButtonEmp btnHover"
+                    data-value="Healthcare Professional" onclick={closepopup} onkeydown={handleKeystroke}
+                    data-id="hcp-btn1" title="Healthcare Professional"
+                    style="padding-top:3%; padding-bottom:3%; text-align:center">{label.HEALTHCARE}</button>
+                </div>
+              </div>
+              <!-- <div class="divCls"> -->
+            </lightning-layout-item>
+            <lightning-layout-item size="12" large-device-size="12" medium-device-size="12" small-device-size="12">
+              <div class="slds-grid slds-wrap btnAlingment hcp-popup">
+                <!-- Merck Employee and PSP Representative Buttons -->
+                <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                  <button class="btnsizes firstbtn slds-button slds-button_brand ButtonEmp btnHover" data-id="hcp-btn2"
+                    onkeydown={handleKeystroke} data-value="Merck Employee" onclick={closepopup} title="Merck Employee"
+                    style="padding-top:7%; padding-bottom:5%; text-align:center">{label.IamMerckEmployee}</button>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                  <button class="btnsizes firstbtn slds-button slds-button_brand ButtonEmp btnHover" data-id="hcp-btn3"
+                    onkeydown={handleKeystroke} data-value="PSP Representative" onclick={closepopup}
+                    title={label.IamMerckPSP}>{label.IamMerckPSP}</button>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </lightning-layout-item>
+
+          </lightning-layout>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+  <!--</template>  -->
+</template>

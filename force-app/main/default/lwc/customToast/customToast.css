@@ -1,0 +1,7 @@
+/* ===================== Mobile Screen ===================== */
+
+@media screen and (max-width: 767px) {
+    .slds-notify.slds-notify_toast[role='status'] {
+        min-width: 80%;
+    }
+}

@@ -1,0 +1,235 @@
+<template>
+    <c-custom-toast auto-close-time="3000"></c-custom-toast>
+    <div style="min-height: calc(100vh - 376px)" class="component-container">
+        <div class="slds-col">
+            <lightning-breadcrumbs>
+                <lightning-breadcrumb label={labels.home} name="Home" onclick={handleClick}>
+                </lightning-breadcrumb>
+                <lightning-breadcrumb label={labels.collectionTitle} name="Collection" onclick={handleClick}>
+                </lightning-breadcrumb>
+            </lightning-breadcrumbs>
+        </div>
+        <div class="header-container">
+            <h1 class="title">{labels.collectionTitle}</h1>
+            <lightning-button if:true={isAccountExeProfile} style="color:#ffffff" label={labels.newCollectionBtn} variant="brand"
+                onclick={handleButtonClick}>
+            </lightning-button>
+        </div>
+        <div if:true={isPagination}>
+            <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}
+                records-per-page-options={recordsPerPageOptions} records-per-page={recordsPerPage} total-pages={totalPages}
+                onpageoptionchange={handlePageOptionChange} onpagechange={handlePageChange}>
+            </c-m-s-d_-c-o-r-e_-h-e-q_-pagination>
+        </div>
+        <template if:true={data}>
+            <div class="grid-container">
+                <div class="grid-header">
+                    <div></div>
+                    <div class="sortable-header" onclick={handleSort} data-field="name">
+                        {labels.headerName}
+                    </div>
+                    <div if:true={isAccountExeProfile} class="sortable-header" onclick={handleSort} data-field="createdDate" >
+                        {labels.createdDate}
+                        <lightning-icon icon-name={createdDateSortIcon} class="iconCls" size="xx-small">
+                        </lightning-icon>
+                    </div>
+                    <div if:false={isAccountExeProfile} class="sortable-header" onclick={handleSort} data-field="createdDate" >
+                        {labels.shareddate}
+                        <lightning-icon icon-name={createdDateSortIcon} class="iconCls" size="xx-small">
+                        </lightning-icon>
+                    </div>
+                    <div class="sortable-header" onclick={handleSort} data-field="Items">
+                        {labels.collectionItems}
+                        <lightning-icon icon-name={itemsSortIcon} class="iconCls" size="xx-small">
+                        </lightning-icon>
+                    </div>
+                    <div if:true={isAccountExeProfile} class="sortable-header" onclick={handleSort} data-field="SharedWith">
+                        {labels.sharedWith}
+                    </div>
+                    <div if:false={isAccountExeProfile} class="sortable-header" onclick={handleSort} data-field="name">
+                        {labels.sharedby}
+                        <lightning-icon icon-name={nameSortIcon} class="iconCls" size="xx-small"></lightning-icon>
+                    </div>
+                    <div>{labels.actions}</div>
+                </div>
+                <template for:each={displayedData} for:item="row">
+                    <div key={row.id} class="grid-row">
+                        <div>
+                            <template if:true={row.ThumbnailUrl}>
+                                <img src={row.ThumbnailUrl} alt="image" class="image-preview" />
+                            </template>
+                        </div>
+                        <div class="cl-link custom-color" data-id={row.id} onclick={handleCollectionClick}>
+                            {row.name}
+                        </div>
+                        <div>
+                            {row.createdDate}
+                        </div>
+                        <div class="cl-link custom-color" style="text-decoration:underline;" data-id={row.id}
+                            onclick={handleResourceClick}>{row.resourceCount}
+                        </div>
+                        <template if:true={isAccountExeProfile}>
+                            <div class="cl-link custom-color" style="text-decoration:underline;" data-id={row.id}
+                                onclick={handleSharedCollectionClick}>
+                                {row.sharedCollectionCount}
+                            </div>
+                        </template>
+                        <template if:false={isAccountExeProfile}>
+                            <div class="">
+                                {row.sharedBy}
+                            </div>
+                        </template>
+                        <div>
+                            <template if:true={isAccountExeProfile}>
+                                <div class="icon-container">
+                                    <lightning-icon icon-name="utility:copy" size="x-small" alternative-text="Duplicate"
+                                        class="icon-border" data-id={row.id} data-name={row.name}
+                                        data-imageurl={row.ThumbnailUrl} onclick={handleDuplicate}>
+                                    </lightning-icon>
+                                    <lightning-icon icon-name="utility:edit" size="x-small" alternative-text="Edit"
+                                        class="icon-border" data-id={row.id} data-name={row.name} onclick={handleEdit}>
+                                    </lightning-icon>
+                                    <lightning-icon icon-name="utility:delete" size="x-small" alternative-text="Delete"
+                                        class="icon-border" data-id={row.id} onclick={handleDeleteClick}>
+                                    </lightning-icon>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <!-- Shared Customers Modal -->
+
+            <template if:true={showCustomerModal}>
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container containerCls">
+                        <!-- Modal/Popup Header -->
+                        <div class=" headerCls">
+                            <h2 class="slds-text-heading_medium headingCls">Shared with</h2>
+                            <div class="closeCls" onclick={closeCustomerModal}>X</div>
+                        </div>
+
+                        <!-- Modal/Popup Body -->
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <template if:true={hasSharedCustomers}>
+                                <!-- Table displaying shared customers -->
+                                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                    <thead>
+                                        <tr class="tableCls">
+                                            <th scope="col">First Name</th>
+                                            <th scope="col">Last Name</th>
+                                            <th scope="col">Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={sharedCustomers} for:item="customer">
+                                            <tr class="tableCls1" key={customer.Id}>
+                                                <td class="bodyCls">{customer.FirstName}</td>
+                                                <td class="bodyCls">{customer.LastName}</td>
+                                                <td class="bodyCls">{customer.Email}</td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
+
+                            <!-- Message when no customers are shared -->
+                            <template if:false={hasSharedCustomers}>
+                                <div class="sharedCls">No collections shared</div>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+
+
+            <!-- Shared Customers Modal -->
+
+            <template if:true={isResourceModalOpen}>
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container containerCls">
+                        <!-- Modal/Popup Header -->
+                        <div class="headerCls">
+                            <h2 class="slds-text-heading_medium headingCls">Items</h2>
+                            <div class="closeCls" onclick={closeResourceModal}>X</div>
+                        </div>
+
+                        <!-- Modal/Popup Body -->
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <template if:true={hasResources}>
+                                <!-- Table displaying resources -->
+                                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                    <thead>
+                                        <tr class="tableCls">
+                                            <th scope="col">Resource Name</th>
+                                            <th scope="col">Job Code</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={resources} for:item="resource">
+                                            <tr class="tableCls1" key={resource.ContentDocumentId}>
+                                                <td class="bodyCls1">{resource.Title}</td>
+                                                <td class="bodyCls">{resource.ResourceCode}</td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
+
+                            <!-- Message when no resources are available -->
+                            <template if:false={hasResources}>
+                                <div class="sharedCls">No Resource Added To Collections</div>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+
+
+
+
+        </template>
+
+        <div if:true={isPagination}>
+            <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}
+                records-per-page-options={recordsPerPageOptions} records-per-page={recordsPerPage} total-pages={totalPages}
+                onpageoptionchange={handlePageOptionChange} onpagechange={handlePageChange}>
+            </c-m-s-d_-c-o-r-e_-h-e-q_-pagination>
+        </div>
+
+        <template if:false={data}>
+            <div class="no-collection">{labels.noCollectionFound}</div>
+        </template>
+        <template if:true={showSpinner}>
+            <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+        </template>
+        <template if:true={showConfirmationModal}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                    title="Close" onclick={closeConfirmationModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                        <h2 class="slds-text-heading_medium">Confirm Deletion</h2>
+                    </header>
+
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <p>Are you sure you want to delete this collection?</p>
+                    </div>
+
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" style="padding-right: 5px;" onclick={closeConfirmationModal}>
+                        </lightning-button>
+                        <lightning-button variant="destructive" label="Delete" onclick={handleDeleteConfirm}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
+</template>

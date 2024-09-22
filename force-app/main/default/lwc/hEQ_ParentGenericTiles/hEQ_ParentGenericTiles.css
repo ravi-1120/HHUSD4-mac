@@ -1,0 +1,163 @@
+.slds-gutters {
+    margin:0 !important;
+}
+.slds-tile__title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.cardtitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin: -1%;
+}
+
+.slds-text-body_small {
+    font-size: 12px;
+    color: grey;
+}
+
+.slds-box.slds-tile {
+    border: 1px solid #d8dde6;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-buttons a{
+    font-size: 21px;
+    color: grey;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+.saction-buttons a{
+    color: grey;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+.action-buttons a:hover, .saction-buttons a:hover {
+    text-decoration: underline;
+}
+
+.tile-image {
+    width: 40px;
+    height: 40px;
+}
+
+.slds-tile__detail {
+    display: flex;
+    align-items: center;
+}
+@media only screen and (min-width: 48em) and (max-width: 64em) {
+
+    .slds-tile__title {
+        font-size: 7px;
+        font-weight: bold;
+    }
+    
+    .cardtitle {
+        font-size: 15px;
+        font-weight: bold;
+        margin: -1%;
+    }
+    
+    .slds-text-body_small {
+        font-size: 8px;
+        color: grey;
+    }
+    
+    .slds-box.slds-tile {
+        border: 1px solid #d8dde6;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .action-buttons a{
+        font-size: 14px;
+        color: grey;
+        text-decoration: none;
+        margin-right: 1rem;
+    }
+    .saction-buttons a{
+        color: grey;
+        text-decoration: none;
+        margin-right: 1rem;
+        font-size: 59%;
+    }
+    
+    .action-buttons a:hover, .saction-buttons a:hover {
+        text-decoration: underline;
+    }
+    
+    .tile-image {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .slds-tile__detail {
+        display: flex;
+        align-items: center;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+    .slds-tile__title {
+        font-size: 8px;
+        font-weight: bold;
+    }
+    
+    .cardtitle {
+        font-size: 13px;
+        font-weight: bold;
+        margin: -1%;
+    }
+    
+    .slds-text-body_small {
+        font-size: 7px;
+        color: grey;
+    }
+    
+    .slds-box.slds-tile {
+        border: 1px solid #d8dde6;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .action-buttons a{
+        font-size: 12px;
+        color: grey;
+        text-decoration: none;
+        margin-right: 1rem;
+    }
+    .saction-buttons a{
+        color: grey;
+        text-decoration: none;
+        margin-right: 1rem;
+        font-size: 53%;
+    }
+    
+    .action-buttons a:hover, .saction-buttons a:hover {
+        text-decoration: underline;
+    }
+    
+    .tile-image {
+        width: 23px;
+        height: 23px;
+    }
+    
+    .slds-tile__detail {
+        display: flex;
+        align-items: center;
+    }
+
+}

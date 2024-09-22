@@ -1,0 +1,17 @@
+<template>
+    <c-veeva-modal if:true={loaded} size="smaller" minimize-width=true onclose={handleReasonModalClose}>
+        <div slot="header">
+            <div class="slds-text-heading--small">
+                {title} 
+            </div>
+        </div>
+        <div data-veeva-id="modal_content" slot="content" class='slds-p-bottom_medium veeva_modal-content'>
+                <lightning-radio-group class= 'button_group' label={msgChooseReason} options={options} value={value} type="radio" onchange={handleChange}>
+                </lightning-radio-group>
+        </div>
+        <div slot="footer">
+            <lightning-button if:true={skipButton} variant="neutral" data-id="confirm-modal-cancel-button" class="slds-button" label={skipLabel} onclick={handleReasonModalSkip}></lightning-button>
+            <lightning-button variant="brand" data-id="confirm-modal-ok-button" class="slds-button" label={doneLabel} disabled={doneButton} onclick={handleReasonModalDone}></lightning-button>
+        </div>
+    </c-veeva-modal>
+</template>

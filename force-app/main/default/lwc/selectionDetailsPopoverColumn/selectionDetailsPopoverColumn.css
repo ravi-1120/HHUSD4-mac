@@ -1,0 +1,9 @@
+.link-container {
+    display: flex;
+    gap: var(--spacingXxSmall, 0.25rem);
+    align-items: center;
+}
+
+.icon {
+    min-width: fit-content;
+}

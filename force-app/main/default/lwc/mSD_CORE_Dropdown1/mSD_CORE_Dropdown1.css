@@ -1,0 +1,48 @@
+.checkbox_cls {
+    border-color: black;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    border-bottom-width: 1;
+    margin-right: 0px;
+    border-right-width: 1px;
+    border-top-width: 0.9094;
+}
+.slds-is-selected .checkbox_cls {
+    background: #000000;
+}
+.pillcls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #333333;
+    background: #D8D8D8;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 5px;
+}
+.selcls, .clrcls {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: underline;
+    color: #00857C;
+    cursor: pointer;
+    border-top: 1px solid #D8D8D8;
+}
+.selcls {
+    border-right: 1px solid #D8D8D8;
+    padding: 1rem;
+}
+.clrcls {
+    padding: 1rem;
+}

@@ -1,0 +1,966 @@
+.eligibilitybackground{
+    margin-top: 32px;
+    width: 584px;
+}
+.eligibilitycard{
+    width: 560px;
+}
+.container{
+	display: flex;
+	width: 584px;
+	/* flex-direction: column; */
+	align-items: flex-end;
+	gap: 40px;
+	margin-top: 32px;
+}
+.containerpop {
+    background: #00000040;
+    display: flex;
+}
+.container1 {
+    background-image: linear-gradient(#00877C, #00000040, #00000040, #00000040);
+    min-height: 100vh;
+    width: 100%;
+    padding-bottom: 16px;
+}
+.dotcls{
+   color: #000;
+}
+.maincontainer {
+    /* height: auto !important; */
+    padding: 0px;
+    /* margin-top: 159px; */
+    width: 744px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.bodymaincls {
+    background: #F4F4F4;
+    padding: 0px;
+    width: 744px;
+    border-radius: 10px;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+.modaldesign{
+    width: 100%;
+    height: 1038px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(15px);
+}
+.eligibility {
+    padding: 24px 40px 24px 40px;
+}
+.closebtnmain {
+	display: flex;
+	justify-content: end;
+	/*padding-bottom: 24px;*/
+}
+.elig-form{
+    width: 100%;
+}
+.closeiconcls {
+	width: 38px;
+	height: 38px;
+	padding: 10px;
+	border-radius: 5px;
+	border: 2px solid #00857C;
+	gap: 20px;
+	cursor: pointer;
+	text-decoration: none;
+}
+.cross{
+    margin-bottom: 24px;
+    height: 38px;
+}
+.closeiconcls img {
+	width: 16px;
+	height: 16px;
+	display: flex;
+}
+.bacdrop{
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(15px);
+    /* -webkit-backdrop-filter: blur(15px); */
+}
+.eligibilitybackgroundpop{
+	background-image: linear-gradient(#00877C, #00000040, #00000040, #00000040);
+	/*height: 100vh;*/
+    width: 100%;
+/* background-image: linear-gradient(#00877C, #00000040,#00000040,#00000040); */
+/* height:1106px; */
+/* width:1542px; */
+  
+/* flex: none;
+order: 1;
+flex-grow: 0; */
+}
+.eligibilitycardpop{
+display: flex;
+flex-direction: column;
+align-items: center;
+/* padding: 40px; */
+background: #F4F4F4;
+
+gap: 24px;
+/* position: absolute; */
+/* height: 566px; */
+width:100%;
+}
+.elig-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 40px;
+	gap: 32px;
+
+	/*width: 664px;
+	height: 1728px; */
+
+	/* Neutral/White
+
+	The neutral palette is used for structure and to define spaces within the UI. Text colors are fully accessible against a white background.
+	*/
+	background: #FFFFFF;
+	border-radius: 8px;
+
+	/* Inside auto layout */
+    min-height: 361px;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+.hone{
+	/* margin-left: 198.5px;
+    margin-right: 136.5px; */
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Invention';
+	font-style: normal;	
+    min-width: 584px;
+    max-height: 36px;
+    line-height: 36px;
+    /* display: flex; */
+    align-items: center;
+    text-align: center;
+    color: #000000;
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+	margin-bottom: 8px;
+}
+.pone{
+    /* margin-left: 40px;
+    margin-right: 40px; */
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    /* display: flex; */
+    align-items: center;
+    text-align: center;
+    color: #333333;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+.ptwo{
+	margin-top: 16px;
+    /* margin-left: 191px; */
+}
+.pthree{
+	margin-top: 16px;
+    /* margin-left: 208px; */
+}
+.finishbtncls{
+    padding: 16px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.861539px;
+    border: 2px solid #00857C;
+    border-radius: 5px;
+    color: #FFFFFF;
+    background: #00857C;
+    /* margin-left: 382px !important; */
+}
+.buttonmarg{
+    margin-top: 32px;
+    text-align: center;
+}
+.linkclass{
+	color: #00857C;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.iconclass{
+	/* margin-left: 429.5px;
+    margin-right: 306.5px;*/
+	margin-bottom: 24px; 
+    height: 51px;
+    width: 51px;
+}
+.iconclassone{
+    text-align: center;
+}
+.elig-terms{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 24px;
+	gap: 16px;
+	background: #F7F7F7;
+	border-radius: 8px;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+    width: 560px;
+}
+.elig-ack{
+	display: flex;
+	gap: 12px;
+}
+.elig-checkbox{
+	background: #000000;
+	width: 24px;
+	height: 24px;
+	padding-right: 12px;
+	accent-color: #000000;
+}
+.elig-head3{
+	font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+    /* Neutral/Dark Text */
+    color: #333333;
+    /* Inside auto layout */
+    order: 0;
+    flex-grow: 1;
+}
+.cancelbtn{
+	display: flex;
+	height: 50px;
+	padding: 16px;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	border-radius: 5px;
+	border: 2px solid var(--primary-green, #00857C);
+	color: var(--primary-green, #00857C);
+	text-align: center;
+	font-family: 'Invention';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 18px; /* 128.571% */
+	letter-spacing: 0.862px;
+    background: #FFFFFF;
+}
+.submitbtn{
+	display: flex;
+	height: 50px;
+	padding: 16px;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	border-radius: 5px;
+	background: var(--primary-green, #00857C);
+	color: var(--neutral-white, #FFF);
+	text-align: center;
+	font-family: Invention;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 18px; /* 128.571% */
+	letter-spacing: 0.862px;
+    border: 2px solid var(--primary-green, #00857C);
+}
+.btncls{
+	margin-top: 16px;
+	display: flex;
+	gap: 7px;
+}
+.combo-label {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    color: #333333;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin-bottom: 8px;
+    padding: 0px;
+}
+.combo {
+    border-color: rgb(118, 113, 107);
+}
+.elig-content4 {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    padding-bottom: 8px;
+}
+.cons-container{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    margin-bottom: 40px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 8px;
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+    width: 560px;
+    gap: 16px;
+}
+.elig-content5{
+	font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000;
+	padding-bottom: 18px;
+}
+.con-orgs{
+	display: flex;
+    justify-content: space-between;
+}
+/* .consultationorgcls{
+	width: 520px;
+} */
+.con-subcontainer{
+    background: #F7F7F7;
+    background: #F7F7F7;
+    border-radius: 8px;
+    /* margin-bottom: 16px; */
+    display: flex;
+    min-height: 396px;
+    padding: 16px 16px 16px 16px;
+    flex-direction: column;
+    gap: 16px;
+    align-self: inherit;
+    width: 520px;
+}
+.elig-button{
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.861539px;
+    color: #00857C;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    display: flex;
+    /* padding: 7px 16px; */
+    justify-content: center;
+    align-items: center;
+    /* gap: 16px; */
+    border-radius: 5px;
+    border: 2px solid var(--primary-green, #00857C);
+    /* height: 18px; */
+    width: 191px;
+}
+.elig-pt {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 8px;
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+    margin-bottom: 40px;
+    margin-top: 20px;
+    width: 560px;
+}
+.slds-form-element__label {
+    font-family: 'Invention';
+    font-weight: 700;
+    font-size: 14px;
+}
+.combo{
+    border-color: rgb(118, 113, 107);
+}
+.attetcls{
+    color: #000;
+    font-family: Invention;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;
+}
+.confrimattetcls{
+    color: #000;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 16px;
+}
+.conslutantlabel{
+    color: var(--neutral-dark-text, #333);
+    font-family: Invention;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px; /* 150% */
+}
+.consultantlabelone{
+    color: #000;
+    font-family: Invention;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    align-self: stretch;
+}
+.elig-head2{
+    color: #000;
+    font-family: Invention;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;
+}
+.elig-content3{
+    padding-bottom: 16px;
+    color: #000;
+    font-family: Invention;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.elig-validation{
+	font-family: 'Invention';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 18px;
+	color: #DB281A;
+	padding-top: 4px;
+}
+.indicationcls{
+    color: #000;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Invention;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    margin-bottom: 4px;
+}
+.orgnamecls{
+    margin-bottom:16px;
+    width:560px;
+}
+.orgtypecls{
+    margin-bottom: 16px;
+    width:560px;
+}
+.roleInfo{
+    width:560px;
+}
+.roleInfo1{
+    margin-bottom: 8px;
+    width:560px;
+}
+.workCls{
+    width: 560px;
+}
+.buildOpt{
+    width: 560px;
+}
+.cityCls{
+    width: 560px;
+}
+.srchOrg{
+    width:456px;
+}
+.stateCls{
+    width:584px;
+    display: flex;
+    gap: 40px;
+}
+.stateCls1{
+    width:268px;
+}
+.stateCls2{
+    width:244px;
+}
+.zipCls{
+    width: 268px;
+}
+.zipCls1{
+    width:244px;
+}
+.workPhn{
+    width:584px;
+    display: flex;
+    gap: 40px;
+}
+.workPhn1{
+   width: 268px;
+}
+.workPhn2{
+    width:244px;
+}
+.extOpt{
+    width: 268px;
+}
+.extOpt1{
+    width:244px;
+}
+.radiofx{
+    margin-right: 12px;
+}
+.radiolabl{
+    color: #333;
+    font-family: Invention;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+}
+.emailmarg{
+    margin-bottom: 16px;
+}
+.workphn3{
+    margin-bottom: 0px !important;
+}
+.job {
+	text-align: end;
+    font-size: 14px;
+    font-family: 'Invention';
+	position: fixed; 
+    bottom:0%;
+    width:100%;
+	padding-right: 24px;
+	padding-bottom: 24px;
+}
+ @media only screen and (max-width: 768px) {
+    .bodymaincls{
+        width: 100%;
+        /* max-width: 344px; */
+        margin: auto;
+    }
+    .bacdrop{
+        background: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+    }
+    .finishbtncls{
+        padding: 16px;
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.861539px;
+        border: 2px solid #00857C;
+        border-radius: 5px;
+        color: #FFFFFF;
+        background: #00857C;
+        /* margin-left: 382px !important; */
+        width: 100%;
+        height: 50px;
+    }
+    .buttonmarg{
+        margin-top: 24px;
+        text-align: center;
+    }
+    .pthree{
+        margin-top: 24px;
+        /* margin-left: 208px; */
+    }
+    .iconclass{
+        /* margin-left: 429.5px;
+        margin-right: 306.5px;*/
+        margin-bottom: 16px; 
+        height: 51px;
+        width: 51px;
+    }
+    .elig-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+        gap: 32px;
+        /*width: 664px;
+        height: 1728px; */
+        /* Neutral/White
+        The neutral palette is used for structure and to define spaces within the UI. Text colors are fully accessible against a white background.
+        */
+        background: #FFFFFF;
+        border-radius: 8px;
+        /* Inside auto layout */
+        min-height: 359px;
+        flex: none;
+        order: 1;
+        align-self: stretch;
+        flex-grow: 0;
+    }
+    .cross{
+        margin-bottom: 16px;
+        height: 38px;
+    }
+    .eligibility {
+        padding: 16px;
+    }
+    .orgtype1{
+        max-width: 326px !important;  /*kept for the combobox issue*/
+    }
+    .zeropad{
+        margin: 0px !important;
+    }
+    .eligack1{
+        padding-bottom: 8px !important;
+    }
+    .infopad{
+        padding-bottom: 0px !important;
+    }
+    .elig-ack{
+        display: flex;
+        gap: 12px;
+        margin-top: 8px !important;
+    }
+    .workphn3{
+        margin-bottom: 16px !important;
+    }
+    .emailmarg{
+        margin-bottom: 0px !important;
+    }
+    .indicationcls{
+        color: #000;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 21px;
+        margin-bottom: 12px;
+    }
+    .radiolabl{
+        color: #333;
+        font-family: Invention;    
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 21px;
+        padding-top: 2px;
+    }
+    .radiofx{
+        margin-right: 12px !important;
+        height: 24px;
+        width: 24px;
+    }
+    .radiomarg{
+        margin-bottom: 12px !important;
+    }
+    .radiomarg1{
+        margin: 8px 0px !important;
+    }
+    .arowCls{
+        margin-top: 9px;
+    }
+    .elig-plus{
+        margin-left: 16px;
+    }
+    .orgParnt{
+        /* width: 260px !important; */
+        position: absolute;
+    }
+    .con-org-field{
+        width: 100%;
+    }
+    .submitbtn{
+        margin-top: 7px;
+        display: flex;
+        height: 50px;
+        padding: 16px;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        border-radius: 5px;
+        background: var(--primary-green, #00857C);
+        color: var(--neutral-white, #FFF);
+        text-align: center;
+        font-family: Invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px; /* 128.571% */
+        letter-spacing: 0.862px;
+        border: 2px solid var(--primary-green, #00857C);
+        width: 100%;
+    }
+    .cancelbtn{
+        display: flex;
+        height: 50px;
+        padding: 16px;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        border-radius: 5px;
+        border: 2px solid var(--primary-green, #00857C);
+        color: var(--primary-green, #00857C);
+        text-align: center;
+        font-family: 'Invention';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px; /* 128.571% */
+        letter-spacing: 0.862px;
+        background: #FFFFFF;
+        width: 100%;
+    }
+    .btncls{
+        margin-top: 16px;
+        display: block;
+        gap: 7px;
+    }
+    .elig-pt {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+        background: #FFFFFF;
+        border: 1px solid #D8D8D8;
+        border-radius: 8px;
+        flex: none;
+        order: 2;
+        align-self: stretch;
+        flex-grow: 0;
+        margin-bottom: 40px;
+        margin-top: 20px;
+        width: 100%;
+    }
+    .con-subcontainer{
+        background: #F7F7F7;
+        background: #F7F7F7;
+        border-radius: 8px;
+        /* margin-bottom: 16px; */
+        display: flex;
+        min-height: 435px;
+        padding: 16px 16px 24px 16px;
+        flex-direction: column;
+        gap: 16px;
+        align-self: inherit;
+        width: 100%;
+    }
+    .elig-button{
+        font-family: 'Invention';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        text-align: center;
+        letter-spacing: 0.861539px;
+        color: #00857C;
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+        display: flex;
+        /* padding: 7px 16px; */
+        justify-content: center;
+        align-items: center;
+        /* gap: 16px; */
+        border-radius: 5px;
+        border: 2px solid var(--primary-green, #00857C);
+        /* height: 18px; */
+        width: 100%;
+    }
+    .elig-terms{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+        gap: 16px;
+        background: #F7F7F7;
+        border-radius: 8px;
+        flex: none;
+        order: 1;
+        align-self: stretch;
+        flex-grow: 0;
+        width: 100%;
+    }
+    .cons-container{
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+        margin-bottom: 40px;
+        background: #FFFFFF;
+        border: 1px solid #D8D8D8;
+        border-radius: 8px;
+        flex: none;
+        order: 2;
+        align-self: stretch;
+        flex-grow: 0;
+        width: 100%;
+        gap: 16px;
+    }
+    .container{
+        display: flex;
+        width: 100%;
+        /* flex-direction: column; */
+        align-items: flex-end;
+        gap: 40px;
+        margin-top: 32px;
+    }
+    .extOpt1{
+        width: 100%;
+    }
+    .extOpt{
+        width: 100%;
+    }
+    .workPhn2{
+        width: 100%;
+    }   
+    .workPhn1{
+        width: 100%;
+    }
+    .workPhn{
+        width: 100%;
+        display: block;
+        gap: 40px;
+    }
+    .zipCls1{
+        width: 100%;
+    }
+    .zipCls{
+        width: 100%;
+    }
+    .stateCls2{
+        width: 100%;
+    }
+    .stateCls1{
+        width: 100%;
+    }
+    .stateCls{
+        width: 100%;
+        display: block;
+        gap: 40px;
+    }
+    .srchOrg{
+        width: 100%;
+    }
+    .cityCls{
+        width: 100%;
+    }
+    .buildOpt{
+        width: 100%;
+    }
+    .workCls{
+        width: 100%;
+    }
+    .roleInfo1{
+        margin-bottom: 8px;
+        width:100%;
+    }
+    .roleInfo{
+        width:100%;
+    }
+    .orgtypecls{
+        margin-bottom: 16px;
+        width:100%;
+    }
+    .orgnamecls{
+        margin-bottom:16px;
+        width:100%;
+    }
+    .eligibilitybackground{
+        margin-top: 16px;
+        width: 100%;
+    }
+    .eligibilitycard{
+        width: 100%;
+    }
+    .reg_body {
+        padding: 16px;
+
+    }
+
+    .maincontainer {
+        /* margin-top: 126px;
+        margin-left: 15px;
+        margin-right: 16px;
+        margin-bottom: 0px; */
+        margin: auto;
+        padding: 16px;
+        width: 100%;
+
+    }
+    .hone{
+		color: #000;
+		font-feature-settings: 'clig' off, 'liga' off;
+		font-family: Invention;
+		font-size: 18px;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 27px;
+		/* padding-top: 16px;
+		padding-bottom: 16px; */
+        margin: 0px;
+        min-width: 100%;
+        min-height: 50px;
+	}
+    .pone{
+		color: var(--neutral-dark-text, #333);
+		font-feature-settings: 'clig' off, 'liga' off;
+		font-family: Invention;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 24px;
+        text-align: left;
+	}
+
+	.ptwo{
+		margin-top: 16px;
+	}
+    .linkclass{
+		color: var(--primary-green, #00857C);
+		font-feature-settings: 'clig' off, 'liga' off;
+		font-family: Invention;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 24px;
+		text-decoration-line: underline;
+	}
+        .job{
+		position: inherit !important;
+	}
+}

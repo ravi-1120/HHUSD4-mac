@@ -1,0 +1,314 @@
+<template>
+    <div class="containerCls">
+        <div class="layout slds-grid slds-gutters">
+
+            <div class="therapeutic-area slds-col">
+                <lightning-layout-item size="12" class="therapeuticCls">
+                    <div class="combobox-label">Therapeutic area</div>
+                    <lightning-combobox name="therapeuticArea" value={selectedTherapeuticArea}
+                        placeholder="Select a Therapeutic Area" options={therapeuticAreaOptions}
+                        onchange={handleTherapeuticAreaChange} class="lightning-combobox-custom">
+                    </lightning-combobox>
+                </lightning-layout-item>
+
+                <div class="section-title">
+                    <div class="viewallbtn">
+                        <p class="BoldText">{selectedTherapeuticArea}</p>
+                        <a href="#" class="viewCls" data-title="Therapeutic Area" data-type="Browse All"
+                            data-category={selectedTherapeuticArea} onclick={handleViewAll}
+                            style="text-decoration:underline;">{label.ViewAll}</a>
+                    </div>
+                </div>
+
+
+
+                <div class="card-container" data-id="cardContainer" style="overflow-x: auto; white-space: nowrap;">
+
+                    <template for:each={therapeuticCards} class="therapeuticCardCls" for:item="therapeuticCard">
+                        <div key={therapeuticCard.id} class="card">
+                            <div class="card-content">
+                                <div class="card-image">
+                                    <div class="content-type ">{therapeuticCard.contentType}</div>
+                                    <template if:true={therapeuticCard.isNewItem}>
+                                        <div class="newItemLayout">
+                                            <div class="newItemText">NEW ITEM</div>
+                                        </div>
+                                    </template>
+                                    <img class="cardImage" src={therapeuticCard.imageUrl} alt="Card Image"/>
+                                </div>
+
+                                <div class="card-body tooltip-container">
+                                    <p class="bold-text truncate" onclick={handleViewDetails}
+                                        data-id={therapeuticCard.id}>
+                                        {therapeuticCard.title}</p>
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top-left slds-rise-from-ground tooltip"
+                                        role="tooltip" id="help"
+                                        style="padding:8px; min-width: 350px; min-height:36px ;margin-top: 35px;background: white;">
+                                        <div class="slds-popover__body topicCardCls">{therapeuticCard.title}</div>
+                                    </div>
+                                    <p class="normalText truncate-text">{therapeuticCard.textLine1}</p>
+                                    <p class="normalText truncate-text">{therapeuticCard.textLine2}</p>
+                                    <p class="normalText">{therapeuticCard.referenceCode}</p>
+                                    <p class="expirycls">Expires: {therapeuticCard.expiryDays}</p>
+                                </div>
+
+                                <div class="card-menu">
+                                    <div class="dropdown">
+                                        <lightning-button-icon icon-name="utility:threedots" class="threeDotsClass "
+                                            variant="bare-inverse" alternative-text="Show menu" onclick={handleShowMenu}
+                                            data-id={therapeuticCard.id}>
+                                        </lightning-button-icon>
+                                        <div if:true={therapeuticCard.showMenu} class="menu-content">
+                                            <template for:each={menuOptions} for:item="option">
+                                                <div key={option.action}>
+                                                    <template if:true={option.downloadActive}>
+                                                        <a href={therapeuticCard.downloadLink} target="_self"
+                                                            download="Download" style="text-decoration:none;">
+                                                            <div class="menu-item" data-action={option.action}
+                                                                data-id={therapeuticCard.id}
+                                                                data-contentdocumentid={therapeuticCard.contentDocumentId}
+                                                                data-category={therapeuticCard.category}
+                                                                style="color:#333;">
+                                                                {option.label}
+                                                            </div>
+                                                        </a>
+                                                    </template>
+                                                    <template if:false={option.downloadActive}>
+                                                        <div class="menu-item" data-action={option.action}
+                                                            data-id={therapeuticCard.id} onclick={handleMenuClick}>
+                                                            {option.label}
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
+                <div class="navigation">
+                    <lightning-icon icon-name="utility:back" variant="base" alternative-text="Previous" class="ArrowCls"
+                        onclick={handleBackward} disabled></lightning-icon>
+                    <lightning-icon icon-name="utility:forward" variant="base" alternative-text="Next" class="ArrowCls"
+                        onclick={handleForward} disabled></lightning-icon>
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
+            <div class="topics-Class slds-col">
+                <lightning-layout-item size="12" class="topicCls">
+                    <div class="combobox-label">Topics</div>
+                    <lightning-combobox name="topics" value={selectedTopic} placeholder="Select a Topic"
+                        options={topicOptions} onchange={handleTopicChange} class="lightning-combobox-custom">
+                    </lightning-combobox>
+                </lightning-layout-item>
+
+                <div class="section-title">
+                    <div class="viewallbtn">
+                        <p class="BoldText">{selectedTopic}</p>
+                        <a href="#" class="viewCls" data-title="Topics" data-type="Browse All"
+                            data-category={selectedTopic} onclick={handleViewAll}
+                            style="text-decoration:underline;">{label.ViewAll}</a>
+                    </div>
+                </div>
+
+                <div class="card-container" data-id="cardContainers" style="overflow-x: auto; white-space: nowrap;">
+                    <template for:each={topicCards} for:item="topicCard">
+                        <div key={topicCard.id} class="card">
+                            <div class="card-contents">
+                                <div class="card-image">
+                                    <div class="content-type ">{topicCard.contentType}</div>
+                                    <template if:true={topicCard.isNewItem}>
+                                        <div class="newItemLayout">
+                                            <div class="newItemText">NEW ITEM</div>
+                                        </div>
+                                    </template>
+                                    <img class="cardImage" src={topicCard.imageUrl} alt="Card Image"/>
+                                </div>
+                                <div class="card-body tooltip-container">
+                                    <p class="bold-text truncate" onclick={handleViewDetails} data-id={topicCard.id}>
+                                        {topicCard.title} </p>
+                                    <!-- <span class="tooltip-text truncate">{topicCard.title}</span> -->
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top-left slds-rise-from-ground tooltip"
+                                        role="tooltip"
+                                        style="padding:8px; min-width: 350px; min-height:45px ;margin-top: 35px;background: white;">
+                                        <div class="slds-popover__body topicCardCls">{topicCard.title}</div>
+                                    </div>
+                                    <p class="normalText truncate-text">{topicCard.textLine1}</p>
+                                    <p class="normalText truncate-text">{topicCard.textLine2}</p>
+                                    <p class="normalText">{topicCard.referenceCode}</p>
+                                    <p class="expirycls">Expires: {topicCard.expiryDays}</p>
+                                </div>
+                                <div class="card-menu">
+                                    <div class="dropdown">
+                                        <lightning-button-icon icon-name="utility:threedots" class="threeDotsClass "
+                                            variant="bare-inverse" alternative-text="Show menu" onclick={handleShowMenu}
+                                            data-id={topicCard.id}>
+                                        </lightning-button-icon>
+                                        <div if:true={topicCard.showMenu} class="menu-content">
+                                            <template for:each={menuOptions} for:item="option">
+                                                <div key={option.action}>
+                                                    <template if:true={option.downloadActive}>
+                                                        <a href={topicCard.downloadLink} target="_self"
+                                                            download="Download" style="text-decoration:none;">
+                                                            <div class="menu-item" data-action={option.action}
+                                                                data-id={topicCard.id}
+                                                                data-contentdocumentid={topicCard.contentDocumentId}
+                                                                data-category={topicCard.category} style="color:#333;">
+                                                                {option.label}
+                                                            </div>
+                                                        </a>
+                                                    </template>
+                                                    <template if:false={option.downloadActive}>
+                                                        <div class="menu-item" data-action={option.action}
+                                                            data-id={topicCard.id} onclick={handleMenuClick}>
+                                                            {option.label}
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <div class="navigation">
+                    <lightning-icon icon-name="utility:back" variant="base" alternative-text="Previous" class="ArrowCls"
+                        onclick={handleBackwardClick}></lightning-icon>
+                    <lightning-icon icon-name="utility:forward" variant="base" alternative-text="Next" class="ArrowCls"
+                        onclick={handleForwardClick}></lightning-icon>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+    <div class="container-Class">
+        <div class="layout1 ">
+            <!-- Tumor Type Combobox -->
+            <div class="therapeutic-areas">
+                <lightning-layout-item size="12" class="therapeuticCls">
+                    <div class="combobox-label">Tumor type</div>
+                    <lightning-combobox name="therapeuticArea" value={selectedTherapeuticArea1}
+                        placeholder="Select a Tumar Type" options={therapeuticAreaOptions}
+                        onchange={handleTherapeuticAreaChange} class="lightning-combobox-custom">
+                    </lightning-combobox>
+                </lightning-layout-item>
+
+                <div class="section-title">
+                    <div class="viewallbtn">
+                        <p class="BoldText">Pan-Tumor</p>
+                        <a href="#" class="viewCls" data-title="Therapeutic Area" data-type="Browse All"
+                            data-category={selectedTherapeuticArea}
+                            style="text-decoration:underline;">{label.ViewAll}</a>
+                    </div>
+                </div>
+
+
+
+                <div class="Tumor-container" data-id="tumarcardContainer"
+                    style="overflow-x: auto; white-space: nowrap;">
+
+                    <template for:each={therapeuticCards} class="therapeuticCardCls" for:item="therapeuticCard">
+                        <div key={therapeuticCard.id} class="tumar-card">
+                            <div class="tumar-card-content">
+                                <div class="card-image">
+                                    <div class="content-type ">{therapeuticCard.contentType}</div>
+                                    <template if:true={therapeuticCard.isNewItem}>
+                                        <div class="newItemLayout">
+                                            <div class="newItemText">NEW ITEM</div>
+                                        </div>
+                                    </template>
+                                    <img class="cardImage" src={therapeuticCard.imageUrl} alt="Card Image"/>
+                                </div>
+
+                                <div class="card-body tooltip-container">
+                                    <p class="bold-text truncate" onclick={handleViewDetails}
+                                        data-id={therapeuticCard.id}>
+                                        {therapeuticCard.title}</p>
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top-left slds-rise-from-ground tooltip"
+                                        role="tooltip" id="help1"
+                                        style="padding:8px; min-width: 350px; min-height:36px ;margin-top: 35px;background: white;">
+                                        <div class="slds-popover__body topicCardCls">{therapeuticCard.title}</div>
+                                    </div>
+                                    <p class="normalText truncate-text">{therapeuticCard.textLine1}</p>
+                                    <p class="normalText truncate-text">{therapeuticCard.textLine2}</p>
+                                    <p class="normalText">{therapeuticCard.referenceCode}</p>
+                                    <p class="expirycls">Expires: {therapeuticCard.expiryDays}</p>
+                                </div>
+
+                                <div class="card-menu">
+                                    <div class="dropdown">
+                                        <lightning-button-icon icon-name="utility:threedots" class="threeDotsClass "
+                                            variant="bare-inverse" alternative-text="Show menu" onclick={handleShowMenu}
+                                            data-id={therapeuticCard.id}>
+                                        </lightning-button-icon>
+                                        <div if:true={therapeuticCard.showMenu} class="menu-content">
+                                            <template for:each={menuOptions} for:item="option">
+                                                <div key={option.action}>
+                                                    <template if:true={option.downloadActive}>
+                                                        <a href={therapeuticCard.downloadLink} target="_self"
+                                                            download="Download" style="text-decoration:none;">
+                                                            <div class="menu-item" data-action={option.action}
+                                                                data-id={therapeuticCard.id}
+                                                                data-contentdocumentid={therapeuticCard.contentDocumentId}
+                                                                data-category={therapeuticCard.category}
+                                                                style="color:#333;">
+                                                                {option.label}
+                                                            </div>
+                                                        </a>
+                                                    </template>
+                                                    <template if:false={option.downloadActive}>
+                                                        <div class="menu-item" data-action={option.action}
+                                                            data-id={therapeuticCard.id} onclick={handleMenuClick}>
+                                                            {option.label}
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="navigations">
+        <lightning-icon icon-name="utility:back" variant="base" alternative-text="Previous" class="ArrowCls"
+            onclick={handletumorBackwardClick}></lightning-icon>
+        <lightning-icon icon-name="utility:forward" variant="base" alternative-text="Next" class="ArrowCls"
+            onclick={handletumorForwardClick}></lightning-icon>
+    </div>
+
+</template>

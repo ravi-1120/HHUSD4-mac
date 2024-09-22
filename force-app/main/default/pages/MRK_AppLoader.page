@@ -1,0 +1,30 @@
+<apex:page controller="MRK_AppLoaderController"
+	showHeader="false"
+	sidebar="false"
+	applyBodyTag="false"
+	docType="html-5.0"
+	standardStylesheets="false">
+
+	<apex:repeat value="{!stylesheets}" var="path">
+		<apex:stylesheet value="{!path}"/>
+	</apex:repeat>
+
+	<body>
+
+		<!--
+		<pre>
+			<apex:outputText value="{!debugOutput}" escape="false" />
+		</pre>
+	-->
+
+		<script>
+		window.__sessionId__ = '{!$Api.Session_ID}';
+		</script>
+
+		<!-- javascripts -->
+		<apex:repeat value="{!scripts}" var="path">
+			<script src="{!path}"></script>
+		</apex:repeat>
+	</body>
+
+</apex:page>

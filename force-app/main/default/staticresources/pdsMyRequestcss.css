@@ -1,0 +1,23 @@
+.pending-icon .slds-icon-text-default {
+    --slds-c-icon-color-foreground: rgba(84, 80, 228, 1);
+}
+.reviewed-icon .slds-icon-text-default {
+    --slds-c-icon-color-foreground: rgba(255, 131, 43, 1);
+}
+.prod-ordered-icon .slds-icon-text-default {
+    --slds-c-icon-color-foreground: rgba(0, 133, 124, 1);
+}
+.closed-icon .slds-icon-text-default {
+    --slds-c-icon-color-foreground: rgba(0, 0, 0, 0.88);
+}
+.slds-input__icon .slds-button{
+    padding: 16px;
+    border: solid 1px rgba(0, 0, 0, 0.3);
+    border-radius: 0px;
+}
+.frozen-icon .slds-icon-text-default {
+    --slds-c-icon-color-foreground: rgba(0, 133, 124, 1);
+}
+.upload-icon .slds-icon-text-default {
+    --slds-c-icon-color-foreground: rgba(0, 133, 124, 1);
+}

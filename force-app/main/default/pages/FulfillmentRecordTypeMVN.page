@@ -1,0 +1,4 @@
+<!-- Currently not used for the Merck implementation -->
+<apex:page standardController="Fulfillment_MVN__c" extensions="FulfillmentRecordTypeControllerMVN" showHeader="false" sidebar="false" lightningStylesheets="true">
+    <b><center><font size="4" color="#5000B6">{!recordTypeName}</font></center></b>
+</apex:page>

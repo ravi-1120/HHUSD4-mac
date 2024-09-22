@@ -1,0 +1,5 @@
+.undo {
+    position: relative;
+    background-color: var(--lwc-colorBackgroundHighlight);
+    height: 100%;
+}

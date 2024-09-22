@@ -1,0 +1,78 @@
+lightning-card {
+    --sds-c-card-color-background: #FFFFFF;
+    --sds-c-card-color-border: #FFFFFF;
+    --slds-c-card-footer-color-border: #FFFFFF;
+    --slds-c-card-text-color: #FFFFFF;
+    --slds-c-card-shadow: var(--sds-c-card-shadow, 0 0px 0px 0 rgba(0, 0, 0, .1));
+    --slds-c-card-sizing-border:0px
+    vertical-align: middle;
+}
+.c-container{
+    /* width: 1070px; */
+    /* padding-left: 375px; */
+}
+.paginationjs-page.J-paginationjs-page{
+    height: 37px;
+    font-family: 'Invention' !important;
+}
+
+.paginationjs-next.J-paginationjs-next{
+height: 37px;
+font-family: 'Invention' !important;
+}
+
+.paginationjs-ellipsis.disabled{
+height: 37px;
+font-family: 'Invention' !important;
+}
+
+.paginationjs-prev.J-paginationjs-previous{
+height: 37px;
+font-family: 'Invention' !important;
+}
+
+.pagination-nav {
+    font-size: 14px;
+    line-height: 18px;
+    font-family: 'Invention' !important;
+}
+
+
+
+/* ===================== Mobile Screen ===================== */
+
+    .navArrow {
+        display: none;
+    }
+    .prevText {
+        line-height: 35px;
+        font-family: 'Invention' !important;
+    }
+    .nextText {
+        line-height: 35px;
+        font-family: 'Invention' !important;
+    }
+    .pagination-nav {
+        line-height: 35px !important;
+        font-family: 'Invention' !important;
+    }
+/* Start Mobile Screen */
+
+/* Mobile Screen */
+@media screen and (max-width: 767px) {
+    
+    .prevText {
+        display: none;
+        font-family: 'Invention' !important;
+    }
+
+    .nextText {
+        display: none;
+        font-family: 'Invention' !important;
+    }
+    .navArrow {
+        display: block !important;
+        line-height: 35px;
+        font-family: 'Invention' !important;
+    }
+}

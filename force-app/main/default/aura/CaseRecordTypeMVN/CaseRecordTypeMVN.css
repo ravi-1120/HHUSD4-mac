@@ -1,0 +1,53 @@
+.THIS .slds-backdrop, .THIS .slds-modal {
+    position: fixed;
+}
+.THIS .ddtype .slds-listbox__option_plain:first-child {
+    display: none;
+}
+.THIS .slds-dropdown-trigger_click.slds-is-open .slds-dropdown, .THIS .slds-dropdown-trigger--click.slds-is-open .slds-dropdown {
+    position: fixed !important;
+    width: 200px !important;
+}
+.THIS .changeMe {
+    width:1270px;
+    height:450px;
+    display: block !important;
+}
+.THIS .imgicon{
+    height: 20px;
+    float:left;
+}
+.THIS .slds-form-element__label {
+    display: none !important;
+}
+.THIS .toggle {
+	display: none;
+}
+.THIS .icondiv {
+    float: right;
+    margin-top: -30px;
+    cursor: pointer;
+}
+.THIS .warningTxt {
+    color: #cc0404;
+    margin-top: 10px;
+    font-weight: bold;
+    border: 1px solid #cc0404;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+.THIS.message{
+            position: relative;
+            padding:1px;
+            background: #BBB;
+            color: #FFF;
+            border:none;
+        }
+
+.THIS.message.yes{
+            color: #c61a1a;
+            float: left;
+            margin: 0px 0 0;
+            padding: 0;
+            background: #fff;
+        }

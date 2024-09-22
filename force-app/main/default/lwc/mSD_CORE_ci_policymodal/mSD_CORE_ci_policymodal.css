@@ -1,0 +1,176 @@
+.no-scroll {
+    overflow: hidden;
+}
+
+.ptagcls {
+    font-family: 'InventionRg';
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.red-text {
+    color: red;
+    font-size: 15px;
+}
+
+.backColor {  
+    background-color: rgba(111, 111, 111, 0.5);
+    border-radius: 8px; /* Rounded corners */
+}
+
+.slds-modal__container {
+    border-radius: 8px;
+    padding: 20px; /* Padding inside the modal */
+}
+
+.slds-button {   
+    background-color: #00857C;
+    color: #ffffff;
+    border: none;
+    padding: 4px 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btnHover:not([disabled]) {
+    transition: all 0.4s ease-in-out;
+    box-shadow: inset 0 0 0 0 #005C55;
+    border-radius: 4px;
+}
+
+.btnHover:hover:not([disabled]) {
+    box-shadow: inset 400px 0 0 0 #005C55;
+}
+
+.formatted-text {
+    font-family: 'InventionRg';
+    padding-left: 1em;
+    white-space: pre-line;
+}
+
+.slds-backdrop {
+    background-color: rgba(0, 0, 0, 0.6); /* Darkened backdrop */
+}
+
+    
+.slds-align_absolute-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: -1rem;
+}
+
+.slds-p-left_x-large, .slds-p-right_x-large {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+/* Style the list with bullet icons */
+.statement-list {
+    font-family: 'InventionRg';
+    list-style: none; /* Remove default list style */
+    padding-left: 0; /* Remove padding */
+}
+
+.statement-list li {
+    font-family: 'InventionRg';
+    position: relative; /* Position for the icon */
+    padding-left: 25px; /* Space for the icon */
+}
+
+.statement-list li::before {
+    content: '\2022'; /* Unicode for bullet */
+    position: absolute;
+    left: 0;
+    font-size: 1.5em; /* Bullet size */
+    color: #878787; /* Bullet color */
+    line-height: 1em; /* Align bullet vertically */
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 0.5rem;
+}
+
+/* Tablet view adjustments */
+@media only screen and (min-width: 48em) and (max-width: 64em) {
+    .statement-list {
+        padding-left: 20px;
+        font-size: 12px;
+    }
+    .formatted-text {
+        font-size: 12px;
+    }
+    .slds-button {
+        padding: 4px 16px;
+        font-size: 12px;
+    }
+    .error-message {
+        font-size: 12px;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Mobile view adjustments */
+@media only screen and (max-width: 47.99em) {
+    .slds-modal__container {
+        padding: 15px;
+        width: 240px;
+        height: 332px;
+        position: fixed;
+        top: 31%;
+        left: 46%;
+        margin-left: -100px;
+        margin-top: -100px;
+    }
+    .statement-list {
+        padding-left: 15px;
+        font-size: 10px;
+    }
+    .formatted-text {
+        font-size: 10px;
+    }
+    .slds-button {
+        padding: 3px 12px;
+        font-size: 10px;
+    }
+    .error-message {
+        font-size: 10px;
+        margin-top: 0.5rem;
+    }
+    .slds-p-left_x-large, .slds-p-right_x-large {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .slds-align_absolute-center {
+        margin-top: 0;
+    }
+    ptagcls {
+        font-family: 'InventionRg';
+        font-size: 16px;
+        color: #333333;
+        line-height: 1.5;
+        margin-bottom: 0.2rem;
+    }
+    .scrollable {
+        max-height: 163px;
+        overflow-y: auto;
+        height: 32%;
+      }
+      .scrollable::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      /* Track */
+      .scrollable::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+        /* Handle */
+        .scrollable::-webkit-scrollbar-thumb {
+          background: #ccc;
+        }
+}

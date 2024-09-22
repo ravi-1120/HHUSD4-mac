@@ -1,0 +1,437 @@
+<template>
+	<div class="dr-form_container" style="min-height: calc(100vh - 182px)">
+		<div class="dr-form_section">
+			<a onclick={navigateToDashboard} class="dr-form_back">
+				<lightning-icon icon-name="utility:back" size="x-small" alternative-text="Back" title="Back" class="back-icon">
+				</lightning-icon>
+				<span>{labels.back}</span>
+			</a>
+			<h2 class="dr-form_heading">{labels.mmop} {donationType}</h2>
+			<template if:false={requestPage}>
+				<h2 class="dr-form_heading-two">{labels.generateForm}</h2>
+				<div class="dr-form">
+					<div class="slds-form-element__control">
+						<div class={getContainerClass}>
+							<div class={getDropdownClass} aria-haspopup="listbox" role="combobox">
+								<!-- Search input start -->
+								<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-input-has-icon slds-input-has-icon_right"
+									aria-haspopup="listbox" role="combobox">
+									<lightning-input onchange={handleChange} onfocus={handleFocus} onblur={hideDropdown}
+										class="slds-combobox__input prod-wp" placeholder={labels.searchProducts}
+										style="font-family: 'InventionRg';max-height:56px;padding:0px;border:none">
+									</lightning-input>
+									<!-- Search icon -->
+									<lightning-icon icon-name="utility:search" size="x-small"
+										alternative-text="Search icon" class="slds-input__icon slds-input__icon_right"
+										style="margin-top:6px"></lightning-icon>
+								</div>
+								<!-- Result list box start -->
+								<div role="listbox">
+									<ul class={getListboxClass} role="presentation"
+										style="margin-top:-11px;border-radius:0px;">
+										<template for:each={productOptions} for:item="product">
+											<li key={product.Id} role="presentation" class="slds-listbox__item dropdown"
+												onclick={selectedProduct} data-id={product.productId}
+												data-name={product.productName} data-sap={product.productSap}
+												data-price={product.productPrice} data-iscold={product.isColdChain}
+												data-ndc={product.ndcNumber} data-acs={product.actualProductPrice}>
+												<span class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta text-cls" role="option">
+													<span class="slds-media__body">
+														<span class="slds-listbox__option-text slds-listbox__option-text_entity title-cls">{product.productName}</span>
+												</span>
+												</span>
+											</li>
+										</template>
+									</ul>
+								</div>
+								<!-- Result list box end -->
+							</div>
+						</div>
+					</div>
+					<div if:true={noResultsFound}>
+						<img style="width:100%;" src={pdsMagnify}/>
+					</div>
+						<div if:true={productsPage} class="prod-wp">
+							<template for:each={mmopRequest.productsList} for:item="product">
+								<div key={product.productId} role="presentation"
+									class="slds-listbox__item dropdown product-container" data-id={product.productId}>
+									<div>
+										<div style="display:flex;flex-direction:row;justify-content: space-between">
+											<h3>{product.prodName}</h3>
+											<lightning-icon onclick={handleDeleteProduct} size="xx-small"
+												icon-name="utility:close" style="cursor:pointer" class="upload-icon"
+												data-id={product.productId}></lightning-icon>
+										</div>
+										<div class="prod-sap_header">
+											<span style="margin-right:16px">{labels.sap}: {product.sapCode}</span>
+											{labels.ndc}:
+											{product.ndcNumber}</div>
+									</div>
+									<div>
+										<template for:each={product.productLineItems} for:item="productLineitem">
+											<lightning-layout multiple-rows class="lineItem_layout"
+												key={productLineitem.lineItemId}>
+												<lightning-layout-item size="12" small-device-size="12"
+													medium-device-size="3" large-device-size="3">
+													<lightning-layout multiple-rows>
+														<lightning-layout-item size="12" small-device-size="7"
+															medium-device-size="7" large-device-size="7"
+															class="quantity_name">
+															<lightning-input type="number" variant="label-hidden"
+																name="tabletsReq" data-id={product.productId}
+																data-price={product.productPrice} maxlength="12"
+																placeholder={labels.enterQuantity} required
+																value={productLineitem.tabletsReq} min="0"
+																message-when-range-underflow={labels.qtyValidErrorMsg}
+																message-when-bad-input={labels.qtyValidErrorMsg}
+																data-lineitem={productLineitem.lineItemId}
+																message-when-value-missing={labels.pleaseSpecify}
+																onchange={handleUserData} onblur={handleQuantityBlur} class="quantityCls">
+															</lightning-input>
+														</lightning-layout-item>
+														<lightning-layout-item size="12" small-device-size="5"
+															medium-device-size="5" large-device-size="5"
+															class="quantity_price">
+															<span class="quantity-price">
+														${product.productPrice}
+													</span>
+														</lightning-layout-item>
+													</lightning-layout>
+												</lightning-layout-item>
+												<lightning-layout-item size="12" small-device-size="12"
+													medium-device-size="3" large-device-size="3" class="countryList">
+													<lightning-combobox variant="label-hidden" name="country"
+														value={productLineitem.country} data-id={product.productId}
+														placeholder={labels.selectCountry} options={countryOptions}
+														onchange={handleUserData} required
+														message-when-value-missing={labels.pleaseSpecify}
+														data-lineitem={productLineitem.lineItemId}>
+													</lightning-combobox>
+												</lightning-layout-item>
+												<lightning-layout-item size="12" small-device-size="12"
+													medium-device-size="3" large-device-size="3">
+													<lightning-input type="text" variant="label-hidden"
+														value={productLineitem.localPartner} data-id={product.productId}
+														message-when-value-missing={labels.pleaseSpecify} maxlength="100"
+														name="localPartner" data-lineitem={productLineitem.lineItemId}
+														placeholder={labels.localPartner} required
+														onchange={handleUserData}>
+													</lightning-input>
+												</lightning-layout-item>
+												<lightning-layout-item if:false={isExcessProduct} size="12"
+													small-device-size="12" medium-device-size="2" large-device-size="2">
+													<div class="lineItem_price">
+														${productLineitem.totalPrice}
+														<div role="button" onclick={handleDeleteLineItem}
+															data-id={productLineitem.lineItemId}
+															style="cursor:pointer;line-height:1"
+															data-prodid={product.productId}><svg width="14" height="15"
+																viewBox="0 0 14 15" fill="none"
+																xmlns="http://www.w3.org/2000/svg">
+																<path
+																	d="M9.70961 4.54323C9.70961 4.47448 9.65336 4.41823 9.58461 4.41823L8.55337 4.42292L7.00025 6.27448L5.44869 4.42448L4.41588 4.4198C4.34713 4.4198 4.29088 4.47448 4.29088 4.5448C4.29088 4.57448 4.30182 4.60261 4.32057 4.62605L6.35338 7.04792L4.32057 9.46824C4.30169 9.49113 4.29121 9.51981 4.29088 9.54948C4.29088 9.61823 4.34713 9.67448 4.41588 9.67448L5.44869 9.6698L7.00025 7.81823L8.55181 9.66823L9.58305 9.67292C9.6518 9.67292 9.70805 9.61823 9.70805 9.54792C9.70805 9.51823 9.69711 9.49011 9.67836 9.46667L7.64868 7.04636L9.68149 4.62448C9.70024 4.60261 9.70961 4.57292 9.70961 4.54323Z"
+																	fill="black" fill-opacity="0.54" />
+																<path
+																	d="M7 0.015625C3.13438 0.015625 0 3.15 0 7.01562C0 10.8813 3.13438 14.0156 7 14.0156C10.8656 14.0156 14 10.8813 14 7.01562C14 3.15 10.8656 0.015625 7 0.015625ZM7 12.8281C3.79063 12.8281 1.1875 10.225 1.1875 7.01562C1.1875 3.80625 3.79063 1.20312 7 1.20312C10.2094 1.20312 12.8125 3.80625 12.8125 7.01562C12.8125 10.225 10.2094 12.8281 7 12.8281Z"
+																	fill="black" fill-opacity="0.54" />
+															</svg>
+														</div>
+													</div>
+												</lightning-layout-item>
+											</lightning-layout>
+											<lightning-layout multiple-rows class="lineItem_layout"
+												key={productLineitem.lineItemId} if:true={productLineitem.batchNumbers}>
+												<lightning-layout-item size="12" small-device-size="12"
+													medium-device-size="7" large-device-size="7">
+													<lightning-combobox variant="label-hidden" name="batchNumber"
+														value={productLineitem.batchNumber} data-id={product.productId}
+														placeholder={labels.batchNum}
+														options={productLineitem.batchNumbers} onchange={handleUserData}
+														required message-when-value-missing={labels.pleaseSpecify}
+														data-lineitem={productLineitem.lineItemId}>
+													</lightning-combobox>
+												</lightning-layout-item>
+												<lightning-layout-item size="12" small-device-size="12"
+													medium-device-size="2" large-device-size="2">
+													<lightning-input type="date" variant="label-hidden" name="expDate"
+														value={productLineitem.expDate} data-id={product.productId}
+														placeholder={labels.expiration} date-style="short"
+														class="lineItem_date exp-date_icon" onchange={handleUserData}
+														disabled data-lineitem={productLineitem.lineItemId}>
+													</lightning-input>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={isExcessProduct} size="12"
+													small-device-size="12" medium-device-size="2" large-device-size="2">
+													<div class="lineItem_price">
+														${productLineitem.totalPrice}
+														<div role="button" onclick={handleDeleteLineItem}
+															data-id={productLineitem.lineItemId}
+															style="cursor:pointer;line-height:1"
+															data-prodid={product.productId}><svg width="14" height="15"
+																viewBox="0 0 14 15" fill="none"
+																xmlns="http://www.w3.org/2000/svg">
+																<path
+																	d="M9.70961 4.54323C9.70961 4.47448 9.65336 4.41823 9.58461 4.41823L8.55337 4.42292L7.00025 6.27448L5.44869 4.42448L4.41588 4.4198C4.34713 4.4198 4.29088 4.47448 4.29088 4.5448C4.29088 4.57448 4.30182 4.60261 4.32057 4.62605L6.35338 7.04792L4.32057 9.46824C4.30169 9.49113 4.29121 9.51981 4.29088 9.54948C4.29088 9.61823 4.34713 9.67448 4.41588 9.67448L5.44869 9.6698L7.00025 7.81823L8.55181 9.66823L9.58305 9.67292C9.6518 9.67292 9.70805 9.61823 9.70805 9.54792C9.70805 9.51823 9.69711 9.49011 9.67836 9.46667L7.64868 7.04636L9.68149 4.62448C9.70024 4.60261 9.70961 4.57292 9.70961 4.54323Z"
+																	fill="black" fill-opacity="0.54" />
+																<path
+																	d="M7 0.015625C3.13438 0.015625 0 3.15 0 7.01562C0 10.8813 3.13438 14.0156 7 14.0156C10.8656 14.0156 14 10.8813 14 7.01562C14 3.15 10.8656 0.015625 7 0.015625ZM7 12.8281C3.79063 12.8281 1.1875 10.225 1.1875 7.01562C1.1875 3.80625 3.79063 1.20312 7 1.20312C10.2094 1.20312 12.8125 3.80625 12.8125 7.01562C12.8125 10.225 10.2094 12.8281 7 12.8281Z"
+																	fill="black" fill-opacity="0.54" />
+															</svg>
+														</div>
+													</div>
+												</lightning-layout-item>
+											</lightning-layout>
+										</template>
+									</div>
+									<div class="add-country" onclick={addCountry} data-id={product.productId} data-price={product.productPrice}
+										data-acs={product.actualProductPrice} role="button">
+										<lightning-icon size="xx-small" icon-name="utility:add" variant="inverse"
+											class="add-icon">
+										</lightning-icon> <span>{labels.addAnotherCountry}</span>
+									</div>
+								</div>
+							</template>
+							<template if:true={productsPage}>
+								<hr style="margin:0px !important" />
+								<div class="mmop-calc">
+									Total
+									<div class={errorClass}>${totalValue}</div>
+								</div>
+							</template>
+							<div if:true={budgetError} class="limit-error">
+								<div class="errorIcon">!</div>{labels.budgetLimitExceed}
+							</div>
+							<div if:true={maxProductsError} class="limit-error">
+								<div class="errorIcon">!</div>{labels.productLimitExceed}
+							</div>
+							<!-- <template for:each={validationResults} for:item="quantityError">
+								<div key={quantityError.batchNumber} class="limit-error">
+									<div class="errorIcon">!</div>{quantityError.batchNumber} - {quantityError.validationQty}
+								</div>
+							</template> -->
+							<template if:true={hasValidationResults}>
+								<template for:each={validationResults} for:item="quantityError">
+									<div key={quantityError.batchNumber} class="limit-error">
+										<div class="errorIcon">!</div>
+										{labels.quantityExceeds}
+										{quantityError.validationQty} {labels.forBatch}
+										#{quantityError.batchNumber}.{labels.reduceQuantEntered}
+									</div>
+								</template>
+							</template>
+						</div>
+					</div>
+					<div class="dr-form_btnGroup limit_button">
+						<lightning-button role="button" style="height:40px" class="lt-button" variant="base"
+							label={labels.createForm} title="Create Form" disabled={submitDisabled}
+							onclick={submitRequest}>
+						</lightning-button>
+						<lightning-button role="button" style="height:40px" class="lt-button cancel" variant="base"
+							label={labels.cancelBtn} title="Cancel" onclick={cancelToDashboard}>
+						</lightning-button>
+					</div>
+			</template>
+			<template if:true={requestPage}>
+				<div class="dr-form_submit">
+					<template for:each={mmopRequest.productsList} for:item="product">
+						<div key={product.productId}>
+							<template for:each={product.productLineItems} for:item="lineItem">
+								<div key={lineItem.lineItemId} class="dr-form-submit_section">
+									<div class="mmop-submit_heading">
+										<div class="cold-chain">
+											<div if:true={product.isColdChain}>
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+													xmlns="http://www.w3.org/2000/svg">
+													<path fill-rule="evenodd" clip-rule="evenodd"
+														d="M12.4616 1.38477C12.7385 1.38477 12.9231 1.56938 12.9231 1.8463V4.43037L14.446 2.90749C14.6306 2.72287 14.9075 2.72287 15.0921 2.90749L15.7383 3.55364C15.9229 3.73826 15.9229 4.01518 15.7383 4.1998L12.9231 7.01499V10.7506L16.2193 8.79794L17.1696 5.03076C17.2157 4.75383 17.4465 4.61537 17.7234 4.70768L18.6003 4.93845C18.8773 4.9846 19.0157 5.21537 18.9234 5.49229L18.3991 7.50658L20.6308 6.18452C20.8616 6.04606 21.1385 6.09221 21.277 6.36913L21.7385 7.1999C21.877 7.43067 21.8308 7.70759 21.5539 7.84606L19.2856 9.18404L21.4157 9.73845C21.6926 9.7846 21.8311 10.0154 21.7388 10.2923L21.508 11.1692C21.4619 11.4461 21.2311 11.5846 20.9542 11.4923L17.0966 10.4753L13.8082 12.4151L17.1316 14.3838L20.9542 13.3851C21.2311 13.339 21.4619 13.4313 21.5081 13.7082L21.7388 14.5851C21.785 14.8621 21.6927 15.0928 21.4157 15.139L19.3249 15.6832L21.6002 17.0311C21.831 17.1696 21.9233 17.4465 21.7848 17.6773L21.3233 18.4619C21.1848 18.6926 20.9079 18.7849 20.6771 18.6465L18.3775 17.2876L18.9234 19.3851C18.9696 19.6621 18.8773 19.8928 18.6004 19.939L17.7234 20.1698C17.4465 20.2159 17.2158 20.1236 17.1696 19.8467L16.1584 15.9763L12.9231 14.0645V17.8618L15.7383 20.6769C15.9229 20.8616 15.9229 21.1385 15.7383 21.3231L15.0921 21.9693C14.9075 22.1539 14.6306 22.1539 14.446 21.9693L12.9231 20.4464V23.0309C12.9231 23.3078 12.7385 23.4925 12.4616 23.4925H11.5385C11.2616 23.4925 11.077 23.3078 11.077 23.0309V20.446L9.5537 21.9693C9.36908 22.1539 9.09216 22.1539 8.90755 21.9693L8.2614 21.3231C8.07678 21.1385 8.07678 20.8616 8.2614 20.6769L11.077 17.8614V14.0261L7.81355 15.9512L6.83102 19.8462C6.78486 20.1231 6.55409 20.2616 6.27717 20.1693L5.40025 19.9385C5.12333 19.8923 4.98487 19.6616 5.07718 19.3847L5.6366 17.2353L3.32319 18.5999C3.09242 18.7384 2.8155 18.6922 2.67704 18.4153L2.2155 17.6307C2.07704 17.3999 2.12319 17.123 2.40011 16.9845L4.62147 15.6686L2.58488 15.1385C2.30795 15.0923 2.16949 14.8616 2.2618 14.5847L2.49257 13.7077C2.53872 13.4308 2.76949 13.2923 3.04641 13.3847L6.80439 14.3754L10.1226 12.4097L6.863 10.4836L3.00041 11.4927C2.72348 11.5389 2.49272 11.4466 2.44656 11.1696L2.21579 10.2927C2.16964 10.0158 2.26195 9.78501 2.53887 9.73886L4.66588 9.18525L2.40027 7.84648C2.16951 7.70802 2.0772 7.4311 2.21566 7.20033L2.72335 6.41571C2.86181 6.18494 3.13873 6.09263 3.3695 6.23109L5.5613 7.52953L5.03117 5.4927C4.98501 5.21578 5.07732 4.98501 5.35424 4.93886L6.23116 4.70809C6.50809 4.66193 6.73885 4.75424 6.78501 5.03117L7.78133 8.8447L11.077 10.7971V7.01537L8.2614 4.1998C8.07678 4.01518 8.07678 3.73826 8.2614 3.55364L8.90755 2.90749C9.09216 2.72287 9.36908 2.72287 9.5537 2.90749L11.077 4.43076V1.8463C11.077 1.56938 11.2616 1.38477 11.5385 1.38477H12.4616Z"
+														fill="#00857C" />
+												</svg>
+											</div>
+											<h2>{product.prodName}</h2>
+										</div>
+										<lightning-icon style="cursor:pointer" data-id={product.productId}
+											data-lineid={lineItem.lineItemId} onclick={handledropdownMenu}
+											icon-name="utility:threedots_vertical" size="x-small"
+											alternative-text="Three dots"
+											class="slds-input__icon slds-input__icon_right"></lightning-icon>
+										<div class="dropdownSubmit" if:true={lineItem.showDropdown}>
+											<div class="dropdownClass">
+												<div class="dots_icon" onclick={navigateToDashboard}>
+													<lightning-icon icon-name="utility:edit" size="x-small"
+														alternative-text="Edit"
+														class="slds-input__icon slds-input__icon_right">
+													</lightning-icon>
+													<span class="dropdown-item">{labels.edit}</span>
+												</div>
+												<hr style="margin:0px" />
+												<div class="dots_icon" data-del="true" data-prodid={product.productId}
+													data-id={lineItem.lineItemId} onclick={handleDeleteLineItem}>
+													<lightning-icon icon-name="utility:delete" size="x-small"
+														alternative-text="Delete"
+														class="slds-input__icon slds-input__icon_right">
+													</lightning-icon>
+													<span class="dropdown-item">{labels.del}</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="mmop-submit_att">
+										<div style="margin-right: 60px">
+											<span class="mmop-submit_fl">{labels.country}: </span>
+											{lineItem.country}</div>
+										<div style="margin-right: 60px">
+											<span class="mmop-submit_fl">{labels.quantity}: </span>
+											{lineItem.tabletsReq}</div>
+										<div style="margin-right: 60px">
+											<span class="mmop-submit_fl">{labels.localPartner}: </span>
+											{lineItem.localPartner}
+										</div>
+										<div style="margin-right: 60px">
+											<span class="mmop-submit_fl">{labels.sap}: </span>
+											{product.sapCode}</div>
+										<div style="margin-right: 60px">
+											<span class="mmop-submit_fl">{labels.ndc}: </span>
+											{product.ndcNumber}</div>
+										<div if:true={lineItem.batchNumber} style="margin-right: 60px">
+											<span class="mmop-submit_fl">{labels.batch}: </span>
+											{lineItem.batchNumber}</div>
+										<template if:true={isEditForm}>
+										<div if:true={lineItem.expDate} style="margin-right: 60px">
+											<span class="mmop-submit_fl">{labels.exp}: </span>
+											{lineItem.expDateUS}</div>
+										</template>
+										<div if:true={lineItem.expUSDate} style="margin-right: 60px">
+											<span class="mmop-submit_fl">{labels.exp}: </span>
+											{lineItem.expUSDate}</div>
+									</div>
+								</div>
+							</template>
+						</div>
+					</template>
+					<lightning-layout class="dr-form-submit_btn" multiple-rows>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<lightning-combobox name={doneeObj.name} label={doneeObj.label} required={doneeObj.required}
+								value={mmopRequest.doneeId} data-id={doneeId}
+								message-when-value-missing={doneeObj.errorMsg} options={doneeLists}
+								onchange={handleCombobox} placeholder={labels.select}>
+							</lightning-combobox>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" class="slds-p-right_large inputField-mb" small-device-size="12"
+							medium-device-size="6" large-device-size="6">
+							<lightning-combobox name={donationTypeObj.name} label={donationTypeObj.label}
+								required={donationTypeObj.required} value={mmopRequest.donationType}
+								onchange={handleCombobox} message-when-value-missing={donationTypeObj.errorMsg}
+								options={donationTypes} disabled={donationTypeObj.readonly} placeholder={labels.select}>
+							</lightning-combobox>
+						</lightning-layout-item>
+						<template if:true={isSpecialReq}>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+								large-device-size="6">
+								<lightning-combobox name={minExpDateObj.name} label={minExpDateObj.label}
+									required={minExpDateObj.required} value={mmopRequest.minExpDate}
+									onchange={handleCombobox} message-when-value-missing={minExpDateObj.errorMsg}
+									options={minExpDating} disabled={minExpDateObj.readonly}
+									placeholder={labels.select}>
+								</lightning-combobox>
+							</lightning-layout-item>
+						</template>
+						<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+							large-device-size="6" id="appNameField" class={getClassName}>
+							<lightning-input type="text" label={applicantNameObj.label} name={applicantNameObj.name}
+								required={applicantNameObj.required}
+								message-when-value-missing={applicantNameObj.errorMsg}
+								maxlength={applicantNameObj.maxlength} value={mmopRequest.applicantName}
+								onchange={handleUserInput}>
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+							large-device-size="6" class={getPOClassName}>
+							<lightning-input type="text" label={poNumberObj.label} name={poNumberObj.name}
+								required={poNumberObj.required} message-when-value-missing={poNumberObj.errorMsg}
+								maxlength={poNumberObj.maxlength} value={mmopRequest.poNumber}
+								onchange={handleUserInput}>
+							</lightning-input>
+						</lightning-layout-item>
+						<template if:false={isSpecialReq}>
+							<lightning-layout-item size="12" class="input-em" small-device-size="3"
+								medium-device-size="6" large-device-size="6">
+
+							</lightning-layout-item>
+						</template>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12">
+							<div class="slds-form-element">
+								<div class="downloadBtn">
+									<span class="slds-form-element__label" id="file-selector-primary-label-117">{labels.uploadProposal}</span>
+									<a onclick={handleDownload}
+										class="slds-form-element__label download-link">{labels.downloadProposal}</a>
+								</div>
+								<div class="slds-form-element__control">
+									<div class="slds-file-selector slds-file-selector_images"
+										style="background: #00000005;">
+										<div class="slds-file-selector__dropzone file-proposal">
+											<input type="file" class="slds-file-selector__input slds-assistive-text" accept={fileFormats}
+											 id="file-upload-input-119" aria-labelledby="file-selector-primary-label-117 file-selector-secondary-label118"
+											 onchange={handleFileInput} name="uploadProposal"/>
+											<label class="slds-file-selector__body " for="file-upload-input-119" id="file-selector-secondary-label118">
+											<lightning-icon class="upload-icon" icon-name="utility:upload" size="x-large" alternative-text="Upload" title="Upload">
+											</lightning-icon>
+											<span class="slds-file-selector__text">{labels.areaToUpload}</span>
+											<span class="file_sub" style="color: #0000008A">.xls</span>
+											<span if:true={fileConfirmation} class="file_sub" style="color: rgba(219, 30, 40, 1)">{labels.uploadNewFile}</span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="file-invalid uploadProposal"><b style="text-decoration:underline;font-family:'InventionRg';font-size:14px;">File Uploaded:</b> {appTypeMsg}</div>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+							large-device-size="6">
+							<lightning-radio-group class="form-radio" name={taxReportObj.name}
+								label={taxReportObj.label} options={taxOptions} value={mmopRequest.taxValue}
+								type="radio" onchange={handleRadioChange}>
+							</lightning-radio-group>
+						</lightning-layout-item>
+					</lightning-layout>
+				</div>
+				<div class="dr-form_btnGroup limit_button">
+					<lightning-button role="button" style="height:40px" class="lt-button" variant="base"
+						label={labels.sendRequest} title="Send Request" onclick={submitRequest}>
+					</lightning-button>
+					<lightning-button role="button" style="height:40px" class="lt-button cancel" variant="base"
+						label={labels.cancelBtn} title="Cancel" onclick={cancelToDashboard}>
+					</lightning-button>
+				</div>
+			</template>
+		</div>
+	</div>
+	<template if:true={saveForLaterEnable}>
+		<div role="button" class="floating-button bottom" tabindex="0" onclick={saveForLater}>
+			<lightning-icon size="small" icon-name="utility:save" class="date_input-icon"></lightning-icon>
+			<span>{labels.saveForLater}</span>
+		</div>
+	</template>
+	<template if:true={goBackPopup}>
+		<div>
+			<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01">
+				<div class="slds-modal slds-fade-in-open slds-align_absolute-center modalcss">
+					<div class="cancel-popup">
+						<p class="cancel-title-cls">{labels.cancelReq}?</p>
+						<p class="comm-content">{labels.goBackPopUp}</p>
+						<div class="pop-btns">
+							<button class="cancel-btn" onclick={onPopupCancel}>{labels.cancelBtn}</button>
+							<button class="cancelReq-btn" onclick={onPopupProceed}>{labels.discardChanges}</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</div>
+	</template>
+	<div if:true={showSpinner}>
+		<c-pds-spinner></c-pds-spinner>
+	</div>
+	<c-pds-toast-message auto-close-time="8000"></c-pds-toast-message>
+</template>

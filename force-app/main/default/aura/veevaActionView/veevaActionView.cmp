@@ -1,0 +1,11 @@
+<aura:component implements="force:hasRecordId,force:hasSObjectName,flexipage:availableForRecordHome">
+    <aura:attribute name="pageCtrlFactoryLoaded" type="Boolean" />
+
+    <c:veevaPageControllerFactoryLoader objectApiName="{!v.sObjectName}" pageCtrlFactoryLoadedEvent="{!c.handlePageCtrlFactoryLoaded}">
+    </c:veevaPageControllerFactoryLoader>
+
+    <aura:if isTrue="{!v.pageCtrlFactoryLoaded}">
+        <c:veevaDetailPage recordId="{!v.recordId}" objectApiName="{!v.sObjectName}"></c:veevaDetailPage>
+    </aura:if>
+    <c:veevaLgtnFlowLauncher noDefaultFlow="true"></c:veevaLgtnFlowLauncher>
+</aura:component>

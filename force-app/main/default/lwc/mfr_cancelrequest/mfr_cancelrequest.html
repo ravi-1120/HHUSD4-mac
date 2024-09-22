@@ -1,0 +1,63 @@
+<template>
+
+    <!-- modal start -->
+    <template if:true={openpopup}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate slds-text-align_left cancelsubmit">Cancel request
+                        <button class="slds-float_right sub1" data-name="back to screen_X" onclick={closeModelcross}><span><img
+                            src={cross} style="max-width:14px;margin: 12px;"> </span></button>
+                    </h2>
+                </header>
+
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_large popup_overflow" id="modal-content-id-1">
+                    <div class="bodydiv slds-p-around_large div1">
+                        <h6 class="slds-text-align_center subtitle">You are about to cancel your request for an appointment to view:</h6>
+                         <template if:false={isWinrevairProduct}>
+                            <h6 if:true={iscomingsoon} class="slds-text-align_center slds-p-bottom_medium subtitle">{productname} information session. Are you sure you want to cancel this request?</h6>
+                            <h6 if:false={iscomingsoon} class="slds-text-align_center subtitle_margin subtitle">
+                                <template if:false={noTitle}>
+                                {resourcename}.
+                                </template>
+                                Are you sure you want to cancel this request?</h6>
+                        </template>
+                        <template if:true={isWinrevairProduct}>
+                            <h6 if:true={iscomingsoon} class="slds-text-align_center slds-p-bottom_medium subtitle">{productname} information session.</h6>
+                            <h6 if:false={iscomingsoon} class="slds-text-align_center subtitle_margin subtitle">
+                                <template if:false={noTitle}>
+                                {resourcename}
+                                </template></h6>
+                        </template>
+                        <div class="box_cls slds-p-around_medium">
+                            <h3 class="requestNumber">Your request number is <span class="meetingname">{meetingname}</span></h3>
+                            <p class="slds-p-top_medium detailpopUp">
+                                Look for email updates as your Merck account team works to schedule your appointment and grant access to the requested content. A Merck account team member will be in touch with you shortly regarding your request.
+                            </p>
+                            <button onclick={viewRequest} class="slds-m-top_large slds-grid slds-wrap viewreqbtn">View request <span class="slds-p-left_medium"><img src={arrowicon}/></span></button>
+                        </div>
+
+                        <p class="slds-p-top_large slds-text-align_center questions">Question? Contact your Merck Account Team for further assistance.</p>
+                    </div>
+                </div>
+
+                <!-- modal footer start-->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral canreqbtn" onclick={cancelreq}>
+                        Cancel request</button>
+
+                    <button class="slds-button slds-button_neutral canbtn" onclick={closeModel}>
+                        Close<span class="slds-p-left_medium">
+                        <img src={cross}/></span></button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- modal end -->
+
+</template>

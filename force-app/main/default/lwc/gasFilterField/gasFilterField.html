@@ -1,0 +1,16 @@
+<template>
+    <div if:true={isSupportedFieldType}>
+        <c-gas-base-filter-field
+            object-name={objectName}
+            field-name={fieldName}
+            page-ctrl={pageCtrl}
+            values={selectedValues}
+            onupdatedvalues={handleUpdatedValues} data-validity
+        ></c-gas-base-filter-field>
+        <lightning-pill-container
+            if:true={hasPills}
+            items={pillValues}
+            onitemremove={removeSelectedValue}
+        ></lightning-pill-container>
+    </div>
+</template>

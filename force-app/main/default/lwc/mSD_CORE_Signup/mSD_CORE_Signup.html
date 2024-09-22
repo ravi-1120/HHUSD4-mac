@@ -1,0 +1,382 @@
+<template>
+  <template if:false={showConsultancy}>
+    <div class="" if:true={isGuestUser} style="overflow-x: hidden;">
+        <div class="pbanner"><img class="pbanner_img" src={bannerLogo}>
+            <div class="slds-p-top_x-small">
+                <div class="container">
+                    <div class="left-panel"> 
+                        <div class="img-container">
+                            <img src={signupHeroLogo} />
+                        </div>
+                        <div class="data-privacy-container">
+                          <div class="hdr-container">
+                              <div class="hdr-content">
+                                  <div style="flex: 1 1 0; color: #333333; font-size: 18px; font-family: Invention; font-weight: 700; line-height: 27px; word-wrap: break-word">Data privacy</div>
+                              </div>
+                              <div style="align-self: stretch">
+                                <span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">
+                                  We’re committed to privacy. See our&nbsp; 
+                                </span>
+                                <span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; text-decoration: underline; line-height: 21px; word-wrap: break-word;cursor:pointer;" onclick={privacyPolicy}>Privacy Policy</span>
+                                <span style="color: #005C56; font-size: 14px; font-family: Invention; font-weight: 700; line-height: 21px; word-wrap: break-word"> </span>
+                                <span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word"> to learn more about how we use data.</span>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="right-panel" if:true={showForm}>
+                        <div class="sign-up">Sign up</div>
+
+                        <div style="left: 654px; top: 108px; flex-direction: column; justify-content: center; align-items: center; gap: 24px; display: inline-flex">
+                          <div class="web">
+                            <div class="flex110">
+                                <label class="field-label" if:true={fields.FirstName.showLabel}>First name</label>
+                                <input required={fields.FirstName.required} type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                    class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt validate"
+                                    placeholder="First name" onchange={handleInputChange} data-id="FirstName" value={fields.FirstName.fieldValue}/>
+                                <template if:true={fields.FirstName.error}>
+                                  <div class="error-block" >
+                                    <div class="error-text">{fields.FirstName.errorMessage}</div>
+                                  </div>
+                                </template>
+                            </div>
+                            
+                            <div class="flex110">
+                              <label class="field-label" if:true={fields.LastName.showLabel}>Last name</label>
+                              <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                    class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt validate"
+                                    placeholder="Last name" onchange={handleInputChange} data-id="LastName" value={fields.LastName.fieldValue}/>
+                              <div  class="error-block" if:true={fields.LastName.error}>
+                                <div class="error-text">{fields.LastName.errorMessage}</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="mobile">
+                            <label class="field-label" if:true={fields.FirstName.showLabel}>First name</label>
+                            <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                    class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt validate"
+                                    placeholder="First name" onchange={handleInputChange} data-id="FirstName2" value={fields.FirstName.fieldValue}/>
+                                <div  class="error-block" if:true={fields.FirstName.error}>
+                                  <div class="error-text">{fields.FirstName.errorMessage}</div>
+                                </div>
+                          </div>
+
+                          <div class="mobile">
+                            <label class="field-label" if:true={fields.LastName.showLabel}>Last name</label>
+                            <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                    class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt validate"
+                                    placeholder="Last name" onchange={handleInputChange} data-id="LastName2" value={fields.LastName.fieldValue}/>
+                              <div  class="error-block" if:true={fields.LastName.error}>
+                                <div class="error-text">{fields.LastName.errorMessage}</div>
+                              </div>
+                          </div>
+
+                          <div class="input-block">
+                            <!-- Organization Name -->
+                            <div class="slds-form-element" style="margin-bottom: 0px;" onmouseleave={handleDefaults}>
+                              <div class="slds-form-element__control">
+                                <div class="slds-combobox_container">
+                                  <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    data-labelname="Organization" onclick={handleDropdown}>
+                                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                      role="none" style=" width: 100%; box-sizing: border-box;">
+
+                                      <label class="field-label" if:true={fields.Organization.showLabel}>Organization</label>
+
+                                      <input type="text" data-inputno="1"
+                                        class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt validate"
+                                        required onchange={handleOrgChange} oninput={handleSeachKeyChangeDebounced}
+                                        aria-autocomplete="list" aria-controls="listbox-id-9" aria-expanded="false"
+                                        aria-haspopup="listbox" role="combobox" placeholder="Organization"
+                                        style="width: 100%;" data-id="Organization"/>
+
+                                      <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                        <lightning-icon class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                          icon-name="utility:search" size="x-small" alternative-text="Search"
+                                          title="search"></lightning-icon>
+                                      </span>
+                                    </div>
+
+                                    <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox"
+                                      tabindex="0" aria-busy="false">
+                                      <ul for:each={orglist} for:item="org" key={org} class="slds-listbox slds-listbox_vertical"
+                                        role="presentation">
+                                        <li role="presentation" class="slds-listbox__item" data-id={org.Id} value={org.Name}
+                                          onclick={handleOrg}>
+                                          <div key={org}
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-truncate">{org.Name}</span>
+                                            </span>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div  class="error-block" if:true={fields.Organization.error}>
+                                <div class="error-text">{fields.Organization.errorMessage}</div>
+                              </div>
+                            </div>
+                            <!-- End Organization Name -->
+                          </div>
+                          
+                          <div class="input-block">
+                            <label class="field-label" if:true={fields.OrganizationType.showLabel}>Organization type</label>
+                            <select value={fields.OrganizationType.fieldValue} onchange={handleInputChange} onblur={handleInputFocus} onfocus={handleInputFocus} data-id="OrganizationType" class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt input-select">
+                              <option value="">Organization type</option>
+                              <template for:each={orgtypelist} for:item="ot">
+                                <option value={ot} key={ot}>{ot}</option>
+                              </template>
+                            </select>
+                            <div  class="error-block" if:true={fields.OrganizationType.error}>
+                              <div class="error-text">{fields.OrganizationType.errorMessage}</div>
+                            </div>
+                          </div>
+
+                          <div class="field-box">
+                            <label class="field-label" if:true={fields.WorkAddress.showLabel}>Work address</label>
+                            <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                  class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                  placeholder="Work address" onchange={handleInputChange} data-id="WorkAddress" value={fields.WorkAddress.fieldValue}/>
+                            <div  class="error-block" if:true={fields.WorkAddress.error}>
+                              <div class="error-text">{fields.WorkAddress.errorMessage}</div>
+                            </div>
+                          </div>
+
+                          <div class="field-box">
+                            <label class="field-label" if:true={fields.Unit.showLabel}>Unit, suite, building (optional)</label>
+                            <input type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                  class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                  placeholder="Unit, suite, building (optional)" onchange={handleInputChange} data-id="Unit" value={fields.Unit.fieldValue}/>
+                          </div>
+
+                          <div class="web">
+                            <div class="flex110">
+                              <label class="field-label" if:true={fields.Zip.showLabel}>Zip</label>
+                              <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                  class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                  placeholder="Zip" maxlength="5" onchange={handleInputChange} data-id="Zip" value={fields.Zip.fieldValue}/>
+                              <div  class="error-block" if:true={fields.Zip.error}>
+                                <div class="error-text">{fields.Zip.errorMessage}</div>
+                              </div>
+                            </div>
+                            <div class="flex110">
+                              <label class="field-label" if:true={fields.City.showLabel}>City</label>
+                              <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                  class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                  placeholder="City" onchange={handleInputChange} data-id="City" value={fields.City.fieldValue}/>
+                              <div  class="error-block" if:true={fields.City.error}>
+                                <div class="error-text">{fields.City.errorMessage}</div>
+                              </div>
+                            </div>
+
+                            <div style="flex: 1 1 0; align-self: stretch;">
+                              <label class="field-label" if:true={fields.State.showLabel}>State</label>
+                              <select value={fields.State.fieldValue} onchange={handleInputChange} onblur={handleInputFocus} onfocus={handleInputFocus} data-id="State" class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt input-select">
+                                <option value="">State</option>
+                                <template for:each={stateexist} for:item="s">
+                                  <option value={s} key={s}>{s}</option>
+                                </template>
+                              </select>
+
+                              <div class="error-block state-error" if:true={fields.State.error}>
+                                <div class="error-text">{fields.State.errorMessage}</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="mobile">
+                            <label class="field-label" if:true={fields.Zip.showLabel}>Zip</label>
+                            <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                  class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                  placeholder="Zip" maxlength="5" onchange={handleInputChange} data-id="Zip2" value={fields.Zip.fieldValue}/>
+                              <div  class="error-block" if:true={fields.Zip.error}>
+                                <div class="error-text">{fields.Zip.errorMessage}</div>
+                              </div>
+                          </div>
+
+                          <div class="mobile">
+                            <label class="field-label" if:true={fields.City.showLabel}>City</label>
+                            <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                  class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                  placeholder="City" onchange={handleInputChange} data-id="City2" value={fields.City.fieldValue}/>
+                              <div  class="error-block" if:true={fields.City.error}>
+                                <div class="error-text">{fields.City.errorMessage}</div>
+                              </div>
+                          </div>
+
+                          <div class="mobile">
+                            <label class="field-label" if:true={fields.State.showLabel}>State</label>
+                            <select value={fields.State.fieldValue} onchange={handleInputChange} onblur={handleInputFocus} onfocus={handleInputFocus} data-id="State2" class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt input-select">
+                              <option value="">State</option>
+                              <template for:each={stateexist} for:item="s">
+                                <option value={s} key={s}>{s}</option>
+                              </template>
+                            </select>
+
+                            <div class="error-block state-error" if:true={fields.State.error}>
+                              <div class="error-text">{fields.State.errorMessage}</div>
+                            </div>
+                          </div>
+
+                          <div class="field-box">
+                            <label class="field-label" if:true={fields.Email.showLabel}>Company email</label>
+                            <input required type="text" onblur={handleInputFocus} onfocus={handleInputFocus}
+                                  class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                  placeholder="Company email" onchange={handleInputChange} data-id="Email" value={fields.Email.fieldValue}/>
+
+                            <div  class="error-block" if:true={fields.Email.error}>
+                              <div class="error-text">{fields.Email.errorMessage}</div>
+                            </div>
+                          </div>
+
+                          <div class="field-box">
+                            <label class="field-label" if:true={fields.Phone.showLabel}>Phone number</label>
+                            <input required type="text"
+                                  class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                  placeholder="Phone number" maxlength="10" pattern="[0-9]" onkeypress={onlyNumberKey} value={formatPhoneNumber} onchange={handleInputChange} onfocus={inputtrim} onfocusout={handleInputChange} onclick={inputtrim} data-id="Phone"/>
+                            
+                            <div  class="error-block" if:true={fields.Phone.error}>
+                              <div class="error-text">{fields.Phone.errorMessage}</div>
+                            </div>
+                          </div>
+
+                          <div class="input-block">
+                            <label class="field-label" if:true={fields.Role.showLabel}>Your role</label>
+                            <select value={fields.Role.fieldValue} onchange={handleInputChange} onblur={handleInputFocus} onfocus={handleInputFocus} data-id="Role" class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt input-select">
+                              <option value="">Your role</option>
+                              <template for:each={rolelist} for:item="s">
+                                <option value={s} key={s}>{s}</option>
+                              </template>
+                            </select>
+
+                            <!--<lightning-combobox variant="label-hidden" options={roleComboList} data-id="Role" onchange={handleInputChange} class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt input-select"></lightning-combobox>
+                            -->
+                            <div  class="error-block" if:true={fields.Role.error}>
+                              <div class="error-text">{fields.Role.errorMessage}</div>
+                            </div>
+                          </div>
+
+                          <div if:true={showConsultantRoleBlock} class="consultant-role">
+                            <div class="consultant-role-container">
+                              <div class="consultant-role-inner-container">
+                                <div class="consultant-role-text-container">
+                                  <div class="consultant-role-text-wrapper">
+                                    <div class="consultant-role-text">
+                                      Are you consulting for any additional organizations as a health care decision maker?
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="consultant-role-radio-container">
+                                <div class="consultant-role-radio-wrapper">
+                                  <label class="container-radio">Yes
+                                    <input type="radio" name="radio" data-id="Yes" onchange={handleRoleSelection}>
+                                    <span class="checkmark-radio"></span>
+                                  </label>
+                                </div>
+                                <div class="consultant-role-radio-wrapper">
+                                  <label class="container-radio">No
+                                    <input type="radio" name="radio" data-id="No" onchange={handleRoleSelection}>
+                                    <span class="checkmark-radio checkmark-radio2"></span>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div if:true={showRoleBlock} class="role-block">
+                            <div class="role-block-container">
+                                <div class="role-block-text-bold">Pharmacy & Therapeutics Committee</div>
+                            </div>
+                            <div class="role-block-text-normal">Do you participate in or support the P&T process at your organization?</div>
+                            <div class="role-block-inline-flex">
+                                <div class="role-block-width-354">
+                                    <div class="role-block-height-73">
+                                        <div class="role-block-width-306">
+                                            <label class="container-radio">Yes
+                                                <input type="radio" name="radio" data-id="Yes" onchange={handlePTSelection}>
+                                                <span class="checkmark-radio checkmark-radio22"></span>
+                                            </label>
+                                        </div>
+                                        <div class="role-block-inline-flex">
+                                            <label class="container-radio">No
+                                                <input type="radio" name="radio" data-id="No" onchange={handlePTSelection}>
+                                                <span class="checkmark-radio checkmark-radio2 checkmark-radio222"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+
+                          <div if:true={showOtherRoleBlock} style="width: 386px; height: 162px; padding: 25px; background: #F1F9F9; flex-direction: column; justify-content: center; align-items: flex-start; gap: 16px; display: inline-flex">
+                            <div class="field-box">
+                              <label class="field-label" if:true={fields.PleaseSpecify.showLabel}>Please specify</label>
+                              <input value={fields.PleaseSpecify.fieldValue} required type="text" onchange={handleInputChange} onblur={handleInputFocus} onfocus={handleInputFocus}
+                                    class="slds-input_faux slds-combobox__input  elig-placeholder widthset combo elig-org input-txt"
+                                    placeholder="Please specify" data-id="PleaseSpecify"/>
+                            </div>
+                          </div>
+
+                          <div style="align-self: stretch; flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+                            <div style="align-self: stretch; padding-top: 8px; padding-bottom: 8px; justify-content: flex-start; align-items: flex-start; gap: 12px; display: inline-flex">
+                              <div style="justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+                                <label class="checkbox-container">
+                                  <input type="checkbox" onchange={handleChange}/>
+                                  <span class="checkmark"></span>
+                                </label>
+                              </div>
+                              <div style="flex: 1 1 0; height: 63px; justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+                                <div style="flex: 1 1 0; color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">I acknowledge that the professional and organizational information displayed above is up-to-date and accurate.</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div if:true={showError} style="height: 48px; padding: 9px; background: #FFE7E6; border-radius: 5px; justify-content: center; align-items: center; gap: 10px;">
+                            <div style="flex: 1 1 0; color: #DB281A; font-size: 12px; font-family: Invention; font-weight: 400; word-wrap: break-word">Looks like you missed something. Please complete all required fields with valid information. </div>
+                          </div>
+
+                          <div class="sign-up-btn" style="height: 50px; padding: 16px; background: #00857C; border-radius: 5px; justify-content: center; align-items: center; gap: 20px; display: inline-flex" onclick={handleSignUp}>
+                            <div style="text-align: center; color: white; font-size: 14px; font-family: Invention; font-weight: 700; line-height: 18px; letter-spacing: 0.86px; word-wrap: break-word">{buttonText}</div>
+                          </div>
+
+                          <!--<div style="text-align: center"><span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">Already registered?</span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word"> </span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; text-decoration: underline; line-height: 21px; word-wrap: break-word">Log in</span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">.</span></div>-->
+                          <div style="text-align: center">
+                            <span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">Already registered?&nbsp;</span>
+                            <a href="javascript:void(0);" onclick={loginClick} style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; text-decoration: underline; line-height: 21px; word-wrap: break-word">Log in</a>
+                            <span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">.</span>
+                        </div>
+
+                        </div>                      
+                    </div>
+
+                    <div class="data-privacy-container-mobile">
+                      <div class="data-privacy">
+                        <div style="align-self: stretch; border-radius: 8px; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+                          <div class="hdr-container">
+                            <div class="hdr-content">
+                              <div style="flex: 1 1 0; color: #333333; font-size: 18px; font-family: Invention; font-weight: 700; line-height: 27px; word-wrap: break-word">Data privacy</div>
+                            </div>
+                            <div style="align-self: stretch"><span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word">We’re committed to privacy. See our&nbsp;</span><span style="color: #00857C; font-size: 14px; font-family: Invention; font-weight: 400; text-decoration: underline; line-height: 21px; word-wrap: break-word" onclick={privacyPolicy}>Privacy Policy</span><span style="color: #333333; font-size: 14px; font-family: Invention; font-weight: 400; line-height: 21px; word-wrap: break-word"> to learn more about how we use data.</span></div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </template>
+
+  <template if:true={showConsultancy}>
+    <c-msd_-c-o-r-e-_-consultancy_-information field-value-map={fieldValueMap} accrecord-id={accrecordId} consultant-checked={consultantChecked} pt-checked={ptChecked} onsignup={goToSignUp}></c-msd_-c-o-r-e-_-consultancy_-information>
+  </template>
+
+</template>

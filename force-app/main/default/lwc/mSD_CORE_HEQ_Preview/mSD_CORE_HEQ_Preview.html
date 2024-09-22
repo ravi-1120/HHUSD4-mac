@@ -1,0 +1,76 @@
+<template>
+    <div class="container" if:false={showSpinner}>
+        <template if:true={resource}>
+            <div class="slds-size_1-of-1 slds-var-p-around_large slds-grid slds-grid_align-spread">
+                <div class="slds-col">
+                    <lightning-breadcrumbs>
+                        <lightning-breadcrumb label="Home" name="home" onclick={handleClick}>
+                        </lightning-breadcrumb>
+                        <lightning-breadcrumb label="Search" name="search" onclick={handleClick}>
+                        </lightning-breadcrumb>
+                        <lightning-breadcrumb label={resource.Title} name={resource.Title}>
+                        </lightning-breadcrumb>
+                    </lightning-breadcrumbs>
+                </div>
+                <div class="slds-col">
+                    <!-- Cancel Button -->
+                    <lightning-button variant="brand" label="Cancel" title="Cancel" onclick={handleCancel}
+                        class="slds-var-m-right_x-small">
+                    </lightning-button>
+                    <!-- <template if:true={isButtonVisible}> -->
+                        <a href={iframeurl} target="_self" class="slds-button slds-button_brand slds-var-m-right_x-small" download="Download">Download</a>
+                    <!-- </template> -->
+                    <!-- Add to Cart Button -->
+                    <template if:true={isAccountExeProfile}>
+                    <lightning-button variant="brand" label={label.AddToCart} title="Add to Cart" data-id={resource.Id} onclick={handleAddToCart}
+                        class="slds-var-m-right_x-small">
+                    </lightning-button>
+                    <!-- Add to Collection Button -->
+                    <lightning-button variant="brand" label={label.AddToCollection} title="Add to Collection" onclick={handleAddToCollection}
+                        class="slds-var-m-right_x-small">
+                    </lightning-button>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-var-p-around_large slds-grid slds-wrap bodycontainer" style="height: 100vh;">
+                <!-- preview image container -->
+                <div class="slds-size_8-of-12 slds-var-p-right_medium imgcontainer" style="height: 100%;">
+                    <!-- <iframe src="https://msdlogin--hhusd3.sandbox.file.force.com/sfc/servlet.shepherd/document/download/069cW000000JRcPQAW?operationContext=S1" width="100%" height="100%" frameborder="0">
+                    </iframe> -->
+                    <iframe src={iframeurl} width="100%" height="100%" frameborder="0"></iframe>
+                </div>
+                <!-- metadata container -->
+                <div class="slds-size_4-of-12 lds-var-p-left_medium">
+                    <div>
+                        <span class="headertext">Details</span>
+                        <!-- File Name, File size, file dimension, file type  list view-->
+    
+                        <div class="slds-var-p-around_medium">
+                            <div class="slds-grid slds-wrap">
+                                <span class="fileheading">File Name:</span>
+                                <span class="filecontent">{resource.Title}</span>
+                            </div>
+                            <div class="slds-grid slds-wrap" if:false={isVideoResource}>
+                                <span class="fileheading">File Size:</span>
+                                <span class="filecontent">{contentsize} MB</span>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <span class="fileheading">File Type:</span>
+                                <span class="filecontent">{filetype}</span>
+                            </div>
+                        </div>
+                        <div>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <div if:false={resource} class="errormsg">
+            {label.errormsg}
+        </div>
+    </div>
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
+</template>

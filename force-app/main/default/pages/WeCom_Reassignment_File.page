@@ -1,0 +1,81 @@
+<apex:page controller="Reassignment_File_Controller">
+    <apex:includeScript value="{!VodUrl}/js/vendor/alertify.min.js" />
+    <apex:stylesheet value="{!VodUrl}/css/vendor/alertify.core.css" />
+    <apex:stylesheet value="{!VodUrl}/css/vendor/alertify.default.css" />
+<script type="text/javascript">
+//preload alert OK and Cancel messages
+alertify.set({
+  labels: {
+    ok: "{!TranslatedOk}",
+    cancel: "{!TranslatedCancel}"
+  }
+});
+
+function confirmCancel() {
+    if ({!afterUpload}){
+        alertify.confirm('{!confirmBeforeCancelMessage}', function (ok) {
+            if (ok) { CallCancelFunction(); }
+        });
+    } else {
+        return true;
+    }
+}
+    
+function downloadFile() {
+              var request = new XMLHttpRequest();
+              request.open("GET", '{!templateUrl}', true);
+              request.setRequestHeader("sfEndpoint", '{!SfEndpoint}');
+              request.setRequestHeader("sfSession", '{!sfSession}');
+              request.onreadystatechange = function() {
+              if (this.readyState === this.DONE) {
+               if (this.status === 200) {
+                   var data_url = window.URL.createObjectURL(this.response);
+                    var link = document.createElement('a');
+                    link.href = data_url;
+                    link.download = '{!templateFileName}';
+                    link.style.visibility = 'hidden';
+                    link.dispatchEvent(new MouseEvent('click'));
+                } else {
+                    alertify.alert("Error downloading list");
+                }
+              }
+            }
+              request.responseType = 'blob';
+              request.send();
+          }
+</script>
+  <apex:form >
+    <apex:pageBlock title="{!uploadUserFileMessage}">
+        <apex:pageBlockButtons location="bottom">
+        <apex:commandButton action="{! reassign }" value="{!startRessaignMessage}" rendered="{!afterUpload}"/>
+        <apex:commandButton action="{! cancel }" value="{!cancelMessage}" onClick="confirmCancel(); return false;"/>
+        <apex:actionFunction name="CallCancelFunction" action="{! cancel}"/>
+      </apex:pageBlockButtons>
+         <apex:outputPanel >
+            <apex:outputText style="color: #080707;padding-right:10px;"
+                             value="{! templateInstructionMessage}"></apex:outputText>
+            <apex:commandLink style="font-weight: 600;color: #006dcc;"
+                              onclick="downloadFile(); return false;"
+                              value="{!templateDownloadMessage}" rel="noopener noreferrer"/>
+          </apex:outputPanel><br/>
+          <apex:outputPanel rendered="{!fileSizeTooBig}">
+            <apex:outputText value="{!onlySupport10MMessage}"></apex:outputText>
+          </apex:outputPanel><br/>
+        <apex:outputPanel rendered="{!uploadFailed}">
+            <apex:outputText value="{!uploadErrorReminderMessage}"></apex:outputText>
+          </apex:outputPanel>
+        <br/>
+      <apex:outputPanel >
+            <apex:inputFile id="csv_file_File" value="{!csvFileBody}" filename="{!csvFileName}"
+                            fileSize="{!csvFileSize}" accept=".csv" contentType="text/csv"/>
+            <apex:actionSupport event="onchange" action="{!upload}"/>
+            <br/><br/>
+            <apex:outputPanel rendered="{!afterUpload}">
+              <apex:outputText style="color: #000000;font-size: 12px;" value="{!csvFileName}"></apex:outputText>
+              <br/>
+              <apex:outputText style="color: #999999;font-size: 12px;" value="({!csvFileSizeStr})"></apex:outputText>
+            </apex:outputPanel>
+          </apex:outputPanel>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

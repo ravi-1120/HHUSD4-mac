@@ -1,0 +1,78 @@
+@media only screen and (max-width: 768px) { 
+    /* For mobile phones: */
+    .date-hide-class{
+      width: 100% !important;
+    }
+    .date-class{
+        width: 100% !important;
+    }
+    .date-footer{
+        width: 100% !important;
+        padding-top: 30px;
+    }
+}
+
+@font-face{
+    font-family : 'Invention';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Bd.woff')  format('woff');
+}
+@font-face {
+    font-family: 'InventionLt';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Lt.woff') format('woff');
+}
+@font-face {
+    font-family: 'InventionBdLt';
+    src: url('resource/AMO_Fonts/fonts/Invention_W_Bdlt.woff2') format('woff2');
+}
+@font-face{
+    font-family : 'InventionRg';
+    src:url('resource/AMO_Fonts/fonts/Invention_W_Rg.woff') format('woff');
+}
+@font-face{
+    font-family : 'InventionJPRG';
+    src:url('resource/AMO_Fonts/fonts/InventionJP_W_Rg.woff') format('woff');
+}
+
+.scheduleCallLabelCls{
+    font-family : 'InventionLt';
+    font-weight: 300;
+    color: #000000;
+    font-size: 22px;
+    letter-spacing: 0.1px;line-height: 32px;
+}
+
+.inActiveDateLabelCls{
+    font-family : 'InventionLt';
+    color: #CCCCCC;
+    font-weight: 400;
+}
+
+.activeDateLabel{
+    font-family : 'InventionLt';
+    color:#000000;
+    font-weight: 400;
+}
+
+.date-hide-class{
+    border: 1px solid #ccc;
+    background-color: #FFFFFF;
+    border-radius: 1px;
+    overflow: hidden;
+    width: 414px;
+}
+
+.date-class{
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
+    border-radius: 1px;
+    overflow: hidden;
+    width: 414px;
+}
+.date-footer{
+    width: 414px;
+    padding-top: 30px;
+}
+
+.scheduleCallbackCls{
+    padding-top: 40px;
+}

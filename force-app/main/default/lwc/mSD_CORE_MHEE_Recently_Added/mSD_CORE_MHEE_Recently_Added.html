@@ -1,0 +1,38 @@
+<template>
+    <div class="headcls">
+        <div class="headmatr">
+            Recently added
+        </div>
+        <div class="tabcls">
+            <template for:each={myList} for:item="item">
+                <div key={item} class="tabsubcls">
+                    <div class="titlecls">
+                        {item.resourcename}
+                    </div>
+                    <div class="desccls">
+                        {item.title}
+                    </div>
+                    <div class="contentcls">
+                        {item.content}
+                    </div>
+                    <div class="btnwdth">
+                        <button class="buttoncls"> <p class="buttontext">open </p> </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <div>
+            <div class="emptystate">
+                <button class="slds-grid slds-wrap" onclick={onallresources}>
+                    <span class="btncls">
+                        Browse all resources
+                    </span>
+                    <!-- <img class="btncls" src={mheeearrowexp}> -->
+                    <span class="btncls arrowcls">
+                        >
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</template>

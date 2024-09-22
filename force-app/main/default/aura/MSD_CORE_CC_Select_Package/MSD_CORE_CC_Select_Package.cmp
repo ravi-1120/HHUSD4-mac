@@ -1,0 +1,15 @@
+<aura:component controller="CaseControllerMVN" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="showPopup" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="casedata" type="Case"/>
+    <aura:attribute name="parentRT" type="String" />
+    <lightning:workspaceAPI aura:id="workspace"/>
+	<aura:if isTrue="{!v.parentRT =='Request'}">
+    <div class="slds-card slds-card_boundary forceBaseCard flexipageCard" style="padding: 10px;overflow: hidden;">
+        <button class="slds-button slds-button_brand" style="z-index: 1;float: right;width: 120px;" onclick="{!c.openModal}">
+            <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" data-aura-rendered-by="2667:0">Select Package</span>
+        </button>
+        </div>
+    </aura:if>
+</aura:component>

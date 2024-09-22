@@ -1,0 +1,468 @@
+<template>
+  <div class="bgstyle">
+  <header>
+    <div class="">
+      <div class="pbanner">
+        <img src={logo5}>
+        <div class="ptext">
+          <div class="container">
+            <p class="headertxt_cls cursorcls"> Merck Formulary Resources</p>
+            <p class="subheadertxt_cls cursorcls">portal</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Rusheel -->
+	<template if:true={showInfocard}>
+  <div class="container eligcard">
+    <div class="slds-p-around_medium slds-m-bottom_medium cardcls">
+      <div>
+        <div class="cbox slds-grid slds-grid_align-spread mob-cbox">
+          <div>
+            <div class="slds-grid slds-wrap">
+              <img src={personicon} class="">
+              <h4 class="slds-p-left_medium cursorcls mob-texth4"> Confirm your information </h4>
+            </div>
+            <p class="slds-p-top_x-small cursorcls eliginfor mob-textp">Your eligibility profile will expire soon. In order to continue providing you with access to proprietary content, we first need you to verify that your details are up-to-date. We will ask you to verify your information every 6 months.</p>
+          </div>
+          
+          <div class="">
+            <button class="updatebtn" onclick={handleUpdate}>
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+    <!--Rusheel  -->
+	
+  <div class="container bcatalog">
+    <div class="card slds-p-around_large slds-m-bottom_medium margstyle">
+      <div>
+        <div class="cbox slds-grid slds-grid_align-spread mob-cbox">
+          <div>
+            <div class="slds-grid slds-wrap">
+              <img src={bookicon} class="act-image actimage">
+              <h4 class="slds-p-left_medium cursorcls mob-texth4"> Product  catalog </h4>
+            </div>
+            <p class="slds-p-top_x-small cursorcls browseinfo mob-textp">Navigate the dashboard below or view menu option to see other information and resources available to you.</p>
+          </div>
+          <div class="slds-p-top_medium">
+            <button class="button" data-name="ProductList" onclick={navigatepage} onproductupdate={savedCountUpdate}>
+              Browse product catalog
+              <img class="arrclass" src={warrow}>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="slds-grid slds-wrap mob-container">
+      <div class="slds-col slds-size_1-of-2 slds-p-right_medium mob-container2 padstyle">
+        <!-- Library -->
+        <div class="card slds-p-bottom_large slds-p-top_medium slds-p-horizontal_medium slds-m-bottom_medium margstyle">
+          <div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+            <div class="slds-grid slds-wrap">
+              <img src={bookicon} class="act-image actimage">
+              <h4 class="slds-p-left_medium cursorcls"> Library </h4>
+            </div>
+            <div>
+              <button class="viewall_btn" data-name="Library" onclick={navigatepage}>View all</button>
+            </div>
+          </div>
+          <div class="actext cursorcls viewcss">Access all of your saved resources in a personalized collection.</div>
+          <template if:true={products}>
+            <template for:each={products} for:item="prods" for:index="indexx">
+              <template if:true={prods.Libraries__r}>
+                <lightning-layout-item key={prods.Name}>
+                  <div class="slds-grid slds-wrap slds-border_bottom slds-grid slds-wrap slds-border_bottom slds-p-top_large slds-m-top_xx-small slds-p-bottom_small slds-align_absolute-center">
+                    <div class="slds-col slds-size_10-of-12">
+                      <h4 class="prodname cursorcls"> {prods.Name}
+                        <span class="count_cls slds-m-left_medium">
+                          <c-mfrproduct-res-count product={prods.Id}> </c-mfrproduct-res-count>
+                        </span>
+                      </h4>
+                      <p class="slds-p-left_none proddesc cursorcls"> 
+                        {prods.MSD_CORE_Generic_Name__c}
+                        {prods.MSD_CORE_Dosage_Form_and_Strength__c}
+                        <!-- Modified by Sabari - : [MFRUS-117] Prescribing Information link update -->
+                        <br><span class="activeprods" data-value={prods.MSD_CORE_Product_Description__c}></span></br> </p>
+                    </div>
+
+                    <div class="slds-col slds-size_2-of-12 slds-p-left_xx-large arrowcls">
+                      <div data-id={prods.Id} data-name="Save" onclick={navigatepage} data-prodname={prods.Name}>
+                        <a class="hoverstyle"><img class="arrowstyle" src={logo8} /></a>
+                      </div>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              </template>
+            </template>
+            <template if:true={showmoredisp}>
+              <template if:false={showmore}>
+                <div class="bcbox slds-p-top_medium">
+                  <!-- <a href="url" style="color: #555555;">Show more</a>&nbsp; <img src={logo10}> -->
+                  <p class="showmore" onclick={showmoreclk}>Show more <img src={logo10} class="slds-p-left_small"></p>
+                </div>
+              </template>
+              <template if:true={showmore}>
+                <template for:each={products2} for:item="pro">
+                  <template if:true={pro.Libraries__r}>
+                    <lightning-layout-item key={pro.Name}>
+                      <div
+                        class="slds-grid slds-wrap slds-border_bottom slds-grid slds-wrap slds-border_bottom slds-p-top_large slds-m-top_xx-small slds-p-bottom_small slds-align_absolute-center">
+                        <div class="slds-col slds-size_10-of-12">
+                          <h4 class="prodname cursorcls"> {pro.Name}
+                            <span class="count_cls slds-m-left_medium">
+                              <!--<c-mfrproduct-res-count product={pro.Id}> </c-mfrproduct-res-count>-->
+															<c-mfrproduct-res-count product={pro.Id}> </c-mfrproduct-res-count>
+                            </span>
+                          </h4>
+                          <p class="slds-p-left_none proddesc cursorcls"> 
+                            {pro.MSD_CORE_Generic_Name__c}
+                            {pro.MSD_CORE_Dosage_Form_and_Strength__c}
+                            <!-- Modified by Sabari - : [MFRUS-117] Prescribing Information link update -->
+                            <br><span class="activeprods" data-value={pro.MSD_CORE_Product_Description__c}></span></br> </p>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-left_xx-large arrowcls">
+                          <div data-id={pro.Id} data-name="Save" onclick={navigatepage}>
+                            <a class="hoverstyle"><img class="arrowstyle" src={logo8} /></a>
+                          </div>
+                        </div>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+                </template>
+                <div class="bcbox slds-p-top_medium">
+                  <!-- <a href="url" style="color: #555555;">Show more</a>&nbsp; <img src={logo10}> -->
+                  <p class="showmore" onclick={showlessclk}>Show less <img src={uparrowimg} class="slds-p-left_small">
+                  </p>
+                </div>
+              </template>
+            </template>
+          </template>
+          <template if:true={norecordlib}>
+            <div class="bc_box">
+              <div class="btext"> Browse the catalog to discover, save, and request resources.</div>
+              <button class="cta1" data-name="ProductList" onclick={navigatepage}> Browse catalog <span> <img
+                    src={logo8}> </span> </button>
+            </div>
+          </template>
+
+        </div>
+        <!-- Library End -->
+
+        <!-- My contacts at Merck  -->
+        <div class="card slds-p-around_medium slds-m-bottom_medium mycontactdiv-desk margstyle">
+          <div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+            <div class="slds-grid slds-wrap">
+              <img class="act-image" src={cntuser}>
+              <h3 class="slds-p-left_medium cursorcls"> My contacts at Merck </h3>
+            </div>
+            <div>
+              <button class="viewall_btn viewall_btn_contact" data-name="MyContacts" onclick={navigatepage}>View all</button>
+            </div>
+          </div>
+          <div class="actext">
+            <a class=" b cursorcls">
+              <p class="mycontacttext"> Connect with your Merck account team. We are ready to answer your questions</p>
+            </a>
+            <a class=" b cursorcls">
+              <p class="mycontacttext">and help you to find information</p>
+            </a>
+          </div>
+          <!-- <div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+              <div>
+                <h5 class="primary cursorcls"> Primary Contact</h5>
+              </div>
+            </div> -->
+
+          <div class="flex_div slds-p-vertical_medium primarycon">
+        
+              <template if:true={showPrimaryExecutive} for:each={primaryExecutive} for:item="executive"
+                for:index="indexx">
+                <template if:true={executive.isPicturePresent}>
+                  <img class="contact-image" key={executive.id} src={executive.MediumPhotoUrl}   />
+              </template>
+              <template if:false={executive.isPicturePresent}>
+                <img class="cntone" key={executive.id} src={noprofile}   />
+              </template>
+                         <!-- Mukesh -->
+                <div class="slds-p-left_medium con_div" key={executive.id}>
+                <h5  class="cbox primary cursorcls primaryname">
+                  {executive.FirstName} {executive.LastName} </h5></a>
+                <p class="primarydesg cursorcls">{executive.Title}</p>
+                <div  class="flex_div slds-p-top_medium primarycontact cursorcls">
+                  <div class="primaryinfophone cursorcls " data-name="phone" onclick={handlegaevent}> <img src={phoneicon} class="phoneimg"> 
+                  <!-- <lightning-formatted-phone value={executive.Phone}></lightning-formatted-phone> -->
+                  <template if:true={executive.isPhoneAvailable}>
+                  <a class="hyplink" href={executive.formatNumber} >{executive.Phone}</a>
+              </template>
+              <template if:false={executive.isPhoneAvailable}>
+                {executive.Phone}
+              </template>
+                  <!-- <a id="phnlink" href={executive.formatNumber} >{executive.Phone}</a> -->
+                  <!-- {executive.Phone} Mukesh -->
+                  </div>
+                  <!--<button class="primaryinfo cursorcls" style="width:250px;padding:0px;"> <img src={messageicon} style="width:30px;padding:0px;" > {executive.Email} </button> -->
+                  <div class="cursorcls primaryinfoemail " data-name="email" onclick={handlegaevent}> <img src={messageicon}
+                      class="emailimg">
+                  <template if:true={executive.isEmailAvailable}>
+                  <a class="hyplink" href={executive.formatEmail}>{primaryemail}</a>
+              </template>
+              <template if:false={executive.isEmailAvailable}>
+                {primaryemail}
+              </template>
+                    <!-- <a href={executive.formatEmail}>{primaryemail}</a>  -->
+                      <!-- {primaryemail} Mukesh -->
+                </div>
+                </div>
+                </div>
+              </template>
+
+              <template if:false={showPrimaryExecutive}>
+                <img class="cntone" src={noprofile}>
+                <div class="slds-p-left_medium con_div">
+                <h2 class="primaryname">{AE.accountmanagement}</h2>
+                <p class="primarydesignation">{AE.accountdesg}</p>
+                <div class="flex_div slds-p-top_medium primarycontact cursorcls">
+                  <div class="primaryinfophone cursorcls "> <img src={phoneicon} class="phoneimg">
+                    {AE.accountphone}
+                  </div>
+                  <div class="cursorcls primaryinfoemail "> <img
+                      src={messageicon} class="emailimg">
+                    {AE.accountmail}
+                  </div>
+                </div>
+                </div>
+              </template>
+          
+          </div>
+        </div>
+        <!-- My contacts at Merck End -->
+      </div>
+
+      <div class="slds-col slds-size_1-of-2 mob-container2">
+        <!-- Upcoming appoinments -->
+        <div class="card slds-p-bottom_large slds-p-top_medium slds-p-horizontal_medium slds-m-bottom_medium margstyle">
+          <div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+            <div class="slds-grid slds-wrap">
+              <img class="act-image" src={docicon}>
+              <h4 class="slds-p-left_medium cursorcls"> Upcoming appointments </h4>
+            </div>
+          </div>
+          <div class="actext cursorcls">Manage upcoming appointments for live resource presentations with your Merck
+            account
+            team.</div>
+          <!-- <template if:false={norecord}> -->
+            <div >
+              <c-mfr-appointmentdisplay></c-mfr-appointmentdisplay>
+            </div>
+          <!-- </template> -->
+          <!-- <template if:true={norecord}>
+              <div class="bc_box">
+                <div class="btext"> Browse the catalog to discover presentations you would like to schedule.</div>
+                <button class="cta1" data-name="ProductList" onclick={navigatepage}> Browse catalog <span> <img src={logo8}> </span> </button>
+              </div>
+            </template> -->
+
+
+        </div>
+        <!--  Upcoming appoinments End -->
+
+        <!-- Active Requests -->
+        <div class="card slds-p-bottom_large slds-p-top_medium slds-p-horizontal_medium slds-m-bottom_medium margstyle">
+          <div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+            <div class="slds-grid slds-wrap">
+              <img class="act-image" src={logo7}>
+              <h4 class="slds-p-left_medium cursorcls"> Active requests </h4>
+            </div>
+          </div>
+          <div class="actext cursorcls">View and track all of your resource requests here. </div>
+          <template if:true={actprod}>
+            <template for:each={actprod} for:item="prods" for:index="indexx">
+              <template if:true={prods.Meeting_Requests__r}>
+                <lightning-layout-item key={prods.Name}>
+                  <div
+                    class="slds-grid slds-wrap slds-border_bottom slds-p-top_large slds-m-top_xx-small slds-p-bottom_small slds-align_absolute-center">
+                    <div class="slds-col slds-size_10-of-12">
+                      <h4 class="prodname cursorcls"> {prods.Name}
+                        <span class="count_cls slds-m-left_medium">
+                          <c-mfr-activerequestcount product={prods.Id}> </c-mfr-activerequestcount>
+                        </span>
+                      </h4>
+                      <p class="slds-p-left_none proddesc cursorcls"> 
+                        {prods.MSD_CORE_Generic_Name__c}
+                        {prods.MSD_CORE_Dosage_Form_and_Strength__c}
+                        <!-- Modified by Sabari - : [MFRUS-117] Prescribing Information link update -->
+                        <br><span class="activeprods" data-value={prods.MSD_CORE_Product_Description__c}></span></br> </p>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 bpad">
+                      <div data-id={prods.Id} data-name="Request" data-actprodname={prods.Name} onclick={navigatepage}>
+                        <a class="hoverstyle"><img class="arrowstyle" src={logo8} /></a>
+                      </div>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+              </template>
+            </template>
+            <template if:true={showmoredisp1}>
+              <template if:false={showmore1}>
+                <div class="bcbox slds-p-top_medium">
+                  <!-- <a href="url" style="color: #555555;">Show more</a>&nbsp; <img src={logo10}> -->
+                  <p class="showmore" onclick={showmoreclk1}>Show more <img src={logo10} class="slds-p-left_small"></p>
+                </div>
+              </template>
+              <template if:true={showmore1}>
+                <template for:each={actprod2} for:item="pro">
+                  <template if:true={pro.Meeting_Requests__r}>
+                    <lightning-layout-item key={pro.Name}>
+                      <div
+                        class="slds-grid slds-wrap slds-border_bottom slds-grid slds-wrap slds-border_bottom slds-p-top_large slds-m-top_xx-small slds-p-bottom_small slds-align_absolute-center">
+                        <div class="slds-col slds-size_10-of-12">
+                          <h4 class="prodname cursorcls"> {pro.Name}
+                            <span class="count_cls slds-m-left_medium">
+															<!-- E2ESE-912 | RR | 12/21/2022 | Fixed incorrect pending request count -->
+                              <!--<c-mfrproduct-res-count product={pro.Id}> </c-mfrproduct-res-count>-->
+															<c-mfr-activerequestcount product={pro.Id}> </c-mfr-activerequestcount>
+                            </span>
+                          </h4>
+                          <p class="slds-p-left_none proddesc cursorcls"> 
+                            {pro.MSD_CORE_Generic_Name__c}
+                            {pro.MSD_CORE_Dosage_Form_and_Strength__c}
+                            <!-- Modified by Sabari - : [MFRUS-117] Prescribing Information link update -->
+                            <br><span class="activeprods" data-value={pro.MSD_CORE_Product_Description__c}></span></br> </p>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-left_xx-large arrowcls">
+                          <div data-id={pro.Id} data-name="Activity" onclick={navigatepage}>
+                            <a class="hoverstyle"><img class="arrowstyle" src={logo8} /></a>
+                          </div>
+                        </div>
+                      </div>
+                    </lightning-layout-item>
+                  </template>
+                </template>
+                <div class="bcbox slds-p-top_medium">
+                  <!-- <a href="url" style="color: #555555;">Show more</a>&nbsp; <img src={logo10}> -->
+                  <p class="showmore" onclick={showlessclk1}>Show less <img src={uparrowimg} class="slds-p-left_small">
+                  </p>
+                </div>
+              </template>
+            </template>
+          </template>
+          <template if:true={norecord}>
+            <div class="bc_box">
+              <div class="btext"> Browse the catalog to discover and request resources.</div>
+              <button class="cta1" data-name="ProductList" onclick={navigatepage}> Browse catalog <span> <img
+                    src={logo8}> </span> </button>
+            </div>
+          </template>
+
+        </div>
+        <!--  Active Requests End -->
+
+        <!-- My contacts at Merck (Added onnly for Mobile screens) -->
+        <div class="card slds-p-around_medium slds-m-bottom_medium mycontactdiv-mob">
+          <div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+            <div class="slds-grid slds-wrap">
+              <img class="act-image" src={cntuser}>
+              <h3 class="slds-p-left_medium cursorcls"> My contacts at Merck </h3>
+            </div>
+          </div>
+          <div class="actext">
+              <p class="mycontacttext"> Connect with your Merck account team. We are ready to answer your questions and help you to find information</p>
+          </div>
+          <!-- <div class="actext">
+            <a class=" b cursorcls">
+              <p class="mycontacttext"> Connect with your Merck account team. We are ready to answer your questions</p>
+            </a>
+            <a class=" b cursorcls">
+              <p class="mycontacttext">and help you to find information</p>
+            </a>
+          </div> -->
+          <!-- <div class="cbox slds-grid slds-wrap slds-grid_align-spread">
+              <div>
+                <h5 class="primary cursorcls"> Primary Contact</h5>
+              </div>
+            </div> -->
+
+          <div class="flex_div slds-p-vertical_medium primarycon">
+                 
+              <template if:true={showPrimaryExecutive} for:each={primaryExecutive} for:item="executive"
+                for:index="indexx">
+                <template if:true={executive.isPicturePresent}>
+                  <img class="contact-image cntone" key={executive.id} src={executive.MediumPhotoUrl}   />
+              </template>
+              <template if:false={executive.isPicturePresent}>
+                <img class="cntone" key={executive.id} src={noprofile}   />
+              </template>
+                <div class="slds-p-left_medium con_div" key={executive.id}>
+                <h5 key={executive.Id} class="cbox primary cursorcls primaryname">
+                  {executive.FirstName} {executive.LastName} </h5></a>
+                <p key={executive.Id} class="primarydesg cursorcls">{executive.Title}</p>
+                <div key={executive.Id} class="flex_div slds-p-top_medium primarycontact cursorcls">
+                  <div class="primaryinfophone cursorcls "> <img src={phoneicon} class="phoneimg">
+                  <template if:true={executive.isPhoneAvailable}>
+                  <a class="hyplink" href={executive.formatNumber} >{executive.Phone}</a>
+              </template>
+              <template if:false={executive.isPhoneAvailable}>
+                {executive.Phone}
+              </template>
+                  
+                  
+                   <!-- {executive.Phone} -->
+                  </div>
+                  <!--<button class="primaryinfo cursorcls" style="width:250px;padding:0px;"> <img src={messageicon} style="width:30px;padding:0px;" > {executive.Email} </button> -->
+                  <div> 
+                    <button class="cursorcls primaryinfoemail " style="width:250px;padding:0px;">
+                    <img src={messageicon}
+                      class="emailimg">
+                      <template if:true={executive.isEmailAvailable}>
+                  <a class="hyplink" href={executive.formatEmail}>{primaryemail}</a>
+              </template>
+              <template if:false={executive.isEmailAvailable}>
+                {primaryemail}
+              </template>
+            </button>
+                       <!-- {primaryemail}  -->
+                       
+                       </div>
+                </div>
+              </div>
+              </template>
+              <template if:false={showPrimaryExecutive}>
+         
+                <img class="cntone"  src={noprofile}   />
+             
+                <div class="slds-p-left_medium con_div" key={executive.id}>
+                <h2 class="primaryname">{AE.accountmanagement}</h2>
+                <p class="primarydesignation">{AE.accountdesg}</p>
+                <div class="atmbnts slds-p-top_medium primarycontact cursorcls">
+                  <div class="primaryinfophone cursorcls "> <img src={phoneicon} style="width:17px;">
+                    {AE.accountphone}
+                  </div>
+                  <div class="cursorcls primaryinfoemail " style="width:250px;padding:0px;"> <img
+                      src={messageicon} class="emailimg">
+                    {AE.accountmail}
+                  </div>
+                </div></div>
+              </template>
+            
+          </div>
+          <div>
+            <button class="viewall_btn " data-name="MyContacts" onclick={navigatepage}>View all</button>
+          </div>
+        </div>
+        <!-- My contacts at Merck (Added onnly for Mobile screens)  End -->
+      </div>
+    </div>
+  </div>
+
+</div>
+</template>

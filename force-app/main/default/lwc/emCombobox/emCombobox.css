@@ -1,0 +1,109 @@
+.vod-White > .menu-item, 
+.vod-Clear > .menu-item,
+.vod-Red > .menu-item, .vod-0 > .menu-item,
+.vod-Orange > .menu-item, .vod-1 > .menu-item,
+.vod-Peach > .menu-item, .vod-2 > .menu-item,
+.vod-Yellow > .menu-item, .vod-3 > .menu-item,
+.vod-Green > .menu-item, .vod-4 > .menu-item,
+.vod-Teal > .menu-item, .vod-5 > .menu-item,
+.vod-Olive > .menu-item, .vod-6 > .menu-item,
+.vod-Blue > .menu-item, .vod-7 > .menu-item,
+.vod-Purple > .menu-item, .vod-8 > .menu-item,
+.vod-Maroon > .menu-item, .vod-9 > .menu-item,
+.vod-Steel > .menu-item, .vod-10 > .menu-item,
+.vod-Gray > .menu-item, .vod-12 > .menu-item,
+.vod-DarkGray > .menu-item, .vod-13 > .menu-item,
+.vod-DarkPeach > .menu-item, .vod-17 > .menu-item,
+.vod-DarkYellow > .menu-item, .vod-18 > .menu-item
+{
+    --lwc-colorTextDefault: var(--veeva-black-color);
+    --slds-c-icon-color-foreground-default: var(--veeva-black-color);
+}
+
+.vod-DarkSteel > .menu-item, .vod-11 > .menu-item,
+.vod-Black > .menu-item, .vod-14 > .menu-item,
+.vod-DarkRed > .menu-item, .vod-15 > .menu-item,
+.vod-DarkOrange > .menu-item, .vod-16 > .menu-item,
+.vod-DarkGreen > .menu-item, .vod-19 > .menu-item,
+.vod-DarkTeal > .menu-item, .vod-20 > .menu-item,
+.vod-DarkOlive > .menu-item, .vod-21 > .menu-item,
+.vod-DarkBlue > .menu-item, .vod-22 > .menu-item,
+.vod-DarkPurple > .menu-item, .vod-23 > .menu-item,
+.vod-DarkMaroon > .menu-item, .vod-24 > .menu-item
+{
+    --lwc-colorTextDefault: var(--veeva-white-color);
+    --slds-c-icon-color-foreground-default: var(--veeva-white-color);
+}
+
+.vod-White, 
+.vod-Clear,
+.vod-Red, .vod-0,
+.vod-Orange, .vod-1,
+.vod-Peach, .vod-2,
+.vod-Yellow, .vod-3,
+.vod-Green, .vod-4,
+.vod-Teal, .vod-5,
+.vod-Olive, .vod-6,
+.vod-Blue, .vod-7,
+.vod-Purple, .vod-8,
+.vod-Maroon, .vod-9,
+.vod-Steel, .vod-10,
+.vod-Gray, .vod-12,
+.vod-DarkGray, .vod-13,
+.vod-DarkPeach, .vod-17,
+.vod-DarkYellow, .vod-18
+{
+    --lwc-colorTextPlaceholder: var(--veeva-black-color);
+    --slds-c-icon-color-foreground: var(--veeva-black-color);
+    --slds-c-button-text-color-hover: var(--veeva-black-color);
+}
+
+.vod-DarkSteel, .vod-11,
+.vod-Black, .vod-14,
+.vod-DarkRed, .vod-15,
+.vod-DarkOrange, .vod-16,
+.vod-DarkGreen, .vod-19,
+.vod-DarkTeal, .vod-20,
+.vod-DarkOlive, .vod-21,
+.vod-DarkBlue, .vod-22,
+.vod-DarkPurple, .vod-23,
+.vod-DarkMaroon, .vod-24
+{
+    --lwc-colorTextPlaceholder: var(--veeva-white-color);
+    --slds-c-icon-color-foreground: var(--veeva-white-color);
+    --slds-c-button-text-color-hover: var(--veeva-white-color);
+}
+
+:host {
+    --veeva-em-combobox-width: var(--veeva-em-combobox-width-override, initial);
+}
+
+.width-override, .width-override:focus {
+    width: var(--veeva-em-combobox-width);
+}
+
+.input-value {
+    text-overflow: ellipsis;
+    cursor: pointer;
+    z-index: 3;
+    background: transparent;
+}
+
+.dropdown {
+    min-width: clamp(12.5rem, 17rem, 21.5rem);
+}
+
+.slds-input-has-icon > .button-menu {
+    width: 100%;
+    height: calc(50% + 0.4375rem);
+    text-align: right;
+    left: 0;
+    padding-right: var(--lwc-spacingSmall,0.75rem);
+}
+.slds-input-has-icon > .button-menu.slds-is-open {
+    pointer-events: auto;
+}
+
+.prefix-icon {
+    align-self: center;
+}

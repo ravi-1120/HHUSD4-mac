@@ -1,0 +1,65 @@
+<aura:component extends="c:ComponentUtils" controller="MSD_CORE_CC_QuickActionButtonsController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="record" type="Object" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="simpleRecord" type="Object" />
+    <aura:attribute name="userProfile" type="String"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <force:recordData aura:id="recordEditor" 
+                      recordId="{!v.recordId}"
+                      fields="RecordTypeId, RecordType.Name"
+                      layoutType="FULL"
+                      targetRecord ="{!v.record}"
+                      targetFields ="{!v.simpleRecord}"
+                      mode="EDIT"/>
+    <div class="flexipageComponent">
+        <div class="container forceRelatedListSingleContainer">
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="extraSmall forceEntityIcon">
+                                <span class="uiImage"  />
+                                <lightning:icon iconName="standard:action_list_component" size="small" ></lightning:icon>
+                            </div>
+                        </div>
+                        <div class="slds-media__body" >
+                            <h2 id="header">
+                                <!--a class="slds-card__header slds-grid"-->
+                                <!--a class="slds-card__header-link baseCard__header-title-container"-->
+                                <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Quick Actions</span>
+                                <!--/a-->
+                            </h2>
+                        </div>
+                    </header>
+                    <div class="slds-no-flex">
+                        <div class="actionsContainer">
+                            <ul class="small oneActionsRibbon forceActionsContainer forceDeferredDropDownAction" >
+                                <li class="oneActionsDropDown" >
+                                    <div class="uiMenu" >
+                                        <div class="uiPopupTrigger" >
+                                        <!--<lightning:buttonMenu alternativeText="More options"  iconSize="x-small" menuAlignment="right">
+                                                <lightning:menuItem label="Send Letter" class="menuItemLink" value="Send_Letter"  />
+                                            </lightning:buttonMenu> -->
+                                            <!-- KRB 19R4.0 7/26/2019 --> 
+                                           <!-- <lightning:buttonMenu aura:id="menu" alternativeText="More options"  iconSize="x-small" menuAlignment="right" onselect="{! c.handleQuickActionMenuSelect }" > -->
+                                             <!--  <lightning:menuItem label="Rep Follow Up" class="menuItemLink" value="Rep_Follow_Up_Request"  /> --> 
+                                              <!-- <lightning:menuItem label="Send Letter" class="menuItemLink" value="Send_Letter"  /> -->
+                                         <!--   </lightning:buttonMenu> -->
+                                       </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-card__header" style="padding-top: 0; padding-bottom: 0; margin-bottom: 5px;">
+                    <div class="slds-col"> 
+                        <c:MSD_CORE_CC_Request_Links recordId="{!v.recordId}" parentRT="{!v.simpleRecord.RecordType.Name}" userProf = "{!v.userProfile}" ></c:MSD_CORE_CC_Request_Links>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,73 @@
+<!--
+* @author - Brian Pfeil, Merck & Co.,Inc.
+* @pageName - MRK_ApproverSelector.page
+* @description - Provides list of available approvers and allows user to select one
+* @createdate - Feb 5th, 2014
+-->
+
+<!--
+	test URL to execute under brian.pfeil@merck.com.hhusd1 user context
+	/apex/MRK_ApproverSelector?id=a0CZ000000OOoe9&userid=005Z0000001Z905IAC
+-->
+<apex:page showHeader="true" sidebar="true" controller="MRK_ApproverSelectorController">
+
+	<apex:form >
+	
+		<apex:pageBlock title="{!userPrompt}">
+
+			<apex:pageMessages />
+
+			<apex:pageBlockButtons >
+	    	<apex:commandButton action="{!submitForApproval}" value="Submit"/>
+	    	<apex:commandButton action="{!cancel}" value="Cancel"/>
+	  	</apex:pageBlockButtons>
+		
+	    <apex:pageBlockTable value="{!availableApproversList}" var="userWrapper" rowClasses="approver-row">
+	    	<apex:column >
+	    		<apex:inputCheckbox value="{!userWrapper.selected}" styleClass="mutex"/>
+	    	</apex:column>
+	    	<apex:column value="{!userWrapper.u.Name}"/> 
+	    	<apex:column value="{!userWrapper.u.Title}"/> 
+	    	<apex:column value="{!userWrapper.u.Department}"/> 
+	  	</apex:pageBlockTable> 
+
+		</apex:pageBlock>
+
+	</apex:form>
+
+	<apex:includeScript value="{!URLFOR($Resource.mrk_account_management, '/mrk_account_management/lib/jquery/jquery-1.10.2min.js')}"/>
+
+	<!--
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	-->
+
+	<script>
+
+	jQuery.noConflict();
+	jQuery(function($) {
+
+		// enforce single user/checkbox selection
+		$("input.mutex").click(function() {
+		    var el = this;
+		    $("input.mutex").each(function() {
+		        if (this != el) {
+		            this.checked = false;
+		        }
+		    });
+		});
+
+		// usability - allow user to click/tap entire row to select check box
+		$('.approver-row').click(function() {
+			var $e = $(this);
+			var $input = $e.find('input.mutex');
+			if ( !$input.prop('checked') ) {
+				$input.trigger('click');
+			}
+		});
+
+	});
+
+
+	</script>
+
+</apex:page>

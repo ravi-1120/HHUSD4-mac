@@ -1,0 +1,73 @@
+<template>
+    <div class="q-container">
+        <lightning-layout>
+            <template if:false={isHCP}>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12"  small-device-size="12"
+                medium-device-size="6" large-device-size="6">
+                <label class="slds-form-element__label">
+                    <abbr class="slds-required" title="required">*</abbr>
+                    <span class="slds-p-right_x-small">{label.REPORTMULTIPLEPATIENTS}</span>
+                    <lightning-helptext class="helpCls"
+                        content="If marked Yes and an attachment was uploaded, then please include this statement in the AE description: 'Multiple patient AEs within attachment'"></lightning-helptext>
+                </label>
+                <lightning-combobox name="MPI" variant="label-hidden" class="requiredField" required="true"
+                    value={inputValues.MPI} options={patientOptions} dropdown-alignment="auto" role="option"
+                    onchange={handleInput}></lightning-combobox>
+            </lightning-layout-item>
+        </template>
+        </lightning-layout>
+        <lightning-layout multiple-rows="true" vertical-align="end">
+            <template if:false={isHCP}>
+                <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                    medium-device-size="6" large-device-size="6">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">
+                            <abbr class="slds-required" title="required">*</abbr> {label.COMPANYAWARENESSDATE}
+                        </label>
+                        <div class="slds-form-element__control">
+                            <input name="CAD" type="date" class="slds-input" max={maxDate} min={minDate} value={inputValues.CAD}
+                                title="Company Awarness Date" onblur={DateBlur} onchange={handleInput}>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </template>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                medium-device-size="6" large-device-size="6">
+                <lightning-input type="text" name="AOD" label={label.PATIENTFIRSTEXPERIENCE} maxlength="50"
+                    value={inputValues.AOD} onchange={handleInput}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="horizontal-medium" size="12" small-device-size="12"
+                medium-device-size="12" large-device-size="12">
+                <div>
+                    <label class="slds-form-element__label">
+                        <abbr class="slds-required" title="required">*</abbr>
+                        <span class="slds-p-right_x-small">{label.AEDESCRIPTION}</span>
+                        <lightning-helptext class="helpCls" content={label.DESCRITPIONFIELDHELP}></lightning-helptext>
+                    </label>
+                    <span class="slds-float_right slds-p-top_x-small char-count">{charCount}/{label.COUNTVALUE}</span>
+                </div>
+                <lightning-textarea name="AE" placeholder={aeDescriptionPlaceholder} variant="label-hidden"
+                    value={inputValues.AE} maxlength="1000" class="requiredField" required="true"
+                    onchange={handleInput}>
+                </lightning-textarea>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+            <lightning-layout-item lwc:if={showSkipButton} alignment-bump="left">
+                <button class="slds-button slds-button_brand btnHover skipBtn" name="Skip"
+                    onclick={handlePrevNext}>{label.SKIPREVIEW}</button>
+            </lightning-layout-item>
+            <template if:false={showSkipButton}>
+                <lightning-layout-item alignment-bump="left">
+                    <button class="slds-button slds-button_outline-brand btnCancelHover nextPrevBtn slds-m-right_small"
+                        onclick={handlePrevNext} name="Previous">{label.PREVIOUS}</button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext}
+                        name="Next">{label.NEXT}</button>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </div>
+</template>

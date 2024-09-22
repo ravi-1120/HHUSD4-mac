@@ -1,0 +1,32 @@
+<template>
+    <template for:each={rows} for:item="row" for:index="i">
+        <div key={row.override.Id} class="slds-p-bottom_medium">
+            <template if:true={singleColumn}>
+                <div class="slds-text-align_center">{row.override.Warning_Text_vod__c}</div>
+            </template>
+            <template if:false={singleColumn}>
+                <lightning-layout class="slds-p-bottom_small">
+                    <lightning-layout-item class="slds-p-right_small" size="3">
+                        <div class="slds-text-align_left">{row.name}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="9">
+                        <div class="slds-text-align_left">{row.override.Warning_Text_vod__c}</div>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout if:true={row.commentBox} class="slds-p-bottom_small">
+                    <lightning-layout-item size="3">
+                        <div class="slds-text-align_left">
+                            <abbr class="slds-required" if:true={row.commentRequired}>*</abbr>
+                            {page.messages.COMMENT}
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="9">
+                        <lightning-textarea value={row.override.Comment_vod__c} required={row.commentRequired} name={i} variant="label-hidden"
+                            max-length="1000" onchange={handleCommentChange}>
+                        </lightning-textarea>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+        </div>
+    </template>
+</template>

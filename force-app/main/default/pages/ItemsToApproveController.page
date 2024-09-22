@@ -1,0 +1,52 @@
+<apex:page controller="ItemsToApproveController"  language="{! UserLang}" lightningStylesheets="true">
+    <style>
+        .ul:in{text-decoration:underline}
+        .ul{text-decoration:none}
+        .ul{text-color:blue}
+    </style>
+    <apex:form >
+        <apex:pageBlock title="{! $Label.Items_to_Approve }" id="items_list" >
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="{! $Label.Manage_All_Button }" onclick="window.open('{! manageAllURL}');" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{! items }" var="it">
+                <apex:column width="30%">
+                    <apex:facet name="header">{! $Label.Action_Column_Label }</apex:facet>
+                    <apex:outputLink style="color: #015BA6" styleClass="ul" target="_top" value="{! baseURL + '/' + it.id +  '/e?et=REASSIGN&retURL=%2Flightning%2Fpage%2Fhome' }" rendered="{! IF (  !contains($Label.Object_API_Names_to_Hide , APINames[it.id] ), true, false) }" >
+                        {! $Label.Reassign_Link }
+                    </apex:outputLink>
+                    <apex:outputText rendered="{! IF (  !contains($Label.Object_API_Names_to_Hide , APINames[it.id] ), true, false) }">
+                        <font color="grey">
+                            |
+                        </font>
+                    </apex:outputText>
+                    <apex:outputLink style="color: #015BA6" styleClass="ul" target="_top" value="{! 'https://cs18.salesforce.com/p/process/ProcessInstanceWorkitemWizardStageManager?id=' + it.id }" rendered="{! IF (  !contains($Label.Object_API_Names_to_Hide , APINames[it.id] ), true, false) }">
+                        {! $Label.Approve_Reject_Link}
+                    </apex:outputLink>
+                </apex:column>
+                <apex:column width="20%">
+                    <apex:facet name="header">{! $Label.Related_To }</apex:facet>
+                    <apex:outputLink target="_top" value="{! baseURL + '/' + it.ProcessInstance.TargetObject.Id }">
+                        {! it.ProcessInstance.TargetObject.Name }
+                    </apex:outputLink>
+                </apex:column>
+                <apex:column width="15%">
+                    <apex:facet name="header">{! $Label.Type_Column }</apex:facet>
+                    <apex:outputText value="{! labels[it.id]}"/>
+                </apex:column>
+                
+                <apex:column width="20%">
+                    <apex:facet name="header">{! $Label.Most_Recent_Approver }</apex:facet>
+                    <apex:outputLink target="_top" value="{! baseURL + '/' + it.ProcessInstance.CreatedById }">
+                        {! it.ProcessInstance.CreatedBy.Name }
+                    </apex:outputLink>
+                </apex:column>
+                <apex:column width="15%">
+                    <apex:facet name="header">{! $Label.Date_Submitted }</apex:facet>
+                    <apex:outputField value="{! it.ProcessInstance.CreatedDate }"/>
+                </apex:column>
+            </apex:pageBlockTable>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

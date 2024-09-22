@@ -1,0 +1,85 @@
+<template>
+    <template if:true={showWelcomePopup}>
+    <c-m-s-d_-c-o-r-e_welcomemedicalpopup onbuttonchoice={handleButtonChoice}></c-m-s-d_-c-o-r-e_welcomemedicalpopup>
+</template>
+    <div class="background">
+        <lightning-layout class="slds-grid slds-wrap" interop-layout_layout-host="">
+            <lightning-layout-item class="slds-size_12-of-12">
+                        <div class="margindiv">
+                            <img class="logo" role="link" src={imageUrl} title="Merck uscontactcentersafetyreporting.com Portal" data-id="logo"
+                                height="150" tabindex="0" alt="Merck Medical Portal logo">
+                            <a class="medicalfont" padding="horizontal-medium" role="presentation">Contact Center Portal</a> 
+                            <div class={menuClass}>
+                                <div class="menu-header">
+                                    <div class="menu-title">Menu</div>
+                                    <div class="close-button" onclick={toggleMenu}>Close</div>
+                                </div>
+                                <ul class="menu-items">
+                                    <template if:true={CI}>
+                                    <li onclick={navigateToCI}><a href="#" style="color:#00857c" class="menu-item">Competitive Information Portal</a><span class="menu-arrow">></span></li>
+                                    </template>
+                                    <li onclick={redirectToReport}><a href="#" style="color:#00857c" class="menu-item">Adverse Event Reporting Self-Service Portal</a><span class="menu-arrow">></span></li>
+                                </ul>
+                            </div>
+                           
+                            <template if:false={menuOpen}>
+                            <nav>
+                                <div class="nav-container">
+                                    <div class={hamClass} onclick={toggleMenu}>
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                    <div class="menu-text">Menu</div>
+                                </div>
+                            </nav>
+                        </template>                          
+                        </div>
+                        <div class="newstatement">
+                            <p>For Healthcare Professionals, Merck Employees, Merck Patient Support Program (PSP) Representatives and in the United States and its territories only</p>
+                        </div>
+                    <hr>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+    <div class="parentclass">
+        <div class="MainformCls MainFormClip">
+            <div class="formCls formClip">
+                <div multiple-rows="true" class="heightdiv">
+                    <div size="10" class="divisionCls"> 
+                        <div class="imptext">
+                            {stageName} <!-- Dynamically display the stage name -->
+                        </div>
+                    </div>
+                </div>
+                <div class="welcome-container">
+                    <div class="welcome-text">
+                        <div>
+                        <span class="welcome-prefix">|</span> 
+                        <span class="welcome"> WELCOME TO THE </span>
+                        </div>
+                        <div class="portal-title">Merck Contact Center Portal</div>
+                    </div>
+                    <div class="welcome-image">
+                        <img src={MerckContact} alt="Lab image" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Triangle"></div>
+    </div>
+    <br>
+    <br>
+    <!-- <div class="welcome-container">
+        <div class="welcome-text">
+            <div>
+            <span class="welcome-prefix">|</span> 
+            <span class="welcome"> WELCOME TO THE </span>
+            </div>
+            <div class="portal-title">Merck Contact Center Portal</div>
+        </div>
+        <div class="welcome-image">
+            <img src={MerckContact} alt="Lab image" />
+        </div>
+    </div> -->
+</template>

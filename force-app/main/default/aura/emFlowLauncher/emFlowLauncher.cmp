@@ -1,0 +1,7 @@
+<aura:component controller="VeevaMessageController" implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="flowName" type="String" />
+    <aura:attribute name="flowVariables" type="Object" />
+
+    <lightning:messageChannel type="Events_Management_Channel_vod__c" onMessage="{!c.handleMessage}"/>
+    {!v.body}
+</aura:component>

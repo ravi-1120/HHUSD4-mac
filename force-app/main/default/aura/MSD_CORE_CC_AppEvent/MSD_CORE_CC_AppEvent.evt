@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION">
+    <aura:attribute name="desc" type="String"/>
+    <aura:attribute name="recId" type="String"/>
+    <aura:attribute name="bypassAutoSearch" type="Boolean" default="false"/>
+</aura:event>

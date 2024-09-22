@@ -1,0 +1,478 @@
+<template>
+
+	<!--<div if:true={showLoader}  style="position:relative;"> -->
+	<section if:true={showLoader} role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+		class="slds-modal slds-fade-in-open loaderstyle">
+		<lightning-spinner class="Spinner" if:true={showLoader} variant="brand" size="large"> </lightning-spinner>
+		<div if:true={showLoader} class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+	</section>
+
+	<div class="c-container schedulepg andwdt">
+		<div class="bg slds-p-vertical_medium" style={backgroundStyle}>
+			<div class="container titlpad">
+				<c-custom-toast auto-close-time="8000"></c-custom-toast>
+
+				<div class="prodheader">
+					<p class="ptextone">
+						<a href='#' onclick={product} class="productstyle">Products</a>
+						<span> / </span>
+						<span onclick={backbutton} class="spanclsprod">{productLabel}</span>
+						<span> / </span><span class="cursorcls"> Schedule appointment</span>
+					</p>	
+                    <!-- Added by Sabari - To Show Generic Name with Brand-->
+					<template if:false={showBrandnamewithGenericName}>
+						<div class="ptexttwo cursorcls">{productName}</div>
+						<p class="ptexthree cursorcls">{genericname} {dosage} </p>
+					</template>	
+                    <!-- Added by Sabari - To Show Generic Name with Brand-->
+					<template if:true={showBrandnamewithGenericName}>
+						<div class="ptexttwo cursorcls">{productName} {genericname}</div>
+						<p class="ptexthree cursorcls">{dosage} {productDescription}</p>
+					</template>
+					<div class="prescribediv">
+						<div class="lnbtns webview">
+							<template if:true={pdfDownloadLink}>
+								<a href={pdfDownloadLink} target="_blank" class="button bt1"><span class="prescribeinfo"
+										onclick={handlepipdf}>Prescribing information<span class="prescribeimgcontainer"><img src={logo2}
+												class="prescibeimg"></span>
+									</span></a>
+							</template>
+							<template if:true={medicalguide}>
+								<a href={medicalguide} target="_blank" class="button bt1" onclick={handlemeguide}><span
+										class="prescribeinfo">Medication
+										guide<span class="prescribeimgcontainer"><img src={logo2}
+												class="prescibeimg"></span>
+									</span></a>
+							</template>
+							<template if:true={patientInformationLink}>
+								<a href={patientInformationLink} target="_blank" class="button bt1 slds-p-around_small" onclick={handlemepatinfpdf}><span
+										class="prescribeinfo">Patient Information<span class="prescribeimgcontainer"><img src={logo2}
+												class="prescibeimg"></span>
+									</span></a>
+							</template>
+							<template if:true={instructionsforuselink}>
+								<a href={instructionsforuselink} target="_blank" class="button bt1"><span class="prescribeinfo"
+										onclick={handlepipdf}>{instructionsforuselabel}<span class="prescribeimgcontainer"><img src={logo2}
+												class="prescibeimg"></span>
+									</span></a>
+							</template>
+
+							<!-- Added by Sabari - : [E2ESE-1770] Patient Information button -->
+							<a class="button bt1 slds-p-left_small" data-name="ProductList" onclick={navigatepage}
+								target="_self"><span class="prescribeinfo">Browse catalog<span
+										class="prescribeimgcontainer"><img class="imgsz" src={logo3}></span>
+								</span></a>
+							<a href={hcplink} target="_blank" class="bt2" onclick={handlehcp}><span class="hcp">HCP site
+									<img src={logo4} class="hcp1"></span></a>
+						</div>
+
+						<div class="lnbtns mobview">
+							<template if:true={pdfDownloadLink}>
+								<a href={pdfDownloadLink} target="_blank" class="button bt1 btn-btm-marg"><span class="prescribeinfo"
+										onclick={handlepipdf}>Prescribing Information<span class="prescribeimgcontainer"><img src={logo2}
+												class="prescibeimg"></span>
+									</span></a>
+							</template>
+							
+							<template if:true={medicalguide}>
+								<a href={medicalguide} target="_blank" class="button bt1 btn-btm-marg" onclick={handlemeguide}><span
+										class="prescribeinfo">Medication
+										Guide<span class="prescribeimgcontainer"><img src={logo2}
+												class="prescibeimg"></span>
+									</span></a>
+							</template>
+							<template if:true={patientInformationLink}>
+								<a href={patientInformationLink} target="_blank" class="button bt1 btn-btm-marg" onclick={handlemepatinfpdf}><span
+										class="prescribeinfo">Patient Information<span class="prescribeimgcontainer"><img src={logo2}
+												class="prescibeimg"></span>
+									</span></a>
+							</template>
+							<template if:true={instructionsforuselink}>
+								<a href={instructionsforuselink} target="_blank" class="button bt1 btn-btm-marg"><span class="prescribeinfo"
+										onclick={handlepipdf}>{instructionsforuselabel}<span class="prescribeimgcontainer"><img src={logo2}
+												class="prescibeimg"></span>
+									</span></a>
+							</template>
+							
+							<a class="button bt1 slds-p-left_small btn-btm-marg bcpad" data-name="ProductList" onclick={navigatepage}
+								target="_self"><span class="prescribeinfo">Browse catalog<span
+										class="prescribeimgcontainer"><img src={logo3}></span>
+								</span></a>
+							
+							<a href={hcplink} target="_blank" class="bt2" onclick={handlehcp}><span class="hcp nopad">HCP site
+									<img src={logo4} class="hcp hpad"></span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="cardcontainer">
+			<div class="card">
+				<div class="schedulebody">
+					<div class="innerbody">
+						<a class="b cursorcls">
+							<!-- Added For View Upon Request Resource -->
+							    <template if:true={showheading}>
+                                           <h1 class="heading1 headingcms">Schedule an appointment to get more information about {productName}:</h1>
+								</template>
+							    <template if:false={showheading} >  <!--Added for comming soon resources showheading -->
+										<template if:true={notviewUponReq}>
+											<h1 class="heading1">Schedule appointment to view this resource:</h1>
+										</template>
+										<template if:false={notviewUponReq}>
+											<p class="heading1">Request to view this resource:</p>
+										</template>
+								</template>
+						</a>
+						<a if:false={showheading} class="b cursorcls">
+							<h3 class="heading2">Requested content</h3>
+						</a>
+						<div if:false={showheading} class="titlecard">  <!--Added for comming soon resources showheading-->
+							<div class="slds-grid slds-wrap wrap1">
+								<div class="slds-col slds-size_11-of-12">
+									<a class="b cursorcls">
+										<p class="titlehead slds-m-bottom_x-small">{catalogName}</p>
+									</a>
+									<a if:true={isReadMore} class="b cursorcls">
+										<div style="font-size: 14px; font-family: 'Invention';padding-bottom: 10px;">
+											{shortDescription}... <span class="readmore" onclick={handleReadMore}>Read
+												more</span></span>
+												<!-- /* Added by Sabari to add the new line in Catalog description */ -->
+												<div class="jobid"></div>  
+												</div>
+									</a>
+									<a if:false={isReadMore} class="b cursorcls">
+										<!-- /* Added by Sabari to add the new line in Catalog description */ -->
+										<p class="description updatedesc" data-value={catalofDescription}>{catalofDescription}</p>
+									</a>
+									<!-- Not View Upon Request Resource -->
+									<template if:true={notviewUponReq}>
+										<div class="presentationcontainer mobbgr">
+											<a class="b cursorcls">
+												<p class="presentation ">Live Presentation</p>
+											</a>
+										</div>
+									</template>
+									<!-- For View Upon Request Resource -->
+									<template if:false={notviewUponReq}>
+										<div class="requestcontainer mobrequ">
+											<a class="b cursorcls">
+												<p class="presentation ">Request-only PDF</p>
+											</a>
+										</div>
+									</template>
+								</div>
+								<div class="slds-col slds-size_1-of-12">
+									<div class="book_cls bookmark_cls slds-p-bottom_large">
+										<template if:true={library}>
+											<div>
+												<a class="hoverstyle"><img class="slds-float_right" data-id={recId}
+														src={bookmarkSelect} onclick={handlerBookMarkRemove}></a>
+											</div>
+										</template>
+										<template if:false={library}>
+											<div>
+												<a class="hoverstyle"><img class="slds-float_right" data-id={recId}
+														src={bookmarklogo} onclick={handlerBookMark}></a>
+											</div>
+										</template>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Added For View Upon Request Resource -->
+						<template if:false={showheading} > <!--Added for comming soon resources showheading-->
+                           <template if:false={notviewUponReq}>
+								<div class="button1">
+									<div class="submitrequest vursbtn"><button class="slds-button slds-button_neutral subreq"
+											onclick={hsForViewuponreq} disabled={disableSubmit}>Submit request</button></div>
+								</div>
+						   </template>
+						</template>
+						
+						<!-- Added For View Upon Request Resource -->
+						<template if:true={notviewUponReq}>					<!-- Added For View Upon Request Resource -->
+							<a class="b cursorcls">
+								<div class="appointmentpreference">Appointment preferences</div>
+							</a>
+							<hr class="hr" />
+							<a class="b cursorcls">
+								<div class="appointmenttime">Appointment times</div>
+							</a>
+							<div class="slds-form datetimecls">
+								<template if:true={templist}>
+									<template for:each={templist} for:item="counter" for:index="index">
+										<div class="cls_date" key={counter}>
+											<div class='col-sm-4 slds-p-right_small datetime'>
+												<div
+													class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open fullwidthcal">
+													<div data-id={counter.id} style="cursor: pointer;">
+														<lightning-input type="text" data-id={counter.id}
+															class="Date input-cls" placeholder="Select" name="Date"
+															label="Date" value={counter.calval} onclick={showCalendar}
+															readonly>
+														</lightning-input>
+													</div>
+													<div class="slds-input__icon-group slds-input__icon-group_right"
+														data-id={counter.id} onclick={showCalendar}>	
+														<img src={calicon} class="cal" style="cursor: pointer;" />
+													</div>
+													<div data-id={counter.id} onclick={ignoreCalendarClose}>
+														<c-lightning-calendar class="calendarcls"
+															onselecteddate={handleselecteddate}>
+														</c-lightning-calendar>
+													</div>
+												</div>
+											</div>
+											<div class='col-sm-4 col-sm-4-time'>
+												<div class="form-group">
+													<lightning-combobox name="progress" label="Time (optional)"
+														value={counter.caltime} data-id={counter.drpid} placeholder="Select"
+														options={timeoption} onchange={handleTimeOption}
+														onfocus={handleTimeOptionClick} class="Time"></lightning-combobox>
+
+												</div>
+											</div>
+											<!-- END DATE TIME PICKER -->
+											<!-- class [mobCloseCls] added for mobile view -->
+											<lightning-icon if:false={hideRemoveDate} data-id={counter.id}
+												data-value={index} class="close_cls mobCloseCls" icon-name="utility:close"
+												alternative-text="Close" title="Click to remove"
+												onclick={removedate}></lightning-icon>
+
+											<!-- This Div only Visible in Mobile View -->
+											<div if:false={hideRemoveDate}
+												class="button1 mobRemoveDateBtn slds-p-bottom_small">
+												<lightning-button variant="brand-outline " label="Remove X"
+													title="Click to remove" onclick={removedate} class="adddate"
+													data-id={counter.id} data-value={index}>
+												</lightning-button>
+											</div>
+
+										</div>
+									</template>
+								</template>
+							</div>
+							<div class="adddate">
+								<button class="slds-button slds-button_neutral adddate" onclick={addnewdate}><span
+										class="adddate">Add another date&nbsp;&nbsp;<span><img src={plusicon}> </span>
+									</span>
+								</button>
+							</div>
+							<br /><br />
+							<a class="b cursorcls">
+								<lightning-radio-group name="radioGroup" class="radiobtncls" label="Meeting preference"
+									options={options} value={value} type="radio" onchange={handleMeetingPref}>
+								</lightning-radio-group>
+							</a>
+							<a class="b cursorcls">
+								<div class="additionalattendees">Invite additional attendees</div>
+							</a>
+							<a class="b cursorcls">
+								<div class="additionalemail">Additional attendee email address (optional)</div>
+							</a>
+							<template for:each={addattlst} for:item="counter" for:index="index">
+								<div class="cls_add" key={counter}>
+									<lightning-input data-id="attendee" key={counter} variant="label-hidden" type="text"
+										class="attendeestyle" onclick={handleAddAttendees}>
+									</lightning-input>
+									<lightning-icon if:false={hideRemoveAttendee} class="close_cls"
+										icon-name="utility:close" alternative-text="Close" title="Image" data-value={index}
+										onclick={removefield}></lightning-icon>
+								</div>
+							</template>
+							<div class="button1 adddate">
+								<button class="slds-button slds-button_neutral adddate" onclick={addnewatte}><span
+										class="adddate">Add attendee&nbsp;&nbsp;<span><img src={plusicon}> </span>
+									</span>
+								</button>
+							</div>
+							<div class="button1">
+								<div class="submitrequest submi"><button class="slds-button slds-button_neutral subreq"
+										onclick={handleSubmit} disabled={disableSubmit}>Submit request</button></div>
+							</div>
+						</template>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="mfrsf indicstyle">
+				<template if:true={productid}>
+					<c-mfr_-safety product={productid}></c-mfr_-safety>
+				</template>
+			</div>
+
+			<!-- <div class="descinfo">
+		   <a class="b cursorcls"><div class="indication">Indication</div>
+		   <div class="verqu">VERQUVO is indicated to reduce the risk of cardiovascular death and heart failure
+			   (HF)
+			   hospitalization following a hospitalization for HF or need for outpatient IV diuretics,
+			   in adults with symptomatic chronic HF and ejection fraction less than 45%.</div></a>
+			   <a class="b cursorcls"><div class="indication">Selected Safety Information</div>
+		   <div class="verqu">VERQUVO is contraindicated in patients with concomitant use of other soluble
+			   guanylate cyclase (sGC) stimulators.
+			   VERQUVO is contraindicated in pregnancy.
+			   Embryo-Fetal Toxicity: Based on data from animal reproduction studies, VERQUVO may cause fetal harm
+			   when administered to a pregnant woman. Advise females of reproductive potential of the potential
+			   risk to a fetus. Obtain a pregnancy test before the start of treatment. Advise females of
+			   reproductive potential to use effective contraception during treatment with VERQUVO and for at least
+			   one month after the final dose.
+			   In a clinical trial, the most commonly observed adverse events with VERQUVO vs placebo, occurring at
+			   a frequency ≥5%, were hypotension (16% vs 15%) and anemia (10% vs 7%).
+			   Concomitant use of VERQUVO with PDE-5 inhibitors is not recommended due to the potential for
+			   hypotension.
+			   There are no data on the presence of vericiguat in human milk, the effects on the breastfed infant,
+			   or effects on milk production. Because of the potential for serious adverse reactions in breastfed
+			   infants from VERQUVO, advise women not to breastfeed during treatment with VERQUVO.</div></a>
+		   <p><b style="font-size: 24px;">Before prescribing BRIDION, please read the
+				   accompanying </b><a style="font-size: 24px; color: rgb(0, 135, 124);" target="_blank"
+				   href="https://www.merck.com/product/usa/pi_circulars/b/bridion/bridion_pi.pdf"><b><u>Prescribing
+						   Information</u></b></a><b
+				   style="font-size: 24px; color: rgb(0, 135, 124);"><u>.</u></b><b style="font-size: 24px;"> The
+			   </b><a style="font-size: 24px; color: rgb(0, 135, 124);" target="_blank"
+				   href="https://www.merck.com/product/usa/pi_circulars/v/verquvo/verquvo_mg.pdf"><b><u> Medication
+						   Guide</u></b></a><b style="font-size: 24px;"> also is
+				   available.</b></p>
+	   </div> -->
+
+		</div>
+
+
+		<div if:true={showResponse}>
+			<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+				class="slds-modal popupheight slds-fade-in-open">
+				<div class="slds-modal__container">
+
+					<div class="slds-modal__header">
+						<!-- class [mob-rs-popup-hdr] added for mobile screen -->
+						<div class="slds-grid slds-gutters mob-rs-popup-hdr ">
+							<div class="slds-size_11-of-12 sub">
+								<h1 id="modal-heading-01"
+									class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+									<span if:false={meetingUpdate}> Your request has been submitted </span>
+									<span if:true={meetingUpdate}> Your request has been updated</span>
+								</h1>
+							</div>
+							<div class="slds-col slds-size_1-of-12">
+								<button class="slds-float_right slds-p-around_xx-small sub1" data-name="back to screen_X"
+									 onclick={closeResponse}><span><img src={cross}>
+									</span></button>
+
+							</div>
+						</div>
+					</div>
+					<!--<div><p>You have submitted a request for an appointment to view: Vericiguat Budget Impact Model</p></div>-->
+					<div if:true={notviewUponReq} class="childbody">
+					<div class="slds-modal__content " id="modal-content-id-2">
+						<div class="content_div">
+						<div if:true={showheading} class="slds-align_absolute-center subtitlewidth subtitleheder cmssubtitleheder">
+                            <span class="subtitle">
+								<p> You have submitted a request for:  </p>
+								<p> {productName} information session</p>
+							</span>
+						</div>
+						<div if:false={showheading} class="subtitleheder">
+							<span class="subtitle">
+								<p> You have submitted a request for an appointment to view: </p>
+								<template if:false={noTitle}>
+								<p> {catalogName}</p>
+								</template>
+							</span>
+						</div>
+						<div class="reqnuber"><!--1626: Ramana : Removed class "slds-align_absolute-center"-->
+							<div class="slds-box box">
+								<p class="requestNumber"> Your request number is <span class="numberreq">
+										<br class="br-on-mobile" />{meetingRequestNumber}</span></p>
+								<!-- class [mob-br-dsn] added for mobile view  -->
+								<!-- <br class="mob-br-dsn"> -->
+								<div class="detailpopUp">
+                                    <p if:true={showheading} >
+                                       Look for email updates as your Merck account team works to schedule your appointment.
+									</p>
+									<p if:false={showheading} >Look for email updates as your Merck account team works to schedule your appointment and grant access to 
+										the requested content. A Merck account team member will be in touch with you shortly regarding your request.
+									</p>
+								<!-- class [mob-br-dsn] added for mobile view  -->
+								<!-- <br class="mob-br-dsn"> -->
+							    </div>
+								<!-- E2ESI-905 - Removed href="#" to restrict open in new tab -->
+								<a onclick={viewRequest} class="slds-button viewrequest"><span>View request<img
+											class="reqview" src={sidearrow}> </span></a>
+							</div>
+						</div>
+						<!-- <p class="questions">Questions? Contact your Merck Account Team for further assistance.</p> -->
+						<p class="questions">Questions? Contact <a href={contactpageurl} onclick={handleGA}>your Merck account team</a> for further assistance.</p>
+						</div>
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral pop" data-name="Dashboard"
+								onclick={navigatepage}>Go to dashboard</button>
+
+							<button class="slds-button slds-button_neutral pop1" data-name="back to screen_close"
+								onclick={closeResponse}>Close<span><img class="crossbutton" src={cross}>
+								</span></button>
+
+						</div>
+					</div>
+					</div>
+					<div if:false={notviewUponReq} class="childbody">
+						<div class="slds-modal__content " id="modal-content-id-3">
+						<div class="content_div">
+						<div class="subtitleheder">
+							<span class="subtitle">
+								<p> You have submitted a request to view: </p>
+								<p> {catalogName}</p>
+							</span>
+						</div>
+						<div class="slds-align_absolute-center">
+							<div class="slds-box box">
+								<p class="requestNumber"> Your request number is <span class="numberreq">
+										<br class="br-on-mobile" />{meetingRequestNumber}</span></p>
+								<!-- class [mob-br-dsn] added for mobile view  -->
+								<!-- <br class="mob-br-dsn"> -->
+								<div class="detailpopUp">
+									<p>Look for email updates as your Merck account team works to grant access to 
+										the requested content.</p>
+									<!-- class [mob-br-dsn] added for mobile view  -->
+									<!-- <br class="mob-br-dsn"> -->
+								</div>
+								<!-- E2ESI-905 - Removed href="#" to restrict open in new tab -->
+								<a onclick={viewRequest} class="slds-button viewrequest"><span>View request<img
+											class="reqview" src={sidearrow}> </span></a>
+							</div>
+						</div>
+						<!-- <p class="questions">Questions? Contact your Merck Account Team for further assistance.</p> -->
+						<p class="questions">Questions? Contact <a href={contactpageurl} onclick={handleGA}>your Merck account team</a> for further assistance.</p>
+						</div>
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral pop" data-name="Dashboard"
+								onclick={navigatepage}>Go to dashboard</button>
+
+							<button class="slds-button slds-button_neutral pop1" data-name="back to screen_close"
+								onclick={closeResponse}>Close<span><img class="crossbutton" src={cross}>
+								</span></button>
+
+						</div>
+					</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</div>
+
+
+
+	</div>
+
+	<template if:false={footer}>
+		<template if:false={showResponse}>
+			<div class="fixed_cls">
+				<c-samplenew2></c-samplenew2>
+				<!-- <c-sample></c-sample> -->
+			</div>
+		</template>
+	</template>
+
+</template>

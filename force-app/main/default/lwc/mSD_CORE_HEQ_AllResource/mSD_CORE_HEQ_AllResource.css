@@ -1,0 +1,177 @@
+.container{
+	background-color: #E7E7E7;
+	min-width: 100%;
+	padding: 24px;
+}
+
+.mainDivCls{
+	display: flex;
+    justify-content: space-between;
+    background: #F4F4D3;
+    width: 100%;
+    min-height: 38px;
+	align-items: center;
+}
+.filterCls {
+
+	border-radius: 12.5px;
+    background: #00857C;
+    width: auto;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: #FFF;
+    font-family: 'Invention';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+	gap: 3px;
+	cursor: pointer;
+	height: 25px;
+}
+
+.catagoriesCls {
+	display: flex;
+	gap: 7px;
+	width: 100%;
+	background: #F4F4D3;
+	flex-wrap: wrap;
+    flex-grow: 1;
+	align-items: center;
+    padding-left: 13px;
+	
+}
+
+.totalRecords {
+	display: flex;
+	color: var(--Colors-Neutral-colorTextBase, #000);
+	font-family: 'Invention';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 18px;
+	justify-content: flex-end; /* Align text to the right within this element */
+    white-space: nowrap; /* Prevent the text from wrapping */
+	margin-right: 15px;
+}
+.breadcrumbs {
+	padding-bottom: 18px;
+}
+
+.breadcrumb1 {
+	color: #ADADAD;
+	font-family: 'Invention';
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	cursor: pointer;
+}
+
+.breadcrumb2 {
+	color: #070101;
+	font-family: 'Invention';
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+	margin-left: 6px;
+}
+
+.headingcls {
+	background: #FFF;
+	height: 66px;
+}
+
+.headertext {
+	color: #0B0000;
+	font-family: 'Invention';
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+	margin: auto 0 auto 21px;
+}
+
+.tilelistview {
+	margin: auto 0;
+}
+
+.tileicon {
+	padding-right: 24px;
+	cursor: pointer;
+}
+
+.listicon {
+	padding-right: 18px;
+	cursor: pointer;
+}
+
+.lastmodified {
+	padding-right: 15px;
+}
+
+.maincontent {
+	margin-top: 10px;
+	display: flex;
+}
+
+.listviewcls {
+	background: #FFF;
+}
+
+.tileviewcls {
+	border-radius: 5px;
+	border: 1px solid #E4E4E4;
+	background: #FFF;
+	margin-top: 8px;
+}
+
+.grey-background {
+    background-color: grey;
+}
+
+.collectionbtncls {
+	display: flex;
+    justify-content: end;
+}
+
+.bottompagination {
+	padding-top: 15px;
+}
+
+/* Sidebar */
+
+.sidebarbuttoncls {
+	text-align: center;
+    display: flex;
+    padding: 8px;
+    background: white;
+    margin-right: 8px;
+}
+  
+.tilepaginationcls {
+	padding-left: 24px;
+	width: 100%;
+}
+
+.margincls-tile {
+	margin-left: -102px;
+}
+
+.width-sidebar {
+	min-width: 268px;
+	max-width: 268px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+	.mainDivCls {
+			display: flex;
+			justify-content: space-between;
+			background: #F4F4D3;
+			width: 92%;
+			min-height: 38px;
+			align-items: center;
+		}
+}

@@ -1,0 +1,8 @@
+<template>
+    <div if:true={noRelatedListsMessage} class="slds-card slds-text-title_bold slds-text-align_center">{noRelatedListsMessage}</div>
+    <template if:true={hasRelatedLists} for:each={relatedLists} for:item="relatedList">
+        <div class="slds-p-bottom_small" key={relatedList.relationship}>
+            <c-veeva-related-list-table meta={relatedList} parent-id={recordId} page-ctrl={pageCtrl} size="small"></c-veeva-related-list-table>
+        </div>
+    </template>
+</template>

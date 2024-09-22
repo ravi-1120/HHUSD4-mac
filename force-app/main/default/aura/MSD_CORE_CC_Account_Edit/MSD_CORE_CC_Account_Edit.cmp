@@ -1,0 +1,12 @@
+<aura:component implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" description="used to ovveride Account Edit">
+    <!-- Component Attributes -->
+    <aura:attribute name="recordId" type="String"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+	
+    <!-- Component Markup -->
+    <div class="slds-card slds-card_boundary forceBaseCard flexipageCard" style="padding: 5px;overflow: hidden;">
+        <button class="slds-button slds-button_brand" style="z-index: 1;float: right;width: 120px;" onclick="{!c.openModal}">
+            Edit KRB Account
+        </button>         
+    </div>	
+</aura:component>

@@ -1,0 +1,40 @@
+<template>
+    <c-veeva-spinner if:true={loading}></c-veeva-spinner>
+    <div if:false={loading}>
+        <div class="slds-modal__header">
+            <h1 class="slds-modal__title slds-hyphenate">{labels.addToExistingCallTitle}</h1>
+        </div>
+        <div class="slds-modal__content slds-p-around_xx-small v-s4l-modal-content">
+            <!-- call selector -->
+            <div class="slds-p-vertical_x-small">
+                <c-s4l-call-selector data-validity labels={labels} mca-id={mcaId} is-child-account-enabled={isChildAccountEnabled}
+                    onloadingcall={handleCallLoading} onselectcall={handleCallSelection} onerror={handleCallSelectionError}>
+                </c-s4l-call-selector>
+                <!-- show a spinner while loading call supplementary information -->
+                <c-veeva-spinner if:true={loadingCall}></c-veeva-spinner>
+            </div>
+            <c-s4l-attendee-section data-validity if:true={showAttendeeSection} labels={labels}
+                mca-id={mcaId} selected-call-id={selectedCallId} selected-account-id={selectedCallAccountId}
+                title={labels.whoViewedMedia} add-attendees-button-label={labels.selectAttendees}
+                attendee-search-modal-title={labels.selectAttendees} attendee-search-modal-save-btn-label={labels.select}
+                is-child-account-enabled={isChildAccountEnabled} is-sign-details-on-layout={selectedCall.isSD}>
+            </c-s4l-attendee-section>
+        </div>
+        <div class="slds-modal__footer">
+            <div class="slds-grid">
+                <div>
+                    <lightning-button label={labels.previous} title={labels.previous} onclick={handlePrevious} variant="neutral"></lightning-button>
+                </div>
+                <div class="slds-col_bump-left">
+                    <lightning-button label={labels.cancel} title={labels.cancel} onclick={handleCancel} variant="neutral"></lightning-button>
+                    <lightning-button label={labels.save} title={labels.save} onclick={handleSave} variant="brand" disabled={disableSaveButton} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- unified alert window, references properties from `alertModalData` -->
+    <c-veeva-alert-modal if:true={alertModalData.isVisible} show={alertModalData.isVisible}
+        title={alertModalData.title} messages={alertModalData.messages}
+        okay-label={labels.close} button-style="neutral" onclose={alertModalData.onCloseHandler} >
+    </c-veeva-alert-modal>
+</template>

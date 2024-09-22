@@ -1,0 +1,190 @@
+.monthpad {
+    margin: 0px;
+    padding: 4px;
+    font-family: 'Invention';
+}
+
+td.selected {
+    font-weight: bold;
+    background-color: #00857c;
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    height: 35px;
+    width: 33px;
+}
+
+td.selected-not {
+    font-weight: bold;
+    background-color: #00857c;
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.td-dark-border {
+    border: 1px solid black;
+    text-align: center;
+}
+
+
+table {
+    border-collapse: separate;
+    border-spacing: 3px;
+    background-color: white;
+}
+
+td {
+    background-color: white;
+    border: 1px solid black;
+    padding: 0px !important;
+    cursor: pointer;
+    height: 35px;
+    width: 33px;
+}
+
+.td-disabled {
+    background-color: #eeeeee;
+    border: 1px solid gray;
+    padding: 6px;
+    color: gray;
+    cursor: default;
+}
+
+.td-blank {
+    background-color: white;
+    border: none;
+    padding: 6px;
+    cursor:default;
+}
+
+.next::before {
+    content: " ";
+    border-right: 2px solid #000;
+    border-top: 2px solid #000;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    cursor: pointer;
+    display: block;
+    margin-right: 10px;
+
+}
+
+.prev::before {
+    content: " ";
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    cursor: pointer;
+    display: block;
+    margin-left: 10px;
+
+}
+
+.prevDisabled::before {
+    content: " ";
+    border-left: 2px solid silver;
+    border-bottom: 2px solid silver;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    display: block;
+    margin-left: 10px;
+    color: silver;
+
+}
+
+abbr {
+    cursor: default;
+}
+
+.input-cls {
+    border: 1px solid #333333 !important;
+    border-radius: 4px !important;
+    background-color: #FFFFFF;
+    box-shadow: none;
+    padding-left: 5px;
+}
+
+.labelstyle {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    display: block;
+    line-height: 21px;
+    color: #333333;
+}
+
+.caliconmain {
+    right: 3%;
+}
+
+.input-cls:focus {
+    box-shadow: none;
+}
+
+.slds-day {
+    background-color: #FFFFFF;
+}
+
+.selected .slds-day {
+    background-color: #00857c !important;
+}
+
+.td-disabled .slds-day {
+    background-color: #eeeeee !important;
+}
+
+.calendar0 {
+    margin-top: 0;
+
+}
+
+.calendar1 {
+    margin-top: 47%;
+
+}
+
+.calendar2 {
+    margin-top: 90%;
+
+}
+
+.calendar3 {
+    margin-top: 90%;
+
+}
+
+.sccalendar0 {
+    margin-top: 0%;
+}
+
+.sccalendar1 {
+    margin-top: 25%;
+}
+
+.sccalendar2 {
+    margin-top: 50%;
+}
+
+.abbr[data-bs-original-title],
+abbr[title] {
+    -webkit-text-decoration: underline dotted;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+tbody .td-enabled:hover{
+    height: 35px;
+    width: 33px;
+    background-color: #00857c;
+    color: white;
+    font-weight: 700;
+}
+.calendarcls .slds-datepicker thead>tr>th {
+padding-bottom: 0.5rem!important;
+
+}

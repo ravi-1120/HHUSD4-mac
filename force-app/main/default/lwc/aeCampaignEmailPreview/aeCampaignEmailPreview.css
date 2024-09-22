@@ -1,0 +1,7 @@
+.slds-card {
+  min-height : 3.125REM;
+}
+
+.htmlContainer, .htmlContainer img {
+  all: initial;
+}

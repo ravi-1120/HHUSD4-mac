@@ -1,0 +1,260 @@
+.p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #333333;
+}
+
+.cardcolor:hover:after {
+    width: 5px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 6px 0 0 6px;
+    bottom: 0;
+    content: "";
+}
+
+
+.cardcolor{
+    background-color: white;
+        margin-left: 0;
+        padding-right: 0;
+        margin-right: 0;
+        padding-left: 0;
+        border-radius: 4px;
+}
+
+.body_cls{
+    background-color: #f7f7f7;
+}
+
+/* [data-fill="#FF8C00"].cardcolor:hover:after {
+    background: #ff8300;
+}
+
+[data-fill="#FF5733"].cardcolor:hover:after {
+    background: #1a5a64;
+}
+
+[data-fill="#2D368F"].cardcolor:hover:after {
+    background: #333399;
+}
+
+[data-fill="#2A73B5"].cardcolor:hover:after {
+    background: #3366CC;
+}
+
+[data-fill="#32CD32"].cardcolor:hover:after {
+    background: #6cc04a;
+}
+
+[data-fill="#8B4513"].cardcolor:hover:after {
+    background: #5a002d;
+}
+
+[data-fill="#FF8C003"].cardcolor:hover:after {
+    background: #920044;
+}
+
+[data-fill="#301934"].cardcolor:hover:after {
+    background: #301934;
+} */
+
+.layout_cls {
+    background-color: white;
+    width: 100%;
+    display: block
+}
+
+.h1_cls {
+    text-decoration-line: underline; 
+    font-style: normal;
+    color: #00857C;
+}
+
+.prod_name {
+    font-family: 'Invention' !important;
+    color: #00857C;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.pre_cls {
+    text-decoration: underline !important;
+    font-family: 'Invention' !important;
+    font-size: 14px;
+    color: #333333 !important;
+}
+
+.bg {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 90px 0 !important;
+}
+
+.productlist {
+    box-shadow: 0px 5px 10px rgb(0 0 0 / 9%), 0px 3px 14px rgb(0 0 0 / 10%);
+    border-radius: 8px !important;
+    background: white;
+    margin: 0 auto;
+    margin-top: -120px !important;
+    max-width: 1200px;
+    text-decoration: none;
+    color: black;
+
+}
+
+.heading_cls {
+    font-size: 36px;
+    color: #000000;
+    font-family: 'Invention';
+    font-weight: 700;
+}
+
+.subheading_cls {
+    font-size: 16px;
+    color: #000000;
+    font-family: 'Invention';
+}
+
+.b {
+    text-decoration: none;
+    color: black;
+}
+
+.b:hover {
+    color: black;
+    text-decoration: none;
+    }
+    
+.hoverstyle:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.hoverstyle {
+    color: black;
+    text-decoration: none;
+}
+
+.cursorcls {
+    cursor: default;
+}
+
+.pdListOne {
+    font-family: 'Invention';
+    font-size: 14px;
+
+}
+
+.pdlist {
+    margin-bottom: 81px;
+}
+.prodcls{
+    font-weight: 700;
+}
+.desccls{
+    font-family: 'Invention';
+}
+
+.marginRight{
+    margin-right: 6px;
+}
+
+.comingSoonLabel {
+    color: var(--neutral-white, #FFF);
+    text-align: center;
+    font-family: Invention;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.862px;
+    display: initial;
+    padding: 2px 8px 2px 8px;
+    /* margin-top: 10px; */
+    border-radius: 4pt;
+    /* margin-bottom: 17; */
+    background: var(--system-alert, #FFAB00);
+  }
+
+@media only screen and (max-width: 768px) {
+
+    .productlist {
+        margin-top: -144px !important;
+    }
+
+    .productContainer {
+        padding: 0 11.72px;
+    }
+
+    .pdlist {
+        margin-bottom: 81px;
+        padding: 24px 24px 8px 24px !important;
+    }
+
+    .heading_cls {
+        line-height: 45px;
+    }
+
+    .subheading_cls {
+        padding-bottom: 24px;
+        line-height: 27px;
+    }
+
+    .prod_name {
+        font-weight: 700;
+        line-height: 27px;
+    }
+
+    .pdListOne {
+        line-height: 21px;
+        font-weight: 400;
+        color: #333333;
+        background-color: white;
+        margin-left: 0;
+        padding-right: 0;
+        margin-right: 0;
+        padding-left: 12px;
+    }
+
+    .cardcolor {
+        flex-direction: column;
+        row-gap: 24px;
+        padding-left: 0px;
+    }
+
+    .productsWrapper {
+        padding: 0px !important;
+    }
+
+    .productItem {
+        width: auto !important;
+    }
+
+    .productLink {
+        width: auto !important;
+    }
+
+    .prodItemContainer {
+        margin: 0 0 8px !important;
+    }
+    .logo img{
+        object-fit: cover;
+        border-radius: 6px;
+    }
+    .h1_cls{
+        padding-left: 12px !important;
+    }
+
+}
+
+/* Modified by Sabari  */
+@media only screen and (max-width: 500px) {
+.set-width{
+    width:100%
+}
+}

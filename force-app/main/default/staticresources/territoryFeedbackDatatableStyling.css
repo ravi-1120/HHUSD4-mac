@@ -1,0 +1,33 @@
+:root {
+    --transparent-brand-light-active: var(--lwc-brandLightActive, rgba(227, 229, 237, 1));
+}
+
+.wrapped-header-datatable .slds-table .slds-th__action .slds-truncate, c-territory-table-data-types span.multiline-cell {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+
+c-territory-table-data-types .product {
+   background-color: var(--transparent-brand-light-active);
+}
+
+c-territory-table-data-types .channel {
+    background-color: var(--lwc-brandLightActive, rgb(227, 229, 237));
+    border-left: 2px solid var(--lwc-brandDisabled, rgb(201, 199, 197));
+}
+
+c-territory-table-data-types .goal {
+    font-weight: bold;
+}
+
+c-territory-table-data-types .hide-more-actions button {
+    visibility: hidden;
+}
+
+/* Adds a left border to the first cell after the 'activity counts' and 'goal details' sections */
+c-territory-table-data-types td.product + td:not(.product, .channel),
+c-territory-table-data-types td.channel + td:not(.product, .channel) {
+    border-left: 2px solid var(--lwc-brandDisabled, rgb(201, 199, 197));
+}

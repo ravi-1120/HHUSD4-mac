@@ -1,0 +1,37 @@
+<apex:page standardController="Account">
+    <apex:composition template="{!$Page.RedirectLgtnVod}"/>
+    <script>
+        var actId = "{!$CurrentPage.parameters.id}";
+        var acType = "{!$CurrentPage.parameters.actype}";
+        var caller = "{!$CurrentPage.parameters.caller}";
+        var callerParams = "{!$CurrentPage.parameters.callerParams}";
+        var dcr = "{!$CurrentPage.parameters.dcr}";
+        var retURL = "{!$CurrentPage.parameters.retURL}";
+        var myqueryparams = "&mode=n";
+        if (actId) {
+            myqueryparams += "&actid=" + actId;
+        }
+        if (acType) {
+            myqueryparams += "&actype=" + acType;
+        }
+        if (caller) {
+            myqueryparams += "&caller=" + caller;
+        }
+        if (callerParams) {
+            myqueryparams += "&callerParams=" + callerParams;
+        }
+        if (dcr) {
+            myqueryparams += "&dcr=true";
+        }
+        if (retURL) {
+            myqueryparams += "&retURL=" + "{!URLENCODE($CurrentPage.parameters.retURL)}";
+        }
+        myqueryparams += "&lgtvf=true";
+        
+        var sforceConsoleEnabled = typeof sforce !== 'undefined' && sforce.console;
+        var isConsoleNavigation = sforceConsoleEnabled && sforce.console.isInConsole();
+        myqueryparams += "&isConsoleNavigation=" + isConsoleNavigation
+
+        com.vod309.redirect.redirect("newaccount", myqueryparams);
+    </script>
+</apex:page>

@@ -1,0 +1,9 @@
+.slds-scrollable {
+    max-height: 60vh;
+}
+
+.htmlContainer ul, .htmlContainer ol {
+    list-style: revert;
+    margin: revert;
+    padding: revert;
+}

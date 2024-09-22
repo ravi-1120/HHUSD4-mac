@@ -1,0 +1,45 @@
+<apex:page standardController="Zip_to_Terr_vod__c" recordSetVar="ZipCodes" extensions="VODRedirectController" standardStylesheets="true">
+  <apex:composition template="{!$Page.VODRedirectCustom_vod}"/>
+  <c:VOD_BASE_SF_INCLUDES_vod />
+
+  <script src="{!VodUrl}/js/vendor/alertify.min.js" type="text/javascript"></script>
+  <link href="{!VodUrl}/css/vendor/alertify.core.css" type="text/css" rel="stylesheet"></link>
+  <link href="{!VodUrl}/css/vendor/alertify.default.css" type="text/css" rel="stylesheet"></link>
+
+    <script>
+
+      //preload alert OK and Cancel messages
+      alertify.set({
+        labels: {
+          ok: "{!TranslatedOk}",
+          cancel: "{!TranslatedCancel}"
+        }
+      });
+
+      var error;
+      var queryParams = "";
+      var zipCodeIds = "{!ZipCodes}"
+
+      if (zipCodeIds.length > 0) {
+        queryParams += "&zipCodes=";
+        for (var i=0;i<zipCodeIds.length;i++) {
+          if (i>0) {
+            queryParams += ",";
+          }
+          queryParams += zipCodeIds[i];
+        }
+      } else {
+        error = "You must select at least one record to process.";
+      }
+
+      if (error) {
+        alertify.alert(error, function () {
+            history.go(-1);
+        });
+      } else {
+        com.vod309.redirect.redirect("assignterritory", queryParams);
+      }
+
+  </script>
+
+</apex:page>

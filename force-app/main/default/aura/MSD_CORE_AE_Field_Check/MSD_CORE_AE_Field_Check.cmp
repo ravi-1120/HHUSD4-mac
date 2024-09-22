@@ -1,0 +1,403 @@
+<aura:component controller="CaseRecordTypeControllerMVN" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="casedata" type="Case"/>
+    <aura:attribute name="isCaseRecord" type="Boolean" default="true"/>
+    
+    <aura:attribute name="sectionName" type="String"/>
+    <aura:attribute name="showPopup" type="Boolean" default="false"/>
+    <aura:attribute name="aefielddata" type="CaseRecordTypeControllerMVN.CaseAERequiredFieldWrapper[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}" /> 
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    
+    <aura:attribute name="userProfileName" type="String"/>
+    
+    <aura:if isTrue="{!v.casedata.MSD_CORE_Event_Case_Type__c == 'AE Only' || v.casedata.MSD_CORE_Event_Case_Type__c == 'AE and PQC' || v.casedata.RecordType.Name == 'Product Complaint'}">
+        <aura:if isTrue="{!v.isCaseRecord == true}">
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="extraSmall forceEntityIcon">
+                                <span class="uiImage"  />
+                                <lightning:icon iconName="standard:insights" size="small" ></lightning:icon>
+                            </div>
+                        </div>
+                        <div class="slds-media__body" >
+                            <h2 id="header">
+                                <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Field Check</span>
+                            </h2>
+                            
+                            <div style="position: absolute;right: 10px; top: 8px;">
+                                <lightning:buttonIcon variant="netural" iconName="utility:new_window" onclick="{!c.openModal}"/>
+                            </div>
+                            <input type="button" class="slds-button slds-button_brand" style="position: absolute;right: 50px;top: 8px;" value="Save" title="Save" onclick="{!c.updateCaseFieldJS}" />
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body" style="padding: 0px 10px;">
+                    <aura:if isTrue="{!v.showSpinner}">
+                        <lightning:spinner />
+                    </aura:if>
+                    <lightning:recordEditForm aura:id="recordViewForm"
+                                              recordId="{!v.recordId}"
+                                              recordTypeId="{!v.casedata.RecordTypeId}"
+                                              onsuccess="{!c.doInit}"
+                                              onerror="{!c.handleError}"
+                                              objectApiName="Case">
+                        <lightning:messages />
+                        
+                        <lightning:tabset selectedTabId="{!v.sectionName}">
+                            <aura:iteration items="{!v.aefielddata}" var="item">
+                                <aura:if isTrue="{!item.fieldList.length > 0}">
+                                    <lightning:tab label="{!item.sectionName + ' (' + item.fieldList.length + ')'}" id="{!item.sectionName}">
+                                        <div class="slds-grid slds-wrap">
+                                            <aura:if isTrue="{!or(item.sectionName == 'PATIENT SUPPORT PROGRAM', item.sectionName == 'PATIENT SUPPORT PROGRA')}">
+                                                <aura:if isTrue="{!and(v.casedata.MSD_CORE_PSP_Program_Name__c != null,
+                                                                 or(v.casedata.MSD_CORE_PSP_Number__c == null,
+                                                                 v.casedata.MSD_CORE_PSP_Company__c == null))}">
+                                                    <div class="slds-col slds-size_6-of-12" style="display: none;">
+                                                        <lightning:inputField fieldName="MSD_CORE_PSP_Program_Name__c"/>
+                                                    </div>
+                                                </aura:if>
+                                            </aura:if>
+                                            <aura:iteration items="{!item.fieldList}" var="a">
+                                                <div class="slds-col slds-size_6-of-12">
+                                                    <lightning:inputField fieldName="{!a.fieldName}"/>
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </lightning:tab>
+                                </aura:if>
+                            </aura:iteration>
+                        </lightning:tabset>
+                    </lightning:recordEditForm>
+                </div>
+            </article>
+            
+            <div id="aeFieldsModal" class="{!'slds-scrollable ' + if(v.showPopup, 'slds-show', 'slds-hide')}" aura:id="aeFieldsModal" style="position:relative;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+                    <!-- KRB 1/8/2020 Defect Fix -->
+                    <!-- <div class="slds-modal__container" style="height: 95%; top: 5%; width: 98%;"> -->
+                    <div class="slds-modal__container" style="height: 98%; top: 5%; width: 98%;">
+
+                        <!-- Header Start-->
+                        <header class="slds-modal__header">
+                            <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                                <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Field Check</h2>
+                        </header>
+                        <!-- Header End-->
+                        
+                        <!-- Body Content Start-->
+                        <div class="slds-modal__content slds-grow modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:auto">
+                            <aura:if isTrue="{!v.showSpinner}">
+                                <lightning:spinner />
+                            </aura:if>
+                            <lightning:recordEditForm aura:id="recordViewFormPopup"
+                                                      recordId="{!v.recordId}"
+                                                      onload="{!c.handleLoad}"
+                                                      recordTypeId="{!v.casedata.RecordTypeId}"
+                                                      onsuccess="{!c.doInit}"
+                                                      onerror="{!c.handleError}"
+                                                      objectApiName="Case">
+                                <lightning:messages />
+                                
+                                <lightning:tabset selectedTabId="{!v.sectionName}">
+                                    <aura:iteration items="{!v.aefielddata}" var="item">
+                                        <aura:if isTrue="{!item.fieldList.length > 0}">
+                                            <lightning:tab label="{!item.sectionName + ' (' + item.fieldList.length + ')'}" id="{!item.sectionName}">
+                                                <div class="slds-grid slds-wrap"> 
+                                                    <aura:if isTrue="{!or(item.sectionName == 'PATIENT SUPPORT PROGRAM', item.sectionName == 'PATIENT SUPPORT PROGRA')}">
+                                                        <aura:if isTrue="{!and(v.casedata.MSD_CORE_PSP_Program_Name__c != null,
+                                                                         or(v.casedata.MSD_CORE_PSP_Number__c == null,
+                                                                 v.casedata.MSD_CORE_PSP_Company__c == null))}">
+                                                            <div class="slds-col slds-size_6-of-12" style="display: none;">
+                                                                <lightning:inputField fieldName="MSD_CORE_PSP_Program_Name__c"/>
+                                                            </div>
+                                                        </aura:if>
+                                                    </aura:if>
+                                                    <aura:iteration items="{!item.fieldList}" var="a">
+                                                        <!-- KRB 1/8/2020 Defect Fix --> 
+                                                        <!-- Removed <div class="slds-col slds-size_2-of-12"> -->
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            <lightning:inputField fieldName="{!a.fieldName}"/>
+                                                        </div>
+                                                    </aura:iteration>
+                                                </div>
+                                            </lightning:tab>
+                                        </aura:if>
+                                    </aura:iteration>
+                                </lightning:tabset>
+                            </lightning:recordEditForm>
+                        </div>
+                        
+                        <footer class="slds-modal__footer" style="padding: 5px;background: #fff;">
+                            <div class="slds-align_absolute-center" style="padding: 5px;background: #fff;">
+                                <input type="button" class="slds-button slds-button_brand" value="Save" title="Save" onclick="{!c.updateCaseFieldJS}" />
+                                <lightning:button label="Done" name="Done" variant="brand" onclick="{!c.closeModal}"/>
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:if>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.casedata.RecordType.Name == 'CR Request'}">
+        <aura:if isTrue="{!v.isCaseRecord == true}">
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="extraSmall forceEntityIcon">
+                                <span class="uiImage"  />
+                                <lightning:icon iconName="standard:insights" size="small" ></lightning:icon>
+                            </div>
+                        </div>
+                        <div class="slds-media__body" >
+                            <h2 id="header">
+                                <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Field Check</span>
+                            </h2>
+                            
+                            <div style="position: absolute;right: 10px; top: 8px;">
+                                <lightning:buttonIcon variant="netural" iconName="utility:new_window" onclick="{!c.openModal}"/>
+                            </div>
+                            <input type="button" class="slds-button slds-button_brand" style="position: absolute;right: 50px;top: 8px;" value="Save" title="Save" onclick="{!c.updateCaseFieldJS}" />
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body" style="padding: 0px 10px;">
+                    <aura:if isTrue="{!v.showSpinner}">
+                        <lightning:spinner />
+                    </aura:if>
+                    <lightning:recordEditForm aura:id="recordCRRequestForm"
+                                              recordId="{!v.recordId}"
+                                              recordTypeId="{!v.casedata.RecordTypeId}"
+                                              onsuccess="{!c.doInit}"
+                                              onerror="{!c.handleError}"
+                                              objectApiName="Case">
+                        <lightning:messages />
+                        
+                        <lightning:tabset selectedTabId="InquiryDetails">
+                            <lightning:tab label="Inquiry Details" id="InquiryDetails">
+                                <div class="slds-grid slds-wrap"> 
+                                    <aura:if isTrue="{!v.casedata.Type == null}">
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <label for="Type" class="slds-form-element__label">Type</label>
+                                            <lightning:inputField fieldName="Type" variant="label-hidden"/>
+                                        </div>
+                                    </aura:if>            
+                                    <aura:if isTrue="{!v.casedata.Category_MVN__c == null}">
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <aura:if isTrue="{!v.casedata.Type != null}">
+                                                <lightning:inputField fieldName="Type" style="display:none;"/>
+                                            </aura:if>
+                                            <lightning:inputField fieldName="Category_MVN__c"/>
+                                        </div>
+                                    </aura:if>
+                                </div>
+                            </lightning:tab>
+                        </lightning:tabset>
+                    </lightning:recordEditForm>
+                </div>
+            </article>
+            
+            <div id="aeFieldsModal" class="{!'slds-scrollable ' + if(v.showPopup, 'slds-show', 'slds-hide')}" aura:id="aeFieldsModal" style="position:relative;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container" style="height: 95%; top: 5%; width: 98%;"> 
+                        <!-- Header Start-->
+                        <header class="slds-modal__header">
+                            <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                                <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Field Check</h2>
+                        </header>
+                        <!-- Header End-->
+                        
+                        <!-- Body Content Start-->
+                        <div class="slds-modal__content slds-grow modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:auto">
+                            <aura:if isTrue="{!v.showSpinner}">
+                                <lightning:spinner />
+                            </aura:if>
+                            <lightning:recordEditForm aura:id="recordCRRequestFormPopup"
+                                                      recordId="{!v.recordId}"
+                                                      recordTypeId="{!v.casedata.RecordTypeId}"
+                                                      onsuccess="{!c.doInit}"
+                                                      onerror="{!c.handleError}"
+                                                      objectApiName="Case">
+                                <lightning:messages />
+                                
+                                <lightning:tabset selectedTabId="InquiryDetails">
+                                    <lightning:tab label="Inquiry Details" id="InquiryDetails">
+                                        <div class="slds-grid slds-wrap"> 
+                                            <aura:if isTrue="{!v.casedata.Type == null}">
+                                                <div class="slds-col slds-size_6-of-12">
+                                                    <label for="Type" class="slds-form-element__label">Type</label>
+                                            		<lightning:inputField fieldName="Type" variant="label-hidden"/>
+                                                </div>
+                                            </aura:if>            
+                                            <aura:if isTrue="{!v.casedata.Category_MVN__c == null}">
+                                                <div class="slds-col slds-size_6-of-12">
+                                                    <aura:if isTrue="{!v.casedata.Type != null}">
+                                                        <lightning:inputField fieldName="Type" style="display:none;"/>
+                                                    </aura:if>
+                                                    <lightning:inputField fieldName="Category_MVN__c"/>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </lightning:tab>
+                                </lightning:tabset>
+                            </lightning:recordEditForm>
+                        </div>
+                        
+                        <footer class="slds-modal__footer" style="padding: 5px;background: #fff;">
+                            <div class="slds-align_absolute-center" style="padding: 5px;background: #fff;">
+                                <input type="button" class="slds-button slds-button_brand" value="Save" title="Save" onclick="{!c.updateCaseFieldJS}" />
+                                <lightning:button label="Done" name="Done" variant="brand" onclick="{!c.closeModal}"/>
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:if>
+    </aura:if>
+    
+    
+    <aura:if isTrue="{!v.casedata.RecordType.Name == 'Request'}">
+        <aura:if isTrue="{!v.isCaseRecord == true}">
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" aria-describedby="header"  >
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="extraSmall forceEntityIcon">
+                                <span class="uiImage"  />
+                                <lightning:icon iconName="standard:insights" size="small" ></lightning:icon>
+                            </div>
+                        </div>
+                        <div class="slds-media__body" >
+                            <h2 id="header">
+                                <span class="slds-text-heading--small slds-truncate slds-m-right--xx-small" >Field Check</span>
+                            </h2>
+                            
+                            <div style="position: absolute;right: 10px; top: 8px;">
+                                <lightning:buttonIcon variant="netural" iconName="utility:new_window" onclick="{!c.openModal}"/>
+                            </div>
+                            <input type="button" class="slds-button slds-button_brand" style="position: absolute;right: 50px;top: 8px;" value="Save" title="Save" onclick="{!c.updateCaseFieldJS}" />
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body" style="padding: 0px 10px;">
+                    <aura:if isTrue="{!v.showSpinner}">
+                        <lightning:spinner />
+                    </aura:if>
+                    <lightning:recordEditForm aura:id="recordRequestForm"
+                                              recordId="{!v.recordId}"
+                                              recordTypeId="{!v.casedata.RecordTypeId}"
+                                              onsuccess="{!c.doInit}"
+                                              onerror="{!c.handleError}"
+                                              objectApiName="Case">
+                        <lightning:messages />
+                        
+                        <lightning:tabset selectedTabId="InquiryDetails">
+                            <lightning:tab label="Inquiry Details" id="InquiryDetails">
+                                <div class="slds-grid slds-wrap">
+                                    <aura:if isTrue="{!and(v.userProfileName != 'MSD_CORE Contact Center - MVCC Agent', v.userProfileName != 'MSD_CORE Contact Center - MVCC Agent Non-SSO')}">
+                                        <aura:if isTrue="{!v.casedata.Product_MVN__c == null}">
+                                            <div class="slds-col slds-size_6-of-12">
+                                                <lightning:inputField fieldName="Product_MVN__c"/>
+                                            </div>
+                                        </aura:if>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.casedata.Type == null}">
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <label for="Type" class="slds-form-element__label">Type</label>
+                                            <lightning:inputField fieldName="Type" variant="label-hidden"/>
+                                        </div>
+                                    </aura:if>            
+                                    <aura:if isTrue="{!v.casedata.Category_MVN__c == null}">
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <aura:if isTrue="{!v.casedata.Type != null}">
+                                                <lightning:inputField fieldName="Type" style="display:none;"/>
+                                            </aura:if>
+                                            <lightning:inputField fieldName="Category_MVN__c"/>
+                                        </div>
+                                    </aura:if>
+                                </div>
+                            </lightning:tab>
+                        </lightning:tabset>
+                    </lightning:recordEditForm>
+                </div>
+            </article>
+            
+            <div id="aeFieldsModal" class="{!'slds-scrollable ' + if(v.showPopup, 'slds-show', 'slds-hide')}" aura:id="aeFieldsModal" style="position:relative;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="id-of-modalheader-h2" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container" style="height: 95%; top: 5%; width: 98%;"> 
+                        <!-- Header Start-->
+                        <header class="slds-modal__header">
+                            <button class="glc-button slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                                <lightning:icon class="slds-button__icon slds-button__icon_large fillColor" iconName="utility:close" size="x-small" alternativeText="search" onclick="{!c.closeModal}"/>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Field Check</h2>
+                        </header>
+                        <!-- Header End-->
+                        
+                        <!-- Body Content Start-->
+                        <div class="slds-modal__content slds-grow modal-overflow slds-scrollable_x" id="modal-content-id-1" style="overflow:auto">
+                            <aura:if isTrue="{!v.showSpinner}">
+                                <lightning:spinner />
+                            </aura:if>
+                            <lightning:recordEditForm aura:id="recordRequestFormPopup"
+                                                      recordId="{!v.recordId}"
+                                                      recordTypeId="{!v.casedata.RecordTypeId}"
+                                                      onsuccess="{!c.doInit}"
+                                                      onerror="{!c.handleError}"
+                                                      objectApiName="Case">
+                                <lightning:messages />
+                                
+                                <lightning:tabset selectedTabId="InquiryDetails">
+                                    <lightning:tab label="Inquiry Details" id="InquiryDetails">
+                                        <div class="slds-grid slds-wrap"> 
+                                            <aura:if isTrue="{!v.casedata.Product_MVN__c == null}">
+                                                
+                                                <div class="slds-col slds-size_6-of-12">
+                                                    <lightning:inputField fieldName="Product_MVN__c"/>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.casedata.Type == null}">
+                                                <div class="slds-col slds-size_6-of-12">
+                                                   	<label for="Type" class="slds-form-element__label">Type</label>
+                                            		<lightning:inputField fieldName="Type" variant="label-hidden"/>
+                                                </div>
+                                            </aura:if>            
+                                            <aura:if isTrue="{!v.casedata.Category_MVN__c == null}">
+                                                <div class="slds-col slds-size_6-of-12">
+                                                    <lightning:inputField fieldName="Type" style="display:none;"/>
+                                                    <lightning:inputField fieldName="Category_MVN__c"/>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </lightning:tab>
+                                </lightning:tabset>
+                            </lightning:recordEditForm>
+                        </div>
+                        
+                        <footer class="slds-modal__footer" style="padding: 5px;background: #fff;">
+                            <div class="slds-align_absolute-center" style="padding: 5px;background: #fff;">
+                                <input type="button" class="slds-button slds-button_brand" value="Save" title="Save" onclick="{!c.updateCaseFieldJS}" />
+                                <lightning:button label="Done" name="Done" variant="brand" onclick="{!c.closeModal}"/>
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:if>
+    </aura:if>
+</aura:component>

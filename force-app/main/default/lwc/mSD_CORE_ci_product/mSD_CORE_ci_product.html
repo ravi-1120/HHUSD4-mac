@@ -1,0 +1,141 @@
+<template>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+                small-device-size="8" medium-device-size="6" large-device-size="6">
+                <div class="product slds-form-element">
+                    <lightning-input
+                        name="Product"
+                        label={label.Product}
+                        max-length="100"
+                        class="requiredField"
+                        onchange={handleInput}
+                        onblur={handleBlur}
+                        type="search"
+                        onfocus={handleFocus}
+                        value={searchTerm}
+                        required="true"
+                        onkeydown={handleKeydown}
+                        autocomplete="off"
+                        style="margin-bottom: 0px"
+                        field-level-help={label.infoProduct}
+                    ></lightning-input>
+                    <div lwc:if={searchResults}
+                        class="dropdown slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template for:each={searchResults} for:item="searchResult">
+                                <li key={searchResult.value} data-value={searchResult.value} role="presentation" aria-selected="false"
+                                    tabindex="0" onmousedown={handleSelectSearch} class="slds-listbox__item">
+                                    <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                        role="option" style="padding: 0.5rem;">
+                                        <span class="slds-media__body">
+                                            <span class="slds-truncate" title={searchResult.label}>
+                                                {searchResult.label}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <template if:true={ProductCatalog}>
+                <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+                 small-device-size="8" medium-device-size="6" large-device-size="6">
+                    <div class="product slds-form-element">
+                        <lightning-input
+                            name="ProductCatalog"
+                            label="Product Indication"
+                            max-length="100"
+                            class="requiredField"
+                            onchange={handleInput}
+                            onblur={handleBlur}
+                            onfocus={handleFocus}
+                            value={inputValues.ProductCatalog}
+                            required={ProductCatalog}
+                            type="search"
+                            autocomplete="off"
+                            style="margin-bottom: 0px"
+                            field-level-help={label.infoProductCatalog}
+                        ></lightning-input>
+                        <div lwc:if={hasCatalogResults}
+                            class="dropdown slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                <template for:each={CatalogResults} for:item="productCatalog">
+                                    <li key={productCatalog.Id} data-id={productCatalog.Id} role="presentation" aria-selected="false"
+                                        tabindex="0" onmousedown={handleSelectProductCatalog}
+                                        class="slds-listbox__item">
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option" style="padding: 0.5rem;">
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate" title={productCatalog.label}>
+                                                    {productCatalog.label}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                </lightning-layout-item>               
+            </template>
+            <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="6" large-device-size="6">
+            <div class="product slds-form-element">
+                <lightning-combobox
+                    name="CompetitiveSource"
+                    label={label.CompetitiveSource}
+                    class="product requiredField"
+                    dropdown-alignment="auto" 
+                    role="option"
+                    options={competitiveSourceOptions}
+                    value={inputValues.CompetitiveSource}
+                    onchange={handleInput}
+                    required = "true"
+                ></lightning-combobox>
+            </div>
+        </lightning-layout-item>
+        <template if:true={showOtherDetails}>
+            <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+                small-device-size="8" medium-device-size="6" large-device-size="6">
+                <lightning-input
+                    name="OtherDetails"
+                    label={label.OtherDetails}
+                    class="product"
+                    value={inputValues.OtherDetails}
+                    onchange={handleInput}
+                    required = {showOtherDetails}
+                ></lightning-input>
+            </lightning-layout-item>
+        </template>
+        </lightning-layout>
+        <template if:true={showPolicyStatement}>
+                <div class="custom-card">
+                    <p class="policy-text">
+                        {label.PolicyStatement}
+                    </p>
+                    <lightning-input
+                        type="checkbox"
+                        name="acknowledgePolicy"
+                        class="product policy-text requiredField"
+                        label={label.AcknowledgePolicy}
+                        checked={inputValues.acknowledgePolicy}
+                        onchange={handleInput}
+                        required={showPolicyStatement}
+                    ></lightning-input>
+                </div>
+            </template>
+            <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+                <div class="button-container">   
+                    <lightning-layout-item alignment-bump="left">
+                        <button class="slds-button slds-button_outline-brand btnCancelHover nextPrevBtn slds-m-right_small"
+                          onclick={handlePrevNext} name="Previous">{label.Previous}</button>
+                      </lightning-layout-item>   
+                      <lightning-layout-item alignment-bump="right">  
+                    <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext} name="Next">{label.Next}</button>
+                    </lightning-layout-item>
+                </div>
+                </lightning-layout>
+            <br>
+</template>

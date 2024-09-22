@@ -1,0 +1,30 @@
+.progress_bar .slds-progress {
+    max-width: 100% !important;
+}
+.progress_bar .slds-progress .slds-progress-bar {
+    background: #D8D8D8;
+}
+.progress_bar .slds-progress .slds-progress-bar .slds-progress-bar__value{
+    background: #167E71;
+    opacity: 0.3;
+    border-radius: 2px;
+}
+.progress_bar .slds-progress .slds-progress__list .slds-progress__marker_icon {
+    background: #167E71;
+    margin: 0;
+    border: 4px;
+} 
+.progress_bar .slds-progress .slds-progress__list .slds-progress__marker_icon .slds-button__icon{
+    fill: #167E71;
+}
+.slds-modal__footer {
+    display: flex !important;
+}
+
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+    .slds-modal__footer {
+        display: inline !important;
+    }
+}

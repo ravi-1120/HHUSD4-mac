@@ -1,0 +1,55 @@
+<template>
+	<div class="newTabset" if:false={mobilescreen}>
+		<div class="eligibilitybackground">
+			<div class="eligibilitycard">
+				<!--<div class="elig-progress">
+					<c-m-s-d_-c-o-r-e_-registration-progress page-name={pageName}>
+					</c-m-s-d_-c-o-r-e_-registration-progress>
+				</div>-->
+
+				<div class="elig-container">
+					<div class="elig-form">
+						<img src={successicon} class="iconclass"/>
+						<h1 class="hone">Success! Thank you for registering.</h1>
+						<p class="pone">A Merck account team member will review your eligibility information.
+						</p>
+						<p class="pone ptwo">If eligible, you will receive an email notification that you can now
+							browse the Merck Formulary Resources portal.</p>
+						<p class="pone ptwo">If you have any questions,
+							please&nbsp;<span  class="linkclass" onclick={handleNavigate}>contact your Merck account team</span>.
+						</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div if:true={mobilescreen}>
+
+			<lightning-layout>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+					large-device-size="12">
+					<div style="display: flex; align-items: center; justify-content: center;">
+						<div class="outer-container">
+							<div class="mob-container1">
+								<div class="border-content1">
+									<img src={successicon} class="iconclass1"/>
+									<h1 class="hone1">Success! Thank you for registering.</h1>
+									<p class="pone1">A Merck account team member will review your eligibility information.
+										</p>
+									<p class="pone1 ptwo1">If eligible, you will receive an email notification that you can
+										now browse the Merck Formulary Resources portal.</p>
+									<p class="pone1 ptwo1">If you have any questions,
+										please&nbsp;<span  class="linkclass1" onclick={handleNavigate}>contact your Merck account team</span>.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</lightning-layout-item>
+			</lightning-layout>
+	
+	</div>
+
+</template>

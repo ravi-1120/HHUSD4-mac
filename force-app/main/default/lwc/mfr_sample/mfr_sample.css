@@ -1,0 +1,67 @@
+.footer {
+	position: sticky;
+	padding: 10px 10px 0px 10px;
+	
+	width: 100%;
+	top: 80%;
+	background-color: #00857c;
+	
+	
+	
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 36px;
+}
+
+.proddetails{
+  color: white;
+  font-weight: bold;
+}
+
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc; 
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+}
+
+/*.accordion{
+	background: rgba(128, 128, 128, 0);
+}
+
+
+.section-control slds-button slds-button_reset slds-accordion__summary-action{
+	background-color: #00857c;
+}
+*/
+.accordian_cls .slds-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: #00857C;
+  color: #fff !important;
+  border: 0px solid #A6D4D1;
+  border-radius: 0px;
+  font-family: 'Invention';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+}

@@ -1,0 +1,13 @@
+<template>
+    <div if:true={nextStepsText} class="slds-box slds-box_small slds-theme_default">
+        <c-section-template raw-heading ={nextStepsTitle} heading={nextStepsTitle} ctrl={pageCtrl} open>
+            <div slot="content">          
+                <div class="slds-scrollable next-steps-body">
+                    <div class="slds-section__content slds-p-horizontal--small">
+                        <div class="htmlContainer" ishtmlcontainer="true" lwc:dom="manual"></div>
+                    </div>
+                </div>
+            </div>
+        </c-section-template>
+    </div>
+</template>

@@ -1,0 +1,96 @@
+.webkithyphensnone{
+    -webkit-hyphens:none !important;
+}
+.header-modl-title {
+    width: 687px;
+    height: 36px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+}
+.closediv{
+    margin-top: 5px;
+}
+.img-hoverspan{
+    border-radius: 4px;
+    border: 2px solid #00857C;
+    padding: 5px;
+    padding-top: 2px !important;
+    cursor: pointer;
+}
+.img-hover {
+    cursor: pointer;
+}
+.modal-para {
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    display: flex;
+    color: #000000;
+}
+.modal-para-bold {
+    font-weight: 700;
+    font-size: 16px;
+    color: #000000;
+}
+.continue-text {
+    width: 80px;
+    height: 18px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.861539px;
+}
+.medi-btn-modal {
+    color: #00857C !important;
+    height: 30px;
+    background: white;
+    border-radius: 3px;
+    border-color: rgba(0, 133, 124, 1);
+    margin-right: 4px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 28px;
+    font-family: Invention;
+    border: 1px solid rgb(0, 133, 124) !important;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.861539px;
+    padding: 0px 10px;
+    padding-right: 0px;
+    padding-left: 10px;
+}
+
+.slds-modal__content {
+    max-height: unset;
+    overflow: scroll;
+    scroll-behavior: auto;
+    height: 36rem !important;
+}
+
+.slds-modal__container {
+    margin-top: -25px;
+}
+
+/* Mobile Screen */
+@media only screen and (max-width: 767px) {
+    .header-modl-title{
+        width: auto !important;
+        font-size: 18px !important;
+    }
+    .slds-modal__content {
+        height: 26rem !important;
+    }
+}

@@ -1,0 +1,24 @@
+<aura:component controller="MSD_CORE_CC_Product_Form_Controller" extends="c:ComponentUtils" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+    <aura:attribute name="showForm" type="Boolean" default="false"/>
+    <aura:attribute name="checkboxVal" type="String"/>    
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name ="parentRT" type="String"/>
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="MSD_CORE_Related_to__c"
+                      targetFields="{!v.simpleRecord}"
+                      targetError="{!v.recordLoadError}"
+                      recordUpdated ="{!c.handleRecordUpdated}"
+                      />
+    <aura:if isTrue="{!v.showForm}">
+        <c:MSD_CORE_CC_Add_Product_Form recordId="{!v.recordId}" 
+                                        mode="VIEW" 
+                                        checkboxVal = "{!v.checkboxVal}"
+                                        checkBoxesDisabled = "true"
+                                        parentRT= "{!v.parentRT}"
+                                        />
+    </aura:if>
+    
+</aura:component>

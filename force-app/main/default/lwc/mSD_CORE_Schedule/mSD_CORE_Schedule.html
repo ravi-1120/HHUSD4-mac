@@ -1,0 +1,314 @@
+<template>
+    <section if:true={showLoader} role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+		class="slds-modal slds-fade-in-open">
+		<lightning-spinner variant="brand" if:true={showLoader} class="loader"  size="large"> </lightning-spinner>
+		<div if:true={showLoader} class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+	</section>
+   
+    <div>
+        <div>
+            <div>
+                <div class="bannercls">
+                    <img src={bannerimg}>
+                    <c-custom-toast auto-close-time="8000"></c-custom-toast>
+                    <div class="header_cls" if:false={isEditable}>
+                        <div class="container">
+                            <div class="slds-grid slds-wrap">
+                                <a href={siteNames.Dashboard} onclick={handlenavigatedashboard} class="breadcrumbs slds-p-right_small"> Dashboard </a><span>/</span>
+                                <!-- Added for text truncation mobile screen Start-->
+                                <span class="mobTruncateText">...</span>
+                                <!-- Added for text truncation mobile screen End-->
+                                <!-- Added mobbreadcrumbs for mobile screens -->
+                                <a href={siteNames.Pipeline} onclick={handlenavigatepipeline} class="breadcrumbs slds-p-left_small slds-p-right_small mobbreadcrumbs"> Pipeline
+                                    Information</a><span>/</span>
+                                <a href={siteNames.Pipeline} onclick={handlenavigatephaseType} class="breadcrumbs slds-p-left_small slds-p-right_small mobbreadcrumbs" data-name={phaseType}> {phaseType}</a><span class="mobbreadcrumbs">/</span>
+                                <a href={siteNames.Pipeline} onclick={handlenavigatediseaseval} class="breadcrumbs slds-p-left_small slds-p-right_small mobbreadcrumbs" data-name={diseaseval}> {diseaseval} </a><span class="mobbreadcrumbs">/</span>
+                                <span class="breadcrumbs slds-p-left_small slds-p-right_small" style="text-decoration: none !important;"> Schedule appointment </span>
+                            </div>
+                            <h1 class="userview">{compound}/Uses Overview</h1>
+                            <h1 class="forpayer">for Payors</h1>
+
+                            <!--Added for mobile screen Start -->
+                            <h1 class="mobheadertext">{compound}/Uses Overview for Payors</h1>
+                            <!-- Added for mobile screen End -->
+
+                            <p class="slds-p-top_small warningdiv">{compoundwarning}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class={containerCSS} style="padding:40px 0px;">
+                <div class="boxshadow_cls slds-grid slds-wrap slds-p-around_large">
+                    <div class="maincls">
+                        <div class="slds-p-vertical_x-small back-btn" if:false={isEditable}>
+                            <button class="buttoncls" onclick={navigateback}><img src={leftarrow} class="slds-p-right_medium">Back</button>
+                        </div>
+                        <!--Rusheel-1017-->
+                        <div class="slds-grid slds-wrap" if:true={isEditable}>
+                            <a href={siteNames.Dashboard} class="linkEdit mobTruncate"> Dashboard </a>
+                            <span class="barEdit mobTruncate">/</span>
+                            <a href={siteNames.RequestAppointment} class="linkEdit linkTruncate">Requests & Appointments</a>
+                            <span class="barEdit barTruncate">/</span>
+                            <span class="mobTruncateText mobTruncateEdit">...</span>
+                            <span class="barEdit mobTruncateText">/</span> <span class="link-nonunderline-Edit" >{ScheduleFilterLabel}</span>      
+                        </div>
+                        
+                        <div class="slds-grid slds-wrap" if:true={isEditable}>
+                            <div class="status_cls-edit">
+                                <p class="status_txt-edit">Pending</p>
+                            </div>    
+                        </div>
+                        
+                        <div if:false={isEditable} class="cntheader_cls slds-p-top_large slds-p-vertical_x-small">
+                            <h1>Schedule appointment</h1>
+                            <!-- Added class schedulesubtxt for mobile screen -->
+                            <p class="schedulesubtxt">Schedule appointment to review and discuss selected clinical trails.</p>
+                        </div>
+
+                        <div if:false={isEditable} class="slds-p-vertical_x-small combobox_cls">
+                            <template if:true={oncology}>
+                                <c-m-s-d_-c-o-r-e_-dropdown type="oncology" disease={diseaseval} compoundvalue={compound} onselectedoptions={handleOptions}></c-m-s-d_-c-o-r-e_-dropdown>
+                            </template>
+                            <template if:true={nononcology}>
+                                <c-m-s-d_-c-o-r-e_-dropdown type="nononcology" disease={diseaseval} compoundvalue={compound} onselectedoptions={handleOptions}></c-m-s-d_-c-o-r-e_-dropdown>
+                            </template>
+                        </div>
+                        <div if:true={isEditable} class="cntheader_cls slds-p-top_large slds-p-vertical_x-small">
+                            <span class="disease-name-edit"> Request {ScheduleFilterRequestLabel}</span>
+                        </div>
+                        <div if:true={isEditable} class="cntheader_cls slds-p-top_large slds-p-vertical_x-small reqtopicstyle">
+                            <span class="request-topic-edit"> Requested topics</span>
+                        </div>
+                        <div if:true={isEditable} class="cntheader_cls slds-p-top_large slds-p-vertical_x-small tumorstyle">
+                            <span>
+                                <template if:true={diseaesCollection}>
+                                    <!-- Added selectedmob for mobile screen -->
+                                    <ul class="slds-listbox slds-listbox_inline slds-p-top_xxx-small">
+                                        <template for:each={diseaesCollection} for:item="sel">
+                                            <span key={sel} data-value={sel} class="pillcls-edit">{sel}</span>
+                                        </template>
+                                    </ul>
+                                </template>
+                            </span>
+                        </div>
+                        <div class="appoitment_cls slds-p-vertical_small" style="padding-bottom: 0px;">
+                            <h1 class="slds-p-bottom_small bordercls">Appointment preferences</h1>
+                            <div class="slds-p-top_large" style="padding-top: 25px;">
+                                <!-- Added mobapptimes for mobile screens -->
+                                <h2 class="slds-p-bottom_medium mobapptimes">Appointment times</h2>
+                                <div class="slds-form datetimecls">
+                                    <template if:true={templist}>
+                                        <template for:each={templist} for:item="counter" for:index="index">
+                                            <div class="cls_date" key={counter}>
+                                                <!-- Added new calendar Start-->
+                                                <div class='col-sm-4 datetime'>
+                                                    <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open fullwidthcal date1">
+                                                        <div data-id={counter.id}>
+                                                            <lightning-input type="text" data-id={counter.id} class="Date"
+                                                                placeholder="Select" name="Date" label="Date" onchange={handleDate}
+                                                                value={counter.calval} onclick={showCalendar} readonly>
+                                                            </lightning-input>
+                                                        </div>
+                                                        <div class="slds-input__icon-group slds-input__icon-group_right" data-id={counter.id} onclick={showCalendar}>
+                                                            <img src={calicon} class="cal" />
+                                                        </div>
+                                                        <div data-id={counter.id} onclick={ignoreCalendarClose}>
+                                                            <c-lightning-calendar class="calendarcls" onselecteddate={handleselecteddate}></c-lightning-calendar>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Added new calendar End-->
+                                                <div key={counter} class=''>
+                                                    <div key={counter} class="box_width_cls timeop">
+                                                        <lightning-combobox
+                                                            name="progress"
+                                                            label="Time (optional)"
+                                                            value={counter.caltime} 
+                                                            data-id={counter.drpid}
+                                                            placeholder="Select"
+                                                            options={timeoption}
+                                                            onchange={handleTimeOption}
+                                                            onfocus={handleTimeOptionClick}
+                                                            class="Time">
+                                                        </lightning-combobox>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Added button for mobile screens Start-->
+                                                <template if:false={hideRemoveDate}>
+                                                    <div class="remove-btn">
+                                                        <button class="buttoncls removebtn" data-id={counter.id} onclick={removedate}>Remove<img src={cross} class="slds-p-left_medium"></button>
+                                                    </div>
+                                                </template>
+                                                <!-- Added button for mobile screens End-->
+
+                                                <lightning-icon if:false={hideRemoveDate} class="close_cls"
+                                                                icon-name="utility:close" data-id={counter.id} alternative-text="Close" size="small" title="Click to remove"
+                                                                onclick={removedate}>
+                                                </lightning-icon>
+                                                <!-- END DATE TIME PICKER -->
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                                <div class="slds-p-top_medium" style="padding-top: 0px;">
+                                    <button class="buttoncls" onclick={addnewdate}>Add another date<img src={plusicon} class="slds-p-left_medium" style="padding-left: 23px;"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-p-top_large">
+                            <div>
+                               <lightning-radio-group name="radioGroup" class="radiobtncls" label="Meeting preference"
+                                                        options={meetingoption} value={meetingPreference} type="radio" onchange={handleMeetingPref}>
+                                </lightning-radio-group>  
+
+                             </div>  
+                                <!--<fieldset class="slds-form-element">
+                                    <legend class="slds-form-element__legend slds-form-element__label">Meeting preference</legend>
+                                    <div   class="slds-form-element__control">
+                                        <template for:each={meetingoption} for:item="option">
+                                        <span key={option.key} for:index={option.index} data-key={option.key} data-value={option.value}  onclick={handleMeetingPref} class="slds-radio">
+                                        <input type="radio" data-key={option.key} value={option.value} onchange={handleMeetingPref}  checked={option.checked} />
+                                        <label data-key={option.key} class="slds-radio__label" for="radio-61">
+                                            <span data-key={option.key} class="slds-radio_faux"></span>
+                                            <span  data-key={option.key} class="slds-form-element__label">{option.label}</span>
+                                        </label>
+                                        </span>
+                                        </template>
+                                    </div>
+                                </fieldset> -->
+                            
+                            <!-- Added attendeetxt for mobile screen -->
+                            <div if:false={isEditable} class="slds-p-top_large attendeetxt">
+                                <p>If you would like to have additional attendees invited to this meeting, please contact your medical affairs director.</p>
+                            </div>
+                        </div>
+                       
+                        <div class="slds-p-top_large" style="padding-top: 32px; padding-bottom: 16px;">
+                            <button class="submitbtn_cls buttonWeb" onclick={handleSubmit}>{submitBttonLabel}</button><button if:true={isEditable} class="submitbtn_cls-cancel-edit" onclick={handleCancel}>Cancel changes</button>
+                            <!--Rusheel-1017-Added button for mobileview--> 
+                            <button class="submitbtn" onclick={handleSubmit}>{submitBttonLabel}</button>
+                            <!--Rusheel-1017-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div if:true={showResponse}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header cardheader" >
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_11-of-12 reqsub">
+                            <h1 id="modal-heading-01" class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+                                <span> Your request has been submitted </span>
+                            </h1>
+                        </div>
+                        <!-- Added crossbtn class for mobile screens -->
+                        <div class="slds-col slds-size_1-of-12 crossbtn">
+                            <button onclick={closeResponse} style="background: white; border: 2px solid #00857C; border-radius: 5px;"><img src={cross}></button>
+                        </div>
+                    </div>
+                </div>
+                <!--<div><p>You have submitted a request for an appointment to view:  Vericiguat Budget Impact Model</p></div>-->
+                <div class="slds-modal__content " id="modal-content-id-2">
+                    <div style="max-height: 454px;" class="slds-modal__content">
+                        <div class="slds-align_absolute-center">
+                            <span class ="subtitle "> 
+                                <p style="color: #000000;"> You have submitted a request for an appointment to view and discuss the following clinical trails: </p> 
+                                <p class="detailpopUp"> {options}</p>
+                            </span>    
+                        </div>
+                        <div class="slds-align_absolute-center">
+                            <div class="slds-box box">
+                                <p class="requestNumber" style="color: #000000;"> Your request number is <!--<span style="color:#00857c">#317828282</span></p> -->
+                                    <span class="numberreq">{meetingRequestNumber}</span>
+                                </p>
+                                <!-- Added mobbr class for mobile screens -->
+                               <!-- <br class="mobbr"/> -->
+                                <div class="detailpopUp">
+                                    <p style="padding-top: 25px;">Look for email updates as your Merck Medical Affairs Team works to schedule your Appointment. A Merck medical affairs
+                                        team member will be in touch with you shortly regarding your request.</p>
+                                    <!-- Added mobbr class for mobile screens -->
+                                    <!--<br class="mobbr"/> -->
+                                    <!--Rusheel-1030-start-->
+                                    <button  class="viewrequestcls" onclick={viewRequest} >View request
+                                        <span>
+                                            <img src={sidearrow}> 
+                                        </span>
+                                    </button>
+                                    <!--Rusheel-1030-end-->
+                                </div>
+                            </div>
+                        </div>
+                        <p class="questions">Questions? Contact your Merck Account Team for further assistance.</p>
+                    </div>
+                    <div class="slds-modal__footer popupfooter" >
+                        <button onclick={handleNavigate} class="slds-button slds-button_neutral buttone" style="font-family: 'Invention';color:white;
+                            background-color:#00857c;height: 32px;font-size: 14px;letter-spacing: 0.1px;"
+                            data-name="Dashboard" >Go to dashboard</button>
+                            <!-- Added clsbtn class for mobile screen -->
+                        <button class="slds-button slds-button_neutral clsbtn" style="font-family: 'Invention'; font-weight: 700; color: #00857C; background-color:white; height: 32px; font-size: 14px; letter-spacing: 0.1px; border: 2px solid #00857C; margin-left: 16px;"
+                            onclick={closeResponse}>Close<span><img class="crossstyle" src={cross}> </span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+
+    <div if:true={showeditpopup}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header bgclr" style="padding-bottom: 17px;">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_11-of-12 reqsub">
+                            <h1 id="modal-heading-012" class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+                                <span> You have edited Request for 
+                                    <a class="hoverstyle" ><span class="decstyl" onclick={viewRequestedit}> {ScheduleFilters}</span></a>
+                                </span>
+                            </h1>
+                        </div>
+                        <!-- Added crossbtn class for mobile screens -->
+                        <div class="slds-col slds-size_1-of-12 crossbtn">
+                            <button onclick={closeResponse} style="background: white; border: 2px solid #00857C; border-radius: 5px;" class="crossz"><img class="imgpad" src={cross}></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-modal__content bgclr" id="modal-content-id-21">
+                    <div class="slds-align_absolute-center">
+                        <div class="slds-box box box1">
+                            <!-- Added mobbr class for mobile screens -->
+                            <!--<br class="mobbr"/> -->
+                            <div class="detailpopUp">
+                                <p>Look for email updates as your Merck Account Team works to schedule your Appointment and grant access to Requested content. A Merck Account
+                                    team member will be in touch with you shortly regarding your request.</p>
+                                <!-- Added mobbr class for mobile screens -->
+                                <!--<br class="mobbr"/> -->
+                                <!--Rusheel-1030-start-->
+                                <button  class="viewrequestcls" onclick={viewRequestedit} >View request
+                                    <span>
+                                        <img src={sidearrow}> 
+                                    </span>
+                                </button>
+                                <!--Rusheel-1030-end-->
+                            </div>
+                        </div>
+                    </div>
+                    <p class="questions2" >Questions? Contact your Merck Account Team for further assistance.</p>
+                    <div class="slds-modal__footer popupfooter" style="padding-top: 17px;">
+                        <button  onclick={handleNavigate} class="slds-button slds-button_neutral buttone" style="font-family: 'Invention';color:white;
+                            background-color:#00857c;height: 40px;font-size: 14px;letter-spacing: 0.1px;"
+                            data-name="Dashboard" >Go to dashboard</button>
+                            <!-- Added clsbtn class for mobile screen -->
+                        <button class="slds-button slds-button_neutral clsbtn" style="font-family: 'Invention'; font-weight: 700; color: #00857C; background-color:white; height: 40px; font-size: 14px; letter-spacing: 0.1px; border: 2px solid #00857C; margin-left: 16px;"
+                            onclick={closeResponse}>Close<span><img style="margin-left: 21px;" src={cross}> </span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+</template>

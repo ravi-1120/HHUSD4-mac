@@ -1,0 +1,113 @@
+.accordian_cls .section-control {
+    flex-direction: row-reverse;
+}
+
+.accordian_cls .section-control .slds-accordion__summary-content {
+    width: 100%;
+}
+
+.accordian_cls h3 svg {
+    fill: #fff;
+}
+
+.accordian_cls .slds-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: #00857C;
+    color: #fff !important;
+    border: 2px solid #00857C;
+    border-bottom-color:white;  	
+    border-radius: 0px;
+    font-family: 'Invention';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 27px;
+    border-radius: 6px 6px 0 0;
+    -webkit-box-shadow: 0 -1px 4px rgb(0 0 0 / 50%);
+    text-decoration: none !important;
+    gap: 0px;
+    border: 1px solid #A6D4D1;
+    border-radius: 4px 4px 0px 0px;
+    order: 0;
+    align-self: stretch;
+}
+
+.box_cls .slds-card .slds-card__header {
+    display: none;
+}
+.box_cls .slds-card .slds-card__body {
+    margin: 0;
+}
+
+.box_cls .slds-card {
+    padding: 16px 24px;
+    /* min-height: 230px;              E2ESE- 908 */
+    /* background: #F7F7F7; */
+}
+
+.box_cls .slds-card:hover {
+    /* background: #F7F7F7; */
+    /* box-shadow: 0px 1px 5px rgb(0 0 0 / 20%) !important; */
+}
+
+.accordian_1 .slds-accordion__summary-action-icon {
+    -webkit-transform: rotate(-180deg) ;
+    transform: rotate(-180deg)  ;
+}
+
+.acc .slds-accordion__section{
+    padding: 0 !important;
+}
+.acc .slds-is-open .slds-accordion__summary{
+    /* padding: 24px 24px 0 24px; */
+}
+.acc .slds-accordion__summary{
+    padding: 24px;
+}
+.slds-is-open>.slds-accordion__content{
+    background-color: #FFFFFF ;
+}
+.accordian_1 .slds-accordion__summary-action-icon {
+    --slds-c-icon-color-foreground: #FFFFFF;
+}
+.slds-button__icon {
+    fill: #fff !important;
+}
+.acc .slds-is-open .slds-accordion__summary {
+    /* padding: 24px 24px 0 24px; */
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    padding: 24px;
+    margin: -12px;
+}
+.accam .slds-accordion__summary {
+    margin-bottom: calc(var(--slds-c-accordion-section-spacing-block-end,var(--sds-c-accordion-section-spacing-block-end,.3rem)) * -1);
+}
+.richtxt .ol,ul{
+    padding-left: 0;
+} 
+.accam .slds-is-open .slds-accordion__summary {
+    /* padding: 24px 24px 0 24px; */
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    padding: 24px;
+    margin: -12px;
+}
+.indicationtxt .span .p{
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width: 767px) {
+    .accordian_cls .slds-button {
+        font-size: 14px !important;
+		line-height: 20px;
+		padding: 8px 12px;
+    }
+	.accordian_cls .slds-icon_x-small {
+        width: 18px;
+    }
+}

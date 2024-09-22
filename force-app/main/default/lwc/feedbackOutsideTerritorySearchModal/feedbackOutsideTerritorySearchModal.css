@@ -1,0 +1,7 @@
+.modal-body {
+    height: 100%;
+}
+
+.table-container {
+    height: calc(100% - 80px);
+}

@@ -1,0 +1,67 @@
+<template>
+    <div class="container">
+        <!-- Footer logo -->
+        <a>
+            <img class="heqlogo" src={HEQ_Logo}>
+        </a>
+        <!-- Footer logo end-->
+        <br>
+        <!-- Additional sites section -->
+        <p class="additional-merck-title">{label.AdditionalSites}</p>
+        <div class="additional-merck-wrapper">
+            <div class="additional-merck-sites">
+                <template if:true={additionalMerckSites}>
+                    <template for:each={additionalMerckSites} for:item="site">
+                        <div class="linktext" key={site.DeveloperName}>
+                            <a href={site.url} target="_blank">{site.label}</a>
+                        </div>
+                    </template>
+                </template>
+            </div>
+            <!-- <div class="contact">
+                <div class="contactus">{label.ContactUs}</div>
+                <div class="address">{label.Address1}</div>
+                <div class="address">{label.Address2}</div>
+                <a href="javascript:void(0)" class="linktextcls">{label.ViewOptions} </a>
+            </div> -->
+        </div>
+        <!-- Additional sites section end-->
+        <hr class="section-separator" />
+        <!-- Footer links section -->
+        <div class="footerlinkcls">
+            <template if:true={footerLinks}>
+                <template for:each={footerLinks} for:item="footer">
+                    <div class="linktext1" key={footer.DeveloperName}>
+                        <a href={footer.url} target="_blank">{footer.label}</a>
+                    </div>
+                    <!-- <span class="linecls" key={footer.DeveloperName}>|</span> -->
+                </template>
+            </template>
+        </div>
+        <!-- Footer links section end-->
+        <!-- Copyright section -->
+        <div class="logocls">
+            <a class="mercklogo" target={label.HEQ_MercklogoTarget}>
+                <img src={HEQ_MerckLogo}>
+            </a>
+            <a target={label.heq_AccessibilityLogoTarget}>
+                <img src={HEQ_Accessibilitylogo}>
+            </a>
+        </div>
+
+        <div>
+            <div class="copyrighttext1">
+                {label.HEQ_Copyright_Text1}
+            </div>
+            <div class="copyrightwrapper">
+                <div class="copyrighttext2">
+                    {label.HEQ_Copyright_Text2}
+                </div>
+                <div class="copyrighttext3">
+                    {label.HEQ_Copyright_Text3}
+                </div>
+            </div>
+        </div>
+        <!-- Copyright section end -->
+    </div>
+</template>

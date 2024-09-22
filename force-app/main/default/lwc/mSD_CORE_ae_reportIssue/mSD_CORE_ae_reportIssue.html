@@ -1,0 +1,140 @@
+<template>
+  <c-custom-toast auto-close-time="3000"></c-custom-toast>
+  <!-- Report an Issue Child Modal -->
+  <template if:true={isChildModal}>
+    <section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true" tabindex="0" data-id="popup-modal"
+      class="slds-modal slds-modal_small slds-fade-in-open backColor" style="z-index: 1000000;">
+      <div class="slds-modal__container">
+
+        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse closeHover" title="Close"
+          onclick={closepopup} style="color:white;font-size: 20px">x</button>
+
+        <div class="slds-modal__content slds-grid slds-wrap" id="modal-content-id-1"
+          style="border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">
+          <div class="slds-col slds-size_1-of-1 slds-p-top_medium slds-p-bottom_medium">
+
+            <lightning-layout class="slds-grid slds-wrap slds-scrollable_none slds-p-left_x-large slds-p-right_x-large">
+              <lightning-layout-item class="slds-align_absolute-center mainfont slds-p-bottom_medium">
+                <p id="modal-heading-01">{label.REPORTISSUE}</p>
+              </lightning-layout-item>
+
+              <lightning-layout-item class="ptagcls">
+                <p class="slds-p-bottom_x-small">{label.REPORTISSUESTATEMENT1}</p>
+                <p style="color: red;">{label.REPORTISSUESTATEMENT2}</p>
+              </lightning-layout-item>
+
+              <lightning-layout-item class="slds-align_absolute-center">
+                <button data-value="Continue" onclick={handleContinue} class="slds-button slds-button_brand btnHover"
+                  title={label.CONTINUE}>{label.CONTINUE}</button>
+              </lightning-layout-item>
+
+            </lightning-layout>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+
+  <!-- Report an Issue Parent Modal -->
+  <template if:true={isParentModal}>
+    <section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true" tabindex="0" data-id="popup-modal"
+      class="slds-modal slds-modal_small slds-fade-in-open backColor" style="z-index: 1000000;">
+      <div class="slds-modal__container" style="padding: 1rem 0 1rem 0;">
+        <div class="slds-modal__content" id="modal-content-id-2"
+          style="border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">
+          
+          <lightning-card title={label.REPORTISSUE}>
+
+            <button slot="actions" onclick={closepopup} title="Close"
+              class="slds-button slds-button_icon slds-modal__close">
+              <lightning-icon icon-name="utility:close" size="x-small" title="Close"></lightning-icon>
+            </button>
+
+            <div class="slds-p-left_medium slds-p-right_medium">
+              <div class="instructional-text slds-text-title">
+                <p class="slds-p-bottom_xx-small">{label.REPORTISSUESTATEMENT1}</p>
+                <p style="color: red;">{label.REPORTISSUESTATEMENT2}</p>
+              </div>
+              <div class="slds-p-top_small slds-p-bottom_small">
+                <lightning-input type="text" class="requiredField" name="name" label="Name" onchange={handleInput}
+                  required></lightning-input>
+                <lightning-input type="email" class="requiredField" name="email" label="Email Address" onblur={onBlur}
+                  onchange={handleInput} maxlength="80" pattern=".+\.\w+(\.\w+)?$" message-when-pattern-mismatch="Invalid Email Address" message-when-type-mismatch="Invalid Email Address" required></lightning-input>
+                <lightning-textarea label="Message" name="message" class="requiredField" onchange={handleInput}
+                  required></lightning-textarea>
+
+                <lightning-layout multiple-rows="true" vertical-align="center">
+                  <lightning-layout-item>
+                    <lightning-input id="fileUploader" name="files" type="file" accept={acceptedFormats} multiple onchange={handleUploadFinished}
+                      label="Add an attachment to upload." class="fileCls"></lightning-input>
+                  </lightning-layout-item>
+
+                  <lightning-layout-item class="slds-box slds-m-left_small slds-text-title fileInfo" style="padding: 0.2rem;">
+                    <p class="fileCls">{label.ALLFILES}</p>
+                    <p class="fileCls">{label.MAXFILES}</p>
+                  </lightning-layout-item>
+                </lightning-layout>
+
+                <div lwc:if={uploadedFileNames}>
+                  <template if:true={uploadedFilesList}>
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover" style="font-size: 12px;">
+                      <thead>
+                        <tr class="slds-line-height_reset">
+                          <th class="" scope="col" style="width: 55%;">
+                            <div class="slds-truncate tableTitle" title="File Name">{label.FILENAME}</div>
+                          </th>
+                          <th class="" scope="col" style="width: 15%;">
+                            <div class="slds-truncate tableTitle" title="File Size">{label.FILESIZE}</div>
+                          </th>
+                          <th class="" scope="col"  style="width: 15%;">
+                            <div class="slds-truncate tableTitle" title="Download">{label.DOWNLOAD}</div>
+                          </th>
+                          <th class="" scope="col"  style="width: 15%;">
+                            <div class="slds-truncate tableTitle" title="Delete">{label.DELETE}</div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <template for:each={uploadedFilesList} for:item="file">
+                          <tr key={file.id} class="slds-hint-parent">
+                            <td data-label="File Name">
+                              <div class="slds-truncate tableTitle">{file.filename}</div>
+                            </td>
+                            <td data-label="File Size">
+                              <div class="slds-truncate tableTitle">{file.size} MB</div>
+                            </td>
+                            <td data-label="Download">
+                              <button data-id={file.id} data-file-name={file.filename} onclick={handleFileDownload} 
+                                            title="Download" class="slds-button slds-button_icon">
+                                <lightning-icon icon-name="utility:download" size="x-small" title="Download this file"></lightning-icon>
+                              </button>
+                            </td>
+                            <td data-label="Delete">
+                              <button data-file-id={file.id} data-file-name={file.filename} onclick={handleFileDeletion} 
+                                            title="Delete this file" class="slds-button slds-button_icon">
+                                <lightning-icon icon-name="utility:delete" size="x-small" title="Delete this file"></lightning-icon>
+                              </button>
+                            </td>
+                          </tr>
+                        </template>
+                      </tbody>
+                    </table>
+                  </template>
+                </div>
+                <!-- </div> -->
+                <br>
+                <div class="slds-align_absolute-center">
+                  <button class="btnsize slds-button slds-m-right_large slds-button_brand btnHover"
+                    onclick={handleSubmit} title="Submit">Submit</button>
+                </div>
+              </div>
+            </div>
+          </lightning-card>
+
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

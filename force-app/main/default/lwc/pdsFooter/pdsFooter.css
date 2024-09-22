@@ -1,0 +1,91 @@
+.footer {
+    background: #00857C;
+    width:100%;
+    height: 117.26px;
+    padding: 24px 0px 24px 0px;
+}
+
+.container{
+    /* display: flex;
+    float:left; */
+    width: auto;
+    margin: 0px 24px 0px 28px;
+}
+
+.text-cls{
+    color: #FFFFFF;
+    font-family: InventionRg;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: left;
+    /* padding: 24px 20px 20px 0px; */
+}
+
+.mercklogo{
+    width: 120px;
+    height: auto;
+    /* padding: 20px 20px 20px 0px; */
+}
+
+.bmargin{
+    margin: 0px 0px 0px 0px;
+}
+.layout-cls{
+    display: block;
+}
+.CookieCls{
+    margin-left: 1.5%;
+    font-weight: 300;
+    font-family: 'InventionRg';
+    font-size: 14px;
+    text-decoration: underline;
+    text-decoration-color:#fff;
+}
+
+@media only screen and (min-width:321px) and (max-width:768px){
+    .footer {
+        background: #00857C;
+        width:100%;
+        min-height: 150px;
+        padding: 0px;
+    }
+    .container {
+        flex-direction: column;
+        width: auto;
+        margin: 0px 16px 0px 16px;
+        gap:8px;
+    }
+    
+    .mercklogo{
+        width: 100px;
+        height: auto;
+        padding: 0px;
+        margin-left: -12px;
+    }
+
+    .text-cls{
+        color: #FFFFFF;
+        font-family: InventionRg;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        text-align: left;
+        padding: 0px;
+    }
+
+    .bmargin{
+        margin: 0px 0px -6px 0px;
+    }
+    .CookieCls{
+        padding-top: 10px;
+        display: flex;
+        width: 100%;
+        /* margin-top: 10px; */
+        margin-left: 0%;
+    }
+    .footerCls{
+       display: flex;
+       flex-direction: column;
+    }
+}

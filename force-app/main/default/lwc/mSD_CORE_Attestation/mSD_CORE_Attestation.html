@@ -1,0 +1,178 @@
+<template>
+   <div class="web" if:true={isGuestUser}>
+      <div class="pbanner">
+         <img class="pbanner_img" src={bannerLogo}>
+         <div class="slds-p-top_x-small">
+            <div class="container">
+               <div class="left-panel">
+                  <div class="img-container">
+                     <img src={AttestationHeroImage} />
+                  </div>
+                  <div class="data-privacy-container">
+                     <div class="flex-column-start">
+                        <div class="flex-row-center">
+                           <div class="text-heading">Why are we asking this?</div>
+                        </div>
+                        <div class="text-detail">The information on the portal is intended for those involved with drug selection for coverage or reimbursement as members of a payor, formulary committee, or similar entities with health care economic expertise. 
+                           <br>
+                           <br>
+                           Note that all information will have to be reviewed by an account executive before obtaining full access to the portal.</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="right-panel">
+                  <div class="flex-column-center">
+                     <div class="flex-row-close">
+                        <div class="flex-row-center-2">
+                           <!-- <div class="button-close" onclick={handleClose}>
+                              <div class="button-text">X  Close</div>
+                           </div> -->
+                           <div class="text-heading-2">Are you a health care decision maker?</div>
+                        </div>
+                        <div class="text-detail-2">
+                           This content access is restricted to individuals carrying out their responsibilities for the selection of drugs for coverage or reimbursement as members of a payor, formulary committee, or other similar entity with knowledge and expertise in the area of health care economic analysis. To obtain access, you attest that you have such responsibilities and are viewing this content in furtherance thereof. This content is not meant to be viewed by representatives from other industries, such as pharmaceutical, biotechnology, or medical device manufacturers.
+                        </div>
+                        <div class="radiomaindiv">
+                           <div class="radiosubdiv">
+                              <label class="container-radio">Yes, I am a health care decision maker
+                                 <input type="radio" name="radio" data-id="Yes" onchange={handleRoleSelection}>
+                                 <span class="checkmark-radio"></span>
+                              </label>
+                           </div>
+                           <div class="flex-row-center">
+                              <label class="container-radio">No, I am not a health care decision maker
+                                 <input type="radio" name="radio" data-id="No" onchange={handleRoleSelection}>
+                                 <span class="checkmark-radio checkmark-radio2"></span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div if:true={showError} class="error-message">
+                        <div class="error-text">Please make a selection.</div>
+                     </div>
+                     <div class="continue-button" onclick={handleContinue}>
+                        <div class="button-text">Continue</div>
+                     </div>
+                     <div class="text-link">
+                        <span class="already-registered">Already registered?&nbsp;</span>
+                        <span class="link-highlight" onclick={handleLogin}>Log in</span>.
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="mobile" if:true={isGuestUser}>
+      <div class="pbanner">
+         <img class="pbanner_img" src={bannerLogo}>
+         <div class="slds-p-top_x-small">
+            <div class="container">
+               <div class="mob-main">
+                  <img src={AttestationHeroImage}/>
+                  <div class="mob-flex-column">
+                     <div class="mob-column-detail">
+                        <!-- <div class="mob-button-close" onclick={handleClose}>
+                              <div class="mob-button-close-text">X Close</div>
+                        </div> -->
+                        <div class="mob-heading">Are you a health care decision maker?</div>
+                     </div>
+
+                     <div class="mob-text">
+                        This content access is restricted to individuals carrying out their responsibilities for the selection of drugs for coverage or reimbursement as members of a payor, formulary committee, or other similar entity with knowledge and expertise in the area of health care economic analysis. To obtain access, you attest that you have such responsibilities and are viewing this content in furtherance thereof. This content is not meant to be viewed by representatives from other industries, such as pharmaceutical, biotechnology, or medical device manufacturers.
+                     </div>
+
+                     <div class="radiocls">
+                        <div class="radiomaindiv">
+                           <div class="radiosubdiv">
+                              <label class="container-radio">Yes, I am a health care decision maker
+                                 <input type="radio" name="radio" data-id="Yes" onchange={handleRoleSelection}>
+                                 <span class="checkmark-radio checkmark-radio3"></span>
+                              </label>
+                           </div>
+                           <div class="flex-row-center">
+                              <label class="container-radio">No, I am not a health care decision maker
+                                 <input type="radio" name="radio" data-id="No" onchange={handleRoleSelection}>
+                                 <span class="checkmark-radio checkmark-radio4"></span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div if:true={showError} class="error-message">
+                        <div class="error-text">Please make a selection.</div>
+                     </div>
+
+                     <div class="continue-button" onclick={handleContinue}>
+                        <div class="button-text">Continue</div>
+                     </div>
+
+                     <div class="text-link">
+                        <span class="already-registered">Already registered?</span>
+                        <span class="link-highlight" onclick={handleLogin}> Log in</span>.
+                     </div>
+                  </div>
+
+                  <div class="mob-container-detail">
+                     <div class="mob-inner-flex">
+                        <div class="mob-column-flex">
+                           <div class="mob-text-header">
+                                 <div>Why are we asking this?</div>
+                           </div>
+                           <p class="mob-text-detail">
+                                 The information on the portal is intended for those involved with drug selection for coverage or reimbursement as members of a payor, formulary committee, or similar entities with health care economic expertise.
+                                 <br>
+                                 <br>
+                                 Note that all information will have to be reviewed by an account executive before obtaining full access to the channel.
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <template if:true={isShowModal}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+         aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large popupmod" >
+      
+         <div class="slds-modal__container contmarg" >
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-horizontal_large slds-p-vertical_small modalpad" id="modal-content-id-1" >
+               <div class="slds-grid slds-wrap ">
+                     <p class="modlhead">
+                        Thank you for your interest.
+                     </p>
+                     <div class="slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-text-align_right closediv">
+                     <!-- <span ><img class="img-hover" src={closemodal} onclick={closeModal}></span> -->
+                     <span class="img-hoverspan" data-label='back to screen_X' onclick={closeModal}><img class="img-hover"
+                           src={cross} ></span> <!--RT GA bug-->
+                     </div>
+               </div>
+               
+               <p class="modlmatr">
+                  Unfortunately, we cannot process your request at this time. Merck Formulary Resources is only intended for health care decision makers. However, we have other Merck websites that may have information you’re looking for.
+               </p>
+               <br>
+               <a href="https://www.merck.com" class="linkcls" ><u>Merck.com</u></a>
+               <br>
+               <a href="https://www.merckconnect.com" class="linkcls" ><u>MerckConnect.com</u></a> 
+               <br>
+               <a href="https://www.merckvaccines.com/" class="linkcls" ><u>MerckVaccines.com</u></a>
+               <br>
+               <p class="modlmatr1">
+                  <!-- If you need assistance, please reach out to the&nbsp;  <a href='/merckportal/my-contacts' class="linkcls" > Merck support team.</a> -->
+                  If you need assistance, please reach out to the&nbsp;<a href={mycontacts} class="linkcls" ><u>Merck support team</u>.</a>
+               </p>
+               <button class="medi-btn-modal" data-label='back to screen_button' onclick={closeModal}> <span
+               class="continue-text"> close</span>
+               </button>
+            </div>
+         </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open" onclick={closeModal}></div>
+   </template>
+</template>

@@ -1,0 +1,1361 @@
+<template>
+	<!--<div class="c-container"> -->
+	<!--<div class="bg" style={backgroundStyle}>
+    </div> -->
+	<div class="bgstyle bgstylone">
+		<header style="z-index:1;">
+			<div class="logo">
+				<div class="pbanner">
+					<!-- class [logo-pb] added for mobile responsive -->
+					<img src={logo5} class="logo-pb">
+					<div class="ptext">
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<section if:true={showLoader} role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+			class="slds-modal slds-fade-in-open">
+			<lightning-spinner variant="brand" if:true={showLoader} class="loader" size="large"> </lightning-spinner>
+			<div if:true={showLoader} class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</section>
+		<div class="container" style="margin-top:-120px;">
+			<div class="slds-p-left_xx-large card">
+				<div class="schedulebody">
+					<div class="slds-p-around_large body card1">
+						<c-custom-toast auto-close-time="8000"></c-custom-toast>
+						<div class="prodheader1">
+							<p class="ptextone">
+								<span class="headerAnchorCls padstyle">
+									<a href={navigatedashboard} data-name="Dashboard" class="padstyle"
+										onclick={handleclickevent}>Dashboard</a> <span>/</span>
+								</span>
+								<span class="mobTruncateText">...</span>
+								<span class="headerAnchorCls mobTruncate padstyle">
+									<a href={navigatelibrary} data-name="Library" class="padstyle"
+										onclick={handleclickevent}>Library</a> <span>/</span>
+								</span>
+
+								<span class="breadprodname mobTruncate padstyle" data-name={productName}
+									onclick={backbutton}>{productLabel}</span><span
+									class="headerAnchorCls mobTruncate padstyle">/</span>
+								<span class="headerAnchor mobTruncate padstyle"><span class={setStatusHeader}
+										onclick={backbutton} data-name={headerstatus}>{headerstatus}</span></span>
+								<!-- <a href={gobackurl} style="color:#00857C;">{productName}</a> <span> / </span>
+                            	<a href={gobackurl} class={setStatusHeader} style="color:#00857C;">{headerstatus}</a> -->
+								<span class="headerAnchorCls padstyle">/</span>
+								<a href="#" class="reqnum">{requestId}</a>
+							</p>
+
+							<span class="statusstyle">
+								<a href="#"
+									style="padding:2px 8px;width: 92px;font-weight:700;display: table-cell;font-family:Invention;font-size:14px;"
+									class={setStatusCSS}>
+									<span style="padding-top: 2px;">{displaystatus} </span>
+								</a>
+							</span>
+
+							<!-- <div class={setStatusCSS}>{displaystatus}</div> -->
+							<p if:true={cmsshowheader} class="ptexthree slds-p-bottom_medium cursorcls">{requestId}: {productName} information session
+							</p>
+							<p if:false={cmsshowheader} class="ptexthree slds-p-bottom_medium cursorcls">
+								<template if:true={noTitle}>{requestId}</template>
+								<template if:false={noTitle}>{requestId}: {catalogName}</template>
+							</p>
+							<!-- class [mob-er-cr-btn] added for mobile div -->
+							<div class="slds-grid slds-wrap mob-er-cr-btn">
+								<template if:false={cancelbtndis}>
+									<template if:true={editflag}>
+										<div class="slds-button slds-button_neutral edit_btn" onclick={editclick}>
+											<img src={editicon} class="editreq" />
+											<a class="hoverstyle b">
+												<p class="edit">Edit request</p>
+											</a>
+										</div>
+									</template>
+									<!-- <template if:true={cancelflag}>
+										<button class="slds-button slds-button_neutral cancel_btn" onclick={cancelclick}
+											disabled={dissablebtn}>
+											<img src={cancelicon} class="cancelbtn" />
+											<a class="hoverstyle b">
+												<span class="cancel">Cancel request</span>
+											</a>
+										</button>
+									</template> -->
+									<template if:true={cancelflag}>
+										<div class="slds-button slds-button_neutral cancel_btn" onclick={cancelclick}
+											disabled={dissablebtn}>
+											<span><img src={cancelicon} class="cancelbtn" /></span>
+											<span class="cancel" style="height:16px;">Cancel request</span>
+										</div>
+									</template>
+								</template>
+							</div>
+						</div>
+					</div>
+					<div class="slds-var-p-around_large url">
+						<div class="prescribediv slds-var-p-around_medium">
+							<template if:false={showBrandnamewithGenericName}>
+								<p class="ptextfour cursorcls">{productName}</p>
+								<p class="ptextfive">{genericname} {dosage}</p>
+							</template>
+							<template if:true={showBrandnamewithGenericName}>
+								<p class="ptextfour cursorcls">{productName} {genericname}</p>
+								<p class="ptextfive">{dosage}</p>
+							</template>
+							<div class="lnbtns">
+								<div class="prescribeinfo1">
+									<a href={prescribinginfo} target="_blank" class="button bt1 bt2"
+										onclick={handlepipdf}>
+										Prescribing information<span class="prescribeimgcontainer">
+											<img src={logo2} class="prescibeimg presimg"></span>
+									</a>
+								</div>
+								<!--&nbsp;&nbsp;&nbsp; -->
+								<template if:true={medicationguide}>
+									<div class="prescribeinfo1 prescribeinfo3">
+										<a href={medicationguide} target="_blank" class="button bt1 bt2"
+											onclick={handlemgpdf}>
+											Medication guide<span class="prescribeimgcontainer">
+												<img src={logo2} class="prescibeimg presimg"></span>
+										</a>
+									</div>
+								</template>
+								<template if:true={patientInfo}>
+									<div class="prescribeinfo1 prescribeinfo3">
+										<a href={patientInfo} target="_blank" class="button bt1 bt2"
+											onclick={handlemgpdf}>
+											Patient Information<span class="prescribeimgcontainer">
+												<img src={logo2} class="prescibeimg presimg"></span>
+										</a>
+									</div>
+								</template>
+								<template if:true={instructionforuselink}>
+									<div class="prescribeinfo1 prescribeinfo3">
+										<a href={instructionforuselink} target="_blank" class="button bt1 bt2"
+											onclick={handleLinkClick} data-prodname="pi.pdf" data-prodpath={instructionforuselink} data-prodlabel={instructionforuselabel}>
+											{instructionforuselabel}<span class="prescribeimgcontainer">
+												<img src={logo2} class="prescibeimg presimg"></span>
+										</a>
+									</div>
+								</template>
+								
+								<!--&nbsp;&nbsp;&nbsp; -->
+								<!-- class [mob-bc-mbtn and mob-brows-ct-btn] added for mobile view-->
+								<div class="prescribeinfo2 mobBrowseCatalogTxtCls mob-bc-mbtn">
+									<a class="button bt1 mobBrowseCatalogCls mob-brows-ct-btn" data-name="ProductList"
+										onclick={navigatepage} target="_self">
+										Browse catalog
+										<span class="prescribeimgcontainer broimg"><img src={righticon}></span>
+									</a>
+								</div>
+								<div class="hcpsite">
+									<a href={hcplink} target="_blank" class="bt2 hcpurl" onclick={handlehcp}><span
+											class="hcp">HCP
+											site <img src={hcpicon}></span></a>
+								</div>
+								<!--<span class="mobTruncate"> &nbsp;&nbsp;&nbsp; </span>-->
+							</div>
+						</div>
+					</div>
+					<div class="innerbody">
+						<h1 if:false={cmsshowheader} class="heading1 cursorcls"><b>Requested resource:</b></h1>
+						<div if:false={cmsshowheader} class="titlecard">
+							<div class="slds-grid slds-wrap catalog">
+								<div class="slds-col slds-size_11-of-12">
+									<p class="titlehead cursorcls">{catalogName}</p>
+									<a if:true={isReadMore} class="description cursorcls">
+										<div style="font-size: 14px; font-family: 'Invention';padding-bottom: 10px;">
+											{shortDescription}...&nbsp;<span class="readmore" onclick={handleReadMore}>Read
+												more</span></span> 
+												<!-- /* Added by Sabari to add the new line in Catalog description */ -->
+												<div class="jobid"></div>  
+												</div>
+									</a>
+									<a if:false={isReadMore} class="b cursorcls">
+										<!-- /* Added by Sabari to add the new line in Catalog description */ -->
+										<p class="description cursorcls updatedesc" data-value={catalofDescription}>{catalofDescription}</p>
+									</a>
+									<div if:true={isViewUponRequest} class="presentationcontainer">
+										<p class="presentation cursorcls">Live presentation </p>
+									</div>
+									<div if:false={isViewUponRequest} class="presentationcontainerR">
+										<p class="presentation reqpres cursorcls">Request-only PDF </p>
+									</div>
+								</div>
+								<!--
+							<div class="slds-col slds-size_1-of-12">
+								<img class="slds-float_right" src={bookmarklogo}>
+							</div>  -->
+
+								<div class="slds-col slds-size_1-of-12">
+									<div class="book_cls bookmark_cls slds-p-bottom_large">
+										<template if:true={library}>
+											<div>
+
+												<a class="hoverstyle"><img class="slds-float_right" data-id={catalogId1}
+														src={bookmarkSelect} onclick={handlerBookMarkRemove}></a>
+
+											</div>
+										</template>
+										<template if:false={library}>
+											<div>
+
+												<a class="hoverstyle"><img class="slds-float_right" data-id={catalogId1}
+														src={bookmarklogo} onclick={handlerBookMark}></a>
+
+											</div>
+										</template>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<template if:false={sectiondisplay}>
+							<template if:false={pendigtime}>
+								<template if:true={isViewUponRequest}> <!-- Added For View Upon Request Resource -->
+									<div class="appointmenttime slds-p-top_medium cursorcls">Appointment time:</div>
+									<div class="slds-grid slds-wrap cursorcls">
+
+										<div
+											class="date_box slds-grid slds-wrap  slds-p-horizontal_medium slds-p-vertical_small cursorcls">
+											<!-- class [mob-ap-icn-mr] added for mobile view-->
+											<div class="slds-align_absolute-center mob-ap-icn-mr">
+												<img src={calicon} class="cal" />
+											</div>
+											<div class="slds-p-left_medium slds-p-top_medium datetimestyle date">
+												<!--<lightning-formatted-date-time value={meetingstartdate} year="2-digit" month="long" day="2-digit" hour="numeric"
+											weekday="long" ></lightning-formatted-date-time>-->
+												<lightning-formatted-date-time time-zone={setDefaultime}
+													value={meetingstartdate} year="numeric" month="long" day="2-digit"
+													weekday="long" class="apptime">
+												</lightning-formatted-date-time><br>
+												<lightning-formatted-date-time time-zone={setDefaultime}
+													value={meetingstartdate} hour="numeric" minute="2-digit">
+												</lightning-formatted-date-time>
+											</div>
+										</div>
+									</div>
+								</template>
+							</template>
+						</template>
+						<!--<div class="slds-grid slds-wrap"> -->
+						<template if:false={sectiondisplay}>
+							<template if:true={pendigtime}>
+								<template if:true={isViewUponRequest}> <!-- Added For View Upon Request Resource -->
+									<div if:true={cmsshowheader} class="appointmenttime cmstoppad cursorcls">Preferred appointment times:
+									</div>
+									<div if:false={cmsshowheader} class="appointmenttime slds-p-top_medium cursorcls">Preferred appointment times:
+									</div>
+									<div class="slds-grid slds-wrap cursorcls">
+										<template if:true={timeslots}>
+											<template for:each={timeslots} for:item="tm">
+												<!--  class [mob-pd-pdn] added for mobile view-->
+												<div class="slds-p-right_medium slds-p-top_medium mob-pd-pdn" key={tm}>
+													<div class="slds-grid slds-wrap">
+														<div
+															class="date_box slds-grid slds-wrap slds-p-horizontal_medium slds-p-vertical_small">
+															<!-- class [mob-ap-icn-mr] added for mobile view-->
+															<div class="slds-align_absolute-center mob-ap-icn-mr">
+																<img src={calicon} class="cal1" />
+															</div>
+															<div class="slds-p-left_medium datetimestyle">
+																<b>{tm.MSD_CORE_Meeting_Date__c}</b>
+																<!-- <lightning-formatted-date-time
+																	value={tm.MSD_CORE_Meeting_Date__c} year="numeric"
+																	month="long" day="2-digit" weekday="long"
+																	class="apptime" time-zone-name="short" time-zone="America/New_York">
+																</lightning-formatted-date-time> -->
+																<br>
+																<p>{tm.MSD_CORE_TimeSlot__c}</p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</template>
+										</template>
+									</div>
+								</template>
+							</template>
+
+						</template>
+						<!--</div> -->
+
+						<!-- ENABLE AFTER EDIT CLICK -->
+						<template if:true={sectiondisplay}>
+							<div class="innerbody schedulepg">
+								<template if:true={isViewUponRequest}> <!-- Added For View Upon Request Resource -->
+									<div class="appointmentpreference">Appointment preferences</div>
+									<hr class="appointment" />
+									<div class="appointmenttimeAT">Appointment times</div>
+									<div class="slds-form datetimecls">
+										<template if:true={templist}>
+											<template for:each={templist} for:item="counter" for:index="index">
+												<div class="cls_date" key={counter}>
+													<div class='col-sm-4 slds-p-right_small datetime'>
+														<div
+															class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open fullwidthcal">
+															<div data-id={counter.id} style="cursor: pointer;">
+																<lightning-input type="text" data-id={counter.id}
+																	class="Date input-cls datemarg" placeholder="Select"
+																	name="Date" label="Date" value={counter.calval}
+																	onclick={showCalendar} readonly>
+																</lightning-input>
+															</div>
+															<div class="slds-input__icon-group slds-input__icon-group_right"
+																data-id={counter.id} onclick={showCalendar}>
+																<img src={calicon} class="cal call"
+																	style="cursor: pointer;" />
+															</div>
+
+															<div data-id={counter.id} data-name={counter.id}
+																onclick={ignoreCalendarClose}>
+																<c-lightning-calendar class="calendarcls"
+																	onselecteddate={handleselecteddate}>
+																</c-lightning-calendar>
+															</div>
+														</div>
+													</div>
+													<div class='col-sm-4'>
+														<div class="form-group">
+															<lightning-combobox name="progress" label="Time (optional)"
+																value={counter.caltime} data-id={counter.drpid}
+																placeholder="Select" options={timeoption}
+																onchange={handleTimeOption}
+																onfocus={handleTimeOptionClick}
+																class="Time"></lightning-combobox>
+
+														</div>
+													</div>
+													<!-- END DATE TIME PICKER -->
+													<!-- class [mobCloseCls] added for mobile view -->
+													<lightning-icon if:false={hideRemoveDate} data-id={counter.id}
+														data-value={index} class="close_cls mobCloseCls"
+														icon-name="utility:close" alternative-text="Close"
+														title="Click to remove" onclick={removedate}></lightning-icon>
+
+													<!-- This Div only Visible in Mobile View -->
+													<div if:false={hideRemoveDate}
+														class="button1 mobRemoveDateBtn slds-p-bottom_small">
+														<lightning-button variant="brand-outline " label="Remove X"
+															title="Click to remove" onclick={removedate} class="adddate"
+															data-id={counter.id} data-value={index}>
+														</lightning-button>
+													</div>
+
+												</div>
+											</template>
+										</template>
+									</div>
+									<!-- <br> -->
+									<div class="adddate datepad slds-p-bottom_medium slds-p-top_medium">
+										<!--	<lightning-button variant="brand-outline " label="Add another date +"
+										title="Add another date" onclick={addnewdate} class="adddate">
+									</lightning-button> -->
+										<button class="slds-button slds-button_neutral adddate"
+											onclick={addnewdate}><span class="adddate">Add another
+												date&nbsp;&nbsp;<span><img src={plusicon}>
+												</span> </span></button>
+									</div>
+									<!-- <br /><br /> -->
+									<lightning-radio-group name="radioGroup" class="radiobtncls"
+										label="Meeting preference" options={options} value={meetingPreference} onclick={Radioclick}
+										type="radio"></lightning-radio-group>
+									<div class="additionalattendees slds-p-bottom_medium">Invite additional attendees
+									</div>
+									<div class="additionalemail slds-p-bottom_medium">Additional attendee email
+										address
+										(optional)
+									</div>
+									<template if:true={attendeeList}>
+										<template for:each={attendeeList} for:item="attendee" for:index="index">
+											<div class="cls_add" key={attendee}>
+												<lightning-input data-id="attendee" key={attendee}
+													variant="label-hidden" type="text" data-value={index}
+													class="attList" value={attendee} onclick={handleAddAttendees}>
+												</lightning-input>
+												<lightning-icon if:false={hideRemoveAttendee} class="close_cls"
+													icon-name="utility:close" alternative-text="Close" title="Image"
+													data-value={index} onclick={removefield}></lightning-icon>
+											</div>
+										</template>
+									</template>
+
+									<div class="button1 adddate">
+										<!--	<lightning-button variant="brand-outline" label="Add attendee  + " title="Add attendee"
+										onclick={addnewatte} class=""></lightning-button> -->
+										<button class="slds-button slds-button_neutral adddate" onclick={addnewatte}>
+											<span class="adddate">Add attendee&nbsp;&nbsp;<span><img src={plusicon}>
+												</span>
+											</span>
+										</button>
+									</div>
+								</template>
+
+								<!-- class [mob-er-fot-btn] added for mobile responsive -->
+								<div class="slds-wrap slds-grid slds-p-top_large mob-er-fot-btn">
+									<div class="button1">
+										<div class="submitrequest"><button
+												class="slds-button slds-button_neutral subreq" onclick={handleSubmit}
+												disabled={disableSubmit}>Submit changes</button>
+										</div>
+									</div>
+									<template if:true={cancelbtndis}>
+										<!-- class [mob-er-fot-can-btn] added for mobile responsive -->
+										<div class="submitrequest reqs mob-er-fot-can-btn">
+											<div class="slds-button slds-button_neutral cancel_btn" onclick={cancelbtn}>
+												<!--<img src={cancelicon} style="padding-right: 19px;" />-->
+												<span class="canclebt">Cancel changes</span>
+											</div>
+										</div>
+									</template>
+								</div>
+							</div>
+						</template>
+
+						<template if:true={isViewUponRequest}> <!-- Added For View Upon Request Resource -->
+							<div class="slds-p-top_medium schedulepg">
+								<lightning-layout multiple-rows>
+									<lightning-layout-item size="12" padding="around-small" small-device-size="6"
+										medium-device-size="6" large-device-size="3" class={meetingcard}> <!--RT Reg_Bug_06-->
+										<template if:false={sectiondisplay}>
+											<p class="appointmenttime cursorcls">Meeting preference:</p>
+											<p class="meetingpreference cursorcls meetpref"> {meetingPreference} </p>
+										</template>
+										<!-- ENABLE AFTER EDIT CLICK -->
+										<template if:true={sectiondisplay}>
+											<!-- <lightning-radio-group name="radioGroup" class="radiobtncls" label="Meeting preference"
+											options={options} value={value} type="radio">
+										</lightning-radio-group> -->
+										</template>
+									</lightning-layout-item>
+									<!-- class [mob-pdd-lft-zero] added for mobile responsive -->
+									<template if:true={resolutionflag}>
+										<lightning-layout-item size="12" padding="around-small" small-device-size="6"
+											medium-device-size="6" large-device-size="6" class="mob-pdd-lft-zero">
+											<p class="appointmenttime ">Resolution:</p> <!--RT-N Reg_Bug_06-->
+											<p class="meetingpreference meetpref1"> {resolution} </p>
+										</lightning-layout-item>
+									</template>
+								</lightning-layout>
+							</div>
+							<template if:true={showAttendees}>
+								<div class="slds-p-vertical_medium schedulepg requesteddiv">
+									<template if:false={sectiondisplay}>
+										<p class="requestedattendees cursorcls">Requested Attendees</p>
+										<div class="slds-grid slds-wrap">
+											<template for:each={attendeeList} for:item="attendee">
+												<div key={attendee}
+													class="attend_box slds-p-around_small slds-m-right_medium slds-grid slds-wrap">
+													<img src={personicon} />
+													<p class="slds-p-left_medium attendeename">{attendee}</p>
+												</div>
+											</template>
+										</div>
+									</template>
+								</div>
+							</template>
+						</template>
+
+						<template if:false={isViewUponRequest}>
+							<template if:true={resolutionflag}>
+								<div class="schedulepg resolution">
+									<p class="appointmenttime ">Resolution</p>
+									<p class="meetingpreference meetpref1"> {resolution} </p>
+								</div>
+							</template>
+						</template>
+						<template if:false={cancelbtndis}>
+						<div class="requestbody slds-p-around_medium slds-m-top_medium"
+							style="margin-top: 24px; padding: 24px;">
+							<!-- class [mob-rp-top-dv]  added for mobile responsive-->
+							<div class="slds-grid slds-wrap reqIcon mob-rp-top-dv">
+								<!-- class [mob-rp-icon]  added for mobile responsive-->
+								<img src={reqicon} class="mob-rp-icon" />
+								<p class="titlehead requestprogress cursorcls reqcls">Request progress</p>
+							</div>
+							<!-- For All Delivery Framework except View upon Request-->
+							<template if:true={isViewUponRequest}>
+								<template if:true={pathapprovedFlag} for:each={primaryExecutive} for:item="executive"
+									for:index="indexx">
+									<div key={executive.Id} class="req_box slds-p-around_medium requestcontent cursorcls">
+										<li class="reqsub">Request submitted on&nbsp;<lightning-formatted-date-time
+												value={requestcreateddate} year="numeric" month="long" day="2-digit"
+												hour="2-digit" minute="2-digit" time-zone={setDefaultime}>
+											</lightning-formatted-date-time>
+
+										</li>
+										<li class="reqsub">Appointment scheduled by <span>{executive.FirstName}
+												{executive.LastName},</span>&nbsp;
+											<lightning-formatted-date-time time-zone={setDefaultime}
+												value={meetingstartdate} year="numeric" month="long" day="2-digit" 
+												hour="numeric" minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+									</div>
+								</template>
+								<template if:true={pathpendingFlag}>
+									<div class="req_box slds-p-around_medium requestcontent">
+										<li class="reqsub">Request submitted on&nbsp;<lightning-formatted-date-time
+												value={requestcreateddate} year="numeric" month="long" day="2-digit" 
+												hour="numeric" time-zone={setDefaultime} minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+									</div>
+								</template>
+							
+								<template if:true={pathpresentationFlag} for:each={primaryExecutive} for:item="executive"
+									for:index="indexx">
+									<div key={executive.Id} class="req_box slds-p-around_medium requestcontent">
+										<li class="reqsub">Request submitted on&nbsp;<lightning-formatted-date-time 
+												time-zone={setDefaultime} value={requestcreateddate} year="numeric"
+												month="long" day="2-digit" hour="numeric" minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+										<li class="reqsub">Appointment scheduled by <span>{executive.FirstName}
+												{executive.LastName},</span>&nbsp;<lightning-formatted-date-time 
+												time-zone={setDefaultime} value={meetingstartdate} year="numeric"
+												month="long" day="2-digit" hour="numeric" minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+										<li class="reqsub">Appointment completed by <span>{executive.FirstName}
+												{executive.LastName},</span>&nbsp;    
+											<lightning-formatted-date-time time-zone={setDefaultime}
+												value={meetingcompletiondate} year="numeric" month="long" day="2-digit" 
+												hour="numeric" minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+									</div>
+								</template>
+
+								<template if:true={pathclosedFlag} for:each={primaryExecutive} for:item="executive"
+									for:index="indexx">
+									<div key={executive.Id} class="req_box slds-p-around_medium requestcontent">
+										<li class="reqsub">Request submitted on&nbsp;<lightning-formatted-date-time
+												time-zone={defaultTimeZone} value={requestcreateddate} year="numeric" 
+												month="long" day="2-digit" hour="numeric" minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+										<li class="reqsub">Appointment scheduled by <span>{executive.FirstName}
+												{executive.LastName},</span>&nbsp;<lightning-formatted-date-time
+												time-zone={setDefaultime} value={meetingstartdate} year="numeric" 
+												month="long" day="2-digit" hour="numeric" minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+										<li class="reqsub">Appointment completed by <span>{executive.FirstName}
+												{executive.LastName},</span>&nbsp;<lightning-formatted-date-time
+												time-zone={setDefaultime} value={meetingcompletiondate} year="numeric" 
+												month="long" day="2-digit" hour="numeric" minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+										<template if:false={isNLB}>
+										<li class="reqsub">Post-presentation materials shared by <span>{executive.FirstName}
+												{executive.LastName},</span>&nbsp;<lightning-formatted-date-time
+												time-zone={setDefaultime} value={meetingshareddate} year="numeric" 
+												month="long" day="2-digit" hour="numeric" minute="2-digit">
+											</lightning-formatted-date-time>
+										</li></template>
+									</div>
+							</template>
+								<template if:true={pathdefaultFlag} for:each={primaryExecutive} for:item="executive"
+									for:index="indexx">
+									<div key={executive.Id} class="req_box slds-p-around_medium requestcontent">
+										<li class="reqsub">Request submitted on&nbsp;<lightning-formatted-date-time
+												time-zone={setDefaultime} value={requestcreateddate} year="numeric" 
+												month="long" day="2-digit" hour="numeric">
+											</lightning-formatted-date-time>
+										</li>
+										<li class="reqsub">Appointment scheduled by <span>{executive.FirstName}
+												{executive.LastName},</span>&nbsp;  
+											<lightning-formatted-date-time time-zone={setDefaultime}
+												value={meetingstartdate} year="numeric" month="long" day="2-digit" 
+												hour="numeric">
+											</lightning-formatted-date-time>
+										</li>
+									</div>
+								</template>
+								<template if:true={pathrejectedFlag} for:each={primaryExecutive} for:item="executive"
+									for:index="indexx">
+									<div key={executive.Id} class="req_box slds-p-around_medium requestcontent">
+										<li class="reqsub">Request submitted on&nbsp;<lightning-formatted-date-time
+												time-zone={setDefaultime} value={requestcreateddate} year="numeric" 
+												month="long" day="2-digit" hour="numeric">
+											</lightning-formatted-date-time>
+										</li>
+										<li class="reqsub">Appointment scheduled by <span>{executive.FirstName}
+												{executive.LastName},</span>&nbsp; 
+											<lightning-formatted-date-time time-zone={setDefaultime}
+												value={meetingstartdate} year="numeric" month="long" day="2-digit" 
+												hour="numeric">
+											</lightning-formatted-date-time>
+										</li>
+									</div>
+								</template>
+							</template>
+							<!-- For View upon Request-->
+							<template if:false={isViewUponRequest}>
+								<template if:true={pathpendingFlag}>
+									<div class="req_box slds-p-around_medium requestcontent">
+										<li class="reqsub">Request submitted on <lightning-formatted-date-time
+												value={requestcreateddate} year="numeric" month="long" day="2-digit"
+												hour="numeric" time-zone={setDefaultime} minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+									</div>
+								</template>
+								<template if:true={pathclosedFlag}>
+									<div class="req_box slds-p-around_medium requestcontent">
+										<li class="reqsub">Request submitted on 
+											<lightning-formatted-date-time
+												value={requestcreateddate} year="numeric" month="long" day="2-digit"
+												hour="numeric" time-zone={setDefaultime} minute="2-digit">
+											</lightning-formatted-date-time>
+										</li>
+										<template if:true={primaryExecutive} for:each={primaryExecutive} for:item="executive">
+											<li class="reqsub" key={executive}>Resource shared by &nbsp;
+												<span>{executive.FirstName} {executive.LastName}</span>, &nbsp;
+												<template if:true={meetingshareddate}>
+													<lightning-formatted-date-time
+														time-zone={setDefaultime} value={meetingshareddate} year="numeric"
+														month="long" day="2-digit" hour="numeric" minute="2-digit">
+													</lightning-formatted-date-time>
+												</template>
+											</li>
+										</template>
+									</div>
+								</template>
+							</template>
+
+							<!-- class [mob-dsn] added for mobile view,,, progressbar-->
+							<div class="mob-dsn">
+								<template if:true={pathdefaultFlag}>
+									<div class="pathMain">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClasshide">&#8226;</span>
+													<div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="33"
+														aria-valuenow="25"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClasshide">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClasshide">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value progress1">
+														</span>
+													</div>
+													<span class="dotClasshide">&#8226;</span>
+												</div>
+											</lightning-layout-item>
+
+										</lightning-layout>
+									</div>
+								</template>
+								<template if:true={pathpendingFlag}>
+									<div if:true={isViewUponRequest} class="pathMain">
+										<!-- added for NLB RT -->
+										<lightning-layout if:true={isNLB} multiple-rows>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="6">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="33"
+														aria-valuenow="25"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="6">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClasshide">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value progress1">
+														</span>
+													</div>
+													<span class="dotClasshide">&#8226;</span>
+												</div>
+											</lightning-layout-item>
+										</lightning-layout>
+										<lightning-layout if:false={isNLB} multiple-rows>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="33"
+														aria-valuenow="25"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClasshide">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClasshide">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value progress1">
+														</span>
+													</div>
+													<span class="dotClasshide">&#8226;</span>
+												</div>
+											</lightning-layout-item>
+										</lightning-layout>
+									</div>
+									<div if:false={isViewUponRequest} class="pathMain">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="12"
+												medium-device-size="12" large-device-size="12">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress1">
+														</span>
+													</div>
+													<span class="dotClasshide">&#8226;</span>
+												</div>
+											</lightning-layout-item>
+										</lightning-layout>
+									</div>
+								</template>
+								<template if:true={pathapprovedFlag}>
+									<div class="pathMain">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="33"
+														aria-valuenow="25"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progressbar1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClasshide">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value progress1">
+														</span>
+													</div>
+													<span class="dotClasshide">&#8226;</span>
+												</div>
+											</lightning-layout-item>
+
+										</lightning-layout>
+									</div>
+								</template>
+								<template if:true={pathrejectedFlag}>
+									<div class="pathMain">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="33"
+														aria-valuenow="25"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progressbar1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClasshide">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value progress1">
+														</span>
+													</div>
+													<span class="dotClasshide">&#8226;</span>
+												</div>
+											</lightning-layout-item>
+
+										</lightning-layout>
+									</div>
+								</template>
+								<template if:true={pathpresentationFlag}>
+									<div if:false={isViewUponRequest} class="pathMain">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="33"
+														aria-valuenow="25"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progressbar1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progressbar1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value progress1">
+														</span>
+													</div>
+													<span class="dotClasshide">&#8226;</span>
+												</div>
+											</lightning-layout-item>
+
+										</lightning-layout>
+									</div>
+								</template>
+								<template if:true={pathclosedFlag}>
+									<!-- For All Delivery Framework except View upon Request -->
+									<div if:true={isViewUponRequest} class="pathMain">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="33"
+														aria-valuenow="25"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progressbar1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progressbar1">
+														</span>
+													</div>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="4"
+												medium-device-size="4" large-device-size="4">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value progressbar1">
+														</span>
+													</div>
+													<span class="dotClass">&#8226;</span>
+												</div>
+											</lightning-layout-item>
+										</lightning-layout>
+									</div>
+									<!-- For View upon Request Delivery Framework-->
+									<div if:false={isViewUponRequest} class="pathMain">
+										<template if:false={isNLB} >
+                                          <lightning-layout multiple-rows>
+											  <lightning-layout-item size="12" small-device-size="12"
+												medium-device-size="12" large-device-size="12">
+												<div class="slds-grid slds-gutters mrfcolor mgdiv">
+													<span class="dotClass">&#8226;</span>
+													<div class="slds-progress-bar"
+														aria-label="Placeholder for description of progress bar"
+														role="progressbar">
+														<span class="slds-progress-bar__value mrfcolor progress2">
+														</span>
+													</div>
+													<span class="dotClass">&#8226;</span>
+												</div>
+											  </lightning-layout-item>
+										  </lightning-layout>
+										</template>
+									</div>
+								</template>
+							</div>
+
+							<!-- class [mob-dsn] added for mobile view it add display none in mobile view -->
+							<!-- For All Delivery Framework except View upon Request,,,, for labels-->
+							<div if:true={isViewUponRequest} class="slds-p-top_medium mob-dsn"
+								style="padding-top: 11px;">
+								<template if:true={pathapprovedFlag}>
+									<lightning-layout multiple-rows>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextsc">Appointment scheduled</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextscl">Presentation attended</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextRight">Share post-presentation materials</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+								<template if:true={pathpendingFlag}>
+									<!-- added for NLB RT -->
+									<lightning-layout if:true={isNLB} multiple-rows>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="5">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="4">
+											<div class="pathTextsc">Appointment scheduled</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextscl">Presentation attended</div>
+										</lightning-layout-item>
+									</lightning-layout>
+									<lightning-layout if:false={isNLB} multiple-rows>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextsc">Appointment scheduled</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextscl">Presentation attended</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextRight">Received post-presentation materials</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+								<template if:true={pathpresentationFlag}>
+									<lightning-layout multiple-rows>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextsc">Appointment scheduled</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextscl">Presentation attended</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextRight">Received post-presentation materials</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+								<template if:true={pathclosedFlag}>
+									<lightning-layout multiple-rows>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextsc">Appointment scheduled</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextscl">Presentation attended</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextRight">Received post-presentation materials</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+								<template if:true={pathdefaultFlag}>
+									<lightning-layout multiple-rows>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextsc">Appointment scheduled</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextscl">Presentation attended</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextRight">Received post-presentation materials</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+								<template if:true={pathrejectedFlag}>
+									<lightning-layout multiple-rows>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextsc">Appointment canceled</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextscl">Presentation attended</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="3" medium-device-size="6"
+											large-device-size="3">
+											<div class="pathTextRight">Received post-presentation materials</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+							</div>
+
+							<!-- For View upon Request Delivery Framework-->
+							<div if:false={isViewUponRequest} class="slds-p-top_medium mob-dsn"
+								style="padding-top: 11px;">
+								<template if:true={pathpendingFlag}>
+									<lightning-layout multiple-rows>
+										<lightning-layout-item size="12" small-device-size="6" medium-device-size="6"
+											large-device-size="6">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="6" medium-device-size="6"
+											large-device-size="6">
+											<div class="pathTextRight">Received resource</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+								<template if:true={pathclosedFlag}>
+									<lightning-layout multiple-rows>
+										<lightning-layout-item size="12" small-device-size="6" medium-device-size="6"
+											large-device-size="6">
+											<div class="pathText">Request submitted</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="12" small-device-size="6" medium-device-size="6"
+											large-device-size="6">
+											<div class="pathTextRight">Received resource</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+							</div>
+							<!-- Only For Mobile Screen it will not displayed in Desktop and Tablte View  Strat-->
+							<div class="dsk-dsn">
+								<!-- For All Delivery Framework except View upon Request -->
+								<div if:true={isViewUponRequest} class="mob-rp-wth-prbar">
+									<template if:true={pathdefaultFlag}>
+										<div class="mob-pb-wb">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Request submitted</div>
+										</div>
+										<div class="mob-pb-wb">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Appointment scheduled</div>
+										</div>
+										<div class="mob-pb-wb">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Presentation attended</div>
+										</div>
+										<div class="mob-pb-wb-last">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Received post-presentation materials</div>
+										</div>
+									</template>
+									<template if:true={pathpendingFlag}>
+										<div class="mob-pb-wb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Request submitted</div>
+										</div>
+										<div class="mob-pb-wb">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Appointment scheduled</div>
+										</div>
+										<div class="mob-pb-wb nopmobpad">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Presentation attended</div>
+										</div>
+										<!-- added for NLB RT -->
+										<div if:false={isNLB} class="mob-pb-wb-last">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Received post-presentation materials</div>
+										</div>
+									</template>
+									<template if:true={pathapprovedFlag}>
+										<div class="mob-pb-gb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Request submitted</div>
+										</div>
+										<div class="mob-pb-wb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Appointment scheduled</div>
+										</div>
+										<div class="mob-pb-wb">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Presentation attended</div>
+										</div>
+										<div class="mob-pb-wb-last">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Received post-presentation materials</div>
+										</div>
+									</template>
+									<template if:true={pathrejectedFlag}>
+										<div class="mob-pb-gb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Request submitted</div>
+										</div>
+										<div class="mob-pb-wb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Appointment canceled</div>
+										</div>
+										<div class="mob-pb-wb">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Presentation attended</div>
+										</div>
+										<div class="mob-pb-wb-last">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Received post-presentation materials</div>
+										</div>
+									</template>
+									<template if:true={pathpresentationFlag}>
+										<div class="mob-pb-gb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Request submitted</div>
+										</div>
+										<div class="mob-pb-gb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Appointment scheduled</div>
+										</div>
+										<div class="mob-pb-wb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Presentation attended</div>
+										</div>
+										<div class="mob-pb-wb-last">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Received post-presentation materials</div>
+										</div>
+									</template>
+									<template if:true={pathclosedFlag}>
+										<div class="mob-pb-gb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Request submitted</div>
+										</div>
+										<div class="mob-pb-gb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Appointment scheduled</div>
+										</div>
+										<div class="mob-pb-gb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Presentation attended</div>
+										</div>
+										<div class="mob-pb-wb-last">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Received post-presentation materials</div>
+										</div>
+									</template>
+								</div>
+								<!-- For View upon Request Delivery Framework-->
+								<div if:false={isViewUponRequest} class="mob-rp-wth-prbar">
+									<template if:true={pathpendingFlag}>
+										<div class="mob-pb-wb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Request submitted</div>
+										</div>
+										<div class="mob-pb-wb-last">
+											<div class="mob-white-crcl"></div>
+											<div class="mob-rp-br-txt">Received resource</div>
+										</div>
+									</template>
+									<template if:true={pathclosedFlag}>
+										<div class="mob-pb-gb">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Request submitted</div>
+										</div>
+										<div class="mob-pb-wb-last">
+											<div class="mob-green-crcl"></div>
+											<div class="mob-rp-br-txt">Received resource</div>
+										</div>
+									</template>
+								</div>
+							</div>
+							<!-- Only For Mobile Screen it will not displayed in Desktop and Tablte View End-->
+						</div>
+					</template>
+					</div>
+				</div>
+			</div>
+			<div if:true={productid}>
+				<div class="mfrsf slds-p-top_x-small" style="padding-top: 40px;">
+					<c-mfr_-safety product={productid}></c-mfr_-safety>
+				</div>
+			</div>
+		</div>
+
+		<div if:true={showResponse}>
+			<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+				class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+
+					<div class="slds-modal__header">
+						<!-- class [mob-rs-popup-hdr] added for mobile screen -->
+						<div class="slds-grid  mob-rs-popup-hdr">
+							<div class="slds-col slds-size_11-of-12">
+								<h1 id="modal-heading-01"
+									class="slds-text-align_left slds-modal__title slds-hyphenate requestsubmit">
+									<span if:false={meetingUpdate}> Your request has been submitted </span>
+									<span if:true={meetingUpdate}> You have edited request: <span class="reqno">
+											<br class="br-on-mobile" /> {meetingRequestNumber}</span></span>
+								</h1>
+							</div>
+							<div class="slds-col slds-size_1-of-12">
+								<button class="slds-float_right  sub1"
+									data-name="back to screen_X" onclick={viewRequest}><span><img src={cross} style="max-width: 14px;margin: 12px;">
+									</span></button>
+							</div>
+						</div>
+					</div>
+
+					<!--<div><p>You have submitted a request for an appointment to view: 
+								Vericiguat Budget Impact Model</p></div>-->
+					<div class="slds-modal__content " id="modal-content-id-2">
+						<br />
+						<div class="slds-align_absolute-center">
+							<div class="slds-box box ">
+								<!--  box_cls slds-m-around_medium -->
+								<div class="detailpopUp">
+									<p>Look for email updates as your Merck account team works to schedule your
+										appointment
+										and grant access to the requested content. A Merck account
+										team member will be in touch with you shortly regarding your request.</p>
+									</br>
+								</div>
+								<!-- E2ESI-905 - Removed href="#" to restrict open in new tab -->
+								<a onclick={viewRequest} class="slds-button viewrequest"
+									data-name="view request"><span>View request<img class="viewreq" src={sidearrow}>
+									</span></a>
+							</div>
+						</div>
+						<!-- <p class="questions">Questions? Contact your Merck Account Team for further assistance.</p> -->
+						<p class="questions">Questions? Contact <a href={contactpageurl} onclick={handleGA}>your Merck account team</a> for further assistance.</p>
+						<div class="slds-modal__footer popupfooter">
+							<button class="slds-button slds-button_neutral pop1" data-name="Dashboard"
+								onclick={navigatepage}>Go to dashboard</button>
+
+							<button class="slds-button slds-button_neutral pop" data-name="back to screen_close"
+								onclick={viewRequest}>Close<span><img class="viewreqs" src={cross}>
+								</span></button>
+
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+		</div>
+		<!--</div>-->
+		<c-mfr_cancelrequest resourceid={recId}></c-mfr_cancelrequest>
+
+		<template if:false={footer}>
+			<div class="fixed_cls">
+				<c-samplenew></c-samplenew>
+			</div>
+		</template>
+	</div>
+
+
+</template>

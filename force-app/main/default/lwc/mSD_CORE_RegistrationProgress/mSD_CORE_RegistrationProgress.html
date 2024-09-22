@@ -1,0 +1,42 @@
+<template>
+	<div if:false={mobilescreen} class="slds-grid reg-grid">
+		<div class="regProgress  slds-grid_vertical">
+			<div class="slds-col progress">
+				<c-m-s-d_-c-o-r-e_-registration-complete if:true={isEligibilityComplete}>
+				</c-m-s-d_-c-o-r-e_-registration-complete>
+				<c-m-s-d_-c-o-r-e_-registration-eligibility if:true={isEligibility} show-green={isEligibility}>
+				</c-m-s-d_-c-o-r-e_-registration-eligibility>
+				<span if:false={isEligibilityComplete}> <c-m-s-d_-c-o-r-e_-registration-eligibility if:false={isEligibility}  show-green={isEligibility}></c-m-s-d_-c-o-r-e_-registration-eligibility> </span>
+			</div>
+			<div class="slds-col fontstyle">
+				<span>Eligibility</span>
+			</div>
+		</div>
+		<div class="regProgress bar slds-grid_vertical">
+			<div class="slds-col progress   ">
+				<c-m-s-d_-c-o-r-e_-rectangle></c-m-s-d_-c-o-r-e_-rectangle>
+			</div>
+			<div class="slds-col">
+
+			</div>
+		</div>
+		<div class="regProgress  slds-grid_vertical">
+			<div class="slds-col progress">
+				<c-m-s-d_-c-o-r-e_-registration-complete if:true={isPersonalComplete}>
+				</c-m-s-d_-c-o-r-e_-registration-complete>
+				<c-m-s-d_-c-o-r-e_-registration-personal if:true={isPersonal} show-green={isPersonal}>
+				</c-m-s-d_-c-o-r-e_-registration-personal>
+				<span if:false={isPersonalComplete}>  <c-m-s-d_-c-o-r-e_-registration-personal if:false={isPersonal} show-green={isPersonal}></c-m-s-d_-c-o-r-e_-registration-personal></span>
+			</div>
+			<div class="slds-col fontstyle">
+				<span>Professional</span>
+			</div>
+		</div>
+	</div>
+	<div if:true={mobilescreen} class="slds-grid reg-grid">
+		<c-m-s-d_-c-o-r-e_-registration-eligibility mobilescreen={mobilescreen} if:true={isEligibility}
+			show-green={isEligibility}></c-m-s-d_-c-o-r-e_-registration-eligibility>
+		<c-m-s-d_-c-o-r-e_-registration-personal mobilescreen={mobilescreen} if:true={isPersonal}
+			show-green={isPersonal}></c-m-s-d_-c-o-r-e_-registration-personal>
+	</div>
+</template>

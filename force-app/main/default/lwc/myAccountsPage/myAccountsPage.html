@@ -1,0 +1,78 @@
+<template>
+  <div class="page-container">
+    <c-veeva-spinner if:true={loading} class="slds-spinner_container"></c-veeva-spinner>
+    <c-veeva-confirmation-modal show={confirmationModalConfig.show} size={confirmationModalConfig.size}
+      title={confirmationModalConfig.title} messages={confirmationModalConfig.messages}
+      confirm-label={confirmationModalConfig.confirmLabel}></c-veeva-confirmation-modal>
+    <div if:true={doesNotHavePermission} class="full-container slds-grid slds-grid--vertical-align-center">
+      <c-veeva-no-access-illustration class="slds-col" header={labels.noAccessLabel}></c-veeva-no-access-illustration>
+    </div>
+    <div if:true={doesHavePermission} class="my-accounts-container">
+      <c-my-accounts-header
+        subtitle={myAccountsHeaderSubtitle}
+        labels={labels}
+        account-number={numberOfAccounts}
+        total-account-number={totalAccounts}
+        selected-records={selectedAccounts}
+        sorted-column={sortedColumnName}
+        sort-direction={sortDirection}
+        onviewcountchange={handleViewCountChange}
+        onviewterritorychange={handleViewOrTerritoryChange}
+        onpreferences={handlePreferences}
+      >
+
+      <!-- Account Actions -->
+      <c-my-accounts-action-controls
+        if:true={hasLoadedControlsInfo}
+        selected-accounts={selectedAccounts}
+        object-infos={objectInfos}
+        message-map={labels}
+        settings={settings}
+        nav-items={navItems}
+        view={view}
+        onneworder={handleNewOrderButton}
+        onnewaccount={handleNewAccountButton}
+        onsendemail={handleSendEmailButton}
+        onschedulecall={handleScheduleCall}
+        slot="buttons"
+      ></c-my-accounts-action-controls>
+
+        <!-- Shows View Options -->
+        <lightning-button-group slot="additional-controls">
+          <c-my-accounts-view-controls
+            if:true={hasLoadedControlsInfo}
+            has-lists={hasLists}
+            selected-accounts={selectedAccounts}
+            object-infos={objectInfos}
+            message-map={labels}
+            view={view}
+            onremoveaccounts={handleRemoveAccounts}
+            onaddtolist={handleAddToList}
+            oncreatenewlist={handleCreateNewList}
+            oncreatenewview={handleCreateNewView}
+            oneditlist={handleEditList}
+            oneditview={handleEditView}
+            ondeleteview={handleDeleteView}
+          ></c-my-accounts-view-controls>
+          <lightning-button label={labels.clearFiltersBtn} disabled={disableClearFilters} onclick={handleClearFilters}></lightning-button>
+          <lightning-button-menu if:false={hideExportMenu} label={labels.exportBtn} menu-alignment="auto" onselect={handleExport}>
+            <lightning-menu-item label="CSV" value="csv"></lightning-menu-item>
+            <lightning-menu-item label="Excel" value="excel"></lightning-menu-item>
+          </lightning-button-menu>
+        </lightning-button-group>
+
+      </c-my-accounts-header>
+      <c-my-accounts-grid
+        class="flex-grid"
+        columns={columns}
+        rows={data}
+        labels={labels}
+        selected-records={selectedAccounts}
+        view={view}
+        onselectionchange={handleAccountSelectionChange}
+        onfilterschange={handleFiltersChange}
+        onsort={handleSort}
+      ></c-my-accounts-grid>
+    </div>
+  </div>
+</template>

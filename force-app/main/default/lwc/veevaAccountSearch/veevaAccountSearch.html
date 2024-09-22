@@ -1,0 +1,25 @@
+<template>
+    <div class="account-search-container">
+        <div class="account-header">{msgAccount}</div>
+        <div class="slds-combobox_container">
+            <div class={dropdownClass}>
+                <div class={comboboxClass}>
+                    <c-veeva-lookup if:false={selected.id} ctrl={ctrl} custom-icons=true onsearchmode={handleSearchMode} onlookupselection={handleSearchSelection}></c-veeva-lookup>
+                    <template if:true={selected.id}>
+                        <img if:true={selected.veevaIcon} src={selected.veevaIcon} class={selectedIconClass} />
+                        <lightning-icon if:false={selected.veevaIcon} icon-name={selected.icon} size="small" class={selectedIconClass}>
+                        </lightning-icon>
+                        <input type="text" class="slds-input slds-combobox__input" value={selected.name} readonly />
+                        <template if:true={toggleClearButton}>
+                            <button type="button" data-id="clearLookup" onclick={handleClearLookup} class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                <lightning-icon icon-name="utility:close" size="x-small">
+                                </lightning-icon>
+                            </button>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <c-veeva-search ctrl={ctrl} custom-icons=true search-term={searchTerm} if:true={searchTerm} onsearchselection={handleSearchSelection} onsearchclose={handleSearchClose}></c-veeva-search>
+    </div>
+</template>
