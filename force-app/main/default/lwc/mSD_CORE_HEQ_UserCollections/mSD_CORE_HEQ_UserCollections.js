@@ -228,10 +228,10 @@ export default class mSD_CORE_HEQ_UserCollections extends NavigationMixin(Lightn
     // Create Collection
     createCollection(imageUrls, resourceId) {
         this.showSpinner = true;
-        createCollection({ name: this.collectionName, imageUrls: imageUrls, resourceId : resourceId })
+        createCollection({ name: this.collectionName.trim(), imageUrls: imageUrls, resourceId : resourceId })
             .then((result) => {
                 console.log('createCollection result>>',result);
-                if (result === 'Repeated Name') {
+                if (result === 'Name already used.') {
                     this.nameError = 'Collection with the same name already exists';
                 } else if (result === 'Success') {
                     this.nameError = false;
@@ -337,6 +337,7 @@ export default class mSD_CORE_HEQ_UserCollections extends NavigationMixin(Lightn
     handlecloseresourceclick(event) {
         console.log('handlecloseresourceclick:::',event.detail);
         this.showresource = false;
+        this.resourceId = null;
     }
 
     extractVersionId(url) {

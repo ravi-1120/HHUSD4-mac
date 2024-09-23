@@ -86,14 +86,12 @@
                                             <p if:true={doc.topic} class="metadata">{doc.topic}</p>
                                             <p if:true={doc.therapeuticArea} class="metadata">
                                                 {doc.therapeuticArea}</p>
-                                            <!-- <p if:true={doc.MSD_CORE_Fulfillment_Method__c} class="metadata">
-                                                {doc.MSD_CORE_Fulfillment_Method__c}</p> -->
+                                            <lightning-icon size="x-small" data-id={doc.id} data-aid="BK-26"
+                                                onclick={handlePreview} tabindex="0" name='Preview' role="checkbox"
+                                                aria-checked="true"
+                                                class="preview_icon slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+                                                icon-name="utility:preview"></lightning-icon>
                                         </div>
-                                        <lightning-icon size="x-small" data-id={doc.id} data-aid="BK-26"
-                                            onclick={handlePreview} tabindex="0" name='Preview' role="checkbox"
-                                            aria-checked="true"
-                                            class="preview_icon slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
-                                            icon-name="utility:preview"></lightning-icon>
                                     </div>
                                 </div>
                             </template>
@@ -104,12 +102,14 @@
                     </template>
                 </template>
                 <template if:true={isSharedWithActive}>
-                    <div class="bodycls">
-                        <table if:false={nosharedCustomer}>
+                    <div class="bodycls" if:false={nosharedCustomer}>
+                        <table>
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
+                                <th>{labels.firstname}</th>
+                                <th>{labels.lastname}</th>
+                                <th>{labels.email}</th>
+                                <th>{labels.last_accessed_date}</th>
+                                <th>{labels.actions}</th>
                                 <th></th>
                             </tr>
                             <template for:each={sharedCustomerData} for:item="customer">
@@ -117,10 +117,17 @@
                                     <td>{customer.FirstName}</td>
                                     <td>{customer.LastName}</td>
                                     <td>{customer.Email}</td>
+                                    <td></td>
+                                    <td>
+                                        <template if:false={customer.IsRegister}>
+                                            <span data-id={customer.Id} onclick={sendInvite}>Re-invite</span>
+                                        </template>
+                                    </td>
                                     <td>
                                         <lightning-icon class="closeicon" icon-name="utility:close"
                                             alternative-text="close" size="medium" onclick={handleunsharecollection}
                                             data-id={customer.Id} data-fname={customer.FirstName}
+                                            data-isregister={customer.IsRegister}
                                             data-lname={customer.LastName} data-email={customer.Email}>
                                         </lightning-icon>
                                     </td>
@@ -130,9 +137,9 @@
                         </table>
                     </div>
                     <div if:true={nosharedCustomer} class="noCustomertxt">
-                        Not shared with Customer
+                        {labels.noshared1}
                         </br>
-                        You can select user by clicking <span onclick={handleselectuserClick}>here</span>
+                        {labels.noshared2} <span onclick={handleselectuserClick}>here</span>
                     </div>
                 </template>
             </div>
@@ -144,12 +151,12 @@
             <div class="slds-modal__container">
                 <div class="slds-modal__content removeusermodelbody">
                     <div class="removeusermodelheader">
-                        <span>Remove user?</span>
+                        <span>{labels.removeuser}</span>
                         <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
                             class="closeiconclick" title="close" onclick={closeUnshareModal}>
                         </lightning-icon>
                     </div>
-                    <div class="removeuserbodytxt">Are you sure you want to remove the customer below from this collection?</div>
+                    <div class="removeuserbodytxt">{labels.confirmcollectiontext}</div>
                     <div class="removeusername">{selectedcustomername}</div>
                     <div class="removeuseremail">{selectedcustomeremail}</div>
                     <div class="removuserbtncls">
@@ -238,7 +245,7 @@
                         <div class="print-bd">
                             <c-m-s-d_-c-o-r-e_-h-e-q_-customer main-header="" footerbtnname="Share"
                                 customertype="allcustomers" feature="edeliver" is-footerbutton=true
-                                onclosemodel={closeCustomerModel} onsharecustomerdata={getSelectedCustomer}>
+                                onclosemodel={closeCustomerModel} hide-add-recipient=true onsharecustomerdata={getSelectedCustomer}>
                             </c-m-s-d_-c-o-r-e_-h-e-q_-customer>
                         </div>
                     </div>

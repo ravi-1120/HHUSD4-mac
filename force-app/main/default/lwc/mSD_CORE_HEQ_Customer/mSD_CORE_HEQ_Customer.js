@@ -17,6 +17,8 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
     @api isRegisterUserOnly;
     @api footerbtnname;
     @api customertype;
+    @api feature;
+    @api hideAddRecipient;
 
     // Pagination
     @track isPagination = true;
@@ -78,9 +80,12 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
         });
     }
 
+    get isBothFalse() {
+    return !this.filterLayout && !this.unfilterLayout;
+}
+
     addRecipient() {
         const newRecipient = {
-            // Id: this.generateUniqueId(),
             FirstName: 'First Name',
             LastName: 'Last Name',
             Email: 'Email@example.com',
@@ -89,10 +94,6 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
 
         this.mycustomerlist = [...this.mycustomerlist, newRecipient];
     }
-
-    // generateUniqueId() {
-    //     return 'id-' + Math.random().toString(36).substr(2, 9);
-    // }
 
     getCustomerList() {
         getCustomerList()
@@ -134,6 +135,7 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
         if (this.customertype === 'allcustomers') {
             this.allCustomers = [...this.registeredCustomers, ...this.unregisteredCustomers];
         }
+        console.log('this.allCustomers>>>'+JSON.stringify(this.allCustomers));
 
         this.totalRegisteredRecords = this.registeredCustomers.length;
         this.totalUnregisteredRecords = this.unregisteredCustomers.length;
@@ -198,7 +200,6 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
 
     addRecipient() {
         const newRecipient = {
-            Id: 'temp-' + Math.random().toString(36).substr(2, 9),
             FirstName: '',
             LastName: '',
             Email: '',
@@ -411,14 +412,47 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
 
     handleShareClick() {
         const allSelectedCustomers = [...this.selectedCustomers, ...this.newRecipients];
-        let shareclick = new CustomEvent('sharecustomerdata', { detail: allSelectedCustomers });
+        console.log('allSelectedCustomers>>',allSelectedCustomers);
+        console.log('allSelectedCustomers>>>>'+JSON.stringify(allSelectedCustomers));
+        console.log('allSelectedCustomers', JSON.stringify(this.allSelectedCustomers));
+        let shareclick = new CustomEvent('sharecustomerdata', { detail: {data:allSelectedCustomers, feature: this.feature}});
         this.dispatchEvent(shareclick);
     }
 
     handleCheckbox(event) {
+        // let checkbox = event.target.checked;
+        // let { firstname, lastname, email } = event.currentTarget.dataset;
+        // if (checkbox == true) {
+        //     this.selectedCustomers.push(event.target.value);
+        // }
+
         let checkbox = event.target.checked;
-        if (checkbox == true) {
-            this.selectedCustomers.push(event.target.value);
+        let { firstname, lastname, email, isregister } = event.currentTarget.dataset;
+
+        if (checkbox) {
+            this.selectedCustomers.push({
+                id: event.target.value,
+                name: firstname+' '+lastname,
+                email: email,
+                isregister: isregister
+            });
+        } else {
+            this.selectedCustomers = this.selectedCustomers.filter(customer => customer.id !== event.target.value);
+        }
+    }
+
+    handleCheck(event) {
+
+        let checkbox = event.target.checked;
+        let { firstname, lastname, email } = event.currentTarget.dataset;
+
+        if (checkbox) {
+            this.selectedCustomers.push({
+                name: firstname+' '+lastname,
+                email: email
+            });
+        } else {
+            this.selectedCustomers = this.selectedCustomers.filter;
         }
     }
 

@@ -318,7 +318,7 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                     title: item.Title,
                     subtitle: item.MSD_CORE_Topic__c,
                     imageUrl: (item.Id) ? updatedURL + videoThumbURL : noImage,
-                    contentdocumentid: item.ContentDocumentId,
+                    contentDocumentId: item.ContentDocumentId,
                     isBookmarked: item.isBookmarked == 'true' ? true : false,
                     heading: filetype,
                     boldText: item.Title,

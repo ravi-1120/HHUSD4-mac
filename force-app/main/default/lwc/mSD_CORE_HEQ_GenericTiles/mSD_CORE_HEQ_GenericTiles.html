@@ -1,4 +1,5 @@
 <template>
+    <c-custom-toast auto-close-time="3000"></c-custom-toast>
     <template if:false={getListView}>
         <div key={item.id} class="getItemClass" data-id={item.id}>
             <div class={item.headerClass}>
@@ -183,11 +184,20 @@
                                             </div>
                                         </a>
                                     </template>
-                                    <template if:false={option.downloadActive}>
+                                    <template if:true={option.isModelBox}>
                                         <div class="menu-item" data-action={option.action} data-id={item.id}
-                                            data-contentdocumentid={item.contentDocumentId} data-category={category}>
+                                            onclick={modelClick} data-contentdocumentid={item.contentDocumentId}
+                                            data-category={category} data-resourcename={item.boldText}>
                                             {option.label}
                                         </div>
+                                    </template>
+                                    <template if:false={option.downloadActive}>
+                                        <template if:false={option.isModelBox}>
+                                            <div class="menu-item" data-action={option.action} data-id={item.id}
+                                                data-contentdocumentid={item.contentDocumentId} data-category={category}>
+                                                {option.label}
+                                            </div>
+                                        </template>
                                     </template>
                                 </div>
                             </template>
@@ -218,8 +228,8 @@
                         </div>
                         <div>
                             <lightning-combobox class="collectionlistcls" name="Collections" label="Collections"
-                                value="" placeholder="My Collection" options={collectionList}
-                                onchange={handleCollectionChange}></lightning-combobox>
+                                value="" placeholder="My Collection" options={collectionList} data-id="collectioncombo"
+                                onchange={handleCollectionChange} message-when-value-missing="Please select collection record" required></lightning-combobox>
                         </div>
                     </div>
                     <div class="collectionfootercls">

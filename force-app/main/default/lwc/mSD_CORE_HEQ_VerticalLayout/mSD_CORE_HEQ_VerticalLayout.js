@@ -37,11 +37,11 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
     }
 
     @track menuOptions = [
-        { action: 'download', label: 'Download', downloadActive : true },
-        { action: 'preview', label: 'Preview & Details', downloadActive : false },
-        { action: 'email', label: 'Email to customer', downloadActive : false },
-        { action: 'addToCollection', label: 'Add to Collection', downloadActive : false },
-        { action: 'print', label: 'Print to customer', downloadActive : false }
+        { action: 'download', label: 'Download', downloadActive: true, isModelBox: false },
+        { action: 'preview', label: 'Preview & Details', downloadActive: false, isModelBox: false },
+        { action: 'email', label: 'Email to customer', downloadActive: false, isModelBox: false },
+        { action: 'addToCollection', label: 'Add to collection', downloadActive: false, isModelBox: true },
+        { action: 'print', label: 'Print to customer', downloadActive: false, isModelBox: true }
     ];
 
     handleShowMenu(event) {
@@ -420,7 +420,7 @@ queryTherapeuticAreaContent(therapeuticArea) {
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: `/resources/preview?recordId=${encodeURIComponent(resourceId)}`
+                url: `/resources/detailed?topicId=${encodeURIComponent(resourceId)}`
             }
         });
     }

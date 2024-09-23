@@ -437,7 +437,7 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             List<User> userlist = [SELECT Id, Name, AccountId FROM User WHERE AccountId =: acclist];
             String str = '';
             for (User us : userlist) {
-                str = MSD_CORE_HEQ_CollectionController.unShareCollection(us.Id,collectionId);
+                str = MSD_CORE_HEQ_CollectionController.unShareCollection(us.Id,collectionId,null);
             }
             
             if (collectionToDelete != null) {
@@ -600,19 +600,22 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
     @AuraEnabled
     public static string addResourceToCollection(String collectionId, String resourceId){
         try {
+            String returnmessage;
             MSD_CORE_HEQ_Collection__c collection = [SELECT Id, Name, MSD_CORE_Collection_Name__c FROM MSD_CORE_HEQ_Collection__c WHERE Id =: collectionId LIMIT 1];
 
             List<ContentDocumentLink> cdlinklist = [SELECT Id, ContentDocumentId, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId =: collection.Id AND ContentDocumentId =: resourceId];
 
             if (cdlinklist.size()>0) {
                 System.debug('Already Linked');
+                returnmessage = 'Resource already mapped!';
             } else {
                 ContentDocumentLink cdlink = new ContentDocumentLink();
                 cdlink.LinkedEntityId = collection.Id;
                 cdlink.ContentDocumentId = resourceId;
                 insert cdlink;
+                returnmessage = collection.MSD_CORE_Collection_Name__c;
             }
-            return collection.MSD_CORE_Collection_Name__c;
+            return returnmessage;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() +'----'+ e.getLineNumber());
         }
@@ -622,27 +625,88 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
     /**
     * Method Name  :   getSharedCustomer
     * @description :   Use to get shared customer
-    * @return      :   List<User>
+    * @return      :   List<Account>
     * Created By   :   Ravi Modi (Focal CXM)
     * Created Date :   23th August 2024
     */
     @AuraEnabled
-    public static List<User> getSharedCustomer(String collectionId) {
-        List<User> returnuser;
+    // public static List<Account> getSharedCustomer(String collectionId) {
+    public static List<Map<String, Object>> getSharedCustomer(String collectionId) {
+        List<Map<String, Object>> resultList = new List<Map<String, Object>>();
+        Map<Id, User> userMap = new Map<Id, User>();
+        Map<Id, Boolean> isInvitedMap = new Map<Id, Boolean>();
+        List<Id> nonPortalAccountIds = new List<Id>();
+        List<Id> portalAccountIds = new List<Id>();
         try {
             List<MSD_CORE_HEQ_Customer_Collection__c> customercollection = [SELECT Id, Name, MSD_CORE_isActive__c, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_isActive__c = true];
             List<Id> personaccids = new List<Id>();
             if (customercollection.size() > 0) {
+                
                 for (MSD_CORE_HEQ_Customer_Collection__c col : customercollection) {
                     personaccids.add(col.MSD_CORE_Customer_Id__c);
                 }
-                returnuser = [SELECT Id, Name, FirstName, LastName, Email, AccountId FROM User WHERE AccountId =: personaccids];
+                List<Id> accountIds = MSD_CORE_FBEAccountMappingHelper.getFBEAccountMapping(UserInfo.getUserId());
+                if (accountIds.isEmpty()) {
+                    return resultList;
+                }
+                
+                List<Account> accountList = [SELECT Id, Name, FirstName, LastName, IsPersonAccount, IsCustomerPortal, PersonEmail 
+                                            FROM Account 
+                                            WHERE Id IN :accountIds];
+                for (Account acc : accountList) {
+                    if (acc.IsPersonAccount && !acc.IsCustomerPortal) {
+                        nonPortalAccountIds.add(acc.Id);
+                    }
+                    if(acc.IsPersonAccount && acc.IsCustomerPortal){
+                        portalAccountIds.add(acc.Id);
+                    }
+                }
+
+                for (User u : [SELECT Id, FirstName, LastName, Name, Email, LastLoginDate, AccountId FROM User WHERE AccountId IN :portalAccountIds]) {
+                    userMap.put(u.AccountId, u);
+                }
+
+                if (!nonPortalAccountIds.isEmpty()) {
+                    for (MSD_CORE_HEQ_UserPreference__c customObject : [SELECT MSD_CORE_Account__c, MSD_CORE_Is_Invited__c FROM MSD_CORE_HEQ_UserPreference__c WHERE MSD_CORE_Account__c IN :nonPortalAccountIds]) {
+                        isInvitedMap.put(customObject.MSD_CORE_Account__c, customObject.MSD_CORE_Is_Invited__c);
+                    }
+                }
+                
+                List<Account> acclist = [SELECT Id, Name, IsCustomerPortal, IsPersonAccount, FirstName, LastName, PersonEmail FROM Account WHERE Id =: personaccids];
+                for(Account acc : acclist) {
+                    Map<String, Object> resultMap = new Map<String, Object>();
+
+                    if (acc.IsPersonAccount && acc.IsCustomerPortal) {
+                        User personUser = userMap.get(acc.Id);
+                        if (personUser != null) {
+                            resultMap.put('Id', personUser.Id);
+                            resultMap.put('FirstName', personUser.FirstName);
+                            resultMap.put('LastName', personUser.LastName);
+                            resultMap.put('Name', personUser.Name);
+                            resultMap.put('Email', personUser.Email);
+                            resultMap.put('LastLoginDate', personUser.LastLoginDate);
+                            resultMap.put('IsRegister', true);
+                        }
+                    } else {
+                        resultMap.put('Id', acc.Id);
+                        resultMap.put('FirstName', acc.FirstName);
+                        resultMap.put('LastName', acc.LastName);
+                        resultMap.put('Name', acc.Name);
+                        resultMap.put('Email', acc.PersonEmail);
+                        resultMap.put('IsRegister', false);
+                        
+                        Boolean isInvited = isInvitedMap.get(acc.Id);
+                        resultMap.put('isInvited', isInvited != null ? isInvited : false);
+                    }
+                    resultList.add(resultMap);
+                }
+                System.debug('resultList>>>>'+resultList);
             }
         } catch (Exception e) {
             System.debug('Error getSharedCustomer ::>'+e.getMessage() +'---'+e.getLineNumber());
-            returnuser = new List<User>();
+            resultList = new List<Map<String, Object>> ();
         }
-        return returnuser;
+        return resultList;
     }
     
     /**
@@ -653,15 +717,41 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
     * Created Date :   23th August 2024
     */
     @AuraEnabled
-    public static String shareCollection(List<Id> customerIds, String collectionId) {
+    public static String shareCollection(String customerData, String collectionId) {
         String returnmessage = '';
         try {
+            List<CustomerData> customers = (List<CustomerData>) JSON.deserialize(customerData, List<CustomerData>.class);
+            
+            List<Id> customerIds = new List<Id>();
+            List<Id> personaccountIds = new List<Id>();
+            for (CustomerData customer : customers) {
+                System.debug('customer.isregister>>'+customer.isregister);
+                if (customer.isregister == 'true') {
+                    customerIds.add(customer.id);
+                } else {
+                    personaccountIds.add(customer.id);
+                }
+            }
+
             List<User> userlist = [SELECT Id, Firstname, Lastname, Name, Email, AccountId FROM User WHERE Id =: customerIds];
-            System.debug('userlist::>'+userlist);
             
             List<MSD_CORE_HEQ_Customer_Collection__c> collectionlist = new List<MSD_CORE_HEQ_Customer_Collection__c>();
             List<Id> accountIds = new List<Id>();
             
+            for(Account acc: [SELECT Id FROM Account WHERE Id =:personaccountIds]){
+                List<MSD_CORE_HEQ_Customer_Collection__c> extcol = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: acc.Id];
+                if(extcol.size()>0) {
+                    extcol[0].MSD_CORE_isActive__c = true;
+                    update extcol;
+                } else {
+                    MSD_CORE_HEQ_Customer_Collection__c collection = new MSD_CORE_HEQ_Customer_Collection__c();
+                    collection.MSD_CORE_Collection_Id__c = collectionId;
+                    collection.MSD_CORE_Customer_Id__c = acc.Id;
+                    collection.MSD_CORE_isActive__c = true;
+                    collectionlist.add(collection);
+                }
+            }
+
             for (User user : userlist) {
                 List<MSD_CORE_HEQ_Customer_Collection__c> extcol = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: user.AccountId];
                 if(extcol.size()>0) {
@@ -758,6 +848,38 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                     Messaging.sendEmail(new Messaging.SingleEmailMessage[] {email});
                 }
             }
+
+            if(personaccountIds.size()>0){
+                
+                EmailTemplate emailTemplateforunregister = [SELECT Id, Body, Subject, HtmlValue FROM EmailTemplate WHERE Name = 'MSD_CORE_HEQ_Invite_Customer'  LIMIT 1];  
+                if (emailTemplateforunregister == null) {
+                    return 'Email template not found.';
+                } else {
+                    User aeuser = [SELECT Id, Name, Firstname, Lastname FROM User WHERE Id=: UserInfo.getUserId() LIMIT 1];
+                    for (Account acc : [SELECT Id, FirstName, LastName, PersonEmail FROM Account WHERE Id =: personaccountIds]) {
+                        String emailBody = emailTemplateforunregister.HtmlValue
+                            .replace('{aeName}', aeuser.FirstName + ' ' +aeuser.LastName)
+                            .replace('{registerBtn}', '<a href="' + System.Label.MSD_CORE_HEQ_RegisterLink + '" style="display: inline-block; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700; line-height: 20px; text-align: center; background-color: #00857C; padding: 8px 16px; border-radius: 5px; font-family: Arial, sans-serif;">REGISTER</a>')
+                            .replace('{privacyLink}', '<a href="' + System.Label.MSD_CORE_HEQ_PrivacyLink + '"> Merck Privacy Statement. </a>');
+                        
+                        String formattedSubject = emailTemplateforunregister.Subject.replace('{aeName}', aeUser.Name);
+                        
+                        /* Send the email */
+                        Messaging.SingleEmailMessage emailunregister = new Messaging.SingleEmailMessage();
+                        emailunregister.setToAddresses(new String[] {acc.PersonEmail});
+                        emailunregister.setSubject(formattedSubject);
+                        emailunregister.setHtmlBody(emailBody);
+                        emailunregister.setSaveAsActivity(false);
+                        
+                        OrgWideEmailAddress[] oweaun = [SELECT Id FROM OrgWideEmailAddress WHERE Address = :orgwideadd LIMIT 1];
+                        if (!oweaun.isEmpty()) {
+                            emailunregister.setOrgWideEmailAddressId(oweaun[0].Id);
+                        }
+                        
+                        Messaging.sendEmail(new Messaging.SingleEmailMessage[] {emailunregister});
+                    }
+                }
+            }
             
             returnmessage = 'Success';
         } catch (Exception e) {
@@ -775,10 +897,18 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
     * Created Date :   24th August 2024
     */
     @AuraEnabled
-    public static String unShareCollection(String customerId, String collectionId) {
+    public static String unShareCollection(String customerId, String collectionId, String unregistercustomer) {
         String returnmessage;
         try {
             System.debug('****unShareCollection*****');
+
+            if (unregistercustomer != null) {
+                MSD_CORE_HEQ_Customer_Collection__c extcolunregister = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c, MSD_CORE_isActive__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: unregistercustomer LIMIT 1];
+                extcolunregister.MSD_CORE_isActive__c = false;
+                update extcolunregister;
+                return 'Success';
+            }
+
             // Person Account
             Id personAccount = [SELECT Id, AccountId FROM User WHERE Id =: customerId].AccountId;
             
@@ -966,6 +1096,13 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
         public String sharedBy { get; set; }
         @AuraEnabled
         public Integer sharedCollectionCount { get; set; }
+    }
+
+    public class CustomerData {
+        public String id;
+        public String name;
+        public String email;
+        public String isregister;
     }
     
     public class CustomException extends Exception {}

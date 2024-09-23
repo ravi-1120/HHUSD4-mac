@@ -13,11 +13,13 @@ import getSharedCustomer from '@salesforce/apex/MSD_CORE_HEQ_CollectionControlle
 import unShareCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.unShareCollection';
 import getUser from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getuser';
 import getCustomerCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.getCustomerCollections';
+import sendRegistrationInvite from '@salesforce/apex/MSD_CORE_HEQ_AuthController.sendRegistrationInvite';
 
 //Static Resource
 import noImage from '@salesforce/resourceUrl/MSD_CORE_HEQ_No_Image';
 
 //Custom Labels
+import isInvitedMsg from '@salesforce/label/c.MSD_CORE_HEQ_IsInvitedMsg';
 import thumbURL from '@salesforce/label/c.MSD_CORE_HEQ_SandboxURL';
 import sharedWith from '@salesforce/label/c.MSD_CORE_HEQ_Shared_With';
 import noResults from '@salesforce/label/c.MSD_CORE_No_Results';
@@ -31,7 +33,15 @@ import home from '@salesforce/label/c.MSD_CORE_HEQ_Home';
 import sitepath from '@salesforce/label/c.MSD_CORE_HEQ_SitePath_For_Download';
 import collections from '@salesforce/label/c.MSD_CORE_HEQ_Collections';
 import addnewcollection from '@salesforce/label/c.MSD_CORE_HEQ_AddNewCollection';
-
+import firstname from '@salesforce/label/c.MSD_CORE_Firstname';
+import lastname from '@salesforce/label/c.MSD_CORE_Lastname';
+import email from '@salesforce/label/c.MSD_CORE_Email';
+import last_accessed_date from '@salesforce/label/c.MSD_CORE_Last_accessed_date';
+import actions from '@salesforce/label/c.MSD_CORE_HEQ_Actions';
+import noshared1 from '@salesforce/label/c.MSD_CORE_HEQ_NoSharedCustomer1';
+import noshared2 from '@salesforce/label/c.MSD_CORE_HEQ_NoSharedCustomer2';
+import confirmcollectiontext from '@salesforce/label/c.MSD_CORE_HEQ_ConfirmCollectionText';
+import removeuser from '@salesforce/label/c.MSD_CORE_HEQ_Remove_user';
 
 export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(LightningElement) {
 
@@ -47,6 +57,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
     @track nosharedCustomer = false;
     @track unsharecollectionpopup = false;
     @track selectedcustomerid;
+    @track unregistercustomer;
     @track isCustomer = false;
     @track isAccountExe = false;
     @track collectionRecord;
@@ -68,7 +79,17 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
         addMoreResource,
         home,
         collections,
-        addnewcollection
+        addnewcollection,
+        firstname,
+        lastname,
+        email,
+        last_accessed_date,
+        actions,
+        noshared1,
+        noshared2,
+        removeuser,
+        confirmcollectiontext,
+        isInvitedMsg
     };
 
     @track menuOptions = [
@@ -114,7 +135,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
         getSharedCustomer({collectionId: this.collectionId})
             .then(result => {
                 console.log('result of getSharedCustomer::>',result);
-                if(result == null){
+                if(result.length==0){
                     this.nosharedCustomer = true;
                     this.showSpinner = false;
                 } else {
@@ -146,6 +167,30 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
         } catch (error) {
             console.error('Error loadCollectionRecord:', error);
         }
+    }
+
+    sendInvite(event) {
+        this.showSpinner = true;
+        let accId = event.currentTarget.dataset.id;
+        sendRegistrationInvite({ accountId: accId })
+            .then(result => {
+                if (result == 'Success') {
+                    this.template.querySelector('c-custom-toast').showToast('success', this.labels.isInvitedMsg);
+                    this.sharedCustomerData = this.sharedCustomerData.map(record => {
+                        if (record.Id === accId && record.isInvited === false) {
+                            return { ...record, isInvited: true };
+                        }
+                        return record;
+                    });
+                } else {
+                    console.error('Error ' + JSON.stringify(result));
+                }
+                this.showSpinner = false;
+            })
+            .catch(error => {
+                this.showSpinner = false;
+                console.error('Error sendRegistrationInvite:', error);
+            });
     }
 
     redirectToHome() {
@@ -211,37 +256,36 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                         previewUrl: doc.id ? updatedURL+doc.id : noImage
                     }));
 
-
                     //New
                     this.collectionItems = result.map(item => {
-                    
-                    let headerclassval = 'header-color-2';
-                    let filetype;
-                    if (item.fileType == 'pdf') {
-                        headerclassval = 'header-color-2';
-                        filetype = 'Static';
-                    }
-                    if (item.videoLink) {
-                        headerclassval = 'header-color-5';
-                        filetype = 'Video';
-                    }
-                    return {
-                        id: item.id,
-                        heading: filetype,
-                        imageUrl: (item.id) ? updatedURL + item.id : noImage,
-                        boldText: item.title,
-                        normalText: item.therapeuticArea,
-                        normalText1: item.topic,
-                        expiryDays: item.expiryDate,
-                        code: item.jobCode,
-                        headerClass: headerclassval,
-                        downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.docId + '?operationContext=S1',
-                        showMenu: false,
-                        notTruncated: true
-                    }
-                })
-                    this.showSpinner = false;
-                })
+                        
+                        let headerclassval = 'header-color-2';
+                        let filetype;
+                        if (item.fileType == 'pdf') {
+                            headerclassval = 'header-color-2';
+                            filetype = 'Static';
+                        }
+                        if (item.videoLink) {
+                            headerclassval = 'header-color-5';
+                            filetype = 'Video';
+                        }
+                        return {
+                            id: item.id,
+                            heading: filetype,
+                            imageUrl: (item.id) ? updatedURL + item.id : noImage,
+                            boldText: item.title,
+                            normalText: item.therapeuticArea,
+                            normalText1: item.topic,
+                            expiryDays: item.expiryDate,
+                            code: item.jobCode,
+                            headerClass: headerclassval,
+                            downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.docId + '?operationContext=S1',
+                            showMenu: false,
+                            notTruncated: true
+                        }
+                    })
+                        this.showSpinner = false;
+                    })
                 .catch(error => {
                     console.log('error->' + JSON.stringify(error));
                 });
@@ -268,13 +312,6 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                     console.log('this.resources----->'+JSON.stringify(this.resources));
                     this.closeModal();
                 }
-                // this.dispatchEvent(
-                //     new ShowToastEvent({
-                //         title: 'Success',
-                //         message: 'Resource removed',
-                //         variant: 'success'
-                //     })
-                // );
             })
             .catch((error) => {
                 //console.log('error->' + JSON.stringify(error));
@@ -449,8 +486,8 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
 
     shareCollectionToUser(cids){
         this.showSpinner = true;
-        console.log('cids>>>',cids);
-        shareCollection({customerIds: cids, collectionId: this.collectionId})
+        console.log('JSON.stringify(cids)>>>'+JSON.stringify(cids));
+        shareCollection({customerData: JSON.stringify(cids), collectionId: this.collectionId})
             .then(result => {
                 console.log('result of sharecollection::>>',result);
                 this.showSpinner = false;
@@ -466,7 +503,13 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
 
     handleunsharecollection(event) {
         this.showSpinner = true;
-        this.selectedcustomerid = event.currentTarget.dataset.id;
+        if (event.currentTarget.dataset.isregister == 'true') {
+            this.selectedcustomerid = event.currentTarget.dataset.id;
+        } else {
+            this.unregistercustomer = event.currentTarget.dataset.id;
+        }
+        console.log('this.selectedcustomerid>>'+this.selectedcustomerid);
+        console.log('this.unregistercustomer>>'+this.unregistercustomer);
         this.selectedcustomername = event.currentTarget.dataset.fname + ' ' +event.currentTarget.dataset.lname;
         this.selectedcustomeremail = event.currentTarget.dataset.email;
         this.unsharecollectionpopup = true;
@@ -475,7 +518,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
 
     unshareCollection() {
         this.showSpinner = true;
-        unShareCollection({customerId: this.selectedcustomerid, collectionId: this.collectionId})
+        unShareCollection({customerId: this.selectedcustomerid, collectionId: this.collectionId, unregistercustomer: this.unregistercustomer})
             .then(result => {
                 console.log('result of unsharecollection::>>',result);
                 this.showSpinner = false;

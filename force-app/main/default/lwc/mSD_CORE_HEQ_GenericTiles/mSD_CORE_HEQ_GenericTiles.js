@@ -74,6 +74,8 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
                 for(let key in result) {
                     this.collectionList.push({value: result[key].Id, label: result[key].MSD_CORE_Collection_Name__c});
                 }
+            } else {
+                this.collectionList.push({value: '', label: 'No Collection found!'});
             }
             console.log('>collectionList>>'+JSON.stringify(this.collectionList));
             this.showSpinner = false;
@@ -217,7 +219,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
             this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
-                    url: `/resources/detailed?topicId=${encodeURIComponent(contDocId)}&title=${encodeURIComponent(topicTitle)}`
+                    url: `/resources/detailed?topicId=${encodeURIComponent(contDocId)}`
                 }
             });
         }
@@ -254,29 +256,59 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     }
 
     handleCollectionChange(event) {
-        this.selecteddocCollectionId = event.detail.value;
+        const inputField = this.template.querySelector('[data-id="collectioncombo"]');
+        const value = inputField.value.trim();
+        if (value === '') {
+            inputField.setCustomValidity('Please select collection record');
+            inputField.reportValidity();
+        } else {
+            this.selecteddocCollectionId = event.detail.value;
+            inputField.setCustomValidity('');
+        }
     }
 
     handlecollectionsubmit(event) {
-        this.isCollectionModel = false;
-        this.showSpinner = true;
-        addResourceToCollection({
-            "collectionId": this.selecteddocCollectionId,
-            "resourceId": this.selecteddocRecordId
-        }).then((result) => {
-            console.log('result of addResourceToCollection>>', result);
-            this.selectedCollectionName = result;
-            this.showSpinner = false;
-        }).catch(error => {
-            console.log('Error in addResourceToCollection: ' + JSON.stringify(error));
-            this.showSpinner = false;
-        });
-
-        this.isConfirmModel = true;
+        if (this.selecteddocCollectionId == undefined || this.selecteddocCollectionId == '') {
+            const inputField = this.template.querySelector('[data-id="collectioncombo"]');
+            const value = inputField.value.trim();
+            if (value === '') {
+                inputField.setCustomValidity('Please select collection record');
+                inputField.reportValidity();
+            } else {
+                inputField.setCustomValidity('');
+            }
+        } else {
+            this.showSpinner = true;
+            addResourceToCollection({
+                "collectionId": this.selecteddocCollectionId,
+                "resourceId": this.selecteddocRecordId
+            }).then((result) => {
+                console.log('result of addResourceToCollection>>', result);
+                if (result == 'Resource already mapped!') {
+                    this.showSpinner = false;
+                    this.isCollectionModel = false;
+                    this.showNotification('success', 'Resource already mapped!');
+                } else {
+                    this.isCollectionModel = false;
+                    this.selectedCollectionName = result;
+                    this.showSpinner = false;
+                    this.isConfirmModel = true;
+                    this.showNotification('success', 'Resource mapped successfully!');
+                }
+            }).catch(error => {
+                console.log('Error in addResourceToCollection: ' + JSON.stringify(error));
+                this.showSpinner = false;
+            });
+        }
     }
 
     handleCloseConfirmModel(event) {
         this.isConfirmModel = false;
+    }
+
+    // Toast Message
+    showNotification(type, message) {
+        this.template.querySelector('c-custom-toast').showToast(type, message);
     }
 
     // Close icon click on Resource 
@@ -293,7 +325,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: `/resources/preview?recordId=${encodeURIComponent(resourceId)}`
+                url: `/resources/detailed?topicId=${encodeURIComponent(resourceId)}`
             }
         });
     }
