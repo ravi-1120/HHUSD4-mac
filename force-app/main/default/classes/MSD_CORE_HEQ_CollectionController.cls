@@ -225,8 +225,8 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
     }
     
     @AuraEnabled
-    public static List<ResourceWrapper> getResourcesFromCollection(String collectionId) {
-        List<ResourceWrapper> result = new List<ResourceWrapper>();
+    public static List<ContentVersion> getResourcesFromCollection(String collectionId) {
+        List<ContentVersion> result = new List<ContentVersion>();
         
         /* Check if the user has access to the collection */
         Boolean recordAccess = MSD_CORE_HEQ_CollectionController.checkCollectionAccess(UserInfo.getUserId(), collectionId);
@@ -249,32 +249,33 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                 /* If there are document IDs, fetch details from ContentVersion */
                 if (!documentIds.isEmpty()) {
                     String[] fieldList = fields.split(',');
-                    List<ContentVersion> contentVersions = [SELECT Id, Title, MSD_CORE_Resource_Code__c, MSD_CORE_Video_Resource__c, FileExtension, ContentDocumentId, MSD_CORE_Expiration_Date__c, MSD_CORE_Fulfillment_Method__c, MSD_CORE_Therapeutic_Area__c, MSD_CORE_Topic__c 
+                    List<ContentVersion> contentVersions = [SELECT Id, Description, Title, ContentDocumentId, FileType, MSD_CORE_Is_Thumbnail__c, MSD_CORE_Is_Active__c, MSD_CORE_Therapeutic_Area__c, MSD_CORE_Topic__c, MSD_CORE_Video_Resource__c, MSD_CORE_Expiration_Date__c, LastModifiedDate, MSD_CORE_Resource_Code__c, MSD_CORE_Fulfillment_Method__c, CreatedDate, MSD_CORE_New_Item__c, MSD_CORE_IsNewItem__c 
                                                             FROM ContentVersion 
                                                             WHERE ContentDocumentId IN :documentIds 
                                                             AND MSD_CORE_Is_Active__c = true 
                                                             AND MSD_CORE_Is_Thumbnail__c = false];
                     
-                    for (ContentVersion cv : contentVersions) {
-                        ResourceWrapper wrapper = new ResourceWrapper();
-                        wrapper.id = cv.Id;
-                        wrapper.docId = cv.ContentDocumentId;
-                        wrapper.videoLink = cv.MSD_CORE_Video_Resource__c;
-                        wrapper.title = cv.Title;
-                        wrapper.fileType = cv.FileExtension;
-                        wrapper.description = cv.Title;
-                        Date today = Date.today();
-                        //wrapper.expiryDate = cv.MSD_CORE_Expiration_Date__c != null ? today.daysBetween(cv.MSD_CORE_Expiration_Date__c) : 0;
-                        wrapper.expiryDate = DateTime.newInstance(cv.MSD_CORE_Expiration_Date__c, Time.newInstance(0, 0, 0, 0)).format('MM/dd/yyyy');
-                        wrapper.jobCode = cv.MSD_CORE_Resource_Code__c;
-                        wrapper.therapeuticArea = cv.MSD_CORE_Therapeutic_Area__c;
-                        wrapper.topic = cv.MSD_CORE_Topic__c;
+                    // for (ContentVersion cv : contentVersions) {
+                    //     ResourceWrapper wrapper = new ResourceWrapper();
+                    //     wrapper.id = cv.Id;
+                    //     wrapper.docId = cv.ContentDocumentId;
+                    //     wrapper.videoLink = cv.MSD_CORE_Video_Resource__c;
+                    //     wrapper.title = cv.Title;
+                    //     wrapper.fileType = cv.FileExtension;
+                    //     wrapper.description = cv.Title;
+                    //     Date today = Date.today();
+                    //     //wrapper.expiryDate = cv.MSD_CORE_Expiration_Date__c != null ? today.daysBetween(cv.MSD_CORE_Expiration_Date__c) : 0;
+                    //     wrapper.expiryDate = cv.MSD_CORE_Expiration_Date__c != null ? DateTime.newInstance(cv.MSD_CORE_Expiration_Date__c, Time.newInstance(0, 0, 0, 0)).format('MM/dd/yyyy') : null;
+                    //     wrapper.jobCode = cv.MSD_CORE_Resource_Code__c;
+                    //     wrapper.therapeuticArea = cv.MSD_CORE_Therapeutic_Area__c;
+                    //     wrapper.topic = cv.MSD_CORE_Topic__c;
                         
-                        result.add(wrapper);
-                    }
+                    //     result.add(wrapper);
+                    // }
+                    result = contentVersions;
                 }
             } catch (Exception e) {
-                throw new CustomException('Error retrieving resources: ' + e.getMessage());
+                throw new CustomException('Error retrieving resources: ' + e.getMessage()+ '----' +e.getLineNumber());
             }
         }
         return result;
@@ -738,37 +739,104 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             List<MSD_CORE_HEQ_Customer_Collection__c> collectionlist = new List<MSD_CORE_HEQ_Customer_Collection__c>();
             List<Id> accountIds = new List<Id>();
             
-            for(Account acc: [SELECT Id FROM Account WHERE Id =:personaccountIds]){
-                List<MSD_CORE_HEQ_Customer_Collection__c> extcol = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: acc.Id];
-                if(extcol.size()>0) {
-                    extcol[0].MSD_CORE_isActive__c = true;
-                    update extcol;
+            // for(Account acc: [SELECT Id FROM Account WHERE Id =:personaccountIds]){
+            //     List<MSD_CORE_HEQ_Customer_Collection__c> extcol = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: acc.Id];
+            //     if(extcol.size()>0) {
+            //         extcol[0].MSD_CORE_isActive__c = true;
+            //         update extcol;
+            //     } else {
+            //         MSD_CORE_HEQ_Customer_Collection__c collection = new MSD_CORE_HEQ_Customer_Collection__c();
+            //         collection.MSD_CORE_Collection_Id__c = collectionId;
+            //         collection.MSD_CORE_Customer_Id__c = acc.Id;
+            //         collection.MSD_CORE_isActive__c = true;
+            //         collectionlist.add(collection);
+            //     }
+            // }
+
+            List<Account> accounts = [SELECT Id FROM Account WHERE Id IN :personaccountIds];
+
+            List<MSD_CORE_HEQ_Customer_Collection__c> existingCollections = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c 
+                FROM MSD_CORE_HEQ_Customer_Collection__c 
+                WHERE MSD_CORE_Collection_Id__c = :collectionId AND MSD_CORE_Customer_Id__c IN :personaccountIds];
+
+            Map<Id, MSD_CORE_HEQ_Customer_Collection__c> collectionMap = new Map<Id, MSD_CORE_HEQ_Customer_Collection__c>();
+            for (MSD_CORE_HEQ_Customer_Collection__c col : existingCollections) {
+                collectionMap.put(col.MSD_CORE_Customer_Id__c, col);
+            }
+
+            List<MSD_CORE_HEQ_Customer_Collection__c> collectionListToUpdate = new List<MSD_CORE_HEQ_Customer_Collection__c>();
+
+            for (Account acc : accounts) {
+                if (collectionMap.containsKey(acc.Id)) {
+                    MSD_CORE_HEQ_Customer_Collection__c existingCollection = collectionMap.get(acc.Id);
+                    existingCollection.MSD_CORE_isActive__c = true;
+                    collectionListToUpdate.add(existingCollection);
                 } else {
-                    MSD_CORE_HEQ_Customer_Collection__c collection = new MSD_CORE_HEQ_Customer_Collection__c();
-                    collection.MSD_CORE_Collection_Id__c = collectionId;
-                    collection.MSD_CORE_Customer_Id__c = acc.Id;
-                    collection.MSD_CORE_isActive__c = true;
-                    collectionlist.add(collection);
+                    MSD_CORE_HEQ_Customer_Collection__c newCollection = new MSD_CORE_HEQ_Customer_Collection__c();
+                    newCollection.MSD_CORE_Collection_Id__c = collectionId;
+                    newCollection.MSD_CORE_Customer_Id__c = acc.Id;
+                    newCollection.MSD_CORE_isActive__c = true;
+                    collectionlist.add(newCollection);
+                }
+            }
+            if (!collectionListToUpdate.isEmpty()) {
+                update collectionListToUpdate;
+            }
+
+            // for (User user : userlist) {
+            //     List<MSD_CORE_HEQ_Customer_Collection__c> extcol = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: user.AccountId];
+            //     if(extcol.size()>0) {
+            //         System.debug('already exists');
+            //         extcol[0].MSD_CORE_isActive__c = true;
+            //         update extcol;
+            //     } else {
+            //         MSD_CORE_HEQ_Customer_Collection__c collection = new MSD_CORE_HEQ_Customer_Collection__c();
+            //         collection.MSD_CORE_Collection_Id__c = collectionId;
+            //         collection.MSD_CORE_Customer_Id__c = user.AccountId;
+            //         collection.MSD_CORE_isActive__c = true;
+            //         collectionlist.add(collection);
+            //     }
+            //     accountIds.add(user.AccountId);
+            // }
+            
+            // if(collectionlist.size()>0){
+            //     insert collectionlist;
+            // }
+
+            for (User user : userlist) {
+                if (user.AccountId != null) {
+                    accountIds.add(user.AccountId);
+                }
+            }
+            Map<Id, MSD_CORE_HEQ_Customer_Collection__c> collectionMap1 = new Map<Id, MSD_CORE_HEQ_Customer_Collection__c>();
+            for (MSD_CORE_HEQ_Customer_Collection__c collection : existingCollections) {
+                collectionMap1.put(collection.MSD_CORE_Customer_Id__c, collection);
+            }
+
+            List<MSD_CORE_HEQ_Customer_Collection__c> collectionsToUpdate = new List<MSD_CORE_HEQ_Customer_Collection__c>();
+
+            for (User user : userlist) {
+                if (user.AccountId != null) {
+                    MSD_CORE_HEQ_Customer_Collection__c existingCollection = collectionMap1.get(user.AccountId);
+                    
+                    if (existingCollection != null) {
+                        existingCollection.MSD_CORE_isActive__c = true;
+                        collectionsToUpdate.add(existingCollection);
+                    } else {
+                        MSD_CORE_HEQ_Customer_Collection__c newCollection = new MSD_CORE_HEQ_Customer_Collection__c();
+                        newCollection.MSD_CORE_Collection_Id__c = collectionId;
+                        newCollection.MSD_CORE_Customer_Id__c = user.AccountId;
+                        newCollection.MSD_CORE_isActive__c = true;
+                        collectionlist.add(newCollection);
+                    }
                 }
             }
 
-            for (User user : userlist) {
-                List<MSD_CORE_HEQ_Customer_Collection__c> extcol = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: user.AccountId];
-                if(extcol.size()>0) {
-                    System.debug('already exists');
-                    extcol[0].MSD_CORE_isActive__c = true;
-                    update extcol;
-                } else {
-                    MSD_CORE_HEQ_Customer_Collection__c collection = new MSD_CORE_HEQ_Customer_Collection__c();
-                    collection.MSD_CORE_Collection_Id__c = collectionId;
-                    collection.MSD_CORE_Customer_Id__c = user.AccountId;
-                    collection.MSD_CORE_isActive__c = true;
-                    collectionlist.add(collection);
-                }
-                accountIds.add(user.AccountId);
+            if (!collectionsToUpdate.isEmpty()) {
+                update collectionsToUpdate;
             }
-            
-            if(collectionlist.size()>0){
+
+            if(!collectionlist.isEmpty()){
                 insert collectionlist;
             }
             
@@ -786,20 +854,45 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             
             List<ContentDocumentLink> documentLinks = new List<ContentDocumentLink>();
             
+            // for (Id accountId : accountIds) {
+            //     for (Id documentId : contentdoocumentIds) {
+            //         List<ContentDocumentLink> cdlinklist = [SELECT Id, LinkedEntityId, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: accountId AND ContentDocumentId =: documentId LIMIT 1];
+            //         if (cdlinklist.size()>0) {
+            //             System.debug('already exists');
+            //         } else {
+            //             ContentDocumentLink docLink = new ContentDocumentLink();
+            //             docLink.LinkedEntityId = accountId;
+            //             docLink.ContentDocumentId = documentId;
+            //             documentLinks.add(docLink);
+            //         }
+            //     }
+            // }
+
+            List<ContentDocumentLink> existingLinks = [
+                SELECT Id, LinkedEntityId, ContentDocumentId 
+                FROM ContentDocumentLink 
+                WHERE LinkedEntityId IN :accountIds 
+                AND ContentDocumentId IN :contentdoocumentIds
+            ];
+            Set<String> existingLinksSet = new Set<String>();
+            for (ContentDocumentLink link : existingLinks) {
+                existingLinksSet.add(link.LinkedEntityId + '-' + link.ContentDocumentId);
+            }
+
             for (Id accountId : accountIds) {
                 for (Id documentId : contentdoocumentIds) {
-                    List<ContentDocumentLink> cdlinklist = [SELECT Id, LinkedEntityId, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: accountId AND ContentDocumentId =: documentId LIMIT 1];
-                    if (cdlinklist.size()>0) {
-                        System.debug('already exists');
-                    } else {
+                    String uniqueKey = accountId + '-' + documentId;
+                    if (!existingLinksSet.contains(uniqueKey)) {
                         ContentDocumentLink docLink = new ContentDocumentLink();
                         docLink.LinkedEntityId = accountId;
                         docLink.ContentDocumentId = documentId;
                         documentLinks.add(docLink);
+                    } else {
+                        System.debug('Link already exists');
                     }
                 }
             }
-            
+
             if (!documentLinks.isEmpty()) {
                 insert documentLinks;
             }

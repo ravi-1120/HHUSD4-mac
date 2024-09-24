@@ -86,15 +86,17 @@ hr {
     justify-content: flex-end;
 }
 
+.add-item-container button {
+    height: 40px;
+}
+
 .tab-content {
     background: #FFFFFF;
-    justify-content: center;
-    display: flex;
-    min-height: 395px;
 }
 
 .bodycls {
     width: 100%;
+    min-height: 395px;
 }
 
 .bodycls table tr th {
@@ -103,6 +105,10 @@ hr {
     font-family: 'Invention';
     font-weight: 700;
     color: #202020;
+}
+
+.bodycls table tr {
+    background: #FFFFFF;
 }
 
 .bodycls table tr td {
@@ -147,6 +153,8 @@ hr {
 .tile-container {
     display: flex;
     flex-wrap: wrap;
+    padding: 24px;
+    gap: 16px;
 }
 
 .tile {
@@ -413,5 +421,34 @@ hr {
         position: absolute;
         top: 24px;
         right: 24px;
+    }
+    .maincontainer {
+        padding: 0px;
+    }
+    .breadcrumbs {
+        padding: 8px 22px;
+    }
+    .header-container {
+        display: block;
+        height: auto;
+        padding: 24px;
+    }
+    .icon-container {
+        padding-top: 24px;
+    }
+    .tabs-container {
+        display: block;
+    }
+    .tab-button {
+        padding-left: 24px;
+    }
+    .add-item-container {
+        display: block;
+        width: 100%;
+        background: #FFFFFF;
+        padding: 24px;
+    }
+    .add-item-container button {
+        width: 100%;
     }
 }

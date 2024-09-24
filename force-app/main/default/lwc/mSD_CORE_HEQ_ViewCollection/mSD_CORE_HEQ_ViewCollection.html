@@ -5,7 +5,7 @@
             <div>
                 <span class="breadcrumb1" onclick={redirectToHome}> {labels.home} ></span>
                 <span class="breadcrumb1" onclick={navigateToCollections}> {labels.collections} ></span>
-                <span class="breadcrumb1" onclick={navigateToNewCollections}> {labels.addnewcollection} ></span>
+                <span if:false={isCustomer} class="breadcrumb1" onclick={navigateToNewCollections}> {labels.addnewcollection} ></span>
                 <span if:true={collectionRecord} class="breadcrumb2">{collectionRecord.name}</span>
                 <span if:false={isCustomer} class="breadcrumb2">{collectionData.name}</span>
             </div>
@@ -48,19 +48,17 @@
                 </div>
             </div>
             <div class="tabs-container">
-                <div>
+                <div class="tab-button">
                     <button class={resourcesTabClass} onclick={handleTabClick}
                         data-tab="resources">{labels.collectionItem}</button>
                     <button class={sharedWithTabClass} onclick={handleTabClick}
                         data-tab="sharedWith">{labels.sharedWith}</button>
                 </div>
                 <div if:true={isResourcesActive} class="add-item-container">
-                    <lightning-button label={labels.addItem} variant="brand" onclick={handleAddItemClick}>
-                    </lightning-button>
+                    <button class="slds-button slds-button_brand" onclick={handleAddItemClick}>{labels.addItem}</button>
                 </div>
                 <div if:true={isSharedWithActive} class="add-item-container">
-                    <lightning-button label="Select customer" variant="brand" onclick={handleselectuserClick}>
-                    </lightning-button>
+                    <button class="slds-button slds-button_brand" onclick={handleselectuserClick}>Select customer</button>
                 </div>
             </div>
             <div class="tab-content">
@@ -68,32 +66,11 @@
                     <template if:false={isResourcesEmpty}>
                         <div class="tile-container">
                             <template for:each={resources} for:item="doc">
-                                <div key={doc.id} class="tile">
-                                    <div class="tile-header">
-                                        <button data-id={doc.docId} data-name={doc.title} class="close-button"
-                                            title="Close" onclick={handleDeleteIcon}>
-                                            &#x2716;
-                                        </button>
-                                    </div>
-                                    <div class="tile-content">
-                                        <div class="tile-preview">
-                                            <img src={doc.previewUrl} alt={doc.title} class="preview-image" />
-                                        </div>
-                                        <div class="tile-metadata">
-                                            <h3 class="title">{doc.title}</h3>
-                                            <p if:true={doc.expiryDate} class="metadata">Exp Date:
-                                                {doc.expiryDate}</p>
-                                            <p if:true={doc.topic} class="metadata">{doc.topic}</p>
-                                            <p if:true={doc.therapeuticArea} class="metadata">
-                                                {doc.therapeuticArea}</p>
-                                            <lightning-icon size="x-small" data-id={doc.id} data-aid="BK-26"
-                                                onclick={handlePreview} tabindex="0" name='Preview' role="checkbox"
-                                                aria-checked="true"
-                                                class="preview_icon slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
-                                                icon-name="utility:preview"></lightning-icon>
-                                        </div>
-                                    </div>
-                                </div>
+                                <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles item={doc} key={doc.id}
+                                        grid-type="grid2" genericview="tile" menu-options="close"
+                                        contentdocumentid={doc.contentdocumentid} 
+                                        iscloseicon=true oncloseresourceclick={handleDeleteIcon}>
+                                </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
                             </template>
                         </div>
                     </template>
@@ -254,6 +231,14 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
     </template>
+
+    <!-- Resource with category -->
+    <template if:true={showResourceModel}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-resource-popup type="Browse All" submit-button="Add Items" 
+            onclosemodelpopup={handlecloseAddItem}
+            onselectedresources={handleSelectedResources}></c-m-s-d_-c-o-r-e_-h-e-q_-resource-popup>
+    </template>
+
     <template if:true={showSpinner}>
         <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
     </template>

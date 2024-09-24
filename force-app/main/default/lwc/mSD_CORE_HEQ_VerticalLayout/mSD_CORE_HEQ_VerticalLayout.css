@@ -11,28 +11,29 @@
 /* .container-Class{
 	width: 700px;
 } */
-.Tumor-container{
+.Tumor-container {
 	overflow-x: auto;
-    white-space: nowrap;
-    display: flex;
-    gap: 13px;
-    flex-direction: column;
+	white-space: nowrap;
+	display: flex;
+	gap: 13px;
+	flex-direction: column;
 
 }
 
 
-.tumar-card-content{
+.tumar-card-content {
 	background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 100%;
-    min-width: 151px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	padding: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	max-width: 100%;
+	min-width: 151px;
 }
+
 .tumor-type {
 
 	padding: 24px 24px 32px 24px;
@@ -55,20 +56,20 @@
 }
 
 .card-content_pdf {
-    background-color: rgba(88, 165, 142, 1);
+	background-color: rgba(88, 165, 142, 1);
 }
 
 .card-content_video {
-    background-color: rgba(84, 147, 198, 1);
+	background-color: rgba(84, 147, 198, 1);
 }
 
 .card-content_customizable {
-    background-color: rgba(212, 136, 6, 1);
+	background-color: rgba(212, 136, 6, 1);
 }
 
 .ArrowCls[disabled] {
-    opacity: 0.5;
-    pointer-events: none;
+	opacity: 0.5;
+	pointer-events: none;
 }
 
 
@@ -111,7 +112,7 @@
 
 }
 
-.navigations{
+.navigations {
 	display: none;
 	gap: 24px;
 	margin-top: -18px;
@@ -120,27 +121,27 @@
 
 }
 
-.newItemLayout{
+.newItemLayout {
 	display: flex;
-    align-items: center;
-    width: 124px;
-    text-align: center;
-    justify-content: center;
-    height: 19px;
-    padding: var(--Space-Padding-paddingXXS, 4px) 12px;
-    position: relative;
-    /* left: 248px; */
-    background: var(--Neutral-White, #FFF);
+	align-items: center;
+	width: 124px;
+	text-align: center;
+	justify-content: center;
+	height: 19px;
+	padding: var(--Space-Padding-paddingXXS, 4px) 12px;
+	position: relative;
+	/* left: 248px; */
+	background: var(--Neutral-White, #FFF);
 }
 
-.newItemText{
-	    color: var(--Neutral-Dark-Gray, #555);
-    font-feature-settings: 'liga' off, 'clig' off;
-    font-family: Poppins;
-    font-size: 10px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 12px;
+.newItemText {
+	color: var(--Neutral-Dark-Gray, #555);
+	font-feature-settings: 'liga' off, 'clig' off;
+	font-family: Poppins;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 12px;
 }
 
 .containerCls {
@@ -185,23 +186,23 @@
 	margin-left: 38px;
 }
 
-.therapeutic-areas{
-	    width: 804px;
-    padding: 24px 24px 32px 24px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    flex: 1;
-    border-radius: 5px;
-    border: 1px solid var(--Neutral-Light-Gray, #E4E4E4);
-    background: var(--Neutral-White, #FFF);
-    margin-left: 26px;
+.therapeutic-areas {
+	width: 804px;
+	padding: 24px 24px 32px 24px;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+	flex: 1;
+	border-radius: 5px;
+	border: 1px solid var(--Neutral-Light-Gray, #E4E4E4);
+	background: var(--Neutral-White, #FFF);
+	margin-left: 26px;
 
 }
 
-.layout1{
-	    background: #f4f4f4;
-		    width: 1687px;
+.layout1 {
+	background: #f4f4f4;
+	width: 1687px;
 }
 
 .topics-Class {
@@ -508,6 +509,100 @@
 }
 
 
+
+
+.mainmodelcls {
+    height: 421px;
+    margin: auto;
+    padding: 32px;
+    padding-bottom: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.confirmModel {
+    min-width: 552px;
+    min-height: 206px;
+    margin: auto;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.cnfcollectionheadercls {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+}
+
+
+.cnfcollectionheadertxt {
+    font-family: 'Invention';
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 36px;
+    color: #005C56;
+}
+
+.cnfcollectionbodytxt {
+    font-family: 'Invention';
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #333333;
+    padding-bottom: 21px;
+}
+
+.collectionfootercls {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.collectionbuttoncls {
+    display: flex;
+}
+.collectionheadertxt {
+    font-family: 'Invention';
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 36px;
+    color: #005C56;
+}
+
+.createnewtxt {
+    font-family: 'Invention';
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    color: #00857C;
+    text-decoration: underline;
+    margin: auto 0;
+    cursor: pointer;
+}
+
+.collectionbodytxt {
+    font-family: 'Invention';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    padding-bottom: 14px;
+    color: #333333;
+}
+
+
+.closeiconclick {
+    cursor: pointer;
+}
+
+.collectionheadercls {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 37px;
+}
+
 @media only screen and (min-width: 48em) and (max-width: 64em) {
 
 	/* Layout container for tablet view */
@@ -526,8 +621,8 @@
 	}
 
 	.viewCls {
-        font-weight: 700;
-    }
+		font-weight: 700;
+	}
 
 	/* Card container - Stack cards vertically */
 	.card-container {
@@ -639,8 +734,8 @@
 	}
 
 	.viewCls {
-        font-weight: 700;
-    }
+		font-weight: 700;
+	}
 
 	.therapeutic-areas {
 		width: 717px;
@@ -655,12 +750,12 @@
 		/* margin-left: -119px; */
 	}
 
-	    .layout1{
-        background: #f4f4f4;
-        width: 100%;
-		}
+	.layout1 {
+		background: #f4f4f4;
+		width: 100%;
+	}
 
-	
+
 
 
 	.topics-Class {
@@ -692,28 +787,28 @@
 
 @media only screen and (min-width: 360px) and (max-width: 600px) {
 
-	    .therapeutic-area{
-        width: 100%;
-        padding: 24px 24px 32px 24px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        flex: 1;
-        border-radius: 5px;
-        background: var(--Neutral-White, #FFF);
-        margin-left: 17px;
-        border: none;
+	.therapeutic-area {
+		width: 100%;
+		padding: 24px 24px 32px 24px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+		flex: 1;
+		border-radius: 5px;
+		background: var(--Neutral-White, #FFF);
+		margin-left: 17px;
+		border: none;
 		display: flex;
-        margin-top: 21px;
+		margin-top: 21px;
 
-        /* overflow-x: scroll; */
-    }
+		/* overflow-x: scroll; */
+	}
 
 	.viewCls {
-        font-weight: 400;
-    }
+		font-weight: 400;
+	}
 
-	  /* .therapeutic-areas{
+	/* .therapeutic-areas{
         min-width: 100%;
         padding: 24px 24px 32px 24px;
         flex-direction: column;
@@ -724,42 +819,42 @@
         background: var(--Neutral-White, #FFF);
         margin-left: 17px;
         border: none; */
-        /* overflow-x: scroll; */
-    /* } */
+	/* overflow-x: scroll; */
+	/* } */
 
-	  .iconsCls{
-        display: flex;
-    flex-direction: column;
-    background: #ffffff;
-    border: none;
-    }
+	.iconsCls {
+		display: flex;
+		flex-direction: column;
+		background: #ffffff;
+		border: none;
+	}
 
-    .ArrowCls{
-    width: 50px;
-    height: 40px;
-    background: #F4F4F4;
-    /* border-color: #F4F4F4; */
-    color: #00857C;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+	.ArrowCls {
+		width: 50px;
+		height: 40px;
+		background: #F4F4F4;
+		/* border-color: #F4F4F4; */
+		color: #00857C;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
 
 
 
 	.topics-Class {
 
-		 width: 100%;
-        padding: 24px 24px 32px 24px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        flex: 1;
-        border-radius: 5px;
-        background: var(--Neutral-White, #FFF);
-        margin-left: 17px;
-        border: none;
+		width: 100%;
+		padding: 24px 24px 32px 24px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+		flex: 1;
+		border-radius: 5px;
+		background: var(--Neutral-White, #FFF);
+		margin-left: 17px;
+		border: none;
 		display: flex;
 
 	}
@@ -794,22 +889,22 @@
 		height: 73.7px;
 	}
 
-	    .card{
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-        padding: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-width: 337px;
-        width: 100%;
-        height: 224px;
-        margin: auto;
+	.card {
+		background: #fff;
+		border: 1px solid #e0e0e0;
+		border-radius: 8px;
+		/* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+		padding: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-width: 337px;
+		width: 100%;
+		height: 224px;
+		margin: auto;
 		box-shadow: 0px 2px 4px 0px rgba(85, 85, 85, 0.15);
 
-    }
+	}
 
 
 	.layout {
@@ -821,10 +916,10 @@
 
 	.navigation {
 		display: flex !important;
-        gap: 24px;
-        margin-top: 0px;
-        margin-left: 0px;
-        margin-bottom: 22px;
+		gap: 24px;
+		margin-top: 0px;
+		margin-left: 0px;
+		margin-bottom: 22px;
 
 	}
 
@@ -837,57 +932,58 @@
 
 	}
 
-	    .card-container{
-        flex-direction: row;
-        display: flex;
-        align-items: center;
-        overflow-x: scroll;
-        width: 100%;
-        margin: auto;
-        margin-left: 0px;
-    }
-
-	
-	.tumar-card-content{
-		        display: flex;
-        flex-direction: row;
-        width: 333px;
-        /* border: 15px #f4f4f4; */
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 16px;
-        height: auto;
-	
+	.card-container {
+		flex-direction: row;
+		display: flex;
+		align-items: center;
+		overflow-x: scroll;
+		width: 100%;
+		margin: auto;
+		margin-left: 0px;
 	}
 
-	.therapeutic-areas{
-    /* width: 80%; */
-    padding: 24px 24px 32px 24px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    flex: 1;
-    border-radius: 5px;
-    border: none !important;
-    background: var(--Neutral-White, #FFF);
-    margin-left: 2px;
-    width: 100%;
-}
 
-.layout1{
-    background: #f4f4f4;
-    width: 100%;
-}
-    .Tumor-container{
-        overflow-x: auto;
-        white-space: nowrap;
-        display: flex;
-        gap: 13px;
-        flex-direction: row;
-        width: 100%;
-    }
+	.tumar-card-content {
+		display: flex;
+		flex-direction: row;
+		width: 333px;
+		/* border: 15px #f4f4f4; */
+		background: #fff;
+		border: 1px solid #e0e0e0;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		padding: 16px;
+		height: auto;
+
+	}
+
+	.therapeutic-areas {
+		/* width: 80%; */
+		padding: 24px 24px 32px 24px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+		flex: 1;
+		border-radius: 5px;
+		border: none !important;
+		background: var(--Neutral-White, #FFF);
+		margin-left: 2px;
+		width: 100%;
+	}
+
+	.layout1 {
+		background: #f4f4f4;
+		width: 100%;
+	}
+
+	.Tumor-container {
+		overflow-x: auto;
+		white-space: nowrap;
+		display: flex;
+		gap: 13px;
+		flex-direction: row;
+		width: 100%;
+	}
 }
 
 @media only screen and (min-width: 820px) and (max-width: 1180px) {
@@ -905,8 +1001,8 @@
 	}
 
 	.viewCls {
-        font-weight: 700;
-    }
+		font-weight: 700;
+	}
 
 	.therapeutic-areas {
 		width: 839px;
@@ -917,7 +1013,7 @@
 		flex: 1;
 		border-radius: 5px;
 		border: 1px solid var(--Neutral-Light-Gray, #E4E4E4);
-		background: var(--Neutral-White, #FFF); 
+		background: var(--Neutral-White, #FFF);
 		/* margin-left: -119px; */
 	}
 
@@ -963,41 +1059,41 @@
 		margin-left: 37px;
 		border: none;
 		display: flex;
-        margin-top: 21px;
+		margin-top: 21px;
 	}
 
 	.viewCls {
-        font-weight: 700;
-    }
+		font-weight: 700;
+	}
 
-	  .iconsCls{
-        display: flex;
-    flex-direction: column;
-    background: #ffffff;
-    border: none;
-    }
+	.iconsCls {
+		display: flex;
+		flex-direction: column;
+		background: #ffffff;
+		border: none;
+	}
 
-    .ArrowCls{
-    width: 50px;
-    height: 40px;
-    background: #F4F4F4;
-    /* border-color: #F4F4F4; */
-    color: #00857C;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+	.ArrowCls {
+		width: 50px;
+		height: 40px;
+		background: #F4F4F4;
+		/* border-color: #F4F4F4; */
+		color: #00857C;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
-.navigation{
-	display: flex !important;
-        gap: 24px;
-        margin-top: 0px;
-        margin-left: 0px;
-        margin-bottom: 22px;
+	.navigation {
+		display: flex !important;
+		gap: 24px;
+		margin-top: 0px;
+		margin-left: 0px;
+		margin-bottom: 22px;
 
-}
+	}
 
-/* 
+	/* 
 	.therapeutic-areas {
 		width: 383px;
 		padding: 24px 24px 32px 24px;
@@ -1040,34 +1136,34 @@
 		margin-left: 31px;
 		border: none;
 		display: flex;
-        margin-top: 21px;
+		margin-top: 21px;
 	}
 
 	.viewCls {
-        font-weight: 700;
-    }
+		font-weight: 700;
+	}
 
-	  .iconsCls{
-        display: flex;
-    flex-direction: column;
-    background: #ffffff;
-    border: none;
-    }
+	.iconsCls {
+		display: flex;
+		flex-direction: column;
+		background: #ffffff;
+		border: none;
+	}
 
-    .ArrowCls{
-    width: 50px;
-    height: 40px;
-    background: #F4F4F4;
-    /* border-color: #F4F4F4; */
-    color: #00857C;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+	.ArrowCls {
+		width: 50px;
+		height: 40px;
+		background: #F4F4F4;
+		/* border-color: #F4F4F4; */
+		color: #00857C;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
 
 
-		/* .therapeutic-areas {
+	/* .therapeutic-areas {
 		width: 383px;
 		padding: 24px 24px 32px 24px;
 		flex-direction: column;
@@ -1094,55 +1190,57 @@
 		display: flex;
 	}
 
-	.tumar-card-content{
-		        display: flex;
-        flex-direction: row;
-        width: 333px;
-        /* border: 15px #f4f4f4; */
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 16px;
-        height: auto;
-	
+	.tumar-card-content {
+		display: flex;
+		flex-direction: row;
+		width: 333px;
+		/* border: 15px #f4f4f4; */
+		background: #fff;
+		border: 1px solid #e0e0e0;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		padding: 16px;
+		height: auto;
+
 	}
 
-	.therapeutic-areas{
-    /* width: 80%; */
-    padding: 24px 24px 32px 24px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    flex: 1;
-    border-radius: 5px;
-    border: none !important;
-    background: var(--Neutral-White, #FFF);
-    margin-left: 19px;
-    width: 435px;
-}
+	.therapeutic-areas {
+		/* width: 80%; */
+		padding: 24px 24px 32px 24px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+		flex: 1;
+		border-radius: 5px;
+		border: none !important;
+		background: var(--Neutral-White, #FFF);
+		margin-left: 19px;
+		width: 435px;
+	}
 
-.layout1{
-    background: #f4f4f4;
-    width: 100%;
-}
-  .card-container{
-        flex-direction: row;
-        display: flex;
-        align-items: center;
-        overflow-x: scroll;
-        width: 89%;
-        margin: auto;
-        margin-left: 0px;
-    }
-.Tumor-container{
-	overflow-x: auto;
-    white-space: nowrap;
-    display: flex;
-    gap: 13px;
-	flex-direction: row;
-    width: 89%;
-}
+	.layout1 {
+		background: #f4f4f4;
+		width: 100%;
+	}
+
+	.card-container {
+		flex-direction: row;
+		display: flex;
+		align-items: center;
+		overflow-x: scroll;
+		width: 89%;
+		margin: auto;
+		margin-left: 0px;
+	}
+
+	.Tumor-container {
+		overflow-x: auto;
+		white-space: nowrap;
+		display: flex;
+		gap: 13px;
+		flex-direction: row;
+		width: 89%;
+	}
 }
 
 
@@ -1163,8 +1261,8 @@
 	}
 
 	.viewCls {
-        font-weight: 700;
-    }
+		font-weight: 700;
+	}
 
 	.therapeutic-areas {
 		width: 972px;

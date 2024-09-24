@@ -1,0 +1,78 @@
+<template>
+    <!-- Resource Selection Popup -->
+    <template if:true={showResourcePopup}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container filter-modal">
+                <div class="slds-modal__content mainmodel-print">
+                    <div>
+                        <div class="filter-header">
+                            <div class="filter-header-txt">Select your items</div>
+                            <div class="close-icon">
+                                <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                    class="closeiconclick" title="close" onclick={closeModal}>
+                                </lightning-icon>
+                            </div>
+                        </div>
+                        <div class="print-bd">
+                            <div class="resource-selection-wrapper">
+                                <div class="filter-screen">
+                                    <c-m-s-d_-c-o-r-e_-h-e-q_-search-category show-save-search={hideSaveSearch}
+                                        onselectedcategories={handleSelectedCategories}
+                                        oncategoriesid={handlecategoriesid}
+                                        onexpandcollapssidebar={handleExpandCollapsSidebar}
+                                        onselectedfiltersupdate={handleSelectedFilters}
+                                        oncategoriesupdate={handleCategoriesUpdate}
+                                        oncheckboxchange={handleCheckboxChange}>
+                                    </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
+                                </div>
+                                <div class="resource-selection">
+                                    <template if:true={sections}>
+                                        <template for:each={sections} for:item="section">
+                                            <template if:true={section.topics}>
+                                                <template for:each={section.topics} for:item="item">
+                                                    <div class={item.isSelectedTileColor} key={item}>
+                                                        <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item} grid-type="grid2"
+                                                            genericview="tile" menu-options={menuOptions} category="Expiring Soon"
+                                                            contentdocumentid={item.contentdocumentid} onshowmenu={handleShowMenu}
+                                                            onmenuclick={handleMenuClick} onselectdocument={handleDocumentSelection}>
+                                                        </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <template if:false={section.topics}>
+                                                <div class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small" key={section}>
+                                                    <div class="cardtitle slds-text-heading_small">No resources
+                                                        found matching your
+                                                        criteria. Please try with
+                                                        different keywords</div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popup-actions">
+                        <div>{lengthofResourcesSelected} Items selected</div>
+                        <div class="dr-form_btnGroup slds-float_right">
+                            <lightning-button role="button" class="lt-button" variant="base" label={submitButton}
+                                title={submitButton} onclick={handleShareClick}>
+                            </lightning-button>
+                            <lightning-button role="button" class="lt-button cancel" variant="base" label="Cancel"
+                                title="Cancel" onclick={closeModal}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <!-- Resource Selection Popup End-->
+
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
+</template>

@@ -5,19 +5,28 @@
             <div class={item.headerClass}>
                 <div class="headingCls">{item.heading}</div>
                 <div if:false={iscloseicon} class="dropdown">
-                    <div onclick={handleShowMenu} class="threetileDotsCls" data-id={item.id} data-grid-type={gridType}
-                        data-category={category}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M3.57692 7.69238C4.84615 7.69238 5.88461 8.73084 5.88461 10.0001C5.88461 11.2693 4.84615 12.3078 3.57692 12.3078C2.30769 12.3078 1.26923 11.2693 1.26923 10.0001C1.26923 8.73084 2.30769 7.69238 3.57692 7.69238ZM10.5 7.69238C11.7692 7.69238 12.8077 8.73084 12.8077 10.0001C12.8077 11.2693 11.7692 12.3078 10.5 12.3078C9.23076 12.3078 8.1923 11.2693 8.1923 10.0001C8.1923 8.73084 9.23076 7.69238 10.5 7.69238ZM17.4231 7.69238C18.6923 7.69238 19.7308 8.73084 19.7308 10.0001C19.7308 11.2693 18.6923 12.3078 17.4231 12.3078C16.1538 12.3078 15.1154 11.2693 15.1154 10.0001C15.1154 8.73084 16.1538 7.69238 17.4231 7.69238Z"
-                                fill="white" />
-                        </svg>
+                    <div if:false={item.showSelector}>
+                        <div onclick={handleShowMenu} class="threetileDotsCls" data-id={item.id} data-grid-type={gridType}
+                            data-category={category}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M3.57692 7.69238C4.84615 7.69238 5.88461 8.73084 5.88461 10.0001C5.88461 11.2693 4.84615 12.3078 3.57692 12.3078C2.30769 12.3078 1.26923 11.2693 1.26923 10.0001C1.26923 8.73084 2.30769 7.69238 3.57692 7.69238ZM10.5 7.69238C11.7692 7.69238 12.8077 8.73084 12.8077 10.0001C12.8077 11.2693 11.7692 12.3078 10.5 12.3078C9.23076 12.3078 8.1923 11.2693 8.1923 10.0001C8.1923 8.73084 9.23076 7.69238 10.5 7.69238ZM17.4231 7.69238C18.6923 7.69238 19.7308 8.73084 19.7308 10.0001C19.7308 11.2693 18.6923 12.3078 17.4231 12.3078C16.1538 12.3078 15.1154 11.2693 15.1154 10.0001C15.1154 8.73084 16.1538 7.69238 17.4231 7.69238Z"
+                                    fill="white" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div if:true={item.showSelector}>
+                        <div class="checkbox">
+                            <lightning-input type="checkbox" value={item.isSelectedTile} data-id={item.id} onchange={handleCheck}>
+                            </lightning-input>
+                        </div>
                     </div>
                     <div if:true={item.showMenu} class="menu-content" onclick={handleMenuClick}>
                         <template for:each={menuOptions} for:item="option">
                             <div key={option.action}>
                                 <template if:true={option.downloadActive}>
-                                    <a href={item.downloadLink} target="_self" download="Download"
+                                    <a href="javascript:void(0)" data-link={item.downloadLink} data-resourcename={item.boldText}
+                                        data-id={item.id} onclick={handleDownload} target="_self" download="Download"
                                         style="text-decoration:none;">
                                         <div class="menu-item" data-action={option.action} data-id={item.id}
                                             data-contentdocumentid={item.contentDocumentId} data-category={category}
@@ -27,9 +36,9 @@
                                     </a>
                                 </template>
                                 <template if:true={option.isModelBox}>
-                                    <div class="menu-item" data-action={option.action} data-id={item.id}
-                                        onclick={modelClick} data-contentdocumentid={item.contentDocumentId}
-                                        data-category={category} data-resourcename={item.boldText}>
+                                    <div class="menu-item" data-action={option.action} data-id={item.id} onclick={modelClick}
+                                        data-contentdocumentid={item.contentDocumentId} data-category={category}
+                                        data-resourcename={item.boldText}>
                                         {option.label}
                                     </div>
                                 </template>

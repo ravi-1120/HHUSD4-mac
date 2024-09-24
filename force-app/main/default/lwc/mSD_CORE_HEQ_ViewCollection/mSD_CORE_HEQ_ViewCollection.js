@@ -14,6 +14,7 @@ import unShareCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionControlle
 import getUser from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getuser';
 import getCustomerCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.getCustomerCollections';
 import sendRegistrationInvite from '@salesforce/apex/MSD_CORE_HEQ_AuthController.sendRegistrationInvite';
+import saveResourcesInCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.saveResourcesInCollection';
 
 //Static Resource
 import noImage from '@salesforce/resourceUrl/MSD_CORE_HEQ_No_Image';
@@ -64,6 +65,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
     @track showSpinner = false;
     @track selectedcustomername;
     @track selectedcustomeremail;
+    @track showResourceModel = false;
 
     collectionId;
     userId = USER_ID;
@@ -245,41 +247,100 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
 
     fetchResource() {
         this.showSpinner = true;
-        console.log('fetchResources->' + this.collectionId);
         if (this.collectionId) {
             getResources({ collectionId: this.collectionId })
                 .then(result => {
                     console.log('Fetch Resources New result->' , result);
-                    let updatedURL = this.getThumbnailURL('Thumb');
-                    this.resources = result.map(doc => ({
-                        ...doc,
-                        previewUrl: doc.id ? updatedURL+doc.id : noImage
-                    }));
+                    this.resources = result.map(item => {
+                        
+                        let headerclassval = 2;
+                        let filetype;
+                        if (item.FileType == 'PDF') {
+                            headerclassval = 2;
+                            filetype = 'PDF';
+                        }
+                        if (item.MSD_CORE_Video_Resource__c) {
+                            headerclassval = 5;
+                            filetype = 'Video';
+                        }
+                        let updatedURL = this.getThumbnailURL(item.FileType);
+                        let videoThumbURL = item.Id;
+    
+                        let descriptionVal = item.MSD_CORE_Therapeutic_Area__c ? item.MSD_CORE_Therapeutic_Area__c.replace(/;/g, ', ') : item.MSD_CORE_Therapeutic_Area__c;
+                        let topicVal = item.MSD_CORE_Topic__c ? item.MSD_CORE_Topic__c.replace(/;/g, ', ') : item.MSD_CORE_Topic__c;
+    
+                        let expirationDate;
+                        if (item.MSD_CORE_Expiration_Date__c) {
+                            expirationDate = new Intl.DateTimeFormat('en-US', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            }).format(new Date(item.MSD_CORE_Expiration_Date__c));
+                        }  
+
+                        return {
+                            id: item.Id,
+                            title: item.Title,
+                            subtitle: item.MSD_CORE_Topic__c,
+                            imageUrl: (item.Id) ? updatedURL + videoThumbURL : noImage,
+                            contentDocumentId: item.ContentDocumentId,
+                            isBookmarked: item.isBookmarked == 'true' ? true : false,
+                            heading: filetype,
+                            boldText: item.Title,
+                            normalText: descriptionVal,
+                            normalText1: topicVal,
+                            code: item.MSD_CORE_Resource_Code__c,
+                            expiryDays: expirationDate,
+                            headerClass: `header-color-${headerclassval}`,
+                            headerClasslist: `header-color-list-${headerclassval}`,
+                            showMenu: false,
+                            isSelectedTile: false,
+                            isSelectedList: false,
+                            isSelectedTileColor: 'slds-var-m-around_medium ',
+                            isSelectedListColor: 'listviewcls ',
+                            downloadLink: sitepath + 'sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
+                            isNewItem: item.MSD_CORE_IsNewItem__c == 'true' ? true : false
+                        };
+        
+                    });
 
                     //New
+                    console.log('Collection Items - 1');
                     this.collectionItems = result.map(item => {
-                        
+                        console.log('Collection Items - 2');
+                        let updatedURL = this.getThumbnailURL('Thumb');
+                        console.log('Collection Items - 3');
                         let headerclassval = 'header-color-2';
                         let filetype;
-                        if (item.fileType == 'pdf') {
+                        if (item.FileType == 'PDF') {
                             headerclassval = 'header-color-2';
                             filetype = 'Static';
                         }
-                        if (item.videoLink) {
+                        if (item.MSD_CORE_Video_Resource__c) {
                             headerclassval = 'header-color-5';
                             filetype = 'Video';
                         }
+                        console.log('Collection Items - 4');
+                        let expirationDate;
+                        if (item.MSD_CORE_Expiration_Date__c) {
+                            expirationDate = new Intl.DateTimeFormat('en-US', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            }).format(new Date(item.MSD_CORE_Expiration_Date__c));
+                        }  
+                        console.log('Collection Items - 5');
                         return {
                             id: item.id,
                             heading: filetype,
                             imageUrl: (item.id) ? updatedURL + item.id : noImage,
-                            boldText: item.title,
-                            normalText: item.therapeuticArea,
-                            normalText1: item.topic,
-                            expiryDays: item.expiryDate,
-                            code: item.jobCode,
+                            boldText: item.Title,
+                            normalText: item.MSD_CORE_Therapeutic_Area__c,
+                            normalText1: item.MSD_CORE_Topic__c,
+                            expiryDays: item.expirationDate,
+                            code: item.MSD_CORE_Resource_Code__c,
                             headerClass: headerclassval,
-                            downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.docId + '?operationContext=S1',
+                            downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
                             showMenu: false,
                             notTruncated: true
                         }
@@ -287,13 +348,13 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                         this.showSpinner = false;
                     })
                 .catch(error => {
-                    console.log('error->' + JSON.stringify(error));
+                    console.log('error->' + JSON.stringify(error.message));
                 });
         }
     }
 
     handleDeleteIcon(event) {
-        const { id, name } = event.currentTarget.dataset;
+        const { id, name } = event.detail;
         this.recToDelete = id;
         this.popupTitle = name;
         this.isModalOpen = true;
@@ -304,17 +365,19 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
     }
 
     handleDelete() {
+        this.showSpinner = true;
         removeResourceFromCollection({ contentDocumentId: this.recToDelete, collectionId: this.collectionId })
             .then(result => {
                 if(result){
                     console.log('removeResource1>>' + JSON.stringify(result));
-                    this.resources = this.resources.filter((record) => record.ContentDocumentId !== this.recToDelete);
-                    console.log('this.resources----->'+JSON.stringify(this.resources));
+                    this.fetchResource();
                     this.closeModal();
+                    this.showSpinner = false;
                 }
             })
             .catch((error) => {
                 //console.log('error->' + JSON.stringify(error));
+                this.showSpinner = false;
                 console.log('this.error----->'+JSON.stringify(error));
             });
     }
@@ -417,13 +480,31 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
     }
 
     handleAddItemClick() {
-        console.log('Add Item button clicked');
-        this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: `/resources?type=${encodeURIComponent('Browse All')}&action=collection&cid=${encodeURIComponent(this.collectionId)}`
-            }
-        });
+        this.showResourceModel = true;
+    }
+
+    // Resource
+    handleSelectedResources(event) {
+        this.handleSaveResourceInCollection(event.detail.resources);
+    }
+
+    handlecloseAddItem() {
+        this.showResourceModel = false;
+    }
+
+    handleSaveResourceInCollection(resourceids) {
+        this.showSpinner = true;
+        saveResourcesInCollection({ collectionId: this.collectionId, documentIds: resourceids })
+            .then(result => {
+                console.log('result>>>',result);
+                this.handlecloseAddItem();
+                this.fetchResource();
+                this.showSpinner = false;
+            })
+            .catch(error => {
+                console.log('error->' + JSON.stringify(error));
+                this.showSpinner = false;
+            });
     }
 
     handleTabClick(event) {

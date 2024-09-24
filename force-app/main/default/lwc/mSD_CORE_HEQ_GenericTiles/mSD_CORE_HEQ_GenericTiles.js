@@ -6,6 +6,8 @@ import tileImage from '@salesforce/resourceUrl/MSD_CORE_HealthEQ_tile';
 // Apex Method
 import getCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.getCollectionList';
 import addResourceToCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.addResourceToCollection';
+import getUserProfileName from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getUserProfileName';
+import saveDownloadHistory from '@salesforce/apex/MSD_CORE_HEQ_DownloadHistory.saveDownloadHistory';
 
 // Custom Labels
 import sitepath from '@salesforce/label/c.MSD_CORE_HEQ_SitePath_For_Download';
@@ -15,6 +17,7 @@ import collectionbody from '@salesforce/label/c.MSD_CORE_HEQ_CollectionModelBody
 import createNew from '@salesforce/label/c.MSD_CORE_HEQ_CreateNew';
 import cancel from '@salesforce/label/c.MSD_CORE_Cancel';
 import submit from '@salesforce/label/c.MSD_CORE_Submit';
+import customerProfileName from '@salesforce/label/c.MSD_CORE_HEQ_CustomerProfile';
 
 export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(LightningElement) {
 
@@ -44,6 +47,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     @track showSpinner = false;
     @track showPrintUser = false;
     @track showuser = false;
+    @track profileName;
     @api feature;
 
     label = {
@@ -59,6 +63,16 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         console.log('connected callback of tile detail ' + JSON.stringify(this.sections));
         console.log('@api items in generic tiles==>', JSON.stringify(this.item));
         this.getCollectionList();
+        this.getUserData();
+    }
+
+    getUserData() {
+        getUserProfileName()
+            .then(profileName => {
+                this.profileName = profileName;
+                console.log('Profile Name:', this.profileName);
+            })
+            .catch(error => console.error('Error getting profile name:', error));
     }
 
     getItemClass(item) {
@@ -98,6 +112,32 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
             detail: { itemId, gridType: this.gridType }
         });
         this.dispatchEvent(showMenuEvent);
+    }
+
+    handleDownload(event){
+        event.preventDefault();
+        let { link, resourcename, id } = event.currentTarget.dataset;
+        if(this.profileName == customerProfileName){
+            this.saveDownloadActivity(id);
+        }
+        const anchor = document.createElement('a');
+        anchor.href = link;
+        anchor.target = '_self';
+        anchor.download = resourcename;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
+
+    saveDownloadActivity(id) {
+        console.log('saveDownloadActivity Called');
+        saveDownloadHistory({ resourceId: id })
+            .then((result) => {
+                console.log('saveDownloadHistory ', result);
+            })
+            .catch((error) => {
+                console.log('Error in saveDownloadActivity>>>', error);
+            })
     }
 
     handleMenuClick(event) {
@@ -314,7 +354,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     // Close icon click on Resource 
     closeResource() {
         const closeresource = new CustomEvent('closeresourceclick', {
-            detail: true
+            detail: {id:this.item.contentDocumentId , name: this.item.title}
         })
         this.dispatchEvent(closeresource);
     }
@@ -347,5 +387,9 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
                 url: '/resources/collections/view?cid=' + contDocId
             }
         });
+    }
+
+    handleCheckbox(){
+        console.log('Checkbox');
     }
 }

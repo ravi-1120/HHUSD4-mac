@@ -1,4 +1,5 @@
 <template>
+    <c-custom-toast auto-close-time="3000"></c-custom-toast>
     <div class="containerCls">
         <div class="layout slds-grid slds-gutters">
 
@@ -34,7 +35,7 @@
                                             <div class="newItemText">NEW ITEM</div>
                                         </div>
                                     </template>
-                                    <img class="cardImage" src={therapeuticCard.imageUrl} alt="Card Image"/>
+                                    <img class="cardImage" src={therapeuticCard.imageUrl} alt="Card Image" />
                                 </div>
 
                                 <div class="card-body tooltip-container">
@@ -62,8 +63,11 @@
                                             <template for:each={menuOptions} for:item="option">
                                                 <div key={option.action}>
                                                     <template if:true={option.downloadActive}>
-                                                        <a href={therapeuticCard.downloadLink} target="_self"
-                                                            download="Download" style="text-decoration:none;">
+                                                        <a href="javascript:void(0)" target="_self" download="Download"
+                                                            data-link={therapeuticCard.downloadLink}
+                                                            onclick={handleDownload}
+                                                            data-resourcename={therapeuticCard.title}
+                                                            data-id={therapeuticCard.id} style="text-decoration:none;">
                                                             <div class="menu-item" data-action={option.action}
                                                                 data-id={therapeuticCard.id}
                                                                 data-contentdocumentid={therapeuticCard.contentDocumentId}
@@ -73,11 +77,21 @@
                                                             </div>
                                                         </a>
                                                     </template>
-                                                    <template if:false={option.downloadActive}>
+                                                    <template if:true={option.isModelBox}>
                                                         <div class="menu-item" data-action={option.action}
-                                                            data-id={therapeuticCard.id} onclick={handleMenuClick}>
+                                                            data-id={therapeuticCard.id} onclick={modelClick}
+                                                            data-contentdocumentid={therapeuticCard.contentDocumentId}
+                                                            data-category={therapeuticCard.category} data-resourcename={therapeuticCard.title}>
                                                             {option.label}
                                                         </div>
+                                                    </template>
+                                                    <template if:false={option.downloadActive}>
+                                                        <template if:false={option.isModelBox}>
+                                                            <div class="menu-item" data-action={option.action}
+                                                                data-id={therapeuticCard.id} onclick={handleMenuClick}>
+                                                                {option.label}
+                                                            </div>
+                                                        </template>
                                                     </template>
                                                 </div>
                                             </template>
@@ -133,7 +147,7 @@
                                             <div class="newItemText">NEW ITEM</div>
                                         </div>
                                     </template>
-                                    <img class="cardImage" src={topicCard.imageUrl} alt="Card Image"/>
+                                    <img class="cardImage" src={topicCard.imageUrl} alt="Card Image" />
                                 </div>
                                 <div class="card-body tooltip-container">
                                     <p class="bold-text truncate" onclick={handleViewDetails} data-id={topicCard.id}>
@@ -169,11 +183,21 @@
                                                             </div>
                                                         </a>
                                                     </template>
-                                                    <template if:false={option.downloadActive}>
+                                                    <template if:true={option.isModelBox}>
                                                         <div class="menu-item" data-action={option.action}
-                                                            data-id={topicCard.id} onclick={handleMenuClick}>
+                                                            data-id={topicCard.id} onclick={modelClick}
+                                                            data-contentdocumentid={topicCard.contentDocumentId}
+                                                            data-category={topicCard.category} data-resourcename={topicCard.title}>
                                                             {option.label}
                                                         </div>
+                                                    </template>
+                                                    <template if:false={option.downloadActive}>
+                                                        <template if:false={option.isModelBox}>
+                                                            <div class="menu-item" data-action={option.action}
+                                                                data-id={topicCard.id} onclick={handleMenuClick}>
+                                                                {option.label}
+                                                            </div>
+                                                        </template>
                                                     </template>
                                                 </div>
                                             </template>
@@ -240,7 +264,7 @@
                                             <div class="newItemText">NEW ITEM</div>
                                         </div>
                                     </template>
-                                    <img class="cardImage" src={therapeuticCard.imageUrl} alt="Card Image"/>
+                                    <img class="cardImage" src={therapeuticCard.imageUrl} alt="Card Image" />
                                 </div>
 
                                 <div class="card-body tooltip-container">
@@ -279,11 +303,21 @@
                                                             </div>
                                                         </a>
                                                     </template>
-                                                    <template if:false={option.downloadActive}>
+                                                    <template if:true={option.isModelBox}>
                                                         <div class="menu-item" data-action={option.action}
-                                                            data-id={therapeuticCard.id} onclick={handleMenuClick}>
+                                                            data-id={therapeuticCard.id} onclick={modelClick}
+                                                            data-contentdocumentid={therapeuticCard.contentDocumentId}
+                                                            data-category={therapeuticCard.category} data-resourcename={therapeuticCard.title}>
                                                             {option.label}
                                                         </div>
+                                                    </template>
+                                                    <template if:false={option.downloadActive}>
+                                                        <template if:false={option.isModelBox}>
+                                                            <div class="menu-item" data-action={option.action}
+                                                                data-id={therapeuticCard.id} onclick={handleMenuClick}>
+                                                                {option.label}
+                                                            </div>
+                                                        </template>
                                                     </template>
                                                 </div>
                                             </template>
@@ -292,6 +326,47 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Collection Model -->
+                        <template if:true={isCollectionModel}>
+                            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                                class="slds-modal slds-fade-in-open slds-modal_medium" key={therapeuticCard.id}>
+                                <div class="slds-modal__container">
+                                    <div class="slds-modal__content mainmodelcls">
+                                        <div>
+                                            <div class="collectionheadercls">
+                                                <div class="collectionheadertxt">{label.addtocollection}</div>
+                                                <div>
+                                                    <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                                        class="closeiconclick" title="close" onclick={handleCloseCollectionModel}>
+                                                    </lightning-icon>
+                                                </div>
+                                            </div>
+                                            <div class="collectionbodytxt">
+                                                {label.collectionbody}
+                                            </div>
+                                            <div>
+                                                <lightning-combobox class="collectionlistcls" name="Collections" label="Collections"
+                                                    value="" placeholder="My Collection" options={collectionList} data-id="collectioncombo"
+                                                    onchange={handleCollectionChange} message-when-value-missing="Please select collection record" required></lightning-combobox>
+                                            </div>
+                                        </div>
+                                        <div class="collectionfootercls">
+                                            <div class="collectionbuttoncls">
+                                                <button class="slds-button slds-button_brand" onclick={handlecollectionsubmit}>{label.submit}</button>
+                                                <button class="slds-button slds-button_neutral"
+                                                    onclick={handleCloseCollectionModel}>{label.cancel}</button>
+                                            </div>
+                                            <div class="createnewtxt" data-id={therapeuticCard.id} onclick={handleCreateNew}>
+                                                <span>{label.createNew}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open" role="presentation" key={therapeuticCard.id}></div>
+                        </template>
+
                     </template>
 
                 </div>
@@ -311,4 +386,37 @@
             onclick={handletumorForwardClick}></lightning-icon>
     </div>
 
+    <!-- Confirm Model -->
+    <template if:true={isConfirmModel}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content confirmModel">
+                    <div>
+                        <div class="cnfcollectionheadercls">
+                            <div class="cnfcollectionheadertxt">Added to {selectedCollectionName}</div>
+                            <div>
+                                <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                    class="closeiconclick" title="close" onclick={handleCloseConfirmModel}>
+                                </lightning-icon>
+                            </div>
+                        </div>
+                        <div class="cnfcollectionbodytxt">
+                            with the {selectedResourceName}
+                        </div>
+                    </div>
+                    <div class="collectionfootercls">
+                        <div class="collectionbuttoncls">
+                            <button class="slds-button slds-button_brand" onclick={handleCloseConfirmModel}>Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+    <div if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </div>
 </template>
