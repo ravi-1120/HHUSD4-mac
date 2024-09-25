@@ -31,7 +31,6 @@ export default class MSD_CORE_HEQ_Pagination extends LightningElement {
     }
 
     updatePaginationValues() {
-        this.totalPages = Math.ceil(this.totalRecords / this.recordsPerPage);
         this.pageNumbers = [];
         this.showFirstEllipsis = false;
         this.showLastEllipsis = false;

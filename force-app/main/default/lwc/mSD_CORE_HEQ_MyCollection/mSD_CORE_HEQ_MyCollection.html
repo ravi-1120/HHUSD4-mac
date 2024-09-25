@@ -1,13 +1,11 @@
 <template>
     <c-custom-toast auto-close-time="3000"></c-custom-toast>
     <div style="min-height: calc(100vh - 376px)" class="component-container">
-        <div class="slds-col">
-            <lightning-breadcrumbs>
-                <lightning-breadcrumb label={labels.home} name="Home" onclick={handleClick}>
-                </lightning-breadcrumb>
-                <lightning-breadcrumb label={labels.collectionTitle} name="Collection" onclick={handleClick}>
-                </lightning-breadcrumb>
-            </lightning-breadcrumbs>
+        <div class="breadcrumbs">
+            <div>
+                <span class="breadcrumb1" onclick={redirectToHome}> {labels.home} ></span> 
+                <span class="breadcrumb2">{labels.collectionTitle}</span>
+            </div>
         </div>
         <div class="header-container">
             <h1 class="title">{labels.collectionTitle}</h1>
@@ -46,7 +44,7 @@
                     <div if:true={isAccountExeProfile} class="sortable-header" onclick={handleSort} data-field="SharedWith">
                         {labels.sharedWith}
                     </div>
-                    <div if:false={isAccountExeProfile} class="sortable-header" onclick={handleSort} data-field="name">
+                    <div if:false={isAccountExeProfile} class="sortable-header" onclick={handleSort} data-field="sharedby">
                         {labels.sharedby}
                         <lightning-icon icon-name={nameSortIcon} class="iconCls" size="xx-small"></lightning-icon>
                     </div>

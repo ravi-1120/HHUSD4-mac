@@ -92,6 +92,8 @@ hr {
 
 .tab-content {
     background: #FFFFFF;
+    display: flex;
+    min-height: 395px;
 }
 
 .bodycls {

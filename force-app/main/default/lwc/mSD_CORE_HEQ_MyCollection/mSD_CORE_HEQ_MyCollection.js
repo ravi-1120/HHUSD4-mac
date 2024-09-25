@@ -31,6 +31,7 @@ import recordperpage from '@salesforce/label/c.MSD_CORE_HEQ_CollectionRecordPerP
 import recordperpageoption from '@salesforce/label/c.MSD_CORE_HEQ_CollectionPerPageOptions';
 import shareddate from '@salesforce/label/c.MSD_CORE_HEQ_Shared_date';
 import sharedby from '@salesforce/label/c.MSD_CORE_HEQ_Shared_by';
+import customerProfileName from '@salesforce/label/c.MSD_CORE_HEQ_CustomerProfile';
 
 export default class HEQMyCollections extends NavigationMixin(LightningElement) {
 
@@ -49,8 +50,13 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
     // @track sortDirection = 'desc';
 
     @track sortBy = 'createdDate'; // Default sort field
-    @track sortDirection = 'desc';
+    @track sortDateDirection = 'desc';
+    @track sortItemsDirection = 'desc';
+    @track sortSharedByDirection = 'desc';
     @track newResourceIds = [];
+    @track createdDateSortIcon;
+    @track itemsSortIcon;
+    @track nameSortIcon;
 
     showSpinner = false;
 
@@ -119,23 +125,7 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
         return this.currentPage === this.totalPages;
     }
 
-    get createdDateSortIcon() {
-        return this.getSortIcon('createdDate');
-    }
-
-    get nameSortIcon() {
-        return this.getSortIcon('name');
-    }
-
-    get itemsSortIcon() {
-        return this.getSortIcon('Items');
-    }
-
-    get sharedWithSortIcon() {
-        return this.getSortIcon('SharedWith');
-    }
-
-     get hasSharedCustomers() {
+    get hasSharedCustomers() {
         return this.sharedCustomers && this.sharedCustomers.length > 0;
     }
 
@@ -149,8 +139,13 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
         this.showSpinner = true;
         this.getUserData();
         this.sortBy = 'createdDate';
-        this.sortDirection = 'desc';
+        this.sortDateDirection = 'desc';
+        this.sortItemsDirection = 'desc';
+        this.sortSharedByDirection = 'desc';
         this.recordsPerPageOptions = recordperpageoption.split(',').map(option => parseInt(option.trim()));
+        this.createdDateSortIcon = 'utility:arrowup';
+        this.itemsSortIcon = 'utility:arrowup';
+        this.nameSortIcon = 'utility:arrowup';
     }
 
     getUserData() {
@@ -202,10 +197,21 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
             .then(result => {
                 if (result.length > 0) {
                     console.log('result>>',result);
-                    this.data = result.map(item => ({
-                        ...item,
-                        ThumbnailUrl: item.imageUrl ? `${thumbURL}${item.imageUrl}` : noImage
-                    }));
+                    let updatedURL = this.getThumbnailURL('THUMB');
+                    this.data = result.map(item => {
+                        let thumbnailId;
+                        
+                        if (this.profileName === customerProfileName) {
+                            thumbnailId = item.latestFileId ? `${updatedURL}${item.latestFileId}` : noImage;
+                        } else {
+                            thumbnailId = item.imageUrl ? `${updatedURL}${item.imageUrl}` : noImage;
+                        }
+
+                        return {
+                            ...item,
+                            ThumbnailUrl: thumbnailId
+                        };
+                    });
 
                     this.allRecords = this.data.map(item => {
                         if (item.createdDate) {
@@ -220,10 +226,6 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
                     this.totalPages = Math.ceil(this.allRecords.length / parseInt(this.recordsPerPage));
                     this.updatePagination();
                     this.columns = Object.keys(this.data[0]).filter(key => key !== 'ThumbnailUrl');
-                    // console.log('this.data ' + JSON.stringify(this.columns));
-                    // this.totalPages = Math.ceil(this.data.length / parseInt(this.resultsPerPage));
-                    // this.updateDisplayedData();
-                    // this.sortData();
                 } else {
                     this.data = undefined;
                     this.totalPages = 1;
@@ -274,88 +276,55 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
 
     handleSort(event) {
         const field = event.currentTarget.dataset.field;
-
-        if (this.sortBy === field) {
-            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            this.sortBy = field;
-            // this.sortDirection = 'asc';
-            this.sortDirection = field === 'createdDate' ? 'desc' : 'asc';
+        let sortorder;
+        if (field == 'Items') {
+            this.sortItemsDirection = (this.sortItemsDirection == 'asc') ? 'dsc' : 'asc';
+            sortorder = this.sortItemsDirection;
+        } else if (field == 'createdDate') {
+            this.sortDateDirection = (this.sortDateDirection == 'asc') ? 'dsc' : 'asc';
+            sortorder = this.sortDateDirection;
+        } else if (field == 'sharedby') {
+            this.sortSharedByDirection = (this.sortSharedByDirection == 'asc') ? 'dsc' : 'asc';
+            sortorder = this.sortSharedByDirection;
         }
-
-        this.currentPage = 1;
-
-        this.sortData();
+        this.sortRecords(field,sortorder);
+        this.getSortIcon(field,sortorder);
     }
 
-    sortData() {
-        let sortedData = [...this.allRecords];
-        sortedData.sort((a, b) => {
-            // let valueA = a[this.sortBy];
-            // let valueB = b[this.sortBy];
 
-            // if (this.sortBy === 'createdDate') {
-            //     valueA = new Date(a.createdDate);
-            //     valueB = new Date(b.createdDate);
-            //     // Reverse the comparison for createdDate
-            //     return this.sortDirection === 'desc' ? valueB - valueA : valueA - valueB;
-            // }
-            // if (this.sortBy === 'name') {
-            //     // Case-insensitive comparison for name field
-            //     valueA = valueA.toLowerCase();
-            //     valueB = valueB.toLowerCase();
-            // }
-
-            // if (this.sortBy === 'Items') {
-            //     // Case-insensitive comparison for name field
-            //     valueA = valueA.toLowerCase();
-            //     valueB = valueB.toLowerCase();
-            // }
-            // if (valueA < valueB) {
-            //     return this.sortDirection === 'asc' ? -1 : 1;
-            // } else if (valueA > valueB) {
-            //     return this.sortDirection === 'asc' ? 1 : -1;
-            // }
-            // return 0;
-            console.log('this.sortBy>>>>'+JSON.stringify(this.sortBy));
-            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    sortRecords(field,order) {
+        this.displayedData.sort((a, b) => {
             let valueA;
             let valueB;
-            if(this.sortBy === 'createdDate'){
-                console.log(a.createdDate);
+            if (field == 'createdDate') {
                 valueA = new Date(a.createdDate);
                 valueB = new Date(b.createdDate);
-            }
-
-            if (this.sortBy === 'Items') {
+            } else if (field == 'Items') {
                 valueA = a.resourceCount;
-                valueB = b.resourceCount; 
+                valueB = b.resourceCount;
+            } else if (field == 'sharedby') {
+                valueA = a.sharedBy;
+                valueB = b.sharedBy;
             }
-            
-            return this.sortDirection === 'desc' ? valueB - valueA : valueA - valueB;
+            if (order === 'asc') {
+                return valueB - valueA;
+            } else if (order === 'dsc') {
+                return valueA - valueB;
+            } else {
+                return 0;
+            }
         });
-        console.log('sortedData>>>',sortedData);
-        console.log('sortedData>>>'+JSON.stringify(sortedData));
-        this.allRecords = sortedData;
-        this.updatePagination();
-        // this.updateDisplayedData();
     }
 
 
-
-    getSortIcon(field) {
-        if (field !== this.sortBy) {
-            if (field === 'createdDate') {
-                return 'utility:arrowdown'; // Default to down arrow for createdDate
-            }
-            return 'utility:arrowdown'; // Default icon for other fields
+    getSortIcon(field, order) {
+        if (field == 'createdDate') {
+            this.createdDateSortIcon = order === 'asc' ? 'utility:arrowup' : 'utility:arrowdown';
+        } else if (field == 'Items') {
+            this.itemsSortIcon = order === 'asc' ? 'utility:arrowup' : 'utility:arrowdown';
+        } else if (field == 'sharedby') {
+            this.nameSortIcon = order === 'asc' ? 'utility:arrowup' : 'utility:arrowdown';
         }
-        // For createdDate, reverse the arrow direction
-        if (field === 'createdDate') {
-            return this.sortDirection === 'asc' ? 'utility:arrowdown' : 'utility:arrowup';
-        }
-        // For other fields, keep the original logic
-        return this.sortDirection === 'asc' ? 'utility:arrowup' : 'utility:arrowdown';
     }
 
 
@@ -615,5 +584,35 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
         this.resources = [];
     }
 
+    getThumbnailURL(fileType) {
+        console.log('ThumbURL Return ' + fileType);
+        let updatedThumbURL;
 
+        switch (fileType.toUpperCase()) {
+            case 'JPG':
+                updatedThumbURL = thumbURL.replace('rendition=ORIGINAL_png', 'rendition=ORIGINAL_Jpg');
+                console.log('Updated ThumbURL for JPG:', updatedThumbURL);
+                break;
+            case 'PNG':
+                updatedThumbURL = thumbURL.replace('rendition=ORIGINAL_png', 'rendition=ORIGINAL_Png');
+                console.log('Updated ThumbURL for PNG:', updatedThumbURL);
+                break;
+            case 'PDF':
+                updatedThumbURL = thumbURL.replace('rendition=ORIGINAL_png', 'rendition=SVGZ');
+                break;
+            default:
+                updatedThumbURL = thumbURL.replace('rendition=ORIGINAL_png', 'rendition=THUMB720BY480');
+        }
+
+        return updatedThumbURL;
+    }
+
+    redirectToHome() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: '/landing-page'
+            }
+        });
+    }
 }

@@ -726,7 +726,6 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             List<Id> customerIds = new List<Id>();
             List<Id> personaccountIds = new List<Id>();
             for (CustomerData customer : customers) {
-                System.debug('customer.isregister>>'+customer.isregister);
                 if (customer.isregister == 'true') {
                     customerIds.add(customer.id);
                 } else {
@@ -738,20 +737,6 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             
             List<MSD_CORE_HEQ_Customer_Collection__c> collectionlist = new List<MSD_CORE_HEQ_Customer_Collection__c>();
             List<Id> accountIds = new List<Id>();
-            
-            // for(Account acc: [SELECT Id FROM Account WHERE Id =:personaccountIds]){
-            //     List<MSD_CORE_HEQ_Customer_Collection__c> extcol = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: acc.Id];
-            //     if(extcol.size()>0) {
-            //         extcol[0].MSD_CORE_isActive__c = true;
-            //         update extcol;
-            //     } else {
-            //         MSD_CORE_HEQ_Customer_Collection__c collection = new MSD_CORE_HEQ_Customer_Collection__c();
-            //         collection.MSD_CORE_Collection_Id__c = collectionId;
-            //         collection.MSD_CORE_Customer_Id__c = acc.Id;
-            //         collection.MSD_CORE_isActive__c = true;
-            //         collectionlist.add(collection);
-            //     }
-            // }
 
             List<Account> accounts = [SELECT Id FROM Account WHERE Id IN :personaccountIds];
 
@@ -782,26 +767,6 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             if (!collectionListToUpdate.isEmpty()) {
                 update collectionListToUpdate;
             }
-
-            // for (User user : userlist) {
-            //     List<MSD_CORE_HEQ_Customer_Collection__c> extcol = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: user.AccountId];
-            //     if(extcol.size()>0) {
-            //         System.debug('already exists');
-            //         extcol[0].MSD_CORE_isActive__c = true;
-            //         update extcol;
-            //     } else {
-            //         MSD_CORE_HEQ_Customer_Collection__c collection = new MSD_CORE_HEQ_Customer_Collection__c();
-            //         collection.MSD_CORE_Collection_Id__c = collectionId;
-            //         collection.MSD_CORE_Customer_Id__c = user.AccountId;
-            //         collection.MSD_CORE_isActive__c = true;
-            //         collectionlist.add(collection);
-            //     }
-            //     accountIds.add(user.AccountId);
-            // }
-            
-            // if(collectionlist.size()>0){
-            //     insert collectionlist;
-            // }
 
             for (User user : userlist) {
                 if (user.AccountId != null) {
@@ -854,20 +819,6 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             
             List<ContentDocumentLink> documentLinks = new List<ContentDocumentLink>();
             
-            // for (Id accountId : accountIds) {
-            //     for (Id documentId : contentdoocumentIds) {
-            //         List<ContentDocumentLink> cdlinklist = [SELECT Id, LinkedEntityId, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: accountId AND ContentDocumentId =: documentId LIMIT 1];
-            //         if (cdlinklist.size()>0) {
-            //             System.debug('already exists');
-            //         } else {
-            //             ContentDocumentLink docLink = new ContentDocumentLink();
-            //             docLink.LinkedEntityId = accountId;
-            //             docLink.ContentDocumentId = documentId;
-            //             documentLinks.add(docLink);
-            //         }
-            //     }
-            // }
-
             List<ContentDocumentLink> existingLinks = [
                 SELECT Id, LinkedEntityId, ContentDocumentId 
                 FROM ContentDocumentLink 
@@ -943,34 +894,9 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             }
 
             if(personaccountIds.size()>0){
-                
-                EmailTemplate emailTemplateforunregister = [SELECT Id, Body, Subject, HtmlValue FROM EmailTemplate WHERE Name = 'MSD_CORE_HEQ_Invite_Customer'  LIMIT 1];  
-                if (emailTemplateforunregister == null) {
-                    return 'Email template not found.';
-                } else {
-                    User aeuser = [SELECT Id, Name, Firstname, Lastname FROM User WHERE Id=: UserInfo.getUserId() LIMIT 1];
-                    for (Account acc : [SELECT Id, FirstName, LastName, PersonEmail FROM Account WHERE Id =: personaccountIds]) {
-                        String emailBody = emailTemplateforunregister.HtmlValue
-                            .replace('{aeName}', aeuser.FirstName + ' ' +aeuser.LastName)
-                            .replace('{registerBtn}', '<a href="' + System.Label.MSD_CORE_HEQ_RegisterLink + '" style="display: inline-block; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700; line-height: 20px; text-align: center; background-color: #00857C; padding: 8px 16px; border-radius: 5px; font-family: Arial, sans-serif;">REGISTER</a>')
-                            .replace('{privacyLink}', '<a href="' + System.Label.MSD_CORE_HEQ_PrivacyLink + '"> Merck Privacy Statement. </a>');
-                        
-                        String formattedSubject = emailTemplateforunregister.Subject.replace('{aeName}', aeUser.Name);
-                        
-                        /* Send the email */
-                        Messaging.SingleEmailMessage emailunregister = new Messaging.SingleEmailMessage();
-                        emailunregister.setToAddresses(new String[] {acc.PersonEmail});
-                        emailunregister.setSubject(formattedSubject);
-                        emailunregister.setHtmlBody(emailBody);
-                        emailunregister.setSaveAsActivity(false);
-                        
-                        OrgWideEmailAddress[] oweaun = [SELECT Id FROM OrgWideEmailAddress WHERE Address = :orgwideadd LIMIT 1];
-                        if (!oweaun.isEmpty()) {
-                            emailunregister.setOrgWideEmailAddressId(oweaun[0].Id);
-                        }
-                        
-                        Messaging.sendEmail(new Messaging.SingleEmailMessage[] {emailunregister});
-                    }
+                User aeuser = [SELECT Id, Name, Firstname, Lastname FROM User WHERE Id=: UserInfo.getUserId() LIMIT 1];
+                for (Account acc : [SELECT Id, FirstName, LastName, PersonEmail FROM Account WHERE Id =: personaccountIds]) {
+                    MSD_CORE_HEQ_AuthController.sendRegistrationInvite(acc.Id);
                 }
             }
             

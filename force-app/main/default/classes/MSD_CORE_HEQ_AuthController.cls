@@ -62,7 +62,7 @@ public without sharing class MSD_CORE_HEQ_AuthController {
 
             /* Send the email */
             Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-            email.setToAddresses(new String[] {'gopi.chintamaneni@focalcxm.com'});
+            email.setToAddresses(new String[] {userAccount.PersonEmail});
             email.setSubject(formattedSubject);
             email.setHtmlBody(emailBody);
             email.setSaveAsActivity(false);
@@ -150,7 +150,7 @@ public without sharing class MSD_CORE_HEQ_AuthController {
                         update userPreferenceList;
                     }
                 }else{
-                    newUserId = '005cW000001cnn7QAA';
+                    newUserId = '005cW000001cnn7QAA'; // added for testing can be removed
                 }
             }
             return newUserId;
