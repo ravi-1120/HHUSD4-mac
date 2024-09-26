@@ -1,4 +1,4 @@
-.tableHeadCls{
+.tableHeadCls {
     background: #00857C;
     display: flex;
     /* padding: 8px 0px 8px 16px; */
@@ -7,9 +7,374 @@
 
 }
 
+.modal-foot-class {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    /* width: 1064px; */
+    height: 76px;
+    flex-shrink: 0;
+    background: #FFF;
+    box-shadow: 0px -1px 2px 0px rgba(0, 0, 0, 0.15);
+}
+
+.filter-modal {
+    padding: 3rem 0 3rem 0;
+    width: 72%;
+    /* max-width: 80rem; */
+}
+
+.mainmodel-print {
+    position: relative;
+    max-width: 1090px;
+    min-height: 687px;
+    padding: 32px 32px 48px 33px;
+    padding-bottom: 26px;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border-radius: 0px !important;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 0px 29px 0px;
+}
+
+.filter-header-txt {
+    font-family: 'Invention';
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 31px;
+    color: #005C56;
+    text-transform: math-auto;
+}
+
+.closeiconclick {
+    cursor: pointer;
+}
+
+.print-bd {
+    font-family: 'Invention';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #333333;
+    max-height: 575px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 110px;
+}
+
+.popup-actions {
+    width: 100%;
+    height: 76px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: #FFF;
+    padding-right: 32px;
+    box-shadow: 0px -1px 2px 0px rgba(0, 0, 0, 0.15);
+}
+
+.dr-form_btnGroup {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    justify-content: flex-start;
+    align-items: left;
+    padding-top: 32px;
+}
+
+.defaultCls {
+    /* border-radius: 5px;  */
+    max-width: 492px;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid #E1E1E1;
+    background: #FFF;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: #00857C;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+    text-decoration-line: underline;
+    padding: 20px;
+    justify-content: space-between;
+    cursor: pointer;
+    text-transform: math-auto;
+}
+
+.primDefaultCls {
+    /* border-radius: 5px; */
+    border: var(--Size-Line-Width-lineWidth, 1px) solid #E1E1E1;
+    background: #FFF;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    text-decoration-line: none;
+    padding: 20px;
+    justify-content: space-between;
+    cursor: pointer;
+    color: #757575;
+    font-feature-settings: 'liga'off, 'clig'off;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+    text-transform: math-auto;
+
+}
+
+.iconsCls {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.other-address-Class-modal {
+    width: 1064px;
+    height: 687px;
+    margin: 0 auto;
+}
+
+.address-section {
+    width: 492px;
+    min-height: 160px;
+    /* min-height: 246px; */
+    flex-shrink: 0;
+    /* padding: 20px; */
+    /* border-radius: 5px; */
+    border: var(--Size-Line-Width-lineWidth, 1px) solid #E1E1E1;
+    background: #FFF;
+    color: var(--Colors-Neutral-colorTextBase, #000);
+    font-family: 'Invention';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 32px;
+    text-transform: lowercase;
+    padding: 40px 140px 37px 33px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.address-section-additional {
+    width: 492px;
+    min-height: 160px;
+    /* min-height: 246px; */
+    flex-shrink: 0;
+    /* padding: 20px; */
+    /* border-radius: 5px; */
+    border: var(--Size-Line-Width-lineWidth, 1px) solid #E1E1E1;
+    background: #FFF;
+    color: var(--Colors-Neutral-colorTextBase, #000);
+    font-family: 'Invention';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 32px;
+    text-transform: lowercase;
+    padding: 40px 140px 37px 33px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+
+.tablesCls-mobile {
+    display: none;
+}
+
+.totalCls {
+    background: #f4f4f4;
+}
+
+.add-class {
+    display: flex;
+}
+
+.slds-col {
+    padding-bottom: 22px;
+}
+
+.paginationCls {
+    padding: 13px 0px 13px 0px;
+}
+
+
+.customer-container-class {
+    padding: 24px 17px 0px 24px;
+    background: #F4F4F4;
+}
+
+.homeCls {
+    color: #ADADAD;
+    font-family: 'Invention';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    /* 200% */
+}
+
+.customerBreadCls {
+    color: #070101;
+    font-family: 'Invention';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    /* 200% */
+}
+
+.close-class {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    /* margin-right: 25%; */
+    margin-left: 97%;
+    cursor: pointer;
+}
+
+.body-modal-class {
+    background: #fff;
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+}
+
+.container-Class {
+    width: 1064px;
+    height: 687px;
+}
+
+.headingCls {
+    background: #fff;
+    padding: 20px;
+}
+
+.other-modal-address {
+    color: var(--Merck-Primary-Dark, #005C56);
+    font-family: 'Invention';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px;
+    /* 133.333% */
+}
+
+.add-recipient {
+    color: var(--Merck-Primary-Dark, #005C56);
+}
+
+.remove-recipient {
+    color: var(--Merck-Primary-Dark, #005C56);
+
+}
+
+.slds-button-cancel {
+    display: inline-flex;
+    height: var(--Size-Height-controlHeightLG, 40px);
+    padding: 11px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-radius: var(--Corner-Radius, 4px);
+    border: 2px solid var(--Primary-Primary, #00857C);
+    flex-shrink: 0;
+}
+
+.slds-button-save {
+    color: #fff;
+    display: inline-flex;
+    height: var(--Size-Height-controlHeightLG, 40px);
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: var(--Corner-Radius, 4px);
+    background: var(--Primary-Primary, #00857C);
+    flex-shrink: 0
+}
+
+.slds-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.customer-modal-name {
+
+    color: var(--Merck-Primary-Dark, #005C56);
+    font-family: 'Invention';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 32px;
+    /* 133.333% */
+}
+
+.addressCls {
+    color: var(--Colors-Neutral-colorTextBase, #000);
+    font-variant-numeric: lining-nums tabular-nums;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    /* 19.6px */
+    text-transform: lowercase;
+}
+
+.other-Addresses {
+    color: var(--Colors-Neutral-colorTextBase, #00857C);
+    font-variant-numeric: lining-nums tabular-nums;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    text-decoration-line: underline;
+    text-transform: lowercase;
+    cursor: pointer;
+}
+
+.body-Class {
+    border-bottom: var(--Size-Line-Width-lineWidth, 1px) solid var(--Outline, rgba(0, 0, 0, 0.12));
+    background: rgba(0, 179, 166, 0.04);
+}
+
+/* .resultsCls:nth-child(even) div {
+    background-color: #b32f2f !important;
+} */
+
+table tr:nth-child(even) {
+    /* background-color: #f2f2f2; */
+    border-radius: 5px;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid #E4E4E4;
+    background: #F4F4F4;
+}
+
 .footer-container {
-    display: flex; 
-    align-items: flex-end; 
+    display: flex;
+    align-items: flex-end;
     justify-content: space-between;
 }
 
@@ -30,9 +395,11 @@
     line-height: 24px;
     display: flex;
     align-items: center;
+    background: #fff;
+    padding: 18px 0px 22px 14px;
 }
 
-.inputcls{
+.inputcls {
     display: flex;
     width: 173px;
     padding: 9.5px 12px;
@@ -49,7 +416,7 @@
     margin-bottom: 4px;
 }
 
-.inputemailcls{
+.inputemailcls {
     display: flex;
     width: 244px;
     padding: 9.5px 12px;
@@ -61,9 +428,10 @@
 }
 
 
-.searchCls{
+.searchCls {
     height: 41px;
 }
+
 /* .searchCls{
     
     border-radius: 5px;
@@ -89,6 +457,7 @@
     line-height: 140%;
     /* 19.6px */
     text-transform: capitalize;
+    height: 60px;
 }
 
 .headCls {
@@ -103,9 +472,10 @@
     background: #00857C;
     color: #fff;
     font-family: 'Invention';
+    min-height: 22px !important;
 }
 
-.slds-truncate{
+.slds-truncate {
     color: #fff;
 }
 
@@ -140,12 +510,12 @@
     padding: 10px;
 }
 
-.filter-container{
+.filter-container {
     height: 416px;
     overflow-y: scroll;
 }
 
-.filter-norecords{
+.filter-norecords {
     text-align: center;
     padding: 24px;
 }
@@ -200,33 +570,112 @@
     flex-shrink: 0;
 }
 
-.dr-form_btnGroup{
-	display: flex;
-	flex-direction: row;
-	gap: 16px;
-    margin-top: 3rem;
-	justify-content: flex-start;
-	align-items: left;
+.dr-form_btnGroup {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    justify-content: flex-start;
+    align-items: left;
 }
 
 .mbl-display {
     display: none;
 }
 
+.breadcrumbs {
+    display: flex;
+    gap: 6px;
+    padding-bottom: 20px;
+}
+
+.breadcrumb1 {
+    color: #ADADAD;
+    font-family: 'Invention';
+    white-space: no-wrap;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.breadcrumb2 {
+    color: #070101;
+    font-family: 'Invention';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+
 /* Smartphones (portrait) */
 @media only screen and (max-width: 480px) {
-    .dr-form_btnGroup {
-        width: 100%;
-        position: absolute;
-        min-height: 56px;
-        margin-top: 0px;
-        background: #FFF;
-        box-shadow: 0px -1px 2px 0px rgba(0, 0, 0, 0.08);
-        bottom: 0;
+
+    .tablesCls {
+        display: none;
+
+    }
+
+    .tablesCls-mobile {
+        display: block;
+    }
+
+    .headCls {
+        display: none;
+    }
+
+    .body-Class {
+        width: 338px;
+        min-height: 180px;
+        /* flex-shrink: 0; */
         display: flex;
-        justify-content: center;
-        align-items: center;
-        left: 0%;
+        flex-direction: column;
+        gap: 0px;
+        /* border-radius: 5px; */
+        background: #F9F9F9;
+        padding: 24px;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08)
+    }
+
+    td,
+    th {
+        color: var(--color);
+        font-size: var(--font-size-scale-base);
+        font-weight: var(--font-weight-medium);
+        padding: 3px !important;
+    }
+
+    td:not([align]),
+    th:not([align]) {
+        text-align: left;
+    }
+
+    tbody td,
+    tbody th {
+        border-bottom: none;
+    }
+
+    .resultsCls {
+        color: var(--Colors-Neutral-colorTextBase, #000);
+        font-variant-numeric: lining-nums tabular-nums;
+        font-family: invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 0px !important;
+        text-transform: capitalize;
+        height: 25px !important;
+    }
+
+    .nameCls {
+        color: var(--Colors-Neutral-colorTextBase, #000);
+        font-variant-numeric: lining-nums tabular-nums;
+        font-family: invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        margin-bottom: 10px;
+
     }
 
     .mbl-display {
@@ -264,14 +713,10 @@
         line-height: 1.6;
     }
 
-    .dt-container{
+    .dt-container {
         display: flex;
     }
 
-    .lt-button{
-        width: 155px;
-    }
-    
     .mbl-filter-container:nth-child(odd) {
         background-color: #F9F9F9;
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
@@ -280,6 +725,50 @@
     .mbl-filter-container:nth-child(even) {
         background-color: #FFFFFF;
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
+    }
+
+    .filter-modal {
+        padding: 0px;
+        width: 100%;
+        margin: 0px;
+        display: grid;
+    }
+    .mainmodel-print{
+        padding: 20px 27px 0px 28px;
+        background: #FFFFFF;
+    }
+    .filter-header{
+        padding-bottom: 8px;
+        line-height: 32px;
+}
+    .filter-header-txt{
+       display: flex;
+       flex-direction: column;
+       gap: 10px;
+       font-weight: 500;
+    }
+    .filter-header-txt span{
+       font-weight: 400 !important;
+    }
+    .address-section-additional, .address-section{
+        padding: 43px 29px 0px 13px;
+        font-size: 24px;
+        max-width: 320px;
+    }
+    .popup-actions{
+        height: 66px;
+        position: fixed;
+        justify-content: flex-end;
+        padding-right: 29px;
+    }
+    .print-bd{
+        padding-bottom: 70px;
+    }
+    .defaultCls{
+        padding: 18px 15.92px;
+    }
+    .lt-button{
+        width: auto;
     }
 }
 
@@ -326,17 +815,155 @@
         line-height: 1.6;
     }
 
-    .dt-container{
+    .dt-container {
         display: flex;
+    }
+
+    .tablesCls {
+        display: none;
+
+    }
+
+    .tablesCls-mobile {
+        display: block;
+    }
+
+    .headCls {
+        display: none;
+    }
+
+    td,
+    th {
+        color: var(--color);
+        font-size: var(--font-size-scale-base);
+        font-weight: var(--font-weight-medium);
+        padding: 3px !important;
+    }
+
+    .body-Class {
+        width: 338px;
+        min-height: 180px;
+        /* flex-shrink: 0; */
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        /* border-radius: 5px; */
+        background: #F9F9F9;
+        padding: 24px;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08)
+    }
+
+    td:not([align]),
+    th:not([align]) {
+        text-align: left;
+    }
+
+    tbody td,
+    tbody th {
+        border-bottom: none;
+    }
+
+    .resultsCls {
+        color: var(--Colors-Neutral-colorTextBase, #000);
+        font-variant-numeric: lining-nums tabular-nums;
+        font-family: invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 0px !important;
+        text-transform: capitalize;
+        height: 25px !important;
+    }
+
+    .nameCls {
+        color: var(--Colors-Neutral-colorTextBase, #000);
+        font-variant-numeric: lining-nums tabular-nums;
+        font-family: invention;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        margin-bottom: 10px;
+
+    }
+    .filter-modal {
+        padding: 0px;
+        width: 100%;
+        margin: 0px;
+        display: grid;
+    }
+    .mainmodel-print{
+        padding: 20px 27px 0px 28px;
+        background: #FFFFFF;
+    }
+    .filter-header{
+        padding-bottom: 8px;
+        line-height: 32px;
+    }
+    .filter-header-txt{
+       display: flex;
+       flex-direction: column;
+       gap: 10px;
+       font-weight: 500;
+    }
+    .filter-header-txt span{
+       font-weight: 400 !important;
+    }
+    .address-section-additional, .address-section{
+        padding: 43px 29px 0px 13px;
+        font-size: 24px;
+        max-width: 320px;
+    }
+    .popup-actions{
+        height: 66px;
+        position: fixed;
+        justify-content: flex-end;
+        padding-right: 29px;
+    }
+    .print-bd{
+        padding-bottom: 70px;
+    }
+    .defaultCls{
+        padding: 18px 15.92px;
+    }
+    .lt-button{
+        width: auto;
     }
 }
 
 /* Tablets (portrait) */
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    table {
+        /* --table-padding: var(--spacing-scale-2x) !important; */
+        --table-padding: 10px !important;
+    }
+
+    .filter-modal {
+        min-width: 46rem;
+    }
+    .filter-header-txt{
+        line-height: 35px;
+    }
+    .address-section-additional{
+        padding: 43px 29px 0px 13px;
+        font-size: 24px;
+        max-width: 320px;
+    }
 
 }
 
 /* Tablets (landscape) */
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-
+     .filter-modal {
+        min-width: 46rem;
+    }
+    .address-section-additional{
+        max-width: 320px;
+    }
+    .filter-header-txt{
+        line-height: 35px;
+    }
+    .address-section-additional{
+        padding: 43px 29px 0px 13px;
+        font-size: 24px;
+    }
 }

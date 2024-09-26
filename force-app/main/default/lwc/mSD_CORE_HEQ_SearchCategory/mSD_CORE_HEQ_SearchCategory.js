@@ -15,6 +15,7 @@ import Rename from '@salesforce/label/c.MSD_CORE_HEQ_Rename';
 import ConfirmDelete from '@salesforce/label/c.MSD_CORE_Confirm_Delete';
 import warningmsg1 from '@salesforce/label/c.MSD_CORE_HEQ_Warning_msg1';
 import NewName from '@salesforce/label/c.MSD_CORE_HEQ_New_Name';
+import EnterNewName from '@salesforce/label/c.MSD_CORE_HEQ_Enter_New_Name'; 
 import cancel from '@salesforce/label/c.MSD_CORE_Cancel';
 import Save from '@salesforce/label/c.MSD_CORE_Save';
 import Filter from '@salesforce/label/c.MSD_CORE_HEQ_Filter';
@@ -51,6 +52,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     @track isSaveModalOpen = false
     @track searchToDeleteId;
     @track searchName = '';
+    @track isSaveButtonDisabled = true;
     @track selectedFilters = {};
     @track isSidebar = true;
     @track showSpinner = false;
@@ -58,6 +60,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     @track errorMessage = '';
     @track categoryNames = [];
     @api selectedCategoriesArray;
+    @api showSaveSearch = false;
 
     currentUserProfileId;
 
@@ -75,6 +78,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         warningmsg1,
         SaveSearch,
         NewName,
+        EnterNewName,
         Save,
         cancel,
         Filter,
@@ -86,13 +90,9 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         noresultfound
     }
 
-    get isSaveButtonDisabled() {
-        // Disable the button if searchName is empty or null
-        return !this.searchName || this.searchName.trim() === '';
-    }
-
     connectedCallback() {
         this.keyword = this.getUrlParamValue(window.location.href, 'keyword');
+        this.type = this.getUrlParamValue(window.location.href, 'type');
         this.loadSavedSearches();
 
         loadStyle(this, Fontstyle)
@@ -105,29 +105,22 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         this.addEventListener('selectedfiltersupdate', this.handleSelectedFiltersUpdate);
     }
 
-    @api updateCategories(categoriesIdsUpdated) {
-        console.log('updateCategories Called ' , JSON.stringify(categoriesIdsUpdated));
-        console.log('updateCategories Called ' , JSON.stringify(this.searchCategory));
-        // Iterate through the searchCategory array and update `isChecked` for matching categories
-        this.searchCategory = this.searchCategory.map(category => ({
-            ...category,
-            isChecked: categoriesIdsUpdated.includes(category.id), 
-            // Set isChecked to true if the category is in the list
-            childCategories: category.childCategories.map(child => ({
-                ...child,
-                isChecked: categoriesIdsUpdated.includes(child.id), 
-                // Set isChecked for child categories
-                childCategories: child.childCategories.map(grandChild => ({
-                    ...grandChild,
-                    isChecked: categoriesIdsUpdated.includes(grandChild.id), 
-                    // Set isChecked for grandchild categories
-                }))
-            }))
+    @api updateCategories(categoriesIdsUpdated, filteridvalue) {
+        this.updatechildCheckbox(filteridvalue, false, this.searchCategory);
+        this.updateParentCheckboxes(this.searchCategory);
+        let selectedCategories = this.extractChilds(this.searchCategory);
+        this.dispatchEvent(new CustomEvent('selectedcategories', {
+            detail: selectedCategories,
+            bubbles: true,
+            composed: true
         }));
-
-        console.log('Updated searchCategory with checked state:', JSON.stringify(this.searchCategory));
+        let selectedcategoriesid = this.extractCheckedCategoryNames(this.searchCategory);
+        this.dispatchEvent(new CustomEvent('categoriesid', {
+            detail: selectedcategoriesid,
+            bubbles: true,
+            composed: true
+        }));
     }
-
 
     @api
     loadCheckedCategories(categories) {
@@ -137,7 +130,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     @api
     handleSelectedFilters(SelectedFilters) {
         this.selectedFilters = SelectedFilters;
-        console.log('### searchCategory '+JSON.stringify(this.searchCategory));
+        console.log('### searchCategory ' + JSON.stringify(this.searchCategory));
     }
 
     // Get logged in User Profile
@@ -216,24 +209,35 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
 
     saveNewName() {
         renameSavedSearch({ searchId: this.currentSearchId, newName: this.newSearchName })
-            .then(() => {
-                const searchIndex = this.savedSearches.findIndex(search => search.Id === this.currentSearchId);
-                if (searchIndex != null && searchIndex != '') {
-                    this.savedSearches[searchIndex].Save_Search_Name__c = this.newSearchName;
-                    this.savedSearches = [...this.savedSearches];
+            .then(result => {
+                if (result === "Name already used.") {
+                    this.errorMessage = result;
+                } else {
+                    // Find the index of the search to update
+                    const searchIndex = this.savedSearches.findIndex(search => search.Id === this.currentSearchId);
+                    if (searchIndex !== -1) {
+                        this.savedSearches[searchIndex].MSD_CORE_Search_Name__c = this.newSearchName;
+                        this.savedSearches = [...this.savedSearches];
+                    }
+                    this.closeRenameModal();
+                    this.loadSavedSearches();
+                    this.errorMessage = null;
                 }
-                this.closeRenameModal();
-                this.loadSavedSearches();
             })
             .catch(error => {
-                console.error('Error renaming saved search', error);
+                this.errorMessage = error.body.message || 'An unexpected error occurred.'; // Set the error message
+                console.error('Error renaming saved search:', error);
             });
     }
 
+
     handleSaveSearch() {
         const filters = (this.selectedFilters && Object.keys(this.selectedFilters).length > 0)
-            ? JSON.stringify(this.selectedFilters)
-            : JSON.stringify({ keyword: this.keyword });
+        ? JSON.stringify(this.selectedFilters)
+        : JSON.stringify({
+            keyword: this.keyword,
+            type: this.type || null
+        });
 
         saveSearch({ searchName: this.searchName, selectedFilters: filters })
             .then(result => {
@@ -282,24 +286,20 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     }
 
     handleCheck(event) {
-        console.log('handleCheck');
         const categoryName = event.currentTarget.dataset.id;
-        console.log('categoryName---->'+JSON.stringify(categoryName));
         const isChecked = event.detail.checked;
-        console.log('isChecked----->'+JSON.stringify(isChecked));
         const selectedEvent = new CustomEvent('checkboxchange', {
             detail: { isChecked: isChecked },
-            bubbles: true, 
+            bubbles: true,
         });
         this.dispatchEvent(selectedEvent);
         this.updatechildCheckbox(categoryName, isChecked, this.searchCategory);
         const updateResult = this.updatechildCheckbox(categoryName, isChecked, this.searchCategory);
-        console.log('updateResult----->'+JSON.stringify(updateResult));
         this.updateParentCheckboxes(this.searchCategory);
         const selectedFilter = this.selectedCategoriesArray;
-        console.log('selectedFilter----->'+JSON.stringify(selectedFilter));
     }
 
+    // Select child category Checkbox if user click on parent 
     updatechildCheckbox(categoryName, isChecked, categories) {
         for (let category of categories) {
             if (category.id === categoryName) {
@@ -323,24 +323,19 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         this.searchCategory = [...this.searchCategory];
     }
 
+    // Use for deselect the parent category checkbox
     updateParentCheckboxes(categories) {
         for (let category of categories) {
-            if (category.childCategories.length > 0) {
-                let allChildrenChecked = true;
-                let anyChildChecked = false;
-                for (let child of category.childCategories) {
-                    if (!child.isChecked) {
-                        allChildrenChecked = false;
-                    } else {
-                        anyChildChecked = true;
-                    }
-                }
-                if (!allChildrenChecked) {
-                    category.isChecked = false;
-                } else {
-                    category.isChecked = true;
-                }
+            if (category.childCategories && category.childCategories.length > 0) {
                 this.updateParentCheckboxes(category.childCategories);
+
+                const allChildrenChecked = category.childCategories.every((child) => child.isChecked);
+                const anyChildUnchecked = category.childCategories.some((child) => !child.isChecked);
+                if (allChildrenChecked) {
+                    category.isChecked = true;
+                } else if (anyChildUnchecked) {
+                    category.isChecked = false;
+                }
             }
         }
         this.searchCategory = [...this.searchCategory];
@@ -348,22 +343,18 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
 
     handleSubmit() {
         let selectedcategoriesid = this.extractCheckedCategoryNames(this.searchCategory);
-        console.log('selectedcategoriesid----->'+JSON.stringify(selectedcategoriesid));
         this.dispatchEvent(new CustomEvent('categoriesid', {
             detail: selectedcategoriesid,
             bubbles: true,
             composed: true
         }));
         let selectedCategories = this.extractChilds(this.searchCategory);
-        console.log('selectedCategories----->'+JSON.stringify(selectedCategories));
         this.dispatchEvent(new CustomEvent('selectedcategories', {
             detail: selectedCategories,
             bubbles: true,
             composed: true
         }));
     }
-
-  
 
     handleClear() {
         function traverse(categoryList) {
@@ -376,8 +367,14 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         }
         traverse(this.searchCategory);
         let selectedcategoriesid = this.extractCheckedCategoryNames(this.searchCategory);
+
         this.dispatchEvent(new CustomEvent('categoriesid', {
             detail: selectedcategoriesid,
+            bubbles: true,
+            composed: true
+        }));
+
+        this.dispatchEvent(new CustomEvent('clearcategories', {
             bubbles: true,
             composed: true
         }));
@@ -389,7 +386,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
             .map(category => ({
                 name: category.name,
                 isChecked: category.isChecked,
-                id:category.id,
+                id: category.id,
                 childCategories: this.extractChilds(category.childCategories)
             }));
     }
@@ -430,6 +427,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
                 detail: selectedSearch.MSD_CORE_Selected_Filters__c
             }));
             this.isViewSavedModalOpen = false;
+            this.handleSubmit();
         }
     }
 
@@ -437,6 +435,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         this.currentSearchId = event.currentTarget.dataset.id;
         this.newSearchName = this.savedSearches.find(search => search.Id === this.currentSearchId).MSD_CORE_Search_Name__c;
         this.openRenameModal();
+        console.log('Initial New Search Name:', this.newSearchName);
     }
 
     toggleSection(event) {
@@ -465,6 +464,8 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     openSaveSearchModal() {
         this.isSaveModalOpen = true;
         this.errorMessage = null;
+        this.searchName = '';
+        this.isSaveButtonDisabled = !this.searchName || this.searchName.trim() === '';
     }
 
     closeSaveModal() {
@@ -475,6 +476,9 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
 
     handleNameChange(event) {
         this.searchName = event.target.value;
+        console.log('this.searchName==>', JSON.stringify(this.searchName));
+        this.errorMessage = '';
+        this.isSaveButtonDisabled = !this.searchName || this.searchName.trim() === '';
     }
 
     openRenameModal() {
@@ -500,7 +504,12 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     }
 
     handleNewNameChange(event) {
+        this.isSaveButtonDisabled = !this.newSearchName || this.newSearchName.trim() === '';
+        console.log('isSaveButtonDisabled', JSON.stringify(this.isSaveButtonDisabled));
         this.newSearchName = event.target.value;
+        console.log('this.newSearchName==>', JSON.stringify(this.newSearchName));
+        this.errorMessage = '';
+        
     }
 
     closeDeleteModal() {

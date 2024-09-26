@@ -74,9 +74,11 @@
                             </template>
                         </div>
                     </template>
-                    <template if:true={isResourcesEmpty}>
-                        <div class="section">{labels.addMoreResource}</div>
-                    </template>
+                    <div if:true={isResourcesEmpty} class="noCustomertxt">
+                        No items
+                        </br>
+                        You can add items by clicking <span onclick={handleAddItemClick}>here</span>
+                    </div>
                 </template>
                 <template if:true={isSharedWithActive}>
                     <div class="bodycls" if:false={nosharedCustomer}>
@@ -221,7 +223,7 @@
                         </div>
                         <div class="print-bd">
                             <c-m-s-d_-c-o-r-e_-h-e-q_-customer main-header="" footerbtnname="Share"
-                                customertype="allcustomers" feature="edeliver" is-footerbutton=true
+                                customertype="registered-unregistered" feature="edeliver" is-footerbutton=true
                                 onclosemodel={closeCustomerModel} hide-add-recipient=true onsharecustomerdata={getSelectedCustomer}>
                             </c-m-s-d_-c-o-r-e_-h-e-q_-customer>
                         </div>

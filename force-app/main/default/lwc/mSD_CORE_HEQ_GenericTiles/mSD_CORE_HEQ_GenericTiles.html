@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-            <div class="imageCls" data-id={item.id} onclick={handleCheck}>
+            <div class="imageCls" data-id={item.id}>
                 <template if:true={item.isNewItem}>
                     <div class="newItemLayout">
                         <div class="newItemText">{label.NewItem}</div>
@@ -126,7 +126,7 @@
                         </div>
                         <div class="print-bd">
                             <c-m-s-d_-c-o-r-e_-h-e-q_-customer main-header="" footerbtnname="Send" customertype="allcustomers"
-                                feature="edeliver" is-footerbutton=true onclosemodel={closeEmailModal} onsharecustomerdata={handleSendEmail}>
+                                feature="edeliver" is-footerbutton=true onclosemodel={closeEmailModal} onsharecustomerdata={getSelectedCustomer}>
                             </c-m-s-d_-c-o-r-e_-h-e-q_-customer>
                         </div>
                     </div>

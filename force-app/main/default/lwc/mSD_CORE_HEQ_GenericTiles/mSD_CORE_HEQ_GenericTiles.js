@@ -8,6 +8,8 @@ import getCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionControlle
 import addResourceToCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.addResourceToCollection';
 import getUserProfileName from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getUserProfileName';
 import saveDownloadHistory from '@salesforce/apex/MSD_CORE_HEQ_DownloadHistory.saveDownloadHistory';
+import recordDownloadAndPreview from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.recordDownloadAndPreview';
+import sendEmailNotification from '@salesforce/apex/MSD_CORE_HEQ_ResourceController.sendEmailNotification';
 
 // Custom Labels
 import sitepath from '@salesforce/label/c.MSD_CORE_HEQ_SitePath_For_Download';
@@ -50,6 +52,8 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     @track profileName;
     @api feature;
 
+    urlParams;
+
     label = {
         NewItem,
         addtocollection,
@@ -64,6 +68,12 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         console.log('@api items in generic tiles==>', JSON.stringify(this.item));
         this.getCollectionList();
         this.getUserData();
+
+        const url = window.location.href;
+        const parts = url.includes('/healtheq') ? url.split('/healtheq') : null;
+        if (parts && parts.length > 1) {
+            this.urlParams = parts[1].trim();
+        }
     }
 
     getUserData() {
@@ -156,8 +166,22 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
                 break;
             case 'preview':
                 this.handlePreview(itemId);
+                recordDownloadAndPreview({resourceId: itemId, isDownload: false})
+                .then(() => {
+                    console.log('### User Activity Recorded');
+                })
+                .catch(error => {
+                    console.log('### Error Occcured while recording User Activity');
+                });
                 break;
             case 'download':
+                recordDownloadAndPreview({ resourceId: itemId, isDownload: true })
+                    .then(() => {
+                        console.log('### User Activity Recorded');
+                    })
+                    .catch(error => {
+                        console.log('### Error Occcured while recording User Activity');
+                    });
                 break;
             case 'Open':
                 this.handleOpen(itemId);
@@ -172,9 +196,21 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         }
     }
 
+    handleSendEmail(arr) {
+        console.log('send email method called. 1111' + JSON.stringify(arr));
+        this.showSpinner = true;
+        sendEmailNotification({
+            userInfoMapList: arr,
+            orderNum: this.resId,
+            resourceName: this.selectedResourceName
+        }).then((result) => {
+            console.log('result of sendEmailNotification>>', result);
+            this.showSpinner = false;
+        }).catch(error => {
+            console.log('Error in sendEmailNotification: ' + JSON.stringify(error));
+            this.showSpinner = false;
+        });
 
-    handleSendEmail(event) {
-        console.log('send email method called. 1111' + JSON.stringify(event.detail));
         this.showuser = false;
     }
 
@@ -204,12 +240,12 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     getSelectedCustomer(event){
         var getSelectedCustomer = event.detail;
         console.log('getSelectedCustomer'+ JSON.stringify(event.detail));
-        if(getSelectedCustomer != null){
+        if (getSelectedCustomer != null) {
 
-           if (this.feature === 'print') {
+            if (event.detail.feature == 'print') {
                 this.handleAddToCart();
-            } else {
-                this.handleSendEmail(event.detail);
+            } else if (event.detail.feature == 'edeliver') {
+                this.handleSendEmail(event.detail.data);
             }
         }
         this.showPrintUser = false;
@@ -259,7 +295,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
             this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
-                    url: `/resources/detailed?topicId=${encodeURIComponent(contDocId)}`
+                    url: `/resources/detailed?topicId=${encodeURIComponent(contDocId)}&ret_URL=${this.urlParams}`
                 }
             });
         }
@@ -333,7 +369,6 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
                     this.selectedCollectionName = result;
                     this.showSpinner = false;
                     this.isConfirmModel = true;
-                    this.showNotification('success', 'Resource mapped successfully!');
                 }
             }).catch(error => {
                 console.log('Error in addResourceToCollection: ' + JSON.stringify(error));
@@ -365,7 +400,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: `/resources/detailed?topicId=${encodeURIComponent(resourceId)}`
+                url: `/resources/detailed?topicId=${encodeURIComponent(resourceId)}&ret_URL=${encodeURIComponent(this.urlParams)}`
             }
         });
     }
@@ -391,5 +426,10 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
 
     handleCheckbox(){
         console.log('Checkbox');
+    }
+
+    handleResourceName(event) {
+        this.selectedResourceName = event.currentTarget.dataset.resourcename;
+        this.selecteddocRecordId = event.currentTarget.dataset.contentdocumentid;
     }
 }

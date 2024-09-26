@@ -79,7 +79,8 @@
                 <c-m-s-d_-c-o-r-e_-h-e-q_-search-category onselectedcategories={handleSelectedCategories}
                     oncategoriesid={handlecategoriesid} ongetsavedsearch={handleSavedSearch}
                     onexpandcollapssidebar={handleExpandCollapsSidebar} onselectedfiltersupdate={handleSelectedFilters}
-                    oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}>
+                    oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}
+                    onclearcategories={handleClearCategories}>
                 </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
             </div>
             <!-- Tile & Pagination -->
@@ -88,32 +89,33 @@
                 <div class="">
                     <template if:true={isPagination}>
                         <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}
-                            records-per-page-options={recordsPerPageOptions} records-per-page={recordsPerPage} total-pages={totalPages}
-                            onpageoptionchange={handlePageOptionChange} onpagechange={handlePageChange}>
+                            records-per-page-options={recordsPerPageOptions} records-per-page={recordsPerPage}
+                            total-pages={totalPages} onpageoptionchange={handlePageOptionChange}
+                            onpagechange={handlePageChange}>
                         </c-m-s-d_-c-o-r-e_-h-e-q_-pagination>
                     </template>
                 </div>
 
-                 <div class="slds-m-bottom_medium mainDivCls">
-                    <!-- <h3 class="slds-text-heading_small slds-m-bottom_xx-small">Selected Categories:</h3> -->
+                <!-- Selected category pill -->
+                <div class="slds-var-m-bottom_medium mainDivCls">
                     <div class="catagoriesCls">
-                        <template for:each={selectedCategoriesArray} for:item="filter">
-                            <span class="filterCls" key={filter}>{filter}                                                        
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" onclick={closeFilter} data-filter={filter}>
-                                        <path
-                                            d="M10.7096 5.54323C10.7096 5.47448 10.6534 5.41823 10.5846 5.41823L9.55337 5.42292L8.00025 7.27448L6.44869 5.42448L5.41588 5.4198C5.34713 5.4198 5.29088 5.47448 5.29088 5.5448C5.29088 5.57448 5.30182 5.60261 5.32057 5.62605L7.35338 8.04792L5.32057 10.4682C5.30169 10.4911 5.29121 10.5198 5.29088 10.5495C5.29088 10.6182 5.34713 10.6745 5.41588 10.6745L6.44869 10.6698L8.00025 8.81823L9.55181 10.6682L10.5831 10.6729C10.6518 10.6729 10.7081 10.6182 10.7081 10.5479C10.7081 10.5182 10.6971 10.4901 10.6784 10.4667L8.64868 8.04636L10.6815 5.62448C10.7002 5.60261 10.7096 5.57292 10.7096 5.54323Z"
-                                            fill="white" />
-                                        <path
+                        <template for:each={categoryNameAndIdMap} for:item="filter">
+                            <span class="filterCls" key={filter}>{filter.name}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none" onclick={closeFilter} data-filter={filter.name} data-id={filter.idValue}>
+                                    <path
+                                        d="M10.7096 5.54323C10.7096 5.47448 10.6534 5.41823 10.5846 5.41823L9.55337 5.42292L8.00025 7.27448L6.44869 5.42448L5.41588 5.4198C5.34713 5.4198 5.29088 5.47448 5.29088 5.5448C5.29088 5.57448 5.30182 5.60261 5.32057 5.62605L7.35338 8.04792L5.32057 10.4682C5.30169 10.4911 5.29121 10.5198 5.29088 10.5495C5.29088 10.6182 5.34713 10.6745 5.41588 10.6745L6.44869 10.6698L8.00025 8.81823L9.55181 10.6682L10.5831 10.6729C10.6518 10.6729 10.7081 10.6182 10.7081 10.5479C10.7081 10.5182 10.6971 10.4901 10.6784 10.4667L8.64868 8.04636L10.6815 5.62448C10.7002 5.60261 10.7096 5.57292 10.7096 5.54323Z"
+                                        fill="white" />
+                                    <path
                                         d="M8 1.01562C4.13438 1.01562 1 4.15 1 8.01562C1 11.8813 4.13438 15.0156 8 15.0156C11.8656 15.0156 15 11.8813 15 8.01562C15 4.15 11.8656 1.01562 8 1.01562ZM8 13.8281C4.79063 13.8281 2.1875 11.225 2.1875 8.01562C2.1875 4.80625 4.79063 2.20312 8 2.20312C11.2094 2.20312 13.8125 4.80625 13.8125 8.01562C13.8125 11.225 11.2094 13.8281 8 13.8281Z"
-                                    fill="white" />
+                                        fill="white" />
                                 </svg>
-                                                                                                                                
-                             </span>
+                            </span>
                         </template>
-                        
                     </div>
-                    <div class="totalRecords">{totalRecords} Results found</div>
+                    <div class="totalRecords">{resultsText}</div>
                 </div>
+
                 <!-- Tile -->
                 <div class="slds-grid slds-wrap tileviewcls">
                     <template if:true={sections}>
@@ -132,11 +134,9 @@
                                     </template>
                                 </template>
                                 <template if:false={section.topics}>
-                                    <div class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small"
+                                    <div class="slds-grid slds-grid_align-spread slds-var-p-horizontal_medium slds-p-vertical_small"
                                         key={section}>
-                                        <div class="cardtitle slds-text-heading_small">No resources found matching your
-                                            criteria. Please try with
-                                            different keywords</div>
+                                        <div class="cardtitle slds-text-heading_small">{label.noresourcefound}</div>
                                     </div>
                                 </template>
                             </template>
@@ -163,9 +163,7 @@
                                 <template if:false={section.topics}>
                                     <div class="slds-grid slds-grid_align-spread slds-p-horizontal_medium slds-p-vertical_small"
                                         key={section}>
-                                        <div class="cardtitle slds-text-heading_small">No resources found matching your
-                                            criteria. Please try with
-                                            different keywords</div>
+                                        <div class="cardtitle slds-text-heading_small">{label.noresourcefound}</div>
                                     </div>
                                 </template>
                             </template>

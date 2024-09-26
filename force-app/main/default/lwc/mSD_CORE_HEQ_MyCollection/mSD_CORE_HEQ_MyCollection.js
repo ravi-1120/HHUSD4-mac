@@ -213,12 +213,13 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
                         };
                     });
 
-                    this.allRecords = this.data.map(item => {
-                        if (item.createdDate) {
-                            item.createdDate = this.formatDate(item.createdDate);
-                        }
-                        return item;
-                    });
+                    this.allRecords = this.data;
+                    // this.allRecords = this.data.map(item => {
+                    //     if (item.createdDate) {
+                    //         item.createdDate = this.formatDate(item.createdDate);
+                    //     }
+                    //     return item;
+                    // });
                     this.totalRecords = this.allRecords.length;
                     if (this.totalRecords > 0) {
                         this.isPagination = true;
@@ -245,12 +246,7 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
         const endIndex = startIndex + parseInt(this.recordsPerPage);
         this.paginatedData = this.allRecords.slice(startIndex, endIndex);
         this.displayedData = this.paginatedData; 
-        this.displayedData = this.data.slice(startIndex, endIndex).map(item => {
-            if (item.createdDate) {
-                item.createdDate = this.formatDate(item.createdDate);
-            }
-            return item;
-        });
+        this.displayedData = this.data.slice(startIndex, endIndex);
         console.log('this.displayedData>>'+JSON.stringify(this.displayedData));
         // Sync 2 Pagination Components
         let pagination = this.template.querySelectorAll('c-m-s-d_-c-o-r-e_-h-e-q_-pagination');
@@ -375,9 +371,13 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
                     this.getCollections(); // Refresh the collections list after deletion
                     this.showConfirmationModal = false;
                     this.collectionToDelete = null;
+                    this.currentPage = 1;
+                    this.updatePagination();
                     this.showNotification('success', 'Collection has been successfully deleted.');
                 } else {
                     console.error('handleDeleteConfirm: ' + result);
+                    this.currentPage = 1;
+                    this.updatePagination();
                     this.showNotification('Error', 'Error deleting collection', 'error');
                 }
                 this.showSpinner = false;

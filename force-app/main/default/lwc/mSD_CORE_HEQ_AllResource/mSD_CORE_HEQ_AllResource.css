@@ -131,8 +131,8 @@
 	margin-top: 8px;
 }
 
-.grey-background {
-    background-color: grey;
+.cardtitle {
+	min-height: 500px;
 }
 
 .collectionbtncls {

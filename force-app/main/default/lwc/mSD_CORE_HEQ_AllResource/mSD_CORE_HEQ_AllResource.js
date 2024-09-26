@@ -7,6 +7,7 @@ import getUserProfileName from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.g
 import fetchResourcesFromSavedSearch from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.fetchResourcesFromSavedSearch';
 import saveResourcesInCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.saveResourcesInCollection';
 import getCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.getCollectionList';
+import logUserActivity from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.logUserActivity';
 
 //Custom Labels
 import thumbURL from '@salesforce/label/c.MSD_CORE_HEQ_SandboxURL';
@@ -14,6 +15,7 @@ import home from '@salesforce/label/c.MSD_CORE_HEQ_Home';
 import recordsperpage from '@salesforce/label/c.MSD_CORE_HEQ_AllResourceRecordPerPage';
 import recordperpageoption from '@salesforce/label/c.MSD_CORE_HEQ_AllResourcerecordsPerPageOptions';
 import sitepath from '@salesforce/label/c.MSD_CORE_HEQ_SitePath_For_Download';
+import noresourcefound from '@salesforce/label/c.MSD_CORE_HEQ_No_Resources_Found';
 
 //Static Resource
 import noImage from '@salesforce/resourceUrl/MSD_CORE_HEQ_No_Image';
@@ -50,7 +52,8 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         { action: 'print', label: 'Print to customer', downloadActive: false, isModelBox: true }
     ];
     label = {
-        home
+        home,
+        noresourcefound
     }
 
     // Pagination
@@ -142,6 +145,7 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
             console.log('Result of fetchResources::>>', result);
             this.showSpinner = false;
             this.manageLoadData(result, keyword, type, category, catName);
+            this.logUserActivities(keyword, result.length);
         }).catch(error => {
             console.log('loadSearch error->>' + error.message);
             this.showSpinner = false;
@@ -149,116 +153,54 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
     }
 
     closeFilter(event) {
-        const filterValue = event.currentTarget.dataset.filter;
-        console.log('filterValue----->' + JSON.stringify(filterValue));
-
-        console.log('selectedCat List----->', JSON.stringify(this.selectedCategoriesArray));
-
-        this.selectedCategoriesArray = this.selectedCategoriesArray.filter(filter => filter !== filterValue);
-        console.log('selectedCat List After----->', JSON.stringify(this.selectedCategoriesArray));
-        // for each loop on the selectedCategoriesArray and remove that particular filter and return the categories id.
-        // console.log('### categoriesIdsUpdated length '+this.categoriesIdsUpdated.length);
-
-        console.log('### categoryNameAndIdMap '+this.categoryNameAndIdMap);
-
-        this.categoryNameAndIdMap.forEach(category => {
-            console.log('### category.name '+category.name);
-            if(category.name === filterValue) {
-                const index = this.categoriesIdsUpdated.indexOf(category.idValue);
-                if (index > -1) { // only splice array when item is found
-                    this.categoriesIdsUpdated.splice(index, 1); // 2nd parameter means remove one item only
-                }
-            }
-            console.log('### categoriesIdsUpdated '+this.categoriesIdsUpdated);
-        });
-        console.log('### categoriesIdsUpdated length '+this.categoriesIdsUpdated.length);
-
-
+        const filteridvalue = event.currentTarget.dataset.id;
         const childComponent = this.template.querySelector('c-m-s-d_-c-o-r-e_-h-e-q_-search-category');
         if (childComponent) {
-            childComponent.updateCategories(this.categoriesIdsUpdated); 
+            childComponent.updateCategories(this.categoriesIdsUpdated,filteridvalue);
         }
-
-        if (this.selectedCategoriesRecievedFromChild[0].name === filterValue) {
-            console.log('Found Parent ' + filterValue);
-            this.categoriesIdsUpdated = null;
-        }
-
-        // For Each of selectedCategoriesRecievedFromChild.child
-        // Get all child categories for parent value
-        // Delete all child cat from selectedCategoriesArray
 
         this.loadSearch(this.keyword, this.type, this.categoriesIdsUpdated, null);
     }
 
-    // closeFilter(event) {
-    //     const filterValue = event.currentTarget.dataset.filter;
-    //     console.log('filterValue----->' + JSON.stringify(filterValue));
-    //     console.log('selectedCat List----->', JSON.stringify(this.selectedCategoriesArray));
+    removeCategoryByName(categoryName, categories) {
+        for (let i = 0; i < categories.length; i++) {
+            const category = categories[i];
 
-    //     // Remove the parent category from the selectedCategoriesArray
-    //     this.selectedCategoriesArray = this.selectedCategoriesArray.filter(filter => filter !== filterValue);
-    //     console.log('selectedCat List After----->', JSON.stringify(this.selectedCategoriesArray));
+            if (category.name === categoryName) {
+                categories.splice(i, 1);
+                return true; 
+            }
+            if (category.childCategories && category.childCategories.length > 0) {
+                const removed = this.removeCategoryByName(categoryName, category.childCategories);
 
-    //     console.log('### categoryNameAndIdMap ' + this.categoryNameAndIdMap);
+                if (removed && category.childCategories.length === 0) {
+                    categories.splice(i, 1);
+                    return true;
+                }
+            }
+        }
+        return false; 
+    }
 
-    //     // Update categoriesIdsUpdated by removing the parent category
-    //     this.categoryNameAndIdMap.forEach(category => {
-    //         console.log('### category.name ' + category.name);
-    //         if (category.name === filterValue) {
-    //             const index = this.categoriesIdsUpdated.indexOf(category.idValue);
-    //             if (index > -1) { // only splice array when item is found
-    //                 this.categoriesIdsUpdated.splice(index, 1); // 2nd parameter means remove one item only
-    //             }
-    //         }
-    //         console.log('### categoriesIdsUpdated ' + this.categoriesIdsUpdated);
-    //     });
+    getAllChildCategories(parentCategory) {
+        let allChildCategories = [];
+        if (parentCategory.childCategories && parentCategory.childCategories.length > 0) {
+            parentCategory.childCategories.forEach(childCategory => {
+                console.log('childCategory2----->'+JSON.stringify(childCategory));
+                allChildCategories.push(childCategory);
+                const grandChildCategories = this.getAllChildCategories(childCategory);
+                console.log('grandChildCategories----->'+JSON.stringify(grandChildCategories));
+                allChildCategories = allChildCategories.concat(grandChildCategories);
+                console.log('allChildCategories----->'+JSON.stringify(allChildCategories));
+            });
+        }
+        return allChildCategories;
+    }
 
-    //     console.log('### categoriesIdsUpdated length ' + this.categoriesIdsUpdated.length);
-
-    //     const childComponent = this.template.querySelector('c-m-s-d-c-o-r-e-h-e-q_-search-category');
-    //     if (childComponent) {
-    //         childComponent.updateCategories(this.categoriesIdsUpdated);
-    //     }
-
-    //     // If the parent category matches, clear categoriesIdsUpdated (if needed)
-    //     if (this.selectedCategoriesRecievedFromChild[0].name === filterValue) {
-    //         console.log('Found Parent ' + filterValue);
-    //         this.categoriesIdsUpdated = null;
-    //     }
-
-    //     // New code to handle removal of child categories associated with the parent
-    //     this.selectedCategoriesRecievedFromChild.forEach(parentCategory => {
-    //         if (parentCategory.name === filterValue) {
-    //             console.log('Found Parent ' + filterValue);
-
-    //             // Iterate over each child of the parent category
-    //             parentCategory.childCategories.forEach(childCategory => {
-    //                 // Remove the child category from selectedCategoriesArray
-    //                 this.selectedCategoriesArray = this.selectedCategoriesArray.filter(
-    //                     filter => filter !== childCategory.name
-    //                 );
-
-    //                 // Optionally remove child category IDs from categoriesIdsUpdated as well
-    //                 const childIndex = this.categoriesIdsUpdated.indexOf(childCategory.idValue);
-    //                 if (childIndex > -1) {
-    //                     this.categoriesIdsUpdated.splice(childIndex, 1);
-    //                 }
-    //             });
-    //         }
-    //     });
-
-    //     console.log('Updated selectedCategoriesArray After Removing Children ----->', JSON.stringify(this.selectedCategoriesArray));
-
-    //     // Update the child component again with the newly updated category IDs after removing child categories
-    //     if (childComponent) {
-    //         childComponent.updateCategories(this.categoriesIdsUpdated);
-    //     }
-
-    //     // Continue with your loadSearch function
-    //     this.loadSearch(this.keyword, this.type, this.categoriesIdsUpdated, null);
-    // }
-
+    get resultsText() {
+        const count = this.totalRecords !== undefined ? this.totalRecords : 0;
+        return `${count} ${count === 1 ? 'Result' : 'Results'} found`;
+    }
 
 
     handleCheckboxChange(event) {
@@ -297,11 +239,6 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
 
                 console.log('Manage Load Data topicVal', topicVal);
 
-
-
-
-
-                // let expirationDate = new Date(item.MSD_CORE_Expiration_Date__c).toLocaleDateString('en-US');
                 let expirationDate;
                 if (item.MSD_CORE_Expiration_Date__c) {
                     expirationDate = new Intl.DateTimeFormat('en-US', {
@@ -344,6 +281,8 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
             console.log('this.totalRecords----->' + JSON.stringify(this.totalRecords));
             if (this.totalRecords > 0) {
                 this.isPagination = true;
+            } else {
+                this.isPagination = false;
             }
             this.totalPages = Math.ceil(this.allRecords.length / parseInt(this.recordsPerPage));
             this.updatePagination();
@@ -351,9 +290,11 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
             section = { title: 'Search Results', topics: false };
             console.log('section------>' + JSON.stringify(section));
             this.allRecords = section.topics;
-            this.totalRecords = this.allRecords.length;
+            this.totalRecords = 0;
             if (this.totalRecords > 0) {
                 this.isPagination = true;
+            } else {
+                this.isPagination = false;
             }
             this.totalPages = Math.ceil(this.allRecords.length / parseInt(this.recordsPerPage));
             this.updatePagination();
@@ -370,9 +311,13 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
     updatePagination() {
         const startIndex = (this.currentPage - 1) * parseInt(this.recordsPerPage);
         const endIndex = startIndex + parseInt(this.recordsPerPage);
-        this.paginatedTopics = this.allRecords.slice(startIndex, endIndex);
-        this.sections = [{ title: 'Browse All', topics: this.paginatedTopics }];
-        console.log('this.sections>>>>>>>'+JSON.stringify(this.sections));
+        if (this.allRecords != false) {
+            this.paginatedTopics = this.allRecords.slice(startIndex, endIndex);
+            this.sections = [{ title: 'Browse All', topics: this.paginatedTopics }];
+        } else {
+            this.sections = [{ title: 'Browse All', topics: false }];;
+        }
+        console.log('this.sections>>>>>>>' + JSON.stringify(this.sections));
         // Sync 2 Pagination Components
         let pagination = this.template.querySelectorAll('c-m-s-d_-c-o-r-e_-h-e-q_-pagination');
         for (let index = 0; index < pagination.length; index++) {
@@ -406,20 +351,17 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
     handleSelectedCategories(event) {
         const selectedCategories = event.detail;
         this.selectedCategoriesRecievedFromChild = event.detail;
-        console.log('handleSelectedCategories ** selectedCategories>>>', JSON.stringify(selectedCategories));
         const Filters = this.filterCategories(selectedCategories);
-        console.log('Processed Filters:', JSON.stringify(Filters, null, 2));
         this.currentFilters = Filters;
-        console.log('handleCheck');
-        
 
+        this.categoryNameAndIdMap =[];
         const selectedCategoriesArray = [];
         const processCategory = (categoryName, categoryData) => {
-            console.log('Processing Category:', categoryName, categoryData);
+            console.log('Processing Category:', JSON.stringify(categoryName, categoryData));
 
             if (categoryData.isChecked) {
                 selectedCategoriesArray.push(categoryName);
-                this.categoryNameAndIdMap.push({name:categoryName, idValue : categoryData.idVal});
+                this.categoryNameAndIdMap.push({ name: categoryName, idValue: categoryData.idVal });
                 console.log('Selected Category:', categoryName);
 
             }
@@ -434,16 +376,23 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         });
 
         this.selectedCategoriesArray = selectedCategoriesArray;
-        console.log('Selected Categories (Parent + Child)::', JSON.stringify(this.selectedCategoriesArray, null, 2));
-        console.log('### categoryNameAndIdMap '+JSON.stringify(this.categoryNameAndIdMap));
         const SelectedFilters = {
             keyword: this.keyword,
             Filters: Filters,
             type: this.type
         };
-        console.log('SelectedFilters----->' + JSON.stringify(SelectedFilters));
 
         this.template.querySelector('c-m-s-d_-c-o-r-e_-h-e-q_-search-category').handleSelectedFilters(SelectedFilters);
+    }
+
+    handleClearCategories() {
+        this.selectedCategoriesArray = [];
+        this.categoryNameAndIdMap = [];
+        this.selectedCategoriesRecievedFromChild = [];
+        this.currentFilters = {};
+        this.totalRecords = 0;
+
+        this.loadSearch(this.keyword, this.type, [], null);
     }
 
     // For Search Category
@@ -451,9 +400,9 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         const result = {};
         categories.forEach(category => {
             if (category.childCategories && category.childCategories.length > 0) {
-                result[category.name] = { childCategories: this.filterCategories(category.childCategories), isChecked: category.isChecked, idVal : category.id  }
+                result[category.name] = { childCategories: this.filterCategories(category.childCategories), isChecked: category.isChecked, idVal: category.id }
             } else {
-                result[category.name] = { isChecked: category.isChecked, idVal : category.id };
+                result[category.name] = { isChecked: category.isChecked, idVal: category.id };
             }
         });
         return result;
@@ -591,5 +540,15 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                 url: '/landing-page'
             }
         });
+    }
+
+    logUserActivities(keyword, resultLength) {
+        logUserActivity({ keyword: keyword, recReturned: resultLength })
+            .then(() => {
+                console.log('### Un Saved Search criteria recorded.');
+            })
+            .catch(error => {
+                console.log('### Error Occcured while recording Un Saved Search criteria');
+            });
     }
 }

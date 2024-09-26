@@ -1,16 +1,22 @@
 import { LightningElement, track, wire, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 
 // Custom Label
 import HEQ_NoRecordFound from '@salesforce/label/c.MSD_CORE_HEQ_NoRecordFound';
 import isInvitedMsg from '@salesforce/label/c.MSD_CORE_HEQ_IsInvitedMsg';
 import recordPerPage from '@salesforce/label/c.MSD_CORE_HEQ_RecordPerPage';
 import pageOption from '@salesforce/label/c.MSD_CORE_HEQ_PageOption';
-import recordsperpage from '@salesforce/label/c.MSD_CORE_HEQ_AllResourceRecordPerPage';
+import recordsperpage from '@salesforce/label/c.MSD_CORE_HEQ_CustomerPerPage';
+import recordperpageoption from '@salesforce/label/c.MSD_CORE_HEQ_CustomerPerPageOptions';
+import lastlogin from '@salesforce/label/c.MSD_CORE_HEQ_Last_Login';
+
 // Apex class
 import getCustomerList from '@salesforce/apex/MSD_CORE_HEQ_CustomerController.getCustomerList';
 import sendRegistrationInvite from '@salesforce/apex/MSD_CORE_HEQ_AuthController.sendRegistrationInvite';
+import saveRecipients from '@salesforce/apex/MSD_CORE_HEQ_CustomerController.saveRecipients';
+import getRecipients from '@salesforce/apex/MSD_CORE_HEQ_CustomerController.getRecipients';
 
-export default class MSD_CORE_HEQ_Customer extends LightningElement {
+export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElement) {
 
     @api mainHeader;
     @api isFooterbutton;
@@ -26,12 +32,17 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
     @track totalPages = 1;
     @track currentPage = 1;
     @track recordsPerPage = recordsperpage;
-    @track recordsPageOptions = [];
+    @track allRecords = [];
+    @track recordsPerPageOptions = [];
+
     @track searchCategory = [];
     @track mycustomerlist = [];
     @track newRecipients = [];
     @track searchKey = '';
     @track norecordfound = HEQ_NoRecordFound;
+    @track noSearchResults = false;
+    @track searchMessage = '';
+
     @track isCustomer = false;
     @track activeTab = 'register';
     @track filterLayout = false;
@@ -55,34 +66,93 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
     @track isFirstPageUnregistered;
     @track isFirstPageRegistered;
     @track isLastPageRegistered;
-    recordsPerPageOptions = [];
+    // recordsPerPageOptions = [];
     totalRegisteredRecords = 0;
     totalUnregisteredRecords = 0;
     showSpinner = false;
 
+    @track isModalOpen = false;
+    @track selectedCustomer = {};
+    @track nonPrimaryAddresses = [];
+
 
     labels = {
-        isInvitedMsg
+        isInvitedMsg,
+        lastlogin
     };
 
     // ConnectedCallback
     connectedCallback() {
+        console.log('hideAddRecipient>>>', this.hideAddRecipient);
+        this.fetchCustomers();
         this.getCustomerList();
         if (this.customertype == 'registered') {
             this.filterLayout = true;
         } else if (this.customertype == 'allcustomers') {
             this.unfilterLayout = true;
+        } else if (this.customertype == 'registered-unregistered') {
+            this.unfilterLayout = true;
         }
 
         const optionval = pageOption.split(',');
-        this.recordsPerPageOptions = optionval.map(option => {
-            return { label: option.trim(), value: option.trim() };
-        });
+        // this.recordsPerPageOptions = optionval.map(option => {
+        //     return { label: option.trim(), value: option.trim() };
+        // });
+
+        this.recordsPerPageOptions = recordperpageoption.split(',').map(option => parseInt(option.trim()));
+    }
+
+    fetchCustomers() {
+        getRecipients()
+            .then(result => {
+                // this.newCustomers = result;
+                           this.newCustomers = result.map(customer => {
+                // Create a new object to avoid mutating the original
+                const transformedCustomer = { ...customer };
+                
+                // If MSD_CORE_HEQ_FirstName__c exists, use it as FirstName
+                if (transformedCustomer.MSD_CORE_HEQ_FirstName__c) {
+                    transformedCustomer.FirstName = transformedCustomer.MSD_CORE_HEQ_FirstName__c;
+                    transformedCustomer.LastName = transformedCustomer.MSD_CORE_HEQ_LastName__c;
+                    transformedCustomer.Email = transformedCustomer.MSD_CORE_HEQ_Email__c;
+                }
+                return transformedCustomer;
+            });
+                // FirstName = result.MSD_CORE_HEQ_FirstName__c;
+                // console.log('FirstName'+FirstName);
+                console.log('Fetched Customers:', this.newCustomers);
+            })
+            .catch(error => {
+                console.error('Error fetching customers:', error);
+            });
     }
 
     get isBothFalse() {
-    return !this.filterLayout && !this.unfilterLayout;
-}
+        return !this.filterLayout && !this.unfilterLayout;
+    }
+
+    handleOtherAddressesClick(event) {
+        const customerId = event.currentTarget.dataset.id;
+        const selectedCustomer = this.mycustomerlist.find(customer => customer.Id === customerId);
+
+        if (selectedCustomer) {
+            this.selectedCustomer = selectedCustomer;
+            this.nonPrimaryAddresses = selectedCustomer.Addresses.filter(address => !address.Primary);
+            this.isModalOpen = true;
+        }
+    }
+
+    closeModal() {
+        this.isModalOpen = false;
+        this.selectedCustomer = {};
+        this.nonPrimaryAddresses = [];
+    }
+
+    handleSave() {
+        this.isModalOpen = false;
+    }
+
+
 
     addRecipient() {
         const newRecipient = {
@@ -106,7 +176,10 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
                 }
                 this.mycustomerlist = result;
                 console.log('this.mycustomerlist------->' + JSON.stringify(this.mycustomerlist));
+
+                this.allRecords = result;
                 this.filterAndPaginateCustomers();
+                this.updatePagination();
             })
             .catch(error => {
                 console.error('Error fetching customer list:', error);
@@ -116,6 +189,18 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
 
     filterAndPaginateCustomers() {
         const searchKeyLower = this.searchKey.toLowerCase();
+
+        this.allRecords = this.mycustomerlist.filter(customer =>
+            (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
+            (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
+            (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
+        );
+
+        this.filteredCustomers = this.mycustomerlist.filter(customer =>
+            (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
+            (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
+            (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
+        );
 
         this.registeredCustomers = this.mycustomerlist
             .filter(customer => customer.IsRegister)
@@ -133,9 +218,11 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
                 (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
             );
         if (this.customertype === 'allcustomers') {
+            this.allCustomers = [...this.registeredCustomers, ...this.unregisteredCustomers, ...this.newCustomers];
+        }else if(this.customertype === 'registered-unregistered'){
             this.allCustomers = [...this.registeredCustomers, ...this.unregisteredCustomers];
         }
-        console.log('this.allCustomers>>>'+JSON.stringify(this.allCustomers));
+        console.log('this.allCustomers>>>' + JSON.stringify(this.registeredCustomers));
 
         this.totalRegisteredRecords = this.registeredCustomers.length;
         this.totalUnregisteredRecords = this.unregisteredCustomers.length;
@@ -144,6 +231,28 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
         this.noRegisteredRecords = this.registeredCustomers.length === 0;
         this.noUnregisteredRecords = this.unregisteredCustomers.length === 0;
         this.noRecordsFound = this.noRegisteredRecords && this.noUnregisteredRecords;
+
+        this.totalRecords = this.filteredCustomers.length;
+
+        if (this.searchKey && this.totalRecords === 0) {
+            this.noSearchResults = true;
+            this.searchMessage = 'No search results were found';
+        } else {
+            this.noSearchResults = false;
+            this.searchMessage = '';
+        }
+
+
+
+    }
+
+    redirectToHome() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: '/landing-page'
+            }
+        });
     }
 
     calculatePagination() {
@@ -227,38 +336,69 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
     //     });
     // }
 
-    handleRecipient(event) {
-    const field = event.target.name;
-    const recipientId = event.target.dataset.id;
+    // handleRecipient(event) {
+    //     const field = event.target.name;
+    //     const recipientId = event.target.dataset.id;
 
+    //     this.newRecipients = this.newRecipients.map(recipient => {
+    //         if (recipient.Id === recipientId) {
+    //             // Update the field value
+    //             recipient[field] = event.target.value;
+
+    //             // Validation Logic
+    //             if (field === 'FirstName') {
+    //                 recipient.firstNameError = !recipient.FirstName;
+    //             } else if (field === 'LastName') {
+    //                 recipient.lastNameError = !recipient.LastName;
+    //             } else if (field === 'Email') {
+    //                 if (recipient.Email) {
+    //                     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //                     recipient.emailError = !emailPattern.test(recipient.Email);
+    //                 } else {
+    //                     recipient.emailError = false;
+    //                 }
+    //             }
+    //         }
+    //         return recipient;
+    //     });
+    // }
+handleRecipient(event) {
+    const field = event.target.name; // Get the field name (e.g., FirstName, LastName, Email)
+    const recipientId = event.target.dataset.id; // Get the recipient's ID
+
+    // Update the corresponding recipient in the newRecipients array
     this.newRecipients = this.newRecipients.map(recipient => {
         if (recipient.Id === recipientId) {
-            // Update the field value
+            // Update the value of the field
             recipient[field] = event.target.value;
 
             // Validation Logic
             if (field === 'FirstName') {
-                recipient.firstNameError = !recipient.FirstName; 
+                recipient.firstNameError = !recipient.FirstName; // Validation for FirstName
             } else if (field === 'LastName') {
-                recipient.lastNameError = !recipient.LastName; 
+                recipient.lastNameError = !recipient.LastName;   // Validation for LastName
             } else if (field === 'Email') {
-                 if (recipient.Email) { 
+                // Validation for Email format
+                if (recipient.Email) {
                     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    recipient.emailError = !emailPattern.test(recipient.Email); 
+                    recipient.emailError = !emailPattern.test(recipient.Email); // Validate email format
                 } else {
-                    recipient.emailError = false; 
+                    recipient.emailError = true; // Set error if Email is empty
                 }
+            }
         }
-    }
         return recipient;
     });
 }
 
 
 
+
     handleSearchKeyChange(event) {
         this.searchKey = event.target.value;
+        this.currentPage = 1;
         this.filterAndPaginateCustomers();
+        this.updatePagination();
     }
 
     handlePreviousPageRegistered() {
@@ -411,11 +551,35 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
     }
 
     handleShareClick() {
-        const allSelectedCustomers = [...this.selectedCustomers, ...this.newRecipients];
-        console.log('allSelectedCustomers>>',allSelectedCustomers);
-        console.log('allSelectedCustomers>>>>'+JSON.stringify(allSelectedCustomers));
+
+        // Check if there are any new recipients
+        if (this.newRecipients && this.newRecipients.length > 0) {
+            const recipientsToSave = this.newRecipients.map(recipient => ({
+                MSD_CORE_HEQ_FirstName__c: recipient.FirstName || '',
+                MSD_CORE_HEQ_LastName__c: recipient.LastName || '',
+                MSD_CORE_HEQ_Email__c: recipient.Email || ''
+            }));
+
+
+            // Call Apex method to save recipients
+            saveRecipients({ recipients: recipientsToSave })
+                .then(() => {
+                    // Handle successful save
+                    console.log('Recipients saved successfully');
+                    this.dispatchEvent(new CustomEvent('showtoast', { detail: { message: 'Recipients saved successfully!', variant: 'success' } }));
+                })
+                .catch(error => {
+                    // Handle errors during saving
+                    console.error('Error saving recipients: ', error);
+                    this.dispatchEvent(new CustomEvent('showtoast', { detail: { message: 'Error saving recipients', variant: 'error' } }));
+                });
+        }
+
+        const allSelectedCustomers = [...this.selectedCustomers];
+        console.log('allSelectedCustomers>>', allSelectedCustomers);
+        console.log('allSelectedCustomers>>>>' + JSON.stringify(allSelectedCustomers));
         console.log('allSelectedCustomers', JSON.stringify(this.allSelectedCustomers));
-        let shareclick = new CustomEvent('sharecustomerdata', { detail: {data:allSelectedCustomers, feature: this.feature}});
+        let shareclick = new CustomEvent('sharecustomerdata', { detail: { data: allSelectedCustomers, feature: this.feature } });
         this.dispatchEvent(shareclick);
     }
 
@@ -432,7 +596,7 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
         if (checkbox) {
             this.selectedCustomers.push({
                 id: event.target.value,
-                name: firstname+' '+lastname,
+                name: firstname + ' ' + lastname,
                 email: email,
                 isregister: isregister
             });
@@ -448,7 +612,7 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
 
         if (checkbox) {
             this.selectedCustomers.push({
-                name: firstname+' '+lastname,
+                name: firstname + ' ' + lastname,
                 email: email
             });
         } else {
@@ -459,5 +623,51 @@ export default class MSD_CORE_HEQ_Customer extends LightningElement {
     showCancelModal() {
         let closeModel = new CustomEvent('closemodel', { detail: true });
         this.dispatchEvent(closeModel);
+    }
+
+    //Pagination
+    resetVariableValue() {
+        this.totalRecords = 0;
+        this.totalPages = 1;
+        this.currentPage = 1;
+    }
+
+    // Pagination
+    updatePagination() {
+
+        this.totalRecords = this.allRecords.length;
+        console.log('this.totalRecords----->' + JSON.stringify(this.totalRecords));
+        if (this.totalRecords > 0) {
+            this.isPagination = true;
+        }
+        this.totalPages = Math.ceil(this.allRecords.length / parseInt(this.recordsPerPage));
+        console.log('this.totalPages>>' + JSON.stringify(this.totalPages));
+
+        const startIndex = (this.currentPage - 1) * parseInt(this.recordsPerPage);
+        const endIndex = startIndex + parseInt(this.recordsPerPage);
+        this.paginatedTopics = this.allRecords.slice(startIndex, endIndex);
+        this.filteredCustomers = this.paginatedTopics;
+        console.log('this.filteredCustomers>>>' + JSON.stringify(this.filteredCustomers));
+        console.log('this.filteredCustomers>>>' + JSON.stringify(this.filteredCustomers.length));
+        // Sync 2 Pagination Components
+        let pagination = this.template.querySelectorAll('c-m-s-d_-c-o-r-e_-h-e-q_-pagination');
+        for (let index = 0; index < pagination.length; index++) {
+            pagination[index].updatecurrentpage(this.currentPage, this.totalRecords, this.totalPages);
+        }
+        // this.filterAndPaginateCustomers();
+    }
+
+    handlePageOptionChange(event) {
+        this.currentPage = 1;
+        this.recordsPerPage = event.detail.recordsPerPage;
+        this.totalPages = Math.ceil(this.allRecords.length / parseInt(this.recordsPerPage));
+        this.updatePagination();
+    }
+
+    handlePageChange(event) {
+        this.currentPage = event.detail.currentPage;
+        this.recordsPerPage = event.detail.recordsPerPage;
+        this.totalPages = Math.ceil(this.allRecords.length / parseInt(this.recordsPerPage));
+        this.updatePagination();
     }
 }

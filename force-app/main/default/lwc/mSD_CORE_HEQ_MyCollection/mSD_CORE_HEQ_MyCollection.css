@@ -234,3 +234,42 @@ hr {
 .sharedCls {
     text-align: center;
 }
+
+@media only screen and (max-width: 480px) {
+
+    .tableCls1 {
+        background: #F9F9F9;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+
+    }
+
+    .tableCls {
+        display: none;
+    }
+
+    td,
+    th {
+        color: var(--color);
+        font-size: var(--font-size-scale-base);
+        font-weight: var(--font-weight-medium);
+        padding: none;
+    }
+
+    table {
+        --table-background: none !important;
+        --table-color: none !important;
+        --table-border-color: none !important;
+        --table-border-style: none !important;
+        --table-border-width: none !important;
+        --table-hover: none !important;
+        --table-padding: none !important;
+        --table-font-weight: none !important;
+        --table-th-background: none !important;
+        --table-th-font-weight: none !important;
+        --table-row-size: none !important;
+        border-collapse: none !important;
+        width: 100%;
+    }
+}

@@ -37,7 +37,10 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                 cdlink.ContentDocumentId = cvlist[0].ContentDocumentId;
                 insert cdlink;
             } 
-
+            /*
+            ReportingDataModelHelper.linkShadowContentDocumentToCollection(new List<ContentDocumentLink> {cdlink});
+			*/
+			
             message = 'Success';
         } catch (DmlException e) {
             return 'DML Error: ' + e.getMessage();
@@ -101,7 +104,7 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                     wrapper.id = collection.Id;
                     wrapper.name = collection.MSD_CORE_Collection_Name__c;
                     wrapper.imageUrl = collection.MSD_CORE_Header_Image_Link__c;
-                    wrapper.createdDate = collection.LastModifiedDate.format('MM/dd/yyyy hh:mm:ss a');
+                    wrapper.createdDate = collection.LastModifiedDate.format('MM/dd/yyyy hh:mm a');
                     wrapper.resourceCount = collectionToCdlMap.containsKey(collection.Id)?collectionToCdlMap.get(collection.Id).size():0;
                     
                     
@@ -154,31 +157,33 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
  
             Map<Id, List<Id>> collectionToCdlMap = new Map<Id, List<Id>>();
                 
-            List<ContentDocumentLink> contentLinks = [ SELECT Id, LinkedEntityId
-                                                    FROM ContentDocumentLink
-                                                    WHERE LinkedEntityId IN :collectionIds ];
-            
-            for (ContentDocumentLink cdl : contentLinks) {
-                if (!collectionToCdlMap.containsKey(cdl.LinkedEntityId)) {
-                    collectionToCdlMap.put(cdl.LinkedEntityId, new List<Id>());
+            if(collectionIds.size()>0){
+                List<ContentDocumentLink> contentLinks = [ SELECT Id, LinkedEntityId
+                                                        FROM ContentDocumentLink
+                                                        WHERE LinkedEntityId IN :collectionIds ];
+                
+                for (ContentDocumentLink cdl : contentLinks) {
+                    if (!collectionToCdlMap.containsKey(cdl.LinkedEntityId)) {
+                        collectionToCdlMap.put(cdl.LinkedEntityId, new List<Id>());
+                    }
+                    collectionToCdlMap.get(cdl.LinkedEntityId).add(cdl.Id);
                 }
-                collectionToCdlMap.get(cdl.LinkedEntityId).add(cdl.Id);
-            }
-            
-            for (MSD_CORE_HEQ_Customer_Collection__c customerCollection : customerCollections) {
-                CollectionWrapper wrapper = new CollectionWrapper();
-                wrapper.id = customerCollection.MSD_CORE_Collection_Id__c;
-                wrapper.name = customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Collection_Name__c;
-                wrapper.imageUrl = customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Header_Image_Link__c;
-                wrapper.createdDate = customerCollection.LastModifiedDate.format('MM/dd/yyyy');
-                wrapper.sharedBy = customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Account_Executive__r.FirstName + ' ' + customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Account_Executive__r.LastName;
-                wrapper.resourceCount = collectionToCdlMap.containsKey(customerCollection.MSD_CORE_Collection_Id__c)?collectionToCdlMap.get(customerCollection.MSD_CORE_Collection_Id__c).size():0;
-                result.add(wrapper);
-            }
-            
-            if(collectionId != null){
-                Integer resultCount = [ SELECT COUNT() FROM ContentDocumentLink WHERE LinkedEntityId = :collectionId ];
-                result[0].resourceCount = resultCount;
+                
+                for (MSD_CORE_HEQ_Customer_Collection__c customerCollection : customerCollections) {
+                    CollectionWrapper wrapper = new CollectionWrapper();
+                    wrapper.id = customerCollection.MSD_CORE_Collection_Id__c;
+                    wrapper.name = customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Collection_Name__c;
+                    wrapper.imageUrl = customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Header_Image_Link__c;
+                    wrapper.createdDate = customerCollection.LastModifiedDate.format('MM/dd/yyyy hh:mm a');
+                    wrapper.sharedBy = customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Account_Executive__r.FirstName + ' ' + customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Account_Executive__r.LastName;
+                    wrapper.resourceCount = collectionToCdlMap.containsKey(customerCollection.MSD_CORE_Collection_Id__c)?collectionToCdlMap.get(customerCollection.MSD_CORE_Collection_Id__c).size():0;
+                    result.add(wrapper);
+                }
+                
+                if(collectionId != null){
+                    Integer resultCount = [ SELECT COUNT() FROM ContentDocumentLink WHERE LinkedEntityId = :collectionId ];
+                    result[0].resourceCount = resultCount;
+                }
             }
             
         } catch (Exception e) {
@@ -340,6 +345,9 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                 }
                 if(!cdl.isEmpty()){
                     insert cdl;
+                    System.debug('### Calling the linkShadowContentDocumentToCollection '+cdl);
+                    ReportingDataModelHelper.linkShadowContentDocumentToCollection(cdl);
+				
                     return true;
                 }
             }
@@ -381,6 +389,9 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             
             if (!documentLinksToDelete.isEmpty()) {
                 delete documentLinksToDelete;
+                System.debug('### Calling the deleteShadowCDLForSingleResource '+collectionId);
+                System.debug('### Calling the deleteShadowCDLForSingleResource '+contentDocumentId);
+                ReportingDataModelHelper.deleteShadowCDLForSingleResource(collectionId, contentDocumentId);
                 return true;
             }
             
@@ -565,6 +576,19 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             // Insert new ContentDocumentLinks
             insert newCDLs;
             
+            List<ReportingDataModelHelper.ReportingDataModelWrapper> lstofContentDocLinks = new List<ReportingDataModelHelper.ReportingDataModelWrapper>();
+            
+            for(ContentDocumentLink rec : newCDLs) {
+                ReportingDataModelHelper.ReportingDataModelWrapper recWrapper = new ReportingDataModelHelper.ReportingDataModelWrapper();
+                recWrapper.collectionId = collectionId;
+                recWrapper.contentDocLink = rec;
+                lstofContentDocLinks.add(recWrapper);
+            }
+            System.debug('### Calling the createShadowContentDocumentLink '+lstofContentDocLinks);
+            ReportingDataModelHelper.createShadowContentDocumentLink(lstofContentDocLinks);
+            System.debug('### Calling the linkShadowContentDocumentToCollection newCDLs '+newCDLs);
+			ReportingDataModelHelper.linkShadowContentDocumentToCollection(newCDLs);			
+            
             
             result.put('success', true);
             result.put('message', 'Success: New collection created with ID ' + newCollection.Id + ' and ' + contentDocumentIds.size() + ' resources linked.');
@@ -614,8 +638,11 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                 cdlink.LinkedEntityId = collection.Id;
                 cdlink.ContentDocumentId = resourceId;
                 insert cdlink;
-                returnmessage = collection.MSD_CORE_Collection_Name__c;
+                System.debug('### Calling the linkShadowContentDocumentToCollection cdlink '+cdlink);
+                ReportingDataModelHelper.linkShadowContentDocumentToCollection(new List<ContentDocumentLink> {cdlink});
+           		returnmessage = collection.MSD_CORE_Collection_Name__c;
             }
+            
             return returnmessage;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() +'----'+ e.getLineNumber());
@@ -740,7 +767,7 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
 
             List<Account> accounts = [SELECT Id FROM Account WHERE Id IN :personaccountIds];
 
-            List<MSD_CORE_HEQ_Customer_Collection__c> existingCollections = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c 
+            List<MSD_CORE_HEQ_Customer_Collection__c> existingCollections = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c, MSD_CORE_isActive__c 
                 FROM MSD_CORE_HEQ_Customer_Collection__c 
                 WHERE MSD_CORE_Collection_Id__c = :collectionId AND MSD_CORE_Customer_Id__c IN :personaccountIds];
 
@@ -754,7 +781,13 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             for (Account acc : accounts) {
                 if (collectionMap.containsKey(acc.Id)) {
                     MSD_CORE_HEQ_Customer_Collection__c existingCollection = collectionMap.get(acc.Id);
-                    existingCollection.MSD_CORE_isActive__c = true;
+                    
+                    if(existingCollection.MSD_CORE_isActive__c){
+                        returnmessage = 'Already Shared!';
+                        return returnmessage;
+                    } else {
+                        existingCollection.MSD_CORE_isActive__c = true;
+                    }
                     collectionListToUpdate.add(existingCollection);
                 } else {
                     MSD_CORE_HEQ_Customer_Collection__c newCollection = new MSD_CORE_HEQ_Customer_Collection__c();
@@ -773,8 +806,12 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                     accountIds.add(user.AccountId);
                 }
             }
+            List<MSD_CORE_HEQ_Customer_Collection__c> existingCollections1 = [SELECT Id, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c, MSD_CORE_isActive__c 
+                FROM MSD_CORE_HEQ_Customer_Collection__c 
+                WHERE MSD_CORE_Collection_Id__c = :collectionId AND MSD_CORE_Customer_Id__c IN :accountIds];
+
             Map<Id, MSD_CORE_HEQ_Customer_Collection__c> collectionMap1 = new Map<Id, MSD_CORE_HEQ_Customer_Collection__c>();
-            for (MSD_CORE_HEQ_Customer_Collection__c collection : existingCollections) {
+            for (MSD_CORE_HEQ_Customer_Collection__c collection : existingCollections1) {
                 collectionMap1.put(collection.MSD_CORE_Customer_Id__c, collection);
             }
 
@@ -785,7 +822,12 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                     MSD_CORE_HEQ_Customer_Collection__c existingCollection = collectionMap1.get(user.AccountId);
                     
                     if (existingCollection != null) {
-                        existingCollection.MSD_CORE_isActive__c = true;
+                        if(existingCollection.MSD_CORE_isActive__c){
+                            returnmessage = 'Already Shared!';
+                            return returnmessage;
+                        } else {
+                            existingCollection.MSD_CORE_isActive__c = true;
+                        }
                         collectionsToUpdate.add(existingCollection);
                     } else {
                         MSD_CORE_HEQ_Customer_Collection__c newCollection = new MSD_CORE_HEQ_Customer_Collection__c();
@@ -847,6 +889,17 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             if (!documentLinks.isEmpty()) {
                 insert documentLinks;
             }
+            
+            List<ReportingDataModelHelper.ReportingDataModelWrapper> lstofContentDocLinks = new List<ReportingDataModelHelper.ReportingDataModelWrapper>();
+            
+            for(ContentDocumentLink rec : documentLinks) {
+                ReportingDataModelHelper.ReportingDataModelWrapper recWrapper = new ReportingDataModelHelper.ReportingDataModelWrapper();
+                recWrapper.collectionId = collectionId;
+                recWrapper.contentDocLink = rec;
+                lstofContentDocLinks.add(recWrapper);
+            }
+            System.debug('### Calling the createShadowContentDocumentLink lstofContentDocLinks '+lstofContentDocLinks);
+            ReportingDataModelHelper.createShadowContentDocumentLink(lstofContentDocLinks);
             
             String resourceNamesFormatted = '<ul>';
             for (String res : resourceName) {
@@ -988,6 +1041,9 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                 update extcol;
             }            
             returnmessage = 'Success';
+            System.debug('### Calling the deleteShadowCDL deleteShadowCDL '+collectionId);
+            System.debug('### Calling the deleteShadowCDL customerId '+customerId);
+            ReportingDataModelHelper.deleteShadowCDL(collectionId, customerId);
         } catch (Exception e) {
             System.debug('Error shareCollection ::>'+e.getMessage() +'---'+e.getLineNumber());
             returnmessage = 'Error ::>' +e.getMessage() + '---' +e.getLineNumber();
@@ -1067,6 +1123,23 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
         return [SELECT Id, MSD_CORE_Collection_Name__c, MSD_CORE_Header_Image_Link__c, LastModifiedDate FROM MSD_CORE_HEQ_Collection__c WHERE MSD_CORE_Account_Executive__c = :UserInfo.getUserId() AND MSD_CORE_Status__c = true];
     }
     
+    @AuraEnabled
+    public static void recordDownloadAndPreview(String resourceId, Boolean isDownload) {
+        try {
+            List<ContentVersion> lstOfCV = new List<ContentVersion>();
+            lstOfCV = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE ID=:resourceId];
+            String userId = UserInfo.getUserId();
+            if(lstOfCV.size()>0 && lstOfCV[0].ContentDocumentId != NULL) {
+                ReportingDataModelHelper.createUserActivity(lstOfCV[0].ContentDocumentId, userId, isDownload);
+            }
+            
+        } catch(Exception e) {
+            System.debug('Exception Occurred : ' +e.getMessage());
+            System.debug('Exception Stack Trace : ' +e.getStackTraceString());  
+        }
+        
+    }
+
     /* Wrapper class */
     public class ContentWrapper {
         @AuraEnabled

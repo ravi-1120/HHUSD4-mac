@@ -17,8 +17,8 @@
     justify-content: center;
     background: var(--Neutral-White, #FFF);
     box-shadow: 0px 2px 18px 0px rgba(51, 51, 51, 0.24);
-    position: absolute;
-    top: 35%;
+    position: fixed;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1001;
@@ -35,8 +35,8 @@
 .deletepopup {
     background: var(--Neutral-White, #FFF);
     box-shadow: 0px 2px 18px 0px rgba(51, 51, 51, 0.24);
-    position: absolute;
-    top: 35%;
+    position: fixed;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1001;
@@ -53,8 +53,8 @@
 .viewpopup {
     background: var(--Neutral-White, #FFF);
     box-shadow: 0px 2px 18px 0px rgba(51, 51, 51, 0.24);
-    position: absolute;
-    top: 28%;
+    position: fixed;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1001;
@@ -101,6 +101,7 @@
     position: absolute;
     right: 32px;
     top: 32px;
+    cursor: pointer;
 }
 
 .labelcls {
@@ -125,7 +126,25 @@
 }
 
 .button {
+    border: 2px solid #00857C;
     height: var(--Size-Height-controlHeightLG, 40px);
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.cancelbutton {
+    border: 2px solid #00857C;
+    height: var(--Size-Height-controlHeightLG, 40px);
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    position: fixed;
+    right: 32px;
 }
 
 .inputbox {
@@ -139,6 +158,7 @@
     border: 1px solid #19A29B;
     background: var(--Foundation-Gray-Neutral-100, #FFF);
     color: #000;
+    font-family: 'Invention';
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -252,8 +272,10 @@
 
 .buttoncls1,
 .buttoncls2 {
-    width: 100%;
+    height: var(--Size-Height-controlHeightLG, 40px);
+    width: 240px;
     background: #00857c;
+    border: 2px solid #00857C;
     color: #FFF;
     font-size: 12px;
     font-weight: 600;
@@ -339,6 +361,7 @@
 .icon-buttons {
     display: flex;
     align-items: center;
+    gap: 22px;
 }
 
 .icon-button {
@@ -395,6 +418,13 @@
         flex-shrink: 0;
     }
 
+    .deletepopup-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 16px;
+        padding-top: 37px;
+    }
+
     .labelgap {
         padding-top: 70px;
     }
@@ -410,6 +440,7 @@
         border: 1px solid #19A29B;
         background: var(--Foundation-Gray-Neutral-100, #FFF);
         color: #000;
+        font-family: 'Invention';
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
@@ -426,7 +457,13 @@
     }
 
     .button {
+        border: 2px solid #00857C;
         height: var(--Size-Height-controlHeightLG, 40px);
+        font-family: 'Invention';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px;
     }
 
     .popup-actions {
@@ -434,6 +471,20 @@
         justify-content: flex-end;
         gap: 16px;
         padding-top: 16px;
+    }
+
+    .popup-header {
+        color: var(--Primary-Primary-Dark, var(--Merck-Primary-Dark, #005C56));
+        font-family: 'Invention';
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 36px;
+        position: absolute;
+        left: 32px;
+        top: 32px;
+        width: 181px;
+        height: 72px;
     }
 
     .deletelabelcls {
@@ -472,6 +523,7 @@
 
     .inputbox {
         color: #000;
+        font-family: 'Invention';
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
@@ -505,7 +557,13 @@
     }
 
     .button {
+        border: 2px solid #00857C;
         height: var(--Size-Height-controlHeightLG, 40px);
+        font-family: 'Invention';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px;
     }
 }
 
@@ -550,7 +608,13 @@
     }
 
     .button {
+        border: 2px solid #00857C;
         height: var(--Size-Height-controlHeightLG, 40px);
+        font-family: 'Invention';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px;
     }
 
     .inputbox {
@@ -564,6 +628,7 @@
         border: 1px solid #19A29B;
         background: var(--Foundation-Gray-Neutral-100, #FFF);
         color: #000;
+        font-family: 'Invention';
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
@@ -630,6 +695,7 @@
 
     .inputbox {
         color: #000;
+        font-family: 'Invention';
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
@@ -646,7 +712,13 @@
     }
 
     .button {
+        border: 2px solid #00857C;
         height: var(--Size-Height-controlHeightLG, 40px);
+        font-family: 'Invention';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px;
     }
 
     .popup-actions {

@@ -11,7 +11,7 @@ export default class MSD_CORE_HEQ_ResourcePopup extends LightningElement {
     @track showSpinner = false;
     @track showResourcePopup = true;
     @track allRecords;
-    @track lengthofResourcesSelected;
+    @track lengthofResourcesSelected = 0;
     @track allRecords = [];
     @track menuOptions = [];
     @track selectedDocumentIds = [];

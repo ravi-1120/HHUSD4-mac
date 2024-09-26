@@ -307,20 +307,22 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                     //New
                     console.log('Collection Items - 1');
                     this.collectionItems = result.map(item => {
-                        console.log('Collection Items - 2');
-                        let updatedURL = this.getThumbnailURL('Thumb');
-                        console.log('Collection Items - 3');
-                        let headerclassval = 'header-color-2';
+                        let headerclassval = 2;
                         let filetype;
                         if (item.FileType == 'PDF') {
-                            headerclassval = 'header-color-2';
-                            filetype = 'Static';
+                            headerclassval = 2;
+                            filetype = 'PDF';
                         }
                         if (item.MSD_CORE_Video_Resource__c) {
-                            headerclassval = 'header-color-5';
+                            headerclassval = 5;
                             filetype = 'Video';
                         }
-                        console.log('Collection Items - 4');
+                        let updatedURL = this.getThumbnailURL(item.FileType);
+                        let videoThumbURL = item.Id;
+    
+                        let descriptionVal = item.MSD_CORE_Therapeutic_Area__c ? item.MSD_CORE_Therapeutic_Area__c.replace(/;/g, ', ') : item.MSD_CORE_Therapeutic_Area__c;
+                        let topicVal = item.MSD_CORE_Topic__c ? item.MSD_CORE_Topic__c.replace(/;/g, ', ') : item.MSD_CORE_Topic__c;
+    
                         let expirationDate;
                         if (item.MSD_CORE_Expiration_Date__c) {
                             expirationDate = new Intl.DateTimeFormat('en-US', {
@@ -329,19 +331,28 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                                 day: '2-digit'
                             }).format(new Date(item.MSD_CORE_Expiration_Date__c));
                         }  
-                        console.log('Collection Items - 5');
                         return {
-                            id: item.id,
+                            id: item.Id,
+                            title: item.Title,
+                            subtitle: item.MSD_CORE_Topic__c,
+                            imageUrl: (item.Id) ? updatedURL + videoThumbURL : noImage,
+                            contentDocumentId: item.ContentDocumentId,
+                            isBookmarked: item.isBookmarked == 'true' ? true : false,
                             heading: filetype,
-                            imageUrl: (item.id) ? updatedURL + item.id : noImage,
                             boldText: item.Title,
-                            normalText: item.MSD_CORE_Therapeutic_Area__c,
-                            normalText1: item.MSD_CORE_Topic__c,
-                            expiryDays: item.expirationDate,
+                            normalText: descriptionVal,
+                            normalText1: topicVal,
                             code: item.MSD_CORE_Resource_Code__c,
-                            headerClass: headerclassval,
-                            downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
+                            expiryDays: expirationDate,
+                            headerClass: `header-color-${headerclassval}`,
+                            headerClasslist: `header-color-list-${headerclassval}`,
                             showMenu: false,
+                            isSelectedTile: false,
+                            isSelectedList: false,
+                            isSelectedTileColor: 'slds-var-m-around_medium ',
+                            isSelectedListColor: 'listviewcls ',
+                            downloadLink: sitepath + 'sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
+                            isNewItem: item.MSD_CORE_IsNewItem__c == 'true' ? true : false,
                             notTruncated: true
                         }
                     })
@@ -571,6 +582,9 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
         shareCollection({customerData: JSON.stringify(cids), collectionId: this.collectionId})
             .then(result => {
                 console.log('result of sharecollection::>>',result);
+                if(result == 'Already Shared!'){
+                    this.showNotification('success', 'Collection is already shared with selected users!');
+                } 
                 this.showSpinner = false;
                 this.showuser = false;
                 this.getSharedCustomer();
@@ -586,8 +600,10 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
         this.showSpinner = true;
         if (event.currentTarget.dataset.isregister == 'true') {
             this.selectedcustomerid = event.currentTarget.dataset.id;
+            this.unregistercustomer = null;
         } else {
             this.unregistercustomer = event.currentTarget.dataset.id;
+            this.selectedcustomerid = null;
         }
         console.log('this.selectedcustomerid>>'+this.selectedcustomerid);
         console.log('this.unregistercustomer>>'+this.unregistercustomer);
