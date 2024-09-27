@@ -257,7 +257,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                         let filetype;
                         if (item.FileType == 'PDF') {
                             headerclassval = 2;
-                            filetype = 'PDF';
+                            filetype = 'Static';
                         }
                         if (item.MSD_CORE_Video_Resource__c) {
                             headerclassval = 5;
@@ -298,7 +298,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                             isSelectedList: false,
                             isSelectedTileColor: 'slds-var-m-around_medium ',
                             isSelectedListColor: 'listviewcls ',
-                            downloadLink: sitepath + 'sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
+                            downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
                             isNewItem: item.MSD_CORE_IsNewItem__c == 'true' ? true : false
                         };
         
@@ -351,7 +351,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                             isSelectedList: false,
                             isSelectedTileColor: 'slds-var-m-around_medium ',
                             isSelectedListColor: 'listviewcls ',
-                            downloadLink: sitepath + 'sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
+                            downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
                             isNewItem: item.MSD_CORE_IsNewItem__c == 'true' ? true : false,
                             notTruncated: true
                         }
@@ -508,6 +508,9 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
         saveResourcesInCollection({ collectionId: this.collectionId, documentIds: resourceids })
             .then(result => {
                 console.log('result>>>',result);
+                if (result == 'Already added!') {
+                    this.showNotification('success', 'Resource is already added to the collection!');
+                }
                 this.handlecloseAddItem();
                 this.fetchResource();
                 this.showSpinner = false;

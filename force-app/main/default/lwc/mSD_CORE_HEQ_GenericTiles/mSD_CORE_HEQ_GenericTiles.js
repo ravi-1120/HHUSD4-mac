@@ -7,6 +7,7 @@ import tileImage from '@salesforce/resourceUrl/MSD_CORE_HealthEQ_tile';
 import getCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.getCollectionList';
 import addResourceToCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.addResourceToCollection';
 import getUserProfileName from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getUserProfileName';
+import getUser from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getuser';
 import saveDownloadHistory from '@salesforce/apex/MSD_CORE_HEQ_DownloadHistory.saveDownloadHistory';
 import recordDownloadAndPreview from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.recordDownloadAndPreview';
 import sendEmailNotification from '@salesforce/apex/MSD_CORE_HEQ_ResourceController.sendEmailNotification';
@@ -49,7 +50,10 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     @track showSpinner = false;
     @track showPrintUser = false;
     @track showuser = false;
+    @track showPopup = false;
     @track profileName;
+    @track cid;
+    @track resId;
     @api feature;
 
     urlParams;
@@ -74,6 +78,26 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         if (parts && parts.length > 1) {
             this.urlParams = parts[1].trim();
         }
+        const decodedRetUrl = decodeURIComponent(url);
+        this.cid = this.getUrlParamValue(decodedRetUrl, 'cid');
+        console.log('cid >>' + this.cid);
+
+        const paramValue = this.getUrlParamValue(window.location.href, 'Id');
+        getUser({ userId: paramValue })
+    .then(result => {
+        this.userVar = result;
+        const firstName = this.userVar.FirstName || '';
+        const lastName = this.userVar.LastName || '';
+        this.fullName = `${firstName} ${lastName}`.trim();
+        console.log("getUser generic tiles==>: " + JSON.stringify(this.fullName));
+    })
+    .catch(error => {
+        console.log("getUser error==>: " + JSON.stringify(error));
+    });
+    }
+
+    getUrlParamValue(url, key) {
+        return new URL(url).searchParams.get(key);
     }
 
     getUserData() {
@@ -84,6 +108,8 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
             })
             .catch(error => console.error('Error getting profile name:', error));
     }
+
+
 
     getItemClass(item) {
         return item.isChecked ? 'grid-item grey-background' : 'grid-item';
@@ -127,6 +153,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     handleDownload(event){
         event.preventDefault();
         let { link, resourcename, id } = event.currentTarget.dataset;
+        console.log('#Link ' + link);
         if(this.profileName == customerProfileName){
             this.saveDownloadActivity(id);
         }
@@ -141,7 +168,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
 
     saveDownloadActivity(id) {
         console.log('saveDownloadActivity Called');
-        saveDownloadHistory({ resourceId: id })
+        saveDownloadHistory({ resourceId: id, cid: this.cid })
             .then((result) => {
                 console.log('saveDownloadHistory ', result);
             })
@@ -153,6 +180,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     handleMenuClick(event) {
         const action = event.target.dataset.action;
         const itemId = event.target.dataset.id;
+        this.resId = itemId;
         console.log('### 3 action ' + action);
         console.log('### 4 action ' + itemId);
         const menuClickEvent = new CustomEvent('menuclick', {
@@ -197,14 +225,18 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     }
 
     handleSendEmail(arr) {
-        console.log('send email method called. 1111' + JSON.stringify(arr));
+        console.log('send email method called. 1111' + this.item.id +'>>>'+ this.item.resourceName + '>>>>>'+ JSON.stringify(arr));
         this.showSpinner = true;
         sendEmailNotification({
             userInfoMapList: arr,
-            orderNum: this.resId,
-            resourceName: this.selectedResourceName
+            orderNum: this.item.id,
+            resourceName: this.item.boldText,
+            username: this.fullName
+
         }).then((result) => {
             console.log('result of sendEmailNotification>>', result);
+            this.showPopup = true;
+            console.log('successpopup',this.showPopup);
             this.showSpinner = false;
         }).catch(error => {
             console.log('Error in sendEmailNotification: ' + JSON.stringify(error));
@@ -213,6 +245,10 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
 
         this.showuser = false;
     }
+
+    closePopup() {
+    this.showPopup = false;
+}
 
     closeModal() {
         this.showPrintUser = false;
@@ -292,6 +328,13 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         if (this.category == 'Collections') {
             this.handleOpen(contDocId);
         } else {
+            recordDownloadAndPreview({resourceId: contDocId, isDownload: false})
+            .then(() => {
+                console.log('### User Activity Recorded');
+            })
+            .catch(error => {
+                console.log('### Error Occcured while recording User Activity');
+            });
             this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {

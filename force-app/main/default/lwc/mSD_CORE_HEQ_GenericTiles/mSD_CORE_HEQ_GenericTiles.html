@@ -120,7 +120,7 @@
                             <div class="filter-header-txt">Select Customers</div>
                             <div class="close-icon">
                                 <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
-                                    class="closeiconclick" title="close" onclick={closeModal}>
+                                    class="closeiconclick" title="close" onclick={closeEmailModal}>
                                 </lightning-icon>
                             </div>
                         </div>
@@ -135,6 +135,37 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
     </template>
+
+    <!-- <template class="slds-backdrop slds-backdrop_open" if:true={showPopup}>
+        <section role="dialog" tabindex="-1" class="popup">
+    <div class="popup-content" style="display: flex; width: var(--Desktop-6-col, 552px); padding: 32px; flex-direction: column; align-items: flex-start; gap: 10px;">
+        <h2>Confirmation</h2>
+        <p>Successfully sent</p>
+        <button class="slds-button slds-button_brand button"
+                    onclick={closePopup}>{label.Save}</button>
+    </div>
+        </section>
+</template> -->
+        <template class="slds-backdrop slds-backdrop_open" if:true={showPopup}>
+        <section role="dialog" tabindex="-1" class="deletepopup">
+            <div class="header1">
+                <div class="popup-header">Confirmation</div>
+                <lightning-icon class="closeicon" icon-name="utility:close" alternative-text="close" title={label.Close}
+                    onclick={closePopup} size="small"></lightning-icon>
+                <span class="slds-assistive-text">{label.Close}</span>
+                </div>
+            
+            <div class="labelgap">
+                <p class="deletelabelcls">successfully sent. </p>
+            </div>
+            <div class="deletepopup-actions">
+                <button class="slds-button slds-button_neutral button"
+                    onclick={closePopup}>ok</button>
+            </div>
+            
+        </section>
+    </template>
+
 
     </template>
     <template if:true={getListView}>

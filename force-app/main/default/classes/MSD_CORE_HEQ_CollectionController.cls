@@ -156,6 +156,7 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             }
  
             Map<Id, List<Id>> collectionToCdlMap = new Map<Id, List<Id>>();
+            Map<Id, Id[]> latestFileIdMap = getLatestFileId(collectionIds);
                 
             if(collectionIds.size()>0){
                 List<ContentDocumentLink> contentLinks = [ SELECT Id, LinkedEntityId
@@ -177,6 +178,12 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                     wrapper.createdDate = customerCollection.LastModifiedDate.format('MM/dd/yyyy hh:mm a');
                     wrapper.sharedBy = customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Account_Executive__r.FirstName + ' ' + customerCollection.MSD_CORE_Collection_Id__r.MSD_CORE_Account_Executive__r.LastName;
                     wrapper.resourceCount = collectionToCdlMap.containsKey(customerCollection.MSD_CORE_Collection_Id__c)?collectionToCdlMap.get(customerCollection.MSD_CORE_Collection_Id__c).size():0;
+
+                    Id[] latestIds = latestFileIdMap.get(customerCollection.MSD_CORE_Collection_Id__c);
+                    if (latestIds != null && latestIds.size() == 2) {
+                        wrapper.latestFileId = latestIds[1];
+                    }
+
                     result.add(wrapper);
                 }
                 
@@ -191,6 +198,44 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             throw new AuraHandledException(e.getMessage());
         }
         
+        return result;
+    }
+
+    private static Map<Id, Id[]> getLatestFileId(List<Id> collectionIds) {
+        Map<Id, Id[]> latestFileIdMap = new Map<Id, Id[]>();
+
+        List<ContentDocumentLink> contentLinks = [
+            SELECT ContentDocumentId, LinkedEntityId
+            FROM ContentDocumentLink
+            WHERE LinkedEntityId IN :collectionIds
+        ];
+
+        // Step 2: Collect ContentDocumentIds
+        Set<Id> contentDocumentIds = new Set<Id>();
+        for (ContentDocumentLink cdl : contentLinks) {
+            contentDocumentIds.add(cdl.ContentDocumentId);
+        }
+
+        List<ContentVersion> contentVersions = [
+            SELECT Id, ContentDocumentId
+            FROM ContentVersion
+            WHERE ContentDocumentId IN :contentDocumentIds
+            ORDER BY CreatedDate DESC
+        ];
+
+        for (ContentVersion cv : contentVersions) {
+            if (!latestFileIdMap.containsKey(cv.ContentDocumentId)) {
+                latestFileIdMap.put(cv.ContentDocumentId, new Id[] { cv.ContentDocumentId, cv.Id });
+            }
+        }
+
+        Map<Id, Id[]> result = new Map<Id, Id[]>();
+        for (ContentDocumentLink cdl : contentLinks) {
+            if (latestFileIdMap.containsKey(cdl.ContentDocumentId)) {
+                result.put(cdl.LinkedEntityId, latestFileIdMap.get(cdl.ContentDocumentId));
+            }
+        }
+
         return result;
     }
     
@@ -288,8 +333,10 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
     
     
     @AuraEnabled
-    public static boolean saveResourcesInCollection(String collectionId, List<String> documentIds){
+    public static String saveResourcesInCollection(String collectionId, List<String> documentIds){
         try {
+            System.debug('### Calling the saveResourcesInCollection collectionId '+collectionId);
+            System.debug('### Calling the saveResourcesInCollection documentIds '+documentIds);
             
             if(collectionId != null && collectionId != '' && !documentIds.isEmpty()){
                 
@@ -311,6 +358,10 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                 ];
                 
                 Map<Id, List<ContentDocumentLink>> accountContentDocumentLinkMap = new Map<Id, List<ContentDocumentLink>>();
+                System.debug('### Calling the linkShadowContentDocumentToCollection cdlinklist '+cdlinklist);
+                if(cdlinklist.size()>0) {
+                    ReportingDataModelHelper.linkShadowContentDocumentToCollection(cdlinklist);
+                }
                 
                 for (ContentDocumentLink cdl : cdlinklist) {
                     if (accountContentDocumentLinkMap.containsKey(cdl.LinkedEntityId)) {
@@ -348,11 +399,11 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                     System.debug('### Calling the linkShadowContentDocumentToCollection '+cdl);
                     ReportingDataModelHelper.linkShadowContentDocumentToCollection(cdl);
 				
-                    return true;
+                    return 'success';
                 }
             }
             
-            return false;
+            return 'Already added!';
             
         } catch (Exception e) {
             System.debug('Error in saveResourcesInCollection: ' + e.getMessage());
@@ -453,6 +504,7 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             }
             
             if (collectionToDelete != null) {
+                ReportingDataModelHelper.deleteShadowCDLOnDeletingCollection(collectionId);
                 delete collectionToDelete;
                 message = 'Collection deleted successfully';
             } else {
@@ -578,14 +630,14 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             
             List<ReportingDataModelHelper.ReportingDataModelWrapper> lstofContentDocLinks = new List<ReportingDataModelHelper.ReportingDataModelWrapper>();
             
-            for(ContentDocumentLink rec : newCDLs) {
+            /*for(ContentDocumentLink rec : newCDLs) {
                 ReportingDataModelHelper.ReportingDataModelWrapper recWrapper = new ReportingDataModelHelper.ReportingDataModelWrapper();
                 recWrapper.collectionId = collectionId;
                 recWrapper.contentDocLink = rec;
                 lstofContentDocLinks.add(recWrapper);
             }
             System.debug('### Calling the createShadowContentDocumentLink '+lstofContentDocLinks);
-            ReportingDataModelHelper.createShadowContentDocumentLink(lstofContentDocLinks);
+            ReportingDataModelHelper.createShadowContentDocumentLink(lstofContentDocLinks);*/
             System.debug('### Calling the linkShadowContentDocumentToCollection newCDLs '+newCDLs);
 			ReportingDataModelHelper.linkShadowContentDocumentToCollection(newCDLs);			
             
@@ -749,7 +801,9 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
         String returnmessage = '';
         try {
             List<CustomerData> customers = (List<CustomerData>) JSON.deserialize(customerData, List<CustomerData>.class);
-            
+            System.debug('### customerData '+customerData );
+            System.debug('### collectionId '+collectionId );
+        
             List<Id> customerIds = new List<Id>();
             List<Id> personaccountIds = new List<Id>();
             for (CustomerData customer : customers) {
@@ -860,6 +914,9 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             }
             
             List<ContentDocumentLink> documentLinks = new List<ContentDocumentLink>();
+            List<ContentDocumentLink> lstOfdocumentLinksExisting = new List<ContentDocumentLink>();
+            System.debug('### accountIds '+accountIds );
+            System.debug('### contentdoocumentIds '+contentdoocumentIds );
             
             List<ContentDocumentLink> existingLinks = [
                 SELECT Id, LinkedEntityId, ContentDocumentId 
@@ -870,8 +927,9 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             Set<String> existingLinksSet = new Set<String>();
             for (ContentDocumentLink link : existingLinks) {
                 existingLinksSet.add(link.LinkedEntityId + '-' + link.ContentDocumentId);
+                lstOfdocumentLinksExisting.add(link);
             }
-
+			System.debug('### lstOfdocumentLinksExisting '+lstOfdocumentLinksExisting );
             for (Id accountId : accountIds) {
                 for (Id documentId : contentdoocumentIds) {
                     String uniqueKey = accountId + '-' + documentId;
@@ -883,6 +941,27 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                     } else {
                         System.debug('Link already exists');
                     }
+                }
+            }
+
+            List<Id> allcustomerids = new List<Id>();
+            allcustomerids.addAll(accountIds);
+            allcustomerids.addAll(personaccountIds);
+
+            List<MSD_CORE_HEQ_Collection__c> collectionbanner = [SELECT Id, MSD_CORE_Header_Image_Link__c FROM MSD_CORE_HEQ_Collection__c WHERE Id =: collectionId];
+            List<ContentVersion> cdbannerdocids = new List<ContentVersion>();
+            if (collectionbanner.size()>0) {
+                if (collectionbanner[0].MSD_CORE_Header_Image_Link__c != null || collectionbanner[0].MSD_CORE_Header_Image_Link__c != '') {
+                    cdbannerdocids = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: collectionbanner[0].MSD_CORE_Header_Image_Link__c];
+                }
+            }
+
+            if (cdbannerdocids.size()>0) {
+                for (Id accountid : allcustomerids) {
+                    ContentDocumentLink docLink = new ContentDocumentLink();
+                    docLink.LinkedEntityId = accountid;
+                    docLink.ContentDocumentId = cdbannerdocids[0].ContentDocumentId;
+                    documentLinks.add(docLink);
                 }
             }
 
@@ -898,7 +977,14 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                 recWrapper.contentDocLink = rec;
                 lstofContentDocLinks.add(recWrapper);
             }
+            for(ContentDocumentLink rec : lstOfdocumentLinksExisting) {
+                ReportingDataModelHelper.ReportingDataModelWrapper recWrapper = new ReportingDataModelHelper.ReportingDataModelWrapper();
+                recWrapper.collectionId = collectionId;
+                recWrapper.contentDocLink = rec;
+                lstofContentDocLinks.add(recWrapper);
+            }
             System.debug('### Calling the createShadowContentDocumentLink lstofContentDocLinks '+lstofContentDocLinks);
+            System.debug('### Calling the createShadowContentDocumentLink lstofContentDocLinks size '+lstofContentDocLinks.size());
             ReportingDataModelHelper.createShadowContentDocumentLink(lstofContentDocLinks);
             
             String resourceNamesFormatted = '<ul>';
@@ -1188,6 +1274,8 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
         public String sharedBy { get; set; }
         @AuraEnabled
         public Integer sharedCollectionCount { get; set; }
+        @AuraEnabled
+        public String latestFileId { get; set; }
     }
 
     public class CustomerData {

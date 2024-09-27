@@ -214,17 +214,13 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
                     });
 
                     this.allRecords = this.data;
-                    // this.allRecords = this.data.map(item => {
-                    //     if (item.createdDate) {
-                    //         item.createdDate = this.formatDate(item.createdDate);
-                    //     }
-                    //     return item;
-                    // });
                     this.totalRecords = this.allRecords.length;
                     if (this.totalRecords > 0) {
                         this.isPagination = true;
                     }
                     this.totalPages = Math.ceil(this.allRecords.length / parseInt(this.recordsPerPage));
+
+                    this.handlesorting('createdDate');
                     this.updatePagination();
                     this.columns = Object.keys(this.data[0]).filter(key => key !== 'ThumbnailUrl');
                 } else {
@@ -272,6 +268,10 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
 
     handleSort(event) {
         const field = event.currentTarget.dataset.field;
+        this.handlesorting(field);
+    }
+
+    handlesorting(field) {
         let sortorder;
         if (field == 'Items') {
             this.sortItemsDirection = (this.sortItemsDirection == 'asc') ? 'dsc' : 'asc';
@@ -285,11 +285,13 @@ export default class HEQMyCollections extends NavigationMixin(LightningElement) 
         }
         this.sortRecords(field,sortorder);
         this.getSortIcon(field,sortorder);
+        this.updatePagination();
     }
 
 
     sortRecords(field,order) {
-        this.displayedData.sort((a, b) => {
+        // this.displayedData.sort((a, b) => {
+        this.allRecords.sort((a, b) => {
             let valueA;
             let valueB;
             if (field == 'createdDate') {
