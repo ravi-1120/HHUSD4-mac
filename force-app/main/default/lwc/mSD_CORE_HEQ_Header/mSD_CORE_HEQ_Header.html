@@ -1,9 +1,9 @@
 <template>
-  <template if:true={showTandC}>
+  <!-- <template if:true={showTandC}>
     <div class="tandc-popup">
       <c-m-s-d_-c-o-r-e_-h-e-q_-tand-c></c-m-s-d_-c-o-r-e_-h-e-q_-tand-c>
     </div>
-  </template>
+  </template> -->
   <div class="header-wrapper">
     <header class="header-container" role="banner">
       <div class="menu-section-mb" onclick={handleMobileMenu} data-id="mobileMenu" onkeydown={handleKeyEvent}
@@ -61,7 +61,7 @@
 
           </nav>
 
-          <template if:false={isShow}>
+          <template if:true={isShow1}>
             <!-- Customer Help Dropdown -->
             <div class="dropCls">
               <!-- Separate Help Dropdown -->
@@ -91,7 +91,7 @@
           </template>
 
 
-          <template if:true={isShow}>
+          <template if:true={isShow1}>
             <!-- AE Help Dropdown -->
             <div class="dropCls">
               <!-- Separate Help Dropdown -->
@@ -133,6 +133,7 @@
             <input
                           type="search"
                           id="searchInput"
+                          value={keyword}
                           onkeyup={handleChange}
                           placeholder={labels.searchPlaceholder}
                           aria-label={labels.searchPlaceholder}
@@ -281,6 +282,7 @@
         <input
                             type="search"
                             id="searchInputMb"
+                            value={keyword}
                             onkeyup={handleChange}
                             placeholder={labels.searchPlaceholder}
                             aria-label={labels.searchPlaceholder}

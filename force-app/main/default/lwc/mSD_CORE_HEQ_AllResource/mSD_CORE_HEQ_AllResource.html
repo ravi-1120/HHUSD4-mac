@@ -98,6 +98,9 @@
 
                 <!-- Selected category pill -->
                 <div class="slds-var-m-bottom_medium mainDivCls">
+                    <div class="clearallcls" onclick={handleclearall}>
+                        {label.clearall}
+                    </div>
                     <div class="catagoriesCls">
                         <template for:each={categoryNameAndIdMap} for:item="filter">
                             <span class="filterCls" key={filter}>{filter.name}
@@ -117,17 +120,17 @@
                 </div>
 
                 <!-- Tile -->
-                <div class="slds-grid slds-wrap tileviewcls">
-                    <template if:true={sections}>
-                        <template if:false={isListView}>
+                <template if:true={sections}>
+                    <template if:false={isListView}>
+                        <div class="slds-grid slds-wrap tileviewcls">
                             <template for:each={sections} for:item="section">
                                 <template if:true={section.topics}>
                                     <template for:each={section.topics} for:item="item">
-                                        <div class={item.isSelectedTileColor} key={item}>
+                                        <div class="tileviewpadding" key={item}>
                                             <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item}
                                                 grid-type="grid2" genericview="tile" menu-options={menuOptions}
                                                 category="Expiring Soon" contentdocumentid={item.contentdocumentid}
-                                                onshowmenu={handleShowMenu} onmenuclick={handleMenuClick}
+                                                onshowmenu={handleShowMenu} onmenuclick={handleMenuClick} onclosedropdown={closeDropdown}
                                                 onselectdocument={handleDocumentSelection}>
                                             </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
                                         </div>
@@ -140,17 +143,17 @@
                                     </div>
                                 </template>
                             </template>
-                        </template>
+                        </div>
                     </template>
-                </div>
+                </template>
                 <!-- List -->
-                <div class="listviewcls">
-                    <template if:true={sections}>
-                        <template if:true={isListView}>
+                <template if:true={sections}>
+                    <template if:true={isListView}>
+                        <div class="listviewcls">
                             <template for:each={sections} for:item="section">
                                 <template if:true={section.topics}>
                                     <template for:each={section.topics} for:item="item">
-                                        <div class={item.isSelectedListColor} key={item}>
+                                        <div class="listviewcls" key={item}>
                                             <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item}
                                                 grid-type="grid1" genericview="list" menu-options={menuOptions}
                                                 category="Expiring Soon" contentdocumentid={item.contentdocumentid}
@@ -167,9 +170,9 @@
                                     </div>
                                 </template>
                             </template>
-                        </template>
+                        </div>
                     </template>
-                </div>
+                </template>
                 <div class="bottompagination">
                     <template if:true={isPagination}>
                         <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}

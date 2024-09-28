@@ -15,6 +15,7 @@ import getUser from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getuser';
 import getCustomerCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.getCustomerCollections';
 import sendRegistrationInvite from '@salesforce/apex/MSD_CORE_HEQ_AuthController.sendRegistrationInvite';
 import saveResourcesInCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.saveResourcesInCollection';
+import updateLastaccessedDate from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.updateLastaccessedDate';
 
 //Static Resource
 import noImage from '@salesforce/resourceUrl/MSD_CORE_HEQ_No_Image';
@@ -121,6 +122,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
                 if (result.Profile.Name == customerProfileName) {
                     this.isCustomer = true;
                     this.loadCollectionRecord();
+                    this.updateLastaccessedDate();
                 }
                 if (result.Profile.Name == aeProfileName) {
                     this.isAccountExe = true;
@@ -169,6 +171,19 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
         } catch (error) {
             console.error('Error loadCollectionRecord:', error);
         }
+    }
+
+    updateLastaccessedDate(){
+        this.showSpinner = true;
+        updateLastaccessedDate({collectionId: this.collectionId})
+        .then(result => {
+            console.log('result of updateLastaccessedDate::>',result);
+            this.showSpinner = false;
+        })
+        .catch(error =>{
+            console.log('error of updateLastaccessedDate::>>'+JSON.stringify(error));
+            this.showSpinner = false;
+        });
     }
 
     sendInvite(event) {

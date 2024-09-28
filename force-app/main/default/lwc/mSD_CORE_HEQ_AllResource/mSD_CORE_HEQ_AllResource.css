@@ -36,7 +36,6 @@
 .catagoriesCls {
 	display: flex;
 	gap: 7px;
-	width: 100%;
 	background: #F4F4D3;
 	flex-wrap: wrap;
     flex-grow: 1;
@@ -129,6 +128,12 @@
 	border: 1px solid #E4E4E4;
 	background: #FFF;
 	margin-top: 8px;
+	padding: 22px;
+}
+
+.tileviewpadding {
+	padding-right: 12px;
+    padding-bottom: 20px;
 }
 
 .cardtitle {
@@ -168,13 +173,29 @@
 	max-width: 268px;
 }
 
+.clearallcls {
+	font-family: 'Invention';
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 18px;
+	color: #00857C;
+	text-decoration: underline;
+	cursor: pointer;
+	min-width: 58px;
+	margin-left: 14px;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
 	.mainDivCls {
-			display: flex;
-			justify-content: space-between;
-			background: #F4F4D3;
-			width: 92%;
-			min-height: 38px;
-			align-items: center;
-		}
+		display: flex;
+		justify-content: space-between;
+		background: #F4F4D3;
+		width: 92%;
+		min-height: 38px;
+		align-items: center;
+	}
+	.tileviewcls {
+		padding-left: 65px;
+    	padding-top: 50px;
+	}
 }

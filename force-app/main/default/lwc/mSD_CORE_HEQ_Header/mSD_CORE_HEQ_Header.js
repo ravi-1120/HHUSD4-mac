@@ -115,9 +115,12 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
         }).catch(error => {
             console.log('error->' + JSON.stringify(error));
         });
-
-
     }
+
+    // @api
+    // handleKeywordEvent(event){
+    //     this.keyword = '';
+    // }
 
     get mobileHelpDropdownIcon() {
         return this.mobileHelpDropdownOpen ? 'utility:chevronup' : 'utility:chevrondown';
@@ -156,9 +159,11 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
         if (!this.template.querySelector('.profile-icon').contains(event.target)) {
             this.isDropdownOpen = false;
         }
+        this.handleRemoveSearch();
     }
 
     redirectHomePage(event) {
+        this.keyword = '';
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
@@ -246,12 +251,14 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
         } else {
             this.showHelpDropdown = false;
             if (name) {
+                this.keyword = '';
                 this[NavigationMixin.Navigate]({
                     type: 'standard__webPage',
                     attributes: {
                         url: name
                     }
                 });
+                console.log('Entered Menu >>' ,this.keyword);
             }
         }
 

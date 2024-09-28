@@ -16,6 +16,9 @@ import recordsperpage from '@salesforce/label/c.MSD_CORE_HEQ_AllResourceRecordPe
 import recordperpageoption from '@salesforce/label/c.MSD_CORE_HEQ_AllResourcerecordsPerPageOptions';
 import sitepath from '@salesforce/label/c.MSD_CORE_HEQ_SitePath_For_Download';
 import noresourcefound from '@salesforce/label/c.MSD_CORE_HEQ_No_Resources_Found';
+import customerProfileName from '@salesforce/label/c.MSD_CORE_HEQ_CustomerProfile';
+import aeProfileName from '@salesforce/label/c.MSD_CORE_HEQ_AEProfile';
+import clearall from '@salesforce/label/c.MSD_CORE_HEQ_ClearAll';
 
 //Static Resource
 import noImage from '@salesforce/resourceUrl/MSD_CORE_HEQ_No_Image';
@@ -44,16 +47,25 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
     @track paginatedTopics = [];
     allRecords = [];
 
-    @track menuOptions = [
+    @track aeMenuOptions = [
         { action: 'download', label: 'Download', downloadActive: true, isModelBox: false },
         { action: 'preview', label: 'Preview & Details', downloadActive: false, isModelBox: false },
         { action: 'email', label: 'Email to customer', downloadActive: false, isModelBox: false },
         { action: 'addToCollection', label: 'Add to collection', downloadActive: false, isModelBox: true },
-        { action: 'print', label: 'Print to customer', downloadActive: false, isModelBox: true }
+        { action: 'print', label: 'Print to customer', downloadActive: false, isModelBox: false }
     ];
+
+    @track customerMenuOptions = [
+        { action: 'download', label: 'Download', downloadActive: true, isModelBox: false },
+        { action: 'preview', label: 'Preview & Details', downloadActive: false, isModelBox: false }
+    ];
+
     label = {
         home,
-        noresourcefound
+        noresourcefound,
+        customerProfileName,
+        aeProfileName,
+        clearall
     }
 
     // Pagination
@@ -106,6 +118,9 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         this.recordsPerPageOptions = recordperpageoption.split(',').map(option => parseInt(option.trim()));
     }
 
+    get menuOptions() {
+        return (customerProfileName == this.profileName) ? this.customerMenuOptions : this.aeMenuOptions;
+    }
 
     getCollectionList() {
         getCollectionList()
@@ -140,7 +155,8 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
 
     loadSearch(keyword, type, category, catName) {
         this.showSpinner = true;
-
+        console.log('this.keyword', this.keyword);
+        console.log('this.type', this.type);
         fetchResources({ keyword: keyword, type: type, category: category, categoryName: catName }).then(result => {
             console.log('Result of fetchResources::>>', result);
             this.showSpinner = false;
@@ -225,7 +241,7 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                 let filetype;
                 if (item.FileType == 'PDF') {
                     headerclassval = 2;
-                    filetype = 'PDF';
+                    filetype = 'Static';
                 }
                 if (item.MSD_CORE_Video_Resource__c) {
                     headerclassval = 5;
@@ -268,9 +284,9 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                     showMenu: false,
                     isSelectedTile: false,
                     isSelectedList: false,
-                    isSelectedTileColor: 'slds-var-m-around_medium ',
-                    isSelectedListColor: 'listviewcls ',
-                    downloadLink: sitepath + 'sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
+                    // isSelectedTileColor: 'slds-var-m-around_medium ',
+                    // isSelectedListColor: 'listviewcls ',
+                    downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
                     isNewItem: item.MSD_CORE_IsNewItem__c == 'true' ? true : false
                 };
 
@@ -411,14 +427,17 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
     handleSavedSearch(event) {
         this.showSpinner = true;
         let data1 = JSON.parse(event.detail);
+        console.log('data1', JSON.stringify(data1));
         var categoryList = this.extractLabels(data1);
         this.searchKeyword = 'Search Criteria: ' + data1.keyword;
         this.template.querySelector('c-m-s-d_-c-o-r-e_-h-e-q_-search-category').loadCheckedCategories(categoryList);
-        fetchResourcesFromSavedSearch({ keyword: data1.keyword, type: data1.type, category: categoryList }).then(result => {
+        fetchResourcesFromSavedSearch({ keyword: this.keyword, type: this.type, category: categoryList }).then(result => {
             console.log('Result of fetchResourcesFromSavedSearch:', result);
             this.showSpinner = false;
-            this.manageLoadData(result, data1.keyword, data1.type, categoryList, null);
+            this.manageLoadData(result, this.keyword, this.type, categoryList, null);
             this.sectionsSent = true;
+            // this.keyword = null;
+            // this.type = null;
         }).catch(error => {
             this.showSpinner = false;
             console.log('error in fetchResourcesFromSavedSearch->>' + JSON.stringify(error));
@@ -463,13 +482,31 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         this.sections = this.sections.map((section, index) => {
             section.topics = section.topics.map((item, idx) => {
                 if (item.id === itemId) {
-                    item.showMenu = !item.showMenu;
+                    return { ...item, showMenu: !item.showMenu };
+                }
+                return { ...item, showMenu: false };
+            });
+            return section;
+        });
+        console.log('>>this.sections>>>' + JSON.stringify(this.sections));
+    }
+
+    // Clear All
+    handleclearall() {
+        this.template.querySelector('c-m-s-d_-c-o-r-e_-h-e-q_-search-category').clearAllCategory();
+    }
+
+    closeDropdown() {
+        this.sections = this.sections.map((section, index) => {
+            section.topics = section.topics.map((item, idx) => {
+                if (item.showMenu === true) {
+                    return { ...item, showMenu: false };
                 }
                 return item;
             });
             return section;
         });
-        console.log('>>this.sections>>>' + JSON.stringify(this.sections));
+
     }
 
     handleDocumentSelection(event) {
@@ -479,8 +516,8 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                 if (item.contentdocumentid === documentId) {
                     item.isSelectedTile = !item.isSelectedTile;
                     item.isSelectedList = !item.isSelectedList;
-                    item.isSelectedTileColor = !item.isSelectedTile ? 'slds-var-m-around_medium ' : 'slds-var-m-around_medium grey-background'
-                    item.isSelectedListColor = !item.isSelectedList ? 'listviewcls ' : 'listviewcls grey-background'
+                    // item.isSelectedTileColor = !item.isSelectedTile ? 'slds-var-m-around_medium ' : 'slds-var-m-around_medium grey-background'
+                    // item.isSelectedListColor = !item.isSelectedList ? 'listviewcls ' : 'listviewcls grey-background'
                     if ((item.isSelectedTile || item.isSelectedList) && !this.selectedDocumentIds.includes(item.contentdocumentid)) {
                         this.selectedDocumentIds = [...this.selectedDocumentIds, item.contentdocumentid];
                     } else if (!item.isSelectedTile || !item.isSelectedList) {

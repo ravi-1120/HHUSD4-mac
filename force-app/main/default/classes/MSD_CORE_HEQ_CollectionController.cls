@@ -126,6 +126,28 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
     }
     
     @AuraEnabled
+    public static string updateLastaccessedDate(String collectionId){
+        String returnvalue;
+        try {
+            List<User> userlist = [SELECT Profile.Name, AccountId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+            if (userlist.size()>0) {
+                Id accountId = userlist[0].AccountId;
+                if (userlist[0].Profile.Name == System.Label.MSD_CORE_HEQ_CustomerProfile){
+                    List<MSD_CORE_HEQ_Customer_Collection__c> customercollection = [SELECT Id, MSD_CORE_Last_accessed_date__c, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_Customer_Id__c =: accountId];
+                    customercollection[0].MSD_CORE_Last_accessed_date__c = System.now();
+                    update customercollection;
+                    returnvalue = 'success';
+                } else {
+                    returnvalue = 'Not Customer User';
+                }
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+        return returnvalue;
+    }
+
+    @AuraEnabled
     public static List<CollectionWrapper> getCustomerCollections(Id collectionId) {
         
         List<CollectionWrapper> result = new List<CollectionWrapper>();
@@ -717,13 +739,15 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
         Map<Id, Boolean> isInvitedMap = new Map<Id, Boolean>();
         List<Id> nonPortalAccountIds = new List<Id>();
         List<Id> portalAccountIds = new List<Id>();
+        Map<Id, String> lastAccessedDateMap = new Map<Id, String>();
         try {
-            List<MSD_CORE_HEQ_Customer_Collection__c> customercollection = [SELECT Id, Name, MSD_CORE_isActive__c, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_isActive__c = true];
+            List<MSD_CORE_HEQ_Customer_Collection__c> customercollection = [SELECT Id, Name, MSD_CORE_Last_accessed_date__c, MSD_CORE_isActive__c, MSD_CORE_Collection_Id__c, MSD_CORE_Customer_Id__c FROM MSD_CORE_HEQ_Customer_Collection__c WHERE MSD_CORE_Collection_Id__c =: collectionId AND MSD_CORE_isActive__c = true];
             List<Id> personaccids = new List<Id>();
             if (customercollection.size() > 0) {
                 
                 for (MSD_CORE_HEQ_Customer_Collection__c col : customercollection) {
                     personaccids.add(col.MSD_CORE_Customer_Id__c);
+                    lastAccessedDateMap.put(col.MSD_CORE_Customer_Id__c, col.MSD_CORE_Last_accessed_date__c != null ? col.MSD_CORE_Last_accessed_date__c.format('MM/dd/yyyy hh:mm a') : null);
                 }
                 List<Id> accountIds = MSD_CORE_FBEAccountMappingHelper.getFBEAccountMapping(UserInfo.getUserId());
                 if (accountIds.isEmpty()) {
@@ -765,6 +789,7 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
                             resultMap.put('Name', personUser.Name);
                             resultMap.put('Email', personUser.Email);
                             resultMap.put('LastLoginDate', personUser.LastLoginDate);
+                            resultMap.put('LastAccessedDate', lastAccessedDateMap.get(acc.Id));
                             resultMap.put('IsRegister', true);
                         }
                     } else {

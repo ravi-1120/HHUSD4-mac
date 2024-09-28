@@ -96,7 +96,7 @@
                                     <td>{customer.FirstName}</td>
                                     <td>{customer.LastName}</td>
                                     <td>{customer.Email}</td>
-                                    <td></td>
+                                    <td>{customer.LastAccessedDate}</td>
                                     <td>
                                         <template if:false={customer.IsRegister}>
                                             <span data-id={customer.Id} onclick={sendInvite}>Re-invite</span>
