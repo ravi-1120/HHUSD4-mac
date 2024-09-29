@@ -84,17 +84,21 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
 
         const paramValue = this.getUrlParamValue(window.location.href, 'Id');
         getUser({ userId: paramValue })
-    .then(result => {
-        this.userVar = result;
-        const firstName = this.userVar.FirstName || '';
-        const lastName = this.userVar.LastName || '';
-        this.fullName = `${firstName} ${lastName}`.trim();
-        console.log("getUser generic tiles==>: " + JSON.stringify(this.fullName));
-    })
-    .catch(error => {
-        console.log("getUser error==>: " + JSON.stringify(error));
-    });
+            .then(result => {
+                this.userVar = result;
+                const firstName = this.userVar.FirstName || '';
+                const lastName = this.userVar.LastName || '';
+                this.fullName = `${firstName} ${lastName}`.trim();
+                console.log("getUser generic tiles==>: " + JSON.stringify(this.fullName));
+            })
+            .catch(error => {
+                console.log("getUser error==>: " + JSON.stringify(error));
+            });
+
+        // document.addEventListener('click', this.closeDropdown.bind(this));
+
     }
+
 
     getUrlParamValue(url, key) {
         return new URL(url).searchParams.get(key);
@@ -109,7 +113,15 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
             .catch(error => console.error('Error getting profile name:', error));
     }
 
-
+    // closeDropdown(event) {
+    //     console.log('Called closeDropdown', event.target);
+    //     const dropdownElement = this.template.querySelector('.hide-dropdown');
+    //     if (dropdownElement && !dropdownElement.contains(event.target)) {
+    //         this.dispatchEvent(new CustomEvent("closedropdown", {
+    //             detail: 'closedropdown'
+    //         }))
+    //     }
+    // }
 
     getItemClass(item) {
         return item.isChecked ? 'grid-item grey-background' : 'grid-item';
@@ -143,12 +155,15 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     }
 
     handleShowMenu(event) {
+        console.log('handleShowMenu>>> ' , event.target);
         const itemId = event.currentTarget.dataset.id;
         const showMenuEvent = new CustomEvent('showmenu', {
             detail: { itemId, gridType: this.gridType }
         });
         this.dispatchEvent(showMenuEvent);
     }
+
+    
 
     handleDownload(event){
         event.preventDefault();
@@ -225,13 +240,14 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     }
 
     handleSendEmail(arr) {
-        console.log('send email method called. 1111' + this.item.id +'>>>'+ this.item.resourceName + '>>>>>'+ JSON.stringify(arr));
+        console.log('send email method called. 1111' + this.item.id +'>>>'+ this.item.boldText + '>>>>>'+ JSON.stringify(arr));
         this.showSpinner = true;
         sendEmailNotification({
             userInfoMapList: arr,
             orderNum: this.item.id,
             resourceName: this.item.boldText,
-            username: this.fullName
+            resourceID: this.item.code,
+            username: this.fullName,
 
         }).then((result) => {
             console.log('result of sendEmailNotification>>', result);

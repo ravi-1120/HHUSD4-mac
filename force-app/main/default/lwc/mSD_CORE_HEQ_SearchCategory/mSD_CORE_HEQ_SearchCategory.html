@@ -30,8 +30,8 @@
                         <div key={category.id}>
                             <div class={category.selectedcategorycls}>
                                 <div class="categorycls">
-                                    <lightning-input class="checkboxcls" type="checkbox" checked={category.isChecked}
-                                        data-id={category.id} onchange={handleCheck}></lightning-input>
+                                    <!-- <lightning-input class="checkboxcls" type="checkbox" checked={category.isChecked}
+                                        data-id={category.id} onchange={handleCheck}></lightning-input> -->
                                     <span>{category.name}</span>
                                 </div>
                                 <div class="iconToggle" data-id={category.id} onclick={toggleSection}>
@@ -40,10 +40,10 @@
                                 </div>
                             </div>
                             <template if:true={category.isOpen}>
-                                <div class="slds-var-m-left_large">
+                                <div class="childcategorypadding">
                                     <template for:each={category.childCategories} for:item="childCategory">
                                         <div key={childCategory.id}>
-                                            <div class="folder-subitem slds-var-m-left_medium">
+                                            <div class="folder-subitem">
                                                 <div class="categorycls">
                                                     <lightning-input class="checkboxcls" type="checkbox"
                                                         checked={childCategory.isChecked} data-id={childCategory.id}
@@ -57,7 +57,7 @@
                                                 </div>
                                             </div>
                                             <template if:true={childCategory.isOpen}>
-                                                <div class="slds-var-m-left_xx-large">
+                                                <div class="subchildcategorypadding">
                                                     <template for:each={childCategory.childCategories}
                                                         for:item="grandChildCategory">
                                                         <div key={grandChildCategory.id} class="folder-subitem">

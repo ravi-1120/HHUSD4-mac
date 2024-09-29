@@ -76,6 +76,8 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
     @track recordsPerPage = recordsperpage;
     @track recordsPerPageOptions = [];
     @track searchCategory = [];
+    @track mobilescreen;
+    @track isSearchCategory = false;
     @api isChecked;
 
     connectedCallback() {
@@ -84,6 +86,13 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         this.keyword = this.getUrlParamValue(window.location.href, 'keyword');
         this.type = this.getUrlParamValue(window.location.href, 'type');
         this.categoryList = this.getUrlParamValue(window.location.href, 'category');
+
+        var screenwidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+        if (screenwidth > 768) {
+            this.mobilescreen = false;
+        } else {
+            this.mobilescreen = true;
+        }
 
         if (this.type == 'Browse All') {
             this.loadSearch(null, this.type, null, null);
@@ -556,13 +565,29 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
     // Sidebar
     handleExpandCollapsSidebar() {
         const tilecontent = this.template.querySelector('.tileviewcls');
-        tilecontent.classList.toggle('margincls-tile');
+        if (tilecontent) {
+            tilecontent.classList.toggle('margincls-tile');
+        }
         const listcontent = this.template.querySelector('.listviewcls');
-        listcontent.classList.toggle('margincls-tile');
+        if (listcontent) {
+            listcontent.classList.toggle('margincls-tile');
+        }
         const bottompagination = this.template.querySelector('.bottompagination');
-        bottompagination.classList.toggle('margincls-tile');
+        if (bottompagination) {
+            bottompagination.classList.toggle('margincls-tile');
+        }
         const sidebar = this.template.querySelector('.sidebar');
-        sidebar.classList.toggle('width-sidebar');
+        if (sidebar) {
+            sidebar.classList.toggle('width-sidebar');
+        }
+    }
+
+    closeSearchCategory() {
+        this.isSearchCategory = false;
+    }
+
+    handleSearchCategory(){
+        this.isSearchCategory = true;
     }
 
     handleViewClick(event) {

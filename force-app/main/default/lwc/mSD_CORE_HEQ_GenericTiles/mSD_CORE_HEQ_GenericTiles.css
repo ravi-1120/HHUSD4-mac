@@ -26,7 +26,8 @@
 }
 
 .grid-item input {
-    width: 100%; /* Adjust the input to fit the grid */
+    width: 100%;
+    /* Adjust the input to fit the grid */
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -729,7 +730,7 @@ top: 3px; */
     position: relative;
 }
 
-.getItemClass:hover{
+.getItemClass:hover {
     box-shadow: 0px 2px 18px 0px rgba(51, 51, 51, 0.24);
 }
 
@@ -1058,7 +1059,10 @@ top: 3px; */
     font-style: normal;
     font-weight: 700;
     line-height: 18px;
+    color: #FFFF;
+    background: var(--Primary-Primary, #00857C);
 }
+
 
 @media only screen and (max-width: 375px) {
     .custom-layout {
@@ -1284,20 +1288,20 @@ top: 3px; */
         flex-direction: column;
     }
 
-    .mainmodel-print{
+    .mainmodel-print {
         min-height: 100vh;
         padding: 0px;
     }
 
-    .print-bd{
+    .print-bd {
         font-size: 14px;
     }
 
-    .filter-header{
+    .filter-header {
         padding: 36px 24px 24px 24px;
     }
 
-    .filter-header-txt{
+    .filter-header-txt {
         color: #000;
         font-family: 'Invention';
         font-size: 18px;
@@ -1306,7 +1310,7 @@ top: 3px; */
         line-height: 24px;
     }
 
-    .close-icon{
+    .close-icon {
         position: absolute;
         top: 24px;
         right: 24px;

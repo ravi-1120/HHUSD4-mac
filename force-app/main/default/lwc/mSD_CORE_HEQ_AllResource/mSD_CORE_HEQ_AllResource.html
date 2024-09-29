@@ -75,13 +75,44 @@
         <!-- Content -->
         <div class="maincontent">
             <!-- Search Category -->
-            <div class="sidebar width-sidebar">
+            <div class="sidebar width-sidebar" if:false={mobilescreen}>
                 <c-m-s-d_-c-o-r-e_-h-e-q_-search-category onselectedcategories={handleSelectedCategories}
                     oncategoriesid={handlecategoriesid} ongetsavedsearch={handleSavedSearch}
                     onexpandcollapssidebar={handleExpandCollapsSidebar} onselectedfiltersupdate={handleSelectedFilters}
                     oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}
                     onclearcategories={handleClearCategories}>
                 </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
+            </div>
+            <div if:true={mobilescreen}>
+                <div onclick={handleSearchCategory}>Hello click me</div>
+                <template if:true={isSearchCategory}>
+                    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                        class="slds-modal slds-fade-in-open slds-modal_medium">
+                        <div class="slds-modal__container filter-modal">
+                            <div class="slds-modal__content mainmodel-print">
+                                <div>
+                                    <div class="filter-header">
+                                        <div class="filter-header-txt" onclick={closeSearchCategory}> &lt; {type}</div>
+                                        <div class="close-icon">
+                                            <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                                class="closeiconclick" title="close" onclick={closeSearchCategory}>
+                                            </lightning-icon>
+                                        </div>
+                                    </div>
+                                    <div class="print-bd">
+                                        <c-m-s-d_-c-o-r-e_-h-e-q_-search-category onselectedcategories={handleSelectedCategories}
+                                            oncategoriesid={handlecategoriesid} ongetsavedsearch={handleSavedSearch}
+                                            onexpandcollapssidebar={handleExpandCollapsSidebar} onselectedfiltersupdate={handleSelectedFilters}
+                                            oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}
+                                            onclearcategories={handleClearCategories}>
+                                        </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+                </template>
             </div>
             <!-- Tile & Pagination -->
             <div class="tilepaginationcls">

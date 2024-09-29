@@ -217,11 +217,11 @@
     justify-content: space-between;
     margin: auto 0;
     height: 42px;
-    padding-left: 8px;
 }
 
 .folder-item {
     border-bottom: 1px solid #E4E4E4;
+    padding-left: 19.19px;
 }
 
 .highlightcls {
@@ -375,6 +375,14 @@
 
 .icon-button img {
     display: block;
+}
+
+.childcategorypadding {
+    padding-left: 26.19px;
+}
+
+.subchildcategorypadding {
+    padding-left: 20px;
 }
 
 
@@ -736,5 +744,19 @@
         font-style: normal;
         font-weight: 400;
         line-height: 24px;
+    }
+}
+
+/* Mobile */
+@media only screen and (max-width: 480px) {
+    .doublelefticoncls {
+        display: none;
+    }
+    .inputcls {
+        display: none;
+    }
+    .buttoncls1,
+    .buttoncls2 {
+        display: none;
     }
 }

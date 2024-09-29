@@ -199,3 +199,32 @@
     	padding-top: 50px;
 	}
 }
+
+/* Mobile */
+@media only screen and (max-width: 480px) {
+	.breadcrumbs {
+		padding-bottom: 4px;
+	}
+	.lastmodified {
+		display: none;
+	}
+	.maincontent {
+		margin-top: 8px;
+	}
+	.filter-modal {
+        margin: 0px;
+        height: 100vh;
+        width: 100vw;
+        padding: 0px;
+        flex-direction: column;
+    }
+	.mainmodel-print {
+        min-height: 100vh;
+        padding: 0px;
+    }
+	.close-icon {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+    }
+}
