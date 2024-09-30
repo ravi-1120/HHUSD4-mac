@@ -19,6 +19,7 @@ import noresourcefound from '@salesforce/label/c.MSD_CORE_HEQ_No_Resources_Found
 import customerProfileName from '@salesforce/label/c.MSD_CORE_HEQ_CustomerProfile';
 import aeProfileName from '@salesforce/label/c.MSD_CORE_HEQ_AEProfile';
 import clearall from '@salesforce/label/c.MSD_CORE_HEQ_ClearAll';
+import Filter from '@salesforce/label/c.MSD_CORE_HEQ_Filter';
 
 //Static Resource
 import noImage from '@salesforce/resourceUrl/MSD_CORE_HEQ_No_Image';
@@ -65,7 +66,8 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         noresourcefound,
         customerProfileName,
         aeProfileName,
-        clearall
+        clearall,
+        Filter
     }
 
     // Pagination

@@ -83,8 +83,17 @@
                     onclearcategories={handleClearCategories}>
                 </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
             </div>
-            <div if:true={mobilescreen}>
-                <div onclick={handleSearchCategory}>Hello click me</div>
+            <div class="filterbtnmaincls" if:true={mobilescreen}>
+                <div class="filterbtncls" onclick={handleSearchCategory}>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.6269 3.60938H3.37226C2.79804 3.60938 2.43945 4.23516 2.72773 4.73438L8.17929 14.2359V19.6406C8.17929 20.0555 8.5121 20.3906 8.92461 20.3906H15.0746C15.4871 20.3906 15.8199 20.0555 15.8199 19.6406V14.2359L21.2738 4.73438C21.5598 4.23516 21.2012 3.60938 20.6269 3.60938ZM14.1418 18.7031H9.85742V15.2344H14.1441V18.7031H14.1418ZM14.3668 13.3922L14.1699 13.7344H9.82695L9.63007 13.3922L7.8371 10.2656H16.1621L14.3668 13.3922ZM17.0223 8.76562H6.97695L4.98476 5.29688H19.0144L17.0223 8.76562Z" fill="black" fill-opacity="0.45"/>
+                        </svg>                            
+                    </div>
+                    <div class="filtertext">
+                        {label.Filter}
+                    </div>
+                </div>
                 <template if:true={isSearchCategory}>
                     <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
                         class="slds-modal slds-fade-in-open slds-modal_medium">

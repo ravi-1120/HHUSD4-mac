@@ -97,3 +97,10 @@
     font-weight: 500;
     margin-bottom: 0px;
 }
+
+/* Mobile */
+@media only screen and (max-width: 480px) { 
+    .maincontainer {
+        margin-bottom: 4px;
+    }
+}

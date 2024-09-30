@@ -210,6 +210,7 @@
 	}
 	.maincontent {
 		margin-top: 8px;
+		display: block;
 	}
 	.filter-modal {
         margin: 0px;
@@ -227,4 +228,38 @@
         top: 24px;
         right: 24px;
     }
+	.filtertext {
+		color: #00857C;
+		font-size: 16px;
+		line-height: 24px;
+		font-weight: 500;
+		align-items: center;
+		text-decoration: underline;
+	}
+	.tilepaginationcls {
+		padding-left: 0px;
+		margin-top: 8px;
+	}
+	.filterbtnmaincls {
+		height: 66px;
+		background: white;
+		display: flex;
+		width: 175px;
+	}
+	.filterbtncls {
+		display: flex;
+		margin: auto;
+		gap: 6px;
+	}
+	.tileviewpadding {
+		padding-right: 0px;
+		padding-bottom: 31px;
+    	margin: auto;
+	}
+	.mainDivCls {
+		margin-bottom: 0px;
+	}
+	.tileviewcls {
+		margin-top: 0px;
+	}
 }
