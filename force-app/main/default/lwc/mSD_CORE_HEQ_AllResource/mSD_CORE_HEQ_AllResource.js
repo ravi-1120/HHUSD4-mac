@@ -566,6 +566,10 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
 
     // Sidebar
     handleExpandCollapsSidebar() {
+        const mainDivCls = this.template.querySelector('.mainDivCls');
+        if (mainDivCls) {
+            mainDivCls.classList.toggle('margincls-tile');
+        }
         const tilecontent = this.template.querySelector('.tileviewcls');
         if (tilecontent) {
             tilecontent.classList.toggle('margincls-tile');

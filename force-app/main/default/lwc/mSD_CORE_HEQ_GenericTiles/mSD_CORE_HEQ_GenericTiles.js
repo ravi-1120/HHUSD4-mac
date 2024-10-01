@@ -11,6 +11,7 @@ import getUser from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getuser';
 import saveDownloadHistory from '@salesforce/apex/MSD_CORE_HEQ_DownloadHistory.saveDownloadHistory';
 import recordDownloadAndPreview from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.recordDownloadAndPreview';
 import sendEmailNotification from '@salesforce/apex/MSD_CORE_HEQ_ResourceController.sendEmailNotification';
+import addOrUpdateCartRecords from '@salesforce/apex/MSD_CORE_HEQ_CartController.addOrUpdateCartRecords';
 
 // Custom Labels
 import sitepath from '@salesforce/label/c.MSD_CORE_HEQ_SitePath_For_Download';
@@ -127,25 +128,25 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         return item.isChecked ? 'grid-item grey-background' : 'grid-item';
     }
 
-    getCollectionList(){
+    getCollectionList() {
         this.showSpinner = true;
         getCollectionList()
-        .then(result => {
-            console.log('result of getCollectionList>>', result);
-            if (result.length>0) {
-                for(let key in result) {
-                    this.collectionList.push({value: result[key].Id, label: result[key].MSD_CORE_Collection_Name__c});
+            .then(result => {
+                console.log('result of getCollectionList>>', result);
+                if (result.length > 0) {
+                    for (let key in result) {
+                        this.collectionList.push({ value: result[key].Id, label: result[key].MSD_CORE_Collection_Name__c });
+                    }
+                } else {
+                    this.collectionList.push({ value: '', label: 'No Collection found!' });
                 }
-            } else {
-                this.collectionList.push({value: '', label: 'No Collection found!'});
-            }
-            console.log('>collectionList>>'+JSON.stringify(this.collectionList));
-            this.showSpinner = false;
-        })
-        .catch(error => {
-            console.error('Error getCollectionList::', error);
-            this.showSpinner = false;
-        });
+                console.log('>collectionList>>' + JSON.stringify(this.collectionList));
+                this.showSpinner = false;
+            })
+            .catch(error => {
+                console.error('Error getCollectionList::', error);
+                this.showSpinner = false;
+            });
     }
 
     get getListView() {
@@ -155,7 +156,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     }
 
     handleShowMenu(event) {
-        console.log('handleShowMenu>>> ' , event.target);
+        console.log('handleShowMenu>>> ', event.target);
         const itemId = event.currentTarget.dataset.id;
         const showMenuEvent = new CustomEvent('showmenu', {
             detail: { itemId, gridType: this.gridType }
@@ -163,13 +164,13 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         this.dispatchEvent(showMenuEvent);
     }
 
-    
 
-    handleDownload(event){
+
+    handleDownload(event) {
         event.preventDefault();
         let { link, resourcename, id } = event.currentTarget.dataset;
         console.log('#Link ' + link);
-        if(this.profileName == customerProfileName){
+        if (this.profileName == customerProfileName) {
             this.saveDownloadActivity(id);
         }
         const anchor = document.createElement('a');
@@ -209,13 +210,13 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
                 break;
             case 'preview':
                 this.handlePreview(itemId);
-                recordDownloadAndPreview({resourceId: itemId, isDownload: false})
-                .then(() => {
-                    console.log('### User Activity Recorded');
-                })
-                .catch(error => {
-                    console.log('### Error Occcured while recording User Activity');
-                });
+                recordDownloadAndPreview({ resourceId: itemId, isDownload: false })
+                    .then(() => {
+                        console.log('### User Activity Recorded');
+                    })
+                    .catch(error => {
+                        console.log('### Error Occcured while recording User Activity');
+                    });
                 break;
             case 'download':
                 recordDownloadAndPreview({ resourceId: itemId, isDownload: true })
@@ -240,7 +241,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     }
 
     handleSendEmail(arr) {
-        console.log('send email method called. 1111' + this.item.id +'>>>'+ this.item.boldText + '>>>>>'+ JSON.stringify(arr));
+        console.log('send email method called. 1111' + this.item.id + '>>>' + this.item.boldText + '>>>>>' + JSON.stringify(arr));
         this.showSpinner = true;
         sendEmailNotification({
             userInfoMapList: arr,
@@ -252,7 +253,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         }).then((result) => {
             console.log('result of sendEmailNotification>>', result);
             this.showPopup = true;
-            console.log('successpopup',this.showPopup);
+            console.log('successpopup', this.showPopup);
             this.showSpinner = false;
         }).catch(error => {
             console.log('Error in sendEmailNotification: ' + JSON.stringify(error));
@@ -262,40 +263,71 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         this.showuser = false;
     }
 
+    handleAddToCart(data) {
+        this.showSpinner = true;
+        let idList = data.map(item => item.id);
+        let resourceId = [];
+        resourceId.push(this.item.id);
+
+        console.log('Ids>>', resourceId);
+        console.log('Customers>>', idList);
+        addOrUpdateCartRecords({
+            customerIds: idList,
+            resourceIds: resourceId,
+        }).then((result) => {
+            if(result === 'Success'){
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__webPage',
+                    attributes: {
+                        url: `/cart`
+                    }
+                });
+            }
+            console.log('result of updateCartRecords>>', result);
+            this.showSpinner = false;
+        }).catch(error => {
+            console.log('Error in updateCartRecords: ' + JSON.stringify(error));
+            this.showSpinner = false;
+        });
+
+        this.showuser = false;
+    }
+
+
     closePopup() {
-    this.showPopup = false;
-}
+        this.showPopup = false;
+    }
 
     closeModal() {
         this.showPrintUser = false;
     }
-    closeEmailModal(){
+    closeEmailModal() {
         this.showuser = false;
     }
 
-    handleAddToCart() {
-        console.log('Add to cartnmethod called.');
-        this.showPrintUser = false;
-        this.showSpinner = true;
-        this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: `/cart`
-            }
-        });
-    }
+    // handleAddToCart() {
+    //     console.log('Add to cartnmethod called.');
+    //     this.showPrintUser = false;
+    //     this.showSpinner = true;
+    //     this[NavigationMixin.Navigate]({
+    //         type: 'standard__webPage',
+    //         attributes: {
+    //             url: `/cart`
+    //         }
+    //     });
+    // }
 
     closeCustomerModel(event) {
         this.showPrintUser = false;
     }
 
-    getSelectedCustomer(event){
+    getSelectedCustomer(event) {
         var getSelectedCustomer = event.detail;
-        console.log('getSelectedCustomer'+ JSON.stringify(event.detail));
+        console.log('getSelectedCustomer' + JSON.stringify(event.detail));
         if (getSelectedCustomer != null) {
 
             if (event.detail.feature == 'print') {
-                this.handleAddToCart();
+                this.handleAddToCart(getSelectedCustomer.data);
             } else if (event.detail.feature == 'edeliver') {
                 this.handleSendEmail(event.detail.data);
             }
@@ -344,13 +376,13 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         if (this.category == 'Collections') {
             this.handleOpen(contDocId);
         } else {
-            recordDownloadAndPreview({resourceId: contDocId, isDownload: false})
-            .then(() => {
-                console.log('### User Activity Recorded');
-            })
-            .catch(error => {
-                console.log('### Error Occcured while recording User Activity');
-            });
+            recordDownloadAndPreview({ resourceId: contDocId, isDownload: false })
+                .then(() => {
+                    console.log('### User Activity Recorded');
+                })
+                .catch(error => {
+                    console.log('### Error Occcured while recording User Activity');
+                });
             this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
@@ -448,7 +480,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     // Close icon click on Resource 
     closeResource() {
         const closeresource = new CustomEvent('closeresourceclick', {
-            detail: {id:this.item.contentDocumentId , name: this.item.title}
+            detail: { id: this.item.contentDocumentId, name: this.item.title }
         })
         this.dispatchEvent(closeresource);
     }
@@ -483,7 +515,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         });
     }
 
-    handleCheckbox(){
+    handleCheckbox() {
         console.log('Checkbox');
     }
 

@@ -185,18 +185,28 @@
 	margin-left: 14px;
 }
 
-@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+@media only screen and (min-width: 768px) and (max-width: 1025px) and (orientation: portrait) {
 	.mainDivCls {
 		display: flex;
 		justify-content: space-between;
 		background: #F4F4D3;
-		width: 92%;
 		min-height: 38px;
 		align-items: center;
+		margin-bottom: 0px;
+		width: auto;
 	}
 	.tileviewcls {
 		padding-left: 65px;
     	padding-top: 50px;
+		margin-top: 0;
+        gap: 51px;
+        padding-right: 0px;
+	}
+	.tileviewpadding {
+		padding-bottom: 42px;
+	}
+	.bottompagination {
+		display: none;
 	}
 }
 
@@ -261,5 +271,9 @@
 	}
 	.tileviewcls {
 		margin-top: 0px;
+		padding-top: 21px;
+	}
+	.bottompagination {
+		display: none;
 	}
 }
