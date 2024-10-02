@@ -233,11 +233,6 @@
         min-height: 100vh;
         padding: 0px;
     }
-	.close-icon {
-        position: absolute;
-        top: 24px;
-        right: 24px;
-    }
 	.filtertext {
 		color: #00857C;
 		font-size: 16px;
@@ -275,5 +270,19 @@
 	}
 	.bottompagination {
 		display: none;
+	}
+	.print-bd {
+		padding-top: 74px;
+		padding-left: 24px;
+		padding-right: 24px;
+		padding-bottom: 70px;
+	}
+	.filter-header {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		background: #FFFFFF;
+		padding: 24px;
+		position: fixed;
 	}
 }

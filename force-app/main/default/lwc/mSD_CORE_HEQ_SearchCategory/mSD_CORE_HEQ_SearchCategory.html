@@ -28,13 +28,11 @@
                 <div if:true={searchCategory}>
                     <template for:each={searchCategory} for:item="category">
                         <div key={category.id}>
-                            <div class={category.selectedcategorycls}>
+                            <div class={category.selectedcategorycls} data-id={category.id} onclick={toggleSection}>
                                 <div class="categorycls">
-                                    <!-- <lightning-input class="checkboxcls" type="checkbox" checked={category.isChecked}
-                                        data-id={category.id} onchange={handleCheck}></lightning-input> -->
-                                    <span>{category.name}</span>
+                                    <span class="categoryname">{category.name}</span>
                                 </div>
-                                <div class="iconToggle" data-id={category.id} onclick={toggleSection}>
+                                <div class="iconToggle">
                                     <lightning-icon icon-name={category.iconName} alternative-text="Toggle"
                                         size="x-small"></lightning-icon>
                                 </div>
@@ -45,10 +43,36 @@
                                         <div key={childCategory.id}>
                                             <div class="folder-subitem">
                                                 <div class="categorycls">
-                                                    <lightning-input class="checkboxcls" type="checkbox"
-                                                        checked={childCategory.isChecked} data-id={childCategory.id}
-                                                        onchange={handleCheck}></lightning-input>
-                                                    <span>{childCategory.name}</span>
+                                                    <template if:false={childCategory.isPartial}>
+                                                        <div class="checkcls" if:false={childCategory.isChecked} data-checked="true" data-id={childCategory.id} onclick={handleCheck}>
+                                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M11.52 0H0.48C0.2145 0 0 0.2145 0 0.48V11.52C0 11.7855 0.2145 12 0.48 12H11.52C11.7855 12 12 11.7855 12 11.52V0.48C12 0.2145 11.7855 0 11.52 0ZM10.92 10.92H1.08V1.08H10.92V10.92Z" fill="black" fill-opacity="0.45"/>
+                                                            </svg>                                                                                                                                   
+                                                        </div>
+                                                        <div class="checkcls" if:true={childCategory.isChecked}  data-checked="false" data-id={childCategory.id} onclick={handleCheck}>
+                                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M11.519 0H0.479023C0.213523 0 -0.000976562 0.2145 -0.000976562 0.48V11.52C-0.000976562 11.7855 0.213523 12 0.479023 12H11.519C11.7845 12 11.999 11.7855 11.999 11.52V0.48C11.999 0.2145 11.7845 0 11.519 0ZM8.75152 3.8055L5.59252 8.1855C5.54837 8.24712 5.49017 8.29734 5.42273 8.33198C5.3553 8.36662 5.28058 8.38469 5.20477 8.38469C5.12896 8.38469 5.05425 8.36662 4.98681 8.33198C4.91938 8.29734 4.86118 8.24712 4.81702 8.1855L2.94652 5.5935C2.88952 5.514 2.94652 5.403 3.04402 5.403H3.74752C3.90052 5.403 4.04602 5.4765 4.13602 5.6025L5.20402 7.0845L7.56202 3.8145C7.65202 3.69 7.79602 3.615 7.95052 3.615H8.65402C8.75152 3.615 8.80852 3.726 8.75152 3.8055Z" fill="black" fill-opacity="0.45"/>
+                                                            </svg>                                                                
+                                                        </div>
+                                                    </template>
+                                                    <div class="checkcls" if:true={childCategory.isPartial}>
+                                                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_3183_61620)">
+                                                                <path
+                                                                    d="M10.9886 12C11.7039 12 12.2839 11.4244 12.2839 10.7143V1.28571C12.2839 0.575631 11.7039 0 10.9886 0H1.48964C0.774262 0 0.194336 0.575631 0.194336 1.28571V10.7143C0.194336 11.4244 0.774262 12 1.48964 12H10.9886Z"
+                                                                    fill="#8C8C8C" />
+                                                            </g>
+                                                            <rect x="2.20898" y="5" width="8.0597" height="2" rx="1" fill="white" />
+                                                            <defs>
+                                                                <clipPath id="clip0_3183_61620">
+                                                                    <rect width="12.0895" height="12" fill="white" transform="translate(0.194336)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="categoryname">{childCategory.name}</span>
+                                                    <span class="countcls" if:true={childCategory.childCategories}>{childCategory.totalContentDocumentCount}</span>
+                                                    <span class="countcls" if:false={childCategory.childCategories}>{childCategory.contentDocumentCount}</span>
                                                 </div>
                                                 <div class="iconToggle" data-id={childCategory.id}
                                                     onclick={toggleSection} if:true={childCategory.isIconVisible}>
@@ -62,11 +86,18 @@
                                                         for:item="grandChildCategory">
                                                         <div key={grandChildCategory.id} class="folder-subitem">
                                                             <div class="categorycls">
-                                                                <lightning-input class="checkboxcls" type="checkbox"
-                                                                    checked={grandChildCategory.isChecked}
-                                                                    data-id={grandChildCategory.id}
-                                                                    onchange={handleCheck}></lightning-input>
-                                                                <span>{grandChildCategory.name}</span>
+                                                                <div class="checkcls" if:false={grandChildCategory.isChecked} data-checked="true" data-id={grandChildCategory.id} onclick={handleCheck}>
+                                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M11.52 0H0.48C0.2145 0 0 0.2145 0 0.48V11.52C0 11.7855 0.2145 12 0.48 12H11.52C11.7855 12 12 11.7855 12 11.52V0.48C12 0.2145 11.7855 0 11.52 0ZM10.92 10.92H1.08V1.08H10.92V10.92Z" fill="black" fill-opacity="0.45"/>
+                                                                    </svg>                                                                                                                                   
+                                                                </div>
+                                                                <div class="checkcls" if:true={grandChildCategory.isChecked}  data-checked="false" data-id={grandChildCategory.id} onclick={handleCheck}>
+                                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M11.519 0H0.479023C0.213523 0 -0.000976562 0.2145 -0.000976562 0.48V11.52C-0.000976562 11.7855 0.213523 12 0.479023 12H11.519C11.7845 12 11.999 11.7855 11.999 11.52V0.48C11.999 0.2145 11.7845 0 11.519 0ZM8.75152 3.8055L5.59252 8.1855C5.54837 8.24712 5.49017 8.29734 5.42273 8.33198C5.3553 8.36662 5.28058 8.38469 5.20477 8.38469C5.12896 8.38469 5.05425 8.36662 4.98681 8.33198C4.91938 8.29734 4.86118 8.24712 4.81702 8.1855L2.94652 5.5935C2.88952 5.514 2.94652 5.403 3.04402 5.403H3.74752C3.90052 5.403 4.04602 5.4765 4.13602 5.6025L5.20402 7.0845L7.56202 3.8145C7.65202 3.69 7.79602 3.615 7.95052 3.615H8.65402C8.75152 3.615 8.80852 3.726 8.75152 3.8055Z" fill="black" fill-opacity="0.45"/>
+                                                                    </svg>                                                                
+                                                                </div>
+                                                                <span class="categoryname">{grandChildCategory.name}</span>
+                                                                <span class="countcls">{grandChildCategory.contentDocumentCount}</span>
                                                             </div>
                                                             <button class="slds-button slds-button_icon"
                                                                 data-id={grandChildCategory.id} onclick={toggleSection}>
@@ -81,13 +112,13 @@
                             </template>
                         </div>
                     </template>
-                    <!-- <div class="bottombuttoncls">
-                        <button class="slds-button slds-button_brand" type="button" onclick={handleClear}>
-                            {label.clearall}</button>
-                        <button class="slds-button slds-button_brand" type="button"
-                            onclick={handleSubmit}>{label.submit}</button>
-                    </div> -->
                 </div>
+            </div>
+            <div class="bottombuttoncls">
+                <button class="slds-button slds-button_neutral" type="button" onclick={handleClear}>
+                    {label.clearall}</button>
+                <button class="slds-button slds-button_brand" type="button"
+                    onclick={handleSubmit}>{label.submit}</button>
             </div>
         </div>
         <div class="righticoncls" if:false={isSidebar}>

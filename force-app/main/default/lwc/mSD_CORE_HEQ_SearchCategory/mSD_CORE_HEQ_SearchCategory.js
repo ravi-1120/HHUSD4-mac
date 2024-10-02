@@ -65,6 +65,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     @track categoryNames = [];
     @api selectedCategoriesArray;
     @api showSaveSearch = false;
+    @track mobilescreen;
 
     currentUserProfileId;
 
@@ -99,6 +100,13 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         this.type = this.getUrlParamValue(window.location.href, 'type');
         this.categoryList = this.getUrlParamValue(window.location.href, 'category');
         this.loadSavedSearches();
+
+        var screenwidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+        if (screenwidth > 768) {
+            this.mobilescreen = false;
+        } else {
+            this.mobilescreen = true;
+        }
 
         loadStyle(this, Fontstyle)
             .then(() => {
@@ -161,30 +169,45 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         getSearchCategory({ profile: this.currentUserProfileId })
             .then(result => {
                 console.log('getSearchCategory result>>', result);
-                this.searchCategory = result.map(category => ({
-                    ...category,
-                    isOpen: false,
-                    selectedcategorycls: 'folder-item ',
-                    isChecked: false,
-                    isIconVisible: category.childCategories.length == 0 ? false : true,
-                    iconName: this.getIconName(category.isOpen),
-                    childCategories: category.childCategories.map(child => ({
-                        ...child,
+                this.searchCategory = result.map(category => {
+                    const calculateTotalContentDocumentCount = (category) => {
+                        let totalCount = category.contentDocumentCount || 0;
+                        if (category.childCategories && category.childCategories.length > 0) {
+                            category.childCategories.forEach(child => {
+                                totalCount += calculateTotalContentDocumentCount(child);
+                            });
+                        }
+                        category.totalContentDocumentCount = totalCount;
+                        return totalCount;
+                    };
+                
+                    calculateTotalContentDocumentCount(category);
+                    return {
+                        ...category,
                         isOpen: false,
-                        isChecked: false,
                         selectedcategorycls: 'folder-item ',
-                        iconName: this.getIconName(child.isOpen),
-                        isIconVisible: child.childCategories.length == 0 ? false : true,
-                        childCategories: child.childCategories.map(grandChild => ({
-                            ...grandChild,
+                        isChecked: false,
+                        isIconVisible: category.childCategories.length == 0 ? false : true,
+                        iconName: this.getIconName(category.isOpen),
+                        childCategories: category.childCategories.map(child => ({
+                            ...child,
                             isOpen: false,
-                            selectedcategorycls: 'folder-item ',
                             isChecked: false,
-                            isIconVisible: grandChild.childCategories.length == 0 ? false : true,
-                            iconName: this.getIconName(grandChild.isOpen)
+                            selectedcategorycls: 'folder-item ',
+                            iconName: this.getIconName(child.isOpen),
+                            isIconVisible: child.childCategories.length == 0 ? false : true,
+                            childCategories: child.childCategories.map(grandChild => ({
+                                ...grandChild,
+                                isOpen: false,
+                                selectedcategorycls: 'folder-item ',
+                                isChecked: false,
+                                isIconVisible: grandChild.childCategories.length == 0 ? false : true,
+                                iconName: this.getIconName(grandChild.isOpen)
+                            }))
                         }))
-                    }))
-                }));
+                    };
+                });
+                console.log('this.searchCategory>>>'+JSON.stringify(this.searchCategory));
                 this.showSpinner = false;
             })
             .catch(error => {
@@ -297,15 +320,17 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
 
     handleCheck(event) {
         const categoryName = event.currentTarget.dataset.id;
-        const isChecked = event.detail.checked;
-        const selectedEvent = new CustomEvent('checkboxchange', {
-            detail: { isChecked: isChecked },
-            bubbles: true,
-        });
-        this.dispatchEvent(selectedEvent);
+        const isChecked = event.currentTarget.dataset.checked == 'true' ? true : false;
         this.updatechildCheckbox(categoryName, isChecked, this.searchCategory);
         this.updateParentCheckboxes(this.searchCategory);
-        this.handleFetchData();
+        if (!this.mobilescreen) {
+            const selectedEvent = new CustomEvent('checkboxchange', {
+                detail: { isChecked: isChecked },
+                bubbles: true,
+            });
+            this.dispatchEvent(selectedEvent);
+            this.handleFetchData();
+        }
     }
 
     handleFetchData() {
@@ -323,17 +348,29 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         }));
     }
 
+    handleSubmit(){
+        this.handleFetchData();
+        this.dispatchEvent(new CustomEvent('closecategorymodel', {
+            detail: true,
+            bubbles: true,
+            composed: true
+        }));
+    }
+
     // Select child category Checkbox if user click on parent 
     updatechildCheckbox(categoryName, isChecked, categories) {
         for (let category of categories) {
             if (category.id === categoryName) {
                 category.isChecked = isChecked;
+                category.isPartial = false;
                 if (category.childCategories.length > 0) {
                     for (let child of category.childCategories) {
                         child.isChecked = isChecked;
+                        child.isPartial = false;
                         if (child.childCategories.length > 0) {
                             for (let grandchild of child.childCategories) {
                                 grandchild.isChecked = isChecked;
+                                grandchild.isPartial = false;
                             }
                         }
                     }
@@ -354,15 +391,30 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
                 this.updateParentCheckboxes(category.childCategories);
 
                 const allChildrenChecked = category.childCategories.every((child) => child.isChecked);
-                const anyChildUnchecked = category.childCategories.some((child) => !child.isChecked);
+                // const anyChildUnchecked = category.childCategories.some((child) => !child.isChecked);
+                const noChildrenChecked = category.childCategories.every((child) => child.isChecked === false);
+
+                // if (allChildrenChecked) {
+                //     category.isChecked = true;
+                // } else if (anyChildUnchecked) {
+                //     category.isChecked = false;
+                // }
                 if (allChildrenChecked) {
                     category.isChecked = true;
-                } else if (anyChildUnchecked) {
+                    category.isPartial = false;
+                }
+                else if (noChildrenChecked) {
                     category.isChecked = false;
+                    category.isPartial = false;
+                }
+                else {
+                    category.isChecked = false;
+                    category.isPartial = true;
                 }
             }
         }
         this.searchCategory = [...this.searchCategory];
+        console.log('this.searchCategory>>'+JSON.stringify(this.searchCategory));
     }
 
     handleClear() {
@@ -384,6 +436,12 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         }));
 
         this.dispatchEvent(new CustomEvent('clearcategories', {
+            bubbles: true,
+            composed: true
+        }));
+
+        this.dispatchEvent(new CustomEvent('closecategorymodel', {
+            detail: true,
             bubbles: true,
             composed: true
         }));

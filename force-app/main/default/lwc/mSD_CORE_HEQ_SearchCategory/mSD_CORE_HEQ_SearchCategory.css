@@ -217,6 +217,7 @@
     justify-content: space-between;
     margin: auto 0;
     height: 42px;
+    cursor: pointer;
 }
 
 .folder-item {
@@ -333,7 +334,7 @@
     display: flex;
 }
 
-.categorycls span {
+.categoryname {
     margin: auto;
     font-family: 'Invention';
     font-size: 12px;
@@ -347,9 +348,9 @@
 }
 
 .bottombuttoncls {
+    display: none;
     padding: 17px 11px 9px 13px;
     width: 100%;
-    display: flex;
 }
 
 .bottombuttoncls button {
@@ -385,6 +386,22 @@
     padding-left: 20px;
 }
 
+.countcls {
+    width: 20px;
+    height: 20px;
+    background: #F4F4D3;
+    border-radius: 30px;
+    margin: auto auto auto 4px;
+    font-family: 'Invention"';
+    color: #000000;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.checkcls {
+    margin: auto 8px auto auto;
+}
 
 /* Smartphones (portrait) */
 @media only screen and (max-width: 480px) {
@@ -758,5 +775,23 @@
     .buttoncls1,
     .buttoncls2 {
         display: none;
+    }
+    .headerdivcls {
+        padding-left: 0px;
+    }
+    .folder-item {
+        padding-left: 0px;
+    }
+    .categoryname {
+        padding-left: 16px;
+    }
+    .bottombuttoncls {
+        display: flex;
+        gap: 16px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        padding: 8px 24px;
+        background: #FFFFFF;
     }
 }

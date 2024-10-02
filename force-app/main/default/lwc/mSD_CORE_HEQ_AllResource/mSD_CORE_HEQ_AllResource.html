@@ -80,7 +80,7 @@
                     oncategoriesid={handlecategoriesid} ongetsavedsearch={handleSavedSearch}
                     onexpandcollapssidebar={handleExpandCollapsSidebar} onselectedfiltersupdate={handleSelectedFilters}
                     oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}
-                    onclearcategories={handleClearCategories}>
+                    onclearcategories={handleClearCategories} onclosecategorymodel={closeSearchCategory}>
                 </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
             </div>
             <div class="filterbtnmaincls" if:true={mobilescreen}>
@@ -101,7 +101,7 @@
                             <div class="slds-modal__content mainmodel-print">
                                 <div>
                                     <div class="filter-header">
-                                        <div class="filter-header-txt" onclick={closeSearchCategory}> &lt; {type}</div>
+                                        <div class="filter-header-txt" onclick={closeSearchCategory}> &lt; &nbsp; {type}</div>
                                         <div class="close-icon">
                                             <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
                                                 class="closeiconclick" title="close" onclick={closeSearchCategory}>
@@ -113,7 +113,7 @@
                                             oncategoriesid={handlecategoriesid} ongetsavedsearch={handleSavedSearch}
                                             onexpandcollapssidebar={handleExpandCollapsSidebar} onselectedfiltersupdate={handleSelectedFilters}
                                             oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}
-                                            onclearcategories={handleClearCategories}>
+                                            onclearcategories={handleClearCategories} onclosecategorymodel={closeSearchCategory}>
                                         </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
                                     </div>
                                 </div>

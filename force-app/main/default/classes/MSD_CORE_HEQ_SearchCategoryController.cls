@@ -36,11 +36,19 @@ public without sharing class MSD_CORE_HEQ_SearchCategoryController {
                 }
             }
 
+            List<Id> userContentDocumentIds = new List<Id>();
+            List<ContentDocumentLink> userContentDocs = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = :UserInfo.getUserId()];
+            for (ContentDocumentLink link : userContentDocs) {
+                userContentDocumentIds.add(link.ContentDocumentId);
+            }
+
             Map<Id, Integer> contentDocumentCountMap = new Map<Id, Integer>();
-            List<AggregateResult> contentDocumentResults = [SELECT LinkedEntityId, COUNT(Id) cnt FROM ContentDocumentLink WHERE LinkedEntityId IN :searchCategoryIds GROUP BY LinkedEntityId];
-            
-            for (AggregateResult result : contentDocumentResults) {
-                contentDocumentCountMap.put((Id) result.get('LinkedEntityId'), (Integer) result.get('cnt'));
+            if (!userContentDocumentIds.isEmpty()) {
+                List<AggregateResult> contentDocumentResults = [SELECT LinkedEntityId, COUNT(Id) cnt FROM ContentDocumentLink WHERE LinkedEntityId IN :searchCategoryIds AND ContentDocumentId IN :userContentDocumentIds GROUP BY LinkedEntityId];
+                
+                for (AggregateResult result : contentDocumentResults) {
+                    contentDocumentCountMap.put((Id) result.get('LinkedEntityId'), (Integer) result.get('cnt'));
+                }
             }
             
             for (MSD_CORE_HEQ_Search_Category__c record : searchCategoryRecords) {
@@ -58,25 +66,12 @@ public without sharing class MSD_CORE_HEQ_SearchCategoryController {
                     }
                 }
             }
-
-            for (SearchCategoryWrapper rootCategory : rootCategories) {
-                sumContentDocumentCounts(rootCategory);
-            }
             
         } catch (Exception e) {
             System.debug('Error>>' + e.getMessage() + '----' + e.getLineNumber());
         }
         
         return rootCategories;
-    }
-
-    private static Integer sumContentDocumentCounts(SearchCategoryWrapper parentWrapper) {
-        Integer totalContentCount = parentWrapper.contentDocumentCount;
-        for (SearchCategoryWrapper childWrapper : parentWrapper.childCategories) {
-            totalContentCount += sumContentDocumentCounts(childWrapper);
-        }
-        parentWrapper.totalContentDocumentCount = totalContentCount;
-        return totalContentCount;
     }
     
     public class SearchCategoryWrapper {
@@ -92,9 +87,7 @@ public without sharing class MSD_CORE_HEQ_SearchCategoryController {
         public List<SearchCategoryWrapper> childCategories;
         @AuraEnabled
         public Integer contentDocumentCount;
-        @AuraEnabled
-        public Integer totalContentDocumentCount;
-        
+
         public SearchCategoryWrapper(Id id, String developerName, String name, String parentCategoryName) {
             this.id = id;
             this.developerName = developerName;
@@ -102,7 +95,6 @@ public without sharing class MSD_CORE_HEQ_SearchCategoryController {
             this.parentCategoryName = parentCategoryName;
             this.childCategories = new List<SearchCategoryWrapper>();
             this.contentDocumentCount = 0;
-            this.totalContentDocumentCount = 0;
         }
     }
     
