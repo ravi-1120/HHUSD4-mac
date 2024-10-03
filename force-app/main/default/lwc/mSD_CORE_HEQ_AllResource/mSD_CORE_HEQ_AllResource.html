@@ -80,7 +80,7 @@
                     oncategoriesid={handlecategoriesid} ongetsavedsearch={handleSavedSearch}
                     onexpandcollapssidebar={handleExpandCollapsSidebar} onselectedfiltersupdate={handleSelectedFilters}
                     oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}
-                    onclearcategories={handleClearCategories} onclosecategorymodel={closeSearchCategory}>
+                    onclearcategories={handleClearCategories} onclosecategorymodel={handleSearchCategory}>
                 </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
             </div>
             <div class="filterbtnmaincls" if:true={mobilescreen}>
@@ -94,17 +94,17 @@
                         {label.Filter}
                     </div>
                 </div>
-                <template if:true={isSearchCategory}>
+                <div class="mobilecategory">
                     <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
                         class="slds-modal slds-fade-in-open slds-modal_medium">
                         <div class="slds-modal__container filter-modal">
                             <div class="slds-modal__content mainmodel-print">
                                 <div>
                                     <div class="filter-header">
-                                        <div class="filter-header-txt" onclick={closeSearchCategory}> &lt; &nbsp; {type}</div>
+                                        <div class="filter-header-txt" onclick={handleSearchCategory}> &lt; &nbsp; {type}</div>
                                         <div class="close-icon">
                                             <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
-                                                class="closeiconclick" title="close" onclick={closeSearchCategory}>
+                                                class="closeiconclick" title="close" onclick={handleSearchCategory}>
                                             </lightning-icon>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
                                             oncategoriesid={handlecategoriesid} ongetsavedsearch={handleSavedSearch}
                                             onexpandcollapssidebar={handleExpandCollapsSidebar} onselectedfiltersupdate={handleSelectedFilters}
                                             oncategoriesupdate={handleCategoriesUpdate} oncheckboxchange={handleCheckboxChange}
-                                            onclearcategories={handleClearCategories} onclosecategorymodel={closeSearchCategory}>
+                                            onclearcategories={handleClearCategories} onclosecategorymodel={handleSearchCategory}>
                                         </c-m-s-d_-c-o-r-e_-h-e-q_-search-category>
                                     </div>
                                 </div>
@@ -121,7 +121,7 @@
                         </div>
                     </section>
                     <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
-                </template>
+                </div>
             </div>
             <!-- Tile & Pagination -->
             <div class="tilepaginationcls">

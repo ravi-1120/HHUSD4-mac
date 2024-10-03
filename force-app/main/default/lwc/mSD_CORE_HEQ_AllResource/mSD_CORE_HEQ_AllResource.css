@@ -285,4 +285,10 @@
 		padding: 24px;
 		position: fixed;
 	}
+	.mobilecategory {
+		display: none;
+	}
+	.hideshowcategory {
+		display: block;
+	}
 }

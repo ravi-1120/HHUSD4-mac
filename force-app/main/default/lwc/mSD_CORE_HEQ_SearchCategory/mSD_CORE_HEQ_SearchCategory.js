@@ -119,15 +119,18 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     }
 
     @api updateCategories(categoriesIdsUpdated, filteridvalue) {
+        console.log('filteridvalue>>'+JSON.stringify(filteridvalue));
         this.updatechildCheckbox(filteridvalue, false, this.searchCategory);
         this.updateParentCheckboxes(this.searchCategory);
         let selectedCategories = this.extractChilds(this.searchCategory);
+        console.log('selectedCategories>>'+JSON.stringify(selectedCategories));
         this.dispatchEvent(new CustomEvent('selectedcategories', {
             detail: selectedCategories,
             bubbles: true,
             composed: true
         }));
         let selectedcategoriesid = this.extractCheckedCategoryNames(this.searchCategory);
+        console.log('>>>>selectedcategoriesid>>>'+JSON.stringify(selectedcategoriesid));
         this.dispatchEvent(new CustomEvent('categoriesid', {
             detail: selectedcategoriesid,
             bubbles: true,
@@ -136,8 +139,8 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
     }
 
     @api
-    clearAllCategory(){
-        this.handleClear();
+    clearAllCategory(isclosemodel){
+        this.handleClear(isclosemodel);
     }
 
     @api
@@ -389,16 +392,8 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         for (let category of categories) {
             if (category.childCategories && category.childCategories.length > 0) {
                 this.updateParentCheckboxes(category.childCategories);
-
                 const allChildrenChecked = category.childCategories.every((child) => child.isChecked);
-                // const anyChildUnchecked = category.childCategories.some((child) => !child.isChecked);
                 const noChildrenChecked = category.childCategories.every((child) => child.isChecked === false);
-
-                // if (allChildrenChecked) {
-                //     category.isChecked = true;
-                // } else if (anyChildUnchecked) {
-                //     category.isChecked = false;
-                // }
                 if (allChildrenChecked) {
                     category.isChecked = true;
                     category.isPartial = false;
@@ -417,7 +412,11 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
         console.log('this.searchCategory>>'+JSON.stringify(this.searchCategory));
     }
 
-    handleClear() {
+    handleClearClick() {
+        this.handleClear(true);
+    }
+
+    handleClear(isclosemodel) {
         function traverse(categoryList) {
             categoryList.forEach(category => {
                 category.isChecked = false;
@@ -427,6 +426,7 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
             });
         }
         traverse(this.searchCategory);
+        this.updateParentCheckboxes(this.searchCategory);
         let selectedcategoriesid = this.extractCheckedCategoryNames(this.searchCategory);
 
         this.dispatchEvent(new CustomEvent('categoriesid', {
@@ -434,17 +434,17 @@ export default class mSD_CORE_HEQ_SearchCategory extends LightningElement {
             bubbles: true,
             composed: true
         }));
-
         this.dispatchEvent(new CustomEvent('clearcategories', {
             bubbles: true,
             composed: true
         }));
-
-        this.dispatchEvent(new CustomEvent('closecategorymodel', {
-            detail: true,
-            bubbles: true,
-            composed: true
-        }));
+        if(isclosemodel){
+            this.dispatchEvent(new CustomEvent('closecategorymodel', {
+                detail: true,
+                bubbles: true,
+                composed: true
+            }));
+        }
     }
 
     extractChilds(categories) {

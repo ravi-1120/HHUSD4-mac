@@ -174,19 +174,19 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
             this.manageLoadData(result, keyword, type, category, catName);
             this.logUserActivities(keyword, result.length);
         }).catch(error => {
-            console.log('loadSearch error->>' + error.message);
+            console.log('error');
+            console.log('loadSearch error->>' + JSON.stringify(error));
             this.showSpinner = false;
         });
     }
 
     closeFilter(event) {
         const filteridvalue = event.currentTarget.dataset.id;
+        console.log('filteridvalue>>>'+JSON.stringify(filteridvalue));
         const childComponent = this.template.querySelector('c-m-s-d_-c-o-r-e_-h-e-q_-search-category');
         if (childComponent) {
             childComponent.updateCategories(this.categoriesIdsUpdated,filteridvalue);
         }
-
-        this.loadSearch(this.keyword, this.type, this.categoriesIdsUpdated, null);
     }
 
     removeCategoryByName(categoryName, categories) {
@@ -384,13 +384,9 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         this.categoryNameAndIdMap =[];
         const selectedCategoriesArray = [];
         const processCategory = (categoryName, categoryData) => {
-            console.log('Processing Category:', JSON.stringify(categoryName, categoryData));
-
             if (categoryData.isChecked) {
                 selectedCategoriesArray.push(categoryName);
                 this.categoryNameAndIdMap.push({ name: categoryName, idValue: categoryData.idVal });
-                console.log('Selected Category:', categoryName);
-
             }
             if (categoryData.childCategories) {
                 Object.keys(categoryData.childCategories).forEach(childCategoryName => {
@@ -504,7 +500,7 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
 
     // Clear All
     handleclearall() {
-        this.template.querySelector('c-m-s-d_-c-o-r-e_-h-e-q_-search-category').clearAllCategory();
+        this.template.querySelector('c-m-s-d_-c-o-r-e_-h-e-q_-search-category').clearAllCategory(false);
     }
 
     closeDropdown() {
@@ -527,8 +523,6 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                 if (item.contentdocumentid === documentId) {
                     item.isSelectedTile = !item.isSelectedTile;
                     item.isSelectedList = !item.isSelectedList;
-                    // item.isSelectedTileColor = !item.isSelectedTile ? 'slds-var-m-around_medium ' : 'slds-var-m-around_medium grey-background'
-                    // item.isSelectedListColor = !item.isSelectedList ? 'listviewcls ' : 'listviewcls grey-background'
                     if ((item.isSelectedTile || item.isSelectedList) && !this.selectedDocumentIds.includes(item.contentdocumentid)) {
                         this.selectedDocumentIds = [...this.selectedDocumentIds, item.contentdocumentid];
                     } else if (!item.isSelectedTile || !item.isSelectedList) {
@@ -588,12 +582,11 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
         }
     }
 
-    closeSearchCategory() {
-        this.isSearchCategory = false;
-    }
-
     handleSearchCategory(){
-        this.isSearchCategory = true;
+        const hideshowcategory = this.template.querySelector('.mobilecategory');
+        if (hideshowcategory) {
+            hideshowcategory.classList.toggle('hideshowcategory');
+        }
     }
 
     handleViewClick(event) {
