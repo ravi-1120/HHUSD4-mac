@@ -15,6 +15,7 @@ import getCustomerList from '@salesforce/apex/MSD_CORE_HEQ_CustomerController.ge
 import sendRegistrationInvite from '@salesforce/apex/MSD_CORE_HEQ_AuthController.sendRegistrationInvite';
 import saveRecipients from '@salesforce/apex/MSD_CORE_HEQ_CustomerController.saveRecipients';
 import getRecipients from '@salesforce/apex/MSD_CORE_HEQ_CustomerController.getRecipients';
+import getUser from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getuser';
 
 export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElement) {
 
@@ -66,6 +67,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
     @track isFirstPageUnregistered;
     @track isFirstPageRegistered;
     @track isLastPageRegistered;
+    @track selfPrint = false;
     // recordsPerPageOptions = [];
     totalRegisteredRecords = 0;
     totalUnregisteredRecords = 0;
@@ -74,6 +76,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
     @track isModalOpen = false;
     @track selectedCustomer = {};
     @track nonPrimaryAddresses = [];
+    // needScroll = false;
 
 
     labels = {
@@ -81,6 +84,15 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         lastlogin
     };
 
+    // renderedCallback() {
+    //     if (this.needScroll) {
+    //         console.log('Focus being called');
+    //         const scrollArea = this.template.querySelector('[data-scroll-area]');
+    //         console.log('### scroll height ' + scrollArea.scrollHeight);
+    //         scrollArea.scrollTop = scrollArea.scrollHeight + 90;
+    //         this.needScroll = false;
+    //     }
+    // }
     // ConnectedCallback
     connectedCallback() {
         console.log('hideAddRecipient>>>', this.hideAddRecipient);
@@ -100,24 +112,42 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         // });
 
         this.recordsPerPageOptions = recordperpageoption.split(',').map(option => parseInt(option.trim()));
+
+        const paramValue = this.getUrlParamValue(window.location.href, 'Id');
+        getUser({ userId: paramValue })
+            .then(result => {
+                this.userVar = result;
+                this.AEEmail = this.userVar.Email || '';
+                const firstName = this.userVar.FirstName || '';
+                const lastName = this.userVar.LastName || '';
+                this.fullName = `${firstName} ${lastName}`.trim();
+                console.log("getUser AEEmail==>: " + JSON.stringify(this.AEEmail));
+            })
+            .catch(error => {
+                console.log("getUser error==>: " + JSON.stringify(error));
+            });
+    }
+
+    getUrlParamValue(url, key) {
+        return new URL(url).searchParams.get(key);
     }
 
     fetchCustomers() {
         getRecipients()
             .then(result => {
                 // this.newCustomers = result;
-                           this.newCustomers = result.map(customer => {
-                // Create a new object to avoid mutating the original
-                const transformedCustomer = { ...customer };
-                
-                // If MSD_CORE_HEQ_FirstName__c exists, use it as FirstName
-                if (transformedCustomer.MSD_CORE_HEQ_FirstName__c) {
-                    transformedCustomer.FirstName = transformedCustomer.MSD_CORE_HEQ_FirstName__c;
-                    transformedCustomer.LastName = transformedCustomer.MSD_CORE_HEQ_LastName__c;
-                    transformedCustomer.Email = transformedCustomer.MSD_CORE_HEQ_Email__c;
-                }
-                return transformedCustomer;
-            });
+                this.newCustomers = result.map(customer => {
+                    // Create a new object to avoid mutating the original
+                    const transformedCustomer = { ...customer };
+
+                    // If MSD_CORE_HEQ_FirstName__c exists, use it as FirstName
+                    if (transformedCustomer.MSD_CORE_HEQ_FirstName__c) {
+                        transformedCustomer.FirstName = transformedCustomer.MSD_CORE_HEQ_FirstName__c;
+                        transformedCustomer.LastName = transformedCustomer.MSD_CORE_HEQ_LastName__c;
+                        transformedCustomer.Email = transformedCustomer.MSD_CORE_HEQ_Email__c;
+                    }
+                    return transformedCustomer;
+                });
                 // FirstName = result.MSD_CORE_HEQ_FirstName__c;
                 // console.log('FirstName'+FirstName);
                 console.log('Fetched Customers:', this.newCustomers);
@@ -154,7 +184,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
 
 
 
-    addRecipient() {
+    /*addRecipient() {
         const newRecipient = {
             FirstName: 'First Name',
             LastName: 'Last Name',
@@ -163,9 +193,11 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         };
 
         this.mycustomerlist = [...this.mycustomerlist, newRecipient];
-    }
+        console.log('mycustomerlist',this.mycustomerlist)
+    }*/
 
     getCustomerList() {
+        this.showSpinner = true;
         getCustomerList()
             .then(result => {
                 console.log('result----->' + JSON.stringify(result));
@@ -175,15 +207,45 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
                     this.isCustomer = true;
                 }
                 this.mycustomerlist = result;
+                this.setDefaultAddress();
                 console.log('this.mycustomerlist------->' + JSON.stringify(this.mycustomerlist));
 
                 this.allRecords = result;
                 this.filterAndPaginateCustomers();
                 this.updatePagination();
+                this.showSpinner = false;
             })
             .catch(error => {
                 console.error('Error fetching customer list:', error);
             });
+    }
+
+    setDefaultAddress() {
+        this.mycustomerlist = this.mycustomerlist.map(customer => {
+            const primaryAddress = customer.Addresses.find(address => address.primary);
+            const firstAddress = customer.Addresses.length > 0 ? customer.Addresses[0] : null;
+
+            const formatAddress = (address) => {
+                const addressParts = [];
+                
+                if (address.Name) addressParts.push(address.Name);
+                if (address.AddressLine2) addressParts.push(address.AddressLine2);
+                if (address.City) addressParts.push(address.City);
+                if (address.State) addressParts.push(address.State);
+                if (address.Zip) addressParts.push(address.Zip);
+                
+                return addressParts.length > 0 ? addressParts.join(', ') : null;
+            };
+
+            customer.displayAddress = primaryAddress
+                ? formatAddress(primaryAddress)
+                : firstAddress
+                    ? formatAddress(firstAddress)
+                    : 'No addresses found';
+
+            return customer;
+        });
+
     }
 
 
@@ -219,10 +281,16 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
             );
         if (this.customertype === 'allcustomers') {
             this.allCustomers = [...this.registeredCustomers, ...this.unregisteredCustomers, ...this.newCustomers];
-        }else if(this.customertype === 'registered-unregistered'){
+            if (this.allCustomers.length == 0) {
+                this.isCustomer = false;
+            } else {
+                this.isCustomer = true;
+            }
+        } else if (this.customertype === 'registered-unregistered') {
             this.allCustomers = [...this.registeredCustomers, ...this.unregisteredCustomers];
         }
-        console.log('this.allCustomers>>>' + JSON.stringify(this.registeredCustomers));
+        console.log('this.registeredCustomers>>>' + JSON.stringify(this.registeredCustomers));
+        console.log('this.allCustomers>>>' + JSON.stringify(this.allCustomers));
 
         this.totalRegisteredRecords = this.registeredCustomers.length;
         this.totalUnregisteredRecords = this.unregisteredCustomers.length;
@@ -309,6 +377,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
 
     addRecipient() {
         const newRecipient = {
+            Id: Math.random().toString(36).substring(2, 11),
             FirstName: '',
             LastName: '',
             Email: '',
@@ -317,12 +386,45 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         };
 
         this.newRecipients = [...this.newRecipients, newRecipient];
+        console.log('newRecipients', JSON.stringify(this.newRecipients));
+        //this.needScroll = true;
     }
 
+    /*focusOnNewRecipient() {
+       console.log('Focus being called');
+       const scrollArea = this.template.querySelector('[data-scroll-area]');
+       console.log('### scroll height '+scrollArea.scrollHeight);
+       var hght = scrollArea.scrollHeight + 90;
+       console.log('### scroll height '+hght);
+       scrollArea.scrollTop = scrollArea.scrollHeight + 90;
+    /*setTimeout(() => {
+        const inputField = this.template.querySelector(`input[data-Id="${FirstName}"].target-section`);
+        if (inputField) {
+            inputField.focus();
+            inputField.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, 0);
+   }*/
+
+
+    // removeRecipient(event) {
+    //     const recipientId = event.currentTarget.dataset.id;
+    //     this.newRecipients = this.newRecipients.filter(recipient => recipient.Id !== recipientId);
+    // }
     removeRecipient(event) {
-        const recipientId = event.currentTarget.dataset.id;
+        const recipientId = event.target.dataset.id;
+        console.log('Removing recipient with ID:', recipientId);
+
+        // Check each recipient's ID
+        this.newRecipients.forEach(recipient => {
+            console.log('Current recipient ID:', recipient.Id);
+        });
+
         this.newRecipients = this.newRecipients.filter(recipient => recipient.Id !== recipientId);
+        console.log('Remaining recipients:', this.newRecipients);
     }
+
+
 
 
     // handleRecipient(event) {
@@ -362,34 +464,34 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
     //         return recipient;
     //     });
     // }
-handleRecipient(event) {
-    const field = event.target.name; // Get the field name (e.g., FirstName, LastName, Email)
-    const recipientId = event.target.dataset.id; // Get the recipient's ID
+    handleRecipient(event) {
+        const field = event.target.name; // Get the field name (e.g., FirstName, LastName, Email)
+        const recipientId = event.target.dataset.id; // Get the recipient's ID
 
-    // Update the corresponding recipient in the newRecipients array
-    this.newRecipients = this.newRecipients.map(recipient => {
-        if (recipient.Id === recipientId) {
-            // Update the value of the field
-            recipient[field] = event.target.value;
+        // Update the corresponding recipient in the newRecipients array
+        this.newRecipients = this.newRecipients.map(recipient => {
+            if (recipient.Id === recipientId) {
+                // Update the value of the field
+                recipient[field] = event.target.value;
 
-            // Validation Logic
-            if (field === 'FirstName') {
-                recipient.firstNameError = !recipient.FirstName; // Validation for FirstName
-            } else if (field === 'LastName') {
-                recipient.lastNameError = !recipient.LastName;   // Validation for LastName
-            } else if (field === 'Email') {
-                // Validation for Email format
-                if (recipient.Email) {
-                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    recipient.emailError = !emailPattern.test(recipient.Email); // Validate email format
-                } else {
-                    recipient.emailError = true; // Set error if Email is empty
+                // Validation Logic
+                if (field === 'FirstName') {
+                    recipient.firstNameError = !recipient.FirstName; // Validation for FirstName
+                } else if (field === 'LastName') {
+                    recipient.lastNameError = !recipient.LastName;   // Validation for LastName
+                } else if (field === 'Email') {
+                    // Validation for Email format
+                    if (recipient.Email) {
+                        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        recipient.emailError = !emailPattern.test(recipient.Email); // Validate email format
+                    } else {
+                        recipient.emailError = true; // Set error if Email is empty
+                    }
                 }
             }
-        }
-        return recipient;
-    });
-}
+            return recipient;
+        });
+    }
 
 
 
@@ -551,8 +653,34 @@ handleRecipient(event) {
     }
 
     handleShareClick() {
+        let hasErrors = false;
 
-        // Check if there are any new recipients
+        this.newRecipients = this.newRecipients.map(recipient => {
+            recipient.firstNameError = false;
+            recipient.lastNameError = false;
+
+            // Check for validation
+            if (!recipient.FirstName) {
+                recipient.firstNameError = true;
+                hasErrors = true;
+            }
+            if (!recipient.LastName) {
+                recipient.lastNameError = true;
+                hasErrors = true;
+            }
+            if (!recipient.Email) {
+                recipient.emailError = true;
+                hasErrors = true;
+            }
+
+            return recipient;
+        });
+
+        if (hasErrors) {
+            return;
+        }
+
+        // Proceed with saving recipients if validation passes
         if (this.newRecipients && this.newRecipients.length > 0) {
             const recipientsToSave = this.newRecipients.map(recipient => ({
                 MSD_CORE_HEQ_FirstName__c: recipient.FirstName || '',
@@ -560,28 +688,74 @@ handleRecipient(event) {
                 MSD_CORE_HEQ_Email__c: recipient.Email || ''
             }));
 
-
-            // Call Apex method to save recipients
             saveRecipients({ recipients: recipientsToSave })
                 .then(() => {
-                    // Handle successful save
                     console.log('Recipients saved successfully');
-                    this.dispatchEvent(new CustomEvent('showtoast', { detail: { message: 'Recipients saved successfully!', variant: 'success' } }));
                 })
                 .catch(error => {
-                    // Handle errors during saving
                     console.error('Error saving recipients: ', error);
-                    this.dispatchEvent(new CustomEvent('showtoast', { detail: { message: 'Error saving recipients', variant: 'error' } }));
                 });
         }
 
         const allSelectedCustomers = [...this.selectedCustomers];
         console.log('allSelectedCustomers>>', allSelectedCustomers);
-        console.log('allSelectedCustomers>>>>' + JSON.stringify(allSelectedCustomers));
-        console.log('allSelectedCustomers', JSON.stringify(this.allSelectedCustomers));
-        let shareclick = new CustomEvent('sharecustomerdata', { detail: { data: allSelectedCustomers, feature: this.feature } });
+        let shareclick = new CustomEvent('sharecustomerdata', { detail: { data: allSelectedCustomers, feature: this.feature, selfprint: this.selfPrint } });
         this.dispatchEvent(shareclick);
     }
+
+
+    // handleShareClick() {
+
+    //     // Check if there are any new recipients
+    //     if (this.newRecipients && this.newRecipients.length > 0) {
+    //         const recipientsToSave = this.newRecipients.map(recipient => ({
+    //             MSD_CORE_HEQ_FirstName__c: recipient.FirstName || '',
+    //             MSD_CORE_HEQ_LastName__c: recipient.LastName || '',
+    //             MSD_CORE_HEQ_Email__c: recipient.Email || ''
+    //         }));
+
+
+    //         // Call Apex method to save recipients
+    //         saveRecipients({ recipients: recipientsToSave })
+    //             .then(() => {
+    //                 // Handle successful save
+    //                 console.log('Recipients saved successfully');
+    //                 this.dispatchEvent(new CustomEvent('showtoast', { detail: { message: 'Recipients saved successfully!', variant: 'success' } }));
+    //             })
+    //             .catch(error => {
+    //                 // Handle errors during saving
+    //                 console.error('Error saving recipients: ', error);
+    //                 this.dispatchEvent(new CustomEvent('showtoast', { detail: { message: 'Error saving recipients', variant: 'error' } }));
+    //             });
+    //     }
+
+    //     const allSelectedCustomers = [...this.selectedCustomers];
+    //     console.log('allSelectedCustomers>>', allSelectedCustomers);
+    //     console.log('allSelectedCustomers>>>>' + JSON.stringify(allSelectedCustomers));
+    //     console.log('allSelectedCustomers', JSON.stringify(this.allSelectedCustomers));
+    //     let shareclick = new CustomEvent('sharecustomerdata', { detail: { data: allSelectedCustomers, feature: this.feature } });
+    //     this.dispatchEvent(shareclick);
+    // }
+
+    emailToSelfCheckboxChange(event) {
+        this.emailToSelf = event.target.checked; 
+
+        // If checked, ensure to add self to the list if no other customer is selected
+        if (this.emailToSelf) {
+            const selfEmailExists = this.selectedCustomers.some(customer => customer.id === 'self');
+            if (!selfEmailExists) {
+                this.selectedCustomers.push({
+                    name: this.fullName,
+                    email: this.AEEmail,
+                    isAccountExe: isAccountExe
+                });
+            }
+        } else {
+            this.selectedCustomers = this.selectedCustomers.filter(customer => customer.id !== 'self');
+        }
+        //this.dispatchEvent(new CustomEvent('sharecustomerdata', { detail: { data: this.selectedCustomers, feature: 'edeliver' } }));
+    }
+
 
     handleCheckbox(event) {
         // let checkbox = event.target.checked;
@@ -600,10 +774,11 @@ handleRecipient(event) {
                 email: email,
                 isregister: isregister
             });
-        } else {
-            this.selectedCustomers = this.selectedCustomers.filter(customer => customer.id !== event.target.value);
+            } else {
+                this.selectedCustomers = this.selectedCustomers.filter(customer => customer.id !== event.target.value);
+            }
+            //this.dispatchEvent(new CustomEvent('sharecustomerdata', { detail: { data: this.selectedCustomers, feature: 'edeliver' } }));
         }
-    }
 
     handleCheck(event) {
 
@@ -617,6 +792,15 @@ handleRecipient(event) {
             });
         } else {
             this.selectedCustomers = this.selectedCustomers.filter;
+        }
+    }
+
+    handleSelfPrint(event){
+        let checkbox = event.target.checked;
+        if (checkbox) {
+            this.selfPrint = true;
+        }else{
+            this.selfPrint = false;
         }
     }
 

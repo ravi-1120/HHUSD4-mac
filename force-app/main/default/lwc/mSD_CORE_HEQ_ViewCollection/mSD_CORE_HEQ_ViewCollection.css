@@ -323,9 +323,9 @@ hr {
 
 .mainmodel-print {
     max-width: 1098px;
-    min-height: 661px;
-    padding: 32px 31px 48px 33px;
-    padding-bottom: 26px;
+    min-height: 621px;
+    height: 621px;
+    padding: 32px;
     display: flex;
     overflow: hidden;
     flex-direction: column;
@@ -452,5 +452,8 @@ hr {
     }
     .add-item-container button {
         width: 100%;
+    }
+    .filter-modal {
+        margin: 0;
     }
 }
