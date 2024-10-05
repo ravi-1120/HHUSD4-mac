@@ -746,8 +746,8 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
             if (!selfEmailExists) {
                 this.selectedCustomers.push({
                     name: this.fullName,
-                    email: this.AEEmail,
-                    isAccountExe: isAccountExe
+                    email: this.AEEmail
+                    // isAccountExe: isAccountExe
                 });
             }
         } else {

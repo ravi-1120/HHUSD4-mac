@@ -635,8 +635,8 @@
                 
                     <div class="grid-header checkbox"></div>
                     <div class="grid-header">Account name</div>
-                    <div class="grid-header">First Name</div>
-                    <div class="grid-header">Last Name</div>
+                    <div class="grid-header">First name</div>
+                    <div class="grid-header">Last name</div>
                     <div class="grid-header">Email</div>
                     
                 
@@ -702,12 +702,13 @@
                 <template for:each={allCustomers} for:item="mycustomer">
                     <div key={mycustomer.Id} class="mbl-filter-container">
                         <div class="checkbox">
-                            <lightning-input type="checkbox" value={mycustomer.Id} data-firstname={mycustomer.FirstName}
+                            <lightning-input type="checkbox" value={mycustomer.Id} data-accountname={mycustomer.AccountName} data-firstname={mycustomer.FirstName}
                                 data-lastname={mycustomer.LastName} data-email={mycustomer.Email}
                                 onchange={handleCheckbox}>
                             </lightning-input>
                         </div>
                         <div>
+                            <div>{mycustomer.AccountName}</div>
                             <div> {mycustomer.FirstName} {mycustomer.LastName}</div>
                             <div>{mycustomer.Email}</div>
                             <span if:true={mycustomer.LastLoginDate} style="font-weight: 700;color:#202020">Last login:</span>{mycustomer.LastLoginDate}
@@ -763,12 +764,12 @@
         </div>
         <div if:true={isFooterbutton} class="footer-container">
             <div class="float-left">
-                <a class="add-recipient" if:false={hideAddRecipient} onclick={addRecipient}>Add Recipient</a>
+                <a class="add-recipient" if:false={hideAddRecipient} onclick={addRecipient}>Add recipient</a>
 
-                <div class=" grid-container-email emailtoself " if:false={hideAddRecipient}>
+                <div class=" grid-container-email emailtoself checkbox" if:false={hideAddRecipient}>
                     <lightning-input type="checkbox" class="emailtoselfcheck" onchange={emailToSelfCheckboxChange}>
                     </lightning-input>
-                    <a class="add-recipient"> Email to self </a>
+                    <a class="emailself"> Email to self </a>
                 </div>
             </div>
             <div class="dr-form_btnGroup slds-float_right">

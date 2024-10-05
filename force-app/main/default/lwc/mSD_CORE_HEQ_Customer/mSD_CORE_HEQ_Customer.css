@@ -25,6 +25,7 @@
     width: 72%;
     /* max-width: 80rem; */
 }
+
 .mainmodel-print {
     position: relative;
     max-width: 1090px;
@@ -93,7 +94,6 @@
     gap: 16px;
     justify-content: flex-start;
     align-items: left;
-    padding-top: 24px;
 }
 
 .defaultCls {
@@ -281,6 +281,24 @@
 
 .add-recipient {
     color: var(--Merck-Primary-Dark, #005C56);
+    text-decoration-line: underline;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    font-family: 'Invention';
+}
+
+.emailself {
+    color: var(--Merck-Primary-Dark, #005C56);
+    padding-left: 11px;
+    font-family: Invention;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+    /* 150% */
+    text-decoration-line: underline;
 }
 
 .remove-recipient {
@@ -373,20 +391,24 @@ table tr:nth-child(even) {
 
 .footer-container {
     display: flex;
-    align-items: flex-end;
+    align-items: baseline;
     justify-content: space-between;
+    padding-top: 24px;
+    padding-right: 5px;
 }
 
 .float-left {
     display: flex;
+    justify-content: space-between;
     gap: 62px;
+    align-items: baseline;
 }
 
 .emailtoself {
     display: flex;
 }
 
-.self-print{
+.self-print {
     color: #202020;
     font-family: 'Invention';
     font-size: 14px;
@@ -574,6 +596,9 @@ table tr:nth-child(even) {
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .grid-item {
@@ -667,13 +692,13 @@ table tr:nth-child(even) {
     line-height: 24px;
 }
 
-.filter-btn-layout{
+.filter-btn-layout {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.m-hi{
+.m-hi {
     display: none;
 }
 
@@ -690,7 +715,7 @@ table tr:nth-child(even) {
 .mycollectioncustomer .grid-item:nth-child(10n-2),
 .mycollectioncustomer .grid-item:nth-child(10n-1),
 .mycollectioncustomer .grid-item:nth-child(10n) {
-  background-color: #F9F9F9;
+    background-color: #F9F9F9;
 }
 
 /* Smartphones (portrait) */
@@ -777,11 +802,7 @@ table tr:nth-child(even) {
         flex-direction: column;
     }
 
-    .mbl-display div:nth-child(even) {
-        background: #F4F4F4;
-    }
-
-    .print .dr-form_btnGroup{
+    .print .dr-form_btnGroup {
         padding-top: 0px;
         justify-content: center;
     }
@@ -791,6 +812,7 @@ table tr:nth-child(even) {
         bottom: 0px;
         width: 100%;
     }
+
     .dr-form_btnGroup {
         padding: 8px 24px;
         width: 100%;
@@ -804,6 +826,7 @@ table tr:nth-child(even) {
         width: 100%;
         gap: 15.54px;
         padding: 19px 24px 24px 24px;
+        color: #202020;
     }
 
     .grid-header {
@@ -859,7 +882,7 @@ table tr:nth-child(even) {
         font-weight: 400 !important;
     }
 
-    .filter-btn-layout{
+    .filter-btn-layout {
         width: 100%;
         height: 56px;
         flex-shrink: 0;
@@ -897,7 +920,7 @@ table tr:nth-child(even) {
         width: 100%;
     }
 
-    .print  .lt-button {
+    .print .lt-button {
         width: 155px;
     }
 
@@ -922,14 +945,14 @@ table tr:nth-child(even) {
         margin-bottom: 21px;
     }
 
-    .m-hi{
+    .m-hi {
         display: flex !important;
         padding: 0px 0px 0px 24px;
         margin-bottom: 18px;
         justify-content: flex-start;
     }
 
-    .w-dp{
+    .w-dp {
         display: none;
     }
 }
@@ -1021,7 +1044,7 @@ table tr:nth-child(even) {
         background: #F4F4F4;
     }
 
-    .print .dr-form_btnGroup{
+    .print .dr-form_btnGroup {
         padding-top: 0px;
         justify-content: center;
     }
@@ -1098,7 +1121,7 @@ table tr:nth-child(even) {
         font-weight: 400 !important;
     }
 
-    .filter-btn-layout{
+    .filter-btn-layout {
         width: 100%;
         height: 56px;
         flex-shrink: 0;
@@ -1136,7 +1159,7 @@ table tr:nth-child(even) {
         width: auto;
     }
 
-    .print  .lt-button {
+    .print .lt-button {
         width: 155px;
     }
 
@@ -1161,14 +1184,14 @@ table tr:nth-child(even) {
         margin-bottom: 21px;
     }
 
-    .m-hi{
+    .m-hi {
         display: flex !important;
         padding: 0px 0px 0px 24px;
         margin-bottom: 18px;
         justify-content: flex-start;
     }
 
-    .w-dp{
+    .w-dp {
         display: none;
     }
 }
