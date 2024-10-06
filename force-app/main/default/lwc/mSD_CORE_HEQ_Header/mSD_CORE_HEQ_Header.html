@@ -1,9 +1,10 @@
 <template>
-  <!-- <template if:true={showTandC}>
+  <template if:true={showTandC}>
     <div class="tandc-popup">
-      <c-m-s-d_-c-o-r-e_-h-e-q_-tand-c></c-m-s-d_-c-o-r-e_-h-e-q_-tand-c>
+      <c-m-s-d_-c-o-r-e_-h-e-q_-tand-c_-customer is-popup="true" onclosepopup={handleClosePopup}></c-m-s-d_-c-o-r-e_-h-e-q_-tand-c_-customer>
     </div>
-  </template> -->
+  </template>
+  
   <div class="header-wrapper">
     <header class="header-container" role="banner">
       <div class="menu-section-mb" onclick={handleMobileMenu} data-id="mobileMenu" onkeydown={handleKeyEvent}

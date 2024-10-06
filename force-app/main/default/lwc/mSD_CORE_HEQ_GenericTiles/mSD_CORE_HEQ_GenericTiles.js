@@ -1,7 +1,6 @@
 import { api, LightningElement, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-
-import tileImage from '@salesforce/resourceUrl/MSD_CORE_HealthEQ_tile';
+import USER_ID from '@salesforce/user/Id';
 
 // Apex Method
 import getCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.getCollectionList';
@@ -22,6 +21,9 @@ import createNew from '@salesforce/label/c.MSD_CORE_HEQ_CreateNew';
 import cancel from '@salesforce/label/c.MSD_CORE_Cancel';
 import submit from '@salesforce/label/c.MSD_CORE_Submit';
 import customerProfileName from '@salesforce/label/c.MSD_CORE_HEQ_CustomerProfile';
+
+//Static Resource
+import tileImage from '@salesforce/resourceUrl/MSD_CORE_HealthEQ_tile';
 
 export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(LightningElement) {
 
@@ -87,6 +89,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         getUser({ userId: paramValue })
             .then(result => {
                 this.userVar = result;
+                this.userId = paramValue;
                 const firstName = this.userVar.FirstName || '';
                 const lastName = this.userVar.LastName || '';
                 this.fullName = `${firstName} ${lastName}`.trim();
@@ -249,6 +252,8 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
             resourceName: this.item.boldText,
             resourceID: this.item.code,
             username: this.fullName,
+            recordID: this.item.id,
+            userId: this.userId
 
         }).then((result) => {
             console.log('result of sendEmailNotification>>', result);
@@ -263,7 +268,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         this.showuser = false;
     }
 
-    handleAddToCart(data) {
+    handleAddToCart(data, selfprint) {
         this.showSpinner = true;
         let idList = data.map(item => item.id);
         let resourceId = [];
@@ -274,6 +279,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         addOrUpdateCartRecords({
             customerIds: idList,
             resourceIds: resourceId,
+            selfPrint: selfprint
         }).then((result) => {
             if(result === 'Success'){
                 this[NavigationMixin.Navigate]({
@@ -327,7 +333,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         if (getSelectedCustomer != null) {
 
             if (event.detail.feature == 'print') {
-                this.handleAddToCart(getSelectedCustomer.data);
+                this.handleAddToCart(getSelectedCustomer.data, getSelectedCustomer.selfprint);
             } else if (event.detail.feature == 'edeliver') {
                 this.handleSendEmail(event.detail.data);
             }

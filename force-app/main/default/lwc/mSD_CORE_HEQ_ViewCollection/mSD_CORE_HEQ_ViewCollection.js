@@ -585,7 +585,7 @@ export default class MSD_CORE_HEQ_ViewCollection extends NavigationMixin(Lightni
         });
     }
 
-    closeCustomerModel(event) {
+    closeCustomerModel() {
         this.showuser = false;
     }
 

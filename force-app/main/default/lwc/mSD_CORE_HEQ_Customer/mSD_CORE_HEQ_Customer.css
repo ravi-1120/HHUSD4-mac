@@ -718,8 +718,54 @@ table tr:nth-child(even) {
     background-color: #F9F9F9;
 }
 
+.search-box {
+    display: flex;
+    align-items: center;
+    color: #555;
+    justify-content: center;
+}
+
+.search-container {
+    position: relative;
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    background: #FFF;
+    display: flex;
+    height: 41px;
+    width: 314px;
+    padding: 8.5px 12px 8.5px 20px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 52px;
+    margin-right: 24px;
+}
+
+.custom-search-input {
+    border: none;
+    outline: none;
+    font-family: 'Invention';
+    color: #555555;
+    flex-grow: 1;
+    margin-bottom: 0px;
+    padding-right: 40px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.mobileicon {
+    display: none;
+}
+
 /* Smartphones (portrait) */
 @media only screen and (max-width: 480px) {
+
+    .mobileicon {
+        display: block;
+    }
+
+    .desktopicon {
+        display: none;
+    }
 
     .tablesCls {
         display: none;
@@ -869,11 +915,18 @@ table tr:nth-child(even) {
     .filter-header {
         padding-bottom: 8px;
         line-height: 32px;
+        flex-direction: column;
+    }
+
+    .search-container {
+        width: 327px;
     }
 
     .filter-header-txt {
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
+        flex-direction: row;
+        padding: 24px 24px 12px 24px;
         gap: 10px;
         font-weight: 500;
     }

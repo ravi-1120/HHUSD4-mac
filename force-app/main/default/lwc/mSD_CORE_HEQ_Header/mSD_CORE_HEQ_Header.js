@@ -84,8 +84,10 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
 
                 if (result.Profile.Name == customerProfileName) {
                     this.isShow = false;
+                    this.checkUserPreference();
                 } else if (result.Profile.Name == aeProfileName) {
                     this.isShow = true;
+                    this.showTandC = false;
                 }
             })
             .catch(error => {
@@ -103,7 +105,7 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
                 } else if (item.Menu_Type__c == 'Profile') {
                     this.profileMenuList.push(item);
                 }
-                
+
             });
 
             this.helpMenuItem = this.profileMenuList.find(item => item.Label === 'Help');
@@ -133,10 +135,10 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
     openMobileHelpMenu() {
         this.showMobileHelpMenu = true;
         this.helpMenuItems = [
-                 { label: 'Help home', url: '/help/home' },
-                 { label: 'Quick guide', url: '/help/quick-guide' },
-                 { label: 'Contact us', url: '/help/contact-us' }
-             ];
+            { label: 'Help home', url: '/help/home' },
+            { label: 'Quick guide', url: '/help/quick-guide' },
+            { label: 'Contact us', url: '/help/contact-us' }
+        ];
     }
 
     closeMobileHelpMenu() {
@@ -159,7 +161,7 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
         if (!this.template.querySelector('.profile-icon').contains(event.target)) {
             this.isDropdownOpen = false;
         }
-        this.handleRemoveSearch();
+        //this.handleRemoveSearch();
     }
 
     redirectHomePage(event) {
@@ -258,7 +260,7 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
                         url: name
                     }
                 });
-                console.log('Entered Menu >>' ,this.keyword);
+                console.log('Entered Menu >>', this.keyword);
             }
         }
 
@@ -297,10 +299,10 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
 
             if (!userPreference) {
                 console.log('No user preference found.');
-            } else if (userPreference.MSD_CORE_Accepted_T_C__c === false || userPreference.MSD_CORE_Accepted_T_C__c === "false") {
+            } else if (userPreference.MSD_CORE_Accepted_T_C__c === false) {
                 console.log('MSD_CORE_Accepted_T_C__c is false, showing popup.');
                 this.showTandC = true;
-            } else if (userPreference.MSD_CORE_Accepted_T_C__c === true || userPreference.MSD_CORE_Accepted_T_C__c === "true") {
+            } else if (userPreference.MSD_CORE_Accepted_T_C__c === true) {
                 console.log('MSD_CORE_Accepted_T_C__c is true, no need to show popup.');
             } else {
                 console.log('Unexpected value for MSD_CORE_Accepted_T_C__c:', userPreference.MSD_CORE_Accepted_T_C__c);
@@ -308,6 +310,10 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
         } catch (error) {
             console.error('Error fetching user preference:', error);
         }
+    }
+
+    handleClosePopup() {
+        this.showTandC = false;
     }
 
     getUrlParamValue(url, key) {

@@ -975,6 +975,7 @@ top: 3px; */
     line-height: 24px;
     padding-bottom: 14px;
     color: #333333;
+    border-radius: 5px;
 }
 
 .createnewtxt {
@@ -1240,6 +1241,10 @@ top: 3px; */
         align-items: center;
     }
 
+    .slds-modal_medium .slds-modal__container{
+        width: 90% !important;
+    }
+
 }
 
 @media only screen and (min-width: 820px) and (max-width: 1041px) {
@@ -1304,7 +1309,7 @@ top: 3px; */
     }
 
     .filter-header {
-        padding: 36px 24px 24px 24px;
+        padding: 24px;
     }
 
     .filter-header-txt {

@@ -493,8 +493,15 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         });
     }
 
+    handlesearch(event) {
+        this.searchKey = event.target.value;
+        this.filterAndPaginateCustomers();
+    }
 
-
+    closeCustomerModel() {
+        let closeModel = new CustomEvent('closemodel', { detail: true });
+        this.dispatchEvent(closeModel);
+    }
 
     handleSearchKeyChange(event) {
         this.searchKey = event.target.value;
