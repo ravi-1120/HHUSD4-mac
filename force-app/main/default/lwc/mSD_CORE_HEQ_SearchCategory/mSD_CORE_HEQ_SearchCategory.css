@@ -789,9 +789,12 @@
         display: flex;
         gap: 16px;
         position: fixed;
-        bottom: 0;
+        bottom: 0px;
         left: 0;
-        padding: 8px 24px;
+        padding: 24px 8px 85px 8px;
         background: #FFFFFF;
+    }
+    .categorycontainer {
+        padding-bottom: 70px;
     }
 }

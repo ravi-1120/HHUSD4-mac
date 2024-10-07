@@ -570,10 +570,12 @@ table tr:nth-child(even) {
 
 .filter-container {
     height: 439px;
+    border: 1px solid #d8dde6;
     overflow-y: scroll;
 }
 
 .filter-norecords {
+    height: 439px;
     text-align: center;
     padding: 24px;
 }
@@ -582,7 +584,6 @@ table tr:nth-child(even) {
     display: grid;
     grid-template-columns: 0fr 2.5fr 2.5fr 2.5fr 3.5fr;
     gap: 0;
-    border: 1px solid #d8dde6;
     align-items: stretch;
 }
 
@@ -1270,6 +1271,11 @@ table tr:nth-child(even) {
         max-width: 320px;
     }
 
+    td,
+    th {
+        padding: 0px;
+    }
+
 }
 
 /* Tablets (landscape) */
@@ -1289,5 +1295,9 @@ table tr:nth-child(even) {
     .address-section-additional {
         padding: 43px 29px 0px 13px;
         font-size: 24px;
+    }
+    td,
+    th {
+        padding: 0px;
     }
 }

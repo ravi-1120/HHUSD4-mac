@@ -425,7 +425,7 @@
             </div>
         </div>
 
-        <div class="filter-container">
+        <div class="filter-container" if:false={noRegisteredRecords}>
             <div class="grid-container mb-display">
                 <div class="grid-header checkbox"></div>
                 <div class="grid-header">Account name</div>
@@ -470,11 +470,9 @@
                     </div>
                 </template>
             </div>
-
-
-            <div class="filter-norecords" if:false={isCustomer}>
-                No Customer Mapped to the Account
-            </div>
+        </div>
+        <div class="filter-norecords" if:true={noRegisteredRecords}>
+            No customers found for your search.
         </div>
         <div class="filter-btn-layout print">
             <div class="self-print checkbox w-dp">
@@ -521,7 +519,7 @@
             </div>
         </div>
 
-        <div data-scroll-area class="filter-container">
+        <div data-scroll-area class="filter-container" if:false={isCustomerEmpty}>
             <div class="grid-container mb-display mycollectioncustomer">
 
                 <div class="grid-header checkbox"></div>
@@ -532,7 +530,7 @@
 
 
                 <template for:each={newRecipients} for:item="newRecipient">
-                    <div key={newRecipient.Id}>
+                    <div key={newRecipient.Id} class="grid-item checkbox">
                         <input type="checkbox" class="checkbox-a" name="selectRecipient" data-id={newRecipient.Id}
                                 value={newRecipient.Id} data-firstname={newRecipient.FirstName}
                                 data-lastname={newRecipient.LastName} data-email={newRecipient.Email}
@@ -650,9 +648,9 @@
                 </div>
             </div>
 
-            <div class="filter-norecords" if:false={isCustomer}>
-                No Customer Mapped to the Account
-            </div>
+        </div>
+        <div class="filter-norecords" if:true={isCustomerEmpty}>
+            No customers found for your search.
         </div>
         <div if:true={isFooterbutton} class="footer-container">
             <div class="float-left">

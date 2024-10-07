@@ -258,7 +258,7 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
                     }
 
                     // Set the existing record to active if it matches a vodAddress
-                    existingHeqAddress.MSD_CORE_IsActive__c = true;
+                    //existingHeqAddress.MSD_CORE_IsActive__c = true;
                     addressesToUpdate.add(existingHeqAddress);
 
                     // Remove from map as it has been processed
@@ -292,60 +292,141 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
         }
     }
 
+    @AuraEnabled
+    public static String setDefaultAddress(Id addressId, Boolean isSelfPrint) {
+        String message;
+        try {
+            MSD_CORE_HEQ_Address__c addressToUpdate;
+
+            addressToUpdate = [
+                SELECT Id, 
+                    MSD_CORE_HEQ_User__c, 
+                    MSD_CORE_HEQ_Is_Default__c,
+                    MSD_CORE_HEQ_Account__c
+                FROM MSD_CORE_HEQ_Address__c
+                WHERE Id = :addressId
+                LIMIT 1
+            ];
+        
+
+            addressToUpdate.MSD_CORE_HEQ_Is_Default__c = true;
+
+            List<MSD_CORE_HEQ_Address__c> otherAddresses;
+
+            if (isSelfPrint) {
+                otherAddresses = [
+                    SELECT Id, MSD_CORE_HEQ_Is_Default__c
+                    FROM MSD_CORE_HEQ_Address__c
+                    WHERE MSD_CORE_HEQ_User__c = :addressToUpdate.MSD_CORE_HEQ_User__c
+                    AND Id != :addressId
+                ];
+            } else {
+                otherAddresses = [
+                    SELECT Id, MSD_CORE_HEQ_Is_Default__c
+                    FROM MSD_CORE_HEQ_Address__c
+                    WHERE MSD_CORE_HEQ_Account__c = :addressToUpdate.MSD_CORE_HEQ_Account__c
+                    AND Id != :addressId
+                ];
+            }
+
+            for (MSD_CORE_HEQ_Address__c otherAddress : otherAddresses) {
+                otherAddress.MSD_CORE_HEQ_Is_Default__c = false;
+            }
+
+            List<MSD_CORE_HEQ_Address__c> addressesToUpdate = new List<MSD_CORE_HEQ_Address__c> { addressToUpdate };
+            addressesToUpdate.addAll(otherAddresses);
+
+            update addressesToUpdate;
+
+            message = 'Success';
+
+        } catch (DmlException dmlEx) {
+            System.debug('DML Exception while setting default address: ' + dmlEx.getMessage());
+            throw new AuraHandledException('An error occurred while setting the default address. Please contact support.');
+        } catch (Exception ex) {
+            System.debug('Exception: ' + ex.getMessage());
+            throw new AuraHandledException('An unexpected error occurred while setting the default address. Please contact support.');
+        }
+
+        return message;
+    }
 
     @AuraEnabled
-    public static List<AccountAddressWrapper> getAddressesForAccounts(Id accountId) {
+    public static List<AccountAddressWrapper> getAddressesForAccounts(Id accountId, Boolean isSelfPrint) {
         List<AccountAddressWrapper> accountAddressWrappers = new List<AccountAddressWrapper>();
 
         try {
-            // Query the account to check if it's a PersonAccount
-            Account account = [
-                SELECT Id, Name, IsPersonAccount, FirstName, LastName, IsCustomerPortal
-                FROM Account
-                WHERE Id = :accountId
-                LIMIT 1
-            ];
-
-            // Determine firstName and lastName based on account type and customer enabled status
+            Id queryId;
             String firstName = '';
             String lastName = '';
+            Boolean isSelfPrintAddress = false;
 
-            if (account.IsPersonAccount && account.IsCustomerPortal) {
-                // Query the User object to get the customer name when Account is PersonAccount and customer-enabled
-                User user = [
-                    SELECT FirstName, LastName 
-                    FROM User 
-                    WHERE AccountId = :accountId
+            if (isSelfPrint) {
+                queryId = UserInfo.getUserId();
+                isSelfPrintAddress = true;
+            } else {
+                queryId = accountId;
+
+                Account account = [
+                    SELECT Id, Name, IsPersonAccount, FirstName, LastName, IsCustomerPortal
+                    FROM Account
+                    WHERE Id = :accountId
                     LIMIT 1
                 ];
-                firstName = user.FirstName;
-                lastName = user.LastName;
-            } else {
-                // Use the account's name if it's a business account or not customer-enabled
-                firstName = account.FirstName != null ? account.FirstName : account.Name;
-                lastName = account.LastName;
+
+                if (account.IsPersonAccount && account.IsCustomerPortal) {
+                    User user = [
+                        SELECT FirstName, LastName 
+                        FROM User 
+                        WHERE AccountId = :accountId
+                        LIMIT 1
+                    ];
+                    firstName = user.FirstName;
+                    lastName = user.LastName;
+                } else {
+                    firstName = account.FirstName != null ? account.FirstName : account.Name;
+                    lastName = account.LastName;
+                }
+
+                List<Id> accountIds = new List<Id>{ accountId };
+                syncAddresses(accountIds);
             }
 
-            List<Id> accountIds = new List<Id>{ accountId };
-            syncAddresses(accountIds);
+            List<MSD_CORE_HEQ_Address__c> heqAddresses;
 
-            // Query HEQ addresses related to the account
-            List<MSD_CORE_HEQ_Address__c> heqAddresses = [
-                SELECT Id, MSD_CORE_HEQ_Account__c, MSD_CORE_HEQ_Address_1__c, 
-                    MSD_CORE_HEQ_City__c, MSD_CORE_HEQ_State__c, MSD_CORE_HEQ_Zip_Code__c, 
-                    MSD_CORE_HEQ_Is_Default__c, MSD_CORE_Address_Vod_Id__c
-                FROM MSD_CORE_HEQ_Address__c
-                WHERE MSD_CORE_HEQ_Account__c = :accountId
-            ];
+            if (isSelfPrint) {
+                heqAddresses = [
+                    SELECT Id, MSD_CORE_HEQ_Account__c, MSD_CORE_HEQ_Address_1__c, 
+                        MSD_CORE_HEQ_City__c, MSD_CORE_HEQ_State__c, MSD_CORE_HEQ_Zip_Code__c, 
+                        MSD_CORE_HEQ_Is_Default__c, MSD_CORE_Address_Vod_Id__c, 
+                        MSD_CORE_HEQ_User__r.FirstName, MSD_CORE_HEQ_User__r.LastName
+                    FROM MSD_CORE_HEQ_Address__c
+                    WHERE MSD_CORE_HEQ_User__c = :queryId
+                    AND MSD_CORE_IsActive__c = true
+                ];
 
-            // Initialize AccountAddressWrapper with fetched names and accountId
+                if (!heqAddresses.isEmpty()) {
+                    firstName = heqAddresses[0].MSD_CORE_HEQ_User__r.FirstName;
+                    lastName = heqAddresses[0].MSD_CORE_HEQ_User__r.LastName;
+                }
+            } else {
+                heqAddresses = [
+                    SELECT Id, MSD_CORE_HEQ_Account__c, MSD_CORE_HEQ_Address_1__c, 
+                        MSD_CORE_HEQ_City__c, MSD_CORE_HEQ_State__c, MSD_CORE_HEQ_Zip_Code__c, 
+                        MSD_CORE_HEQ_Is_Default__c, MSD_CORE_Address_Vod_Id__c
+                    FROM MSD_CORE_HEQ_Address__c
+                    WHERE MSD_CORE_HEQ_Account__c = :queryId
+                    AND MSD_CORE_IsActive__c = true
+                ];
+            }
+
             AccountAddressWrapper accountAddressWrapper = new AccountAddressWrapper();
             accountAddressWrapper.firstName = firstName;
             accountAddressWrapper.lastName = lastName;
-            accountAddressWrapper.accountId = accountId;
+            accountAddressWrapper.accountId = queryId;
+            accountAddressWrapper.isSelfPrintAddress = isSelfPrintAddress;
             accountAddressWrapper.addressList = new List<AddressWrapper>();
 
-            // Wrap the HEQ address data
             for (MSD_CORE_HEQ_Address__c heqAddress : heqAddresses) {
                 accountAddressWrapper.addressList.add(
                     new AddressWrapper(
@@ -360,7 +441,6 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
                 );
             }
 
-            // Add to list and return
             accountAddressWrappers.add(accountAddressWrapper);
 
         } catch (Exception ex) {
@@ -370,8 +450,6 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
 
         return accountAddressWrappers;
     }
-
-    // AddressWrapper and AccountAddressWrapper class definitions
 
     public class AddressWrapper {
         @AuraEnabled public Id id { get; set; }
@@ -397,64 +475,8 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
         @AuraEnabled public String firstName { get; set; }
         @AuraEnabled public String lastName { get; set; }
         @AuraEnabled public Id accountId { get; set; }
+        @AuraEnabled public Boolean isSelfPrintAddress { get; set; }
         @AuraEnabled public List<AddressWrapper> addressList { get; set; }
     }
-
-
-    // @AuraEnabled
-    // public static List<AddressWrapper> getAddressesForAccounts() {
-    //     List<AddressWrapper> addressWrappers = new List<AddressWrapper>();
-
-    //     try {
-
-    //         List<Id> accountIds = MSD_CORE_FBEAccountMappingHelper.getFBEAccountMapping(UserInfo.getUserId());
-    //         if (accountIds.isEmpty()) {
-    //             throw new AuraHandledException('No accounts found.');
-    //         }
-
-
-    //         List<MSD_CORE_HEQ_Address__c> heqAddresses = [
-    //             SELECT Id, MSD_CORE_HEQ_Account__c, MSD_CORE_HEQ_Address_1__c, MSD_CORE_HEQ_City__c, MSD_CORE_HEQ_State__c, MSD_CORE_HEQ_Zip_Code__c, 
-    //                    MSD_CORE_HEQ_Is_Default__c, MSD_CORE_Address_Vod_Id__c
-    //             FROM MSD_CORE_HEQ_Address__c
-    //             WHERE MSD_CORE_HEQ_Account__c IN :accountIds
-    //         ];
-
-    //         // Iterate over addresses and create wrappers
-    //         for (MSD_CORE_HEQ_Address__c heqAddress : heqAddresses) {
-    //             AddressWrapper wrapper = new AddressWrapper();
-    //             wrapper.id = heqAddress.Id;
-    //             wrapper.street = heqAddress.MSD_CORE_HEQ_Address_1__c;
-    //             wrapper.city = heqAddress.MSD_CORE_HEQ_City__c;
-    //             wrapper.state = heqAddress.MSD_CORE_HEQ_State__c;
-    //             wrapper.zip = heqAddress.MSD_CORE_HEQ_Zip_Code__c;
-    //             wrapper.isDefault = heqAddress.MSD_CORE_HEQ_Is_Default__c;
-    //             wrapper.isVodAddress = (heqAddress.MSD_CORE_Address_Vod_Id__c != null);
-    //             addressWrappers.add(wrapper);
-    //         }
-    //     } catch (Exception ex) {
-    //         System.debug('Exception while fetching addresses: ' + ex.getMessage());
-    //         throw new AuraHandledException('An error occurred while fetching addresses.');
-    //     }
-
-    //     return addressWrappers;
-    // }
-
-    // public class AddressWrapper {
-    //     @AuraEnabled
-    //     public Id id { get; set; }
-    //     @AuraEnabled
-    //     public String street { get; set; }
-    //     @AuraEnabled
-    //     public String city { get; set; }
-    //     @AuraEnabled
-    //     public String state { get; set; }
-    //     @AuraEnabled
-    //     public String zip { get; set; }
-    //     @AuraEnabled
-    //     public Boolean isDefault { get; set; }
-    //     @AuraEnabled
-    //     public Boolean isVodAddress { get; set; }
-    // }
 
 }

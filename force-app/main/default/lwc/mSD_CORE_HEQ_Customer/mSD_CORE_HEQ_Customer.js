@@ -35,7 +35,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
     @track recordsPerPage = recordsperpage;
     @track allRecords = [];
     @track recordsPerPageOptions = [];
-
+    @track newallCustomer = [];
     @track searchCategory = [];
     @track mycustomerlist = [];
     @track newRecipients = [];
@@ -44,7 +44,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
     @track noSearchResults = false;
     @track searchMessage = '';
 
-    @track isCustomer = false;
+    @track isCustomerEmpty = false;
     @track activeTab = 'register';
     @track filterLayout = false;
     @track unfilterLayout = false;
@@ -148,6 +148,8 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
                     }
                     return transformedCustomer;
                 });
+
+                this.newallCustomer = this.newCustomers;
                 // FirstName = result.MSD_CORE_HEQ_FirstName__c;
                 // console.log('FirstName'+FirstName);
                 console.log('Fetched Customers:', this.newCustomers);
@@ -202,9 +204,9 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
             .then(result => {
                 console.log('result----->' + JSON.stringify(result));
                 if (result.length == 0) {
-                    this.isCustomer = false;
+                    this.isCustomerEmpty = true;
                 } else {
-                    this.isCustomer = true;
+                    this.isCustomerEmpty = false;
                 }
                 this.mycustomerlist = result;
                 this.setDefaultAddress();
@@ -255,10 +257,18 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         this.allRecords = this.mycustomerlist.filter(customer =>
             (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
             (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
-            (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
+            (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower)) ||
+            (customer.AccountName && customer.AccountName.toLowerCase().includes(searchKeyLower))
         );
 
         this.filteredCustomers = this.mycustomerlist.filter(customer =>
+            (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
+            (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
+            (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower)) ||
+            (customer.AccountName && customer.AccountName.toLowerCase().includes(searchKeyLower))
+        );
+
+        this.newCustomers = this.newallCustomer.filter(customer =>
             (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
             (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
             (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
@@ -269,7 +279,8 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
             .filter(customer =>
                 (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
                 (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
-                (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
+                (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower)) ||
+                (customer.AccountName && customer.AccountName.toLowerCase().includes(searchKeyLower))
             );
 
         this.unregisteredCustomers = this.mycustomerlist
@@ -277,17 +288,24 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
             .filter(customer =>
                 (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
                 (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
-                (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
+                (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower)) ||
+                (customer.AccountName && customer.AccountName.toLowerCase().includes(searchKeyLower))
             );
+
         if (this.customertype === 'allcustomers') {
             this.allCustomers = [...this.registeredCustomers, ...this.unregisteredCustomers, ...this.newCustomers];
             if (this.allCustomers.length == 0) {
-                this.isCustomer = false;
+                this.isCustomerEmpty = true;
             } else {
-                this.isCustomer = true;
+                this.isCustomerEmpty = false;
             }
         } else if (this.customertype === 'registered-unregistered') {
             this.allCustomers = [...this.registeredCustomers, ...this.unregisteredCustomers];
+            if (this.allCustomers.length == 0) {
+                this.isCustomerEmpty = true;
+            } else {
+                this.isCustomerEmpty = false;
+            }
         }
         console.log('this.registeredCustomers>>>' + JSON.stringify(this.registeredCustomers));
         console.log('this.allCustomers>>>' + JSON.stringify(this.allCustomers));
