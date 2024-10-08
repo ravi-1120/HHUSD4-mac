@@ -342,17 +342,29 @@ public without sharing class MSD_CORE_HEQ_ContentVersionController {
             SELECT Id, Description, Title, FileType, MSD_CORE_Is_Thumbnail__c, MSD_CORE_Is_Active__c, 
             MSD_CORE_Therapeutic_Area__c, MSD_CORE_Topic__c, MSD_CORE_Video_Resource__c, 
             MSD_CORE_Expiration_Date__c, LastModifiedDate, MSD_CORE_Resource_Code__c, MSD_CORE_Fulfillment_Method__c
-            , ContentDocumentId, CreatedDate, MSD_CORE_New_Item__c, MSD_CORE_IsNewItem__c	 
+            , ContentDocumentId, CreatedDate, MSD_CORE_New_Item__c, MSD_CORE_IsNewItem__c, MSD_CORE_HEQ_Resource_Type__c, MSD_CORE_HEQ_External_Link_Id__c, MSD_CORE_HEQ_URL__c	 
             FROM ContentVersion 
             WHERE MSD_CORE_Is_Active__c = true 
-            AND MSD_CORE_Is_Thumbnail__c = false AND MSD_CORE_Expiration_Date__c > TODAY ORDER BY LastModifiedDate DESC
+            AND MSD_CORE_Is_Thumbnail__c = false ORDER BY LastModifiedDate DESC
         ];
         
         Date today = Date.today();
         
         for (ContentVersion cv : contentRecords) {
             //Integer expiryDays = cv.MSD_CORE_Expiration_Date__c != null ? today.daysBetween(cv.MSD_CORE_Expiration_Date__c) : 0;
-            String expiryDays = DateTime.newInstance(cv.MSD_CORE_Expiration_Date__c, Time.newInstance(0, 0, 0, 0)).format('MM/dd/yyyy');
+            //String expiryDays = DateTime.newInstance(cv.MSD_CORE_Expiration_Date__c, Time.newInstance(0, 0, 0, 0)).format('MM/dd/yyyy');
+            String expiryDays = '';
+        if (cv.MSD_CORE_HEQ_Resource_Type__c != 'External Link' && cv.MSD_CORE_HEQ_External_Link_Id__c != null) {
+            if (cv.MSD_CORE_Expiration_Date__c != null && cv.MSD_CORE_Expiration_Date__c > today) {
+                expiryDays = DateTime.newInstance(cv.MSD_CORE_Expiration_Date__c, Time.newInstance(0, 0, 0, 0)).format('MM/dd/yyyy');
+            } else {
+                continue;
+            }
+        } else {
+            expiryDays = cv.MSD_CORE_Expiration_Date__c != null 
+                ? DateTime.newInstance(cv.MSD_CORE_Expiration_Date__c, Time.newInstance(0, 0, 0, 0)).format('MM/dd/yyyy') 
+                : '';
+        }
             String filetype = '';
             if(cv.MSD_CORE_Video_Resource__c != null) {
                 filetype = 'Video';
@@ -370,7 +382,9 @@ public without sharing class MSD_CORE_HEQ_ContentVersionController {
                 cv.MSD_CORE_Resource_Code__c,
                 cv.MSD_CORE_Topic__c,
                 cv.contentDocumentId,
-                cv.MSD_CORE_IsNewItem__c
+                cv.MSD_CORE_IsNewItem__c,
+                cv.MSD_CORE_HEQ_Resource_Type__c,
+                cv.MSD_CORE_HEQ_URL__c
             ));
         }
         
@@ -389,8 +403,10 @@ public without sharing class MSD_CORE_HEQ_ContentVersionController {
         @AuraEnabled public String contentDocumentId {get; set;}
         @AuraEnabled public String headerColorCssClass {get; set;}
         @AuraEnabled public Boolean isNewItem {get; set;}
+        @AuraEnabled public String resourceType {get; set;}
+        @AuraEnabled public String externalLinkURL {get; set;}
         
-        public ContentVersionDTO(String id, String boldText, String normalText, String fileType, String expiryDays, Datetime lastModifiedDate, String resourceCode, String topic, String contentDocumentId, Boolean isNewItem) {
+        public ContentVersionDTO(String id, String boldText, String normalText, String fileType, String expiryDays, Datetime lastModifiedDate, String resourceCode, String topic, String contentDocumentId, Boolean isNewItem, String resourceType, String externalLinkURL) {
             this.id = id;
             this.boldText = boldText;
             this.normalText = normalText;
@@ -400,7 +416,8 @@ public without sharing class MSD_CORE_HEQ_ContentVersionController {
             this.resourceCode = resourceCode;
             this.topic = topic;
             this.contentDocumentId = contentDocumentId;
-            this.isNewItem = isNewItem; 
+            this.resourceType = resourceType; 
+            this.externalLinkURL = externalLinkURL;
             if(fileType == 'PDF') {
                 this.headerColorCssClass = 'header-color-2';
             } else if(fileType == 'Video') {
@@ -436,7 +453,7 @@ public without sharing class MSD_CORE_HEQ_ContentVersionController {
     public static List<ContentVersion> getTherapeuticAreaContent(String therapeuticArea) {
         String query = 'SELECT Id, CreatedDate, MSD_CORE_New_Item__c, MSD_CORE_IsNewItem__c, ContentDocumentId, Description, Title, FileType, MSD_CORE_Is_Thumbnail__c, MSD_CORE_Is_Active__c, ' +
             'MSD_CORE_Therapeutic_Area__c, MSD_CORE_Topic__c, MSD_CORE_Video_Resource__c, MSD_CORE_Expiration_Date__c, ' +
-            'LastModifiedDate, MSD_CORE_Resource_Code__c, MSD_CORE_Fulfillment_Method__c ' +
+            'LastModifiedDate, MSD_CORE_Resource_Code__c, MSD_CORE_HEQ_URL__c, MSD_CORE_HEQ_Resource_Type__c, MSD_CORE_Fulfillment_Method__c ' +
             'FROM ContentVersion WHERE MSD_CORE_Is_Active__c = true AND MSD_CORE_Is_Thumbnail__c = false ' +
             'AND MSD_CORE_Therapeutic_Area__c INCLUDES (:therapeuticArea)' +
             'AND MSD_CORE_Expiration_Date__c > TODAY ' +
@@ -448,7 +465,7 @@ public without sharing class MSD_CORE_HEQ_ContentVersionController {
     public static List<ContentVersion> getTopicContent(String topic) {
         String query = 'SELECT Id, CreatedDate, MSD_CORE_New_Item__c, MSD_CORE_IsNewItem__c, ContentDocumentId, Description, Title, FileType, MSD_CORE_Is_Thumbnail__c, MSD_CORE_Is_Active__c, ' +
             'MSD_CORE_Topic__c, MSD_CORE_Therapeutic_Area__c, MSD_CORE_Video_Resource__c, MSD_CORE_Expiration_Date__c, ' +
-            'LastModifiedDate, MSD_CORE_Resource_Code__c, MSD_CORE_Fulfillment_Method__c ' +
+            'LastModifiedDate, MSD_CORE_Resource_Code__c, MSD_CORE_HEQ_URL__c, MSD_CORE_HEQ_Resource_Type__c, MSD_CORE_Fulfillment_Method__c ' +
             'FROM ContentVersion WHERE MSD_CORE_Is_Active__c = true AND MSD_CORE_Is_Thumbnail__c = false ' +
             'AND MSD_CORE_Topic__c INCLUDES (:topic)' +
             'AND MSD_CORE_Expiration_Date__c > TODAY ' +

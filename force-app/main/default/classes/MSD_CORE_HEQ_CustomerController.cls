@@ -109,7 +109,7 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
                         resultMap.put('LastName', personUser.LastName);
                         resultMap.put('Name', personUser.Name);
                         resultMap.put('Email', personUser.Email);
-                        resultMap.put('LastLoginDate', personUser.LastLoginDate);
+                        resultMap.put('LastLoginDate', personUser.LastLoginDate.format('MM/dd/yyyy hh:mm a'));
                         resultMap.put('IsRegister', true);
                         resultMap.put('AccountName', acc.Name);
                     }
@@ -450,6 +450,194 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
 
         return accountAddressWrappers;
     }
+
+    // @AuraEnabled
+    // public static String updateCartAddress(Id cartAddressId, Id customerId, Boolean isSelfPrint) {
+    //     if (cartAddressId == null) {
+    //         throw new AuraHandledException('Address ID cannot be null.');
+    //     }
+
+    //     List<MSD_CORE_HEQ_Cart__c> cartRecords = isSelfPrint 
+    //         ? [SELECT Id FROM MSD_CORE_HEQ_Cart__c WHERE MSD_CORE_Cart_Owner__c = :UserInfo.getUserId() AND MSD_CORE_Customer__c = null]
+    //         : [SELECT Id FROM MSD_CORE_HEQ_Cart__c WHERE MSD_CORE_Customer__c = :customerId AND MSD_CORE_Cart_Owner__c = :UserInfo.getUserId()];
+
+    //     for (MSD_CORE_HEQ_Cart__c cart : cartRecords) {
+    //         cart.MSD_CORE_Address__c = cartAddressId;
+    //     }
+        
+    //     if (!cartRecords.isEmpty()) {
+    //         try {
+    //             update cartRecords;
+    //             return 'Success';
+    //         } catch (DmlException e) {
+    //             throw new AuraHandledException('Error updating cart records: ' + e.getMessage());
+    //         }
+    //     } else {
+    //         return 'No cart records found to update.';
+    //     }
+    // }
+
+    @AuraEnabled
+    public static String updateCartAddress(Id cartAddressId, Id customerId, Boolean isSelfPrint) {
+        if (cartAddressId == null) {
+            throw new AuraHandledException('Address ID cannot be null.');
+        }
+
+        List<MSD_CORE_HEQ_Cart__c> cartRecords;
+
+        if (isSelfPrint) {
+            cartRecords = [SELECT Id FROM MSD_CORE_HEQ_Cart__c 
+                        WHERE MSD_CORE_Cart_Owner__c = :UserInfo.getUserId() 
+                        AND MSD_CORE_Customer__c = null];
+        } else {
+            cartRecords = [SELECT Id FROM MSD_CORE_HEQ_Cart__c 
+                        WHERE MSD_CORE_Customer__c = :customerId 
+                        AND MSD_CORE_Cart_Owner__c = :UserInfo.getUserId()];
+        }
+
+        System.debug('Cart Records Found: ' + cartRecords.size());
+
+        for (MSD_CORE_HEQ_Cart__c cart : cartRecords) {
+            System.debug('Cart Record Found: ' + cartAddressId);
+            cart.MSD_CORE_Address__c = cartAddressId;
+        }
+
+        if (!cartRecords.isEmpty()) {
+            try {
+                update cartRecords;
+                return 'Success';
+            } catch (DmlException e) {
+                throw new AuraHandledException('Error updating cart records: ' + e.getMessage());
+            }
+        } else {
+            return 'No cart records found to update.';
+        }
+    }
+
+
+    @AuraEnabled
+    public static String createOrUpdateAddress(String address1, String address2, String city, String state, String zip, Boolean isSelfPrint, Id userOrAccountId, Boolean isDefault, Id addressId) {
+        try {
+            MSD_CORE_HEQ_Address__c addressRecord;
+
+            if (addressId == null) {
+                addressRecord = new MSD_CORE_HEQ_Address__c();
+            } else {
+                addressRecord = [
+                    SELECT Id, MSD_CORE_HEQ_User__c, MSD_CORE_HEQ_Account__c, MSD_CORE_HEQ_Is_Default__c
+                    FROM MSD_CORE_HEQ_Address__c
+                    WHERE Id = :addressId
+                    LIMIT 1
+                ];
+            }
+
+            if (isSelfPrint) {
+                addressRecord.MSD_CORE_HEQ_User__c = UserInfo.getUserId();
+            } else {
+                addressRecord.MSD_CORE_HEQ_Account__c = userOrAccountId;
+            }
+
+            addressRecord.MSD_CORE_HEQ_Address_1__c = address1;
+            addressRecord.MSD_CORE_HEQ_Address_2__c = address2;
+            addressRecord.MSD_CORE_HEQ_City__c = city;
+            addressRecord.MSD_CORE_HEQ_State__c = state;
+            addressRecord.MSD_CORE_HEQ_Zip_Code__c = zip;
+
+            if (addressId == null) {
+                if (isDefault) {
+                    List<MSD_CORE_HEQ_Address__c> addressesToUpdate;
+
+                    if (isSelfPrint) {
+                        addressesToUpdate = [
+                            SELECT Id
+                            FROM MSD_CORE_HEQ_Address__c
+                            WHERE MSD_CORE_HEQ_User__c = :UserInfo.getUserId()
+                        ];
+                    } else {
+                        addressesToUpdate = [
+                            SELECT Id
+                            FROM MSD_CORE_HEQ_Address__c
+                            WHERE MSD_CORE_HEQ_Account__c = :userOrAccountId
+                        ];
+                    }
+
+                    for (MSD_CORE_HEQ_Address__c addr : addressesToUpdate) {
+                        addr.MSD_CORE_HEQ_Is_Default__c = false;
+                    }
+
+                    if (!addressesToUpdate.isEmpty()) {
+                        update addressesToUpdate;
+                    }
+                }
+
+                insert addressRecord;
+            } else {
+                update addressRecord;
+
+                if (isDefault) {
+                    List<MSD_CORE_HEQ_Address__c> addressesToUpdate;
+
+                    if (isSelfPrint) {
+                        addressesToUpdate = [
+                            SELECT Id
+                            FROM MSD_CORE_HEQ_Address__c
+                            WHERE MSD_CORE_HEQ_User__c = :UserInfo.getUserId()
+                            AND Id != :addressRecord.Id
+                        ];
+                    } else {
+                        addressesToUpdate = [
+                            SELECT Id
+                            FROM MSD_CORE_HEQ_Address__c
+                            WHERE MSD_CORE_HEQ_Account__c = :userOrAccountId
+                            AND Id != :addressRecord.Id
+                        ];
+                    }
+
+                    for (MSD_CORE_HEQ_Address__c addr : addressesToUpdate) {
+                        addr.MSD_CORE_HEQ_Is_Default__c = false;
+                    }
+
+                    update addressesToUpdate;
+                }
+            }
+
+            if (isDefault) {
+                addressRecord.MSD_CORE_HEQ_Is_Default__c = true;
+                update addressRecord;
+            }
+
+            return 'Success';
+
+        } catch (Exception e) {
+            throw new AuraHandledException('Error: ' + e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static String deactivateAddress(Id addressId) {
+        if (addressId == null) {
+            throw new AuraHandledException('Address ID cannot be null.');
+        }
+
+        try {
+            MSD_CORE_HEQ_Address__c addressToDeactivate = [
+                SELECT Id, MSD_CORE_IsActive__c 
+                FROM MSD_CORE_HEQ_Address__c 
+                WHERE Id = :addressId 
+                LIMIT 1
+            ];
+            
+            addressToDeactivate.MSD_CORE_IsActive__c = false;
+            update addressToDeactivate;
+
+            return 'Success';
+        } catch (QueryException e) {
+            throw new AuraHandledException('Error retrieving address: ' + e.getMessage());
+        } catch (DmlException e) {
+            throw new AuraHandledException('Error deactivating address: ' + e.getMessage());
+        }
+    }
+
 
     public class AddressWrapper {
         @AuraEnabled public Id id { get; set; }

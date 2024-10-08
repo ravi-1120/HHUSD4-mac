@@ -72,7 +72,7 @@
                     <div class="grid-container">
                         <template for:each={gridItems} for:item="item">
                             <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item} grid-type="grid1"
-                                menu-options={menuOptions} category="New Materials" onshowmenu={handleShowMenu}
+                                menu-options={item.menuOptions} category="New Materials" onshowmenu={handleShowMenu}
                                 onmenuclick={handleMenuClick}>
                             </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
                         </template>
@@ -101,7 +101,7 @@
                     <div class="grid-containers">
                         <template for:each={soonToExpireItems} for:item="item">
                             <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item} grid-type="grid2"
-                                menu-options={menuOptions} category="Expiring Soon" onshowmenu={handleShowMenu}
+                                menu-options={item.menuOptions} category="Expiring Soon" onshowmenu={handleShowMenu}
                                 onmenuclick={handleMenuClick}>
                             </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
                         </template>
@@ -127,7 +127,7 @@
                     <div class="grid-containers" data-id="businessContainer">
                         <template for:each={soonToExpireItems} for:item="item">
                             <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item} grid-type="grid2"
-                                menu-options={menuOptions} category="Expiring Soon" onshowmenu={handleShowMenu}
+                                menu-options={item.menuOptions} category="Expiring Soon" onshowmenu={handleShowMenu}
                                 onmenuclick={handleMenuClick}>
                             </c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles>
                         </template>

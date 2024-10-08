@@ -433,7 +433,7 @@
                 <div class="grid-header">Last name</div>
                 <div class="grid-header">Address</div>
 
-                <template for:each={paginatedRegisteredCustomers} for:item="mycustomer">
+                <template for:each={registeredCustomers} for:item="mycustomer">
                     <div key={mycustomer.Id} class="grid-item checkbox">
                         <lightning-input type="checkbox" value={mycustomer.Id} data-firstname={mycustomer.FirstName}
                             data-lastname={mycustomer.LastName} data-email={mycustomer.Email} onchange={handleCheckbox}>
@@ -454,7 +454,7 @@
                         onchange={handleSelfPrint}>
                     </lightning-input> Print to self
                 </div>
-                <template for:each={paginatedRegisteredCustomers} for:item="mycustomer">
+                <template for:each={registeredCustomers} for:item="mycustomer">
                     <div key={mycustomer.Id} class="mbl-filter-container">
                         <div class="checkbox">
                             <lightning-input type="checkbox" value={mycustomer.Id} data-firstname={mycustomer.FirstName}
@@ -479,7 +479,7 @@
                 <lightning-input class="quantity-input" type="checkbox" variant="label-hidden"
                     onchange={handleSelfPrint}></lightning-input> Print to self
             </div>
-            <div if:true={isFooterbutton} class="dr-form_btnGroup slds-float_right">
+            <div if:true={isFooterbutton} class="dr-form_btnGroup slds-float_right slds-var-p-top_large">
                 <lightning-button role="button" class="lt-button cancel" variant="base" label="Cancel" title="Cancel"
                     onclick={showCancelModal}>
                 </lightning-button>
@@ -553,17 +553,17 @@
                             <div class="error-message">Last Name is required.</div>
                         </template>
                     </div>
-                    <div key={newRecipient.Id} class="grid-item-a">
+                    <div key={newRecipient.Id} class="grid-item-a" style="display: flex; flex-direction: row">
                         <input type="email" class="inputemailcls" name="Email" data-id={newRecipient.Id} value={newRecipient.Email}
                 placeholder="Email" oninput={handleRecipient} />
                         <template if:true={newRecipient.emailError}>
                             <div class="error-message">Invalid email format.</div>
                         </template>
-                    </div>
-                    <div key={newRecipient.Id} class="grid-item">
-                        <a data-id={newRecipient.Id} class="remove-recipient" onclick={removeRecipient}>
-                            Remove
-                        </a>
+                        <div key={newRecipient.Id} class="grid-item">
+                            <a data-id={newRecipient.Id} class="remove-recipient" onclick={removeRecipient}>
+                                Remove
+                            </a>
+                        </div>
                     </div>
                 </template>
 

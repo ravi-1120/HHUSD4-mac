@@ -972,6 +972,7 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             List<Id> allcustomerids = new List<Id>();
             allcustomerids.addAll(accountIds);
             allcustomerids.addAll(personaccountIds);
+            Set<Id> accountIdsSet = new Set<Id>(allcustomerids);
 
             List<MSD_CORE_HEQ_Collection__c> collectionbanner = [SELECT Id, MSD_CORE_Header_Image_Link__c FROM MSD_CORE_HEQ_Collection__c WHERE Id =: collectionId];
             List<ContentVersion> cdbannerdocids = new List<ContentVersion>();
@@ -982,11 +983,21 @@ public without sharing class MSD_CORE_HEQ_CollectionController {
             }
 
             if (cdbannerdocids.size()>0) {
-                for (Id accountid : allcustomerids) {
-                    ContentDocumentLink docLink = new ContentDocumentLink();
-                    docLink.LinkedEntityId = accountid;
-                    docLink.ContentDocumentId = cdbannerdocids[0].ContentDocumentId;
-                    documentLinks.add(docLink);
+                Set<Id> contentDocumentIdSet = new Set<Id>();
+                contentDocumentIdSet.add(cdbannerdocids[0].ContentDocumentId);
+                List<ContentDocumentLink> existingcdLinks = [SELECT LinkedEntityId, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId IN :accountIdsSet AND ContentDocumentId IN :contentDocumentIdSet];
+                Set<String> existingLinkKeys = new Set<String>();
+                for (ContentDocumentLink existingLink : existingcdLinks) {
+                    existingLinkKeys.add(existingLink.LinkedEntityId + '-' + existingLink.ContentDocumentId);
+                }
+                for (Id accountId : allcustomerids) {
+                    String currentKey = accountId + '-' + cdbannerdocids[0].ContentDocumentId;
+                    if (!existingLinkKeys.contains(currentKey)) {
+                        ContentDocumentLink docLink = new ContentDocumentLink();
+                        docLink.LinkedEntityId = accountId;
+                        docLink.ContentDocumentId = cdbannerdocids[0].ContentDocumentId;
+                        documentLinks.add(docLink);
+                    }
                 }
             }
 

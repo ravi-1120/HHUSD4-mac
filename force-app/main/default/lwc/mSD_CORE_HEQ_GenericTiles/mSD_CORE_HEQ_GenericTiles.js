@@ -21,6 +21,10 @@ import createNew from '@salesforce/label/c.MSD_CORE_HEQ_CreateNew';
 import cancel from '@salesforce/label/c.MSD_CORE_Cancel';
 import submit from '@salesforce/label/c.MSD_CORE_Submit';
 import customerProfileName from '@salesforce/label/c.MSD_CORE_HEQ_CustomerProfile';
+import Close from '@salesforce/label/c.MSD_CORE_Close_Btn';
+import helplinks from '@salesforce/label/c.MSD_CORE_HEQ_Helpful_links';
+import Proceed from '@salesforce/label/c.MSD_CORE_HEQ_Proceed';
+import popupmsg from '@salesforce/label/c.MSD_CORE_HEQ_Popup_msg';
 
 //Static Resource
 import tileImage from '@salesforce/resourceUrl/MSD_CORE_HealthEQ_tile';
@@ -57,7 +61,9 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     @track profileName;
     @track cid;
     @track resId;
+    @track showexternalpopup;
     @api feature;
+    @track externalLinkURLValue;
 
     urlParams;
 
@@ -67,7 +73,11 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         collectionbody,
         createNew,
         cancel,
-        submit
+        submit,
+        Close,
+        helplinks,
+        Proceed,
+        popupmsg
     }
 
     connectedCallback() {
@@ -199,9 +209,12 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     handleMenuClick(event) {
         const action = event.target.dataset.action;
         const itemId = event.target.dataset.id;
+        const externalLinkURL = event.target.dataset.externalLink;
+        this.externalLinkURLValue = externalLinkURL;
         this.resId = itemId;
         console.log('### 3 action ' + action);
         console.log('### 4 action ' + itemId);
+        console.log('### External Link URL: ' + externalLinkURL);
         const menuClickEvent = new CustomEvent('menuclick', {
             detail: { action, itemId }
         });
@@ -231,7 +244,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
                     });
                 break;
             case 'Open':
-                this.handleOpen(itemId);
+                this.handleOpen(itemId, externalLinkURL);
                 break;
             case 'email':
                 this.showuser = true;
@@ -239,6 +252,10 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
                 break;
             case 'addToCollection':
                 console.log(`Add item ${itemId} to collection`);
+                break;
+            case 'openlink':
+                console.log(`Add item openlink ${itemId} to collection`);
+                this.handleOpenExternal(externalLinkURL);
                 break;
         }
     }
@@ -253,7 +270,8 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
             resourceID: this.item.code,
             username: this.fullName,
             recordID: this.item.id,
-            userId: this.userId
+            userId: this.userId,
+            externallink: this.externalLinkURLValue
 
         }).then((result) => {
             console.log('result of sendEmailNotification>>', result);
@@ -266,6 +284,20 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         });
 
         this.showuser = false;
+    }
+
+    handleOpenExternal(externalLinkURL){
+        console.log('handleOpenExternal method called.'+externalLinkURL);
+        this.showexternalpopup = true;
+    }
+
+    handleCancelExternal(){
+        this.showexternalpopup = false;
+    }
+
+    handleProceed(){
+        window.open(this.externalLinkURLValue, '_blank'); 
+        this.showexternalpopup = false;
     }
 
     handleAddToCart(data, selfprint) {
@@ -379,6 +411,7 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
     handleViewDetails(event) {
         const topicTitle = 'Test';
         const contDocId = event.target.dataset.id;
+        const externalLinkURL = event.target.dataset.externalLink;
         if (this.category == 'Collections') {
             this.handleOpen(contDocId);
         } else {
@@ -512,13 +545,21 @@ export default class mSD_CORE_HEQ_GenericTiles extends NavigationMixin(Lightning
         });
     }
 
-    handleOpen(contDocId) {
-        this[NavigationMixin.Navigate]({
+    handleOpen(contDocId, externalLinkURL) {
+        if (contDocId){
+            this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
                 url: '/resources/collections/view?cid=' + contDocId
             }
         });
+        } else if(externalLinkURL){
+            this.showPopup = true;
+            console.log('### Opening External Link: ' + externalLinkURL);
+            //window.open(externalLinkURL, '_blank');
+        }
+
+        
     }
 
     handleCheckbox() {

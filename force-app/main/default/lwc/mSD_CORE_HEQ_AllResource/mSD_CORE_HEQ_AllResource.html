@@ -168,7 +168,7 @@
                                     <template for:each={section.topics} for:item="item">
                                         <div class="tileviewpadding" key={item}>
                                             <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item}
-                                                grid-type="grid2" genericview="tile" menu-options={menuOptions}
+                                                grid-type="grid2" genericview="tile" menu-options={item.menuOptions}
                                                 category="Expiring Soon" contentdocumentid={item.contentdocumentid}
                                                 onshowmenu={handleShowMenu} onmenuclick={handleMenuClick} onclosedropdown={closeDropdown}
                                                 onselectdocument={handleDocumentSelection}>
@@ -195,7 +195,7 @@
                                     <template for:each={section.topics} for:item="item">
                                         <div class="listviewcls" key={item}>
                                             <c-m-s-d_-c-o-r-e_-h-e-q_-generic-tiles key={item.id} item={item}
-                                                grid-type="grid1" genericview="list" menu-options={menuOptions}
+                                                grid-type="grid1" genericview="list" menu-options={item.menuOptions}
                                                 category="Expiring Soon" contentdocumentid={item.contentdocumentid}
                                                 onshowmenu={handleShowMenu} onmenuclick={handleMenuClick}
                                                 onselectdocument={handleDocumentSelection}>

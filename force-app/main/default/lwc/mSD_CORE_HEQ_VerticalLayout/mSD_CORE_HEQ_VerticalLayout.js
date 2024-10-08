@@ -13,6 +13,7 @@ import customerProfileName from '@salesforce/label/c.MSD_CORE_HEQ_CustomerProfil
 
 import getCollectionList from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.getCollectionList';
 import addResourceToCollection from '@salesforce/apex/MSD_CORE_HEQ_CollectionController.addResourceToCollection';
+import addOrUpdateCartRecords from '@salesforce/apex/MSD_CORE_HEQ_CartController.addOrUpdateCartRecords';
 
 import addtocollection from '@salesforce/label/c.MSD_CORE_Add_Collection';
 import collectionbody from '@salesforce/label/c.MSD_CORE_HEQ_CollectionModelBody';
@@ -30,7 +31,12 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
     @track therapeuticCards = [];
     @track topicCards = [];
     @track profileName;
+    @track externalLinkURLValue;
+    @track showexternalpopup;
+    @track showPrintUser = false;
+    @track resId;
     scrollAmount = 350;
+    urlParams;
 
     // collection
     @track selectedResourceName;
@@ -67,11 +73,12 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
         { action: 'preview', label: 'Preview & Details', downloadActive: false, isModelBox: false },
         { action: 'email', label: 'Email to customer', downloadActive: false, isModelBox: false },
         { action: 'addToCollection', label: 'Add to collection', downloadActive: false, isModelBox: true },
-        { action: 'print', label: 'Print to customer', downloadActive: false, isModelBox: true }
+        { action: 'print', label: 'Print to customer', downloadActive: false, isModelBox: false }
     ];
 
     handleShowMenu(event) {
         const itemId = event.currentTarget.dataset.id;
+        this.resId = itemId;
         console.log('Menu button clicked for item ID:', itemId);
         if (this.therapeuticCards.length >0) {
             this.therapeuticCards = this.therapeuticCards.map(card => {
@@ -104,6 +111,8 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
         const action = event.target.dataset.action;
         const itemId = event.target.dataset.id;
         const contID = event.target.dataset.contentdocumentid;
+        const externalLinkURL = event.target.dataset.externalLink;
+        this.externalLinkURLValue = externalLinkURL;
         console.log('contentdocumentid in verticallayout', contID);
         console.log(`Action: ${action}, Item ID: ${itemId}`);
 
@@ -126,6 +135,7 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
         });
         switch (action) {
             case 'print':
+                this.showPrintUser = true;
                 console.log(`Print item ${itemId}`);
                 break;
             case 'preview':
@@ -140,7 +150,25 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
             case 'addToCollection':
                 console.log(`Add item ${itemId} to collection`);
                 break;
+            case 'openlink':
+                console.log(`Add item openlink ${itemId} to collection`);
+                this.handleOpenExternal(externalLinkURL);
+            break;
         }
+    }
+
+    handleOpenExternal(externalLinkURL){
+        console.log('handleOpenExternal method called.'+externalLinkURL);
+        this.showexternalpopup = true;
+    }
+
+    handleCancelExternal(){
+        this.showexternalpopup = false;
+    }
+
+    handleProceed(){
+        window.open(this.externalLinkURLValue, '_blank'); 
+        this.showexternalpopup = false;
     }
 
     connectedCallback() {
@@ -159,6 +187,12 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
             .catch(error => {
                 console.error('Error in connectedCallback:', error);
             });
+
+        const url = window.location.href;
+        const parts = url.includes('/healtheq') ? url.split('/healtheq') : null;
+        if (parts && parts.length > 1) {
+            this.urlParams = parts[1].trim();
+        }
     }
 
     getUserData() {
@@ -203,6 +237,60 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
             left: this.scrollAmount,
             behavior: 'smooth' // Smooth scrolling
         });
+    }
+
+    closeModal() {
+        this.showPrintUser = false;
+    }
+
+    closeCustomerModel(event) {
+        this.showPrintUser = false;
+    }
+
+    getSelectedCustomer(event) {
+        var getSelectedCustomer = event.detail;
+        console.log('getSelectedCustomer' + JSON.stringify(event.detail));
+        if (getSelectedCustomer != null) {
+
+            if (event.detail.feature == 'print') {
+                this.handleAddToCart(getSelectedCustomer.data, getSelectedCustomer.selfprint);
+            } else if (event.detail.feature == 'edeliver') {
+                this.handleSendEmail(event.detail.data);
+            }
+        }
+        this.showPrintUser = false;
+
+    }
+
+    handleAddToCart(data, selfprint) {
+        this.showSpinner = true;
+        let idList = data.map(item => item.id);
+        let resourceId = [];
+        resourceId.push(this.resId);
+
+        console.log('Ids>>', resourceId);
+        console.log('Customers>>', idList);
+        addOrUpdateCartRecords({
+            customerIds: idList,
+            resourceIds: resourceId,
+            selfPrint: selfprint
+        }).then((result) => {
+            if (result === 'Success') {
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__webPage',
+                    attributes: {
+                        url: `/cart`
+                    }
+                });
+            }
+            console.log('result of updateCartRecords>>', result);
+            this.showSpinner = false;
+        }).catch(error => {
+            console.log('Error in updateCartRecords: ' + JSON.stringify(error.message));
+            this.showSpinner = false;
+        });
+
+        this.showuser = false;
     }
 
     getCollectionList(){
@@ -455,6 +543,8 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
                     let updatedURL = this.getThumbnailURL(record.FileType, record.Id);
                     let backgroundColor = '';
                     let typeOfFile = '';
+                    let menuOptions;
+
                     switch (record.FileType) {
                         case 'PDF':
                             backgroundColor = '#58A58E'; // Green for PDF
@@ -472,12 +562,23 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
                             break;
                     }
 
+                    if (record.MSD_CORE_HEQ_Resource_Type__c === 'External Link') {
+                        menuOptions = [
+                            { action: 'openlink', label: 'Open', downloadActive: false, externalLinkURL: record.MSD_CORE_HEQ_URL__c },
+                            { action: 'email', label: 'Email to customer', downloadActive: false, isModelBox: false, externalLinkURL: '' },
+                            { action: 'addToCollection', label: 'Add to collection', downloadActive: false, isModelBox: true, externalLinkURL: '' },
+                        ];
+                        backgroundColor = '#4340B6';
+                    } else {
+                        menuOptions = this.menuOptions;
+                    }
+
                     let descriptionVal = record.MSD_CORE_Therapeutic_Area__c ? record.MSD_CORE_Therapeutic_Area__c.replace(/;/g, ', ') : record.MSD_CORE_Therapeutic_Area__c;
                     let topicVal = record.MSD_CORE_Topic__c ? record.MSD_CORE_Topic__c.replace(/;/g, ', ') : record.MSD_CORE_Topic__c;
 
                     return {
                         id: record.Id,
-                        contentType: typeOfFile,
+                        contentType: this.getFileTypeByResource(record.MSD_CORE_HEQ_Resource_Type__c),
                         title: record.Title,
                         textLine1: descriptionVal,
                         textLine2: topicVal,
@@ -487,67 +588,106 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
                         contentDocumentId: record.ContentDocumentId,
                         downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + record.ContentDocumentId + '?operationContext=S1',
                         backgroundColor: backgroundColor,
-                        isNewItem: record.MSD_CORE_IsNewItem__c
+                        isNewItem: record.MSD_CORE_IsNewItem__c,
+                        menuOptions: menuOptions,
+                        externalLinkURL: record.MSD_CORE_HEQ_URL__c
                     };
                 });
                 console.log('Therapeutic card==>', JSON.stringify(this.therapeuticCards))
             })
             .catch(error => {
-                console.error('Error querying therapeutic area content:', error);
+                console.error('Error querying therapeutic area content:', error.message);
+                console.error('Error querying therapeutic area content:'+ JSON.stringify(error.message));
             });
     }
 
 
+    getFileTypeByResource(resourceType) {
+        let resType = '';
+        switch (resourceType) {
+            case 'External Link':
+                resType = 'External Link';
+                break;
+            case 'Video':
+                resType = 'Video';
+                break;
+            case 'Static':
+                resType = 'Static';
+                break;
+            default:
+                resType = 'Static';
+                break;
+        }
 
+        return resType;
+    }
 
 
     queryTopicContent(topic) {
+        console.log('topic>>>'+topic);
         getTopicContent({ topic })
             .then(result => {
-                console.log('Topic Cards Received:', JSON.stringify(result));
-                this.topicCards = result.map(record => {
-                    let updatedURL = this.getThumbnailURL(record.FileType, record.Id);
-                    console.log('Record:', record);
-                    let backgroundColor = '';
-                    let typeOfFile = '';
-                    switch (record.FileType) {
-                        case 'PDF':
-                            backgroundColor = '#58A58E'; // Green for PDF
-                            typeOfFile = 'Static';
-                            break;
-                        case 'Video':
-                            backgroundColor = '#5493C6'; // Blue for Video
-                            typeOfFile = 'Video';
-                            break;
-                        case 'Customizable':
-                            backgroundColor = '#FF9500'; // Amber for Customizable
-                            break;
-                        default:
-                            backgroundColor = '#C4C4C4'; // Default color for other file types
-                            break;
-                    }
+                console.log('Topic Cards Received:', result);
+                if (result) {
+                    this.topicCards = result.map(record => {
+                        let updatedURL = this.getThumbnailURL(record.FileType, record.Id);
+                        console.log('Record:', record);
+                        let backgroundColor = '';
+                        let typeOfFile = '';
+                        let menuOptions;
+                        switch (record.FileType) {
+                            case 'PDF':
+                                backgroundColor = '#58A58E'; // Green for PDF
+                                typeOfFile = 'Static';
+                                break;
+                            case 'Video':
+                                backgroundColor = '#5493C6'; // Blue for Video
+                                typeOfFile = 'Video';
+                                break;
+                            case 'Customizable':
+                                backgroundColor = '#FF9500'; // Amber for Customizable
+                                break;
+                            default:
+                                backgroundColor = '#C4C4C4'; // Default color for other file types
+                                break;
+                        }
 
-                    let descriptionVal = record.MSD_CORE_Therapeutic_Area__c ? record.MSD_CORE_Therapeutic_Area__c.replace(/;/g, ', ') : record.MSD_CORE_Therapeutic_Area__c;
-                    let topicVal = record.MSD_CORE_Topic__c ? record.MSD_CORE_Topic__c.replace(/;/g, ', ') : record.MSD_CORE_Topic__c;
+                        if (record.MSD_CORE_HEQ_Resource_Type__c === 'External Link') {
+                            menuOptions = [
+                                { action: 'openlink', label: 'Open', downloadActive: false, externalLinkURL: record.MSD_CORE_HEQ_URL__c },
+                                { action: 'email', label: 'Email to customer', downloadActive: false, isModelBox: false, externalLinkURL: '' },
+                                { action: 'addToCollection', label: 'Add to collection', downloadActive: false, isModelBox: true, externalLinkURL: '' },
+                            ];
+                            backgroundColor = '#4340B6';
+                        } else {
+                            menuOptions = this.menuOptions;
+                        }
 
-                    return {
-                        id: record.Id,
-                        contentType: typeOfFile,
-                        title: record.Title,
-                        textLine1: descriptionVal,
-                        textLine2: topicVal,
-                        referenceCode: record.MSD_CORE_Resource_Code__c,
-                        expiryDays: this.calculateExpiryDays(record.MSD_CORE_Expiration_Date__c),
-                        imageUrl: updatedURL,
-                        contentDocumentId: record.ContentDocumentId,
-                        downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + record.contentDocumentId + '?operationContext=S1',
-                        backgroundColor: backgroundColor,
-                        isNewItem: record.MSD_CORE_IsNewItem__c == 'true' ? true : false
-                    };
-                });
+                        let descriptionVal = record.MSD_CORE_Therapeutic_Area__c ? record.MSD_CORE_Therapeutic_Area__c.replace(/;/g, ', ') : record.MSD_CORE_Therapeutic_Area__c;
+                        let topicVal = record.MSD_CORE_Topic__c ? record.MSD_CORE_Topic__c.replace(/;/g, ', ') : record.MSD_CORE_Topic__c;
+
+                        return {
+                            id: record.Id,
+                            contentType: this.getFileTypeByResource(record.MSD_CORE_HEQ_Resource_Type__c),
+                            title: record.Title,
+                            textLine1: descriptionVal,
+                            textLine2: topicVal,
+                            referenceCode: record.MSD_CORE_Resource_Code__c,
+                            expiryDays: this.calculateExpiryDays(record.MSD_CORE_Expiration_Date__c),
+                            imageUrl: updatedURL,
+                            contentDocumentId: record.ContentDocumentId,
+                            downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + record.contentDocumentId + '?operationContext=S1',
+                            backgroundColor: backgroundColor,
+                            isNewItem: record.MSD_CORE_IsNewItem__c == 'true' ? true : false,
+                            menuOptions: menuOptions,
+                            externalLinkURL: record.MSD_CORE_HEQ_URL__c
+                        };
+                    });
+                }
             })
             .catch(error => {
-                console.error('Error querying topic content:', error);
+                console.error('Error querying topic content:', error.message);
+                console.error('Error querying topic content:'+ JSON.stringify(error.message));
             });
     }
 
@@ -591,7 +731,7 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: `/resources/detailed?topicId=${encodeURIComponent(resourceId)}`
+                url: `/resources/detailed?topicId=${encodeURIComponent(resourceId)}&ret_URL=${this.urlParams}`
             }
         });
     }
@@ -603,7 +743,7 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: `/resources/detailed?topicId=${encodeURIComponent(contDocId)}`
+                url: `/resources/detailed?topicId=${encodeURIComponent(contDocId)}&ret_URL=${this.urlParams}`
             }
         });
     }

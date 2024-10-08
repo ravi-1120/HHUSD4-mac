@@ -202,7 +202,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         this.showSpinner = true;
         getCustomerList()
             .then(result => {
-                console.log('result----->' + JSON.stringify(result));
+                console.log('result----->' , result);
                 if (result.length == 0) {
                     this.isCustomerEmpty = true;
                 } else {
@@ -273,7 +273,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
             (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
             (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
         );
-
+        
         this.registeredCustomers = this.mycustomerlist
             .filter(customer => customer.IsRegister)
             .filter(customer =>
@@ -291,6 +291,8 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
                 (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower)) ||
                 (customer.AccountName && customer.AccountName.toLowerCase().includes(searchKeyLower))
             );
+        
+
 
         if (this.customertype === 'allcustomers') {
             this.allCustomers = [...this.registeredCustomers, ...this.unregisteredCustomers, ...this.newCustomers];
@@ -313,7 +315,7 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         this.totalRegisteredRecords = this.registeredCustomers.length;
         this.totalUnregisteredRecords = this.unregisteredCustomers.length;
 
-        this.calculatePagination();
+        // this.calculatePagination();
         this.noRegisteredRecords = this.registeredCustomers.length === 0;
         this.noUnregisteredRecords = this.unregisteredCustomers.length === 0;
         this.noRecordsFound = this.noRegisteredRecords && this.noUnregisteredRecords;

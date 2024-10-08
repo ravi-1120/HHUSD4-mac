@@ -81,7 +81,7 @@ export default class mSD_CORE_HEQ_ParentGenericTiles extends NavigationMixin(Lig
         getUserProfileName()
             .then(profileName => {
                 this.profileName = profileName;
-                if(this.profileName == customerProfileName){
+                if (this.profileName == customerProfileName) {
                     this.loadCollectionData();
                 }
                 this.fetchUserPreferences();
@@ -103,24 +103,47 @@ export default class mSD_CORE_HEQ_ParentGenericTiles extends NavigationMixin(Lig
             this.gridItems = sortedByModifiedDate.slice(0, 5).map(item => {
                 let updatedURL = this.getThumbnailURL(item.FileType);
                 let videoThumbURL = item.id;
+                let headerclassval = 2;
 
                 let descriptionVal = item.normalText ? item.normalText.replace(/;/g, ', ') : item.normalText;
                 let topicVal = item.topic ? item.topic.replace(/;/g, ', ') : item.topic;
 
+                let menuOptions;
+                if (item.resourceType === 'External Link') {
+                    menuOptions = [
+                        { action: 'openlink', label: 'Open', downloadActive: false, externalLinkURL: item.externalLinkURL },
+                        { action: 'email', label: 'Email to customer', downloadActive: false, isModelBox: false, externalLinkURL: '' },
+                        { action: 'addToCollection', label: 'Add to collection', downloadActive: false, isModelBox: true, externalLinkURL: '' },
+                    ];
+                    headerclassval = 6;
+                } else {
+                    menuOptions = this.menuOptions;
+                }
+
+                if (item.resourceType == 'PDF') {
+                    headerclassval = 2;
+                }
+                if (item.resourceType == 'Video') {
+                    headerclassval = 5;
+                }
+
                 return {
                     id: item.id,
-                    heading: this.getFileType(item.FileType),
+                    heading: this.getFileTypeByResource(item.resourceType),
                     imageUrl: (item.id) ? updatedURL + videoThumbURL : noImage,
                     boldText: item.boldText,
                     normalText: descriptionVal,
                     normalText1: topicVal,
                     code: item.resourceCode,
                     expiryDays: item.expiryDays,
-                    headerClass: item.headerColorCssClass,
+                    headerClass: `header-color-${headerclassval}`,
                     showMenu: false,
                     contentDocumentId: item.contentDocumentId,
                     downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.contentDocumentId + '?operationContext=S1',
-                    isNewItem: item.isNewItem
+                    isNewItem: item.isNewItem,
+                    resourceType: item.resourceType,
+                    menuOptions: menuOptions,
+                    externalLinkURL: item.externalLinkURL
                 }
             })
             console.log('### gridItems ' + JSON.stringify(this.gridItems));
@@ -161,25 +184,47 @@ export default class mSD_CORE_HEQ_ParentGenericTiles extends NavigationMixin(Lig
 
                 let descriptionVal = item.normalText ? item.normalText.replace(/;/g, ', ') : item.normalText;
                 let topicVal = item.topic ? item.topic.replace(/;/g, ', ') : item.topic;
-                
+
+                let headerclassval = 2;
+                let menuOptions;
+                if (item.resourceType === 'External Link') {
+                    menuOptions = [
+                        { action: 'openlink', label: 'Open', downloadActive: false, externalLinkURL: item.externalLinkURL },
+                        { action: 'email', label: 'Email to customer', downloadActive: false, isModelBox: false, externalLinkURL: '' },
+                        { action: 'addToCollection', label: 'Add to collection', downloadActive: false, isModelBox: true, externalLinkURL: '' },
+                    ];
+                    headerclassval = 6;
+                } else {
+                    menuOptions = this.menuOptions;
+                }
+
+                if (item.resourceType == 'PDF') {
+                    headerclassval = 2;
+                }
+                if (item.resourceType == 'Video') {
+                    headerclassval = 5;
+                }
+
                 return {
                     id: item.id,
-                    heading: this.getFileType(item.FileType),
+                    heading: this.getFileTypeByResource(item.resourceType),
                     imageUrl: (item.id) ? updatedURL + videoThumbURL : noImage,
                     boldText: item.boldText,
                     normalText: descriptionVal,
                     normalText1: topicVal,
                     code: item.resourceCode,
                     expiryDays: item.expiryDays,
-                    headerClass: item.headerColorCssClass,
+                    headerClass: `header-color-${headerclassval}`,
                     showMenu: false,
                     contentDocumentId: item.contentDocumentId,
                     downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.contentDocumentId + '?operationContext=S1',
-                    isNewItem: item.isNewItem
+                    isNewItem: item.isNewItem,
+                    menuOptions: menuOptions,
+                    externalLinkURL: item.externalLinkURL
                 }
             })
         } catch (error) {
-            console.error('Error fetching content:', error);
+            console.error('Error fetching content:', error.message);
         }
     }
 
@@ -198,6 +243,26 @@ export default class mSD_CORE_HEQ_ParentGenericTiles extends NavigationMixin(Lig
         }
 
         return typeOfFile;
+    }
+
+    getFileTypeByResource(resourceType) {
+        let resType = '';
+        switch (resourceType) {
+            case 'External Link':
+                resType = 'External Link';
+                break;
+            case 'Video':
+                resType = 'Video';
+                break;
+            case 'Static':
+                resType = 'Static';
+                break;
+            default:
+                resType = 'Static';
+                break;
+        }
+
+        return resType;
     }
 
     async loadCollectionData() {
@@ -419,7 +484,7 @@ export default class mSD_CORE_HEQ_ParentGenericTiles extends NavigationMixin(Lig
         });
     }
 
-     handleBusinessForwardClick() {
+    handleBusinessForwardClick() {
         const cardContainer = this.template.querySelector('[data-id="businessContainer"]');
         cardContainer.scrollBy({
             top: 0,
@@ -446,7 +511,7 @@ export default class mSD_CORE_HEQ_ParentGenericTiles extends NavigationMixin(Lig
         const { itemId, gridType, category } = event.detail;
         console.log('### 2 handleShowMenu Parent ' + JSON.stringify(event.detail));
         let itemUpdate = gridType === 'grid1' ? this.gridItems : this.soonToExpireItems;
-        if(gridType === 'grid3') itemUpdate = this.collectionItems;
+        if (gridType === 'grid3') itemUpdate = this.collectionItems;
 
         itemUpdate = itemUpdate.map(item => {
             if (item.id === itemId) {
@@ -457,7 +522,7 @@ export default class mSD_CORE_HEQ_ParentGenericTiles extends NavigationMixin(Lig
 
         if (gridType === 'grid1') {
             this.gridItems = itemUpdate;
-        } else if(gridType === 'grid3') {
+        } else if (gridType === 'grid3') {
             this.collectionItems = itemUpdate;
         } else {
             this.soonToExpireItems = itemUpdate;
@@ -774,7 +839,7 @@ export default class mSD_CORE_HEQ_ParentGenericTiles extends NavigationMixin(Lig
         });
     }
 
-    handleCollectionViewAll(){
+    handleCollectionViewAll() {
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {

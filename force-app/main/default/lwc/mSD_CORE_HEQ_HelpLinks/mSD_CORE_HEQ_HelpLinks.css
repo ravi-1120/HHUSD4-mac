@@ -45,11 +45,66 @@
 	font-weight: 600;
 	line-height: 21px;
 	text-decoration-line: underline;
+	cursor: pointer;
+}
+
+.popup {
+    background: var(--Neutral-White, #FFF);
+    box-shadow: 0px 2px 18px 0px rgba(51, 51, 51, 0.24);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    display: flex;
+    width: var(--Desktop-6-col, 552px);
+    height: 201px;
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.popup-header{
+	color: var(--Primary-Primary-Dark, var(--Merck-Primary-Dark, #005C56));
+    font-family: 'Invention';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px;
+    position: absolute;
+    left: 32px;
+    top: 32px;
+}
+.labelgap {
+        padding-top: 0px;
+    }
+
+.labelcls {
+    padding-top: 37px;
+    color: var(--Neutral-Dark-Text, #333);
+    font-family: 'Invention';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}
+.closeicon {
+    position: absolute;
+    right: 32px;
+    top: 32px;
+    cursor: pointer;
 }
 
 a:not(:disabled):active,
 a:not(:disabled):hover {
   background: none !important;
+  color: #00857C;
 }
 
 /* Smartphones (portrait) */
@@ -71,6 +126,28 @@ a:not(:disabled):hover {
 	.help-link-item:last-child {
         border-bottom: none;
     }
+	.popup {
+        display: flex;
+        width: 271px;
+        height: 301px;
+        padding: 32px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+	.labelgap {
+        padding-top: 0px;
+    }
+	.labelcls {
+        padding-top: 8px;
+        color: var(--Neutral-Dark-Text, #333);
+        font-family: 'Invention';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+    }
 }
 
 /* Tablets (portrait) */
@@ -85,4 +162,12 @@ a:not(:disabled):hover {
 		padding: 25px 24px;
 		grid-template-columns: 1fr 1fr !important;
 	}
+	.popup {
+        display: flex;
+        width: var(--Desktop-6-col, 552px);
+        padding: 32px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 }

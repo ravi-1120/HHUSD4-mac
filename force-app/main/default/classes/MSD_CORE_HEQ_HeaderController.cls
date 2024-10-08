@@ -70,7 +70,7 @@ public without sharing class MSD_CORE_HEQ_HeaderController {
         System.debug('type->'+type);
         
         if(!contentDocumentIdList.isEmpty() && type != null){
-            String fields = 'Id, Description, Title, ContentDocumentId, FileType, MSD_CORE_Is_Thumbnail__c, MSD_CORE_Is_Active__c, MSD_CORE_Therapeutic_Area__c, MSD_CORE_Topic__c, MSD_CORE_Video_Resource__c, MSD_CORE_Expiration_Date__c, LastModifiedDate, MSD_CORE_Resource_Code__c, MSD_CORE_Fulfillment_Method__c, CreatedDate, MSD_CORE_New_Item__c, MSD_CORE_IsNewItem__c';
+            String fields = 'Id, Description, Title, ContentDocumentId, FileType, MSD_CORE_Is_Thumbnail__c, MSD_CORE_HEQ_URL__c, MSD_CORE_Is_Active__c, MSD_CORE_Therapeutic_Area__c, MSD_CORE_Topic__c, MSD_CORE_Video_Resource__c, MSD_CORE_Expiration_Date__c, LastModifiedDate, MSD_CORE_Resource_Code__c, MSD_CORE_Fulfillment_Method__c, CreatedDate, MSD_CORE_New_Item__c, MSD_CORE_IsNewItem__c, MSD_CORE_HEQ_Resource_Type__c';
             
             String query = '';
             List<ContentDocumentLink> cdlink = new List<ContentDocumentLink>();
@@ -190,6 +190,14 @@ public without sharing class MSD_CORE_HEQ_HeaderController {
         User user = [SELECT Id, LanguageLocaleKey FROM User WHERE Id = :userId LIMIT 1];
         user.LanguageLocaleKey = language;
         update user;
+    }
+
+    @AuraEnabled
+    public static void logUserActivity(String keyword, Integer recReturned) {
+        List<User> lstofUsers = [Select Id, AccountId FROM USER Where Id =: UserInfo.getUserId()];
+        if(lstofUsers.size()>0) {
+            ReportingDataModelHelper.createUnSavedSearchCriteria(keyword, recReturned, lstofUsers[0].AccountId);
+        }        
     }
     
 }

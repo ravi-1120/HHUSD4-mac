@@ -275,7 +275,17 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                     }).format(new Date(item.MSD_CORE_Expiration_Date__c));
                 }
 
-                console.log('Manage Load Data expirationDate', expirationDate);
+                let menuOptions;
+                if (item.MSD_CORE_HEQ_Resource_Type__c == "External Link") {
+                    menuOptions = [
+                        { action: 'openlink', label: 'Open', downloadActive: false, externalLinkURL: item.MSD_CORE_HEQ_URL__c },
+                        { action: 'email', label: 'Email to customer', downloadActive: false, isModelBox: false, externalLinkURL: '' },
+                        { action: 'addToCollection', label: 'Add to collection', downloadActive: false, isModelBox: true, externalLinkURL: '' },
+                    ];
+                    headerclassval = 6;
+                } else {
+                    menuOptions = this.menuOptions;
+                }
 
                 return {
                     id: item.Id,
@@ -284,7 +294,7 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                     imageUrl: (item.Id) ? updatedURL + videoThumbURL : noImage,
                     contentDocumentId: item.ContentDocumentId,
                     isBookmarked: item.isBookmarked == 'true' ? true : false,
-                    heading: filetype,
+                    heading: this.getFileTypeByResource(item.MSD_CORE_HEQ_Resource_Type__c),
                     boldText: item.Title,
                     normalText: descriptionVal,
                     normalText1: topicVal,
@@ -298,7 +308,10 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
                     // isSelectedTileColor: 'slds-var-m-around_medium ',
                     // isSelectedListColor: 'listviewcls ',
                     downloadLink: sitepath + '/sfc/servlet.shepherd/document/download/' + item.ContentDocumentId + '?operationContext=S1',
-                    isNewItem: item.MSD_CORE_IsNewItem__c == 'true' ? true : false
+                    isNewItem: item.MSD_CORE_IsNewItem__c == 'true' ? true : false,
+                    resourceType: item.MSD_CORE_HEQ_Resource_Type__c,
+                    menuOptions: menuOptions,
+                    externalLinkURL: item.MSD_CORE_HEQ_URL__c
                 };
 
             });
@@ -326,6 +339,26 @@ export default class MSD_CORE_HEQ_AllResource extends NavigationMixin(LightningE
             this.totalPages = Math.ceil(this.allRecords.length / parseInt(this.recordsPerPage));
             this.updatePagination();
         }
+    }
+    
+    getFileTypeByResource(resourceType) {
+        let resType = '';
+        switch (resourceType) {
+            case 'External Link':
+                resType = 'External Link';
+                break;
+            case 'Video':
+                resType = 'Video';
+                break;
+            case 'Static':
+                resType = 'Static';
+                break;
+            default:
+                resType = 'Static';
+                break;
+        }
+
+        return resType;
     }
 
     resetVariableValue() {

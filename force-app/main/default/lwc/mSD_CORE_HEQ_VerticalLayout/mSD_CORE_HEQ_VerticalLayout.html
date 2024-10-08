@@ -23,7 +23,7 @@
 
 
 
-                <div class="card-container" data-id="cardContainer" style="overflow-x: auto; white-space: nowrap;">
+                <div class="card-container" data-id="cardContainer">
 
                     <template for:each={therapeuticCards} class="therapeuticCardCls" for:item="therapeuticCard">
                         <div key={therapeuticCard.id} class="card">
@@ -60,7 +60,7 @@
                                             data-id={therapeuticCard.id}>
                                         </lightning-button-icon>
                                         <div if:true={therapeuticCard.showMenu} class="menu-content">
-                                            <template for:each={menuOptions} for:item="option">
+                                            <template for:each={topicCard.menuOptions} for:item="option">
                                                 <div key={option.action}>
                                                     <template if:true={option.downloadActive}>
                                                         <a href="javascript:void(0)" target="_self" download="Download"
@@ -72,6 +72,7 @@
                                                                 data-id={therapeuticCard.id}
                                                                 data-contentdocumentid={therapeuticCard.contentDocumentId}
                                                                 data-category={therapeuticCard.category}
+                                                                data-external-link={therapeuticCard.externalLinkURL}
                                                                 style="color:#333;">
                                                                 {option.label}
                                                             </div>
@@ -81,14 +82,16 @@
                                                         <div class="menu-item" data-action={option.action}
                                                             data-id={therapeuticCard.id} onclick={modelClick}
                                                             data-contentdocumentid={therapeuticCard.contentDocumentId}
-                                                            data-category={therapeuticCard.category} data-resourcename={therapeuticCard.title}>
+                                                            data-category={therapeuticCard.category} data-resourcename={therapeuticCard.title}
+                                                            data-external-link={therapeuticCard.externalLinkURL}>
                                                             {option.label}
                                                         </div>
                                                     </template>
                                                     <template if:false={option.downloadActive}>
                                                         <template if:false={option.isModelBox}>
                                                             <div class="menu-item" data-action={option.action}
-                                                                data-id={therapeuticCard.id} onclick={handleMenuClick}>
+                                                                data-id={therapeuticCard.id} onclick={handleMenuClick}
+                                                                data-external-link={therapeuticCard.externalLinkURL}>
                                                                 {option.label}
                                                             </div>
                                                         </template>
@@ -136,7 +139,7 @@
                     </div>
                 </div>
 
-                <div class="card-container" data-id="cardContainers" style="overflow-x: auto; white-space: nowrap;">
+                <div class="card-container" data-id="cardContainers">
                     <template for:each={topicCards} for:item="topicCard">
                         <div key={topicCard.id} class="card">
                             <div class="card-contents">
@@ -170,7 +173,7 @@
                                             data-id={topicCard.id}>
                                         </lightning-button-icon>
                                         <div if:true={topicCard.showMenu} class="menu-content">
-                                            <template for:each={menuOptions} for:item="option">
+                                            <template for:each={topicCard.menuOptions} for:item="option">
                                                 <div key={option.action}>
                                                     <template if:true={option.downloadActive}>
                                                         <a href={topicCard.downloadLink} target="_self"
@@ -178,7 +181,8 @@
                                                             <div class="menu-item" data-action={option.action}
                                                                 data-id={topicCard.id}
                                                                 data-contentdocumentid={topicCard.contentDocumentId}
-                                                                data-category={topicCard.category} style="color:#333;">
+                                                                data-category={topicCard.category}
+                                                                data-external-link={topicCard.externalLinkURL} style="color:#333;">
                                                                 {option.label}
                                                             </div>
                                                         </a>
@@ -187,14 +191,16 @@
                                                         <div class="menu-item" data-action={option.action}
                                                             data-id={topicCard.id} onclick={modelClick}
                                                             data-contentdocumentid={topicCard.contentDocumentId}
-                                                            data-category={topicCard.category} data-resourcename={topicCard.title}>
+                                                            data-category={topicCard.category} data-resourcename={topicCard.title}
+                                                            data-external-link={topicCard.externalLinkURL}>
                                                             {option.label}
                                                         </div>
                                                     </template>
                                                     <template if:false={option.downloadActive}>
                                                         <template if:false={option.isModelBox}>
                                                             <div class="menu-item" data-action={option.action}
-                                                                data-id={topicCard.id} onclick={handleMenuClick}>
+                                                                data-id={topicCard.id} onclick={handleMenuClick}
+                                                                data-external-link={topicCard.externalLinkURL}>
                                                                 {option.label}
                                                             </div>
                                                         </template>
@@ -251,8 +257,7 @@
 
 
 
-                <div class="Tumor-container" data-id="tumarcardContainer"
-                    style="overflow-x: auto; white-space: nowrap;">
+                <div class="Tumor-container" data-id="tumarcardContainer">
 
                     <template for:each={therapeuticCards} class="therapeuticCardCls" for:item="therapeuticCard">
                         <div key={therapeuticCard.id} class="tumar-card">
@@ -289,7 +294,7 @@
                                             data-id={therapeuticCard.id}>
                                         </lightning-button-icon>
                                         <div if:true={therapeuticCard.showMenu} class="menu-content">
-                                            <template for:each={menuOptions} for:item="option">
+                                            <template if:true={therapeuticCard.menuOptions} for:each={therapeuticCard.menuOptions} for:item="option">
                                                 <div key={option.action}>
                                                     <template if:true={option.downloadActive}>
                                                         <a href={therapeuticCard.downloadLink} target="_self"
@@ -298,6 +303,7 @@
                                                                 data-id={therapeuticCard.id}
                                                                 data-contentdocumentid={therapeuticCard.contentDocumentId}
                                                                 data-category={therapeuticCard.category}
+                                                                data-external-link={therapeuticCard.externalLinkURL}
                                                                 style="color:#333;">
                                                                 {option.label}
                                                             </div>
@@ -307,14 +313,16 @@
                                                         <div class="menu-item" data-action={option.action}
                                                             data-id={therapeuticCard.id} onclick={modelClick}
                                                             data-contentdocumentid={therapeuticCard.contentDocumentId}
-                                                            data-category={therapeuticCard.category} data-resourcename={therapeuticCard.title}>
+                                                            data-category={therapeuticCard.category} data-resourcename={therapeuticCard.title}
+                                                            data-external-link={therapeuticCard.externalLinkURL}>
                                                             {option.label}
                                                         </div>
                                                     </template>
                                                     <template if:false={option.downloadActive}>
                                                         <template if:false={option.isModelBox}>
                                                             <div class="menu-item" data-action={option.action}
-                                                                data-id={therapeuticCard.id} onclick={handleMenuClick}>
+                                                                data-id={therapeuticCard.id} onclick={handleMenuClick}
+                                                                data-external-link={therapeuticCard.externalLinkURL}>
                                                                 {option.label}
                                                             </div>
                                                         </template>
@@ -415,6 +423,34 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
     </template>
+
+    <!-- Customer List -->
+    <template if:true={showPrintUser}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container filter-modal">
+                <div class="slds-modal__content mainmodel-print">
+                    <div>
+                        <div class="filter-header">
+                            <div class="filter-header-txt">Select customer</div>
+                            <div class="close-icon">
+                                <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                    class="closeiconclick" title="close" onclick={closeModal}>
+                                </lightning-icon>
+                            </div>
+                        </div>
+                        <div class="print-bd">
+                            <c-m-s-d_-c-o-r-e_-h-e-q_-customer main-header="" footerbtnname="Add to cart" customertype="registered"
+                                feature="print" is-footerbutton=true onclosemodel={closeModal} onsharecustomerdata={getSelectedCustomer}>
+                            </c-m-s-d_-c-o-r-e_-h-e-q_-customer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <!-- Customer List End-->
 
     <div if:true={showSpinner}>
         <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
