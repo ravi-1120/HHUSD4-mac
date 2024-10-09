@@ -200,4 +200,16 @@ public without sharing class MSD_CORE_HEQ_HeaderController {
         }        
     }
     
+    @AuraEnabled
+    public static Decimal getCartCount() {
+
+        Decimal cartCount = 0;
+        List<MSD_CORE_HEQ_Cart__c> cartlist = [SELECT Id, MSD_CORE_Quantity__c FROM MSD_CORE_HEQ_Cart__c WHERE MSD_CORE_Cart_Owner__c = :UserInfo.getUserId()];
+        if (cartlist.size()>0) {
+            for (MSD_CORE_HEQ_Cart__c cart : cartlist) {
+                cartCount += cart.MSD_CORE_Quantity__c;
+            }
+        } 
+        return cartCount;
+    }
 }

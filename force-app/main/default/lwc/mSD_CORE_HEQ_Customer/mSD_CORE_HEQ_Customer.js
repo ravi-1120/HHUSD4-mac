@@ -274,14 +274,24 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
             (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower))
         );
         
-        this.registeredCustomers = this.mycustomerlist
-            .filter(customer => customer.IsRegister)
-            .filter(customer =>
-                (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
-                (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
-                (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower)) ||
-                (customer.AccountName && customer.AccountName.toLowerCase().includes(searchKeyLower))
-            );
+        if(this.filterLayout) {
+            this.registeredCustomers = this.mycustomerlist
+                .filter(customer => customer.IsRegister)
+                .filter(customer =>
+                    (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
+                    (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
+                    (customer.AccountName && customer.AccountName.toLowerCase().includes(searchKeyLower))
+                );
+        } else {
+            this.registeredCustomers = this.mycustomerlist
+                .filter(customer => customer.IsRegister)
+                .filter(customer =>
+                    (customer.FirstName && customer.FirstName.toLowerCase().includes(searchKeyLower)) ||
+                    (customer.LastName && customer.LastName.toLowerCase().includes(searchKeyLower)) ||
+                    (customer.Email && customer.Email.toLowerCase().includes(searchKeyLower)) ||
+                    (customer.AccountName && customer.AccountName.toLowerCase().includes(searchKeyLower))
+                );
+        }
 
         this.unregisteredCustomers = this.mycustomerlist
             .filter(customer => !customer.IsRegister)

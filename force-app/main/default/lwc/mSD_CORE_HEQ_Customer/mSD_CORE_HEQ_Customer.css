@@ -631,8 +631,24 @@ table tr:nth-child(even) {
     line-height: normal;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
+}
+
+.mycollectioncustomer .grid-item-a:nth-child(5n-4),
+.mycollectioncustomer .grid-item-a:nth-child(5n-3),
+.mycollectioncustomer .grid-item-a:nth-child(5n-2),
+.mycollectioncustomer .grid-item-a:nth-child(5n-1),
+.mycollectioncustomer .grid-item-a:nth-child(5n) {
+    background-color: #FFFFFF;
+}
+
+.mycollectioncustomer .grid-item-a:nth-child(10n-4),
+.mycollectioncustomer .grid-item-a:nth-child(10n-3),
+.mycollectioncustomer .grid-item-a:nth-child(10n-2),
+.mycollectioncustomer .grid-item-a:nth-child(10n-1),
+.mycollectioncustomer .grid-item-a:nth-child(10n) {
+    background-color: #F9F9F9;
 }
 
 .checkbox {

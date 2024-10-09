@@ -33,8 +33,11 @@
         <name>StaticResource</name>
     </types>-->
     <types>
-        <members>mSD_CORE_HEQ_ResourcePopup</members>
-        <members>mSD_CORE_HEQ_ResourcePoup</members>
+        <members>*</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>61.0</version>

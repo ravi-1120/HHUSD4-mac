@@ -266,7 +266,8 @@
     </template>
     <!-- Mobile menu overlay end -->
     <div if:true={isShow} class="cart" role="button" tabindex="0" aria-label="Cart">
-      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+      <span class="cartcountcls">{cartCount}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none" onclick={handleCartClick}>
         <path opacity="0.1"
           d="M18.3516 12.4453C18.3516 12.5613 18.2566 12.6562 18.1406 12.6562H16.6641C16.548 12.6562 16.4531 12.5613 16.4531 12.4453V10.125H10.5469V12.4453C10.5469 12.5613 10.452 12.6562 10.3359 12.6562H8.85938C8.74336 12.6562 8.64844 12.5613 8.64844 12.4453V10.125H6.11719V22.1484H20.8828V10.125H18.3516V12.4453Z"
           fill="white" />

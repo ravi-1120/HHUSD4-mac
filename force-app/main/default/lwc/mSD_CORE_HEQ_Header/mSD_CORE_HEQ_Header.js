@@ -22,6 +22,7 @@ import search from '@salesforce/label/c.MSD_CORE_Search';
 import getUser from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getuser';
 import retrieveHeqHeaderMetadata from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.retrieveHeqHeaderMetadata';
 import getUserPreference from '@salesforce/apex/MSD_CORE_HEQ_UserPreferenceController.getUserPreference';
+import getCartCount from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getCartCount';
 
 export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElement) {
 
@@ -50,7 +51,7 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
     @track mobileHelpDropdownOpen = false;
     @track showMobileHelpMenu = false;
     @track showSpinner = false;
-
+    @track cartCount=0;
 
     labels = {
         logoAlt,
@@ -60,8 +61,8 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
         search
     };
 
+
     connectedCallback() {
-        this.checkUserPreference();
         document.addEventListener('click', this.closeDropdown.bind(this));
 
         Promise.all([
@@ -117,8 +118,26 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
         }).catch(error => {
             console.log('error->' + JSON.stringify(error));
         });
+
+        this.getCartCount();
     }
 
+    @api
+    updateCount() {
+        console.log('update Count');
+        this.getCartCount();
+    }
+
+    getCartCount() {
+        getCartCount()
+        .then(result => {
+            console.log('result of getCartCount>>',result);
+            this.cartCount = result;
+        })
+        .catch(error => {
+            console.log('error in getCartCount->' + JSON.stringify(error));
+        });
+    }
     // @api
     // handleKeywordEvent(event){
     //     this.keyword = '';
@@ -314,6 +333,15 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
 
     handleClosePopup() {
         this.showTandC = false;
+    }
+
+    handleCartClick() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: '/cart'
+            }
+        });
     }
 
     getUrlParamValue(url, key) {

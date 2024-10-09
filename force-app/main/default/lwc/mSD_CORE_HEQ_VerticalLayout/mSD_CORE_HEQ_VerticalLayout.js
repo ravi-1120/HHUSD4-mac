@@ -20,6 +20,10 @@ import collectionbody from '@salesforce/label/c.MSD_CORE_HEQ_CollectionModelBody
 import cancel from '@salesforce/label/c.MSD_CORE_Cancel';
 import submit from '@salesforce/label/c.MSD_CORE_Submit';
 import createNew from '@salesforce/label/c.MSD_CORE_HEQ_CreateNew';
+import Close from '@salesforce/label/c.MSD_CORE_Close_Btn';
+import helplinks from '@salesforce/label/c.MSD_CORE_HEQ_Helpful_links';
+import Proceed from '@salesforce/label/c.MSD_CORE_HEQ_Proceed';
+import popupmsg from '@salesforce/label/c.MSD_CORE_HEQ_Popup_msg';
 
 
 export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(LightningElement) {
@@ -65,7 +69,11 @@ export default class MSD_CORE_HEQ_VerticalLayout extends NavigationMixin(Lightni
         collectionbody,
         cancel,
         submit,
-        createNew
+        createNew,
+        Close,
+        helplinks,
+        Proceed,
+        popupmsg
     }
 
     @track menuOptions = [

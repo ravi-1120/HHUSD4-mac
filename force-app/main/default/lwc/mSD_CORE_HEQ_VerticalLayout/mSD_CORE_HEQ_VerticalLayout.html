@@ -60,7 +60,7 @@
                                             data-id={therapeuticCard.id}>
                                         </lightning-button-icon>
                                         <div if:true={therapeuticCard.showMenu} class="menu-content">
-                                            <template for:each={topicCard.menuOptions} for:item="option">
+                                            <template for:each={therapeuticCard.menuOptions} for:item="option">
                                                 <div key={option.action}>
                                                     <template if:true={option.downloadActive}>
                                                         <a href="javascript:void(0)" target="_self" download="Download"
@@ -451,6 +451,26 @@
         <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
     </template>
     <!-- Customer List End-->
+
+    <!-- External Link Popup -->
+    <template if:true={showexternalpopup}>
+        <section role="dialog" tabindex="-1" class="popup">
+            <div>
+                <div class="popup-header">You are about to leave HealthEQ portal</div>
+                <lightning-icon class="closeexticon" icon-name="utility:close" alternative-text="close" title={label.Close}
+                    onclick={handleCancelExternal} size="small"></lightning-icon>
+                <span class="slds-assistive-text">{label.Close}</span>
+            </div>
+             <div class="labelgap">
+                <p class="labelcls">{label.popupmsg} </p>
+            </div>
+            <div class="popup-actions">
+                <button class="slds-button slds-button_brand button" onclick={handleProceed}>{label.Proceed}</button>
+                <button class="slds-button slds-button_neutral"
+                    onclick={handleCancelExternal}>{label.cancel}</button>
+            </div>
+        </section>
+    </template>
 
     <div if:true={showSpinner}>
         <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
