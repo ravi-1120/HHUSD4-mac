@@ -23,9 +23,9 @@ export default class PdsHeader extends NavigationMixin(LightningElement) {
     @track url;
 
     connectedCallback() {
-        Promise.all([
-            loadStyle(this, PDSExternalCSS)
-        ])
+        // Promise.all([
+        //     loadStyle(this, PDSExternalCSS)
+        // ])
     }
 
     navigateToDashboard() {

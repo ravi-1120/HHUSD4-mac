@@ -6,7 +6,7 @@
  * Description:     This class creates an AE Case for the Merck Self-Service Adverse Event Portal
  */
 
-public without sharing class MSD_CORE_ae_CaseController {
+ public without sharing class MSD_CORE_ae_CaseController {
 
     private static final String RECORD_TYPE_DEV_NAME = 'Interaction_MVN';
     private static final String S_OBJECT_TYPE_CASE = 'Case';
@@ -18,6 +18,7 @@ public without sharing class MSD_CORE_ae_CaseController {
     //private static final String recaptchaSecretKey = '6LcEd5IpAAAAANAweOZfx_9uHDowpHzJ3AbkPpG6';
     private static final String NOT_APPLICABLE = 'Not Applicable';
     private static final String UNKNOWN_VALUE = 'Unknown by Reporter';
+    private static final String HBP = 'Healthcare Worker';
     private static final String REFUSED = 'Refused to Answer';
     private static final String LicensedHCP = 'Licensed Healthcare Professional';
     private static final String LicensedHBP = 'Healthcare Office Worker or Facility Personnel';
@@ -26,33 +27,6 @@ public without sharing class MSD_CORE_ae_CaseController {
     private static final String CLASS_NAME = 'MSD_CORE_ae_CaseController';
     private static final Map<String,String> REPORTER_TYPE_MAP = new Map<String,String>{
         'Consumer'=>'Consumer', 'HEALTHCARE BUSINESS PROF'=>'Healthcare Worker', 'Employee'=>'Employee'};
-    
-  /*public static Boolean verifyRecaptcha(String response) {
-    MSD_CORE_ae_PortalSetting__mdt recaptchaToken = MSD_CORE_ae_PortalSetting__mdt.getInstance('AE_Portal');
-    String recaptchaSecretKey = recaptchaToken.reCaptcha_Secret_Key__c;	
-    Http http = new Http();
-    HttpRequest request = new HttpRequest();
-    request.setEndpoint('https://www.google.com/recaptcha/api/siteverify');
-    request.setMethod('POST');
-    system.debug('recaptchaSecretKey---->'+recaptchaSecretKey);
-    request.setBody('secret=' + recaptchaSecretKey + '&response=' + response);
-    System.debug(LoggingLevel.INFO, 'Sending reCAPTCHA verification request with response token: ' + response);   
-    HttpResponse res = http.send(request);
-    System.debug(LoggingLevel.INFO, 'reCAPTCHA verification response status: ' + res.getStatusCode());
-    System.debug(LoggingLevel.INFO, 'reCAPTCHA verification response body: ' + res.getBody()); 
-    if (res.getStatusCode() == 200) {
-        Map<String, Object> result = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
-        Boolean isSuccess = (Boolean)result.get('success');
-        //Decimal score = (Decimal) result.get('score');
-        //if (isSuccess && score >= 0.9) { // Adjust the score threshold as needed
-                //return true;
-        //}
-        System.debug(LoggingLevel.INFO, 'reCAPTCHA verification success: ' + isSuccess);
-        return isSuccess;
-    }
-    return false;
-}*/
-
     public class CaseResponse {
         @AuraEnabled
         public Boolean isSuccess;
@@ -295,8 +269,14 @@ public without sharing class MSD_CORE_ae_CaseController {
                   cs.MSD_CORE_AE_Pregnancy_Gestation_or_LMP__c = NOT_APPLICABLE;
                }
                }else{
+                   if((String)stage3Details.get('isPatientReporter')=='Yes' && userChoice == 'Healthcare Professional'){
+                      System.debug('Entered this Loop for Saving Patient');
+                      cs.Patient_First_Name_MVN__c = String.isBlank((String)stage2Details.get('hcpFirstName')) ? UNKNOWN_VALUE : (String)stage2Details.get('hcpFirstName');
+                      cs.Patient_Last_Name_MVN__c = String.isBlank((String)stage2Details.get('hcpLastName')) ? UNKNOWN_VALUE : (String)stage2Details.get('hcpLastName');
+                   }else{
         cs.Patient_First_Name_MVN__c = String.isBlank((String)stage3Details.get('PatientFirstName')) ? UNKNOWN_VALUE : (String)stage3Details.get('PatientFirstName');
         cs.Patient_Last_Name_MVN__c = String.isBlank((String)stage3Details.get('PatientLastName')) ? UNKNOWN_VALUE : (String)stage3Details.get('PatientLastName');
+                   }
         cs.MSD_CORE_AE_Patient_Date_of_Birth__c = String.isBlank((String)stage3Details.get('PatientDOB')) ? UNKNOWN_VALUE : (String)stage3Details.get('PatientDOB');
         cs.MSD_CORE_AE_Patient_Age__c = String.isBlank((String)stage3Details.get('PatientAge')) ? UNKNOWN_VALUE : (String)stage3Details.get('PatientAge');
         cs.MSD_CORE_AE_Patient_Gender__c = String.isBlank((String)stage3Details.get('PatientGender')) ? UNKNOWN_VALUE : (String)stage3Details.get('PatientGender');
@@ -391,12 +371,12 @@ public static FileData uploadAttachments(Id childCaseId, List<Object> uploadedFi
         Map<Object, Object> stage2Details = (Map<Object, Object>) caseDetails.get('stage2');
         List<SObject> contactList = new List<SObject>();
         MSD_CORE_AE_Contact__c con = new MSD_CORE_AE_Contact__c();
-        if((String)stage3Details.get('ReporterHCPSame') != 'Yes' && !String.isBlank((String)stage3Details.get('ReporterType')) && (String)stage3Details.get('ReporterType') !='Patient'){
+        if((String)stage3Details.get('ReporterHCPSame') != 'Yes' && (String)stage3Details.get('ReporterType') !='Patient' && userChoice != 'HealthCare Professional'){
             System.debug('Creating reporter contact');
             con.MSD_CORE_Contact_Related_To__c = CONTACT_RELATED_TO;
             con.MSD_CORE_Adverse_Event__c = csId;
-            con.MSD_CORE_First_Name__c = String.isBlank((String) stage3Details.get('RepFirstName')) ? REFUSED : (String) stage3Details.get('RepFirstName');
-            con.MSD_CORE_Last_Name__c = String.isBlank((String) stage3Details.get('RepLastName')) ? REFUSED : (String) stage3Details.get('RepLastName');
+            con.MSD_CORE_First_Name__c = String.isBlank((String) stage3Details.get('RepFirstName')) ? UNKNOWN_VALUE  : (String) stage3Details.get('RepFirstName');
+            con.MSD_CORE_Last_Name__c = String.isBlank((String) stage3Details.get('RepLastName')) ? UNKNOWN_VALUE  : (String) stage3Details.get('RepLastName');
             con.MSD_CORE_Phone__c = (String)stage3Details.get('RepPhone');
             con.MSD_Core_Email__c = (String)stage3Details.get('RepEmail');
             con.MSD_CORE_Address_Line_1__c = (String)stage3Details.get('RepAddress');
@@ -410,7 +390,9 @@ public static FileData uploadAttachments(Id childCaseId, List<Object> uploadedFi
                 con.MSD_CORE_Type__c = REPORTER_TYPE_MAP.get(reporterType);
             }else{
                 con.MSD_CORE_Type__c = (String)stage3Details.get('RepType');
-            }
+            }if((String)stage3Details.get('ReporterType')=='HEALTHCARE BUSINESS PROF'){
+                 con.MSD_CORE_Type__c = String.isBlank((String) stage3Details.get('RepHBPType')) ? HBP : (String) stage3Details.get('RepHBPType');
+             }
             con.MSD_CORE_PracBusNm__c = (String)stage3Details.get('RepFacilityName');
             con.MSD_CORE_Primary_Contact__c = (userChoice == 'PSP Representative') ? true:false;
             
@@ -418,13 +400,24 @@ public static FileData uploadAttachments(Id childCaseId, List<Object> uploadedFi
             System.debug('Reporter Contact: ' + con);
         }
         
-        con = new MSD_CORE_AE_Contact__c();
-        //Below code for storing the Patient HCP & in case of Reporter HCP Same only below code will excecute
-        if(!String.isBlank((String)stage3Details.get('ReporterType'))){
+if (String.isBlank((String)stage3Details.get('ReporterType'))) {
+    if(userChoice != 'HealthCare Professional'){
+    con = new MSD_CORE_AE_Contact__c();
+    con.MSD_CORE_Contact_Related_To__c = CONTACT_RELATED_TO;
+    con.MSD_CORE_Adverse_Event__c = csId;
+    con.MSD_CORE_First_Name__c = UNKNOWN_VALUE;
+    con.MSD_CORE_Last_Name__c = UNKNOWN_VALUE;
+    con.MSD_CORE_Correspondence_Contact__c = true;
+    con.MSD_CORE_Permission_to_Contact__c = String.isBlank((String)stage3Details.get('HCPPermission'))? UNSPECIFIED : (String)stage3Details.get('HCPPermission');
+    contactList.add(con);
+    }
+} else {
+    // Create HCP Contact
+    con = new MSD_CORE_AE_Contact__c();
             con.MSD_CORE_Contact_Related_To__c = CONTACT_RELATED_TO;
             con.MSD_CORE_Adverse_Event__c = csId;
-            con.MSD_CORE_First_Name__c = String.isBlank((String)stage3Details.get('HCPFirstName')) ? REFUSED : (String)stage3Details.get('HCPFirstName');
-            con.MSD_CORE_Last_Name__c = String.isBlank((String)stage3Details.get('HCPLastName')) ? REFUSED : (String) stage3Details.get('HCPLastName');
+            con.MSD_CORE_First_Name__c = String.isBlank((String)stage3Details.get('HCPFirstName')) ? UNKNOWN_VALUE  : (String)stage3Details.get('HCPFirstName');
+            con.MSD_CORE_Last_Name__c = String.isBlank((String)stage3Details.get('HCPLastName')) ? UNKNOWN_VALUE  : (String) stage3Details.get('HCPLastName');
             con.MSD_CORE_Phone__c = (String)stage3Details.get('HCPPhone');
             con.MSD_Core_Email__c = (String)stage3Details.get('HCPEmail');
             con.MSD_CORE_Address_Line_1__c = (String)stage3Details.get('HCPAddress');
@@ -505,11 +498,12 @@ public static FileData uploadAttachments(Id childCaseId, List<Object> uploadedFi
             
         } 
         con = new MSD_CORE_AE_Contact__c();
-        if((String)stage3Details.get('PatientsHC') == 'No'|| (String)stage2Details.get('licensedHCP') == LicensedHBP){
+       if(userChoice == 'HealthCare Professional'){
+        if((String)stage3Details.get('PatientsHC') == 'No'|| (String)stage2Details.get('licensedHCP') == LicensedHBP||String.isBlank((String)stage3Details.get('PatientsHC'))){
             con.MSD_CORE_Contact_Related_To__c = CONTACT_RELATED_TO;
             con.MSD_CORE_Adverse_Event__c = csId;
-            con.MSD_CORE_First_Name__c = String.isBlank((String) stage3Details.get('HCPFirstName')) ? REFUSED : (String) stage3Details.get('HCPFirstName');
-            con.MSD_CORE_Last_Name__c = String.isBlank((String) stage3Details.get('HCPLastName')) ? REFUSED : (String) stage3Details.get('HCPLastName');
+            con.MSD_CORE_First_Name__c = String.isBlank((String) stage3Details.get('HCPFirstName')) ? UNKNOWN_VALUE  : (String) stage3Details.get('HCPFirstName');
+            con.MSD_CORE_Last_Name__c = String.isBlank((String) stage3Details.get('HCPLastName')) ? UNKNOWN_VALUE  : (String) stage3Details.get('HCPLastName');
             con.MSD_CORE_Phone__c = (String)stage3Details.get('HCPPhone');
             con.MSD_Core_Email__c = (String)stage3Details.get('HCPEmail');
             con.MSD_CORE_Address_Line_1__c = (String)stage3Details.get('HCPAddress');
@@ -526,6 +520,7 @@ public static FileData uploadAttachments(Id childCaseId, List<Object> uploadedFi
             con.MSD_CORE_PracBusNm__c = (String)stage3Details.get('HCPFacilityName');
             contactList.add(con);
         }
+       }
         
         if((String)stage2Details.get('FieldBased') == 'no' &&  userChoice == 'Merck Employee'){
             System.debug('It entered this Loop for Non Field Based Employee');
@@ -545,6 +540,7 @@ public static FileData uploadAttachments(Id childCaseId, List<Object> uploadedFi
                 con.MSD_CORE_City__c = (String)stage3Details.get('RepCity');
                 con.MSD_CORE_State_Province__c = (String)stage3Details.get('RepState');
                 con.MSD_CORE_Postal_Code__c = (String)stage3Details.get('RepZip');
+                
             }
             contactList.add(con);
         }
@@ -586,20 +582,18 @@ public static FileData uploadAttachments(Id childCaseId, List<Object> uploadedFi
     } 
     public static Case setupStage5(Case cs, Map<Object,Object> stage5Details, String previousCase, String patientID, String userChoice){        
 
-        String finalDescription = ' Received from the AE Self-Service Portal: Report submitted by ' + userChoice + '\n' ;
-
-    // Append patient ID to finalDescription if it is not blank
-    if(String.isNotBlank(patientID)) {
-        finalDescription += 'Patient ID: ' + patientID + ' ';
-    }
-
-    // Append previous case number to finalDescription if it is not blank
-    if(String.isNotBlank(previousCase)) {
-        finalDescription += ' Additional AE Information – Previous Case# ' + previousCase + '';
-    }
+        String finalDescription = 'Received from the AE Self-Service Portal: Report submitted by ' + userChoice +'.'+'\n' ;
+        // Append previous case number to finalDescription if it is not blank
+        if(String.isNotBlank(previousCase)) {
+              finalDescription += 'Additional AE Information – Previous Case# ' + previousCase +'.'+'\n';
+        }
+        // Append patient ID to finalDescription if it is not blank
+        if(String.isNotBlank(patientID)) {
+               finalDescription += 'Patient ID: ' + patientID +'.'+'\n';
+        }
 
     // Retrieve and append the AE description
-    finalDescription += '\n' + (String)stage5Details.get('AE') + '\n';
+    finalDescription += (String)stage5Details.get('AE') +'.'+'\n';
         cs.MSD_CORE_AE_Description__c = finalDescription;
         cs.AE_Start_Date_MVN__c  = String.isBlank((String)stage5Details.get('AOD')) ? UNKNOWN_VALUE : (String)stage5Details.get('AOD');
         String mpiValue = (String)stage5Details.get('MPI');

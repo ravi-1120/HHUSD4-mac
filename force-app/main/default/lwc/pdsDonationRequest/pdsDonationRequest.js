@@ -617,14 +617,14 @@ export default class PdsDonationRequest extends NavigationMixin(LightningElement
                     return;
                 } else {
                     event.target.setCustomValidity('');
-                    this[name] = parsedValue;   
+                    this[name] = parsedValue;
                     event.target.value = parsedValue;
                     this.treatmentsAppMethod();
                 }
                 this[name] = parsedValue;
                 event.target.value = parsedValue;
                 event.target.setCustomValidity('');
-                 //this.treatmentsAppMethod();
+                //this.treatmentsAppMethod();
             }
         } else if (name === 'approvalDate') {
             this[name] = value;
@@ -722,14 +722,14 @@ export default class PdsDonationRequest extends NavigationMixin(LightningElement
 
         console.log('Consignee' + this.csConsigneeValue);
         console.log('Final Recipient' + this.frContactValue);
-        if (this.allValid && this.csConsigneeValue != '' && this.frContactValue != '') {
+        if (this.allValid && this.csConsigneeValue != '' && this.csConsigneeValue != undefined && this.frContactValue != '' && this.frContactValue != undefined) {
             this.showSpinner = true;
             try {
                 this.updateDonationRequestObj();
-                this.donationRequestObj.requestStatus = (this.donationRequestObj.requestStatus == 'Draft') ? this.appSettings.pds_request_status__c : this.requestStatus;
-                if(this.isSaveforLater == true && this.donationRequestObj.requestStatus != 'Pending'){
+                this.donationRequestObj.requestStatus = (this.donationRequestObj.requestStatus == 'Draft') ? this.appSettings.pds_request_status__c : this.donationRequestObj.requestStatus;
+                if (this.isSaveforLater === true && this.donationRequestObj.requestStatus !== 'Pending') {
                     this.donationRequestObj.requestStatus = 'Pending';
-                } 
+                }
                 this.donationRequestObj.productLineItems[0].lineItemId = null;
 
                 //Check for request changes before submit
@@ -773,6 +773,22 @@ export default class PdsDonationRequest extends NavigationMixin(LightningElement
             if (firstInvalidInput) {
                 firstInvalidInput.focus();
             }
+            
+
+
+        else if (this.csConsigneeValue === '' || this.csConsigneeValue === undefined) {
+            const consigneeField = this.template.querySelector('c-pds-custom-lookup[data-id="consigneeField"]');
+            if (consigneeField) {
+                consigneeField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        else if (this.frContactValue === '' || this.frContactValue === undefined) {
+            const frContactField = this.template.querySelector('c-pds-custom-lookup[data-id="frContactField"]');
+            if (frContactField) {
+                frContactField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
         }
     }
 

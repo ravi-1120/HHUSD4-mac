@@ -3,13 +3,19 @@
 }
 
 .ptagcls {
-    font-family: 'InventionRg';
+    font-family: 'Invention';
     font-size: 16px;
     color: #333333;
     line-height: 1.5;
     margin-bottom: 1rem;
 }
-
+.slds-align_absolute-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 1px;
+}
 .red-text {
     color: red;
     font-size: 15px;
@@ -44,8 +50,24 @@
     box-shadow: inset 400px 0 0 0 #005C55;
 }
 
+.policytitle{
+    font-family: 'Invention';
+    font-style: bold;
+    font-weight: bold;
+}
+.policysubtitile{
+    font-family: 'Invention';
+    font-style: bold;
+    font-weight: bold;
+}
+.acknowledgment{
+    font-family: 'Invention';
+    padding-left: 1em;
+    white-space: pre-line;
+    font-weight: bold;
+}
 .formatted-text {
-    font-family: 'InventionRg';
+    font-family: 'Invention';
     padding-left: 1em;
     white-space: pre-line;
 }
@@ -68,26 +90,26 @@
     padding-right: 2rem;
 }
 
-/* Style the list with bullet icons */
+
 .statement-list {
-    font-family: 'InventionRg';
-    list-style: none; /* Remove default list style */
-    padding-left: 0; /* Remove padding */
+    font-family: 'Invention';
+    list-style: none; 
+    padding-left: 0; 
 }
 
 .statement-list li {
-    font-family: 'InventionRg';
-    position: relative; /* Position for the icon */
-    padding-left: 25px; /* Space for the icon */
+    font-family: 'Invention';
+    position: relative; 
+    padding-left: 25px; 
 }
 
 .statement-list li::before {
-    content: '\2022'; /* Unicode for bullet */
+    content: '\2022';
     position: absolute;
     left: 0;
-    font-size: 1.5em; /* Bullet size */
-    color: #878787; /* Bullet color */
-    line-height: 1em; /* Align bullet vertically */
+    font-size: 1.5em; 
+    color: #878787; 
+    line-height: 1em;
 }
 
 .error-message {
@@ -96,7 +118,6 @@
     margin-top: 0.5rem;
 }
 
-/* Tablet view adjustments */
 @media only screen and (min-width: 48em) and (max-width: 64em) {
     .statement-list {
         padding-left: 20px;

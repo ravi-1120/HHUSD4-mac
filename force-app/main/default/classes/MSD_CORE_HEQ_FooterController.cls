@@ -59,4 +59,40 @@ public with sharing class MSD_CORE_HEQ_FooterController {
             this.additionalMerckSites = additionalMerckSites;
         }
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<HelpLinkWrapper> getHelpLinks() {
+        try {
+            List<MSD_CORE_HEQ_HelpLinks_Config__mdt> helpLinksConfig = [
+                SELECT DeveloperName, Label, MSD_CORE_Display_On_UI__c, MSD_CORE_IsActive__c, MSD_CORE_URL__c, MSD_CORE_Order__c, MSD_CORE_Custom_Label__c, MSD_CORE_InterstitialPopup__c
+                FROM MSD_CORE_HEQ_HelpLinks_Config__mdt
+                WHERE MSD_CORE_IsActive__c = true AND MSD_CORE_Display_On_UI__c = true
+                ORDER BY MSD_CORE_Order__c ASC
+            ];
+
+            List<HelpLinkWrapper> helpLinks = new List<HelpLinkWrapper>();
+
+            for (MSD_CORE_HEQ_HelpLinks_Config__mdt linkConfig : helpLinksConfig) {
+                String customLabel = System.Label.get('', linkConfig.MSD_CORE_Custom_Label__c, '');
+                helpLinks.add(new HelpLinkWrapper(customLabel, linkConfig.MSD_CORE_URL__c, linkConfig.MSD_CORE_InterstitialPopup__c));
+            }
+
+            return helpLinks;
+
+        } catch (Exception e) {
+            throw new AuraHandledException('Error retrieving help links: ' + e.getMessage());
+        }
+    }
+
+    public class HelpLinkWrapper {
+        @AuraEnabled public String name;
+        @AuraEnabled public String url;
+        @AuraEnabled public Boolean interstitialPopup;
+
+        public HelpLinkWrapper(String name, String url, Boolean interstitialPopup) {
+            this.name = name;
+            this.url = url;
+            this.interstitialPopup = interstitialPopup;
+        }
+    }
 }

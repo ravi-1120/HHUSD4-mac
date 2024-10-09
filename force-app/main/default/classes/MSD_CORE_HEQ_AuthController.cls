@@ -55,7 +55,7 @@ public without sharing class MSD_CORE_HEQ_AuthController {
             /* Customize Email Body and Subject */
             String emailBody = emailTemplate.HtmlValue
                 .replace('{aeName}', aeUser.Name)
-                .replace('{registerBtn}', '<a href="' + System.Label.MSD_CORE_HEQ_RegisterLink + '" style="display: inline-block; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700; line-height: 20px; text-align: center; background-color: #00857C; padding: 8px 16px; border-radius: 5px; font-family: Arial, sans-serif;">REGISTER</a>')
+                .replace('{registerBtn}', '<a href="' + System.Label.MSD_CORE_HEQ_RegisterLink + '" style="display: inline-block; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700; line-height: 20px; text-align: center; background-color: #00857C; padding: 8px 16px; border-radius: 5px; font-family: Arial, sans-serif; margin-bottom:15px;">REGISTER</a>')
                 .replace('{privacyLink}', '<a href="' + System.Label.MSD_CORE_HEQ_PrivacyLink + '"> Merck Privacy Statement. </a>');
 
             String formattedSubject = emailTemplate.Subject.replace('{aeName}', aeUser.Name);
@@ -149,7 +149,7 @@ public without sharing class MSD_CORE_HEQ_AuthController {
                         userPreferenceList.MSD_CORE_Invited_Date__c = null;
                         update userPreferenceList;
                     }
-                }else{
+                } else {
                     newUserId = '005cW000001cnn7QAA'; // added for testing can be removed
                 }
             }

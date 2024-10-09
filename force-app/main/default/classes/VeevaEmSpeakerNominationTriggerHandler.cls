@@ -280,7 +280,8 @@ public without sharing class VeevaEmSpeakerNominationTriggerHandler extends Veev
 
     private void handleSpeakerStatusUpdate(ID nominationId) {
         EM_Speaker_Nomination_vod__c newNomination = newNominationsMap.get(nominationId);
-        if (newNomination.Speaker_vod__c != null && isNominationFieldChanged(nominationId, 'Status_vod__c')
+        if (newNomination.Speaker_vod__c != null && newNomination.RecordTypeId == newSpeakerRecordTypeId
+                && isNominationFieldChanged(nominationId, 'Status_vod__c')
                 && (newNomination.Status_vod__c == 'Approved_vod' || newNomination.Status_vod__c == 'Rejected_vod')) {
             EM_Speaker_vod__c speaker = new EM_Speaker_vod__c();
             speaker.Id = newNomination.Speaker_vod__c;

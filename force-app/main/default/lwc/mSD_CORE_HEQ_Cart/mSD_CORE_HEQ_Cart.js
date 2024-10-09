@@ -303,6 +303,12 @@ export default class MSD_CORE_HEQ_Cart extends NavigationMixin(LightningElement)
                 console.log('submitPrintOrder>>', result);
                 if (result) {
                     this.showSpinner = false;
+                    this[NavigationMixin.Navigate]({
+                        type: 'standard__webPage',
+                        attributes: {
+                            url: '/order-confirmation'
+                        }
+                    });
                 }
             }).catch(error => {
                 console.error('Error in submitPrintOrder: ' + JSON.stringify(error));

@@ -133,6 +133,8 @@
 .information {
   color: #960F0F !important;
   margin-right: auto;
+  font-family: 'Invention';
+  font-size: 16px;
 }
 
 .align {
@@ -231,6 +233,10 @@
   border-radius: 5px;
 }
 
+.progress-step.disabled {
+  background-color: #00857C;
+}
+
 .progress-step {
   display: flex;
   align-items: center;
@@ -274,7 +280,7 @@
 }
 
 .completed .progress-icon {
-  background-color: #ccc;
+  background-color: #00857C;
   color: #333;
 }
 

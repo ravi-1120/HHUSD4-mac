@@ -10,6 +10,7 @@ import { loadStyle } from 'lightning/platformResourceLoader';
 import addProducts from '@salesforce/label/c.PDS_Proposal_AddProducts';
 import next from '@salesforce/label/c.PDS_Next';
 import cancel from '@salesforce/label/c.PDS_Cancel';
+import save from '@salesforce/label/c.PDS_Save';
 import editProducts from '@salesforce/label/c.PDS_Proposal_EditProducts';
 import showCount from '@salesforce/label/c.PDS_Proposal_SelectedCount';
 import { refreshApex } from '@salesforce/apex';
@@ -38,7 +39,8 @@ export default class PdsAddProducts extends LightningElement {
         next,
         cancel,
         editProducts,
-        showCount
+        showCount,
+        save
     };
 
     errors = {};
@@ -117,6 +119,7 @@ export default class PdsAddProducts extends LightningElement {
     }
 
     handleRowSelection(event) {
+        console.log('120--'+JSON.stringify(event.detail));
         switch (event.detail.config.action) {
             case 'selectAllRows':
                 for (let i = 0; i < event.detail.selectedRows.length; i++) {
@@ -190,6 +193,7 @@ export default class PdsAddProducts extends LightningElement {
 
     handleNext() {
         console.log('this.donationType : ' + this.donationType);
+        console.log(JSON.stringify(this.selectedProducts));
         let delField = {
             type: 'button-icon',
             fixedWidth: 50,
@@ -231,8 +235,8 @@ export default class PdsAddProducts extends LightningElement {
         this.dispatchEvent(new CloseActionScreenEvent());
     }
     
-    handleSave(event) {
-        let updatedFields = event.detail.draftValues;
+    handleSave() {
+        let updatedFields = this.template.querySelector('lightning-datatable[data-id="editTable"]').draftValues;
         updatedFields.forEach(draft => {
             const existingIndex = this.selectedProducts.findIndex(item => item.Id == draft.Id);
             this.selectedProducts[existingIndex] = { ...this.selectedProducts[existingIndex], ...draft };
@@ -265,7 +269,7 @@ export default class PdsAddProducts extends LightningElement {
                     dataError['rows'] = rowError;
                 }
             }
-            if (this.donationType === 'Excess Product Donation') {
+          /*  if (this.donationType === 'Excess Product Donation') {
                 if (!row.hasOwnProperty('PDS_Batch_Number__c') || !row.PDS_Batch_Number__c) {
                     let fieldNames = ['PDS_Batch_Number__c'];
                     let batchError = 'Batch Number is required.';
@@ -288,7 +292,7 @@ export default class PdsAddProducts extends LightningElement {
                     }
                     dataError['rows'] = rowError;
                 }
-            }
+            }*/
 
         });
 
@@ -375,5 +379,9 @@ export default class PdsAddProducts extends LightningElement {
         rowError['messages'] = messages;
         rowError['fieldNames'] = fieldNames;
         return rowError;
+    }
+
+    handleCancel(){
+        this.draftValues = [];
     }
 }

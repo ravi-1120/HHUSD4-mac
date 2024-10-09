@@ -1,55 +1,158 @@
 body {
-    font-family: Arial, sans-serif; 
-    background-color: #f4f6f9; 
+    font-family: 'Invention';
+    background-color: #f4f6f9;
     margin: 0;
     padding: 0;
 }
 
+.contact-information {
+    display: none;
+}
+
+.profile-icon-tab {
+    display: none;
+}
+
+.profile-customer-ipad{
+        display: none;
+    }
+
+.component-container {
+    background: #F4F4F4;
+    padding: 24px;
+}
+
+.breadcrumb1 {
+    color: #ADADAD;
+    font-family: 'Invention';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.breadcrumb2 {
+    color: #070101;
+    font-family: 'Invention';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    margin-left: 6px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: #FFFFFF;
+    margin-bottom: 10px;
+    margin-top: 18px;
+}
+
+.title {
+    margin: 0;
+    font-size: 18px;
+    line-height: 24px;
+    font-family: 'Invention';
+    font-weight: 500;
+}
 
 .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background-color: #ffffff; 
-    border-bottom: 1px solid #dcdcdc; 
+    background-color: #ffffff;
+    border-bottom: 1px solid #dcdcdc;
 }
 
 
 .profile-info {
-    background-color: #ffffff;
-    border: 1px solid #dcdcdc;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    max-width: 1024px; 
-    margin: 1rem auto; 
-    box-sizing: border-box; 
-    display: grid;
-    grid-template-columns: 1fr 2fr; 
-    gap: 1rem; 
+    display: flex;
+    /* width: 1392px; */
+    height: 490px;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-shrink: 0;
+    border-radius: var(--Corner-Radius, 4px);
+    background: var(--Foundation-Gray-Neutral-100, #FFF);
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.10);
+    padding-left: 53px;
+    padding-top: 30px;
+}
+
+.profile-icon-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 63px;
+    height: 63.23px;
+    padding: 8px;
+    letter-spacing: 1px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 96px;
+    background: rgba(0, 0, 0, 0.45);
+    font-family: 'Invention';
+    font-size: 16px;
+    color: #FFF;
+    font-weight: 700;
+}
+
+.profile-icon {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding-bottom: 40px;
+    font-family: 'Invention';
+}
+
+.profile-icon .username {
+    margin-left: 3px;
+    color: #000;
+    text-align: center;
+     font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    font-family: 'Invention';
 }
 
 
 .profile-row {
-    display: contents; 
+    display: contents;
 }
 
 
 .profile-label {
-    font-weight: bold;
-    display: flex;
-    align-items: center;
+    color: var(--Colors-Neutral-colorTextBase, #000);
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    height: 20.948px;
+    flex-shrink: 0;
 }
 
 
 .profile-value {
-    background-color: #f0f0f0;
-    border: 1px solid #dcdcdc;
-    border-radius: 0.25rem; 
-    padding: 0.5rem; 
-    display: flex;
-    align-items: center; 
+    width: 358px;
+    height: 23.94px;
+    flex-shrink: 0;
+    color: #202020;
+    font-family: 'Invention';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 32px;
 }
 
 .profile-value1 {
@@ -58,10 +161,171 @@ body {
     border-radius: 0.25rem;
     padding: 0.5rem;
     /* display: flex; */
-    
+
 }
 
 
 .profile-value lightning-combobox {
-    margin: 0; 
+    margin: 0;
+}
+
+/* Smartphones (portrait) */
+@media only screen and (max-width: 480px) {
+    .infoweb {
+        display: none;
+    }
+
+    .contact-information {
+        display: block;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .profile-ipad {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .profile-label {
+        color: var(--Colors-Neutral-colorTextBase, #000);
+        font-family: 'Invention';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        height: 20.948px;
+        flex-shrink: 0;
+    }
+
+    .profile-customer {
+        display: flex;
+        gap: 24px;
+    }
+    .profile-customer-ipad{
+        display: none;
+    }
+
+}
+
+/* Smartphones (landscape) */
+@media only screen and (min-width: 481px) and (max-width: 767px) {}
+
+/* Tablets (portrait) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .profilecls {}
+
+    .infoweb {
+        display: none;
+    }
+
+    .contact-information {
+        display: block;
+    }
+
+    .profile-icon {
+        display: none;
+    }
+
+    .profile-icon-tab {
+        display: block
+    }
+    .profile-customer{
+        display: none;
+    }
+    .profile-customer-ipad{
+        display: flex;
+        gap: 24px;
+    }
+
+    .profile-info {
+        display: flex;
+        /* width: 1392px; */
+        height: 490px;
+        flex-direction: column;
+        align-items: flex-start;
+        flex-shrink: 0;
+        border-radius: var(--Corner-Radius, 4px);
+        background: var(--Foundation-Gray-Neutral-100, #FFF);
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.10);
+        padding-left: 8px;
+        padding-top: 30px;
+    }
+
+    .profile-icon-tab {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding-bottom: 8px;
+        margin-left: 6px;
+    }
+
+    .profile-icon-tab .username {
+        margin-left: 3px;
+        color: #000;
+        text-align: center;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 18px;
+
+    }
+
+    .profile-icon-container-tab {
+        display: flex;
+        flex-wrap: wrap;
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+        letter-spacing: 1px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        border-radius: 96px;
+        background: rgba(0, 0, 0, 0.45);
+        font-family: 'Invention';
+        font-size: 16px;
+        color: #FFF;
+        font-weight: 700;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding-left: 43px;
+        /* margin-left: 77px; */
+    }
+
+    .profile-ipad {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .profile-label {
+        color: var(--Colors-Neutral-colorTextBase, #000);
+        font-family: 'Invention';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        height: 20.948px;
+        flex-shrink: 0;
+    }
+}
+
+/* Tablets (landscape) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .profile-customer-ipad{
+        display: flex;
+        gap: 24px;
+    }
 }

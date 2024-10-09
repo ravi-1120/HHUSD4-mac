@@ -37,18 +37,24 @@ import OtherInfo from '@salesforce/label/c.MSD_CORE_isOther_OtherInfo';
 import VaccineInfo from '@salesforce/label/c.MSD_CORE_isVaccines_VaccineInfo';
 import VaccineCompetitor from '@salesforce/label/c.MSD_CORE_isVaccines_VaccineCompetitor';
 import VaccineCustomer from '@salesforce/label/c.MSD_CORE_isVaccines_VaccineCustomer';
+import VaccineCustomerhelp from '@salesforce/label/c.MSD_CORE_ci_VaccCusthelp';
 import Previous from '@salesforce/label/c.MSD_CORE_ciportal_prevnavi';
 import Next from '@salesforce/label/c.MSD_CORE_ciportal_nextnavi';
 import typeInfoCSS from '@salesforce/resourceUrl/MSD_CORE_ci_typeInfoCSS';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 
 
+
 export default class MSD_CORE_ci_typeofinfo extends LightningElement {
     @track inputValues = {};
     @api caseDetails;
     @api portalSetting;
+    @api editedSection;
+    @track charCount = 0;
+    @track messageCount = 0;
+    @track VaccineCount = 0;
     @track activeSections = []; 
-    @track showFileUpload = false;
+    // @track showFileUpload = false;
     @track FileOther = false;
     uploadedFileNames = '';
     @track prepopulatedFiles = [];
@@ -93,6 +99,7 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
         VaccineInfo,
         VaccineCompetitor,
         VaccineCustomer,
+        VaccineCustomerhelp,
         Previous,
         Next
 
@@ -105,10 +112,6 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
     validateAndDispatch() {
         let isValid = this.isValid();
         let reason = '';
-        if (this.inputValues.PermissionGranted === 'No') {
-            isValid = false;
-            reason = 'Permission is not granted. You cannot proceed to the next stage.';
-        }
         console.log('Validation Result:', JSON.stringify({ isValid, reason }));
     
         this.dispatchEvent(new CustomEvent('stagevalidation', {
@@ -168,6 +171,11 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
         { label: 'Yes', value: 'Yes' },
         { label: 'No', value: 'No' }
     ];
+    sendOptions = [
+        {label: 'MNSC Fax', value: 'MNSC Fax'},
+        {label: 'MNSC E-mail', value: 'MNSC E-mail'},
+        {label: 'MNSC Mailing Address', value: 'MNSC Mailing Address'}
+    ];
     connectedCallback() {
         this.prepopulateInputs();
         this.loadCustomCSS();
@@ -202,15 +210,24 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
             this.uploadedFiles = this.inputValues.uploadedFiles;
             this.uploadedFilesList = [...this.inputValues.uploadedFiles];
         }
+        if(this.inputValues && this.inputValues.summary){
+            this.charCount = (this.inputValues.summary).length;
+        }
+        if (this.inputValues && this.inputValues.VaccineInfo){
+            this.VaccineCount = (this.inputValues.VaccineInfo).length;
+        }
+        if(this.inputValues && this.inputValues.mainMessage) {
+            this.messageCount = (this.inputValues.mainMessage).length;
+        }
     }
     handleFile(event) {
         var fieldValue = event.target.value;
         if (fieldValue === 'Yes') {
-            this.showFileUpload = true;
+            // this.showFileUpload = true;
             this.FileOther = false;
         } else  if(fieldValue === 'No') {
             this.FileOther = true;
-            this.showFileUpload = false;
+            // this.showFileUpload = false;
             this.uploadedFileNames = '';
             this.uploadedFilesList = [];
             this.inputValues.uploadedFiles = [];
@@ -223,21 +240,35 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
         this.inputValues[fieldName] = fieldValue;
     
         switch (fieldName) {
+            case 'VmainMessage':
+                this.VmessageCount = fieldValue.length;
             case 'uploadFile':
+                this.inputValues.isEmailSelected = null;
+                this.inputValues.isMailingSelected = null;  
+                this.inputValues.isFaxSelected = null;
+                this.inputValues.otherSendOptions = null;
                 this.handleFile(event);
+                break;
+            case 'summary':
+                this.charCount = fieldValue.length;
                 break;
             case 'typeOfInformation':
                 this.inputValues.PermissionGranted = null;
+                this.inputValues.ItemTiming = null;
                 this.inputValues.WhoGavePermission = null;
                 this.inputValues.RoleOfPermissionGiver = null;
                 this.inputValues.titleOfItem = null;
+                this.inputValues.competitiveInfo = null;
+                this.inputValues.isUpload = null;
+                this.inputValues.VpermissionGranted = null;
+                this.inputValues.mainMessage = null;
                 this.inputValues.uploadFile = null;
                 this.uploadedFileNames = '';
                 this.uploadedFilesList = [];
                 this.inputValues.uploadedFiles = null;
                 this.uploadedFileNames = '';
                 this.uploadedFilesList = [];
-                this.showFileUpload = false;
+                // this.showFileUpload = false;
                 this.activeSections = [fieldValue];
                 this.reasonForNoFile= null;
                 this.inputValues.ProgramAttendees = null;
@@ -249,17 +280,46 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
                 this.inputValues.MainMessage = null;
                 this.inputValues.EmployeeCount = null;
                 this.inputValues.Region = null;
+                this.inputValues.isEmailSelected = null;
+                this.inputValues.isMailingSelected = null;  
+                this.inputValues.isFaxSelected = null;
+                this.inputValues.checkPermission = null;
                 break;
-            case 'PermissionGranted':
+            case 'VaccineInfo':
+                this.VaccineCount = fieldValue.length;
+                break;
+            // case 'PermissionGranted':
+            //     if (fieldValue === 'No') {
+            //         this.inputValues.WhoGavePermission = null;
+            //         this.inputValues.RoleOfPermissionGiver = null;
+            //         this.inputValues.titleOfItem = null;
+            //         this.inputValues.uploadFile = null;
+            //         this.uploadedFileNames = '';
+            //         this.uploadedFilesList = [];
+            //         this.showFileUpload = false;
+            //     }
+            //     break;
+            case 'VpermissionGranted':
+                this.inputValues.otherSendOptions = null;
                 if (fieldValue === 'No') {
                     this.inputValues.WhoGavePermission = null;
                     this.inputValues.RoleOfPermissionGiver = null;
                     this.inputValues.titleOfItem = null;
                     this.inputValues.uploadFile = null;
                     this.uploadedFileNames = '';
+                    this.inputValues.isEmailSelected = null;
+                    this.inputValues.isMailingSelected = null;
+                    this.inputValues.isFaxSelected = null; 
                     this.uploadedFilesList = [];
-                    this.showFileUpload = false;
+                    // this.showFileUpload = false;
+                } if (fieldValue === 'Yes'){
+                    this.inputValues.isFaxSelected = null;
+                    this.inputValues.showCompetitiveInfoQuestion = null;
+                    this.inputValues.isEmailSelected = null;
+                    this.inputValues.isMailingSelected = null;           
                 }
+            case 'mainMessage':
+                this.messageCount = fieldValue.length;
                 break;
                 
         }
@@ -267,65 +327,132 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
     }
     updateFieldVisibility() {
         const visibility = this.fieldVisibility;
-    
+        this.inputValues.isUpload = visibility.isUpload;
         this.inputValues.isVerbal = visibility.isVerbal;
         this.inputValues.isDetailPiece = visibility.isDetailPiece;
         this.inputValues.showPermissionFields = visibility.showPermissionFields;
-        this.inputValues.showPopupMessage = visibility.showPopupMessage;
-        this.inputValues.showNavigationButtons = visibility.showNavigationButtons;
         this.inputValues.isEducational = visibility.isEducational;
         this.inputValues.isSalesforce = visibility.isSalesforce;
         this.inputValues.isVaccines = visibility.isVaccines;
         this.inputValues.isOther = visibility.isOther;
+        this.inputValues.showCompetitiveInfoQuestion = visibility.showCompetitiveInfoQuestion;
+        this.inputValues.showNonCompetitiveInfoQuestion = visibility.showNonCompetitiveInfoQuestion;
+        this.inputValues.iscompetitiveInfo = visibility.iscompetitiveInfo;
+        this.inputValues.isnotcompetitiveInfo = visibility.isnotcompetitiveInfo;
+        this.inputValues.isFaxSelected = visibility.isFaxSelected;
+        this.inputValues.isEmailSelected = visibility.isEmailSelected;
+        this.inputValues.isMailingSelected = visibility.isMailingSelected;
+        this.inputValues.isnotcompetitiveInfo = visibility.isnotcompetitiveInfo;
+        this.inputValues.checkPermission = visibility.checkPermission;
     }
     get accordionLabel() {
         return this.inputValues.typeOfInformation ? `${this.inputValues.typeOfInformation} Information` : 'Information';
     }
     get fieldVisibility() {
         const visibility = {
+            checkPermission: false,
             isVerbal: false,
+            showCompetitiveInfoQuestion: false,
+            showNonCompetitiveInfoQuestion: false,
             isDetailPiece: false,
+            iscompetitiveInfo: false,
+            isnotcompetitiveInfo: false,
             showPermissionFields: false,
-            showPopupMessage: false,
-            showNavigationButtons: true,
+            isUpload: false,
             isEducational: false,
             isSalesforce: false,
             isVaccines: false,
-            isOther: false          
+            isOther: false, 
+            isFaxSelected: false,
+            isEmailSelected: false,
+            isMailingSelected: false,     
         };
+    
+        const { competitiveInfo, typeOfInformation, VpermissionGranted, otherSendOptions,uploadFile } = this.inputValues;
+        switch (typeOfInformation) {
+            case 'Verbal':
+                visibility.isVerbal = true;
+                break;
+            case 'Detail piece/Aid/Document/Email':
+                visibility.isDetailPiece = true;
+                visibility.checkPermission = true;
+                if(uploadFile === 'Yes'){
+                    visibility.isUpload = true;
+                }else if(uploadFile === 'No'){
+                    visibility.isUpload = false;
+                    visibility.isEmailSelected = false;
+                    visibility.isFaxSelected = false;
+                    visibility.isMailingSelected = false;
+                }
 
-        const typeOfInformation = this.inputValues.typeOfInformation;
-        const permissionGranted = this.inputValues.PermissionGranted;
+                if (VpermissionGranted === 'Yes') {
+                    visibility.showPermissionFields = true;
+                    visibility.showCompetitiveInfoQuestion = true;
+                } else if (VpermissionGranted === 'No') {
+                    visibility.showPermissionFields = false;
+                    visibility.showCompetitiveInfoQuestion = false;
+                }
+                break;
+            case 'Educational Program':
+                visibility.isEducational = true;
+                break;
+            case 'Salesforce Activity':
+                visibility.isSalesforce = true;
+                break;
+            case 'Vaccines/Pricing/Contracts':
+                visibility.isVaccines = true;
+                visibility.checkPermission = true;
+                if(uploadFile === 'Yes'){
+                    visibility.isUpload = true;
+                }else if(uploadFile === 'No'){
+                    visibility.isUpload = false;
+                    visibility.isEmailSelected = false;
+                    visibility.isFaxSelected = false;
+                    visibility.isMailingSelected = false;
+                }
+                if (VpermissionGranted === 'Yes') {
+                    visibility.showCompetitiveInfoQuestion = true;
+                    visibility.showNonCompetitiveInfoQuestion = false;
+                } else if (VpermissionGranted === 'No') {
+                    visibility.showCompetitiveInfoQuestion = true;
+                    visibility.showNonCompetitiveInfoQuestion = true;
+                }
+                if (competitiveInfo === 'Yes') {
+                    visibility.iscompetitiveInfo = true;
+                    visibility.isnotcompetitiveInfo = false;
+                } else if (competitiveInfo === 'No') {
+                    visibility.isnotcompetitiveInfo = true;
+                    visibility.iscompetitiveInfo = false;
+                }
+                break;
+            case 'Other':
+                visibility.isOther = true;
+                break;
+        }
+        // switch(uploadFile){
 
-        if (typeOfInformation === 'Verbal') {
-            visibility.isVerbal = true;
-        } else if (typeOfInformation === 'Detail piece/Aid/Document/Email') {
-            visibility.isDetailPiece = true;
-
-            if (permissionGranted === 'Yes') {
-                visibility.showPermissionFields = true;
-            } else if (permissionGranted === 'No') {
-                visibility.showPopupMessage = true;
-                visibility.showNavigationButtons = false;
-            }
-        } else if (typeOfInformation === 'Educational Program') {
-            visibility.isEducational = true;
-        } else if (typeOfInformation === 'Salesforce Activity') {
-            visibility.isSalesforce = true;
-        } else if (typeOfInformation === 'Vaccines/Pricing/Contracts') {
-            visibility.isVaccines = true;
-        } else if (typeOfInformation === 'Other') {
-            visibility.isOther = true;
-        } 
-
+        //     case 'Yes':
+        //         visibility.isUpload = true;
+        //     case 'No':
+        //         visibility.isUpload = false;
+        // }
+        switch (otherSendOptions) {
+            case 'MNSC Fax':
+                visibility.isFaxSelected = true;
+                break;
+            case 'MNSC E-mail':
+                visibility.isEmailSelected = true;
+                break;
+            case 'MNSC Mailing Address':
+                visibility.isMailingSelected = true;
+                break;
+        }   
         return visibility;
     }
 
     isValid() {
         let isValid = true;
         let invalidElement = null;
-    
-        // Validate all required inputs and comboboxes
         const allInputs = this.template.querySelectorAll('lightning-input, lightning-combobox');
         allInputs.forEach(input => {
             if (input.required && !input.checkValidity()) {
@@ -335,8 +462,6 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
                 }
             }
         });
-    
-        // If any input is invalid, focus on the first invalid element
         if (!isValid) {
             if (invalidElement) {
                 invalidElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -344,11 +469,7 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
             }
             return false;
         }
-    
-        // Check file upload validation if required
-        if (this.inputValues.uploadFile === 'Yes') {
-            // Ensure that the uploadedFilesList is populated
-            if (this.uploadedFilesList.length === 0) {
+        if (this.inputValues.uploadFile === 'Yes'&& this.uploadedFilesList.length === 0 && this.inputValues.otherSendOptions === null) {
                 this.dispatchEvent(
                     new CustomEvent('showtoast', {
                         detail: { type: 'warning', message: 'Please attach a file to upload!' },
@@ -357,7 +478,6 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
                     })
                 );
                 return false;
-            }
         }
     
         return true;
@@ -368,7 +488,6 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
         let isValid = true;
         let invalidElement = null;
         if (choice === 'Next') {
-            // Validate all required input and combobox elements
             const allInputs = this.template.querySelectorAll('lightning-input, lightning-combobox');
             allInputs.forEach(input => {
                 if (input.required && !input.checkValidity()) {
@@ -378,7 +497,6 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
                     }
                 }
             });
-            // If validation fails, show a toast and focus on the first invalid element
             if (!isValid) {
                 this.dispatchEvent(
                     new CustomEvent('showtoast', {
@@ -393,11 +511,10 @@ export default class MSD_CORE_ci_typeofinfo extends LightningElement {
                 }
                 return;
             }
-            // Validate file upload if required
-            if (this.inputValues.uploadFile === 'Yes' && this.uploadedFilesList.length === 0) {
+            if ((this.inputValues.uploadFile === 'Yes' && this.uploadedFilesList.length === 0 && this.inputValues.otherSendOptions === null)) {
                 this.dispatchEvent(
                     new CustomEvent('showtoast', {
-                        detail: { type: 'warning', message: 'Please attach a file to upload!' },
+                        detail: { type: 'warning', message: '"Please upload a file or choose an alternative method to send the document' },
                         bubbles: true,
                         composed: true
                     })

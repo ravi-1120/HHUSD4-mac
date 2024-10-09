@@ -25,6 +25,9 @@ import autoLoginKey from '@salesforce/label/c.PDS_AutoLoginKey';
 import autoLoginValue from '@salesforce/label/c.PDS_AutoLoginValue';
 import autoLoginUn from '@salesforce/label/c.PDS_AutoLoginEmail';
 import autoLoginPs from '@salesforce/label/c.PDS_AutoLoginPassword';
+import loginDescHeader from '@salesforce/label/c.PDS_LoginDescriptionHeader';
+import loginDesc from '@salesforce/label/c.PDS_LoginDescription';
+import loginDesc2 from '@salesforce/label/c.PDS_LoginDescription2';
 
 
 export default class PdsPortalLogin extends NavigationMixin(LightningElement) {
@@ -44,7 +47,10 @@ export default class PdsPortalLogin extends NavigationMixin(LightningElement) {
         autoLoginKey,
         autoLoginValue,
         autoLoginUn,
-        autoLoginPs
+        autoLoginPs,
+        loginDescHeader,
+        loginDesc,
+        loginDesc2
 
     };
 

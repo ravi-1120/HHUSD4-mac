@@ -43,7 +43,7 @@ public without sharing class MSD_CORE_ci_PortalStageHandler {
     @AuraEnabled(cacheable=true)
     public static MSD_CORE_CI_PortalSetting__mdt picklistOptions() {
         MSD_CORE_CI_PortalSetting__mdt portalSetting = [
-            SELECT Compet__c, TypeofInfo__c, uploadFile__c, PermissionGranted__c   
+            SELECT Compet__c, TypeofInfo__c, AdverseOptions__c, uploadFile__c, PermissionGranted__c   
             FROM MSD_CORE_CI_PortalSetting__mdt 
             WHERE DeveloperName = 'CI_Portal'
         ];

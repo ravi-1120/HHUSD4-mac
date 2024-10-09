@@ -271,6 +271,7 @@ export default class mSD_CORE_HEQ_Header extends NavigationMixin(LightningElemen
             this.toggleHelpDropdown();
         } else {
             this.showHelpDropdown = false;
+            console.log('### name '+name);
             if (name) {
                 this.keyword = '';
                 this[NavigationMixin.Navigate]({

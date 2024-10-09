@@ -1,0 +1,84 @@
+<template>
+<!-- Order confirmation Content -->
+<main class="cart-main">
+    <div class="breadcrumbs">
+        <span tabindex="0" class="breadcrumb1" onclick={redirectHomePage}> Home ></span>
+        <span class="breadcrumb2">Confirmation</span>
+    </div>
+    <div class="cart-container">
+        <div class="cart-header">
+            Your print order successfully sent
+        </div>
+        <template for:each={customerOrders} for:item="row">
+            <div key={row.orderId} class="cart-content">
+                <div class="info">
+                    <div class="info-demo-container">
+                        <div class="info-demo">
+                            <div class="infoName">{row.customerName}</div>
+                            <div class="infoName">Email</div>
+                        </div>
+                        <div class="infoAddress">
+                            <div if:true={row.CreatedDate}>
+                                Order placed &nbsp; {row.CreatedDate}
+                            </div>
+                            <div if:true={row.address}>Delivery address:&nbsp;
+                                <span class="address-custom">{row.address}</span>&nbsp;
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-container">
+                        <div class="grid-header">
+                            <div></div>
+                            <div>
+                                Resource name
+                            </div>
+                            <div>
+                                Resource id
+                            </div>
+                            <div>
+                                Delivery method
+                            </div>
+                            <div>
+                                Quantity
+                            </div>
+                        </div>
+                        <template for:each={row.orderItems} for:item="resource">
+                            <div key={row.resourceId} class="grid-row">
+                                <div class="image">
+                                    <template if:true={resource.thumbnailUrl}>
+                                        <img src={resource.thumbnailUrl} alt="image" class="image-preview" />
+                                    </template>
+                                </div>
+
+                                <div>
+                                    <template if:true={resource.resourceName}>
+                                        <div class="grid-name">{resource.resourceName}</div>
+                                    </template>
+                                </div>
+
+                                <div>
+                                    <template if:true={resource.resourceCode}>
+                                        {resource.resourceCode}
+                                    </template>
+                                </div>
+
+                                <div>
+                                    Print
+                                </div>
+                                <div>
+                                    <template if:true={resource.itemQuantity}>
+                                        {resource.itemQuantity}
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</main>
+<!-- Order confirmation Content-->
+</template>

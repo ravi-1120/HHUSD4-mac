@@ -66,6 +66,7 @@ public class MSD_CORE_TriggerFactory
                 {
                     handler.beforeUpdate(so, Trigger.newMap.get(so.Id));
                 }
+                
             }
         }
         else
@@ -96,6 +97,7 @@ public class MSD_CORE_TriggerFactory
                 {
                     handler.afterUpdate(so, Trigger.newMap.get(so.Id));
                 }
+
             }
         }
 
@@ -216,7 +218,16 @@ public class MSD_CORE_TriggerFactory
         {
             return new MRK_CommunicationEventTargetHandler();
         }
+        
+        if(soType == ContentVersion.sObjectType){
+            return new MSD_CORE_HEQ_CVTriggerHandler();
+        }
         */
+
+        if(soType == MSD_CORE_HEQ_Template_File_Metadata__c.sObjectType)
+        {
+            return new MSD_CORE_HEQ_TemplateFileMDTHandler();
+        }
 
         return null;
     }

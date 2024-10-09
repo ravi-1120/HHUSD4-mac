@@ -19,6 +19,7 @@ import mmopsearch from '@salesforce/label/c.PDS_MMOP_Search';
 import alldonationTypes from '@salesforce/label/c.PDS_AllDonationTypes';
 import allStatuses from '@salesforce/label/c.PDS_AllStatuses';
 import mmop from '@salesforce/label/c.PDS_MMOP';
+import reallocation from '@salesforce/label/c.PDS_OpenforRe_allocation';
 
 export default class PdsMyRequests extends NavigationMixin(LightningElement) {
 
@@ -63,7 +64,8 @@ export default class PdsMyRequests extends NavigationMixin(LightningElement) {
       alldonationTypes,
       allStatuses,
       mmop,
-      mmopsearch
+      mmopsearch,
+      reallocation
     };
 
     async connectedCallback() {
@@ -192,6 +194,10 @@ export default class PdsMyRequests extends NavigationMixin(LightningElement) {
             request.divlabelStatus = 'closed-cls';
             request.iconlabelStatus = 'closed-icon';
             request.iconName = 'utility:info_alt';
+        }else if (request.PDS_Donation_Request_Status__c === 'Cancelled') {
+            request.divlabelStatus = 'cancelled-cls';
+            request.iconlabelStatus = 'cancelled-icon';
+            request.iconName = 'utility:clear';
         }
     }
     get hasData() {

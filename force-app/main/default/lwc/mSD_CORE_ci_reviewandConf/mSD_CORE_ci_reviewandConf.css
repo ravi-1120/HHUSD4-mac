@@ -1,13 +1,28 @@
-.headCls{
-    font-family: 'InventionRg';
-  }
-  .headingCls{
-    font-weight: 400;
-    font-family: 'InventionRg';
+.headingCls{
+    font-family: 'Invention';
+    color:#960F0F !important;
+    margin-left: 1px;
   }
   .requiredField label:after {
     content: " *";
     color: red;
+  }
+  .information {
+    color: #960F0F !important;
+    margin-right: auto;
+    font-size: 16px;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    z-index: 1000; 
   }
   .q-container{
         /* width: 155%; */

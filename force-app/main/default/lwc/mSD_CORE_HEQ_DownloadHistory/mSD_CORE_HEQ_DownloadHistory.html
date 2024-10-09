@@ -1,0 +1,117 @@
+<template>
+    <main class="download-main">
+        <div class="breadcrumbs">
+            <span tabindex="0" class="breadcrumb1" onclick={redirectToHome}> Home ></span>
+            <span class="breadcrumb2">Download history</span>
+        </div>
+        <div class="download-container">
+            <div class="download-header">Download history</div>
+            <div class="download-pagination dp-show">
+                <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}
+                    records-per-page-options={recordsPerPageOptions} records-per-page={recordsPerPage}
+                    total-pages={totalPages} onpageoptionchange={handlePageOptionChange}
+                    onpagechange={handlePageChange}>
+                </c-m-s-d_-c-o-r-e_-h-e-q_-pagination>
+            </div>
+            <div class="download-content">
+                <div class="grid-container">
+                    <div class="grid-header">
+                        <div></div>
+                        <div>
+                            Name
+                        </div>
+                        <div>
+                            Collections
+                        </div>
+                        <div class="sortable-header" onclick={handleSort} data-field="date">
+                            Date downloaded
+                            <lightning-icon icon-name={shareSortIcon} class="iconCls" size="xx-small">
+                            </lightning-icon>
+                        </div>
+                        <div><div class="placeholder"></div></div>
+                    </div>
+                    <template for:each={displayedData} for:item="row">
+                        <div key={row.id} class="grid-row">
+                            <!-- Thumbnail Image -->
+                            <div class="image">
+                                <template if:true={row.ThumbnailUrl}>
+                                    <img src={row.ThumbnailUrl} alt="image" class="image-preview" />
+                                </template>
+                            </div>
+
+                            <!-- Resource ID -->
+                            <div>
+                                <template if:true={row.resourceTitle}>
+                                    {row.resourceTitle}
+                                </template>
+                            </div>
+
+                            <!-- Collection Name -->
+                            <div>
+                                <template if:true={row.collectionName}>
+                                    {row.collectionName}
+                                </template>
+                            </div>
+
+                            <!-- Downloaded Date -->
+                            <div>
+                                <template if:true={row.downloadedDate}>
+                                    {row.downloadedDate}
+                                </template>
+                            </div>
+                            <div class="download-btn"><a href="javascript:void(0)" data-link={row.DownloadURL} data-cid={row.collectionId} data-check={row.isExpired} onclick={handleDownload} data-title={row.resourceTitle} data-resid={row.resourceId}>Download</a></div>
+                            <div tabindex="0" class="dw-btn" data-link={row.DownloadURL} data-check={row.isExpired} onclick={handleDownload} data-title={row.resourceTitle}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M11.8523 15.4922C11.8699 15.5146 11.8923 15.5327 11.9179 15.5452C11.9435 15.5577 11.9715 15.5641 12 15.5641C12.0285 15.5641 12.0565 15.5577 12.0821 15.5452C12.1077 15.5327 12.1301 15.5146 12.1477 15.4922L14.7727 12.1711C14.8687 12.0492 14.782 11.8687 14.625 11.8687H12.8883V3.9375C12.8883 3.83437 12.8039 3.75 12.7008 3.75H11.2945C11.1914 3.75 11.107 3.83437 11.107 3.9375V11.8664H9.375C9.21797 11.8664 9.13125 12.0469 9.22734 12.1688L11.8523 15.4922ZM20.5781 14.6719H19.1719C19.0688 14.6719 18.9844 14.7563 18.9844 14.8594V18.4688H5.01562V14.8594C5.01562 14.7563 4.93125 14.6719 4.82812 14.6719H3.42188C3.31875 14.6719 3.23438 14.7563 3.23438 14.8594V19.5C3.23438 19.9148 3.56953 20.25 3.98438 20.25H20.0156C20.4305 20.25 20.7656 19.9148 20.7656 19.5V14.8594C20.7656 14.7563 20.6812 14.6719 20.5781 14.6719Z"
+                                        fill="black" fill-opacity="0.45" />
+                                </svg>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <template if:false={displayedData}>
+                <div class="no-records">No download history found</div>
+            </template>
+            <div class="download-pagination">
+                <c-m-s-d_-c-o-r-e_-h-e-q_-pagination total-records={totalRecords} current-page={currentPage}
+                    records-per-page-options={recordsPerPageOptions} records-per-page={recordsPerPage}
+                    total-pages={totalPages} onpageoptionchange={handlePageOptionChange}
+                    onpagechange={handlePageChange}>
+                </c-m-s-d_-c-o-r-e_-h-e-q_-pagination>
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirmation popup -->
+    <template if:true={showPopup}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content confirmModel">
+                    <div>
+                        <div class="cnfcollectionheadercls">
+                            <div class="cnfcollectionheadertxt">Resource is no longer available</div>
+                            <div>
+                                <lightning-icon icon-name="utility:close" size="small" alternative-text="close"
+                                    class="closeiconclick" title="close" onclick={handleCloseConfirmModel}>
+                                </lightning-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collectionfootercls">
+                        <div class="collectionbuttoncls">
+                            <button class="slds-button slds-button_brand" onclick={handleCloseConfirmModel}>Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <!-- Confirmation popup end -->
+
+    <template if:true={showSpinner}>
+        <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
+    </template>
+</template>

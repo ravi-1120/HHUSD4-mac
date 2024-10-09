@@ -11,7 +11,7 @@ export default class PdsCreateProposal extends LightningElement {
      this.dispatchEvent(
                     new ShowToastEvent({
                         title: "Success",
-                        message: "Donation request proposal document has been generated successfully.",
+                        message: "Document has been generated successfully.",
                         variant: "success",
                     }),
                 );

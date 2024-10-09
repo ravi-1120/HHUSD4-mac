@@ -98,7 +98,7 @@ public without sharing class MSD_CORE_ae_PortalStageHandler {
         MSD_CORE_ae_PortalSetting__mdt portalSetting = [
             SELECT Reporters__c, Present_Status__c, Rechallenge__c, Dechallenge__c,Validate_Count__c,
             Reporting_AEs_for_multiple_patients__c, Patient_Reported_this_AE_to_you__c, HBP_Type__c, Licensed_HCP__c, Patients_HCP__c, Upload_File__c,
-            Permission_to_Contact__c, Product_Types__c, Product_Limit__c, File_Format__c, Field_Based__c, First_Report__c, Permission__c, Country__c 
+            Permission_to_Contact__c, Product_Types__c,Product_Limit__c, File_Format__c, Field_Based__c, First_Report__c, Permission__c, Country__c 
             FROM MSD_CORE_ae_PortalSetting__mdt 
             WHERE DeveloperName = 'AE_Portal'
         ];

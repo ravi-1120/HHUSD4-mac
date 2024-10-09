@@ -12,18 +12,27 @@
 	flex-direction: row;
 	align-items: center;
 }
+.lgn-container{
+	max-width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+}
 .login-section{
 	max-width:100%;
 	max-height:100%;
 	display: flex;
 	gap:0px;
 	justify-content: center;
-	flex-direction: column;
+	flex-direction: column;	
+	align-items: center;
+	
 }
 .login-cover{
-	max-width: 530px;
-    max-height: 630px;
-    padding-top: 40px;
+	width: 420px;
+    height: 650px;
+    padding-top: 50px;
     padding-bottom: 40px;
 }
 .login-screen{
@@ -62,7 +71,7 @@
 	/* object-fit: contain; */
  	width: 200px;
     /* height: 40px; */
-	margin-left:32px;
+	margin-left:0px;
 }
 
 .login-error{
@@ -82,6 +91,28 @@
 	color: #9A151C;
 }
 
+.desc-screen{
+		max-width: 100%;
+		width: 550px;
+		padding: 0px;
+		margin-top: 40px;
+		justify-content: center;
+	}
+.login-desc{
+	font-family:'InventionRg';
+	font-weight: 600px;
+	font-size: 13px;
+	line-height: 26px;
+	text-align: justify;
+	justify-content: center;
+}
+.desc-header{
+	font-family: 'InventionBd';
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 32px;
+}
+
 @media only screen and (max-width: 600px) {
 	.login-screen{
 		padding: 0px;
@@ -97,13 +128,28 @@
 	.login-cover{
 		min-width: 200px;
 		width: 100%;
-		/* max-height: 232px; */
+		max-height: 430px; 
 		padding-top: 0px;
 		padding-bottom: 0px;
 	}
 	.header-logo{
 		margin-left:0px;
-		margin-bottom:24px;
+	}
+	.desc-screen{
+		width: 100%;
+		padding: 0px;
+		margin-top: 12px;
+	}
+	.login-desc{
+		font-family:'InventionRg';
+		font-weight: 600px;
+		font-size: 18px;
+		line-height: 30px;
+		text-align: justify;
+		justify-content: center;
+	}
+	.login-section{
+		
 	}
 }
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait){
@@ -128,11 +174,26 @@
 	.login-screen{
 		width: 458px;
 		padding: 0px;
+		justify-content: center;
 	}
 	.login-section{
-	gap: 24px;
+		gap: 24px;
 	}
 	.header-logo{
 		margin-left: 0px;
 	}
+	.desc-screen{
+		width: 458px;
+		padding: 0px;
+		margin-top: 12px;
+	}
+	.login-desc{
+		font-family:'InventionRg';
+		font-weight: 600px;
+		font-size: 18px;
+		line-height: 30px;
+		text-align: justify;
+		justify-content: center;
+	}
+	
 }

@@ -1,0 +1,231 @@
+<template>
+    <template if:false={entityForm}>
+    <div class="success-container">
+        <div class="success-screen">
+            <p style="font-family:'InventionRg';">Please Enter the Verification code shared to your email.</p>
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12"
+                class="">
+                <lightning-input type="text" label="Enter OTP">
+                </lightning-input>
+            </lightning-layout-item>
+            <div class="success_btns">
+                <lightning-button role="button" class="success-button lt-button" variant="base" label="Cancel"
+                    title="Back to Dashboard">
+                </lightning-button>
+                <lightning-button role="button" class="success-button lt-button" variant="base" label="Submit"
+                    title="Submit" onclick={onSubmit}>
+                </lightning-button>
+            </div>
+        </div>
+    </div>
+    </template>
+    <template if:true={entityForm}>
+    <div class="dr-form_container">
+        <div class="dr-form_section">
+            <h2 class="dr-form_heading">Entity Donation Form</h2>
+
+            <div class="dr-form">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                        large-device-size="6" class="slds-p-right_large inputField-mb">
+                        <lightning-input type="text" label="Name of Sponsoring Department">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                        large-device-size="6" class="slds-p-right_large inputField-mb">
+                        <lightning-input type="text" label="Name of Contact person from sponsoring department">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                        large-device-size="6" class="slds-p-right_large inputField-mb">
+                        <lightning-input type="email" label="Email address of the Contact person">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                        large-device-size="6" class="slds-p-right_large inputField-mb">
+                        <lightning-input type="text" label="Name of Donation recepient">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="6"
+                        class="slds-p-right_large inputField-mb">
+                        <lightning-combobox label="Region">
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="6"
+                        class="slds-p-right_large inputField-mb">
+                        <lightning-combobox label="Organization Type">
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="6"
+                        class="slds-p-right_large inputField-mb">
+                        <lightning-input type="text" label="Org type Other">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="8"
+                        large-device-size="12" class="slds-p-right_large inputField-mb">
+                        <template for:each={products} for:item="product">
+                            <section key={product.id} class="product-section">
+                                <lightning-layout class="prod-cls">
+                                    <lightning-layout-item size="12" class="remove-cls">
+                                        <lightning-button-icon icon-name="utility:close"
+                                            alternative-text="Remove Product" class="remove-product-button"
+                                            onclick={removeProduct} data-id={product.id}>
+                                        </lightning-button-icon>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                                        medium-device-size="8" large-device-size="12">
+                                        <lightning-combobox label="Product Name and Dosage" options={productOptions}
+                                            data-id={product.id} onchange={handleChange}></lightning-combobox>
+                                    </lightning-layout-item>
+                                    <div class="prods-cls">
+                                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                                            medium-device-size="8" large-device-size="6">
+                                            <lightning-input label="Market Value" value={product.marketValue}
+                                                data-id={product.id} onchange={handleChange}></lightning-input>
+                                        </lightning-layout-item>
+
+                                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                                            medium-device-size="8" large-device-size="6">
+                                            <lightning-input label="Size" value={product.size} data-id={product.id}
+                                                onchange={handleChange}></lightning-input>
+                                        </lightning-layout-item>
+                                    </div>
+                                    <div class="prods-cls">
+
+                                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                                            medium-device-size="8" large-device-size="6">
+                                            <lightning-input label="Quantity" value={product.quantity}
+                                                data-id={product.id} onchange={handleChange}></lightning-input>
+                                        </lightning-layout-item>
+
+
+                                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                                            medium-device-size="8" large-device-size="6">
+                                            <lightning-input type="date" label="Expiration Date"
+                                                value={product.expirationDate} data-id={product.id}
+                                                onchange={handleChange}></lightning-input>
+                                        </lightning-layout-item>
+                                    </div>
+                                </lightning-layout>
+                            </section>
+
+                        </template>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" style="margin-bottom:24px;">
+                        <a onclick={addProduct} style="font-family:'InventionRg">
+                            <lightning-icon icon-name="utility:add" size="x-small"></lightning-icon>Add Product
+                        </a>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="6"
+                        class="slds-p-right_large inputField-mb">
+                        <lightning-input type="text" label="Purpose of Product Donation">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                        large-device-size="6">
+                        <lightning-radio-group class="form-radio"
+                            label="Influence or Control over purpose, objectives and design of the program"
+                            options={taxOptions}>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                        large-device-size="6">
+                        <lightning-radio-group class="form-radio" label="Product Handling" options={taxOptions}>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                        large-device-size="6">
+                        <lightning-radio-group class="form-radio" label="Has Managing Director provided approval"
+                            options={taxOptions}>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6"
+                        class="slds-p-right_large inputField-mb">
+                        <lightning-input type="text" label="Title of MD">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                        large-device-size="6">
+                        <lightning-input type="text" label="Name of MD">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                        large-device-size="6">
+                        <lightning-radio-group class="form-radio" label="Has Legal provided approval?"
+                            options={taxOptions}>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                        large-device-size="6">
+                        <lightning-radio-group class="form-radio" label="Has Complaince Provided approval?"
+                            options={taxOptions}>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6"
+                        class="slds-p-right_large inputField-mb">
+                        <lightning-input type="text" label="Title of Complaince approver">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                        large-device-size="6">
+                        <lightning-input type="text" label="Name of Complaince approver">
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                        large-device-size="6">
+                        <lightning-radio-group class="form-radio"
+                            label="Confirm all the required internal approvals have been completed"
+                            options={taxOptions}>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                        large-device-size="12">
+                        <div class="slds-form-element">
+                            <div class="downloadBtn">
+                                <span class="slds-form-element__label">Upload File</span>
+                            </div>
+                            <div class="slds-form-element__control">
+                                <div class="slds-file-selector slds-file-selector_images"
+                                    style="background: #00000005;">
+                                    <div class="slds-file-selector__dropzone file-proposal">
+                                        <input type="file" class="slds-file-selector__input slds-assistive-text"
+											 id="file-upload-input-119" aria-labelledby="file-selector-primary-label-117 file-selector-secondary-label118"
+											 name="uploadProposal"/>
+                                        <label class="slds-file-selector__body " for="file-upload-input-119" id="file-selector-secondary-label118">
+											<lightning-icon class="upload-icon" icon-name="utility:upload" size="x-large" alternative-text="Upload" title="Upload">
+											</lightning-icon>
+											<span class="slds-file-selector__text">Click on this area to upload File</span>
+											</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="file-invalid uploadProposal">
+                                <b style="text-decoration:underline;font-family:'InventionRg';font-size:14px;">File Uploaded:</b>
+                                {appTypeMsg}
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                        large-device-size="12">
+                        <lightning-textarea label="Comments">
+                        </lightning-textarea>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+            <div class="dr-form_btnGroup">
+                <lightning-button role="button" class="lt-button" variant="base" label="Send Request"
+                    title="Send Request">
+                </lightning-button>
+                <lightning-button role="button" class="lt-button cancel" variant="base" label="Cancel" title="Cancel">
+                </lightning-button>
+            </div>
+        </div>
+    </div>
+    </template>
+    <div if:true={showSpinner}>
+        <c-pds-spinner></c-pds-spinner>
+    </div>
+    <c-pds-toast-message auto-close-time="8000"></c-pds-toast-message>
+</template>

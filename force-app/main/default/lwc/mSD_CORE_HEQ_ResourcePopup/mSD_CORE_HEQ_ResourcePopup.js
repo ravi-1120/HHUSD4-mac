@@ -15,11 +15,13 @@ export default class MSD_CORE_HEQ_ResourcePopup extends LightningElement {
     @track allRecords = [];
     @track menuOptions = [];
     @track selectedDocumentIds = [];
+    @track selectedItemIds = [];
 
     hideSaveSearch = true
 
     @api type = "Browse All";
     @api submitButton;
+    @api page;
 
 
     connectedCallback() {
@@ -105,6 +107,7 @@ export default class MSD_CORE_HEQ_ResourcePopup extends LightningElement {
                 });
                 this.allRecords = section.topics;
                 this.sections = [{ title: 'Browse All', topics: this.allRecords }];
+                console.log('All records>>>' , JSON.stringify(this.sections));
             } else {
                 section = { title: 'Search Results', topics: false };
                 this.allRecords = section.topics;
@@ -132,24 +135,57 @@ export default class MSD_CORE_HEQ_ResourcePopup extends LightningElement {
         return updatedThumbURL;
     }
 
+    // handleDocumentSelection(event) {
+    //     const documentId = event.detail.id;
+    //     this.sections = this.sections.map((section, index) => {
+    //         section.topics = section.topics.map((item, idx) => {
+    //             if (item.contentdocumentid === documentId) {
+    //                 item.isSelectedTile = !item.isSelectedTile;
+    //                 item.isSelectedList = !item.isSelectedList;
+    //                 if ((item.isSelectedTile || item.isSelectedList) && !this.selectedDocumentIds.includes(item.contentdocumentid)) {
+    //                     this.selectedDocumentIds = [...this.selectedDocumentIds, item.contentdocumentid];
+    //                 } else if (!item.isSelectedTile || !item.isSelectedList) {
+    //                     this.selectedDocumentIds = this.selectedDocumentIds.filter(id => id !== item.contentdocumentid);
+    //                 }
+    //             }
+    //             return item;
+    //         });
+    //         return section;
+    //     });
+    //     this.lengthofResourcesSelected = (this.selectedDocumentIds && this.selectedDocumentIds.length > 0) ? this.selectedDocumentIds.length : 0;
+    // }
+
+
     handleDocumentSelection(event) {
         const documentId = event.detail.id;
-        this.sections = this.sections.map((section, index) => {
-            section.topics = section.topics.map((item, idx) => {
+        const updatedDocumentIds = new Set(this.selectedDocumentIds);
+        const updatedItemIds = new Set(this.selectedItemIds);
+
+        this.sections = this.sections.map(section => {
+            section.topics = section.topics.map(item => {
+                console.log('Each section item >>>' , JSON.stringify(item) );
+                console.log('Each section DocID >>>' , documentId );
                 if (item.contentdocumentid === documentId) {
                     item.isSelectedTile = !item.isSelectedTile;
                     item.isSelectedList = !item.isSelectedList;
-                    if ((item.isSelectedTile || item.isSelectedList) && !this.selectedDocumentIds.includes(item.contentdocumentid)) {
-                        this.selectedDocumentIds = [...this.selectedDocumentIds, item.contentdocumentid];
-                    } else if (!item.isSelectedTile || !item.isSelectedList) {
-                        this.selectedDocumentIds = this.selectedDocumentIds.filter(id => id !== item.contentdocumentid);
+
+                    if (item.isSelectedTile || item.isSelectedList) {
+                        updatedDocumentIds.add(item.contentdocumentid);
+                        updatedItemIds.add(item.id);
+                    } else {
+                        updatedDocumentIds.delete(item.contentdocumentid);
+                        updatedItemIds.delete(item.id);
                     }
                 }
                 return item;
             });
             return section;
         });
-        this.lengthofResourcesSelected = (this.selectedDocumentIds && this.selectedDocumentIds.length > 0) ? this.selectedDocumentIds.length : 0;
+
+        this.selectedDocumentIds = [...updatedDocumentIds];
+        this.selectedItemIds = [...updatedItemIds];
+        console.log('selected IDs>>>' , JSON.stringify(this.selectedItemIds));
+        this.lengthofResourcesSelected = this.selectedDocumentIds.length;
     }
 
     handleExpandCollapsSidebar(){
@@ -178,9 +214,12 @@ export default class MSD_CORE_HEQ_ResourcePopup extends LightningElement {
         this.loadSearch(null, this.type, event.detail, null);
     }
 
-    handleShareClick(){
+   handleShareClick() {
         const selectedEvent = new CustomEvent('selectedresources', {
-            detail: { resources: this.selectedDocumentIds}
+            detail: {
+                resources: this.selectedDocumentIds,
+                itemIds: this.selectedItemIds
+            }
         });
         this.dispatchEvent(selectedEvent);
     }

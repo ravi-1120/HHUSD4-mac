@@ -35,7 +35,7 @@
                                     </div>
                                 </template>
                             </div>
-                            <lightning-card class="stagecard">
+                            <lightning-card class="stagecard" style="width:100%;">
                                 <span class="information">* Required Field</span>
                                 <br>
                                 <div class="scrollable">
@@ -50,8 +50,14 @@
                             <template if:true={isStep3}>
                                 <c-m-s-d_-c-o-r-e_ci_typeofinfo portal-setting={portalSetting} case-details={caseDetails} onshowtoast={handleShowToast} onstagedetails={handlePrevNext}></c-m-s-d_-c-o-r-e_ci_typeofinfo>
                             </template>
-                           <template if:true={isStep4}>
-                                <c-m-s-d_-c-o-r-e_ci_reviewand-conf case-details={caseDetails} onshowtoast={handleShowToast}></c-m-s-d_-c-o-r-e_ci_reviewand-conf>
+                            <template if:true={isStep4}>
+                                <c-m-s-d_-c-o-r-e_ci_adverse portal-setting={portalSetting} case-details={caseDetails} onshowtoast={handleShowToast} onstagedetails={handlePrevNext}></c-m-s-d_-c-o-r-e_ci_adverse>
+                            </template>
+                           <template if:true={isStep5}>
+                                <c-m-s-d_-c-o-r-e_ci_reviewand-conf case-details={caseDetails} onshowtoast={handleShowToast} onsubmitsuccess={handleSubmitSuccess}></c-m-s-d_-c-o-r-e_ci_reviewand-conf>
+                            </template>
+                            <template if:true={isStep6}>
+                                <c-m-s-d_-c-o-r-e_ci_submission onresetreport={handleResetReport} case-details={caseDetails} case-number={caseDetails.caseNumber}></c-m-s-d_-c-o-r-e_ci_submission>
                             </template>
                              <!-- <template if:true={isStep5}>
                                 <c-step-five-component></c-step-five-component> 

@@ -1,5 +1,5 @@
 <template>
-    <lightning-card>
+    <!-- <lightning-card>
         <div>
             <div>
                 <h1>{topicTitle}</h1>
@@ -36,7 +36,50 @@
         <template if:false={displayedFields}>
             <p>No details available.</p>
         </template>
-    </lightning-card>
+    </lightning-card> -->
+
+    <main>
+        <div class="preview-container">
+            <div class="breadcrumbs">
+                <span class="breadcrumb1" onclick={redirectToHome}> {labels.home} ></span>
+                <span class="breadcrumb1" onclick={handleBrowseAll}>Browse all ></span>
+                <span class="breadcrumb2">{resourceName}</span>
+            </div>
+            <div class="preview-actions">
+                <div class="preview-heading">{resourceName}</div>
+                <div>
+                    <div class="dr-form_btnGroup slds-float_right">
+                        <lightning-button role="button" class="lt-button cancel" variant="base" label="Back" title="Back"
+                            onclick={redirectToHome}>
+                        </lightning-button>
+                        <lightning-button role="button" class="lt-button mb-layout" variant="base" label="Download" title="Download"
+                            onclick={handleDownload}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-content">
+            <lightning-button role="button" class="lt-button mb-layout-bottom" variant="base" label="Download" title="Download"
+                onclick={handleDownload}>
+            </lightning-button>
+                <iframe src={iframeurl} class="Preview-frame" frameborder="0"></iframe>
+                <div class="preview-detail-wrapper">
+                    <div class="preview-detail-heading">Details</div>
+                    <div class="preview-detail">
+                        <template for:each={displayedFields} for:item="fields">
+                            <div class="field" key={fields.key}>
+                                <span class="field-name">{fields.key}:</span>
+                                <span class="field-value">{fields.value}</span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <template if:false={displayedFields}>
+                    <p>No details available.</p>
+                </template>
+            </div>
+        </div>
+    </main>
     <div if:true={showSpinner}>
         <c-m-s-d_-c-o-r-e_-h-e-q_-spinner></c-m-s-d_-c-o-r-e_-h-e-q_-spinner>
     </div>

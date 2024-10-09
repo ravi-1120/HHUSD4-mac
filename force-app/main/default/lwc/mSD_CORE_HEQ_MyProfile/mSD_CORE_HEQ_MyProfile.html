@@ -1,55 +1,212 @@
 <template>
-    <div class="profile-header">
+    <!-- <div class="profile-header">
         <h2>{labels.MyProfile}</h2>
-        <lightning-button label="Update" class="update-button" variant="brand" onclick={handleUpdateClick}>
-        </lightning-button>
-    </div>
-    <template if:true={user}>
-        <div class="profile-info">
-            <div class="profile-row">
-                <div class="profile-label">{labels.ID}</div>
-                <div class="profile-value">{user.Username}</div>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">{labels.Roles}</div>
-                <div class="profile-value">{userRoleName}</div>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">{labels.FirstName}</div>
-                <div class="profile-value">{user.FirstName}</div>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">{labels.LastName}</div>
-                <div class="profile-value">{user.LastName}</div>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">{labels.Phone}</div>
-                <div class="profile-value">{user.Phone}</div>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">{labels.EmailId}</div>
-                <div class="profile-value">{user.Email}</div>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">{labels.DefaultCountry}</div>
-                <div class="profile-value">{user.Country}</div>
-            </div>
-            <div class="profile-row">
-                <div class="profile-label">{labels.Language}</div>
-                <div class="profile-value1">
-                    <lightning-combobox name="language" value={user.LanguageLocaleKey} options={languageOptions}
-                        onchange={handleLanguageChange}>
-                    </lightning-combobox>
+        <lightning-button label="Update" class="update-button" variant="brand" onclick={handleUpdateClick}></lightning-button>
+    </div> -->
+
+    <div style="min-height: calc(100vh - 376px)" class="component-container">
+        <div>
+            <div class="breadcrumbs">
+                <div>
+                    <span class="breadcrumb1" onclick={redirectToHome}>{labels.home} ></span>
+                    <span class="breadcrumb2">{labels.MyProfile}</span>
                 </div>
             </div>
-            <div class="profile-row">
-                <div class="profile-label">{labels.Timezone}</div>
-                <div class="profile-value1">
-                    <lightning-combobox name="timezone" value={user.TimeZoneSidKey} options={timezoneOptions}
-                        onchange={handleTimezoneChange}>
-                    </lightning-combobox>
-                </div>
+            <div class="header-container">
+                <h1 class="title">{labels.MyProfile}</h1>
             </div>
         </div>
-    </template>
+
+        <template if:true={user}>
+            <div class="profile-info">
+
+
+                <template if:true={isHEQProfile}>
+                    <div class="profile-icon" tabindex="0" aria-label="Profile">
+                        <div class="profile-icon-container">
+                            {userChar}
+                        </div>
+                        <span class="username">
+                        <template if:true={userVar}>
+                            {userVar.FirstName} {userVar.LastName} 
+                        </template>
+                    </span>
+                    </div>
+                    <div class="infoweb">
+                        <div>
+                            <div class="profile-row">
+                                <div class="profile-label">{labels.EmailId}</div>
+                                <div class="profile-value">{user.Email}</div>
+                            </div>
+
+                            <div class="profile-row">
+                                <div class="profile-label">{labels.Phone}</div>
+                                <div class="profile-value">{user.Phone}</div>
+                            </div>
+                        </div>
+                        <div class="profilecls">
+                            <div class="profile-row">
+                                <div class="profile-label">{labels.ID}</div>
+                                <div class="profile-value">{user.Username}</div>
+                            </div>
+
+
+                            <div class="profile-row">
+                                <div class="profile-label">{labels.Roles}</div>
+                                <div class="profile-value">{userRoleName}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ipad -->
+                    <div class="profile-icon-tab" tabindex="0" aria-label="Profile">
+                        <div class="profile-icon-container-tab">
+                            {userChar}
+                        </div>
+                        <span class="username">
+                        <template if:true={userVar}>
+                            {userVar.FirstName} {userVar.LastName} 
+                        </template>
+                    </span>
+                    </div>
+                    <div class="contact-information">
+                        <div class="grid-container">
+                            <div class="profile-ipad">
+                                <div class="profile-label">{labels.EmailId}</div>
+                                <div class="profile-value">{user.Email}</div>
+                            </div>
+
+                            <div class="profile-ipad">
+                                <div class="profile-label">{labels.ID}</div>
+                                <div class="profile-value">{user.Username}</div>
+                            </div>
+
+                            <div class="profile-ipad">
+                                <div class="profile-label">{labels.Phone}</div>
+                                <div class="profile-value">{userPhone}</div>
+                            </div>
+
+                            <div class="profile-ipad">
+                                <div class="profile-label">{labels.Roles}</div>
+                                <div class="profile-value">{userRoleName}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ipad ends -->
+                </template>
+                <template if:false={isHEQProfile}>
+                    <div class="profile-icon" tabindex="0" aria-label="Profile">
+                        <div class="profile-icon-container">
+                            {userChar}
+                        </div>
+                        <span class="username">
+                        <template if:true={userVar}>
+                            {userVar.FirstName} {userVar.LastName} 
+                        </template>
+                    </span>
+                    </div>
+                    <lightning-layout class="profile-customer">
+                        <div>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">{labels.EmailId}</div>
+                                <div class="profile-value">{profileData.email}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">{labels.Roles}</div>
+                                <div class="profile-value">{userRoleName}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">{labels.ID}</div>
+                                <div class="profile-value">{user.Username}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">{labels.Phone}</div>
+                                <div class="profile-value">{phone}</div>
+                            </lightning-layout-item>
+                        </div>
+                        <div>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">Designation</div>
+                                <div class="profile-value">{designation}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">Specialty</div>
+                                <div class="profile-value">{profileData.mainSpecialty}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">License type</div>
+                                <div class="profile-value">{licenseType}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">License number</div>
+                                <div class="profile-value">{licenseNumber}</div>
+                            </lightning-layout-item>
+                        </div>
+                        <div>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">Address</div>
+                                <div class="profile-value">{profileData.address.addressLine1} <br> {profileData.address.addressLine2} <br>{profileData.address.city},
+                                {profileData.address.state} {profileData.address.postalCode}</div>
+                            </lightning-layout-item>
+                        </div>
+                    </lightning-layout>
+
+                    <!-- ipad -->
+                    <div class="profile-icon-tab" tabindex="0" aria-label="Profile">
+                        <div class="profile-icon-container-tab">
+                            {userChar}
+                        </div>
+                        <span class="username">
+                        <template if:true={userVar}>
+                            {userVar.FirstName} {userVar.LastName} 
+                        </template>
+                    </span>
+                    </div>
+                    <lightning-layout class="profile-customer-ipad">
+                        <div>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">{labels.EmailId}</div>
+                                <div class="profile-value">{profileData.email}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">{labels.ID}</div>
+                                <div class="profile-value">{user.Username}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">Designation</div>
+                                <div class="profile-value">{designation}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">Specialty</div>
+                                <div class="profile-value">{profileData.mainSpecialty}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">Address</div>
+                                <div class="profile-value">{profileData.address.addressLine1} <br> {profileData.address.addressLine2} <br>{profileData.address.city},
+                                {profileData.address.state} {profileData.address.postalCode}</div>
+                            </lightning-layout-item>
+                        </div>
+                        <div>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">{labels.Roles}</div>
+                                <div class="profile-value">{userRoleName}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">{labels.Phone}</div>
+                                <div class="profile-value">{phone}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">License type</div>
+                                <div class="profile-value">{licenseType}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="profile-item">
+                                <div class="profile-label">License number</div>
+                                <div class="profile-value">{licenseNumber}</div>
+                            </lightning-layout-item>
+                        </div>
+                    </lightning-layout>
+                    <!-- ipad end -->
+                </template>
+            </div>
+        </template>
+    </div>
 </template>

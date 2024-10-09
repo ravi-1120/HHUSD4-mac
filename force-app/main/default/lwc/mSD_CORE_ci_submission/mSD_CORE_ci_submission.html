@@ -1,0 +1,39 @@
+<template>
+    <c-custom-toast auto-close-time="3000"></c-custom-toast>
+    <div class="background">
+        <div class="title">
+            Competitive Information Details
+        </div>
+        <br>
+  
+        <p class="slds-m-left_large">
+            <span class="label">{label.SERVICECLOUDCASENUMBER} &nbsp;</span>
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+            <template if:false={isLoading}>
+                <span class="value">
+                    {caseNumber}
+                </span>
+            </template>
+        </p>
+        
+        <br>
+        <p class="slds-m-left_large">
+            {label.SUBMISSIONDATETIME} {currentDateTime}
+        </p>
+        
+        <br><br>
+        <div id="outer">
+            <br><br><br>
+            <button class="button_slide slide_right" onclick={handleButtonClick}>
+                Submit a New Competitive Information Report
+            </button>
+            <br><br><br>
+        </div>
+
+        <!-- <template if:true={buttonClicked}>
+            <c-m-s-d_-c-o-r-e_ae_landing-page></c-m-s-d_-c-o-r-e_ae_landing-page>
+        </template> -->
+    </div>
+</template>

@@ -1,0 +1,44 @@
+<template>
+    <!-- q-container -->
+      <div class="">
+        <!-- <span class="information">* Required Field</span> -->
+          <lightning-layout multiple-rows="true">
+              <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+                small-device-size="8" medium-device-size="8" large-device-size="8">
+                <lightning-combobox
+                name="adverse"
+                label="Was a patient involved in a potential Adverse Event?"
+                value={inputValues.adverse}
+                placeholder="Select an option"
+                dropdown-alignment="auto" 
+                role="option"
+                options={options}
+                required = "true"
+                class="requiredField"
+                onchange={handleInput}
+            ></lightning-combobox>
+              </lightning-layout-item>
+            </lightning-layout>
+            <template if:true={fieldVisibility.isadverse}>
+                <p class="background">
+                    Please report this Adverse Event through our&nbsp;
+                    <a href={portalUrl} target="_blank">Adverse Event Reporting Self-Service Portal</a>&nbsp;
+                    or call the Merck National Service Center at&nbsp;
+                    <a href="tel:1-800-672-6372">1-800-672-637</a>&nbsp; 
+                     (hours of operation: Monday to Friday, 8am to 7pm EST).
+                </p>
+            </template>
+          <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+            <div class="button-container">    
+                <lightning-layout-item alignment-bump="left">
+                    <button class="slds-button slds-button_outline-brand btnCancelHover nextPrevBtn slds-m-right_small"
+                      onclick={handlePrevNext} name="Previous">{label.Previous}</button>
+                  </lightning-layout-item>  
+                  <lightning-layout-item alignment-bump="right">  
+                <button class="slds-button slds-button_brand btnHover nextPrevBtn" onclick={handlePrevNext} name="Next">{label.Next}</button>
+                </lightning-layout-item>
+            </div>
+            </lightning-layout>
+        <br>
+      </div>
+  </template>

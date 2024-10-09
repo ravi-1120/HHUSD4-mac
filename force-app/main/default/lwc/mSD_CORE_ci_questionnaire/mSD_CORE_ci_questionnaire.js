@@ -41,7 +41,8 @@ dispatchCaseDetails() {
             this.inputValues = {
                 ...this.inputValues,
                 ...this.caseDetails.stage1,
-                RepName: this.caseDetails.employeeDetails.MaskedFirstName || 'Not Available'
+                RepFName: this.caseDetails.employeeDetails.MaskedFirstName || 'Not Available',
+                RepLName: this.caseDetails.employeeDetails.MaskedLastName || 'Not Available'
             };
         }
     }

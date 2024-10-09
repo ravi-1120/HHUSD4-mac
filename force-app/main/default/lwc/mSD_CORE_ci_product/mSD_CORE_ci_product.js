@@ -45,28 +45,31 @@ export default class MSD_CORE_ci_product extends LightningElement {
         Previous
     };
     @api
-validateAndDispatch() {
-    const isValid = this.isValid();
-    this.dispatchEvent(new CustomEvent('stagevalidation', {
-        detail: { isValid, stage: this.currentStage }
-    }));
-    if (isValid) {
-        this.dispatchCaseDetails();
-    }
-    return isValid;
-}
-    
-@api
-dispatchCaseDetails() {
-    const stageDetailsEvent = new CustomEvent('stagedetails', {
-        detail: {
-            stageInputs: this.inputValues,
-            isValid: this.isValid()
+    validateAndDispatch() {
+        const isValid = this.isValid();
+        this.dispatchEvent(new CustomEvent('stagevalidation', {
+            detail: { isValid, stage: this.currentStage }
+        }));
+        if (isValid) {
+            this.dispatchCaseDetails();
         }
-    });
-    console.log('Child Component: Dispatching Case Details =', JSON.stringify(stageDetailsEvent.detail));
-    this.dispatchEvent(stageDetailsEvent);
-}
+        return isValid;
+    }
+
+    @api
+    dispatchCaseDetails() {
+        const stageDetailsEvent = new CustomEvent('stagedetails', {
+            detail: {
+                stageInputs: {
+                    ...this.inputValues,
+                    ProductId: this.currentProduct.values.ProductId
+                },
+                isValid: this.isValid()
+            }
+        });
+        console.log('Child Component: Dispatching Case Details =', JSON.stringify(stageDetailsEvent.detail));
+        this.dispatchEvent(stageDetailsEvent);
+    }
     connectedCallback() {
         this.prepopulateInputs();
     }
@@ -165,7 +168,10 @@ dispatchCaseDetails() {
 
     handleInput(event) {
         const field = event.target.name;
-        const value = event.target.value;
+        let value = event.target.value;
+        if (event.target.type === 'checkbox') {
+            value = event.target.checked;
+        }
         this.inputValues[field] = value;
         if (field === 'Product') {
             this.handleProductInput(event, value);
@@ -175,6 +181,7 @@ dispatchCaseDetails() {
         } else if (field === 'CompetitiveSource') {
             this.handleSource();
         }
+        
         this.inputValues.showOtherDetails = this.showOtherDetails;
         this.inputValues.showPolicyStatement = this.showPolicyStatement;
     }
@@ -200,7 +207,7 @@ dispatchCaseDetails() {
             Product: '',
             ProductId: ''
         };
-        
+
         this.ProductCatalog = ['KEYTRUDA', 'LYNPARZA', 'LENVIMA'].includes(value);
         value ? this.searchProducts(value.toLowerCase()) : this.clearSearchResults();
     }
@@ -320,10 +327,10 @@ dispatchCaseDetails() {
     handlePrevNext(event) {
         const choice = event.target.name;
         let isValid = true;
-        let invalidElement = null;  
+        let invalidElement = null;
         if (choice === 'Next') {
             // Collect all input elements that need validation
-            const inputElements = Array.from(this.template.querySelectorAll('lightning-input, lightning-combobox'));       
+            const inputElements = Array.from(this.template.querySelectorAll('lightning-input, lightning-combobox'));
             // Validate each input element
             inputElements.forEach(input => {
                 if (input.required && !input.checkValidity()) {

@@ -19,6 +19,8 @@ import { LightningElement, track, wire } from 'lwc';
 import getHCPData from '@salesforce/apex/AppointmentSchedulerController.getHCPData';
 import scheduleCallbackLabel from '@salesforce/label/c.AMO_Schedule_Callback_Label';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
+import getCountryRestrictions from '@salesforce/apex/UserLocationController.getCountryRestrictions';
+import fetchCountryFromApex from '@salesforce/apex/UserLocationController.fetchCountryFromApex';
 
 
 const SCHEDULER_CSS = ' ';
@@ -38,11 +40,9 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
         GAFiledsToTag,
         productEnquiryLabel,
         scheduleCallbackLabel
-        // medicalInquiryButtonLabel
     };
 
     schedulerCSS = SCHEDULER_CSS;
-    // @track isDisabled = false;
     @track disableBtn = false;
     ischecked = true;
     @track radioButtonDisabled = false;
@@ -86,16 +86,22 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
     @track meicalInfoTrack;
     @track currLocation = '';
     @track targetId;
+    @track location = null;
+    @track error = null;
+    @track isLoading = true;
+    @track showContent = false;
+    // @track showModal = false;
+    // notAllowedCountries = [];
+    // restrictedCountries = [];
+    allowedCountries = [];
+    originalUrl = window.location.href;
 
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
-        console.log('currentPageReference1-->' + JSON.stringify(currentPageReference));
         if (currentPageReference.state != undefined) {
-            console.log('currentPageReference-->' + JSON.stringify(currentPageReference.state));
             this.currLocation = currentPageReference.state.schedulerId;
         }
     }
-
 
     /*@wire(getHCPData, { href: this.currLocation, currDate: new Date() })
     getHCPData({ error, data }) {
@@ -108,22 +114,175 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
         }
     } */
 
+    getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    setCookie(name, value, hours) {
+        const d = new Date();
+        d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
+        const expires = `expires=${d.toUTCString()}`;
+        document.cookie = `${name}=${value};${expires};path=/`;
+    }
+
     connectedCallback() {
         getHCPData({ href: this.currLocation, currDate: new Date() }).then(result => {
             this.configureScheduler(result);
         }).catch(error => {
             console.log('err-->' + JSON.stringify(error));
         });
+        
+        getCountryRestrictions()
+            .then((result) => {
+                this.allowedCountries = result.AllowedCountries__c.split(',');
+                const storedCountry = this.getCookie('userCountry');
+                if (storedCountry) {
+                    this.processCountry(storedCountry);  // Use the country from the cookies
+                } else {
+                    this.fetchLocation(result.API_Key__c);  // If not found in cookies, fetch the country via API
+                }
+            })
+            .catch((error) => {
+                this.error = 'Error fetching country restrictions';
+                console.log('Error is ----------->', error);
+                this.isLoading = false;
+            });
     }
 
+    // fetchLocation() {
+    //     fetchLocationAPI()  // Call the Apex method to get latitude/longitude
+    //         .then((result) => {
+    //             this.processCountry(result);  // Process the country result
+    //         })
+    //         .catch((error) => {
+    //             this.error = 'Error fetching location data';
+    //             this.isLoading = false;
+    //         });
+    // }
+
+    fetchLocation(apiKey) {
+        const geolocationEndpoint = `https://www.googleapis.com/geolocation/v1/geolocate?key=${apiKey}`;
+
+        fetch(geolocationEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ considerIp: true })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const { lat, lng } = data.location;
+                this.fetchCountry(lat, lng);
+            })
+            .catch((error) => {
+                this.error = 'Error fetching location data';
+                this.isLoading = false;
+            });
+    }
+
+    fetchCountry(lat, lng) {
+        fetchCountryFromApex({ latitude: lat, longitude: lng })
+            .then((result) => {
+                this.processCountry(result);
+                this.setCookie('userCountry', result, 24);
+            })
+            .catch((error) => {
+                this.error = 'Error fetching country data';
+                this.isLoading = false;
+            });
+    }
+
+    handleError(message) {
+        this.error = message;
+        this.isLoading = false;
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: '/error'
+            }
+        });
+        setTimeout(() => {
+            this.removeerrorParam();
+        }, 1000);
+    }
+
+    removeerrorParam() {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        if (url.pathname.includes('/error')) {
+            url.pathname = url.pathname.replace('/error', '');
+            history.replaceState(null, null, url.href);
+        }
+    }
+
+    removeUriParam() {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        if (url.pathname.includes('/restriction')) {
+            url.pathname = url.pathname.replace('/restriction', '');
+            history.replaceState(null, null, url.href);
+        }
+    }
+
+    processCountry(country) {
+        if (!country || country.trim() === '') {
+            this.handleError('Invalid country');
+            return;
+        }
+
+        this.location = { country: country };
+
+        if (!this.allowedCountries.includes(country)) {
+            this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: '/restriction'
+                }
+            });
+            setTimeout(() => {
+                this.removeUriParam();
+            }, 1000);
+        } else {
+            this.isLoading = false;
+            this.showContent = true;
+        }
+    }
+
+    // setCookie(name, value, days) {
+    //     let expires = "";
+    //     if (days) {
+    //         const date = new Date();
+    //         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    //         expires = "; expires=" + date.toUTCString();
+    //     }
+    //     document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    // }
+
+    // getCookie(name) {
+    //     const nameEQ = name + "=";
+    //     const ca = document.cookie.split(';');
+    //     for (let i = 0; i < ca.length; i++) {
+    //         let c = ca[i];
+    //         while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    //         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    //     }
+    //     return null;
+    // }
+
+
+    // handleContinue() {
+    //     this.showModal = false;
+    //     this.showContent = true;
+    // }
 
     configureScheduler(hcpDSResultwire) {
         this.dt = new Date();
         let hcpDSResult = JSON.parse(JSON.stringify(hcpDSResultwire));
         var estTime = this.convertTZ(new Date(), "America/New_York");
-        console.log(estTime);
         var currESTTime = new Date(estTime);
-        console.log('getHCPDataStructurebyId-->' + JSON.stringify(hcpDSResult));
         this.schedulerCSS = (hcpDSResult.uiCss.bgColor != undefined) ? this.schedulerCSS + 'background-color:' + hcpDSResult.uiCss.bgColor : this.schedulerCSS;
         // this.appointmentTemplates = hcpDSResult.templates.sort((a, b) => parseInt(a.order) - parseInt(b.order));
 
@@ -164,8 +323,6 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
     }
     */
 
-
-
     showForm(event) {
         let targetId = parseInt(event.target.dataset.targetId);
         this.showUserForm = true;
@@ -173,7 +330,6 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
 
     handleSelectedTimeslot(event) {
         if (event.detail != undefined) {
-            console.log('handleSelectedTimeslot->' + JSON.stringify(event.detail));
             this.selectedDateTime = event.detail;
             this.scheduleDetails = Object.assign(this.scheduleDetails, event.detail);
             this.showUserForm = true;
@@ -195,7 +351,6 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
 
     handleUserFormDetails(event) {
         if (event.detail != undefined) {
-            console.log('user form details-->' + JSON.stringify(event.detail));
             this.scheduleDetails = Object.assign(this.scheduleDetails, event.detail);
             this.updateSchedularDetails();
         }
@@ -208,7 +363,6 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
     }
 
     handleCommunicationChange(event) {
-
         if (event.target !== undefined) {
             this.scheduleDetails.communicationMode = event.target.dataset.value;
             this.handleDataLayerEvent(communicationModeLabel, event.target.dataset.value);
@@ -230,45 +384,41 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                 console.log('Radio button is disabled.');
             }
         }
-
-        
     }
 
     updateSchedularDetails() {
         this.showSpinner = true;
         if (this.scheduleDetails.isCallMeNow === false) {
             var estDateTime = this.scheduleDetails.dateValue + 'T' + this.scheduleDetails.timeSlotValue + 'Z';
-            console.log(estDateTime);
             var utcDt = new Date(estDateTime);//GMT Date (9AM)
             //var localDate = new Date(new Date(utcDt).setHours(utcDt.getHours() + 4));//to consider est dates from UI 1PM
             var localDate = new Date(new Date(utcDt).setHours(utcDt.getHours() + parseInt(this.label.setHours)));//to consider est dates from UI 1PM
-            console.log('-------' + localDate.getHours() + '-------' + localDate.getMinutes());
+           
             this.scheduleDetails.localDateValue = localDate.toString();
             this.scheduleDetails.localHour = localDate.getHours();
             this.scheduleDetails.localMinute = localDate.getMinutes();
         }
         else {
             var estTime = this.convertTZ(new Date(), "America/New_York");
-            console.log(estTime);
+        
             var currESTDate = estTime.getFullYear() + '-' + String(estTime.getMonth() + 1).padStart(2, '0') + '-' + String(estTime.getDate()).padStart(2, '0');
             this.scheduleDetails.currESTDate = currESTDate;
             var currESTTime = String(estTime.getHours()).padStart(2, '0') + ':' + String(estTime.getMinutes()).padStart(2, '0') + ':' + '00';
             this.scheduleDetails.currESTTime = currESTTime;
         }
-        console.log('schedularDetails-->' + JSON.stringify(this.scheduleDetails));
+        
         saveAppointmentScheduleDetails({ scheduleDetails: this.scheduleDetails }).then(result => {
-            console.log('saveAppointmentScheduleDetails-->' + JSON.stringify(result));
-            this.scheduledEvent = result;
-            this.agentAvailability = (result.agentAvilability != undefined) ? result.agentAvilability : '';
-            this.calloutResponse = (result.calloutResponse != undefined) ? result.calloutResponse : '';
-            this.showSpinner = false;
-            this.showCommunicationModes = false;
-            this.showSchedular = false;
-            this.showMessage = true;
-            var evtAction = this.gaFileds;
-            evtAction = JSON.stringify(evtAction);
-            this.handleDataLayerEvent('submit button sucessfull', evtAction);
-        })
+                this.scheduledEvent = result;
+                this.agentAvailability = (result.agentAvilability != undefined) ? result.agentAvilability : '';
+                this.calloutResponse = (result.calloutResponse != undefined) ? result.calloutResponse : '';
+                this.showSpinner = false;
+                this.showCommunicationModes = false;
+                this.showSchedular = false;
+                this.showMessage = true;
+                var evtAction = this.gaFileds;
+                evtAction = JSON.stringify(evtAction);
+                this.handleDataLayerEvent('submit button sucessfull', evtAction);
+            })
             .catch(error => {
                 console.log('er->' + JSON.stringify(error));
                 this.showSpinner = false;
@@ -292,7 +442,7 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                     this.scheduleDetails.templateId = ele.value;
                     this.scheduleDetails.templateLabel = ele.label;
                     this.showTumor = (ele.conveyTumor && this.scheduleDetails.productEnquiry != 'WELIREG™ (belzutifan)' && this.scheduleDetails.productEnquiry != 'VERQUVO® (vericiguat)') ? true : false;
-                    console.log('showTumor-->' + this.showTumor + ' ele.conveyTumr-->' + ele.conveyTumor);
+                    
                     if (!this.showTumor) { this.scheduleDetails.tumorIndication = ''; }
                     if (ele.isSchedulable === true) {
                         this.showCommunicationModes = true;
@@ -309,8 +459,7 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                     }
                 }
             });
-            console.log('templatelabel->' + this.scheduleDetails.templateLabel + '-->' + this.scheduleDetails.professionalDesignation +
-                ' product enquiry->' + this.scheduleDetails.productEnquiry);
+            
             if (this.schdulerDataStructure.assignmentGroups != undefined && this.isSchedulable == true) {
                 this.schdulerDataStructure.assignmentGroups.forEach(schedulerDS => {
                     schedulerDS.routingGroup.forEach(element => {
@@ -322,7 +471,7 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                         }
                     });
                 });
-                console.log('scheduling group-->' + this.scheduleDetails.schedulingGroup);
+            
                 if (this.schdulerDataStructure.holidaysByGroup != undefined && this.isSchedulable == true) {
                     this.schdulerDataStructure.holidaysByGroup.forEach(hDayList => {
                         if (hDayList.groupId == this.scheduleDetails.schedulingGroupId) {
@@ -330,6 +479,7 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                         }
                     });
                 }
+            
                 if (this.schdulerDataStructure.businessHours != undefined && this.isSchedulable == true) {
                     this.schdulerDataStructure.businessHours.forEach(bHoursList => {
                         if (bHoursList.groupId == this.scheduleDetails.schedulingGroupId) {
@@ -348,14 +498,11 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                     let appointmentDetails = { 'schedulingGroup': this.scheduleDetails.schedulingGroup, 'communicationMode': 'Call Me Now' };
                     //var isAgentAvialable;
                     var estTime = this.convertTZ(new Date(), "America/New_York");
-                    console.log(estTime);
                     var currESTTime = new Date(estTime);
-                    
+
                     //for disabling call me now during holidays
                     this.isTodayHoliday = this.holidaysList?.includes(currESTTime.toLocaleDateString('en-CA')) || false;
-                    console.log('If today is holiday? Disable CallmeNow: '+this.isTodayHoliday);
-                    console.log('Holiday List: '+this.holidaysList);
-
+             
                     let dayOfWeek = currESTTime.toLocaleDateString('en-US', { weekday: 'long' });
                     var weekEnd = (dayOfWeek == 'Sunday' || dayOfWeek == 'Saturday') ? true : false;
                     var startTime;
@@ -370,16 +517,10 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                         endTime = parseInt(endTime) + 12;
                     }
                     if (currESTTime.getHours() >= startTime && currESTTime.getHours() < endTime && weekEnd != true && !this.isTodayHoliday) {
-                        console.log('log-------->');
-                        console.log(`Condition will pass: ${(currESTTime.getHours() >= startTime && currESTTime.getHours() < endTime && weekEnd != true && !this.isTodayHoliday)}`);
                         getAgentAvilability({ scheduleDetails: appointmentDetails })
                             .then(agentAvailability => {
-                                console.log('agent---->');
-                                console.log('agentAvailability res->' + JSON.stringify(agentAvailability));
                                 if (agentAvailability != undefined) {
-                                    console.log('agentAvailability res->' + JSON.stringify(agentAvailability));
                                     agentAvailability.skillActivity.forEach(ele => {
-                                        console.log('ele-------->'+JSON.stringify(ele));
                                         if (ele.agentsLoggedIn > 0) {
                                             this.scheduleDetails.isAgentAvialable = true;
                                         }
@@ -387,7 +528,7 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                                             this.scheduleDetails.isAgentAvialable = false;
                                         }
                                     });
-                                    console.log('isAgentAvialable-->' + this.scheduleDetails.isAgentAvialable);
+               
                                     this.configureImmediateCallback(this.scheduleDetails.isAgentAvialable);
                                     this.showSpinner = false;
                                     this.dtList = tempDateList;
@@ -444,7 +585,6 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
 
     configureImmediateCallback(isAgentAvialable) {
         var estTime = this.convertTZ(new Date(), "America/New_York");
-        console.log(estTime);
         var currESTTime = new Date(estTime);
         let dayOfWeek = currESTTime.toLocaleDateString('en-US', { weekday: 'long' });
         var weekEnd = (dayOfWeek == 'Sunday' || dayOfWeek == 'Saturday') ? true : false;
@@ -477,7 +617,6 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
 
     handleDropDownChange(event) {
         if (event.detail !== undefined) {
-            console.log('dropdown-->' + JSON.stringify(event.detail));
             if (event.detail.title === 'professionalDesignation') {
                 this.handleDataLayerEvent(professionalDesignationLabel, event.detail.label);
                 this.handleDesignationChange(event.detail.value);
@@ -531,7 +670,6 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
         if (productValue != undefined) {
             this.products.forEach(ele => {
                 if (ele.label == productValue.label) {
-                    console.log('product-->' + JSON.stringify(ele));
                     this.selectedProduct = ele;
                     this.scheduleDetails.productEnquiry = ele.label;
                     this.scheduleDetails.productEnquiryValue = ele.value;
@@ -552,8 +690,7 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
                     return tempSelectedProduct.inquiryTypes.indexOf(item.label) !== -1;
                 });
                 this.appointmentTemplates = filteredTemplates;
-                console.log('-->' + this.appointmentTemplates.indexOf(this.scheduleDetails.templateId));
-                this.scheduleDetails.templateId=null
+                this.scheduleDetails.templateId = null
                 if (this.scheduleDetails.templateId && this.appointmentTemplates.indexOf(this.scheduleDetails.templateId) !== -1) {
                     if (this.scheduleDetails.templateId != undefined) {
                         this.handleScheduleCallBackandGroup(this.scheduleDetails.templateId);
@@ -578,22 +715,17 @@ export default class HcpScheduler extends NavigationMixin(LightningElement) {
         this.scheduleDetails.communicationMode = '';
     }
 
-    handleChange(event){
+    handleChange(event) {
         const radioButton = event.target;
-            console.log('radioButton--->'+radioButton);
-            // if (!radioButton.disabled) {
+        // if (!radioButton.disabled) {
+        // radioButton.style.display = 'none';
+        // }
+        if (!radioButton.disabled && radioButton.style.display !== 'none') {
+            radioButton.disabled = true;
+            // radioButton.style.cursor= 'not-allowed';
             // radioButton.style.display = 'none';
-            // }
-            if (!radioButton.disabled && radioButton.style.display !== 'none') {
-                radioButton.disabled = true;
-                // radioButton.style.cursor= 'not-allowed';
-                // radioButton.style.display = 'none';
-                // radioButton.classList.add('blocked-radio');
-                event.preventDefault();
-
-            }
+            // radioButton.classList.add('blocked-radio');
+            event.preventDefault();
+        }
     }
-
-   
-    
 }

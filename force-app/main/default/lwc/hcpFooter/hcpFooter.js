@@ -1,9 +1,16 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import AMOHCPSchdulerController from '@salesforce/apex/AMOHCPSchdulerController.getHCPAttestaion';
 import footers from '@salesforce/resourceUrl/HCPFooterImages';
+import privacychoice from '@salesforce/resourceUrl/AMO_privacychoices';
 import medicalInformation from '@salesforce/label/c.Medical_Information';
 import AMOFooter from '@salesforce/label/c.AMO_Footer';
 import AMOFooterMessage from '@salesforce/label/c.AMO_Footer_Message';
+import AMOAccessibility from '@salesforce/label/c.MSD_CORE_AMO';
+import AccessibilityLabel from '@salesforce/label/c.MSD_CORE_AMO_Accessibility';
+import AMOPrivacychoices from '@salesforce/label/c.MSD_CORE_AMO_privacychoices';
+import Privacychoiceslabel from '@salesforce/label/c.MSD_CORE_AMO_privacychoiceslabel';
+import AMOConsumer from '@salesforce/label/c.MSD_CORE_AMO_Consumer';
+import Consumerlabel from '@salesforce/label/c.MSD_CORE_AMO_Consumerlabel';
 import AMOFooterJobCode from '@salesforce/label/c.AMO_Footer_Job_Code';
 import AMOContinue from '@salesforce/label/c.AMO_Continue';
 import PrivacyPolicyLink from '@salesforce/label/c.Privacy_Policy_Link';
@@ -26,6 +33,9 @@ export default class HcpFooter extends LightningElement {
     label = {
         medicalInformation,
         AMOFooter,
+        AccessibilityLabel,
+        Privacychoiceslabel,
+        Consumerlabel,
         AMOFooterMessage,
         AMOFooterJobCode,
         AMOContinue,
@@ -39,9 +49,12 @@ export default class HcpFooter extends LightningElement {
         TermToUse,
         MedicalInformationLabel,
         CookiePreferences,
-        AMOMedicalInformationContinue
+        AMOMedicalInformationContinue,
+        AMOAccessibility,
+        AMOPrivacychoices,
+        AMOConsumer
     };
-
+    privacychoice = privacychoice;
     @track isShowModal = false;
     @api modalcls = "slds-modal slds-fade-in-open slds-modal_large";
     @track medicalPortal;
@@ -89,6 +102,18 @@ export default class HcpFooter extends LightningElement {
 
     handleAccessibility() {
         window.open(this.label.AccessibilityLink);
+    }
+    
+    handleAMOPrivacychoices(){
+        window.open(this.label.AMOPrivacychoices);
+    }
+
+    handleAMOConsumer(){
+        window.open(this.label.AMOConsumer);
+    }
+
+    handleAMOAccessibility() {
+        window.open(this.label.AMOAccessibility);
     }
 
     redirectAPECPrivacy() {

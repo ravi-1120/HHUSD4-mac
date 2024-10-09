@@ -93,7 +93,7 @@ public with sharing class MyInsightsService {
     private static List<String> getUserTerritoryNames() {
         TerritoryManagement2 territoryManagement = new TerritoryManagement2();
         Set<Id> userTerritoryIds = territoryManagement.getUserTerritories(UserInfo.getUserId());
-        List<Territory2> userTerritories = [SELECT Name,Territory2ModelId FROM Territory2 WHERE Id in :userTerritoryIds And Territory2Model.State='Active'];
+        List<Territory2> userTerritories = [SELECT Name FROM Territory2 WHERE Id in :userTerritoryIds And Territory2Model.State='Active'];
         return getTerritoryNames(userTerritories);
     }
 
@@ -107,7 +107,7 @@ public with sharing class MyInsightsService {
     public static List<Map<String,String>> getUserTerritories() {
         TerritoryManagement2 territoryManagement = new TerritoryManagement2();
         Set<Id> userTerritoryIds = territoryManagement.getUserTerritories(UserInfo.getUserId());
-        List<Territory2> userTerritories = [SELECT Name, Id, DeveloperName, ParentTerritory2Id, Description,Territory2ModelId FROM Territory2 WHERE Id in :userTerritoryIds And Territory2Model.State='Active'];
+        List<Territory2> userTerritories = [SELECT Name, Id, DeveloperName, ParentTerritory2Id, Description FROM Territory2 WHERE Id in :userTerritoryIds];
         return territoryManagement.extractSObject(userTerritories).values();
     }
 

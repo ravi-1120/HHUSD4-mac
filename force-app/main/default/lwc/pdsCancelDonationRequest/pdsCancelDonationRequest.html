@@ -1,0 +1,11 @@
+<template>
+  	 <lightning-quick-action-panel header="Cancel Donation Request">
+        <div class="cancellation-text">
+          {labels.cancelDonationRequest}
+        </div>
+        <div slot="footer">
+            <lightning-button variant="neutral" label={labels.cancelBtn} onclick={closeAction}></lightning-button>
+      <lightning-button variant="brand" label={labels.submitBtn} onclick={handleSubmit} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>

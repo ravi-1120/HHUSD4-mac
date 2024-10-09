@@ -54,6 +54,20 @@
                               <li class="slds-item footerLinkCls" data-value=Privacy><a
                                     href="javascript:Optanon.ToggleInfoDisplay()"
                                     style="text-decoration:none">{label.CookiePreferences}</a></li>
+                              <li class="slds-item footerLinkCls" onclick={handleAMOAccessibility}>
+                                 {label.AccessibilityLabel}</li>
+                           </ul>
+                        </li>
+                     </ul>
+                     <ul>
+                        <li>
+                           <ul class="slds-list_horizontal footerfont slds-has-dividers_right">
+                              <li class="slds-item footerLinkCls" onclick={handleAMOPrivacychoices}>{label.Privacychoiceslabel} &nbsp;
+                                 <img src={privacychoice}
+                              onclick={handleAMOPrivacychoices}>
+                              </li>
+                              <li class="slds-item footerLinkCls" onclick={handleAMOConsumer}>
+                                 {label.Consumerlabel}</li>
                            </ul>
                         </li>
                      </ul>

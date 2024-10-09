@@ -56,7 +56,7 @@
 									<lightning-layout-item size="4" class="layout-cls">
 										<h3 class="h-three">{label.ngo}</h3>
 										<template if:true={myreq.PDS_Donee__r}>
-											<p class="p-name">{myreq.PDS_Donee__r.Name}</p>
+											<p class="p-name">{myreq.PDS_Donee__r.Formatted_Name_vod__c}</p>
 										</template>
 										<template if:false={myreq.PDS_Donee__r}>
 											<p class="p-name"></p>
@@ -85,6 +85,9 @@
 									<lightning-layout-item size="9" class="layout-cls">
 										<h4 class="h-four">{label.mmop} - {myreq.PDS_Donation_Type__c}</h4>
 										<p class="num-cls">{myreq.Name}</p>
+										<template if:true={myreq.PDS_Open_For_ReAllocation__c}>
+										<p class="open-cls">{label.reallocation}</p>
+										</template>
 									</lightning-layout-item>
 									<lightning-layout-item size="3" class="layout-cls">
 										<h6 class="h-six">{label.donationDate}</h6>

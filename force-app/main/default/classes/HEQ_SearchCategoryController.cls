@@ -77,19 +77,40 @@
     }
 
          @AuraEnabled
-    public static HEQ_Saved_Search__c saveSearch(String searchName, String selectedFilters) {
-        Id currentUserId = UserInfo.getUserId();
-        HEQ_Saved_Search__c newSearch = new HEQ_Saved_Search__c();
-        newSearch.Save_Search_Name__c = searchName;
-        newSearch.HEQ_Selected_Filters__c = selectedFilters;
-        newSearch.HEQ_User__c = currentUserId;
-        try {
-            insert newSearch;
-            return newSearch;
-        } catch (Exception e) {
-            throw new AuraHandledException('Unable to save search: ' + e.getMessage());
+public static String saveSearch(String searchName, String selectedFilters) {
+    String message;
+    Id currentUserId = UserInfo.getUserId();
+    
+    try {
+        // Check for existing search with the same name for the current user
+        List<MSD_CORE_HEQ_Saved_Search__c> existingSearches = [
+            SELECT Id 
+            FROM MSD_CORE_HEQ_Saved_Search__c 
+            WHERE MSD_CORE_Search_Name__c = :searchName 
+            AND MSD_CORE_HeqUser__c = :currentUserId
+        ];
+        
+        if (!existingSearches.isEmpty()) {
+            message = System.Label.MSD_CORE_Name_already_used;
+            return message;
         }
+        
+        // Create and insert new search record
+        MSD_CORE_HEQ_Saved_Search__c newSearch = new MSD_CORE_HEQ_Saved_Search__c(
+            MSD_CORE_Search_Name__c = searchName,
+            MSD_CORE_Selected_Filters__c = selectedFilters,
+            MSD_CORE_HeqUser__c = currentUserId
+        );
+        insert newSearch;
+        message = 'Search saved successfully.';
+    } catch (DmlException e) {
+        message = 'DML Error: ' + e.getMessage();
+    } catch (Exception e) {
+        message = 'Unexpected error: ' + e.getMessage();
     }
+    
+    return message;
+}
 
         @AuraEnabled
     public static List<HEQ_Saved_Search__c> getSavedSearches() {
@@ -114,13 +135,44 @@
     }
 
     @AuraEnabled
-    public static void renameSavedSearch(Id searchId, String newName) {
-        try {
-            HEQ_Saved_Search__c searchToRename = [SELECT Id, Save_Search_Name__c FROM HEQ_Saved_Search__c WHERE Id = :searchId LIMIT 1];
-            searchToRename.Save_Search_Name__c = newName;
-            update searchToRename;
-        } catch (Exception e) {
-            throw new AuraHandledException('Unable to rename saved search: ' + e.getMessage());
+public static String renameSavedSearch(Id searchId, String newName) {
+    String message;
+    Id currentUserId = UserInfo.getUserId();
+    
+    try {
+        // Check for existing search with the same name for the current user, excluding the current searchId
+        List<MSD_CORE_HEQ_Saved_Search__c> existingSearches = [
+            SELECT Id 
+            FROM MSD_CORE_HEQ_Saved_Search__c 
+            WHERE MSD_CORE_Search_Name__c = :newName 
+            AND MSD_CORE_HeqUser__c = :currentUserId 
+            AND Id != :searchId
+        ];
+        
+        if (!existingSearches.isEmpty()) {
+            message = System.Label.MSD_CORE_Name_already_used;
+            return message;
         }
+        
+        // Find the search record to rename
+        MSD_CORE_HEQ_Saved_Search__c searchToRename = [
+            SELECT Id, MSD_CORE_Search_Name__c 
+            FROM MSD_CORE_HEQ_Saved_Search__c 
+            WHERE Id = :searchId 
+            LIMIT 1
+        ];
+        
+        // Update the name
+        searchToRename.MSD_CORE_Search_Name__c = newName;
+        update searchToRename;
+        
+        message = 'Search renamed successfully.';
+    } catch (DmlException e) {
+        message = 'DML Error: ' + e.getMessage();
+    } catch (Exception e) {
+        message = 'Unexpected error: ' + e.getMessage();
     }
+    
+    return message;
+}
 }

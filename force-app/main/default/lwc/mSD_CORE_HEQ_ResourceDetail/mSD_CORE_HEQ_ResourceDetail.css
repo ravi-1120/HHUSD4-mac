@@ -74,3 +74,225 @@
 .thumbnail-container.scroll-enabled::-webkit-scrollbar-track {
     background-color: transparent;
 }
+
+/* New Component */
+.preview-container{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 18px 24px 24px 24px;
+    font-family: 'Invention';
+    background: #F4F4F4;
+}
+
+.breadcrumbs {
+	display: flex;
+    gap: 6px;
+}
+
+.breadcrumb1 {
+	color: #ADADAD;
+	font-family: 'Invention';
+    white-space: nowrap !important;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	cursor: pointer;
+}
+
+.breadcrumb2 {
+	color: #070101;
+	font-family: 'Invention';
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+}
+
+.dr-form_btnGroup{
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+	justify-content: flex-start;
+	align-items: left;
+}
+
+.preview-actions{
+    display: flex;
+    padding: 13px 14px 13px 21px;
+    background: #FFFFFF;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview-heading{
+    color: #0B0000;
+    font-family: 'Invention';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.preview-content{
+    min-height: 991px;
+    padding: 27px 0px 30px 27px;
+    display: flex;
+    gap: 40px;
+    background: #FFFFFF;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    font-family: 'Invention';
+}
+
+.Preview-frame{
+    width: 70%;
+    height: 934px;
+}
+
+.preview-detail{
+    display: flex;
+    flex-direction: column;
+    color: #000;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2;
+    padding-right: 24px;
+}
+
+.preview-detail-wrapper{
+    width: 30%;
+}
+
+.preview-detail-heading{
+    font-weight: 600;
+    padding-bottom: 21px;
+}
+
+.field {
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    text-align: left;
+}
+
+.field-name {
+    color:#000;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    width: 100%;
+    min-width: 200px;
+}
+
+.field-value {
+    flex-grow: 1;
+    width: 100%;
+    color:#000;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.mb-layout-bottom{
+    display: none;
+}
+
+/* New Component End */
+
+/* Smartphones (portrait) */
+@media only screen and (max-width: 480px) {
+    .preview-container{
+        flex-direction: column;
+        padding: 8px 10px 43px 10px;
+        gap: 8px;
+    }
+    .preview-content{
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 22px 16px 43px 16px;
+        max-height: 100%;
+        gap: 16px;
+    }
+    .mb-layout-bottom{
+        display: block;
+        width: 155px;
+    }
+    .mb-layout{
+        display: none;
+    }
+    .Preview-frame{
+        width: 100%;
+        max-height: 420px;
+    }
+    .preview-detail-wrapper{
+        width: 100%;
+        padding-top: 27px;
+    }
+    .preview-actions{
+        padding: 13px 16px 13px 16px;
+    }
+}
+
+/* Smartphones (landscape) */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    .preview-container{
+        flex-direction: column;
+        padding: 8px 10px 43px 10px;
+        gap: 8px;
+    }
+    .preview-content{
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 22px 16px 43px 16px;
+        max-height: 100%;
+        gap: 16px;
+    }
+    .mb-layout-bottom{
+        display: block;
+        width: 155px;
+    }
+    .mb-layout{
+        display: none;
+    }
+    .Preview-frame{
+        width: 100%;
+        max-height: 420px;
+    }
+    .preview-detail-wrapper{
+        width: 100%;
+        padding-top: 27px;
+    }
+    .preview-actions{
+        padding: 13px 16px 13px 16px;
+    }
+}
+
+/* Tablets (portrait) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .preview-content{
+        flex-direction: column;
+        padding: 29px 24px 34px 24px;
+        max-height: 100%;
+        gap: 36px;
+    }
+    .Preview-frame{
+        width: 100%;
+    }
+    .preview-detail-wrapper{
+        width: 100%;
+    }
+}
+
+/* Tablets (landscape) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+}

@@ -9,8 +9,8 @@
                         <lightning-layout class="slds-grid slds-wrap slds-scrollable_none slds-p-left_x-large slds-p-right_x-large">
                             <lightning-layout-item class="ptagcls">
                                 <div class="scrollable"> 
-                                <p class="formatted-text">{label.policytitle}</p>
-                                <p class="formatted-text"><strong>{label.subtitle}</strong></p>
+                                <p class="policytitle">{label.policytitle}</p>
+                                <p class="policysubtitile"><strong>{label.subtitle}</strong></p>
                                 <ul class="statement-list">
                                     <li class="formatted-text">
                                         {label.statement1}
@@ -29,12 +29,14 @@
                                     </li>
                                 </ul>
                                 </div>
-                                <lightning-input type="checkbox" label="I have read and understand the statements above." onchange={handleCheckboxChange}></lightning-input>
-                               
+                                <input type="checkbox" id="acknowledgment" name="acknowledgment" onchange={handleCheckboxChange}>
+                                <label for="acknowledgment" class="acknowledgment">I have read and understand the statements above.</label>
+                                <template if:true={showError}>
+                                    <p class="error-message">{label.acknowledgment}</p>
+                                </template>
                             </lightning-layout-item>
-                            <template if:true={showError}>
-                                <p class="error-message">{label.acknowledgment}</p>
-                            </template>
+                            <br>
+                            <br>
                             <lightning-layout-item class="slds-align_absolute-center slds-m-top_large">
                                 <button data-value="Continue" onclick={handleContinue}
                                     class="slds-button slds-button_brand btnHover"

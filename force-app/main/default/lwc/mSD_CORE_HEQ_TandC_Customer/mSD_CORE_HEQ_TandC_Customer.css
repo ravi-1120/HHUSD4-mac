@@ -1,0 +1,270 @@
+.custom-container {
+	color: black;
+}
+
+.maincontainer {
+	height: 126px;
+	background: #F4F4F4;
+	padding: 24px;
+}
+
+.breadcrumbs {
+	padding-bottom: 18px;
+}
+
+.breadcrumb1 {
+	color: #ADADAD;
+	font-family: 'Invention';
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	cursor: pointer;
+}
+
+.breadcrumb2 {
+	color: #070101;
+	font-family: 'Invention';
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+	margin-left: 6px;
+}
+
+.header-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #FFFFFF;
+	height: 66px;
+	padding: 21px;
+	margin-bottom: 18px;
+}
+
+.title {
+	margin: auto 0;
+	font-size: 18px;
+	font-family: 'Invention';
+	line-height: 24px;
+}
+
+.content {
+	background: #F4F4F4;
+	padding: 24px;
+
+}
+
+.contentheader {
+	color: var(--Colors-Neutral-colorTextBase, #000);
+	font-family: 'Invention';
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	padding-bottom: 20px;
+}
+
+.contentbody {
+	color: var(--Colors-Neutral-colorTextBase, #000);
+	font-family: 'Invention';
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	background: #FFFFFF;
+	height: 557px;
+	padding: 21px;
+	    margin-bottom: 69px;
+	overflow-y: scroll;
+}
+
+.contentcls{
+    padding: 0px 29.818px 0px 29.816px;
+    background: #F4F4F4;
+}
+
+/* PopupCss */
+body {
+  background-color: #fdfdfd;
+  font-family: "Arial", sans-serif;
+  font-size: 14px;
+  color: #77808c;
+}
+
+.triggers {
+  display: flex;
+  align-items: center;
+  margin-top: 60px;
+  flex-direction: column;
+}
+
+.triggers label {
+  cursor: pointer;
+  height: 43px;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #3a4047;
+  border: 2px solid #3a4047;
+  border-radius: 21.5px;
+  box-sizing: border-box;
+  margin-top: 15px;
+}
+
+/** START POPUP CSS **/
+
+
+
+.vcms__popup {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0s, opacity 0.25s ease-in-out;
+  transition-delay: 0.65s, 0.2s;
+}
+
+.vcms__popup {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s, 0s;
+}
+
+.vcms__popup .inner {
+  width: 940px;
+  max-width: 95%;
+  border-radius: 0px;
+  box-shadow: 0 9px 23px 0 rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  box-sizing: border-box;
+  margin-bottom: 100px;
+  transition: margin-bottom 0.4s cubic-bezier(0.42, 0.72, 0.37, 1.31),
+    opacity 0.25s ease-in-out;
+  transition-delay: 0s, 0s;
+}
+
+.vcms__popup .inner {
+  transition-delay: 0.15s, 0.15s;
+  margin-bottom: 0;
+  opacity: 1;
+}
+
+.vcms__popup .inner .header {
+  padding: 32px 32px 16px 29px;
+    height: 84px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    color: var(--Merck-Primary-Dark, #005C56);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Invention';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px;
+    background: #F4F4F4;
+}
+
+.vcms__popup .inner .txt {
+  line-height: 27px;
+  padding: 32px 31.82px 0px 32.82px;
+  max-height: calc(100vh - 260px);
+  overflow: auto;
+  background: #FFF;
+}
+
+.vcms__popup .inner .footer {
+  padding: 16px 60px 16px 72px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px 5px 0px 0px;
+    height: 72px;
+    background: #FFF;
+    box-shadow: 0px -2px 4px 0px rgba(85, 85, 85, 0.15);
+    align-items: center;
+}
+
+.footercheck{
+  display: flex;
+    gap: 8px;
+}
+
+.vcms__popup .inner .footer .btn {
+  height: 43px;
+  width: 156px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3a4047;
+  text-decoration: none;
+  font-size: 13px;
+  border: 2px solid #3a4047;
+  border-radius: 21.5px;
+  box-sizing: border-box;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out;
+}
+
+.vcms__popup .inner .footer .close {
+  height: 43px;
+  width: 126px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bcbcbc;
+  text-decoration: none;
+  font-size: 13px;
+  border: 2px solid #dadada;
+  border-radius: 21.5px;
+  margin-left: 7px;
+  box-sizing: border-box;
+  font-weight: 600;
+  cursor: pointer;
+  flex-grow: 0;
+  flex-shrink: 0;
+  transition: all 0.15s ease-in-out;
+}
+
+.vcms__popup .inner .footer .btn:hover,
+.vcms__popup .inner .footer .close:hover {
+  background-color: #3a4047;
+  color: #fff;
+  border: 2px solid #3a4047;
+}
+
+.close-icon {
+    float: right;
+    cursor: pointer;
+}
+
+.brand{
+  display: inline-flex;
+    height: var(--Size-Height-controlHeightLG, 40px);
+    padding: 11px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    border-radius: var(--Corner-Radius, 4px);
+    background: var(--Primary-Primary, #00857C);
+    border: 0px;
+    color: var(--Neutral-White, #FFF);
+    text-align: center;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Invention';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+}

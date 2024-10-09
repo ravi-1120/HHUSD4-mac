@@ -19,6 +19,7 @@ export default class MSD_CORE_ae_submission extends LightningElement {
     @api caseDetails;
     @track email = '';
     privateCaseNumber;
+    @track showCheckbox = true;
 
     @api
     get caseNumber() {
@@ -101,6 +102,7 @@ export default class MSD_CORE_ae_submission extends LightningElement {
                 caseNumber: this.caseNumber, 
                 submissionDateTime: this.currentDateTime 
             });
+            this.showCheckbox = false;
             this.showNotification('success', 'Email sent successfully');
         } catch (error) {
             console.error('Error sending email:', error);

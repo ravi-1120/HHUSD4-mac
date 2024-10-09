@@ -59,7 +59,7 @@ public with sharing class PDS_AddProductsController {
 
         if(productField == 'Product'){
             fieldMap = Schema.SObjectType.PDS_Product__c.fields.getMap();
-            reqFields = new Set<String>{'Name', 'PDS_Product_Number__c', 'PDS_Description__c', 'PDS_Actual_Product_Cost__c', 'PDS_Product_Type__c', 'PDS_Product_Size__c', 'PDS_Actual_Unit_Sale_Price__c'};
+            reqFields = new Set<String>{'Name','PDS_Product_Size__c','PDS_Product_Type__c','PDS_Product_Number__c', 'PDS_Description__c','PDS_SAP_Code__c','PDS_NDC_Number__c','PDS_Actual_Product_Cost__c','PDS_Actual_Unit_Sale_Price__c'};
         } else if (productField == 'RelatedProduct'){
             fieldMap = Schema.SObjectType.PDS_Related_Product__c.fields.getMap();
             reqFields = new Set<String>{'PDS_Available_Quantity__c', 'PDS_Batch_Number__c', 'PDS_Expiration_Date__c'};

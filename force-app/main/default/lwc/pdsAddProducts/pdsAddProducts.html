@@ -70,9 +70,14 @@
 				<div class="modal-body">
 				    <!-- <lightning-button label="Add New Row" onclick={handleAddRow}></lightning-button> -->
 					<lightning-datatable key-field="Id" data-id="editTable" hide-checkbox-column="true" errors={errors}
-						oncellchange={handleCellChange} onsave={handleSave} draft-values={draftValues}
-						onrowaction={handleRowAction} data={selectedProducts} columns={editColumns}>
+						draft-values={draftValues}
+						onrowaction={handleRowAction} data={selectedProducts} columns={editColumns} suppress-bottom-bar=true>
 					</lightning-datatable>
+				</div>
+				<div class="modal-footer">
+						<lightning-button style="padding-right:5px" label={label.cancel} variant="neutral" onclick={handleCancel}></lightning-button>
+						<lightning-button label={label.save} variant="brand" onclick={handleSave}>
+						</lightning-button>
 				</div>
 			</template>
 		</div>

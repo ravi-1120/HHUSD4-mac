@@ -6,7 +6,7 @@
 * Created On: 04/18/2024
 * Last Modified: 05/27/2024
 */
-public without sharing class PDS_DonationRequestController {
+ public without sharing class PDS_DonationRequestController {
 
     public class DonationRequestWrapper {
         @AuraEnabled public PDS_Donation_Request__c donationRequest;
@@ -75,6 +75,7 @@ public without sharing class PDS_DonationRequestController {
             if (String.isNotBlank(req.minExpDate)) donationObj.PDS_Minimum_Expiration_Dating__c = req.minExpDate;
             if (String.isNotBlank(req.updateNotify)) donationObj.PDS_Update_Summary__c = req.updateNotify;
             if (String.isNotBlank(req.proposalId)) donationObj.PDS_Proposal__c = req.proposalId;
+            //donationObj.PDS_Open_For_ReAllocation__c = false;
 
             // Insert the record
             upsert donationObj;
@@ -120,7 +121,7 @@ public without sharing class PDS_DonationRequestController {
                 }
 
                 // Upsert Product Line Items
-                List<PDS_Product_Line_Item__c> lineItemsToDelete = [SELECT Id FROM PDS_Product_Line_Item__c WHERE CreatedBy.Profile.Name = 'PDS Taskforce' AND PDS_Donation_Request__c = :donationObj.Id];
+               List<PDS_Product_Line_Item__c> lineItemsToDelete = [SELECT Id FROM PDS_Product_Line_Item__c WHERE CreatedBy.Profile.Name = 'PDS Taskforce' AND PDS_Donation_Request__c = :donationObj.Id];
 
                 try {
                     upsert lineItemsToInsert;
@@ -168,6 +169,8 @@ public without sharing class PDS_DonationRequestController {
         return resultWrapper;
     }
 
+
+
     private static Id getUserIdByUsername(String username) {
         Id userId;
         try {
@@ -205,13 +208,13 @@ public without sharing class PDS_DonationRequestController {
     public static String getAccountName(String accountId) {
         String accountName;
         
-        Account accountData = [SELECT Name, FirstName, LastName, IsPersonAccount FROM Account WHERE Id = :accountId LIMIT 1];
+        Account accountData = [SELECT Name, FirstName, LastName, IsPersonAccount,Formatted_Name_vod__c FROM Account WHERE Id = :accountId LIMIT 1];
         
         if (accountData != null) {
             if (accountData.IsPersonAccount) {
                 accountName = accountData.FirstName + ' ' + accountData.LastName;
             } else {
-                accountName = accountData.Name;
+                accountName = accountData.Formatted_Name_vod__c;
             }
         }
         
@@ -235,11 +238,12 @@ public without sharing class PDS_DonationRequestController {
     public static List<Map<String, String>> getDoneeOptions(String programName) {
         List<Map<String, String>> options = new List<Map<String, String>>();
         try{
-            List<PDS_Program_Access__c> doneeObj = [SELECT Id, PDS_Donee__r.id, PDS_Donee__r.name, PDS_Program__r.name, PDS_Is_Active__c FROM PDS_Program_Access__c WHERE PDS_Program__r.name = :programName AND PDS_Is_Active__c = true];
+            List<PDS_Program_Access__c> doneeObj = [SELECT Id, PDS_Donee__r.id, PDS_Donee__r.name,PDS_Donee__r.Formatted_Name_vod__c, PDS_Program__r.name, PDS_Is_Active__c FROM PDS_Program_Access__c WHERE PDS_Program__r.name = :programName AND PDS_Is_Active__c = true];
             
             for (PDS_Program_Access__c obj : doneeObj) {
                 Map<String, String> option = new Map<String, String>();
-                option.put('label', obj.PDS_Donee__r.name);
+                // option.put('label', obj.PDS_Donee__r.name);
+                option.put('label', obj.PDS_Donee__r.Formatted_Name_vod__c);
                 option.put('value', obj.PDS_Donee__r.id);
                 options.add(option);
             }
@@ -329,7 +333,7 @@ public without sharing class PDS_DonationRequestController {
                                                                 PDS_Tablets_Requested__c, PDS_Batch_Number__c, PDS_Expiration_Date__c,
                                                                 PDS_Actual_Unit_Sale_Price__c, PDS_Actual_Product_Cost__c
                                                                 FROM PDS_Product_Line_Item__c
-                                                                WHERE PDS_Donation_Request__c = :donationRequestId];
+                                                                WHERE PDS_Donation_Request__c = :donationRequestId AND PDS_Shipping_Status__c != 'Cancelled'];
 
             if (!productLineItems.isEmpty()) {
                 donationRequestData.productLineItems = new List<PDSDonationRequest.ProductLineItem>();

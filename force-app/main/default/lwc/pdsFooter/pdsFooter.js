@@ -7,9 +7,9 @@ export default class PdsFooter extends LightningElement {
     copyright = '';
     connectedCallback() {
         this.getCopyrightLabel();
-        Promise.all([
-            loadStyle(this, PDSExternalCSS)
-        ])
+        // Promise.all([
+        //     loadStyle(this, PDSExternalCSS)
+        // ])
     }
 
     getCopyrightLabel(){

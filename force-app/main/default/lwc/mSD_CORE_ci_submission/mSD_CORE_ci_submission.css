@@ -1,0 +1,70 @@
+.green-text {
+    color: green;
+  }
+  
+  .background {
+    margin: 19px;
+    padding: 3rem 1rem 1rem 4rem;
+    font-family: 'InventionRg';
+  }
+  
+  .warning-text {
+    color: red;
+  }
+  
+  .exclamation-icon {
+    color: red;
+  }
+  .emailconf{
+    font-family: 'InventionRg';
+    margin-right: -1.5rem;
+  }
+  .slds-form-element__label {
+    font-size: 14px !important;
+    font-family: InventionRg !important;
+    font-weight: bold;
+    color: #303030 !important;
+  }
+  
+  .button_slide {
+    color: #FFF;
+    border: 2px solid #00857C;
+    background: #279c94;
+    border-radius: 0px;
+    padding: 18px 36px;
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0#00857C;
+    -webkit-transition: ease-out 0.4s;
+    -moz-transition: ease-out 0.4s;
+    transition: ease-out 0.4s;
+    font-family: 'InventionRg';
+  }
+  
+  .slide_right:hover {
+    box-shadow: inset 400px 0 0 0#00857C;
+  }
+  
+  .outer {
+    width: 364px;
+    margin: 50px auto 0 auto;
+    text-align: center;
+  }
+  
+  @media only screen and (min-width: 591px) and (max-width: 850px){
+    .background {
+      padding: 2rem 1rem 1rem 1rem;
+    }
+  }
+  
+  @media only screen and (max-width: 590px){
+    .background {
+      padding: 1rem;
+      margin: 10px;
+    }
+    .button_slide{
+      padding: 10px;
+    }
+  }

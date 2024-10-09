@@ -19,9 +19,11 @@
         <p class="slds-m-left_large">{label.SUBMISSIONDATETIME} {currentDateTime} </p>
         <br>
         <br>
+        <template if:true={showCheckbox}>
         <div class="emailconf">
             <lightning-input type="checkbox" label="Would you like a copy of the Adverse Event Confirmation Details sent to you via email?" style="font-size: 14px !important;" onchange={handleCheckboxChange}></lightning-input>
         </div>
+        </template>
         <template if:true={isCheckboxChecked}>
             <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
               <div class="slds-modal__container">

@@ -3,30 +3,40 @@
 		<div class="dr-form_section">
 			<div class="btn-container">
 				<div onclick={backClick} class="back-form">
-					<lightning-icon icon-name="utility:back" size="x-small" alternative-text="Back" title="Back" >
+					<lightning-icon icon-name="utility:back" size="x-small" alternative-text="Back" title="Back">
 					</lightning-icon>
 					<a href="javascript:void(0);" onclick={backClick} class="dr-form_back">
 						<p>{label.back}</p>
 					</a>
 				</div>
 				<div class="dr-form_btnGroup limit_button">
-
-					<template if:true={reqData.statusCheckMMOP}>
-						<lightning-button role="button" class="lt-button cancel" variant="base" label={label.CANCELREQUEST}
-							onclick={cancelRequest} style="font-size:16px;">
-						</lightning-button>
-						<lightning-button role="button" class="lt-button" variant="base" label={label.editReq}
-							onclick={navigateEdit} style="font-size:16px;">
-						</lightning-button>
-					</template>
-					<template if:true={reqData.statusCheckMDP}>
-						<lightning-button role="button" class="lt-button cancel" variant="base" label={label.CANCELREQUEST}
-							onclick={cancelRequest} style="font-size:16px;">
-						</lightning-button>
-						<lightning-button role="button" class="lt-button" variant="base" label={label.editReq}
-							onclick={navigateEdit} style="font-size:16px;">
-						</lightning-button>
-					</template>
+					<div class="editcancel_btns">
+						<template if:true={reqData.statusCheckMMOPcancel}>
+							<lightning-button role="button" class="lt-button cancel" variant="base"
+								label={label.CANCELREQUEST} onclick={cancelRequest} style="font-size:16px;">
+							</lightning-button>
+						</template>
+						<template if:true={reqData.statusCheckMMOP}>
+							<lightning-button role="button" class="lt-button" variant="base" label={label.editReq}
+								onclick={navigateEdit} style="font-size:16px;">
+							</lightning-button>
+						</template>
+						<template if:true={reqData.statusCheckMDP}>
+							<lightning-button role="button" class="lt-button cancel" variant="base"
+								label={label.CANCELREQUEST} onclick={cancelRequest} style="font-size:16px;">
+							</lightning-button>
+							<lightning-button role="button" class="lt-button" variant="base" label={label.editReq}
+								onclick={navigateEdit} style="font-size:16px;">
+							</lightning-button>
+						</template>
+					</div>
+					<div class="delivered_btn">
+						<template if:true={reqData.isProductsOrdered}>
+							<lightning-button role="button" class="lt-button" variant="base"
+								label={label.markAsDeliveredBtn} onclick={markDelivered} style="font-size:16px;">
+							</lightning-button>
+						</template>
+					</div>
 				</div>
 			</div>
 			<template if:true={reqData.isMDPrectype}>
@@ -83,6 +93,9 @@
 									class={reqData.iconlabelStatus}>
 								</lightning-icon>{reqData.status}
 							</div>
+							<div if:true={reqData.openForReallocation} class="open-cls">
+								{label.reallocation}
+							</div>
 						</lightning-layout-item>
 					</div>
 				</lightning-layout>
@@ -91,17 +104,32 @@
 				<lightning-layout class="request-container">
 					<div class="proddt-container">
 						<div class="prodname-title">
-							<template if:true={reqData.coldchain}>
-								<span><lightning-icon icon-name="utility:frozen" size="small" style="margin-right:12px;" class="frozen-icon"></lightning-icon></span></template><span class="prod-Name">{reqData.prodName}</span>
+							<div>
+								<template if:true={reqData.coldchain}>
+
+
+									<span>
+										<lightning-icon icon-name="utility:frozen" size="small" style="margin-right:12px;" class="frozen-icon"></lightning-icon>
+										</span>
+								</template><span class="prod-Name">{reqData.prodName}</span>
+							</div>
+
+							<!-- <template if:true={reqData.statusMDPDelivered}>
+								<div>
+									<button data-id={reqData.prodlineitemId} onclick={handleDeliveredClick} class="delivered">Delivered</button>
+								</div>
+								</template> -->
 						</div>
 						<div class="line-item">
 							<lightning-layout-item>
-								<div class="line-items-cls">{label.country} : 
-									<span class="comm-content"> {reqData.country}</span></div>
+								<div class="line-items-cls">{label.country} :
+									<span class="comm-content"> {reqData.country}</span>
+								</div>
 							</lightning-layout-item>
 							<lightning-layout-item>
-								<div class="line-items-cls">{label.quantity} : 
-									<span class="comm-content"> {reqData.quantity}</span></div>
+								<div class="line-items-cls">{label.quantity} :
+									<span class="comm-content"> {reqData.quantity}</span>
+								</div>
 							</lightning-layout-item>
 						</div>
 					</div>
@@ -112,48 +140,65 @@
 					<template for:each={reqData.products} for:item="req">
 						<lightning-layout class="prod-sec-container" key={req.Id}>
 							<div class="proddt-container">
-								<div class="prodname-title">
-									<template if:true={req.coldchains}>
-										<span>
+								<div class="prodname-titles">
+									<div>
+										<template if:true={req.coldchains}>
+											<span>
 											<lightning-icon icon-name="utility:frozen" size="small" style="margin-right:12px;" class="frozen-icon">
 											</lightning-icon>
 										</span>
-									</template>
-									<span class="prod-Name">
+										</template>
+										<span class="prod-Name">
 										{req.prodNames}
 										</span>
+									</div>
+									<!-- <div>
+									<button data-id={req.plid} onclick={handleDeliveredClick} class="delivered">Delivered</button>
+									</div> -->
+									<!-- <div if:true={req.statusDelivered}>
+								<div if:false={req.isDelivered} key={product.plid}>
+									<button key={product.plid} data-id={req.plid} onclick={handleDeliveredClick} class="delivered">Delivered</button>
+								</div>
+								</div> -->
 								</div>
 								<div class="line-item">
 									<lightning-layout-item size="3" class="layout-item-cls">
-										<div class="line-items-cls">{label.country} :  
-											<span class="comm-content"> {req.countries}</span></div>
+										<div class="line-items-cls">{label.country} :
+											<span class="comm-content"> {req.countries}</span>
+										</div>
 									</lightning-layout-item>
 									<lightning-layout-item size="2" class="layout-item-cls">
-										<div class="line-items-cls">{label.quantity} :  
-											<span class="comm-content"> {req.quantities}</span></div>
+										<div class="line-items-cls">{label.quantity} :
+											<span class="comm-content"> {req.quantities}</span>
+										</div>
 									</lightning-layout-item>
 									<lightning-layout-item size="5" class="layout-item-cls">
-										<div class="line-items-cls">{label.localPartner} : 
-											<span class="comm-content"> {req.localpartners}</span></div>
+										<div class="line-items-cls">{label.localPartner} :
+											<span class="comm-content"> {req.localpartners}</span>
+										</div>
 									</lightning-layout-item>
 								</div>
 								<div class="line-item">
 									<lightning-layout-item>
-										<div class="line-items-cls" size="3">{label.sap} : 
-											<span class="comm-content"> {req.saps}</span></div>
+										<div class="line-items-cls" size="3">{label.sap} :
+											<span class="comm-content"> {req.saps}</span>
+										</div>
 									</lightning-layout-item>
 									<lightning-layout-item>
-										<div class="line-items-cls" size="3">{label.ndc} : 
-											<span class="comm-content"> {req.ndcnumber}</span></div>
+										<div class="line-items-cls" size="3">{label.ndc} :
+											<span class="comm-content"> {req.ndcnumber}</span>
+										</div>
 									</lightning-layout-item>
 									<div if:true={reqData.isExcess} class="is-excess">
 										<lightning-layout-item size="2" class="batch-cls">
-											<div class="line-items-cls">{label.batch} : 
-												<span class="comm-content"> {req.batch}</span></div>
+											<div class="line-items-cls">{label.batch} :
+												<span class="comm-content"> {req.batch}</span>
+											</div>
 										</lightning-layout-item>
 										<lightning-layout-item size="2" class="batch-cls">
-											<div class="line-items-cls">{label.exp} : 
-												<span class="comm-content"> {req.exp}</span></div>
+											<div class="line-items-cls">{label.exp} :
+												<span class="comm-content"> {req.exp}</span>
+											</div>
 										</lightning-layout-item>
 									</div>
 								</div>
@@ -295,7 +340,81 @@
 					</template>
 				</template>
 			</div>
+			<template if:true={reqData.isMMOPrectype}>
+				<template if:true={reqData.isProductsOrdered}>
+					<div class="doc-container">
+						<p class="title-cls">{label.uploadDocuments}</p>
+						<div>
+							<lightning-layout multiple-rows>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+									large-device-size="6" class="slds-p-right_large inputField-mb">
+									<div class="slds-form-element">
+										<span class="slds-form-element__label" id="file-selector-primary-label-117">{label.uploadDeliveryReceipt}</span>
+										<div class="slds-form-element__control">
+											<div class="slds-file-selector slds-file-selector_images"
+												style="background: #00000005;">
+												<div class="slds-file-selector__dropzone">
+													<input type="file" class="fileInput slds-file-selector__input slds-assistive-text" accept={fileFormats}
+												id="file-upload-input-119" aria-labelledby="file-selector-primary-label-117 file-selector-secondary-label118"
+												onchange={handleFileInput} name="uploadDeliveryReceipt"/>
+													<label class="slds-file-selector__body" for="file-upload-input-119" id="file-selector-secondary-label118" style="display: flex; flex-direction: column; align-items: center;">
+												<lightning-icon class="upload-icon" icon-name="utility:upload" size="x-large" alternative-text="Upload" title="Upload">
+												</lightning-icon>
+												<span class="slds-file-selector__text">{label.areaToUpload}</span>
+												<span class="file_sub" style="color: #0000008A">{label.documentTags}</span>
+												</label>
+												</div>
+											</div>
+										</div>
+										<div class="file-invalid uploadDeliveryReceipt">
+											<b style="text-decoration:underline;font-family:'InventionRg';font-size:14px;">File Uploaded: </b>
+											{appTypeMsg}
+										</div>
+									</div>
+								</lightning-layout-item>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+									large-device-size="6">
+									<div class="slds-form-element">
+										<span class="slds-form-element__label" id="file-selector-primary-label-118">{label.uploadTaxLetter}</span>
+										<div class="slds-form-element__control">
+											<div class="slds-file-selector slds-file-selector_images"
+												style="background: #00000005;">
+												<div class="slds-file-selector__dropzone">
+													<input type="file" class="fileInput slds-file-selector__input slds-assistive-text" accept={fileFormats} id="file-upload-input-120"
+												aria-labelledby="file-selector-primary-label-118 file-selector-secondary-label119" onchange={handleFileInput}
+												name="uploadTaxLetter"/>
+													<label class="slds-file-selector__body" for="file-upload-input-120" id="file-selector-secondary-label119" style="display: flex; flex-direction: column; align-items: center;">
+												<lightning-icon class="upload-icon" icon-name="utility:upload" size="x-large" alternative-text="Upload" title="Upload">
+												</lightning-icon>
+												<span class="slds-file-selector__text">{label.areaToUpload}</span>
+												<span class="file_sub" style="color: #0000008A">{label.documentTags}</span>
+												</label>
+												</div>
+											</div>
+										</div>
+										<div class="file-invalid uploadTaxLetter">
+											<b style="text-decoration:underline;font-family:'InventionRg';font-size:14px;">File Uploaded: </b>
+											{approvalTypeMsg}
+										</div>
+									</div>
+								</lightning-layout-item>
+							</lightning-layout>
+						</div>
+						<div class="dr-form_btnGroup">
+							<lightning-button role="button" class="lt-button" variant="base" label={label.cancelBtn}
+								onclick={cancelDocuments} style="font-size:16px;" disabled={cancelBtnStatus}>
+							</lightning-button>
+							<lightning-button role="button" class="lt-button" variant="base"
+								label={label.submitDocumentBtn} onclick={submitDocuments} style="font-size:16px;"
+								disabled={submitBtnStatus}>
+							</lightning-button>
+						</div>
+
+					</div>
+				</template>
+			</template>
 		</div>
+
 		<template if:true={cancelpop}>
 			<div>
 				<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01">
@@ -313,8 +432,27 @@
 				<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
 			</div>
 		</template>
+		<template if:true={deliveredPop}>
+			<div>
+				<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01">
+					<div class="slds-modal slds-fade-in-open slds-align_absolute-center modalcss">
+						<div class="cancel-popup">
+							<p class="title-cls">{label.delconfirm}</p>
+							<p class="comm-content">{label.popMsg}</p>
+							<div class="pop-btns">
+								<button class="cancel-btn" onclick={onDelCancel}>{label.cancelBtn}</button>
+								<button class="confirm-btn" onclick={onConfirm}>{label.confirmbtn}</button>
+							</div>
+						</div>
+					</div>
+				</section>
+				<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+			</div>
+		</template>
 	</div>
 	<div if:true={showSpinner}>
 		<c-pds-spinner></c-pds-spinner>
 	</div>
+	<c-pds-toast-message auto-close-time="4000"></c-pds-toast-message>
+
 </template>

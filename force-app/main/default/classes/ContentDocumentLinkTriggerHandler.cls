@@ -47,7 +47,7 @@
     public void updateUserVisibilityHEQ() {
         for (ContentDocumentLink cd : recordNewList) {
             String sdid = cd.LinkedEntityId;
-            if (sdid.startsWith(MSD_CORE_HEQ_Search_Category__c.sobjecttype.getDescribe().getKeyPrefix()) || sdid.startsWith(MSD_CORE_HEQ_Collection__c.sobjecttype.getDescribe().getKeyPrefix())) {
+            if (sdid.startsWith(MSD_CORE_HEQ_Search_Category__c.sobjecttype.getDescribe().getKeyPrefix()) || sdid.startsWith(MSD_CORE_HEQ_Collection__c.sobjecttype.getDescribe().getKeyPrefix()) || sdid.startsWith(Account.sobjecttype.getDescribe().getKeyPrefix())) {
                 cd.Visibility = 'AllUsers';
             }
         }

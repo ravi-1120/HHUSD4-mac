@@ -5,17 +5,27 @@
         <lightning-layout multiple-rows="true">
             <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
               small-device-size="8" medium-device-size="8" large-device-size="8">
-              <lightning-input type="text" max-length="255" name="RepName" label="Rep Name" required="true" disabled="true"
-                class="requiredField" value={inputValues.RepName} onchange={handleInput}></lightning-input>
+              <lightning-input type="text" max-length="255" name="RepFName" label="Representative First Name" required="true" disabled="true"
+                class="requiredField" value={inputValues.RepFName} onchange={handleInput}></lightning-input>
             </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="8" large-device-size="8">
+            <lightning-input type="text" max-length="255" name="RepLName" label="Representative Last Name" required="true" disabled="true"
+              class="requiredField" value={inputValues.RepLName} onchange={handleInput}></lightning-input>
+          </lightning-layout-item>
           </lightning-layout>
-  
-          <lightning-layout>
+          <p class="background">A thank you e-mail including the case number for your records will be sent to you and a copy to your Manager to recognize you for your time and effort in reporting.           </p>
+          <lightning-layout multiple-rows="true">
             <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
               small-device-size="8" medium-device-size="8" large-device-size="8">
-              <lightning-input name="RepCTL" label="Representative's CTL" required="true" class="requiredField"
-                value={inputValues.RepCTL} onchange={handleInput}></lightning-input>
+              <lightning-input name="RepManagerFName" label="Representative's Manager First Name" required="true" class="requiredField"
+                value={inputValues.RepManagerFName} onchange={handleInput}></lightning-input>
             </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" class="slds-p-left_medium padding-right" size="12"
+            small-device-size="8" medium-device-size="8" large-device-size="8">
+            <lightning-input name="RepManagerLName" label="Representative's Manager Last Name" required="true" class="requiredField"
+              value={inputValues.RepManagerLName} onchange={handleInput}></lightning-input>
+          </lightning-layout-item>
           </lightning-layout>
         <lightning-layout multiple-rows="true" class="slds-p-around_medium">
           <div class="button-container">    

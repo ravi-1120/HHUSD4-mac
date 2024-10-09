@@ -3,7 +3,7 @@
 * @Description : This class handles cart functionality, including adding resources to the cart and displaying cart data in the UI.
 * @Author : Gopi Chintamaneni
 * @Last Modified By :
-* @Last Modified On : October 1, 2024
+* @Last Modified On : October 8, 2024
 **/
 
 public class MSD_CORE_HEQ_CartController {
@@ -14,6 +14,9 @@ public class MSD_CORE_HEQ_CartController {
 			if (resourceIds.isEmpty()) {
 				throw new AuraHandledException('Resource IDs must be provided.');
 			}
+
+			List<Id> accountIds = MSD_CORE_FBEAccountMappingHelper.getFBEAccountMapping(UserInfo.getUserId());
+			MSD_CORE_HEQ_CustomerController.syncAddresses(accountIds);
 
 			Id ownerId = UserInfo.getUserId();
 
@@ -41,36 +44,33 @@ public class MSD_CORE_HEQ_CartController {
 
 			Map<String, MSD_CORE_HEQ_Cart__c> existingCartMap = new Map<String, MSD_CORE_HEQ_Cart__c>();
 			for (MSD_CORE_HEQ_Cart__c cart : existingCartRecords) {
-				String key = cart.MSD_CORE_Cart_Owner__c + '-' + String.valueOf(cart.MSD_CORE_Customer__c) + '-' + cart.MSD_CORE_Resource_Id__c;
+				String key = cart.MSD_CORE_Cart_Owner__c + '-' + (cart.MSD_CORE_Customer__c == null ? 'null' : cart.MSD_CORE_Customer__c) + '-' + cart.MSD_CORE_Resource_Id__c;
 				existingCartMap.put(key, cart);
 			}
 
 			List<MSD_CORE_HEQ_Cart__c> cartRecordsToUpsert = new List<MSD_CORE_HEQ_Cart__c>();
 
+			// Helper method to get selected address
+			Id selectedAddressId;
+
+			// Process customerIds
 			if (customerIds != null && !customerIds.isEmpty()) {
 				for (Id customerId : customerIds) {
 					Id accountId = customerAccountMap.get(customerId);
-					
+
 					// Fetch primary or first available address for each customer based on AccountId
-					List<MSD_CORE_HEQ_Address__c> addresses = [
-						SELECT Id 
-						FROM MSD_CORE_HEQ_Address__c 
-						WHERE MSD_CORE_HEQ_Account__c = :accountId
-						AND MSD_CORE_IsActive__c = true
-						ORDER BY CreatedDate ASC 
-						LIMIT 1
-					];
-					
-					Id selectedAddressId = (addresses.isEmpty()) ? null : addresses[0].Id;
+					selectedAddressId = getSelectedAddressId(accountId);
 
 					for (Id resourceId : resourceIds) {
 						String key = ownerId + '-' + customerId + '-' + resourceId;
 						MSD_CORE_HEQ_Cart__c existingCart = existingCartMap.get(key);
 
 						if (existingCart != null) {
+							// Update the quantity if the cart item already exists
 							existingCart.MSD_CORE_Quantity__c += 1;
 							cartRecordsToUpsert.add(existingCart);
 						} else {
+							// Create a new cart record
 							MSD_CORE_HEQ_Cart__c newCartRecord = new MSD_CORE_HEQ_Cart__c(
 								MSD_CORE_Cart_Owner__c = ownerId,
 								MSD_CORE_Customer__c = customerId,
@@ -102,9 +102,11 @@ public class MSD_CORE_HEQ_CartController {
 					Id selectedAEAddressId = (aeAddresses.isEmpty()) ? null : aeAddresses[0].Id;
 
 					if (existingSelfPrintCart != null) {
+						// Update the quantity for existing self-print cart item
 						existingSelfPrintCart.MSD_CORE_Quantity__c += 1;
 						cartRecordsToUpsert.add(existingSelfPrintCart);
 					} else {
+						// Create a new self-print cart record
 						MSD_CORE_HEQ_Cart__c selfPrintCartRecord = new MSD_CORE_HEQ_Cart__c(
 							MSD_CORE_Cart_Owner__c = ownerId,
 							MSD_CORE_Customer__c = null,
@@ -117,6 +119,7 @@ public class MSD_CORE_HEQ_CartController {
 				}
 			}
 
+			// Perform upsert operation
 			if (!cartRecordsToUpsert.isEmpty()) {
 				upsert cartRecordsToUpsert;
 			}
@@ -126,6 +129,27 @@ public class MSD_CORE_HEQ_CartController {
 		}
 
 		return 'Success';
+	}
+
+	// Helper method to get the selected address ID based on AccountId
+	private static Id getSelectedAddressId(Id accountId) {
+		List<MSD_CORE_HEQ_Address__c> allAddresses = [
+			SELECT Id, MSD_CORE_HEQ_Is_Default__c
+			FROM MSD_CORE_HEQ_Address__c 
+			WHERE MSD_CORE_HEQ_Account__c = :accountId
+			AND MSD_CORE_IsActive__c = true
+			ORDER BY MSD_CORE_HEQ_Is_Default__c DESC, CreatedDate ASC
+		];
+
+		// First, find the primary address
+		for (MSD_CORE_HEQ_Address__c address : allAddresses) {
+			if (address.MSD_CORE_HEQ_Is_Default__c) {
+				return address.Id; // Return the first primary address found
+			}
+		}
+
+		// If no primary address found, return the first available address
+		return allAddresses.isEmpty() ? null : allAddresses[0].Id;
 	}
 
 	@AuraEnabled
@@ -197,14 +221,30 @@ public class MSD_CORE_HEQ_CartController {
 					address = addressMap.get(cart.MSD_CORE_Address__c);
 				}
 
-				String customerAddress = (address != null) 
-					? ((address.MSD_CORE_HEQ_Address_1__c != null) ? address.MSD_CORE_HEQ_Address_1__c + ', ' : '') +
-					((address.MSD_CORE_HEQ_Address_2__c != null) ? address.MSD_CORE_HEQ_Address_2__c + ', ' : '') +
-					((address.MSD_CORE_HEQ_City__c != null) ? address.MSD_CORE_HEQ_City__c + ', ' : '') +
-					((address.MSD_CORE_HEQ_State__c != null) ? address.MSD_CORE_HEQ_State__c + ', ' : '') +
-					((address.MSD_CORE_HEQ_Zip_Code__c != null) ? address.MSD_CORE_HEQ_Zip_Code__c + ', ' : '') +
-					((address.MSD_CORE_HEQ_Country__c != null) ? address.MSD_CORE_HEQ_Country__c : '')
-					: '';
+				String customerAddress = '';
+				if (address != null) {
+					List<String> addressParts = new List<String>();
+					
+					// Add non-null address parts to the list
+					if (address.MSD_CORE_HEQ_Address_1__c != null) {
+						addressParts.add(address.MSD_CORE_HEQ_Address_1__c);
+					}
+					if (address.MSD_CORE_HEQ_Address_2__c != null) {
+						addressParts.add(address.MSD_CORE_HEQ_Address_2__c);
+					}
+					if (address.MSD_CORE_HEQ_City__c != null) {
+						addressParts.add(address.MSD_CORE_HEQ_City__c);
+					}
+					if (address.MSD_CORE_HEQ_State__c != null) {
+						addressParts.add(address.MSD_CORE_HEQ_State__c);
+					}
+					if (address.MSD_CORE_HEQ_Zip_Code__c != null) {
+						addressParts.add(address.MSD_CORE_HEQ_Zip_Code__c);
+					}
+
+					customerAddress = String.join(addressParts, ', ');
+				}
+
 
 				String displayName = (customer != null) ? customer.FirstName + ' ' + customer.LastName : owner.FirstName + ' ' + owner.LastName;
 				String displayEmail = (customer != null) ? customer.Email : owner.Email;
@@ -232,7 +272,6 @@ public class MSD_CORE_HEQ_CartController {
 
 		return cartData;
 	}
-
 
 	@AuraEnabled
 	public static void updateCartQuantity(Id recordId, Integer newQuantity) {
@@ -293,100 +332,6 @@ public class MSD_CORE_HEQ_CartController {
 		return 'Success';
 	}
 
-	// @AuraEnabled
-	// public static List<Id> submitPrintOrder() {
-	// 	List<Id> orderIds = new List<Id>();
-	// 	List<MSD_CORE_HEQ_Order__c> ordersToInsert = new List<MSD_CORE_HEQ_Order__c>();
-	// 	List<MSD_CORE_HEQ_Order__c> selfOrdersToInsert = new List<MSD_CORE_HEQ_Order__c>();
-	// 	List<MSD_CORE_HEQ_Order_Items__c> orderItemsToInsert = new List<MSD_CORE_HEQ_Order_Items__c>();
-	// 	List<MSD_CORE_HEQ_Order_Items__c> selfOrderItemsToInsert = new List<MSD_CORE_HEQ_Order_Items__c>();
-
-	// 	try {
-	// 		List<MSD_CORE_HEQ_Cart__c> cartRecords = [
-	// 			SELECT Id, MSD_CORE_Customer__c, MSD_CORE_Resource_Id__c, MSD_CORE_Quantity__c,
-	// 				MSD_CORE_Cart_Owner__c, MSD_CORE_Address__c
-	// 			FROM MSD_CORE_HEQ_Cart__c
-	// 			WHERE MSD_CORE_Cart_Owner__c = :UserInfo.getUserId()
-	// 		];
-
-	// 		Map<Id, List<MSD_CORE_HEQ_Cart__c>> cartByCustomer = new Map<Id, List<MSD_CORE_HEQ_Cart__c>>();
-
-	// 		for (MSD_CORE_HEQ_Cart__c cart : cartRecords) {
-	// 			if (!cartByCustomer.containsKey(cart.MSD_CORE_Customer__c)) {
-	// 				cartByCustomer.put(cart.MSD_CORE_Customer__c, new List<MSD_CORE_HEQ_Cart__c>());
-	// 			}
-	// 			cartByCustomer.get(cart.MSD_CORE_Customer__c).add(cart);
-	// 		}
-
-	// 		for (Id customerId : cartByCustomer.keySet()) {
-	// 			List<MSD_CORE_HEQ_Cart__c> customerCarts = cartByCustomer.get(customerId);
-	// 			MSD_CORE_HEQ_Order__c order = new MSD_CORE_HEQ_Order__c(
-	// 				MSD_CORE_Customer__c = customerId,
-	// 				MSD_CORE_HEQ_Address__c = customerCarts[0].MSD_CORE_Address__c,
-	// 				MSD_CORE_Integration_Status__c = 'Submitted'
-	// 			);
-	// 			ordersToInsert.add(order);
-	// 		}
-
-	// 		insert ordersToInsert;
-
-	// 		for (Integer i = 0; i < ordersToInsert.size(); i++) {
-	// 			MSD_CORE_HEQ_Order__c order = ordersToInsert[i];
-	// 			List<MSD_CORE_HEQ_Cart__c> customerCarts = cartByCustomer.get(order.MSD_CORE_Customer__c);
-	// 			for (MSD_CORE_HEQ_Cart__c cart : customerCarts) {
-	// 				MSD_CORE_HEQ_Order_Items__c orderItem = new MSD_CORE_HEQ_Order_Items__c(
-	// 					MSD_CORE_Resource_Id__c = cart.MSD_CORE_Resource_Id__c,
-	// 					MSD_CORE_Item_Quantity__c = cart.MSD_CORE_Quantity__c,
-	// 					MSD_CORE_HEQ_Order__c = order.Id // Now order.Id is correctly referenced
-	// 				);
-	// 				orderItemsToInsert.add(orderItem);
-	// 			}
-	// 		}
-
-	// 		insert orderItemsToInsert;
-
-	// 		List<MSD_CORE_HEQ_Cart__c> selfPrintCarts = [
-	// 			SELECT Id, MSD_CORE_Resource_Id__c, MSD_CORE_Quantity__c, MSD_CORE_Address__c
-	// 			FROM MSD_CORE_HEQ_Cart__c
-	// 			WHERE MSD_CORE_Cart_Owner__c = :UserInfo.getUserId() AND MSD_CORE_Customer__c = null
-	// 		];
-
-	// 		if (!selfPrintCarts.isEmpty()) {
-	// 			MSD_CORE_HEQ_Order__c selfPrintOrder = new MSD_CORE_HEQ_Order__c(
-	// 				MSD_CORE_Requestor__c = UserInfo.getUserId(),
-	// 				MSD_CORE_HEQ_Address__c = selfPrintCarts[0].MSD_CORE_Address__c,
-	// 				MSD_CORE_Integration_Status__c = 'Submitted'
-	// 			);
-
-	// 			selfOrdersToInsert.add(selfPrintOrder);
-	// 			insert selfOrdersToInsert;
-
-	// 			for (MSD_CORE_HEQ_Cart__c cart : selfPrintCarts) {
-	// 				MSD_CORE_HEQ_Order_Items__c orderItem = new MSD_CORE_HEQ_Order_Items__c(
-	// 					MSD_CORE_Resource_Id__c = cart.MSD_CORE_Resource_Id__c,
-	// 					MSD_CORE_Item_Quantity__c = cart.MSD_CORE_Quantity__c,
-	// 					MSD_CORE_HEQ_Order__c = selfPrintOrder.Id
-	// 				);
-	// 				selfOrderItemsToInsert.add(orderItem);
-	// 			}
-
-	// 			insert selfOrderItemsToInsert;
-	// 		}
-	// 	} catch (Exception e) {
-	// 		throw new AuraHandledException('Error in createOrdersFromCart: ' + e.getMessage());
-	// 	}
-
-	// 	for (MSD_CORE_HEQ_Order__c order : ordersToInsert) {
-	// 		orderIds.add(order.Id);
-	// 	}
-
-	// 	for (MSD_CORE_HEQ_Order__c order : selfOrdersToInsert) {
-	// 		orderIds.add(order.Id);
-	// 	}
-
-	// 	return orderIds;
-	// }
-
 	@AuraEnabled
 	public static List<Id> submitPrintOrder() {
 		List<Id> orderIds = new List<Id>();
@@ -421,7 +366,8 @@ public class MSD_CORE_HEQ_CartController {
 				MSD_CORE_HEQ_Order__c order = new MSD_CORE_HEQ_Order__c(
 					MSD_CORE_Customer__c = customerId,
 					MSD_CORE_HEQ_Address__c = customerCarts[0].MSD_CORE_Address__c,
-					MSD_CORE_Integration_Status__c = 'Submitted'
+					MSD_CORE_Integration_Status__c = 'Submitted',
+					MSD_CORE_Requestor__c = UserInfo.getUserId()
 				);
 				ordersToInsert.add(order);
 			}

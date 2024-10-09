@@ -281,7 +281,7 @@ public without sharing class AppointmentSchedulerController {
             body += '<b style="color: rgb(0, 133, 124); font-family: Invention, sans-serif; font-size: medium;">The associate will reach out to you directly.</b>';
             body += '<br/><br/>This service is for US health care professionals only.';
             body += '<br/><br/>This meeting is automatically generated. <br/>';
-            body +='<br/><br/><p style="color:rgb(128,128,128); font-family: Invention,sans-serif;font-size: small;"> Copyright © 2023 Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.  <br/>US-NON-13648 07/23</p>';
+            body +='<br/><br/><p style="color:rgb(128,128,128); font-family: Invention,sans-serif;font-size: small;"> Copyright © 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.  <br/>US-NON-17263 10/24</p>';
             String subject = 'Call with an Ask Merck Associate';
             String dt = String.valueOfGmt(dateTime.now());
             dt = dt.replace(' ','T');

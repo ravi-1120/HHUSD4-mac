@@ -84,15 +84,15 @@ export default class MSD_CORE_HEQ_Customer extends NavigationMixin(LightningElem
         lastlogin
     };
 
-    // renderedCallback() {
-    //     if (this.needScroll) {
-    //         console.log('Focus being called');
-    //         const scrollArea = this.template.querySelector('[data-scroll-area]');
-    //         console.log('### scroll height ' + scrollArea.scrollHeight);
-    //         scrollArea.scrollTop = scrollArea.scrollHeight + 90;
-    //         this.needScroll = false;
-    //     }
-    // }
+    renderedCallback() {
+        if (this.needScroll) {
+            console.log('Focus being called');
+            const scrollArea = this.template.querySelector('[data-scroll-area]');
+            console.log('### scroll height ' + scrollArea.scrollHeight);
+            scrollArea.scrollTop = scrollArea.scrollHeight + 90;
+            this.needScroll = false;
+        }
+    }
     // ConnectedCallback
     connectedCallback() {
         console.log('hideAddRecipient>>>', this.hideAddRecipient);

@@ -210,9 +210,9 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
                     MSD_CORE_Address_Vod_Id__c, MSD_CORE_HEQ_Is_Default__c, MSD_CORE_IsActive__c
                 FROM MSD_CORE_HEQ_Address__c
                 WHERE MSD_CORE_HEQ_Account__c IN :accountIds
+                AND MSD_CORE_Address_Vod_Id__c != null
             ];
 
-            // Map for easy comparison: Map<Id, MSD_CORE_HEQ_Address__c>
             Map<Id, MSD_CORE_HEQ_Address__c> heqAddressMap = new Map<Id, MSD_CORE_HEQ_Address__c>();
             for (MSD_CORE_HEQ_Address__c heqAddress : addressList2) {
                 heqAddressMap.put(heqAddress.MSD_CORE_Address_Vod_Id__c, heqAddress);
@@ -222,7 +222,6 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
             List<MSD_CORE_HEQ_Address__c> addressesToUpdate = new List<MSD_CORE_HEQ_Address__c>();
             List<MSD_CORE_HEQ_Address__c> addressesToMarkInactive = new List<MSD_CORE_HEQ_Address__c>();
 
-            // Compare and Sync: For each Address_vod__c address, check for existing records in MSD_CORE_HEQ_Address__c
             for (Address_vod__c vodAddress : addressList1) {
                 MSD_CORE_HEQ_Address__c existingHeqAddress = heqAddressMap.get(vodAddress.Id);
                 if (existingHeqAddress == null) {
@@ -234,10 +233,9 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
                         MSD_CORE_HEQ_State__c = vodAddress.State_vod__c,
                         MSD_CORE_HEQ_Zip_Code__c = vodAddress.Zip_vod__c,
                         MSD_CORE_Address_Vod_Id__c = vodAddress.Id,
-                        MSD_CORE_IsActive__c = true // New records are active
+                        MSD_CORE_IsActive__c = true
                     );
 
-                    // Check if Primary_vod__c is true and set MSD_CORE_HEQ_Is_Default__c accordingly
                     if (vodAddress.Primary_vod__c) {
                         newHeqAddress.MSD_CORE_HEQ_Is_Default__c = true;
                     }
@@ -280,7 +278,7 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
                 update addressesToUpdate;
             }
             if (!addressesToMarkInactive.isEmpty()) {
-                update addressesToMarkInactive; // Mark addresses as inactive
+                update addressesToMarkInactive;
             }
 
         } catch (DmlException dmlEx) {
@@ -361,6 +359,9 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
             String lastName = '';
             Boolean isSelfPrintAddress = false;
 
+            List<Id> accountIds = new List<Id>{ accountId };
+            syncAddresses(accountIds);
+
             if (isSelfPrint) {
                 queryId = UserInfo.getUserId();
                 isSelfPrintAddress = true;
@@ -387,9 +388,6 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
                     firstName = account.FirstName != null ? account.FirstName : account.Name;
                     lastName = account.LastName;
                 }
-
-                List<Id> accountIds = new List<Id>{ accountId };
-                syncAddresses(accountIds);
             }
 
             List<MSD_CORE_HEQ_Address__c> heqAddresses;
@@ -451,32 +449,6 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
         return accountAddressWrappers;
     }
 
-    // @AuraEnabled
-    // public static String updateCartAddress(Id cartAddressId, Id customerId, Boolean isSelfPrint) {
-    //     if (cartAddressId == null) {
-    //         throw new AuraHandledException('Address ID cannot be null.');
-    //     }
-
-    //     List<MSD_CORE_HEQ_Cart__c> cartRecords = isSelfPrint 
-    //         ? [SELECT Id FROM MSD_CORE_HEQ_Cart__c WHERE MSD_CORE_Cart_Owner__c = :UserInfo.getUserId() AND MSD_CORE_Customer__c = null]
-    //         : [SELECT Id FROM MSD_CORE_HEQ_Cart__c WHERE MSD_CORE_Customer__c = :customerId AND MSD_CORE_Cart_Owner__c = :UserInfo.getUserId()];
-
-    //     for (MSD_CORE_HEQ_Cart__c cart : cartRecords) {
-    //         cart.MSD_CORE_Address__c = cartAddressId;
-    //     }
-        
-    //     if (!cartRecords.isEmpty()) {
-    //         try {
-    //             update cartRecords;
-    //             return 'Success';
-    //         } catch (DmlException e) {
-    //             throw new AuraHandledException('Error updating cart records: ' + e.getMessage());
-    //         }
-    //     } else {
-    //         return 'No cart records found to update.';
-    //     }
-    // }
-
     @AuraEnabled
     public static String updateCartAddress(Id cartAddressId, Id customerId, Boolean isSelfPrint) {
         if (cartAddressId == null) {
@@ -514,7 +486,6 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
         }
     }
 
-
     @AuraEnabled
     public static String createOrUpdateAddress(String address1, String address2, String city, String state, String zip, Boolean isSelfPrint, Id userOrAccountId, Boolean isDefault, Id addressId) {
         try {
@@ -524,7 +495,7 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
                 addressRecord = new MSD_CORE_HEQ_Address__c();
             } else {
                 addressRecord = [
-                    SELECT Id, MSD_CORE_HEQ_User__c, MSD_CORE_HEQ_Account__c, MSD_CORE_HEQ_Is_Default__c
+                    SELECT Id, MSD_CORE_HEQ_User__c, MSD_CORE_IsActive__c, MSD_CORE_HEQ_Account__c, MSD_CORE_HEQ_Is_Default__c
                     FROM MSD_CORE_HEQ_Address__c
                     WHERE Id = :addressId
                     LIMIT 1
@@ -542,6 +513,7 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
             addressRecord.MSD_CORE_HEQ_City__c = city;
             addressRecord.MSD_CORE_HEQ_State__c = state;
             addressRecord.MSD_CORE_HEQ_Zip_Code__c = zip;
+            addressRecord.MSD_CORE_IsActive__c = true;
 
             if (addressId == null) {
                 if (isDefault) {
@@ -637,7 +609,6 @@ public without sharing class MSD_CORE_HEQ_CustomerController {
             throw new AuraHandledException('Error deactivating address: ' + e.getMessage());
         }
     }
-
 
     public class AddressWrapper {
         @AuraEnabled public Id id { get; set; }

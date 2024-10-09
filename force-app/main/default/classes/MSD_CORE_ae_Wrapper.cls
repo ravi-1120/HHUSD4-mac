@@ -4,7 +4,11 @@ public class MSD_CORE_ae_Wrapper {
     @AuraEnabled
     public String FirstName;
     @AuraEnabled
+    public String LastName;
+    @AuraEnabled
     public String MaskedFirstName;
+    @AuraEnabled
+    public String MaskedLastName;
     @AuraEnabled
     public String Phone;
     @AuraEnabled
@@ -38,6 +42,8 @@ public class MSD_CORE_ae_Wrapper {
         this.Id = acc.Id;
         this.FirstName = acc.Preferred_First_Name_MRK__c;
         this.MaskedFirstName = maskFirstName(acc.Preferred_First_Name_MRK__c);
+        this.LastName = acc.Preferred_Last_Name_MRK__c;
+        this.MaskedLastName = maskLastName(acc.Preferred_Last_Name_MRK__c);
         this.Phone = acc.Phone;
         this.MaskedPhone = maskPhone(acc.Phone);
         this.Email = acc.PersonEmail;
@@ -61,6 +67,14 @@ public class MSD_CORE_ae_Wrapper {
             masked += '*';
         }
         return masked + firstName.substring(firstName.length() - 1);
+    }
+    private static String maskLastName(String lastName) {
+        if (lastName == null || lastName.length() < 2) return lastName;
+        String masked = lastName.substring(0, 1);
+        for(Integer i = 1; i < lastName.length() - 1; i++) {
+            masked += '*';
+        }
+        return masked + lastName.substring(lastName.length() - 1);
     }
     private static String maskAddressLine1(String addressline1) {
         if (addressline1 == null || addressline1.length() < 2) return addressline1;

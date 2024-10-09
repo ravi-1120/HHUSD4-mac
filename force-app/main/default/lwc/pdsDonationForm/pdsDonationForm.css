@@ -310,6 +310,9 @@
 .lineItem_date{
 	min-width: 163px;
 }
+.lineItem_date .slds-form-element__help, .slds-form-element__helper{
+display: none;
+}
 .cold-chain{
 	display: flex;
 	flex-direction: row;

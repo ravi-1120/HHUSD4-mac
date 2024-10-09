@@ -9,7 +9,7 @@ export default class MSD_CORE_ci_header extends NavigationMixin(LightningElement
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: '/merckuscontactcenter'
+                url: '/Home'
             }
         });
     }

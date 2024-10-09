@@ -15,6 +15,13 @@
  *  EndUserHighTempExcursionAssessment //Core Class for High Temp Calculations - all High Temp Calculations processed in Logic
  *  MSD_CORE_HighTempMetaDataDO //Stores all the metaData for the Product the Assessment is being done for. 
  *	 
+
+ * 24R3.0 KRB - Implemented Absolute Rounding - With Negative Temperatures, The Absolute Value will be rounded.
+ *              New Method: private Double absoluteRoundDouble(Double myDouble) 
+ * 				i.e., -8.5 rounded is -9 => 
+ * 				Steps: Absolute -8.5 = 8.5, rounded = 9, then apply negative -9 (9 * -1 = -9)
+ *
+ *
  * Testing:
     
    List <MSD_CORE_TempExcurExposDetail__c> details = new List <MSD_CORE_TempExcurExposDetail__c>();
@@ -214,6 +221,37 @@ public class EndUserHighTempExcursionAssessment {
     }
     
     /*
+     * 24R3.0 KRB - This funtion "absolute" rounds a Double. 
+    */
+    private Double absoluteRoundDouble(Double myDouble){
+       
+       Double finalAbsoluteRoundedDouble;
+        
+       System.debug('KRB 24R3.0: Double passed into absoluteRoundDouble function: ' + myDouble);
+
+      if(myDouble < 0){
+          Double absoluteX = Math.abs(myDouble);
+          System.debug('KRB 24R3.0: absoluteX:' + absoluteX );
+          Double roundedAbsoluteX = absoluteX.round();
+          System.debug('KRB 24R3.0: roundedAbsoluteX:' + roundedAbsoluteX );
+          Double NegativeRoundedAbsoluteX = roundedAbsoluteX * -1;
+          System.debug('KRB 24R3.0: NegativeRoundedAbsoluteX:' + NegativeRoundedAbsoluteX );
+          finalAbsoluteRoundedDouble = NegativeRoundedAbsoluteX;
+          System.debug('KRB 24R3.0: Final Rounded Number: ' + finalAbsoluteRoundedDouble);
+
+       }else{ 
+
+          System.debug('KRB 24R3.0: Positive Number, calling the normal round function...');
+          finalAbsoluteRoundedDouble = myDouble.round();
+       }
+
+      System.debug('KRB 24R3.0: finalAbsoluteRoundedDouble: ' + finalAbsoluteRoundedDouble);
+      return finalAbsoluteRoundedDouble;
+        
+    }
+   
+    
+    /*
      * STEP 7 - Calculate Label Storage Condition (C14) 
      */
     private void calculateLabelStorageCondition(){
@@ -337,7 +375,15 @@ public class EndUserHighTempExcursionAssessment {
         //4.a.2  Evaluation Time - time calculation (K18)
         for(MSD_CORE_CalcTempExcurExDetls cted: calculatedUserExposureDetailsEnteredList){
  
-          if(cted.temp.round() > ESHT_MaxTempLimit){
+          //Out for 24R3.0
+          //if(cted.temp.round() > ESHT_MaxTempLimit){
+          //In for 24R3.0
+          System.debug('KRB 24R3.0: cted.temp: ' + cted.temp); 
+          System.debug('KRB 24R3.0: cted.temp.round() should = absoluteRoundDouble(cted.temp), except for -.5 numbers...');
+          System.debug('KRB 24R3.0: cted.temp.round(): ' + cted.temp.round()); 
+          System.debug('KRB 24R3.0: absoluteRoundDouble(cted.temp): ' + absoluteRoundDouble(cted.temp)); 
+            
+          if(absoluteRoundDouble(cted.temp) > ESHT_MaxTempLimit){
              cted.evaluationTimeCalcUserEnteredExposureTimeHours = cted.hours;
              cted.evaluationTimeCalcUserEnteredExposureTimeMins = cted.min;
              cted.evaluationTimeCalcUserEnteredExposureTimeSeconds = cted.seconds;
@@ -617,8 +663,16 @@ public class EndUserHighTempExcursionAssessment {
        //Calculate the Values for SS T19 - T58
        //=IF(AND(ROUND(C19,0)>$Q$24, ROUND(C19,0)<=$Q$25),D19,0)
        for(MSD_CORE_CalcTempExcurExDetls cted: calculatedUserExposureDetailsEnteredList){
- 
-          if((cted.temp.round() > ESHT_tempMax1) && (cted.temp.round()<= ESHT_tempMax2)){
+
+          System.debug('KRB 24R3.0: cted.temp: ' + cted.temp); 
+          System.debug('KRB 24R3.0: cted.temp.round() should = absoluteRoundDouble(cted.temp), except for -.5 numbers...');
+          System.debug('KRB 24R3.0: cted.temp.round(): ' + cted.temp.round()); 
+          System.debug('KRB 24R3.0: absoluteRoundDouble(cted.temp): ' + absoluteRoundDouble(cted.temp)); 
+
+          //Out for 24R3.0
+          //if((cted.temp.round() > ESHT_tempMax1) && (cted.temp.round()<= ESHT_tempMax2)){
+          //In for 24R3.0
+          if((absoluteRoundDouble(cted.temp) > ESHT_tempMax1) && (absoluteRoundDouble(cted.temp) <= ESHT_tempMax2)){
              cted.additionalEval2CalcUserEnteredExposureTimeHours = cted.hours;
              cted.additionalEval2CalcUserEnteredExposureTimeMins = cted.min;
              cted.additionalEval2CalcUserEnteredExposureTimeSeconds = cted.seconds;
@@ -692,7 +746,18 @@ public class EndUserHighTempExcursionAssessment {
             
             Double maxUserEnteredTempExposure = userTempList[userTempList.size() - 1];
             System.debug('maxUserEnteredTempExposure: ' + maxUserEnteredTempExposure);
-            roundedMaxUserEnteredTempExposure = maxUserEnteredTempExposure.round();            
+            
+            //Out for 23R4.0
+            //roundedMaxUserEnteredTempExposure = maxUserEnteredTempExposure.round();  
+            //In for 23R4.0
+            roundedMaxUserEnteredTempExposure = absoluteRoundDouble(maxUserEnteredTempExposure).longValue();
+            
+            System.debug('KRB 24R3.0: maxUserEnteredTempExposure.round() should = absoluteRoundDouble(maxUserEnteredTempExposure).longValue()');
+            System.debug('KRB 24R3.0: except for -.5 numbers...');
+            System.debug('KRB 24R3.0: maxUserEnteredTempExposure.round(): ' + maxUserEnteredTempExposure.round());
+            System.debug('KRB 24R3.0: absoluteRoundDouble(maxUserEnteredTempExposure).longValue(): ' + absoluteRoundDouble(maxUserEnteredTempExposure).longValue());
+            System.debug('KRB 24R3.0: roundedMaxUserEnteredTempExposure: ' + roundedMaxUserEnteredTempExposure);
+            
             System.debug('roundedMaxUserEnteredTempExposure: ' + roundedMaxUserEnteredTempExposure);
        }
     }
@@ -724,7 +789,16 @@ public class EndUserHighTempExcursionAssessment {
        //IF(AND(ROUND(user Entered Exp Temp, 0)>maxTempLimit, ROUND(user Entered Exp Temp, 0)<tempMax1), user Entered Exp Temp, 0)
         for(MSD_CORE_CalcTempExcurExDetls cted: calculatedUserExposureDetailsEnteredList){
                     
-            if((cted.temp.round() > ESHT_MaxTempLimit) && (cted.temp.round()<= ESHT_tempMax1)){
+          System.debug('KRB 24R3.0: cted.temp: ' + cted.temp); 
+          System.debug('KRB 24R3.0: cted.temp.round() should = absoluteRoundDouble(cted.temp), except for -.5 numbers...');
+          System.debug('KRB 24R3.0: cted.temp.round(): ' + cted.temp.round()); 
+          System.debug('KRB 24R3.0: absoluteRoundDouble(cted.temp): ' + absoluteRoundDouble(cted.temp)); 
+
+            
+            //Out for 24R3.0
+            //if((cted.temp.round() > ESHT_MaxTempLimit) && (cted.temp.round()<= ESHT_tempMax1)){
+            //In for 24R3.0
+            if((absoluteRoundDouble(cted.temp) > ESHT_MaxTempLimit) && (absoluteRoundDouble(cted.temp) <= ESHT_tempMax1)){
                 cted.calulatedUserEnteredexposureTimeHours = cted.hours;
                 cted.calulatedUserEnteredexposureTimeMins = cted.min;
                 cted.calulatedUserEnteredexposureTimeSeconds = cted.seconds;

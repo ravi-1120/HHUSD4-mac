@@ -1,4 +1,4 @@
-Public with sharing class PDS_EmailController{
+Public without sharing class PDS_EmailController{
     
     @InvocableMethod(label = 'PDS send email with attachements'
                      description = 'Handles sending emails with attachments based on the request status')
@@ -37,7 +37,7 @@ Public with sharing class PDS_EmailController{
                 // Query ContentVersions related to the ContentDocumentIds
                 List<ContentVersion> contentVersions = [SELECT Id, Title, VersionData FROM ContentVersion WHERE ContentDocumentId IN :contentDocumentIds];
                 
-                PDS_Donation_Request__c request = [SELECT Id, Name, RecordType.Name, PDS_Approver__c, PDS_Approver__r.Name, PDS_Reviewer__r.Name, PDS_Approver__r.Email, PDS_Total_Donation_Value__c, PDS_Donation_Request_Status__c, PDS_Donee__r.Name,PDS_Customer_Order_Number__c,PDS_Application_Number__c,
+                PDS_Donation_Request__c request = [SELECT Id, Name, RecordType.Name, PDS_Approver__c, PDS_Approver__r.Name, PDS_Reviewer__r.Name, PDS_Approver__r.Email, PDS_Total_Donation_Value__c, PDS_Donation_Request_Status__c, PDS_Donee__r.Name,PDS_Donee__r.Formatted_Name_vod__c,PDS_Customer_Order_Number__c,PDS_Application_Number__c,
                                                    (SELECT PDS_Country__c FROM Product_Line_Items__r) 
                                                    FROM PDS_Donation_Request__c WHERE Id =: recordId LIMIT 1];
 
@@ -46,7 +46,7 @@ Public with sharing class PDS_EmailController{
 
                 List<PDS_Product_Line_Item__c> productLineItems = [SELECT Id, PDS_Country__c, PDS_Product__r.Name, PDS_Total_Market_Value__c
                                                                 FROM PDS_Product_Line_Item__c
-                                                                WHERE PDS_Donation_Request__c = :recordId];
+                                                                WHERE PDS_Donation_Request__c = :recordId AND PDS_Shipping_Status__c != 'Cancelled'] ;
 
                 for (PDS_Product_Line_Item__c item : productLineItems) {
                     if (item.PDS_Country__c != null) {
@@ -85,7 +85,7 @@ Public with sharing class PDS_EmailController{
                     //Email Header
                     emailBody +='<table width="70%" cellpadding="10" cellspacing="0" border="0" style="background: #F4FAF8; color:white;font-family: Arial; font-size: 12px;font-weight: 400; text-align: center;">'+
                         '<tr><td><table width="100%" cellpadding="0" cellspacing="5" border="0" style="text-align: center;">'+
-                        '<tr><td><img src="https://msdlogin--pdsdev.sandbox.file.force.com/servlet/servlet.ImageServer?id=015RL000001vbIP&oid=00DRL000001MxFN&lastMod=1716188728000" width="20%" height="20%"/></td></tr>'+
+                        '<tr><td><img src="https://msdlogin.my.salesforce.com/servlet/servlet.ImageServer?id=015UW000002PDlh&oid=00DU0000000IRl9&lastMod=1720831020000" width="20%" height="20%"/></td></tr>'+
                         '</table></td></tr></table>';
                     
                     if(emailName == 'Process Shipping'){
@@ -96,7 +96,7 @@ Public with sharing class PDS_EmailController{
                             '<tr><td>'+
                             '<table cellpadding="0" cellspacing="12" border="0">'+
                             '<tr><td>Hello everyone,</td></tr>'+
-                            '<tr><td>Please find attached documents per the approved  MECTIZAN donation for '+country+'. The name of the donee is '+request.PDS_Donee__r.Name+'.</td></tr>'+
+                            '<tr><td>Please find attached documents per the approved  MECTIZAN donation for '+country+'. The name of the donee is '+request.PDS_Donee__r.Formatted_Name_vod__c+'.</td></tr>'+
                             '<tr><td>Best regards,<br/>MEDs Automated Notification System</td></tr>'+
                             '</table>'+
                             '</td></tr>'+
@@ -157,7 +157,7 @@ Public with sharing class PDS_EmailController{
                         '<tr><td>'+
                         '<table cellpadding="0" cellspacing="12" border="0">'+
                         '<tr><td>Hello ' + request.PDS_Approver__r.Name +',</td></tr>'+
-                        '<tr><td>Your approval is requested to process the donation of <strong>'+productNamesStr+'</strong> products, as shown on the attached no-charge invoice to <strong>'+request.PDS_Donee__r.Name+'</strong>, for use in <strong>'+countryNamesStr+'</strong>. Total cost of the material is <strong>US $'+formattedTotalValue+'</strong>.</td></tr>'+
+                        '<tr><td>Your approval is requested to process the donation of <strong>'+productNamesStr+'</strong> products, as shown on the attached no-charge invoice to <strong>'+request.PDS_Donee__r.Formatted_Name_vod__c+'</strong>, for use in <strong>'+countryNamesStr+'</strong>. Total cost of the material is <strong>US $'+formattedTotalValue+'</strong>.</td></tr>'+
                         '<tr><td>'+emailButtons+'</td></tr>'+
                         '<tr><td>Best regards,<br/>'+request.PDS_Reviewer__r.Name+'</td></tr>'+
                         '</table>'+
@@ -173,7 +173,7 @@ Public with sharing class PDS_EmailController{
                     emailBody +='<table width="70%" style="background: #00857C;  color:white;font-family: Arial; font-size: 12px;font-weight: 400; text-align: left;" cellpadding="10" cellspacing="0" border="0">'+
                         '<tr><td>'+
                         '<table cellpadding="0" cellspacing="5" border="0">'+
-                        '<tr><td><img src="https://msdlogin--pdsdev.sandbox.file.force.com/servlet/servlet.ImageServer?id=015RL000001vfKQ&oid=00DRL000001MxFN&lastMod=1716266678000" width="100" height="35"/></td></tr>'+
+                        '<tr><td><img src="https://msdlogin.my.salesforce.com/servlet/servlet.ImageServer?id=015UW000002PDli&oid=00DU0000000IRl9&lastMod=1720831020000" width="100" height="35"/></td></tr>'+
                         '<tr><td style="color:white;">Copyright © 2024 Merck & Co., Inc., Rahway, NJ USA, and its affiliates. All rights reserved.</td></tr>'+
                         '</table>'+
                         '</td></tr>'+

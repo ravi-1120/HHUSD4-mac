@@ -1,23 +1,39 @@
 public class MSD_CORE_ae_EmailCaseDetails {
     @AuraEnabled
     public static void sendEmail(String recipientEmail, String caseNumber, String submissionDateTime) {
+        System.debug('Method sendEmail called');
+        System.debug('Recipient Email: ' + recipientEmail);
+        System.debug('Case Number: ' + caseNumber);
+        System.debug('Submission Date/Time: ' + submissionDateTime);
+
+        // Query Org Wide Email Address
         OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'AE Self-Service Portal' LIMIT 1];
+        
+        // Query Email Template
+        EmailTemplate emailTemplate = [SELECT Id, HtmlValue FROM EmailTemplate WHERE DeveloperName = 'Adverse_Event_Reporting_Template' LIMIT 1];
+        System.debug('Email Template Id: ' + emailTemplate.Id);
+        System.debug('Email Template HTML Value: ' + emailTemplate.HtmlValue);
+        
+        // Query custom metadata for Logo URL
+        MSD_CORE_ae_PortalSetting__mdt Mercklogo = MSD_CORE_ae_PortalSetting__mdt.getInstance('AE_Portal');
+        String logoUrl = Mercklogo.Logo_Url__c;
+        System.debug('Logo URL: ' + logoUrl);
+        
+        // Add global font-family style for "Invention"
+        String style = '<style> body, table, td { font-family: Invention; } </style>';
+        // Replace placeholders in the email template
+        String emailBody = style + emailTemplate.HtmlValue
+            .replace('{CaseNumber}', '<span style="color:#00857c;">' + caseNumber + '</span>')
+            .replace('{CreatedDate}', '<span style="color:#00857c;">' + submissionDateTime + '</span>')
+            .replace('logoUrl', logoUrl);
+        
+        System.debug('Email Body After Replacement: ' + emailBody);
+        
+        // Create the email message
         Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
         email.setToAddresses(new String[] { recipientEmail });
         email.setSubject('Confidential: Email Acknowledgement Receipt of Adverse Event received through the Adverse Event Reporting Self-Service Portal');
-        
-        String emailBody = '<p><strong>Confidential</strong></p>' +
-            '<p>Dear Reporter,</p>' +
-            '<p>This email confirms that we have received your report of an adverse experience through the Adverse Event Reporting Self-Service Portal.</p>' +
-            '<p>Please see the Adverse Event Confirmation Details below.</p>' +
-            '<p>Service Cloud Case Number: ' + caseNumber + '<br>' +
-            'Submission Date/Time: ' + submissionDateTime + '</p>' +
-            '<p>Sincerely,<br>' +
-            'The Merck Adverse Event Reporting Self-Service Portal Team</p>' +
-            '<p>You may have elected to receive e-mails and other online communications from Merck. If you no longer wish to receive Proprietary communications from Merck, please <a href="mailto:merck_privacy_office@merck.com?subject=E-mail%20Opt%20Out%20Request%20(NSC)">click here</a>. If you have trouble accessing this link, please send an e-mail to <a href="mailto:merck_privacy_office@merck.com?subject=E-mail%20Opt%20Out%20Request%20(NSC)">merck_privacy_office@merck.com</a> with a subject line of: E-mail Opt Out Request - NSC.</p>' +
-            '<p>Merck Privacy Office, 351 N Sumneytown Pike, UG4B-24, North Wales, PA 19454, USA</p>';
-        
-        email.setHtmlBody(emailBody); // Use HTML body to support the "click here" link
+        email.setHtmlBody(emailBody);
         
         if (owea != null) {
             email.setOrgWideEmailAddressId(owea.Id);

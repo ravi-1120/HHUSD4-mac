@@ -1,0 +1,25 @@
+<template>
+    <br/>
+    <lightning-combobox
+            name="Report Type"
+            label="Select the Report Type"
+            value={reportType}
+            placeholder="Report Types"
+            options={options}
+            onchange={handleChange} ></lightning-combobox>
+            <br/>
+
+    <h2> {reportType}</h2>
+    <br/>
+    <template if:true={showReports}>
+        <template if:true={recToBeDiplayed}>
+            <lightning-datatable data={recToBeDiplayed} columns={columns} key-field="Id" hide-checkbox-column="true">
+                
+            </lightning-datatable>
+        </template>
+        <template if:true={error}>
+            Some error occured, please contact admin.
+        </template>
+    </template>
+    
+</template>

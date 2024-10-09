@@ -1,75 +1,104 @@
 import { LightningElement, api, wire, track } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+
+//Apex Class
+import getResourceData from '@salesforce/apex/MSD_CORE_HEQ_PreviewController.getResourceData';
+import customerProfileName from '@salesforce/label/c.MSD_CORE_HEQ_CustomerProfile';
+import saveDownloadHistory from '@salesforce/apex/MSD_CORE_HEQ_DownloadHistory.saveDownloadHistory';
 import getResourceDetails from '@salesforce/apex/MSD_CORE_HEQ_ResourceController.getResourceDetails';
 import getUserProfileName from '@salesforce/apex/MSD_CORE_HEQ_HeaderController.getUserProfileName';
-import FileDetails from '@salesforce/apex/MSD_CORE_HEQ_ResourceController.FileDetails';
+import getFileDetails from '@salesforce/apex/MSD_CORE_HEQ_ResourceController.FileDetails';
+
 //Custom Labels
 import thumbURL from '@salesforce/label/c.MSD_CORE_HEQ_SandboxURL';
+import home from '@salesforce/label/c.MSD_CORE_HEQ_Home';
+import sitepath from '@salesforce/label/c.MSD_CORE_HEQ_SitePath';
+
 //Static Resource
 import noImage from '@salesforce/resourceUrl/MSD_CORE_HEQ_No_Image';
 
-export default class MSD_CORE_HEQ_ResourceDetail extends LightningElement {
+export default class MSD_CORE_HEQ_ResourceDetail extends NavigationMixin(LightningElement) {
+    
     @track profileName;
     @track resourceDetails = {};
     @track fieldNames = [];
     @track displayedFields = [];
-    topicId;
     @track zoomLevel = 100;
     @track imageUrl;
-    showSpinner = false;
+    @track showSpinner = false;
+    @track iframeurl;
+    @track resourceName;
+    @track videoResource = false;
+    @track cid;
+    
+    topicId;
+    retUrl;
+    labels = {
+        home
+    };
 
     connectedCallback() {
         this.showSpinner = true;
         const urlParams = new URLSearchParams(window.location.search);
         let topicIdval = urlParams.get('topicId');
         this.topicId = topicIdval.split('-');
+        this.retUrl = urlParams.has('ret_URL') ? urlParams.get('ret_URL') : null;
         this.getUserData();
         this.fetchFileDetails();
+        this.resourceData();
+
+        const decodedRetUrl = decodeURIComponent(window.location.href);
+        this.cid = this.getUrlParamValue(decodedRetUrl, 'cid');
     }
 
-    renderedCallback() {
-        const container = this.template.querySelector('.thumbnail-container');
-        if (this.zoomLevel > 100) {
-            container.classList.add('scroll-enabled');
-        } else {
-            container.classList.remove('scroll-enabled');
-        }
+    getUrlParamValue(url, key) {
+        return new URL(url).searchParams.get(key);
     }
 
-    get zoomPercentage() {
-        return this.zoomLevel;
-    }
+    // renderedCallback() {
+    //     const container = this.template.querySelector('.thumbnail-container');
+    //     if (this.zoomLevel > 100) {
+    //         container.classList.add('scroll-enabled');
+    //     } else {
+    //         container.classList.remove('scroll-enabled');
+    //     }
+    // }
 
-    get thumbnailStyle() {
-        return `transform: scale(${this.zoomLevel / 100});`;
-    }
+    // get zoomPercentage() {
+    //     return this.zoomLevel;
+    // }
 
-    get containerStyle(){
-        return `${this.zoomLevel > 100 ? 'overflow: scroll;' : 'overflow: hidden;'}`;
-    }
+    // get thumbnailStyle() {
+    //     return `transform: scale(${this.zoomLevel / 100});`;
+    // }
 
-    get showMinusButton() {
-        return this.zoomLevel > 100;
-    }
+    // get containerStyle(){
+    //     return `${this.zoomLevel > 100 ? 'overflow: scroll;' : 'overflow: hidden;'}`;
+    // }
 
-    get isPlusDisabled() {
-        return this.zoomLevel >= 200;
-    }
+    // get showMinusButton() {
+    //     return this.zoomLevel > 100;
+    // }
 
-    get isMinusDisabled() {
-        return this.zoomLevel <= 100;
-    }
+    // get isPlusDisabled() {
+    //     return this.zoomLevel >= 200;
+    // }
 
-    zoomIn() {
-        if (this.zoomLevel < 200) {
-            this.zoomLevel += 20;
-        }
-    }
+    // get isMinusDisabled() {
+    //     return this.zoomLevel <= 100;
+    // }
 
-    zoomOut() {
-        if (this.zoomLevel > 100) {
-            this.zoomLevel -= 20;
-        }
-    }
+    // zoomIn() {
+    //     if (this.zoomLevel < 200) {
+    //         this.zoomLevel += 20;
+    //     }
+    // }
+
+    // zoomOut() {
+    //     if (this.zoomLevel > 100) {
+    //         this.zoomLevel -= 20;
+    //     }
+    // }
 
     getUserData() {
         getUserProfileName()
@@ -80,8 +109,10 @@ export default class MSD_CORE_HEQ_ResourceDetail extends LightningElement {
             })
             .catch(error => console.error('Error getting profile name:', error));
     }
+
     fetchFileDetails() {
-        FileDetails({ recordId: this.topicId[0] })
+        this.showSpinner = true;
+        getFileDetails({ recordId: this.topicId[0] })
         .then(result => {
             console.log('result>>>',result);
             if (result && result.length > 0) {
@@ -103,7 +134,13 @@ export default class MSD_CORE_HEQ_ResourceDetail extends LightningElement {
                     if (key.toLowerCase().includes('date')) {
                         formattedValue = this.formatDate(value);
                     } else if (key.toLowerCase().includes('size')) {
-                        formattedValue = this.formatFileSize(value);
+                        if(this.videoResource){
+                            formattedValue = 'N/A';
+                        }else{
+                            formattedValue = this.formatFileSize(value);
+                        }
+                    } else if (key.toLowerCase().includes('file type') && this.videoResource) {
+                        formattedValue = 'N/A';
                     } else {
                         formattedValue = this.addSpaceAfterSemicolon(value);
                     }
@@ -168,8 +205,81 @@ export default class MSD_CORE_HEQ_ResourceDetail extends LightningElement {
         }
         return value;
     }
+    
+    redirectToHome() {
+        const redirectURL = (this.retUrl != null || this.retUrl != undefined) ? this.retUrl : '/landing-page';
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: redirectURL
+            }
+        });
+    }
 
+    handleBrowseAll() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: '/resources?type=Browse%20All'
+            }
+        });
+    }
 
+    handleDownload(){
+        if(this.profileName == customerProfileName){
+            this.saveDownloadActivity();
+        }
+        const anchor = document.createElement('a');
+        anchor.href = this.iframeurl;
+        anchor.download = this.resourceName;
+        anchor.target = '_blank';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
+
+    resourceData() {
+        this.showSpinner = true;
+        getResourceData({recordId : this.topicId[0]})
+            .then((result) => {
+                if(result.message){
+                    this[NavigationMixin.Navigate]({
+                        type: 'standard__webPage',
+                        attributes: {
+                            url: `/error`
+                        }
+                    });
+                }
+
+            console.log('result of getResourceData>>', result);
+
+            this.resourceName = result.contentVersion.Title;
+            if (result.contentVersion.FileType == 'PDF') {
+                this.iframeurl = sitepath + '/sfc/servlet.shepherd/document/download/'+result.contentVersion.ContentDocumentId+'?operationContext=S1';
+            } 
+            if (result.contentVersion.MSD_CORE_Video_Resource__c) {
+                this.videoResource = true;
+                this.iframeurl = result.contentVersion.MSD_CORE_Video_Resource__c;
+            }
+
+            this.showSpinner = false;
+        })
+            .catch ((error) => {
+            console.log('error in getResourceData>>>', error);
+            this.showSpinner = false;
+        })
+    }
+
+    saveDownloadActivity() {
+        console.log('saveDownloadActivity Called');
+        saveDownloadHistory({ resourceId: this.topicId[0], cid: this.cid })
+            .then((result) => {
+                console.log('saveDownloadHistory ', result);
+            })
+            .catch((error) => {
+                console.log('Error in saveDownloadActivity>>>', error);
+            })
+    }
 
     // fetchResourceDetails() {
     //     const metadataType = 'MSD_CORE_Resource_Configs__mdt';

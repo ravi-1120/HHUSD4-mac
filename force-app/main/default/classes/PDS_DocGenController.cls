@@ -86,16 +86,25 @@ public with sharing class PDS_DocGenController {
                 insert contentVersionsToInsert;
             }
 
+            //Create ContentDocumentLink to associate ContentDocument with the request record
+            // for (ContentVersion contentVersion: contentVersionsToInsert) {
+            //     ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
+            //     contentDocumentLink.ContentDocumentId = [SELECT Id FROM ContentDocument WHERE LatestPublishedVersionId =: contentVersion.Id].Id;
+            //     contentDocumentLink.LinkedEntityId = requestRecord.Id;
+            //     contentDocumentLink.Visibility = 'AllUsers';
+            //     contentDocumentLinksToInsert.add(contentDocumentLink);
+            // }
             // Create ContentDocumentLink to associate ContentDocument with the request record
-            for (ContentVersion contentVersion: contentVersionsToInsert) {
+            List<ContentDocument> contentDocuments = [SELECT Id, LatestPublishedVersionId FROM ContentDocument WHERE LatestPublishedVersionId IN :contentVersionsToInsert];
+            for (ContentDocument contentDocument: contentDocuments) {
                 ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
-                contentDocumentLink.ContentDocumentId = [SELECT Id FROM ContentDocument WHERE LatestPublishedVersionId =: contentVersion.Id].Id;
+                contentDocumentLink.ContentDocumentId = contentDocument.Id;
                 contentDocumentLink.LinkedEntityId = requestRecord.Id;
                 contentDocumentLink.Visibility = 'AllUsers';
                 contentDocumentLinksToInsert.add(contentDocumentLink);
             }
             insert contentDocumentLinksToInsert;
-            
+       
         } catch (Exception e) {
             System.debug('Error occurred: ' + e.getMessage());
         }
@@ -188,7 +197,7 @@ public with sharing class PDS_DocGenController {
         requestRecordId = ApexPages.currentPage().getParameters().get('id');
         if(requestRecordId!=null && String.isNotBlank(requestRecordId)) {
             requestRecord = [SELECT Id, Name, PDS_Donation_Request_Status__c,PDS_Donee__c,
-                             PDS_Donee__r.Name, PDS_Requestor__r.Name,PDS_Application_Number__c ,
+                             PDS_Donee__r.Name,PDS_Donee__r.Formatted_Name_vod__c,PDS_Requestor__r.Name,PDS_Application_Number__c ,
                              PDS_Ship_Notify__r.Name,PDS_Ship_Notify__r.PDS_Shipping_Postal_Code__c, PDS_Ship_Notify__r.PDS_Shipping_Street__c,
                              PDS_Ship_Notify__r.PDS_Email__c, PDS_Ship_Notify__r.PDS_Phone__c,CreatedDate,PDS_Approver__r.Title, PDS_Approver__r.CompanyName,
                              PDS_Approver__r.Name,PDS_Approver__r.StayInTouchSignature, PDS_Reviewer__r.Name,PDS_Final_Recipient__r.Name,PDS_Final_Recipient__r.PDS_Shipping_Postal_Code__c,
@@ -205,21 +214,21 @@ public with sharing class PDS_DocGenController {
             
             if (requestRecord != null) {
       			List<PDS_Contact__c> doneeAddresses = [SELECT Id, Name,PDS_Address_Type__c,PDS_Address_2__c,PDS_Address_3__c,PDS_Attention__c,PDS_Department_Unit__c,PDS_Email__c,PDS_Email_Address_2__c,PDS_Email_Address_3__c,
-                                    PDS_Fax_Number__c,PDS_Phone__c,PDS_Shipping_City__c,PDS_Shipping_Country__c,PDS_Shipping_Postal_Code__c,PDS_Shipping_State__c,PDS_Shipping_Street__c,Account__r.Name
+                                    PDS_Fax_Number__c,PDS_Phone__c,PDS_Shipping_City__c,PDS_Shipping_Country__c,PDS_Shipping_Postal_Code__c,PDS_Shipping_State__c,PDS_Shipping_Street__c,Account__r.Name,Account__r.Formatted_Name_vod__c
                                     FROM PDS_Contact__c 
                                     WHERE Account__c = :requestRecord.PDS_Donee__c AND PDS_Address_Type__c='Primary' AND PDS_IsActive__c = true];
                if (!doneeAddresses.isEmpty()) {
                     doneeAddress = doneeAddresses[0];
                 }
                 
-                String doneeName = requestRecord.PDS_Donee__r.Name;
+                String doneeName = requestRecord.PDS_Donee__r.Formatted_Name_vod__c;
                 //String doneeName = (requestRecord.PDS_Donee__r != null) ? requestRecord.PDS_Donee__r.Name : null;
                 String authNum = requestRecord.Name;
-                productLineItems = [SELECT Id, Name, PDS_Donation_Request__r.PDS_Donee__r.Name, PDS_Quantity_Unit__c,
+                productLineItems = [SELECT Id, Name, PDS_Donation_Request__r.PDS_Donee__r.Name,PDS_Donation_Request__r.PDS_Donee__r.Formatted_Name_vod__c, PDS_Quantity_Unit__c,
                                     PDS_Local_Partner__c, PDS_Quantity_Requested__c, PDS_Country__c, PDS_Quantity_Approved__c, PDS_Ship_Date__c, PDS_Total_SIC__c, PDS_Total_Market_Value__c, 
                                     PDS_Product__r.Name, PDS_Product__r.PDS_SAP_Code__c, PDS_Product__r.PDS_NDC_Number__c, PDS_Product__r.PDS_Actual_Unit_Sale_Price__c, 
                                     PDS_Quantity_Shipped__c, PDS_Product__r.PDS_Product_Size__c, PDS_Product__r.PDS_Actual_Product_Cost__c, PDS_Product__r.PDS_Product_Number__c 
-                                    FROM PDS_Product_Line_Item__c WHERE PDS_Donation_Request__c = :requestRecord.Id ORDER BY LastModifiedDate DESC];
+                                    FROM PDS_Product_Line_Item__c WHERE PDS_Donation_Request__c = :requestRecord.Id AND PDS_Shipping_Status__c != 'Cancelled' ORDER BY LastModifiedDate DESC];
                 System.debug('productLineItems' +productLineItems);
                 System.debug('requestRecord.Id' +requestRecord.Id);
                 if (productLineItems != null) {
@@ -329,7 +338,7 @@ public with sharing class PDS_DocGenController {
     				totalDonationValueDecimalPart = '.' + totalDonationValueString1.substring(totalDonationValueDecimalIndex + 1);
 				}
                 
-                formattedDonationValue = totalDonationValue.format() + totalDonationValueDecimalPart;
+                formattedDonationValue = (totalDonationValue.intValue()).format() + totalDonationValueDecimalPart;
             }
         }
     }

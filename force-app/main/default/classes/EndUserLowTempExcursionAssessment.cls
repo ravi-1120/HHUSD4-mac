@@ -20,6 +20,11 @@
  * 									-Updated numerous Debug Statements
  * 
  * 
+ * 24R3.0 KRB - Implemented Absolute Rounding - With Negative Temperatures, The Absolute Value will be rounded.
+ * 				New Method: private Double absoluteRoundDouble(Double myDouble) 
+ * 				i.e., -8.5 rounded is -9 => 
+ * 				Steps: Absolute -8.5 = 8.5, rounded = 9, then apply negative -9 (9 * -1 = -9)
+ * 
  * Testing this Class in isolation:
 
     List <MSD_CORE_TempExcurExposDetail__c> details = new List <MSD_CORE_TempExcurExposDetail__c>();
@@ -664,7 +669,16 @@ public class EndUserLowTempExcursionAssessment {
        //***************************************************
        //calculate the ROUNDED user entered MIN Temperature
        //***************************************************
-       userEnteredRoundedMinTemp = userEnteredMinTemp.round(); 
+       //Out for the 24R3.0 Release:
+       //userEnteredRoundedMinTemp = userEnteredMinTemp.round(); 
+       
+       //In for the 24R3.0 Release: 
+       System.debug('KRB 24R3.0: User Entered Min Temp: userEnteredMinTemp: ' + userEnteredMinTemp);
+       userEnteredRoundedMinTemp = absoluteRoundDouble(userEnteredMinTemp); 
+       System.debug('KRB 24R3.0: User Entered Min Temp (before Rounding) userEnteredMinTemp: ' + userEnteredMinTemp);
+       System.debug('KRB 24R3.0: User Entered Min Temp (AFTER Rounding) userEnteredRoundedMinTemp: ' + userEnteredRoundedMinTemp);
+        
+              
        System.debug('KRB 13f'); 
 
        system.debug('userEnteredRoundedMinTemp: ' + userEnteredRoundedMinTemp);
@@ -720,6 +734,38 @@ public class EndUserLowTempExcursionAssessment {
        system.debug('Min Temp-(ESLT_Min_Temp) (ESLT O15): ' + ESLT_Min_Temp);
         System.debug('EULTEA 14');
     }
+    
+    /*
+     * 24R3.0 KRB - This funtion "absolute" rounds a Double. 
+    */
+    private Double absoluteRoundDouble(Double myDouble){
+       
+       Double finalAbsoluteRoundedDouble;
+        
+       System.debug('KRB 24R3.0: Double passed into absoluteRoundDouble function: ' + myDouble);
+
+       if(myDouble < 0){
+          Double absoluteX = Math.abs(myDouble);
+          System.debug('KRB 24R3.0: absoluteX:' + absoluteX );
+          Double roundedAbsoluteX = absoluteX.round();
+          System.debug('KRB 24R3.0: roundedAbsoluteX:' + roundedAbsoluteX );
+          Double NegativeRoundedAbsoluteX = roundedAbsoluteX * -1;
+          System.debug('KRB 24R3.0: NegativeRoundedAbsoluteX:' + NegativeRoundedAbsoluteX );
+          finalAbsoluteRoundedDouble = NegativeRoundedAbsoluteX;
+          System.debug('KRB 24R3.0: Final Rounded Number: ' + finalAbsoluteRoundedDouble);
+
+       }else{ 
+
+          System.debug('KRB 24R3.0: Positive Number, calling the normal round function...');
+          finalAbsoluteRoundedDouble = myDouble.round();
+       }
+
+      System.debug('KRB 24R3.0: finalAbsoluteRoundedDouble: ' + finalAbsoluteRoundedDouble);
+      return finalAbsoluteRoundedDouble;
+      
+        
+    }
+    
     
    /* -------------------------------------------------------------------- 
       Test Method to test this Class in isolation 

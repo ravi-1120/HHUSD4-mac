@@ -24,6 +24,7 @@ export default class MSD_CORE_ci_landingpage extends LightningElement {
         this.loadCustomCSS();
         this.loadPicklistOptions();
         this.caseDetails = this.setCaseDetails();
+        this.completedStages = new Set();
         console.log('Case Details in Stage 1 are:', JSON.stringify(this.caseDetails));
     }
 
@@ -52,7 +53,8 @@ export default class MSD_CORE_ci_landingpage extends LightningElement {
         let caseDtl = {
             stage1: {},
             stage2: {},
-            stage3: {}
+            stage3: {},
+            stage4: {}
         };
         return caseDtl;
     }
@@ -80,8 +82,11 @@ export default class MSD_CORE_ci_landingpage extends LightningElement {
     populateCaseDetails() {
         if (this.employeeDetails) {
             this.caseDetails.employeeDetails = {
+                EmployeeId: this.employeeDetails.Id || '',
                 FirstName: this.employeeDetails.FirstName || '',
                 MaskedFirstName: this.employeeDetails.MaskedFirstName || '******',
+                LastName: this.employeeDetails.LastName || '',
+                MaskedLastName:  this.employeeDetails.MaskedLastName || '******',
             };
         }
     }
@@ -118,8 +123,9 @@ export default class MSD_CORE_ci_landingpage extends LightningElement {
                 case 1: return 'utility:user';
                 case 2: return 'utility:product';
                 case 3: return 'utility:attach';
-                case 4: return 'utility:info';
-                case 5: return 'utility:success';
+                case 4: return 'utility:new';
+                case 5: return 'utility:info';
+                case 6: return 'utility:success';
                 default: return 'utility:dash';
             }
         }
@@ -140,12 +146,54 @@ export default class MSD_CORE_ci_landingpage extends LightningElement {
     getLabelClass(stepId) {
         return stepId === this.currentStep ? 'progress-label active-label' : 'progress-label';
     }
-
-
+    handleSubmitSuccess(event) {
+        const caseNumber = event.detail.caseNumber;
+        this.caseDetails.caseNumber = caseNumber;
+        this.currentStep = 6;
+        this.disableProgressBar();
+        this.updateSteps();
+    }
+    handleResetReport(event) {
+        console.log('Reset requested:', event.detail.message);
+    
+        // Clear case details
+        this.caseDetails = {
+            stage1: {},
+            stage2: {},
+            stage3: {},
+            stage4: {},
+            employeeDetails: {},
+        };
+    
+        // Reset progress and UI states
+        this.currentStep = 1;
+        this.showQuestionnaire = false;
+        this.modal = true; 
+        if (this.completedStages) {
+            this.completedStages.clear();
+        } else {
+            this.completedStages = new Set();
+        }
+        this.updateSteps();
+        this.showNotification('info', 'The form has been reset. Please start a new report.');
+        window.scrollTo(0, 0);
+    }
+    disableProgressBar() {
+        this.steps = this.steps.map(step => {
+            return {
+                ...step,
+                className: step.id < this.currentStep ? 'progress-step completed disabled' : 'progress-step disabled'
+            };
+        });
+    }
 
     setStep(event) {
         const stepNumber = parseInt(event.currentTarget.dataset.step, 10);
         let activeComponent;
+        if (this.currentStep === 6) {
+            this.showNotification('warning', 'You cannot navigate back after submission.');
+            return;
+        }
     
         switch (this.currentStep) {
             case 1:
@@ -156,6 +204,9 @@ export default class MSD_CORE_ci_landingpage extends LightningElement {
                 break;
             case 3:
                 activeComponent = this.template.querySelector('c-m-s-d_-c-o-r-e_ci_typeofinfo');
+                break;
+            case 4:
+                activeComponent = this.template.querySelector('c-m-s-d_-c-o-r-e_ci_adverse');
                 break;
             default:
                 break;
@@ -222,6 +273,10 @@ export default class MSD_CORE_ci_landingpage extends LightningElement {
 
     get isStep5() {
         return this.currentStep === 5;
+    }
+
+    get isStep6(){
+        return this.currentStep === 6;
     }
     nextStep() {
         if (this.currentStep < this.lastStep) {

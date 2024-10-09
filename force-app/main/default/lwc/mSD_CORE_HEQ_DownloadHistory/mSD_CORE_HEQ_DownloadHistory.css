@@ -1,0 +1,277 @@
+*{
+	font-family: 'Invention';
+}
+
+.breadcrumbs {
+	display: flex;
+    gap: 6px;
+	padding: 18px 24px 0px 24px;
+}
+
+.breadcrumb1 {
+	color: #ADADAD;
+	font-family: 'Invention';
+    white-space: no-wrap;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	cursor: pointer;
+}
+
+.breadcrumb2 {
+	color: #070101;
+	font-family: 'Invention';
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 0.7fr 2.5fr 2.5fr 2.5fr 2fr;
+	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
+    border-collapse: collapse;
+    font-family: 'Invention';
+    background: #FFFFFF;
+    margin-bottom: 20px;
+}
+
+.grid-header,
+.grid-row {
+    display: contents;
+	background: #FFFFFF;
+}
+
+.grid-header div,
+.grid-row div {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.grid-row div{
+	min-height: 74px;
+}
+.grid-row .image{
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 18px;
+}
+
+.grid-header div {
+	border-bottom: 1px solid #DCDCDC;
+    background-color: #FFFFFF;
+	min-height: 64px;
+    font-weight: bold;
+    display: flex;
+    gap: 2px;
+}
+
+.grid-row:nth-child(even) div {
+    background-color: #f9f9f9 !important;
+}
+
+.image-preview {
+    width: 42px;
+    height: 45px;
+    object-fit: contain;
+	box-shadow: 0px 0px 0px 2px rgba(0, 133, 124, 0.00);
+}
+
+.no-collection {
+    max-width: 100%;
+    text-align: center;
+}
+
+.icon-border {
+    border: 1px solid #d8dde6;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: white;
+	cursor: pointer;
+}
+.icon-container {
+    display: flex;
+    gap: 10px;
+}
+.sortable-header{
+    cursor: pointer;
+}
+
+.slds-table{
+    border-radius: 5px;
+    border: var(--Size-Line-Width-lineWidth, 1px) solid #E4E4E4;
+    background: #FFF;
+}
+
+.tableCls{
+    width: 1034px;
+    height: 50px;
+    background: #F9F9F9;
+}
+
+.download-main{
+	display: flex;
+	gap: 18px;
+	flex-direction: column;
+	background: #F4F4F4;
+}
+
+.download-container{
+	display: flex;
+	flex-direction: column;
+	gap: 9px;
+	padding: 0px 24px 24px 24px;
+}
+
+.download-header{
+	color: #0B0000;
+	font-family: 'Invention';
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+	background: #FFFFFF;
+	padding: 21px;
+}
+
+.download-content{
+	margin-top: 11px;
+	background: #FFF;
+	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
+}
+
+.placeholder {
+    color: #ccc;
+	border-bottom: none !important;
+}
+
+.thumbnail-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: #f0f0f0;
+}
+
+.download-btn{
+	color: #00857C;
+	font-family: 'Invention';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	text-decoration-line: underline;
+}
+
+.confirmModel {
+    min-width: 552px;
+    min-height: 161px;
+    margin: auto;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+	border-radius: 0px !important;
+}
+
+.cnfcollectionheadertxt {
+    font-family: 'Invention';
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 36px;
+    color: #005C56;
+}
+
+.cnfcollectionbodytxt {
+    font-family: 'Invention';
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #333333;
+    padding-bottom: 21px;
+}
+
+.cnfcollectionheadercls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.no-records{
+	font-family: 'Invention';
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Smartphones (portrait) */
+@media only screen and (max-width: 480px) {
+
+}
+
+/* Smartphones (landscape) */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+
+}
+
+/* Tablets (portrait) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+	.grid-container{
+		grid-template-columns: 0.5fr 2.5fr 2.5fr 2.5fr 1fr;
+	}
+	.download-content {
+		margin-top: 5px;
+	}
+	.dp-show{
+		display: none;
+	}
+	.grid-row .dw-btn{
+		display: flex !important;
+		justify-content: center;
+	}
+	.download-btn{
+		display: none !important;
+	}
+	.grid-row .image {
+		padding-left: 15px;
+	}
+	.grid-header .grid-row{
+		justify-content: safe;
+	}
+}
+
+/* Tablets (landscape) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+	.grid-container{
+		grid-template-columns: 0.5fr 2.5fr 2.5fr 2.5fr 1fr;
+	}
+	.download-content {
+		margin-top: 5px;
+	}
+	.dp-show{
+		display: none;
+	}
+	.grid-row .dw-btn{
+		display: flex !important;
+		justify-content: center;
+	}
+	.download-btn{
+		display: none !important;
+	}
+	.grid-row .image {
+		padding-left: 15px;
+	}
+	.grid-header .grid-row{
+		justify-content: safe;
+	}
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 2000px){
+	.grid-row .dw-btn{
+		display: none !important;
+		justify-content: center;
+	}
+}

@@ -6,7 +6,7 @@
  * Test Class:          
  */
 
-public with sharing class MSD_CORE_HEQ_Utility {
+public class MSD_CORE_HEQ_Utility {
     
     /**
      * Retrieves all field values of custom metadata records for the given custom metadata type,
@@ -65,6 +65,19 @@ public with sharing class MSD_CORE_HEQ_Utility {
         } catch (Exception e) {
             throw new AuraHandledException('Error running query: ' + e.getMessage());
         }
+    }
+
+    /*This method creates a public url for a given resource using contentDistribution*/
+    public static string createContentDistributionLink(String documentId, Integer expiryInDays) {
+        ContentDistribution contentDist = new ContentDistribution();
+        contentDist.ContentVersionId = documentId;
+        contentDist.ExpiryDate = Date.today().addDays(expiryInDays);
+        contentDist.Name = 'Document Distribution';
+        contentDist.PreferencesAllowOriginalDownload = true;
+        contentDist.PreferencesExpires = true;
+        insert contentDist;
+        contentDist = [SELECT Id, DistributionPublicUrl, ContentDownloadUrl FROM ContentDistribution WHERE Id =: contentDist.Id];
+        return contentDist.ContentDownloadUrl;
     }
     
 }

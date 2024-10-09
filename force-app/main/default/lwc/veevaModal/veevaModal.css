@@ -130,3 +130,7 @@
 button.slds-button:hover{
    background-color: transparent;
 }
+
+button.slds-modal__close {
+  background-color: transparent; 
+}
